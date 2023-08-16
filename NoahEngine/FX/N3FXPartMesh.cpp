@@ -437,7 +437,7 @@ bool CN3FXPartMesh::Tick()
 			LPDIRECT3DVERTEXBUFFER9 pVB = m_pShape->Part(i)->Mesh()->GetVertexBuffer();
 			
 			__VertexXyzColorT1* pVertex;
-			HRESULT hr = pVB->Lock(0, 0, (BYTE**)&pVertex, 0);
+			HRESULT hr = pVB->Lock(0, 0, (void**)&pVertex, 0);
 			if (FAILED(hr)) continue;
 
 			for(int j=0;j<VertexCount;j++)

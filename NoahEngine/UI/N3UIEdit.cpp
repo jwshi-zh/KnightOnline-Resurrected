@@ -68,7 +68,7 @@ void CN3UIEdit::CN3Caret::Render(LPDIRECT3DDEVICE9	lpD3DDev)
 	lpD3DDev->SetTexture(0, NULL);
 //	lpD3DDev->SetTextureStageState( 0, D3DTSS_COLOROP,    D3DTOP_SELECTARG1 );
 //	lpD3DDev->SetTextureStageState( 0, D3DTSS_COLORARG1,  D3DTA_DIFFUSE );
-	lpD3DDev->SetVertexShader(FVF_TRANSFORMEDCOLOR);
+	lpD3DDev->SetFVF(FVF_TRANSFORMEDCOLOR);
 	lpD3DDev->DrawPrimitiveUP(D3DPT_LINELIST, 1, m_pVB, sizeof(m_pVB[0]));
 }
 void CN3UIEdit::CN3Caret::InitFlckering()
@@ -88,7 +88,7 @@ BOOL CN3UIEdit::CreateEditWindow(HWND hParent, RECT rect)
 
 	s_hWndParent = hParent;
 	s_hWndEdit = CreateWindow("EDIT", "EditWindow", WS_CHILD|WS_TABSTOP|ES_LEFT|ES_WANTRETURN, rect.left, rect.top, rect.right-rect.left, rect.bottom-rect.top, hParent, NULL, NULL, NULL);
-	s_lpfnEditProc = (WNDPROC)SetWindowLong(s_hWndEdit, GWL_WNDPROC, (DWORD)(CN3UIEdit::EditWndProc));
+	s_lpfnEditProc = (WNDPROC)SetWindowLong(s_hWndEdit, GWLP_WNDPROC, (DWORD)(CN3UIEdit::EditWndProc));
 
 	// Set the edit control's text size to the maximum.
 	::SendMessage(s_hWndEdit, EM_LIMITTEXT, 0, 0);
@@ -671,10 +671,10 @@ bool CN3UIEdit::Load(HANDLE hFile)
 	if (iSndFNLen>0)
 	{
 		std::vector<char> buffer(iSndFNLen+1, NULL);
-		ReadFile(hFile, buffer.begin(), iSndFNLen, &dwNum, NULL);
+		ReadFile(hFile, buffer.data(), iSndFNLen, &dwNum, NULL);
 
 		__ASSERT(NULL == m_pSnd_Typing, "memory leak");
-		m_pSnd_Typing = s_SndMgr.CreateObj(buffer.begin(), SNDTYPE_2D);
+		m_pSnd_Typing = s_SndMgr.CreateObj(buffer.data(), SNDTYPE_2D);
 	}
 
 	return true;

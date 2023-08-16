@@ -69,7 +69,7 @@ bool CN3River::Load(HANDLE hFile)
 		pInfo->pDiff = new _RIVER_DIFF[pInfo->iVC];
 		float fAdd = 0.0f;
 		float fMul = 0.002f;
-		for (l=0;l<pInfo->iVC;l++)
+		for (auto l=0;l<pInfo->iVC;l++)
 		{
 			pInfo->pDiff[l].fDiff = fAdd;
 			if (l%2==0)
@@ -114,7 +114,7 @@ bool CN3River::Load(HANDLE hFile)
 	}	
 
 	char szFileName[30];
-	for (i=0;i<MAX_RIVER_TEX;i++)
+	for (auto i=0;i<MAX_RIVER_TEX;i++)
 	{
 		sprintf(szFileName, "misc\\river\\caust%02d.dxt", i);
 		m_pTexRiver[i] = s_MngTex.Get(szFileName);
@@ -143,11 +143,11 @@ void CN3River::Render()
 	s_lpD3DDev->GetTextureStageState(0, D3DTSS_COLOROP, &dwColor_0);
 	s_lpD3DDev->GetTextureStageState(0, D3DTSS_COLORARG1, &dwColorArg1_0);
 	s_lpD3DDev->GetTextureStageState(0, D3DTSS_COLORARG2, &dwColorArg2_0);
-	s_lpD3DDev->GetTextureStageState(0, D3DTSS_MIPFILTER, &dwMipFilter_0);
+	s_lpD3DDev->GetSamplerState(0, D3DSAMP_MIPFILTER, &dwMipFilter_0);
 	s_lpD3DDev->GetTextureStageState(1, D3DTSS_COLOROP, &dwColor_1);
 	s_lpD3DDev->GetTextureStageState(1, D3DTSS_COLORARG1, &dwColorArg1_1);
 	s_lpD3DDev->GetTextureStageState(1, D3DTSS_COLORARG2, &dwColorArg2_1);
-	s_lpD3DDev->GetTextureStageState(1, D3DTSS_MIPFILTER, &dwMipFilter_1);
+	s_lpD3DDev->GetSamplerState(1, D3DSAMP_MIPFILTER, &dwMipFilter_1);
 
 	// Set
 	s_lpD3DDev->SetTransform(D3DTS_WORLD, &matWorld);
@@ -164,11 +164,11 @@ void CN3River::Render()
     s_lpD3DDev->SetTextureStageState( 0, D3DTSS_COLORARG2, D3DTA_DIFFUSE);	
 	s_lpD3DDev->SetTextureStageState( 1, D3DTSS_COLOROP,   D3DTOP_MODULATE);
     s_lpD3DDev->SetTextureStageState( 1, D3DTSS_COLORARG1, D3DTA_TEXTURE );
-    s_lpD3DDev->SetTextureStageState( 1, D3DTSS_COLORARG2, D3DTA_CURRENT);	
-    s_lpD3DDev->SetTextureStageState( 0, D3DTSS_MIPFILTER, D3DTEXF_NONE );
-    s_lpD3DDev->SetTextureStageState( 1, D3DTSS_MIPFILTER, D3DTEXF_NONE );
+    s_lpD3DDev->SetTextureStageState( 1, D3DTSS_COLORARG2, D3DTA_CURRENT);
+    s_lpD3DDev->SetSamplerState( 0, D3DSAMP_MIPFILTER, D3DTEXF_NONE );
+    s_lpD3DDev->SetSamplerState(1, D3DSAMP_MIPFILTER, D3DTEXF_NONE );
 
-	s_lpD3DDev->SetVertexShader(D3DFVF_XYZ|D3DFVF_NORMAL|D3DFVF_DIFFUSE|D3DFVF_TEX2);
+	s_lpD3DDev->SetFVF(D3DFVF_XYZ|D3DFVF_NORMAL|D3DFVF_DIFFUSE|D3DFVF_TEX2);
 	_RIVER_INFO		*pInfo = NULL;
 	for (int i=0;i<m_iRiverCount;i++)
 	{
@@ -191,11 +191,11 @@ void CN3River::Render()
 	s_lpD3DDev->SetTextureStageState(0, D3DTSS_COLOROP, dwColor_0);
 	s_lpD3DDev->SetTextureStageState(0, D3DTSS_COLORARG1, dwColorArg1_0);
 	s_lpD3DDev->SetTextureStageState(0, D3DTSS_COLORARG2, dwColorArg2_0);
-	s_lpD3DDev->SetTextureStageState(0, D3DTSS_MIPFILTER, dwMipFilter_0);
+	s_lpD3DDev->SetSamplerState(0, D3DSAMP_MIPFILTER, dwMipFilter_0);
 	s_lpD3DDev->SetTextureStageState(1, D3DTSS_COLOROP, dwColor_1);
 	s_lpD3DDev->SetTextureStageState(1, D3DTSS_COLORARG1, dwColorArg1_1);
 	s_lpD3DDev->SetTextureStageState(1, D3DTSS_COLORARG2, dwColorArg2_1);
-	s_lpD3DDev->SetTextureStageState(1, D3DTSS_MIPFILTER, dwMipFilter_1);
+	s_lpD3DDev->SetSamplerState(1, D3DSAMP_MIPFILTER, dwMipFilter_1);
 }
 
 void CN3River::Tick()

@@ -50,7 +50,7 @@ bool CN3UIImage::CreateVB()
 {
 	HRESULT hr;
 	if (m_pVB) {m_pVB->Release(); m_pVB = NULL;}
-	hr = s_lpD3DDev->CreateVertexBuffer( 4*sizeof(__VertexTransformed), 0, FVF_TRANSFORMED, D3DPOOL_MANAGED, &m_pVB );
+	hr = s_lpD3DDev->CreateVertexBuffer( 4*sizeof(__VertexTransformed), 0, FVF_TRANSFORMED, D3DPOOL_MANAGED, &m_pVB, nullptr );
 	return SUCCEEDED(hr);
 }
 
@@ -65,7 +65,7 @@ void CN3UIImage::SetVB()
 		if(m_pVB)
 		{
 			__VertexTransformed* pVertices;
-			m_pVB->Lock( 0, 0, (BYTE**)&pVertices, 0 );
+			m_pVB->Lock( 0, 0, (void**)&pVertices, 0 );
 
 			DWORD dwColor = 0xffffffff;
 			float fRHW = 1.0f;
@@ -133,8 +133,8 @@ void CN3UIImage::Render()
 	{
 		if (m_pVB && m_pTexRef)
 		{
-			s_lpD3DDev->SetStreamSource( 0, m_pVB, sizeof(__VertexTransformed) );
-			s_lpD3DDev->SetVertexShader( FVF_TRANSFORMED );
+			s_lpD3DDev->SetStreamSource( 0, m_pVB, 0, sizeof(__VertexTransformed) );
+			s_lpD3DDev->SetFVF( FVF_TRANSFORMED );
 
 			s_lpD3DDev->SetTexture( 0, m_pTexRef->Get());
 			s_lpD3DDev->SetTextureStageState( 0, D3DTSS_COLOROP,    D3DTOP_MODULATE );
@@ -154,8 +154,8 @@ void CN3UIImage::RenderIconWrapper()
 
 	if (m_pVB)
 	{
-		s_lpD3DDev->SetStreamSource( 0, m_pVB, sizeof(__VertexTransformed) );
-		s_lpD3DDev->SetVertexShader( FVF_TRANSFORMED );
+		s_lpD3DDev->SetStreamSource( 0, m_pVB, 0, sizeof(__VertexTransformed) );
+		s_lpD3DDev->SetFVF( FVF_TRANSFORMED );
 		s_lpD3DDev->SetTexture( 0, NULL);
 
 		s_lpD3DDev->DrawPrimitive( D3DPT_TRIANGLEFAN, 0, 2);
@@ -214,7 +214,7 @@ bool CN3UIImage::Load(HANDLE hFile)
 		m_pAnimImagesRef = new CN3UIImage*[m_iAnimCount];
 		ZeroMemory(m_pAnimImagesRef, sizeof(CN3UIImage*)*m_iAnimCount);
 		int i=0;
-		for(itor = m_Children.begin(); m_Children.end() != itor; ++itor)
+		for(auto itor = m_Children.begin(); m_Children.end() != itor; ++itor)
 		{
 			if(UI_TYPE_IMAGE == (*itor)->UIType()) m_pAnimImagesRef[i] = (CN3UIImage*)(*itor);
 			__ASSERT(m_pAnimImagesRef[i]->GetReserved() == (DWORD)i, "animate Image load fail");	// 제대로 정렬이 되지 않았을경우 실패한다.

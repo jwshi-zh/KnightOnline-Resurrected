@@ -9,8 +9,8 @@
 enum e_Cloak_AnchorMovePattern {AMP_NONE=0, AMP_YAWCCW, AMP_YAWCW, AMP_MOVEX, AMP_MOVEY, AMP_MOVEZ, AMP_MOVEXZ, AMP_MOVEXZ2};
 
 class CPlayerBase;
-class CN3Chr;
 class CN3CPlug_Cloak;
+
 class CN3Cloak : public CN3Base  
 {
 public:

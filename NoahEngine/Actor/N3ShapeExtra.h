@@ -3,8 +3,6 @@
 #include "N3Shape.h"
 #include <vector>
 
-// std::vector<struct __Rotation>::iterator it_Rot;
-
 class CN3ShapeExtra : public CN3Shape  
 {
 protected:
@@ -35,5 +33,3 @@ public:
 	virtual ~CN3ShapeExtra();
 
 };
-
-#endif // !defined(AFX_N3SHAPEEXTRA_H__F3D6E8DF_A20F_45F5_8729_2FD36796969C__INCLUDED_)

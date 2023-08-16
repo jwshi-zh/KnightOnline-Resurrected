@@ -19,11 +19,6 @@ CN3SndEng::~CN3SndEng()
 	Release();
 }
 
-
-//
-//	Init
-//	엔진 초기화...
-//
 bool CN3SndEng::Init( HWND  hWnd, DWORD dwCoopLevel, DWORD dwPrimaryChannels, DWORD dwPrimaryFreq, DWORD dwPrimaryBitRate )
 {
     HRESULT hr;
@@ -57,10 +52,6 @@ bool CN3SndEng::Init( HWND  hWnd, DWORD dwCoopLevel, DWORD dwPrimaryChannels, DW
     return true;
 }
 
-
-//
-//
-//
 bool CN3SndEng::SetPrimaryBufferFormat( DWORD dwPrimaryChannels, DWORD dwPrimaryFreq, DWORD dwPrimaryBitRate )
 {
     HRESULT             hr;
@@ -101,10 +92,6 @@ bool CN3SndEng::SetPrimaryBufferFormat( DWORD dwPrimaryChannels, DWORD dwPrimary
     return true;
 }
 
-
-//
-//	Release..
-//
 void CN3SndEng::Release()
 {
 	if(m_pDSListener)
@@ -119,10 +106,6 @@ void CN3SndEng::Release()
 	}
 }
 
-
-//
-//
-//
 bool CN3SndEng::LoadSource(LPSOUNDSOURCE pSrc)
 {
 	if(pSrc->Type==SNDTYPE_STREAM) return true;
@@ -174,10 +157,6 @@ bool CN3SndEng::LoadSource(LPSOUNDSOURCE pSrc)
 	return true;
 }
 
-
-//
-//
-//
 bool CN3SndEng::FillBufferWithSound(LPSOUNDSOURCE pSrc, CWaveFile* pWaveFile)
 {
     HRESULT hr; 
@@ -218,10 +197,6 @@ bool CN3SndEng::FillBufferWithSound(LPSOUNDSOURCE pSrc, CWaveFile* pWaveFile)
     return true;
 }
 
-
-//
-//
-//
 HRESULT CN3SndEng::RestoreBuffer( LPDIRECTSOUNDBUFFER pDSB, BOOL* pbWasRestored )
 {
     HRESULT hr;
@@ -260,10 +235,6 @@ HRESULT CN3SndEng::RestoreBuffer( LPDIRECTSOUNDBUFFER pDSB, BOOL* pbWasRestored 
     }
 }
 
-
-//
-//
-//
 bool CN3SndEng::Get3DListenerInterface( LPDIRECTSOUND3DLISTENER* ppDSListener )
 {
     HRESULT             hr;
@@ -304,10 +275,6 @@ bool CN3SndEng::Get3DListenerInterface( LPDIRECTSOUND3DLISTENER* ppDSListener )
     return true;
 }
 
-
-//
-//
-//
 void CN3SndEng::SetListenerPos(D3DVECTOR* pVPos, bool IsDeferred)
 {
 	if(IsDeferred)
@@ -319,10 +286,6 @@ void CN3SndEng::SetListenerPos(D3DVECTOR* pVPos, bool IsDeferred)
 	else m_pDSListener->SetPosition(pVPos->x, pVPos->y, pVPos->z, DS3D_IMMEDIATE);
 }
 
-
-//
-//
-//
 void CN3SndEng::SetListenerOrientation(D3DVECTOR* pVAt, D3DVECTOR* pVUp, bool IsDeferred)
 {
 	if(IsDeferred)
@@ -334,10 +297,6 @@ void CN3SndEng::SetListenerOrientation(D3DVECTOR* pVAt, D3DVECTOR* pVUp, bool Is
 	else m_pDSListener->SetOrientation(pVAt->x, pVAt->y, pVAt->z, pVUp->x, pVUp->y, pVUp->z, DS3D_IMMEDIATE);
 }
 
-
-//
-//
-//
 void CN3SndEng::Tick()
 {
 	if(m_Tick)
@@ -347,10 +306,6 @@ void CN3SndEng::Tick()
 	}
 }
 
-
-//
-//
-//
 void CN3SndEng::SetRollOffFactor(D3DVALUE value, bool IsDeferred)
 {
 	if(IsDeferred)
@@ -362,56 +317,6 @@ void CN3SndEng::SetRollOffFactor(D3DVALUE value, bool IsDeferred)
 	else m_pDSListener->SetRolloffFactor( value, DS3D_IMMEDIATE);
 }
 
-
-//
-//
-//
-void CN3SndEng::DuplicateBuff(LPSOUNDSOURCE pSrc, CN3SndObj* pDest, D3DVECTOR* pPos)
-{
-	HRESULT hr;
-	if(pDest->GetType()==SNDTYPE_2D)
-	{
-		if(pSrc->pDSBuff)
-		{
-			if(pDest->m_pDSBuff) pDest->m_pDSBuff->Release();
-			hr = m_pDS->DuplicateSoundBuffer(pSrc->pDSBuff, &(pDest->m_pDSBuff));
-		}
-
-	}
-	if(pDest->GetType()==SNDTYPE_3D)
-	{
-		if(pSrc->pDSBuff)
-		{
-			if(pDest->m_pDSBuff) pDest->m_pDSBuff->Release();
-			hr = m_pDS->DuplicateSoundBuffer(pSrc->pDSBuff, &(pDest->m_pDSBuff));
-
-			LPDIRECTSOUNDBUFFER* p2dBuff = pDest->GetBuff();
-			DS3DBUFFER* pBuffParam = ((CN3Snd3dObj*)pDest)->Get3DBuffParams();
-			LPDIRECTSOUND3DBUFFER* ppDS3DBuff = ((CN3Snd3dObj*)pDest)->Get3DBuff();
-
-			if( (*p2dBuff) == NULL ) return;
-
-			(*p2dBuff)->QueryInterface( IID_IDirectSound3DBuffer, (VOID**)ppDS3DBuff );
-
-			pBuffParam->dwSize = sizeof(DS3DBUFFER);
-			hr = (*ppDS3DBuff)->GetAllParameters( pBuffParam );
-
-			memcpy( &(pBuffParam->vPosition), pPos, sizeof(D3DVECTOR) );
-			
-			if( (*ppDS3DBuff) )
-			{
-				((CN3Snd3dObj*)pDest)->SetMaxDistance(256);
-				hr = (*ppDS3DBuff)->SetAllParameters( pBuffParam, DS3D_DEFERRED );
-				m_Tick = true;
-			}
-		}
-	}
-}
-
-
-//
-//
-//
 void CN3SndEng::SetDopplerFactor(D3DVALUE factor)
 {
 	m_pDSListener->SetDopplerFactor(factor, DS3D_DEFERRED);

@@ -62,6 +62,3 @@ public:
 	void			DeleteBkGndImage();	// Back ground이미지는 필요 없는 경우가 있다.
 #endif
 };
-
-#endif // !defined(AFX_N3UIPROGRESS_H__09307DB0_2F95_4205_AF1D_0262F1CE0E24__INCLUDED_)
-

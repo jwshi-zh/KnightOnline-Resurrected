@@ -7,6 +7,8 @@ class CN3SndEng;
 class CStreamSoundObj : public CN3SndObj
 {
 	private:
+		LPDIRECTSOUNDBUFFER		m_pDSBuff;
+
 		int					m_PlayTime;		//wave파일의 전체 플레이 타임.
 		int					m_FinalByte;
 				

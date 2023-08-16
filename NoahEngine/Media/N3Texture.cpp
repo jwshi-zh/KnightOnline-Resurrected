@@ -49,8 +49,10 @@ bool CN3Texture::Create(int nWidth, int nHeight, D3DFORMAT Format, BOOL bGenerat
 
 	if(s_dwTextureCaps & TEX_CAPS_POW2) // 2 의 승수만 된다면..
 	{
-		for(int nW = 1; nW <= nWidth; nW *= 2); nW /= 2;
-		for(int nH = 1; nH <= nHeight; nH *= 2); nH /= 2;
+		int nW, nH;
+
+		for(nW = 1; nW <= nWidth; nW *= 2); nW /= 2;
+		for(nH = 1; nH <= nHeight; nH *= 2); nH /= 2;
 
 		nWidth = nW;
 		nHeight = nH;
@@ -78,7 +80,7 @@ bool CN3Texture::Create(int nWidth, int nHeight, D3DFORMAT Format, BOOL bGenerat
 		for(int nW = nWidth, nH = nHeight; nW >=4 && nH >= 4; nW /=2, nH /= 2) nMMC++;
 	}
 
-	HRESULT rval = s_lpD3DDev->CreateTexture(nWidth, nHeight, nMMC, 0, Format, D3DPOOL_MANAGED, &m_lpTexture);
+	HRESULT rval = s_lpD3DDev->CreateTexture(nWidth, nHeight, nMMC, 0, Format, D3DPOOL_MANAGED, &m_lpTexture, nullptr);
 
 #ifdef _N3GAME
 	if(rval == D3DERR_INVALIDCALL)
@@ -315,8 +317,35 @@ bool CN3Texture::Load(HANDLE hFile)
 				for(int i = 0; i < iMMC; i++)
 				{
 					m_lpTexture->GetLevelDesc(i, &sd);
+
+					int iTexSize = 0;
+					switch (HeaderOrg.Format) {
+					case D3DFMT_DXT1: {
+						iTexSize = (sd.Width * sd.Height / 2);
+					} break;
+					case D3DFMT_DXT2: {
+						printf("ERROR: D3DFMT_DXT2\n");
+						system("pause");
+						exit(-1);
+					} break;
+					case D3DFMT_DXT3: {
+						iTexSize = (sd.Width * sd.Height);
+					} break;
+					case D3DFMT_DXT4: {
+						printf("ERROR: D3DFMT_DXT4\n");
+						system("pause");
+						exit(-1);
+					} break;
+					case D3DFMT_DXT5: {
+						iTexSize = (sd.Width * sd.Height * 2);
+						printf("ERROR: D3DFMT_DXT5\n");
+						system("pause");
+						exit(-1);
+					} break;
+					}
+
 					m_lpTexture->LockRect(i, &LR, NULL, NULL);
-					ReadFile(hFile, (BYTE*)LR.pBits, sd.Size, &dwRWC, NULL); // 일렬로 된 데이터를 쓰고..
+					ReadFile(hFile, (BYTE*)LR.pBits, iTexSize, &dwRWC, NULL); // 일렬로 된 데이터를 쓰고..
 					m_lpTexture->UnlockRect(i);
 				}
 
@@ -328,8 +357,35 @@ bool CN3Texture::Load(HANDLE hFile)
 			else // pair of if(iMMC > 1)
 			{
 				m_lpTexture->GetLevelDesc(0, &sd);
+
+				int iTexSize = 0;
+				switch (HeaderOrg.Format) {
+				case D3DFMT_DXT1: {
+					iTexSize = (sd.Width * sd.Height / 2);
+				} break;
+				case D3DFMT_DXT2: {
+					printf("ERROR: D3DFMT_DXT2\n");
+					system("pause");
+					exit(-1);
+				} break;
+				case D3DFMT_DXT3: {
+					iTexSize = (sd.Width * sd.Height);
+				} break;
+				case D3DFMT_DXT4: {
+					printf("ERROR: D3DFMT_DXT4\n");
+					system("pause");
+					exit(-1);
+				} break;
+				case D3DFMT_DXT5: {
+					iTexSize = (sd.Width * sd.Height * 2);
+					printf("ERROR: D3DFMT_DXT5\n");
+					system("pause");
+					exit(-1);
+				} break;
+				}
+
 				m_lpTexture->LockRect(0, &LR, NULL, NULL);
-				ReadFile(hFile, (BYTE*)LR.pBits, sd.Size, &dwRWC, NULL); // 일렬로 된 데이터를 쓰고..
+				ReadFile(hFile, (BYTE*)LR.pBits, iTexSize, &dwRWC, NULL); // 일렬로 된 데이터를 쓰고..
 				m_lpTexture->UnlockRect(0);
 
 				// 텍스처 압축안되는 비디오 카드를 위한 여분의 데이터 건너뛰기.. 
@@ -607,7 +663,7 @@ bool CN3Texture::Save(HANDLE hFile)
 		
 		int nMMC2 = nMMC - 1;
 		if(nMMC == 1) nMMC2 = nMMC;
-		for(i = 0; i < nMMC2; i++)
+		for(auto i = 0; i < nMMC2; i++)
 		{
 			m_lpTexture->GetLevelDesc(i, &sd);
 			m_lpTexture->GetSurfaceLevel(i, &lpSurfSrc);

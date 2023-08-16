@@ -1048,10 +1048,10 @@ CN3Chr::~CN3Chr()
 	m_Parts.clear();
 
 	iPC = m_Plugs.size();
-	for(i = 0; i < iPC; i++) delete m_Plugs[i];
+	for(auto i = 0; i < iPC; i++) delete m_Plugs[i];
 	m_Plugs.clear();
 
-	for(i = 0; i < m_vTraces.size(); i++) delete m_vTraces[i];
+	for(auto i = 0; i < m_vTraces.size(); i++) delete m_vTraces[i];
 	m_vTraces.clear();
 
 	// Animation Control
@@ -1078,10 +1078,10 @@ void CN3Chr::Release()
 	m_Parts.clear();
 
 	iPC = m_Plugs.size();
-	for(i = 0; i < iPC; i++) delete m_Plugs[i];
+	for(auto i = 0; i < iPC; i++) delete m_Plugs[i];
 	m_Plugs.clear();
 
-	for(i = 0; i < m_vTraces.size(); i++) delete m_vTraces[i];
+	for(auto i = 0; i < m_vTraces.size(); i++) delete m_vTraces[i];
 	m_vTraces.clear();
 
 //	s_MngSkin.Delete(m_pSkinCollision);
@@ -1090,7 +1090,7 @@ void CN3Chr::Release()
 	// Animation Control
 	s_MngAniCtrl.Delete(&m_pAniCtrlRef);
 
-	for(i = 0; i < MAX_CHR_ANI_PART; i++)
+	for(auto i = 0; i < MAX_CHR_ANI_PART; i++)
 	{
 		m_nJointPartStarts[i] = -1; // 조인트의 일부분이 따로 에니메이션 되야 한다면.. 조인트 인덱스 시작 번호
 		m_nJointPartEnds[i] = -1; // 조인트의 일부분이 따로 에니메이션 되야 한다면.. 조인트 인덱스 끝 번호
@@ -1143,7 +1143,7 @@ bool CN3Chr::Load(HANDLE hFile)
 	m_Plugs.clear();
 	ReadFile(hFile, &iPC, 4, &dwRWC, NULL);
 	this->PlugAlloc(iPC);
-	for(i = 0; i < iPC; i++)
+	for(auto i = 0; i < iPC; i++)
 	{
 		nL = 0;
 		ReadFile(hFile, &nL, 4, &dwRWC, NULL);
@@ -1291,7 +1291,7 @@ bool CN3Chr::Save(HANDLE hFile)
 	
 	iPC = m_Plugs.size();
 	WriteFile(hFile, &iPC, 4, &dwRWC, NULL);
-	for(i = 0; i < iPC; i++)
+	for(auto i = 0; i < iPC; i++)
 	{
 		nL = m_Plugs[i]->FileName().size();
 		if(nL <= 0)
@@ -1390,7 +1390,7 @@ void CN3Chr::Tick(float fFrm)
 	else
 	{
 		int iJC = m_JointRefs.size();
-		for(i = 0; i < iJC; i++) // 걍 단순히 조인트만 Tick 해주고 나간다..
+		for(auto i = 0; i < iJC; i++) // 걍 단순히 조인트만 Tick 해주고 나간다..
 		{
 			m_JointRefs[i]->TickAnimationKey(fFrm);
 			m_JointRefs[i]->ReCalcMatrix();
@@ -1660,7 +1660,7 @@ void CN3Chr::RemakePlugTracePolygons()
 
 	int iPC = m_Plugs.size();
 	m_vTraces.assign(iPC, NULL);
-	for(i = 0; i < iPC; i++)
+	for(auto i = 0; i < iPC; i++)
 	{
 		int iTS = m_Plugs[i]->m_nTraceStep;
 		if(iTS <= 0) continue;
@@ -1717,7 +1717,7 @@ void CN3Chr::Render()
 	// Plug - 붙이는 부분 Rendering
 	CN3CPlug* pPlug = NULL;
 	iPC = m_Plugs.size();
-	for(i = 0; i < iPC; i++)
+	for(auto i = 0; i < iPC; i++)
 	{
 		pPlug = m_Plugs[i];
 		
@@ -1788,7 +1788,7 @@ void CN3Chr::BuildMesh()
 	__Matrix44* pMtxJIs = &(m_MtxInverses[0]);
 
 	int iPC = m_Parts.size();
-	for(i = 0; i < iPC; i++)
+	for(auto i = 0; i < iPC; i++)
 	{
 		pSkin = m_Parts[i]->Skin(m_nLOD);
 		if(NULL == pSkin) continue;
@@ -1887,7 +1887,7 @@ void CN3Chr::BuildMesh(int nLOD)
 	__Matrix44* pMtxJIs = &(m_MtxInverses[0]);
 
 	int iPC = m_Parts.size();
-	for(i = 0; i < iPC; i++)
+	for(auto i = 0; i < iPC; i++)
 	{
 		pSkin = m_Parts[i]->Skin(nLOD);
 		if(NULL == pSkin) continue;
@@ -1980,7 +1980,7 @@ void CN3Chr::PartAlloc(int iCount)
 	if(iCount > 0) 
 	{
 		m_Parts.assign(iCount, NULL);
-		for(i = 0; i < iCount; i++) m_Parts[i] = new CN3CPart();
+		for(auto i = 0; i < iCount; i++) m_Parts[i] = new CN3CPart();
 	}
 }
 
@@ -2039,7 +2039,7 @@ void CN3Chr::PlugAlloc(int iCount)
 	if(iCount > 0) 
 	{
 		m_Plugs.assign(iCount, NULL);
-		for(i = 0; i < iCount; i++) m_Plugs[i] = new CN3CPlug();
+		for(auto i = 0; i < iCount; i++) m_Plugs[i] = new CN3CPlug();
 	}
 }
 

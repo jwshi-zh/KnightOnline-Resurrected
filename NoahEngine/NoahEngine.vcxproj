@@ -210,7 +210,6 @@
     <ClInclude Include="Sound\N3SndObjStream.h" />
     <ClInclude Include="Sound\StreamSoundObj.h" />
     <ClInclude Include="Sound\WaveFile.h" />
-    <ClInclude Include="UI\N3IME.h" />
     <ClInclude Include="UI\N3UIArea.h" />
     <ClInclude Include="UI\N3UIBase.h" />
     <ClInclude Include="UI\N3UIButton.h" />
@@ -299,7 +298,6 @@
     <ClCompile Include="Sound\N3SndObjStream.cpp" />
     <ClCompile Include="Sound\StreamSoundObj.cpp" />
     <ClCompile Include="Sound\WaveFile.cpp" />
-    <ClCompile Include="UI\N3IME.cpp" />
     <ClCompile Include="UI\N3UIArea.cpp" />
     <ClCompile Include="UI\N3UIBase.cpp" />
     <ClCompile Include="UI\N3UIButton.cpp" />

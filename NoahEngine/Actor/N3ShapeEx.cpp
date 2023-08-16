@@ -21,19 +21,19 @@ bool CN3SPartEx::Load(HANDLE hFile)
 	if (m_ActionInfo.dwActionFlag) ReadFile(hFile, &iStateCount, sizeof(iStateCount), &dwRWC, NULL);	// 상태 정보의 갯수
 	if (AF_POS & m_ActionInfo.dwActionFlag)
 	{
-		m_ActionInfo.ActionStateInfos_Pos.assign(iStateCount);
+		m_ActionInfo.ActionStateInfos_Pos.reserve(iStateCount);
 		for (int i=0; i<iStateCount; ++i)
 			ReadFile(hFile, &(m_ActionInfo.ActionStateInfos_Pos[i]), sizeof(__Vector3), &dwRWC, NULL);	// 상태 정보의 갯수
 	}
 	if (AF_SCALE & m_ActionInfo.dwActionFlag)
 	{
-		m_ActionInfo.ActionStateInfos_Scale.assign(iStateCount);
+		m_ActionInfo.ActionStateInfos_Scale.reserve(iStateCount);
 		for (int i=0; i<iStateCount; ++i)
 			ReadFile(hFile, &(m_ActionInfo.ActionStateInfos_Scale[i]), sizeof(__Vector3), &dwRWC, NULL);	// 상태 정보의 갯수
 	}
 	if (AF_ROTATION & m_ActionInfo.dwActionFlag)
 	{
-		m_ActionInfo.ActionStateInfos_Rot.assign(iStateCount);
+		m_ActionInfo.ActionStateInfos_Rot.reserve(iStateCount);
 		for (int i=0; i<iStateCount; ++i)
 			ReadFile(hFile, &(m_ActionInfo.ActionStateInfos_Rot[i]), sizeof(__Quaternion), &dwRWC, NULL);	// 상태 정보의 갯수
 	}
@@ -107,19 +107,19 @@ bool CN3ShapeEx::Load(HANDLE hFile)
 	if (m_ActionInfo.dwActionFlag) ReadFile(hFile, &iStateCount, sizeof(iStateCount), &dwRWC, NULL);	// 상태 정보의 갯수
 	if (AF_POS & m_ActionInfo.dwActionFlag)
 	{
-		m_ActionInfo.ActionStateInfos_Pos.assign(iStateCount);
+		m_ActionInfo.ActionStateInfos_Pos.reserve(iStateCount);
 		for (int i=0; i<iStateCount; ++i)
 			ReadFile(hFile, &(m_ActionInfo.ActionStateInfos_Pos[i]), sizeof(__Vector3), &dwRWC, NULL);	// 상태 정보의 갯수
 	}
 	if (AF_SCALE & m_ActionInfo.dwActionFlag)
 	{
-		m_ActionInfo.ActionStateInfos_Scale.assign(iStateCount);
+		m_ActionInfo.ActionStateInfos_Scale.reserve(iStateCount);
 		for (int i=0; i<iStateCount; ++i)
 			ReadFile(hFile, &(m_ActionInfo.ActionStateInfos_Scale[i]), sizeof(__Vector3), &dwRWC, NULL);	// 상태 정보의 갯수
 	}
 	if (AF_ROTATION & m_ActionInfo.dwActionFlag)
 	{
-		m_ActionInfo.ActionStateInfos_Rot.assign(iStateCount);
+		m_ActionInfo.ActionStateInfos_Rot.reserve(iStateCount);
 		for (int i=0; i<iStateCount; ++i)
 			ReadFile(hFile, &(m_ActionInfo.ActionStateInfos_Rot[i]), sizeof(__Quaternion), &dwRWC, NULL);	// 상태 정보의 갯수
 	}

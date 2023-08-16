@@ -44,9 +44,9 @@ void CN3AlphaPrimitiveManager::Render()
 	CN3Base::s_lpD3DDev->GetTextureStageState( 0, D3DTSS_COLOROP,   &RS_old.dwCO);
 	CN3Base::s_lpD3DDev->GetTextureStageState( 0, D3DTSS_COLORARG1, &RS_old.dwCA1);
 	CN3Base::s_lpD3DDev->GetTextureStageState( 0, D3DTSS_COLORARG2, &RS_old.dwCA2);
-	CN3Base::s_lpD3DDev->GetTextureStageState( 0, D3DTSS_MIPFILTER, &RS_old.dwPointSampling);
-	CN3Base::s_lpD3DDev->GetTextureStageState( 0, D3DTSS_ADDRESSU, &RS_old.dwAddressU);
-	CN3Base::s_lpD3DDev->GetTextureStageState( 0, D3DTSS_ADDRESSV, &RS_old.dwAddressV);
+	CN3Base::s_lpD3DDev->GetSamplerState(0, D3DSAMP_MIPFILTER, &RS_old.dwPointSampling);
+	CN3Base::s_lpD3DDev->GetSamplerState(0, D3DSAMP_ADDRESSU, &RS_old.dwAddressU);
+	CN3Base::s_lpD3DDev->GetSamplerState(0, D3DSAMP_ADDRESSV, &RS_old.dwAddressV);
 
 	RS_current = RS_old;
 
@@ -54,7 +54,7 @@ void CN3AlphaPrimitiveManager::Render()
 	static __Material mtl; mtl.Init();
 	CN3Base::s_lpD3DDev->SetMaterial(&mtl);
 
-	for(i = 0; i < m_nToDrawCount; i++)
+	for(auto i = 0; i < m_nToDrawCount; i++)
 	{
 
 		if(pBuffs[i]->nRenderFlags & RF_NOTUSEFOG) CN3Base::s_lpD3DDev->SetRenderState(D3DRS_FOGENABLE, FALSE);
@@ -95,17 +95,17 @@ void CN3AlphaPrimitiveManager::Render()
 				CN3Base::s_lpD3DDev->SetTextureStageState( 0, D3DTSS_ALPHAARG1, RS_old.dwAA1 );
 			}
 		}
-		if (pBuffs[i]->nRenderFlags & RF_POINTSAMPLING) CN3Base::s_lpD3DDev->SetTextureStageState(0, D3DTSS_MIPFILTER, D3DTEXF_POINT);
-		else CN3Base::s_lpD3DDev->SetTextureStageState(0, D3DTSS_MIPFILTER, RS_old.dwPointSampling);
+		if (pBuffs[i]->nRenderFlags & RF_POINTSAMPLING) CN3Base::s_lpD3DDev->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_POINT);
+		else CN3Base::s_lpD3DDev->SetSamplerState(0, D3DSAMP_MIPFILTER, RS_old.dwPointSampling);
 		if (pBuffs[i]->nRenderFlags & RF_UV_CLAMP)
 		{
-			CN3Base::s_lpD3DDev->SetTextureStageState( 0, D3DTSS_ADDRESSU, D3DTADDRESS_CLAMP );
-			CN3Base::s_lpD3DDev->SetTextureStageState( 0, D3DTSS_ADDRESSV, D3DTADDRESS_CLAMP );
+			CN3Base::s_lpD3DDev->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP );
+			CN3Base::s_lpD3DDev->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP );
 		}
 		else
 		{
-			CN3Base::s_lpD3DDev->SetTextureStageState( 0, D3DTSS_ADDRESSU, RS_old.dwAddressU );
-			CN3Base::s_lpD3DDev->SetTextureStageState( 0, D3DTSS_ADDRESSV, RS_old.dwAddressV );
+			CN3Base::s_lpD3DDev->SetSamplerState(0, D3DSAMP_ADDRESSU, RS_old.dwAddressU );
+			CN3Base::s_lpD3DDev->SetSamplerState(0, D3DSAMP_ADDRESSV, RS_old.dwAddressV );
 		}
 		
 		if (pBuffs[i]->dwBlendSrc != RS_current.dwSrcBlend)	CN3Base::s_lpD3DDev->SetRenderState(D3DRS_SRCBLEND,   pBuffs[i]->dwBlendSrc);
@@ -113,7 +113,7 @@ void CN3AlphaPrimitiveManager::Render()
 		if (pBuffs[i]->dwBlendDest != RS_current.dwDestBlend) CN3Base::s_lpD3DDev->SetRenderState(D3DRS_DESTBLEND,  pBuffs[i]->dwBlendDest);
 		else CN3Base::s_lpD3DDev->SetRenderState(D3DRS_DESTBLEND,  RS_old.dwDestBlend);
 
-		CN3Base::s_lpD3DDev->SetVertexShader(pBuffs[i]->dwFVF);
+		CN3Base::s_lpD3DDev->SetFVF(pBuffs[i]->dwFVF);
 		CN3Base::s_lpD3DDev->SetTexture(0, pBuffs[i]->lpTex);
 		CN3Base::s_lpD3DDev->SetTransform(D3DTS_WORLD, &(pBuffs[i]->MtxWorld)); // 월드 행렬 적용
 
@@ -133,9 +133,10 @@ void CN3AlphaPrimitiveManager::Render()
 		{
 			if (pBuffs[i]->bUseVB)
 			{
-				CN3Base::s_lpD3DDev->SetStreamSource( 0, (LPDIRECT3DVERTEXBUFFER9)pBuffs[i]->pVertices, pBuffs[i]->dwPrimitiveSize );
-				CN3Base::s_lpD3DDev->SetIndices((LPDIRECT3DINDEXBUFFER9)pBuffs[i]->pwIndices, 0);
+				CN3Base::s_lpD3DDev->SetStreamSource( 0, (LPDIRECT3DVERTEXBUFFER9)pBuffs[i]->pVertices, 0, pBuffs[i]->dwPrimitiveSize );
+				CN3Base::s_lpD3DDev->SetIndices((LPDIRECT3DINDEXBUFFER9)pBuffs[i]->pwIndices);
 				CN3Base::s_lpD3DDev->DrawIndexedPrimitive(	pBuffs[i]->ePrimitiveType,
+												0,
 												0,
 												pBuffs[i]->nVertexCount,
 												0,
@@ -157,7 +158,7 @@ void CN3AlphaPrimitiveManager::Render()
 		{
 			if (pBuffs[i]->bUseVB)
 			{
-				CN3Base::s_lpD3DDev->SetStreamSource( 0, (LPDIRECT3DVERTEXBUFFER9)pBuffs[i]->pVertices, pBuffs[i]->dwPrimitiveSize );
+				CN3Base::s_lpD3DDev->SetStreamSource( 0, (LPDIRECT3DVERTEXBUFFER9)pBuffs[i]->pVertices, 0, pBuffs[i]->dwPrimitiveSize );
 				CN3Base::s_lpD3DDev->DrawPrimitive(	pBuffs[i]->ePrimitiveType,
 										0,
 										pBuffs[i]->nPrimitiveCount );
@@ -193,9 +194,9 @@ void CN3AlphaPrimitiveManager::Render()
 	CN3Base::s_lpD3DDev->SetTextureStageState( 0, D3DTSS_COLOROP,   RS_old.dwCO);
 	CN3Base::s_lpD3DDev->SetTextureStageState( 0, D3DTSS_COLORARG1, RS_old.dwCA1);
 	CN3Base::s_lpD3DDev->SetTextureStageState( 0, D3DTSS_COLORARG2, RS_old.dwCA2);
-	CN3Base::s_lpD3DDev->SetTextureStageState( 0, D3DTSS_MIPFILTER, RS_old.dwPointSampling);
-	CN3Base::s_lpD3DDev->SetTextureStageState( 0, D3DTSS_ADDRESSU,  RS_old.dwAddressU);
-	CN3Base::s_lpD3DDev->SetTextureStageState( 0, D3DTSS_ADDRESSV,  RS_old.dwAddressV);
+	CN3Base::s_lpD3DDev->SetSamplerState(0, D3DSAMP_MIPFILTER, RS_old.dwPointSampling);
+	CN3Base::s_lpD3DDev->SetSamplerState(0, D3DSAMP_ADDRESSU,  RS_old.dwAddressU);
+	CN3Base::s_lpD3DDev->SetSamplerState(0, D3DSAMP_ADDRESSV,  RS_old.dwAddressV);
 
 	
 	
@@ -261,7 +262,7 @@ void CN3AlphaPrimitiveManager::Render()
 	static __Material mtl; mtl.Init();
 	CN3Base::s_lpD3DDev->SetMaterial(&mtl);
 
-	for(i = 0; i < m_nToDrawCount; i++)
+	for(auto i = 0; i < m_nToDrawCount; i++)
 	{
 		if(pBuffs[i]->nRenderFlags & RF_NOTUSEFOG)
 		{
@@ -315,17 +316,17 @@ void CN3AlphaPrimitiveManager::Render()
 		}
 		if(pBuffs[i]->nRenderFlags & RF_POINTSAMPLING)
 		{
-			if ( D3DTEXF_POINT != RS_current.dwPointSampling) { RS_current.dwPointSampling = D3DTEXF_POINT;	CN3Base::s_lpD3DDev->SetTextureStageState(0, D3DTSS_MIPFILTER, D3DTEXF_POINT); }// Render Flags -
+			if ( D3DTEXF_POINT != RS_current.dwPointSampling) { RS_current.dwPointSampling = D3DTEXF_POINT;	CN3Base::s_lpD3DDev->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_POINT); }// Render Flags -
 		}
 		else
 		{
-			if ( D3DTEXF_NONE != RS_current.dwPointSampling) { RS_current.dwPointSampling = D3DTEXF_NONE; CN3Base::s_lpD3DDev->SetTextureStageState(0, D3DTSS_MIPFILTER, D3DTEXF_NONE); }// Render Flags - 
+			if ( D3DTEXF_NONE != RS_current.dwPointSampling) { RS_current.dwPointSampling = D3DTEXF_NONE; CN3Base::s_lpD3DDev->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_NONE); }// Render Flags - 
 		}
 		
 		if (pBuffs[i]->dwBlendSrc != RS_current.dwSrcBlend)	{ RS_current.dwSrcBlend = pBuffs[i]->dwBlendSrc; CN3Base::s_lpD3DDev->SetRenderState(D3DRS_SRCBLEND,   pBuffs[i]->dwBlendSrc);}
 		if (pBuffs[i]->dwBlendDest != RS_current.dwDestBlend) {	RS_current.dwDestBlend = pBuffs[i]->dwBlendDest; CN3Base::s_lpD3DDev->SetRenderState(D3DRS_DESTBLEND,  pBuffs[i]->dwBlendDest);}
 
-		CN3Base::s_lpD3DDev->SetVertexShader(pBuffs[i]->dwFVF);
+		CN3Base::s_lpD3DDev->SetFVF(pBuffs[i]->dwFVF);
 		CN3Base::s_lpD3DDev->SetTexture(0, pBuffs[i]->lpTex);
 		CN3Base::s_lpD3DDev->SetTransform(D3DTS_WORLD, &(pBuffs[i]->MtxWorld)); // 월드 행렬 적용
 
@@ -404,7 +405,7 @@ void CN3AlphaPrimitiveManager::Render()
 	if(RS_old.dwCO != RS_current.dwCO) CN3Base::s_lpD3DDev->SetTextureStageState( 0, D3DTSS_COLOROP,   RS_old.dwCO);
 	if(RS_old.dwCA1 != RS_current.dwCA1) CN3Base::s_lpD3DDev->SetTextureStageState( 0, D3DTSS_COLORARG1, RS_old.dwCA1);
 	if(RS_old.dwCA2 != RS_current.dwCA2) CN3Base::s_lpD3DDev->SetTextureStageState( 0, D3DTSS_COLORARG2, RS_old.dwCA2);
-	if(RS_old.dwPointSampling != RS_current.dwPointSampling) CN3Base::s_lpD3DDev->SetTextureStageState( 0, D3DTSS_MIPFILTER, RS_old.dwPointSampling);
+	if(RS_old.dwPointSampling != RS_current.dwPointSampling) CN3Base::s_lpD3DDev->SetSamplerState( 0, D3DSAMP_MIPFILTER, RS_old.dwPointSampling);
 
 */
 

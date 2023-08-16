@@ -10,10 +10,6 @@ const int NUM_CLOUD_VERTEX = 8;
 enum	e_CLOUDTEX {CLOUD_NONE=-1,CLOUD_WISPS=0, CLOUD_PUFFS, CLOUD_TATTERS, CLOUD_STREAKS,
 	CLOUD_DENSE, CLOUD_OVERCAST, NUM_CLOUD};
 
-
-
-
-
 class CN3Cloud : public CN3Base  
 {
 	friend class CN3SkyMng;

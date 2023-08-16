@@ -1,20 +1,16 @@
 #pragma once
 
+#include <string>
+
 #include "My_3DStruct.h"
 #include "N3Mng.h"
 #include "N3AlphaPrimitiveManager.h"
+#include "N3SndMgr.h"
+
 #ifdef _N3GAME
 #include "LogWriter.h"
 #endif
 
-#include <string>
-
-#if _N3GAME // 게임이 아닌 툴에서는 필요없다...
-#include "N3SndMgr.h"
-#endif
-#ifdef _N3UIE	// ui 에디터일때는 필요하다.
-#include "N3SndMgr.h"
-#endif
 
 const DWORD TEX_CAPS_DXT1 =			0x00000001;
 const DWORD TEX_CAPS_DXT2 =			0x00000002;
@@ -167,14 +163,8 @@ public:
 #endif
 	static float					s_fFrmPerSec; // Frame Per Second
 	static float					s_fSecPerFrm; // Second Per Frame = 1.0f/s_fFrmPerSec (Dino가 추가)
+	static CN3SndMgr				s_SndMgr;
 	
-#ifdef _N3GAME // 게임이 아닌 툴에서는 필요없다...
-	static CN3SndMgr				s_SndMgr;
-#endif
-#ifdef _N3UIE	// ui 에디터일때는 필요하다.
-	static CN3SndMgr				s_SndMgr;
-#endif
-
 	static CN3AlphaPrimitiveManager	s_AlphaMgr; // Alpha blend 할 폴리곤들을 관리.. 추가했다가.. 카메라 거리에 맟추어 정렬하고 한꺼번에 그린다..
 
 	static CN3Mng<class CN3Texture>		s_MngTex; // Texture Manager

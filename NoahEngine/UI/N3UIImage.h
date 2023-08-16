@@ -65,5 +65,3 @@ public:
 	virtual bool	ReplaceAllTextures(const std::string& strFind, const std::string& strReplace);
 #endif
 };
-
-#endif // !defined(AFX_N3UIIMAGE_H__80AE123C_5A12_4A0E_9CF0_511ED98BB896__INCLUDED_)

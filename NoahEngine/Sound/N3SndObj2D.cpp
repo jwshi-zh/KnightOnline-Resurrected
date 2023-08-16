@@ -1,10 +1,10 @@
 #include "pch.h"
+#include "N3SndObj2D.h"
 #include "N3SndMgr.h"
-#include "N3SndObj.h"
-#include "../N3Base/N3Base.h"
+#include "N3Base.h"
 #include <math.h>
 
-CN3SndObj2D::CN3SndObj()
+CN3SndObj2D::CN3SndObj2D()
 {
 	m_pDSBuff = NULL;
 	m_bIsLoop = false;
@@ -24,7 +24,7 @@ CN3SndObj2D::CN3SndObj()
 	m_bUse = false;
 }
 
-CN3SndObj2D::~CN3SndObj()
+CN3SndObj2D::~CN3SndObj2D()
 {
 	Release();
 }

@@ -2,7 +2,7 @@
 #include "N3Cloak.h"
 #include "N3Texture.h"
 #include "N3PMeshInstance.h"
-#include "../WarFare/PlayerBase.h"
+#include "N3Chr.h"
 
 CN3Cloak::CN3Cloak()
 {
@@ -115,7 +115,7 @@ void CN3Cloak::Render(__Matrix44 &mtx)
 //	s_lpD3DDev->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
 
 
-	s_lpD3DDev->SetVertexShader(FVF_VNT1);
+	s_lpD3DDev->SetFVF(FVF_VNT1);
 	s_lpD3DDev->DrawIndexedPrimitiveUP(D3DPT_TRIANGLELIST, 0, m_nVertexCount, m_nIndexCount/3, m_pIndex, D3DFMT_INDEX16 ,m_pVertex, sizeof(__VertexT1));
 
 	//
@@ -124,16 +124,16 @@ void CN3Cloak::Render(__Matrix44 &mtx)
 	__VertexT1 *pTemp = m_pVertex;
 	Vtx[0].Set(pTemp->x, pTemp->y, pTemp->z, 0xffffffff);
 	Vtx[1].Set(1.0f, 1.0f, 1.0f, 0xffffffff);
-	s_lpD3DDev->SetVertexShader(FVF_CV);
+	s_lpD3DDev->SetFVF(FVF_CV);
 	s_lpD3DDev->DrawPrimitiveUP(D3DPT_LINELIST, 1, Vtx, sizeof(__VertexXyzColor));
 	pTemp++;
 	Vtx[0].Set(pTemp->x, pTemp->y, pTemp->z, 0xffff0000);
 	Vtx[1].Set(1.0f, 1.0f, 1.0f, 0xffffffff);
-	s_lpD3DDev->SetVertexShader(FVF_CV);
+	s_lpD3DDev->SetFVF(FVF_CV);
 	s_lpD3DDev->DrawPrimitiveUP(D3DPT_LINELIST, 1, Vtx, sizeof(__VertexXyzColor));
 */
 
-	for (int i = 0 ; i< m_nGridH;i++)
+	for (auto i = 0 ; i< m_nGridH;i++)
 	{
 		for (int j=0;j<m_nGridW-1;j++)
 		{
@@ -142,11 +142,11 @@ void CN3Cloak::Render(__Matrix44 &mtx)
 			Vtx[0].Set(m_pParticle[nIndex].x, m_pParticle[nIndex].y, m_pParticle[nIndex].z, 0xffffffff);
 			nIndex++;
 			Vtx[1].Set(m_pParticle[nIndex].x, m_pParticle[nIndex].y, m_pParticle[nIndex].z, 0xffffffff);
-			s_lpD3DDev->SetVertexShader(FVF_CV);
+			s_lpD3DDev->SetFVF(FVF_CV);
 			s_lpD3DDev->DrawPrimitiveUP(D3DPT_LINELIST, 1, Vtx, sizeof(__VertexXyzColor));
 		}
 	}
-	for ( i = 0 ; i< m_nGridH-1;i++)
+	for (auto i = 0 ; i< m_nGridH-1;i++)
 	{
 		for (int j=0;j<m_nGridW;j++)
 		{
@@ -155,7 +155,7 @@ void CN3Cloak::Render(__Matrix44 &mtx)
 			Vtx[0].Set(m_pParticle[nIndex].x, m_pParticle[nIndex].y, m_pParticle[nIndex].z, 0xffffffff);
 			nIndex+=m_nGridW;
 			Vtx[1].Set(m_pParticle[nIndex].x, m_pParticle[nIndex].y, m_pParticle[nIndex].z, 0xffffffff);
-			s_lpD3DDev->SetVertexShader(FVF_CV);
+			s_lpD3DDev->SetFVF(FVF_CV);
 			s_lpD3DDev->DrawPrimitiveUP(D3DPT_LINELIST, 1, Vtx, sizeof(__VertexXyzColor));
 		}
 	}
@@ -424,6 +424,7 @@ void CN3Cloak::TickYaw()
 {
 	if (!m_bpPlayerBase)	return;
 
+	/*
 	float fYaw = m_bpPlayerBase->Yaw();	
 	if (fYaw != m_fPrevYaw)
 	{	// 회전이 있었다.
@@ -439,12 +440,14 @@ void CN3Cloak::TickYaw()
 		}		
 	}
 	m_fPrevYaw = fYaw;
+	*/
 }
 
 void CN3Cloak::TickByPlayerMotion()
 {
 	if (!m_bpPlayerBase)	return;
 
+	/*
 	e_StateMove eCurMove = m_bpPlayerBase->StateMove();
 	static float	fTriggerTick = 0.0f;
 	static bool		bForceApply = false;
@@ -476,6 +479,7 @@ void CN3Cloak::TickByPlayerMotion()
 	default:
 		break;
 	}
+	*/
 }
 
 void CN3Cloak::MoveAnchorLine(e_Cloak_AnchorMovePattern eType, float fPreserveTime)

@@ -172,7 +172,7 @@ void CN3VMesh::Render(D3DCOLOR crLine)
 	s_lpD3DDev->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
 	s_lpD3DDev->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_DIFFUSE);
 	s_lpD3DDev->SetTexture(0, NULL);
- 	s_lpD3DDev->SetVertexShader(FVF_CV);
+ 	s_lpD3DDev->SetFVF(FVF_CV);
 
 	__VertexColor vTs[3];
 	if(m_nIC)
@@ -283,7 +283,7 @@ bool CN3VMesh::CheckCollision(const __Matrix44& MtxWorld, const __Vector3& v0, c
 	//두점이 충돌메시 안에 있는 경우..by lynus..
 	__Vector3 tmpNormal;
 	float d;
-	for(i = 0; i < nFC; i++)
+	for(auto i = 0; i < nFC; i++)
 	{
 		if(m_nIC > 0) { nCI0 = m_pwIndices[i*3+0]; nCI1 = m_pwIndices[i*3+1]; nCI2 = m_pwIndices[i*3+2]; }
 		else { nCI0 = i*3; nCI1 = i*3+1; nCI2 = i*3+2; }
@@ -397,7 +397,7 @@ void CN3VMesh::PartialColRender(int iCount, int* piIndices)
 	s_lpD3DDev->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
 	s_lpD3DDev->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_DIFFUSE);
 	s_lpD3DDev->SetTexture(0, NULL);
- 	s_lpD3DDev->SetVertexShader(FVF_CV);
+ 	s_lpD3DDev->SetFVF(FVF_CV);
 
 	__VertexColor vTs[3];
 	if(iCount)

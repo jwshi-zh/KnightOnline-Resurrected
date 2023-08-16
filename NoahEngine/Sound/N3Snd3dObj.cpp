@@ -3,7 +3,6 @@
 
 CN3Snd3dObj::CN3Snd3dObj()
 {
-	m_pDSBuff = NULL;
 	m_pDS3DBuff = NULL;
 }
 

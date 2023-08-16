@@ -8,6 +8,7 @@
 #include "N3Chr.h"
 #include "N3Base.h"
 #include "mmsystem.h"
+#include <N3SndMgr.h>
 
 LPDIRECT3DDEVICE9 CN3Base::s_lpD3DDev	= NULL;			// 참조 포인터.. 멋대로 해제하면 안된다..
 DWORD CN3Base::s_dwTextureCaps			= 0;			// Texture 호환성..
@@ -27,12 +28,7 @@ __Options CN3Base::s_Options;	// 각종 옵션등...
 __RenderInfo CN3Base::s_RenderInfo;			// Rendering Information
 #endif
 
-#ifdef _N3GAME // 게임이 아닌 툴에서는 필요없다...
 CN3SndMgr CN3Base::s_SndMgr;	//사운드 메니저.
-#endif
-#ifdef _N3UIE	// ui 에디터일때는 필요하다.
-CN3SndMgr CN3Base::s_SndMgr;	//사운드 메니저.
-#endif
 
 CN3Mng<CN3Texture>		CN3Base::s_MngTex; // Texture Manager
 CN3Mng<CN3Mesh>			CN3Base::s_MngMesh; // Mesh Manager
@@ -304,7 +300,7 @@ void CN3Base::RenderLines(const __Vector3 *pvLines, int nCount, D3DCOLOR color)
 
 	static __VertexColor svLines[512];
 
-	s_lpD3DDev->SetVertexShader(FVF_CV);
+	s_lpD3DDev->SetFVF(FVF_CV);
 
 	int nRepeat = nCount/512;
 	for(int i = 0; i < nRepeat; i++)
@@ -342,7 +338,7 @@ void CN3Base::RenderLines(const RECT& rc, D3DCOLOR color)
 	CN3Base::s_lpD3DDev->GetTextureStageState(0, D3DTSS_COLORARG1, &dwCA1);
 	CN3Base::s_lpD3DDev->GetTextureStageState(0, D3DTSS_ALPHAOP, &dwAOP);
 	CN3Base::s_lpD3DDev->GetTextureStageState(0, D3DTSS_ALPHAARG1, &dwAA1);
-	CN3Base::s_lpD3DDev->GetVertexShader(&dwVertexShader); 
+	CN3Base::s_lpD3DDev->GetFVF(&dwVertexShader); 
 
 	CN3Base::s_lpD3DDev->SetRenderState(D3DRS_ZENABLE, FALSE);
 	CN3Base::s_lpD3DDev->SetRenderState(D3DRS_FOGENABLE, FALSE);
@@ -354,7 +350,7 @@ void CN3Base::RenderLines(const RECT& rc, D3DCOLOR color)
 	CN3Base::s_lpD3DDev->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
 	CN3Base::s_lpD3DDev->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_DIFFUSE);
 
-	CN3Base::s_lpD3DDev->SetVertexShader(FVF_TRANSFORMEDCOLOR);
+	CN3Base::s_lpD3DDev->SetFVF(FVF_TRANSFORMEDCOLOR);
 	CN3Base::s_lpD3DDev->DrawPrimitiveUP(D3DPT_LINESTRIP, 4, vLines, sizeof(__VertexTransformedColor));
 	
 	CN3Base::s_lpD3DDev->SetRenderState(D3DRS_ZENABLE, dwZ);
@@ -366,7 +362,7 @@ void CN3Base::RenderLines(const RECT& rc, D3DCOLOR color)
 	CN3Base::s_lpD3DDev->SetTextureStageState(0, D3DTSS_COLORARG1, dwCA1);
 	CN3Base::s_lpD3DDev->SetTextureStageState(0, D3DTSS_ALPHAOP, dwAOP);
 	CN3Base::s_lpD3DDev->SetTextureStageState(0, D3DTSS_ALPHAARG1, dwAA1);
-	CN3Base::s_lpD3DDev->SetVertexShader(dwVertexShader); 
+	CN3Base::s_lpD3DDev->SetFVF(dwVertexShader); 
 }
 
 float CN3Base::TimeGet()

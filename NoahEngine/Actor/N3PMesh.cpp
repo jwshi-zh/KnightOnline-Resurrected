@@ -392,8 +392,8 @@ HRESULT CN3PMesh::GenerateSecondUV()
 		if (FAILED(hr)) return hr;
 
 		__VertexT1* pVSrc = NULL; __VertexT2* pVDest = NULL;
-		m_pVB->Lock(0, 0, (BYTE**)(&pVSrc), 0);
-		m_pVB2->Lock(0, 0, (BYTE**)(&pVDest), 0);
+		m_pVB->Lock(0, 0, (void**)(&pVSrc), 0);
+		m_pVB2->Lock(0, 0, (void**)(&pVDest), 0);
 		for(int i = 0; i < m_iMaxNumVertices; i++)
 		{
 			pVDest[i] = pVSrc[i];

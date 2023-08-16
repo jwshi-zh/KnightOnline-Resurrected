@@ -94,7 +94,7 @@ void CN3UIButton::Render()
 	for(UIListReverseItor itor = m_Children.rbegin(); m_Children.rend() != itor; ++itor)
 	{
 		CN3UIBase* pChild = (*itor);
-		for(i = 0; i < NUM_BTN_STATE; i++) // 버튼의 구성 요소가 아닌지 보고..
+		for(auto i = 0; i < NUM_BTN_STATE; i++) // 버튼의 구성 요소가 아닌지 보고..
 			if(pChild == m_ImageRef[i]) break;
 		if(i >= NUM_BTN_STATE) pChild->Render(); // 버튼 차일드가 아니면 렌더링..
 	}
@@ -263,20 +263,20 @@ bool CN3UIButton::Load(HANDLE hFile)
 	if (iSndFNLen>0)
 	{
 		std::vector<char> buffer(iSndFNLen+1, NULL);
-		ReadFile(hFile, buffer.begin(), iSndFNLen, &dwNum, NULL);
+		ReadFile(hFile, buffer.data(), iSndFNLen, &dwNum, NULL);
 
 		__ASSERT(NULL == m_pSnd_On, "memory leak");
-		m_pSnd_On = s_SndMgr.CreateObj(buffer.begin(), SNDTYPE_2D);
+		m_pSnd_On = s_SndMgr.CreateObj(buffer.data(), SNDTYPE_2D);
 	}
 
 	ReadFile(hFile, &iSndFNLen, sizeof(iSndFNLen), &dwNum, NULL);		//	사운드 파일 문자열 길이
 	if (iSndFNLen>0)
 	{
 		std::vector<char> buffer(iSndFNLen+1, NULL);
-		ReadFile(hFile, buffer.begin(), iSndFNLen, &dwNum, NULL);
+		ReadFile(hFile, buffer.data(), iSndFNLen, &dwNum, NULL);
 
 		__ASSERT(NULL == m_pSnd_Click, "memory leak");
-		m_pSnd_Click = s_SndMgr.CreateObj(buffer.begin(), SNDTYPE_2D);
+		m_pSnd_Click = s_SndMgr.CreateObj(buffer.data(), SNDTYPE_2D);
 	}
 
 	return true;

@@ -4,7 +4,6 @@
 
 class CN3UIEdit : public CN3UIStatic  
 {
-//	friend class CN3IME;
 public:
 	CN3UIEdit();
 	virtual ~CN3UIEdit();

@@ -1,5 +1,5 @@
-#include <stdio.h>
 #include "pch.h"
+#include <stdio.h>
 #include "LogWriter.h"
 
 std::string CLogWriter::s_szFileName = "";

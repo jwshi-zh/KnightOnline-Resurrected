@@ -65,8 +65,8 @@ struct		__SKY_DAYCHANGE
 		if(nL > 0) 
 		{
 			std::vector<char> buffer(nL+1, NULL);
-			ReadFile(hFile, buffer.begin(), nL, &dwRWC, NULL);
-			szName = buffer.begin();
+			ReadFile(hFile, buffer.data(), nL, &dwRWC, NULL);
+			szName = buffer.data();
 		}
 
 		ReadFile(hFile, &eSkyDayChange, 4, &dwRWC, NULL);
@@ -225,5 +225,3 @@ protected:
 	static int		CompareTime(const void* pArg1, const void* pArg2);
 
 };
-
-#endif // !defined(AFX_N3SKYMNG_H__30DC78FB_6563_43BD_841E_B90928E850CD__INCLUDED_)

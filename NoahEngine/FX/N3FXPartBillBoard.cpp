@@ -381,7 +381,7 @@ void CN3FXPartBillBoard::Render()
 				vUnit[i] *= mtxRotZ;
 			}
 
-			for(i=0;i<m_iNum;i++)
+			for(auto i=0;i<m_iNum;i++)
 			{
 				int idx = i*4;
 				
@@ -479,7 +479,7 @@ void CN3FXPartBillBoard::Render()
 				vUnit[i] *= mtxRotZ;
 			}
 
-			for(i=0;i<m_iNum;i++)
+			for(auto i=0;i<m_iNum;i++)
 			{
 				int idx = i*4;
 
@@ -565,7 +565,7 @@ void CN3FXPartBillBoard::Render()
 	}
 	else 
 	{
-		CN3Base::s_lpD3DDev->SetVertexShader(FVF_XYZCOLORT1);
+		CN3Base::s_lpD3DDev->SetFVF(FVF_XYZCOLORT1);
 
 		if(m_ppRefTex[m_iTexIdx]) 
 			CN3Base::s_lpD3DDev->SetTexture(0, m_ppRefTex[m_iTexIdx]->Get());

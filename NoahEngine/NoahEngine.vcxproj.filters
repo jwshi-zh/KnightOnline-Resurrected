@@ -255,9 +255,6 @@
     <ClInclude Include="UI\N3UITrackBar.h">
       <Filter>UI</Filter>
     </ClInclude>
-    <ClInclude Include="UI\N3IME.h">
-      <Filter>UI</Filter>
-    </ClInclude>
     <ClInclude Include="UI\N3UIArea.h">
       <Filter>UI</Filter>
     </ClInclude>
@@ -513,9 +510,6 @@
       <Filter>UI</Filter>
     </ClCompile>
     <ClCompile Include="UI\N3UITrackBar.cpp">
-      <Filter>UI</Filter>
-    </ClCompile>
-    <ClCompile Include="UI\N3IME.cpp">
       <Filter>UI</Filter>
     </ClCompile>
     <ClCompile Include="UI\N3UIArea.cpp">
