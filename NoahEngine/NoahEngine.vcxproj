@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{2ec66a18-48a7-464c-87fd-4a81c7f94b64}</ProjectGuid>
+    <RootNamespace>NoahEngine</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>$(ProjectDir)Actor;$(ProjectDir)AlphaActorManager;$(ProjectDir)Animation;$(ProjectDir)Base;$(ProjectDir)Engine;$(ProjectDir)FX;$(ProjectDir)Logging;$(ProjectDir)Media;$(ProjectDir)Sound;$(ProjectDir)UI;$(ProjectDir)World;$(IncludePath)</IncludePath>
+    <ExternalIncludePath>$(DXSDK_DIR)Include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</ExternalIncludePath>
+    <LibraryPath>$(DXSDK_DIR)Lib\x64;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>Create</PrecompiledHeader>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="Actor\N3Board.h" />
+    <ClInclude Include="Actor\N3Camera.h" />
+    <ClInclude Include="Actor\N3Chr.h" />
+    <ClInclude Include="Actor\N3Cloak.h" />
+    <ClInclude Include="Actor\N3IMesh.h" />
+    <ClInclude Include="Actor\N3Joint.h" />
+    <ClInclude Include="Actor\N3Light.h" />
+    <ClInclude Include="Actor\N3Mesh.h" />
+    <ClInclude Include="Actor\N3PMesh.h" />
+    <ClInclude Include="Actor\N3PMeshCreate.h" />
+    <ClInclude Include="Actor\N3PMeshInstance.h" />
+    <ClInclude Include="Actor\N3Shape.h" />
+    <ClInclude Include="Actor\N3ShapeEx.h" />
+    <ClInclude Include="Actor\N3ShapeExtra.h" />
+    <ClInclude Include="Actor\N3ShapeMgr.h" />
+    <ClInclude Include="Actor\N3ShapeMod.h" />
+    <ClInclude Include="Actor\N3Skin.h" />
+    <ClInclude Include="Actor\N3VMesh.h" />
+    <ClInclude Include="AlphaActorManager\N3AlphaPrimitiveManager.h" />
+    <ClInclude Include="Animation\N3AnimControl.h" />
+    <ClInclude Include="Animation\N3AnimKey.h" />
+    <ClInclude Include="Base\My_3DStruct.h" />
+    <ClInclude Include="Base\My_Macro.h" />
+    <ClInclude Include="Base\N3Base.h" />
+    <ClInclude Include="Base\N3BaseFileAccess.h" />
+    <ClInclude Include="Base\N3ColorChange.h" />
+    <ClInclude Include="Base\N3Scene.h" />
+    <ClInclude Include="Base\N3TableBase.h" />
+    <ClInclude Include="Base\pch.h" />
+    <ClInclude Include="Engine\N3Eng.h" />
+    <ClInclude Include="Engine\N3EngTool.h" />
+    <ClInclude Include="Engine\N3Mng.h" />
+    <ClInclude Include="Engine\N3Transform.h" />
+    <ClInclude Include="Engine\N3TransformCollision.h" />
+    <ClInclude Include="FX\N3FXBundle.h" />
+    <ClInclude Include="FX\N3FXDef.h" />
+    <ClInclude Include="FX\N3FXGroup.h" />
+    <ClInclude Include="FX\N3FXPartBase.h" />
+    <ClInclude Include="FX\N3FXPartBillBoard.h" />
+    <ClInclude Include="FX\N3FXPartBottomBoard.h" />
+    <ClInclude Include="FX\N3FXParticle.h" />
+    <ClInclude Include="FX\N3FXPartMesh.h" />
+    <ClInclude Include="FX\N3FXPartParticles.h" />
+    <ClInclude Include="FX\N3FXPlug.h" />
+    <ClInclude Include="FX\N3FXPMesh.h" />
+    <ClInclude Include="FX\N3FXPMeshInstance.h" />
+    <ClInclude Include="FX\N3FXShape.h" />
+    <ClInclude Include="Logging\LogWriter.h" />
+    <ClInclude Include="Media\AVIPlayer.h" />
+    <ClInclude Include="Media\BitMapFile.h" />
+    <ClInclude Include="Media\DFont.h" />
+    <ClInclude Include="Media\N3AnimatedTexures.h" />
+    <ClInclude Include="Media\N3Texture.h" />
+    <ClInclude Include="Sound\N3Snd3dObj.h" />
+    <ClInclude Include="Sound\N3SndDef.h" />
+    <ClInclude Include="Sound\N3SndEng.h" />
+    <ClInclude Include="Sound\N3SndMgr.h" />
+    <ClInclude Include="Sound\N3SndObj.h" />
+    <ClInclude Include="Sound\N3SndObj2D.h" />
+    <ClInclude Include="Sound\N3SndObj3D.h" />
+    <ClInclude Include="Sound\N3SndObjStream.h" />
+    <ClInclude Include="Sound\StreamSoundObj.h" />
+    <ClInclude Include="Sound\WaveFile.h" />
+    <ClInclude Include="UI\N3IME.h" />
+    <ClInclude Include="UI\N3UIArea.h" />
+    <ClInclude Include="UI\N3UIBase.h" />
+    <ClInclude Include="UI\N3UIButton.h" />
+    <ClInclude Include="UI\N3UIDef.h" />
+    <ClInclude Include="UI\N3UIEdit.h" />
+    <ClInclude Include="UI\N3UIImage.h" />
+    <ClInclude Include="UI\N3UIList.h" />
+    <ClInclude Include="UI\N3UIManager.h" />
+    <ClInclude Include="UI\N3UIProgress.h" />
+    <ClInclude Include="UI\N3UIScrollBar.h" />
+    <ClInclude Include="UI\N3UIStatic.h" />
+    <ClInclude Include="UI\N3UIString.h" />
+    <ClInclude Include="UI\N3UITooltip.h" />
+    <ClInclude Include="UI\N3UITrackBar.h" />
+    <ClInclude Include="World\N3Cloud.h" />
+    <ClInclude Include="World\N3GERain.h" />
+    <ClInclude Include="World\N3GESnow.h" />
+    <ClInclude Include="World\N3GlobalEffect.h" />
+    <ClInclude Include="World\N3GlobalEffectMng.h" />
+    <ClInclude Include="World\N3Moon.h" />
+    <ClInclude Include="World\N3Pond.h" />
+    <ClInclude Include="World\N3River.h" />
+    <ClInclude Include="World\N3River2.h" />
+    <ClInclude Include="World\N3RiverPatch.h" />
+    <ClInclude Include="World\N3Sky.h" />
+    <ClInclude Include="World\N3SkyMng.h" />
+    <ClInclude Include="World\N3Star.h" />
+    <ClInclude Include="World\N3Sun.h" />
+    <ClInclude Include="World\Pick.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Actor\N3Board.cpp" />
+    <ClCompile Include="Actor\N3Camera.cpp" />
+    <ClCompile Include="Actor\N3Chr.cpp" />
+    <ClCompile Include="Actor\N3Cloak.cpp" />
+    <ClCompile Include="Actor\N3IMesh.cpp" />
+    <ClCompile Include="Actor\N3Joint.cpp" />
+    <ClCompile Include="Actor\N3Light.cpp" />
+    <ClCompile Include="Actor\N3Mesh.cpp" />
+    <ClCompile Include="Actor\N3PMesh.cpp" />
+    <ClCompile Include="Actor\N3PMeshCreate.cpp" />
+    <ClCompile Include="Actor\N3PMeshInstance.cpp" />
+    <ClCompile Include="Actor\N3Shape.cpp" />
+    <ClCompile Include="Actor\N3ShapeEx.cpp" />
+    <ClCompile Include="Actor\N3ShapeExtra.cpp" />
+    <ClCompile Include="Actor\N3ShapeMgr.cpp" />
+    <ClCompile Include="Actor\N3ShapeMod.cpp" />
+    <ClCompile Include="Actor\N3Skin.cpp" />
+    <ClCompile Include="Actor\N3VMesh.cpp" />
+    <ClCompile Include="AlphaActorManager\N3AlphaPrimitiveManager.cpp" />
+    <ClCompile Include="Animation\N3AnimControl.cpp" />
+    <ClCompile Include="Animation\N3AnimKey.cpp" />
+    <ClCompile Include="Base\N3Base.cpp" />
+    <ClCompile Include="Base\N3BaseFileAccess.cpp" />
+    <ClCompile Include="Base\N3ColorChange.cpp" />
+    <ClCompile Include="Base\N3Scene.cpp" />
+    <ClCompile Include="Base\pch.cpp" />
+    <ClCompile Include="Engine\N3Eng.cpp" />
+    <ClCompile Include="Engine\N3EngTool.cpp" />
+    <ClCompile Include="Engine\N3Transform.cpp" />
+    <ClCompile Include="Engine\N3TransformCollision.cpp" />
+    <ClCompile Include="FX\N3FXBundle.cpp" />
+    <ClCompile Include="FX\N3FXGroup.cpp" />
+    <ClCompile Include="FX\N3FXPartBase.cpp" />
+    <ClCompile Include="FX\N3FXPartBillBoard.cpp" />
+    <ClCompile Include="FX\N3FXPartBottomBoard.cpp" />
+    <ClCompile Include="FX\N3FXParticle.cpp" />
+    <ClCompile Include="FX\N3FXPartMesh.cpp" />
+    <ClCompile Include="FX\N3FXPartParticles.cpp" />
+    <ClCompile Include="FX\N3FXPlug.cpp" />
+    <ClCompile Include="FX\N3FXPMesh.cpp" />
+    <ClCompile Include="FX\N3FXPMeshInstance.cpp" />
+    <ClCompile Include="FX\N3FXShape.cpp" />
+    <ClCompile Include="Logging\LogWriter.cpp" />
+    <ClCompile Include="Media\AVIPlayer.cpp" />
+    <ClCompile Include="Media\BitMapFile.cpp" />
+    <ClCompile Include="Media\DFont.cpp" />
+    <ClCompile Include="Media\N3AnimatedTexures.cpp" />
+    <ClCompile Include="Media\N3Texture.cpp" />
+    <ClCompile Include="Sound\N3Snd3dObj.cpp" />
+    <ClCompile Include="Sound\N3SndEng.cpp" />
+    <ClCompile Include="Sound\N3SndMgr.cpp" />
+    <ClCompile Include="Sound\N3SndObj.cpp" />
+    <ClCompile Include="Sound\N3SndObj2D.cpp" />
+    <ClCompile Include="Sound\N3SndObj3D.cpp" />
+    <ClCompile Include="Sound\N3SndObjStream.cpp" />
+    <ClCompile Include="Sound\StreamSoundObj.cpp" />
+    <ClCompile Include="Sound\WaveFile.cpp" />
+    <ClCompile Include="UI\N3IME.cpp" />
+    <ClCompile Include="UI\N3UIArea.cpp" />
+    <ClCompile Include="UI\N3UIBase.cpp" />
+    <ClCompile Include="UI\N3UIButton.cpp" />
+    <ClCompile Include="UI\N3UIEdit.cpp" />
+    <ClCompile Include="UI\N3UIImage.cpp" />
+    <ClCompile Include="UI\N3UIList.cpp" />
+    <ClCompile Include="UI\N3UIManager.cpp" />
+    <ClCompile Include="UI\N3UIProgress.cpp" />
+    <ClCompile Include="UI\N3UIScrollBar.cpp" />
+    <ClCompile Include="UI\N3UIStatic.cpp" />
+    <ClCompile Include="UI\N3UIString.cpp" />
+    <ClCompile Include="UI\N3UITooltip.cpp" />
+    <ClCompile Include="UI\N3UITrackBar.cpp" />
+    <ClCompile Include="World\N3Cloud.cpp" />
+    <ClCompile Include="World\N3GERain.cpp" />
+    <ClCompile Include="World\N3GESnow.cpp" />
+    <ClCompile Include="World\N3GlobalEffect.cpp" />
+    <ClCompile Include="World\N3GlobalEffectMng.cpp" />
+    <ClCompile Include="World\N3Moon.cpp" />
+    <ClCompile Include="World\N3Pond.cpp" />
+    <ClCompile Include="World\N3River.cpp" />
+    <ClCompile Include="World\N3River2.cpp" />
+    <ClCompile Include="World\N3RiverPatch.cpp" />
+    <ClCompile Include="World\N3Sky.cpp" />
+    <ClCompile Include="World\N3SkyMng.cpp" />
+    <ClCompile Include="World\N3Star.cpp" />
+    <ClCompile Include="World\N3Sun.cpp" />
+    <ClCompile Include="World\Pick.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

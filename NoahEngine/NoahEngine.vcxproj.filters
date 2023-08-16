@@ -1,0 +1,579 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Actor">
+      <UniqueIdentifier>{ac5bea61-799b-4a0c-8789-577d1479c0cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AlphaActorManager">
+      <UniqueIdentifier>{e28e61a0-d54c-4ff4-874c-dc1f531c594f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Animation">
+      <UniqueIdentifier>{1a771093-dc0e-4a27-8d36-e275b9563f0f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Base">
+      <UniqueIdentifier>{47c6d535-cb1a-482b-8a52-2f98527943aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine">
+      <UniqueIdentifier>{5dd8849b-069d-4958-a626-354daf71babd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FX">
+      <UniqueIdentifier>{5a3ceecf-30f4-41ce-8c04-eb186bebf89b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Logging">
+      <UniqueIdentifier>{f1dd2b55-d834-4a78-befc-ba93fe830528}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Media">
+      <UniqueIdentifier>{68e0092e-5426-47eb-9809-a3bf98ab5483}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sound">
+      <UniqueIdentifier>{740260b9-32a2-42fa-9e6c-3b7c64f68352}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{51b57d54-06bd-42ed-88e1-634a4f30a376}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="World">
+      <UniqueIdentifier>{2b393ae2-d784-4c1f-a275-9059fd5373b7}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="FX\N3FXGroup.h">
+      <Filter>FX</Filter>
+    </ClInclude>
+    <ClInclude Include="FX\N3FXPartBase.h">
+      <Filter>FX</Filter>
+    </ClInclude>
+    <ClInclude Include="FX\N3FXPartBillBoard.h">
+      <Filter>FX</Filter>
+    </ClInclude>
+    <ClInclude Include="FX\N3FXPartBottomBoard.h">
+      <Filter>FX</Filter>
+    </ClInclude>
+    <ClInclude Include="FX\N3FXParticle.h">
+      <Filter>FX</Filter>
+    </ClInclude>
+    <ClInclude Include="FX\N3FXPartMesh.h">
+      <Filter>FX</Filter>
+    </ClInclude>
+    <ClInclude Include="FX\N3FXPartParticles.h">
+      <Filter>FX</Filter>
+    </ClInclude>
+    <ClInclude Include="FX\N3FXPlug.h">
+      <Filter>FX</Filter>
+    </ClInclude>
+    <ClInclude Include="FX\N3FXPMesh.h">
+      <Filter>FX</Filter>
+    </ClInclude>
+    <ClInclude Include="FX\N3FXPMeshInstance.h">
+      <Filter>FX</Filter>
+    </ClInclude>
+    <ClInclude Include="FX\N3FXShape.h">
+      <Filter>FX</Filter>
+    </ClInclude>
+    <ClInclude Include="FX\N3FXBundle.h">
+      <Filter>FX</Filter>
+    </ClInclude>
+    <ClInclude Include="FX\N3FXDef.h">
+      <Filter>FX</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\pch.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\My_Macro.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\N3Base.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\N3BaseFileAccess.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\N3ColorChange.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\N3Scene.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\N3TableBase.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\My_3DStruct.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation\N3AnimControl.h">
+      <Filter>Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation\N3AnimKey.h">
+      <Filter>Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="AlphaActorManager\N3AlphaPrimitiveManager.h">
+      <Filter>AlphaActorManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor\N3Shape.h">
+      <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor\N3ShapeEx.h">
+      <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor\N3ShapeExtra.h">
+      <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor\N3ShapeMgr.h">
+      <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor\N3ShapeMod.h">
+      <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor\N3Skin.h">
+      <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor\N3VMesh.h">
+      <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor\N3Board.h">
+      <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor\N3Camera.h">
+      <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor\N3Chr.h">
+      <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor\N3Cloak.h">
+      <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor\N3IMesh.h">
+      <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor\N3Joint.h">
+      <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor\N3Light.h">
+      <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor\N3Mesh.h">
+      <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor\N3PMesh.h">
+      <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor\N3PMeshCreate.h">
+      <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor\N3PMeshInstance.h">
+      <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\N3EngTool.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\N3Mng.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\N3Transform.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\N3TransformCollision.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\N3Eng.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Logging\LogWriter.h">
+      <Filter>Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="Media\AVIPlayer.h">
+      <Filter>Media</Filter>
+    </ClInclude>
+    <ClInclude Include="Media\BitMapFile.h">
+      <Filter>Media</Filter>
+    </ClInclude>
+    <ClInclude Include="Media\DFont.h">
+      <Filter>Media</Filter>
+    </ClInclude>
+    <ClInclude Include="Media\N3AnimatedTexures.h">
+      <Filter>Media</Filter>
+    </ClInclude>
+    <ClInclude Include="Media\N3Texture.h">
+      <Filter>Media</Filter>
+    </ClInclude>
+    <ClInclude Include="Sound\N3SndEng.h">
+      <Filter>Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="Sound\N3SndMgr.h">
+      <Filter>Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="Sound\N3SndObj.h">
+      <Filter>Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="Sound\N3SndObj2D.h">
+      <Filter>Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="Sound\N3SndObj3D.h">
+      <Filter>Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="Sound\N3SndObjStream.h">
+      <Filter>Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="Sound\StreamSoundObj.h">
+      <Filter>Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="Sound\WaveFile.h">
+      <Filter>Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="Sound\N3Snd3dObj.h">
+      <Filter>Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="Sound\N3SndDef.h">
+      <Filter>Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\N3UIEdit.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\N3UIImage.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\N3UIList.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\N3UIManager.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\N3UIProgress.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\N3UIScrollBar.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\N3UIStatic.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\N3UIString.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\N3UITooltip.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\N3UITrackBar.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\N3IME.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\N3UIArea.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\N3UIBase.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\N3UIButton.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\N3UIDef.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="World\N3GESnow.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="World\N3GlobalEffect.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="World\N3GlobalEffectMng.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="World\N3Moon.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="World\N3Pond.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="World\N3River.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="World\N3River2.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="World\N3RiverPatch.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="World\N3Sky.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="World\N3SkyMng.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="World\N3Star.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="World\N3Sun.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="World\Pick.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="World\N3Cloud.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="World\N3GERain.h">
+      <Filter>World</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="FX\N3FXGroup.cpp">
+      <Filter>FX</Filter>
+    </ClCompile>
+    <ClCompile Include="FX\N3FXPartBase.cpp">
+      <Filter>FX</Filter>
+    </ClCompile>
+    <ClCompile Include="FX\N3FXPartBillBoard.cpp">
+      <Filter>FX</Filter>
+    </ClCompile>
+    <ClCompile Include="FX\N3FXPartBottomBoard.cpp">
+      <Filter>FX</Filter>
+    </ClCompile>
+    <ClCompile Include="FX\N3FXParticle.cpp">
+      <Filter>FX</Filter>
+    </ClCompile>
+    <ClCompile Include="FX\N3FXPartMesh.cpp">
+      <Filter>FX</Filter>
+    </ClCompile>
+    <ClCompile Include="FX\N3FXPartParticles.cpp">
+      <Filter>FX</Filter>
+    </ClCompile>
+    <ClCompile Include="FX\N3FXPlug.cpp">
+      <Filter>FX</Filter>
+    </ClCompile>
+    <ClCompile Include="FX\N3FXPMesh.cpp">
+      <Filter>FX</Filter>
+    </ClCompile>
+    <ClCompile Include="FX\N3FXPMeshInstance.cpp">
+      <Filter>FX</Filter>
+    </ClCompile>
+    <ClCompile Include="FX\N3FXShape.cpp">
+      <Filter>FX</Filter>
+    </ClCompile>
+    <ClCompile Include="FX\N3FXBundle.cpp">
+      <Filter>FX</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\pch.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\N3Base.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\N3BaseFileAccess.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\N3ColorChange.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\N3Scene.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation\N3AnimControl.cpp">
+      <Filter>Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation\N3AnimKey.cpp">
+      <Filter>Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="AlphaActorManager\N3AlphaPrimitiveManager.cpp">
+      <Filter>AlphaActorManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor\N3ShapeEx.cpp">
+      <Filter>Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor\N3ShapeExtra.cpp">
+      <Filter>Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor\N3ShapeMgr.cpp">
+      <Filter>Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor\N3ShapeMod.cpp">
+      <Filter>Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor\N3Skin.cpp">
+      <Filter>Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor\N3VMesh.cpp">
+      <Filter>Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor\N3Board.cpp">
+      <Filter>Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor\N3Camera.cpp">
+      <Filter>Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor\N3Chr.cpp">
+      <Filter>Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor\N3Cloak.cpp">
+      <Filter>Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor\N3IMesh.cpp">
+      <Filter>Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor\N3Joint.cpp">
+      <Filter>Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor\N3Light.cpp">
+      <Filter>Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor\N3Mesh.cpp">
+      <Filter>Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor\N3PMesh.cpp">
+      <Filter>Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor\N3PMeshCreate.cpp">
+      <Filter>Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor\N3PMeshInstance.cpp">
+      <Filter>Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor\N3Shape.cpp">
+      <Filter>Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\N3EngTool.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\N3Transform.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\N3TransformCollision.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\N3Eng.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Logging\LogWriter.cpp">
+      <Filter>Logging</Filter>
+    </ClCompile>
+    <ClCompile Include="Media\BitMapFile.cpp">
+      <Filter>Media</Filter>
+    </ClCompile>
+    <ClCompile Include="Media\DFont.cpp">
+      <Filter>Media</Filter>
+    </ClCompile>
+    <ClCompile Include="Media\N3AnimatedTexures.cpp">
+      <Filter>Media</Filter>
+    </ClCompile>
+    <ClCompile Include="Media\N3Texture.cpp">
+      <Filter>Media</Filter>
+    </ClCompile>
+    <ClCompile Include="Media\AVIPlayer.cpp">
+      <Filter>Media</Filter>
+    </ClCompile>
+    <ClCompile Include="Sound\N3SndMgr.cpp">
+      <Filter>Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="Sound\N3SndObj.cpp">
+      <Filter>Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="Sound\N3SndObj2D.cpp">
+      <Filter>Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="Sound\N3SndObj3D.cpp">
+      <Filter>Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="Sound\N3SndObjStream.cpp">
+      <Filter>Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="Sound\StreamSoundObj.cpp">
+      <Filter>Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="Sound\WaveFile.cpp">
+      <Filter>Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="Sound\N3Snd3dObj.cpp">
+      <Filter>Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="Sound\N3SndEng.cpp">
+      <Filter>Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\N3UIImage.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\N3UIList.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\N3UIManager.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\N3UIProgress.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\N3UIScrollBar.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\N3UIStatic.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\N3UIString.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\N3UITooltip.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\N3UITrackBar.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\N3IME.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\N3UIArea.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\N3UIBase.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\N3UIButton.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\N3UIEdit.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="World\N3GESnow.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
+    <ClCompile Include="World\N3GlobalEffect.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
+    <ClCompile Include="World\N3GlobalEffectMng.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
+    <ClCompile Include="World\N3Moon.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
+    <ClCompile Include="World\N3Pond.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
+    <ClCompile Include="World\N3River.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
+    <ClCompile Include="World\N3River2.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
+    <ClCompile Include="World\N3RiverPatch.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
+    <ClCompile Include="World\N3Sky.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
+    <ClCompile Include="World\N3SkyMng.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
+    <ClCompile Include="World\N3Star.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
+    <ClCompile Include="World\N3Sun.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
+    <ClCompile Include="World\Pick.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
+    <ClCompile Include="World\N3Cloud.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
+    <ClCompile Include="World\N3GERain.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
