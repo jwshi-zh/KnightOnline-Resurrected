@@ -1,13 +1,5 @@
-// N3ColorChange.h: interface for the CN3ColorChange class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_N3COLORCHANGE_H__6A4576D3_1880_40A4_AED9_39B306508D0C__INCLUDED_)
-#define AFX_N3COLORCHANGE_H__6A4576D3_1880_40A4_AED9_39B306508D0C__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
+
 #include "N3Base.h"
 
 class CN3ColorChange  : public CN3Base
@@ -52,5 +44,3 @@ protected:
 	float		m_fRate;		// 초당 변화율
 	float		m_fTempSec;		// 임시 시간 저장 변수
 };
-
-#endif // !defined(AFX_N3COLORCHANGE_H__6A4576D3_1880_40A4_AED9_39B306508D0C__INCLUDED_)

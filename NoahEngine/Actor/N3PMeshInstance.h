@@ -1,13 +1,4 @@
-// N3PMeshInstance.h: interface for the CN3PMeshInstance class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_N3PMeshInstance_h__INCLUDED_)
-#define AFX_N3PMeshInstance_h__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "N3Base.h"
 #include "N3PMesh.h"
@@ -78,5 +69,3 @@ public:
 __Vector3		GetVertexByIndex(int iIndex); 
 //	~(By Ecli666 On 2002-08-06 ¿ÀÈÄ 4:33:04 )
 };
-
-#endif // !defined(AFX_N3PMeshInstance_h__INCLUDED_)

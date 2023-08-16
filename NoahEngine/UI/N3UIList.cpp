@@ -1,21 +1,7 @@
-// N3UIList.cpp: implementation of the CN3UIList class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "pch.h"
 #include "N3UIList.h"
 #include "N3UIString.h"
 #include "N3UIScrollBar.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 CN3UIList::CN3UIList()
 {

@@ -1,17 +1,6 @@
-// N3Shape.cpp: implementation of the C3DObject class.
-//
-//////////////////////////////////////////////////////////////////////
 #include "pch.h"
 #include "N3Shape.h"
 
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-/////////////////////////////
-// CN3Shape Part ....
 CN3SPart::CN3SPart()
 {
 	m_dwType |= OBJ_SHAPE_PART;

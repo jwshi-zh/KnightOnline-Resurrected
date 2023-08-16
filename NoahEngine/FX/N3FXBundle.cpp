@@ -1,7 +1,3 @@
-// N3FXBundle.cpp: implementation of the CN3FXBundle class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "pch.h"
 #include "N3FXBundle.h"
 #include "N3FXPartParticles.h"
@@ -9,18 +5,8 @@
 #include "N3FXPartMesh.h"
 #include "N3FXPartBottomBoard.h"
 
-#include "../N3Base/N3SndMgr.h"
-#include "../N3Base/N3SndObj.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
+#include "N3SndMgr.h"
+#include "N3SndObj.h"
 
 float CN3FXBundle::m_fEffectSndDist = 48.0f;
 

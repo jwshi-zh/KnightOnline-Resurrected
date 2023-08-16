@@ -1,12 +1,4 @@
-//////////////////////////////////////////////////////////////////////////////////////
-//
-//	N3FXDef.h
-//	Effect에서 쓰이는 상수들이나 자료형들 정의...
-//
-//////////////////////////////////////////////////////////////////////////////////////
-
-#ifndef __N3FXDEF_H__
-#define __N3FXDEF_H__
+#pragma once
 
 #include "N3Base.h"
 #include "My_3DStruct.h"
@@ -110,5 +102,3 @@ typedef struct __FXBInfo
 		IsLooping = FALSE;
 	}	
 } FXBINFO, *LPFXBINFO;
-
-#endif // #ifndef __N3FXDEF_H__

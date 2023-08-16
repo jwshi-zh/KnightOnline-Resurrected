@@ -1,20 +1,6 @@
-// N3FXPartBottomBoard.cpp: implementation of the CN3FXPartBillBoard class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "pch.h"
 #include "N3FXPartBottomBoard.h"
 #include "N3FXBundle.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 CN3FXPartBottomBoard::CN3FXPartBottomBoard()
 {

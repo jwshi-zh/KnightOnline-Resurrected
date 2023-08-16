@@ -1,7 +1,3 @@
-// N3UIBase.cpp: implementation of the CN3UIBase class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "pch.h"
 #include "N3UIBase.h"
 
@@ -23,12 +19,6 @@
 
 #include "N3SndMgr.h"
 #include "N3SndObj.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
 
 CN3UIEdit* CN3UIBase::s_pFocusedEdit = NULL;
 CN3UITooltip* CN3UIBase::s_pTooltipCtrl = NULL;

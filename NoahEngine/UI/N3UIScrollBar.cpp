@@ -1,20 +1,6 @@
-// N3UIScrollBar.cpp: implementation of the CN3UIScrollBar class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "pch.h"
 #include "N3UIScrollBar.h"
 #include "N3UIButton.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 CN3UIScrollBar::CN3UIScrollBar()
 {

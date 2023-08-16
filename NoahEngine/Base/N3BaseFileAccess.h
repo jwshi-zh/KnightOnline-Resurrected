@@ -1,15 +1,4 @@
-// N3BaseFileAccess.h: interface for the CN3BaseFileAccess class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_N3BASEFILEACCESS_H__C99953BD_12BE_4B37_823F_4F4B2379FF74__INCLUDED_)
-#define AFX_N3BASEFILEACCESS_H__C99953BD_12BE_4B37_823F_4F4B2379FF74__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
-
-#pragma warning(disable : 4786)
 
 #include "N3Base.h"
 #include <string>
@@ -40,5 +29,3 @@ public:
 	CN3BaseFileAccess();
 	virtual ~CN3BaseFileAccess();
 };
-
-#endif // !defined(AFX_N3BASEFILEACCESS_H__C99953BD_12BE_4B37_823F_4F4B2379FF74__INCLUDED_)

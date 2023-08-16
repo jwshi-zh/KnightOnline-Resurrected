@@ -1,7 +1,3 @@
-// N3ShapeMgr.cpp: implementation of the CN3ShapeMgr class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #ifdef _N3GAME
 #include "../WarFare/StdAfx.h"
 #include "../WarFare/GameProcedure.h"
@@ -17,16 +13,6 @@
 #ifndef _3DSERVER
 #include "N3ShapeExtra.h"
 #endif // end of #ifndef _3DSERVER
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 CN3ShapeMgr::CN3ShapeMgr()
 {

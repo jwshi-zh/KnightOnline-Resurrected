@@ -1,20 +1,6 @@
-// N3AnimatedTexures.cpp: implementation of the CN3AnimatedTexures class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "pch.h"
 #include "N3Texture.h"
 #include "N3AnimatedTexures.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 CN3AnimatedTexures::CN3AnimatedTexures()
 {

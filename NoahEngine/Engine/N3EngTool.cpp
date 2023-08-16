@@ -1,20 +1,7 @@
-// N3EngTool.cpp: implementation of the CN3EngTool class.
-//
-//////////////////////////////////////////////////////////////////////
 #include "pch.h"
 #include "N3Light.h"
 #include "N3EngTool.h"
 #include "N3Texture.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 CN3EngTool::CN3EngTool()
 {

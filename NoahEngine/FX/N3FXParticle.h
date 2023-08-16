@@ -1,12 +1,7 @@
-// N3FXPartParticles.h: interface for the CN3FXPartParticles class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#ifndef __N3FXPARTICLE_H__
-#define __N3FXPARTICLE_H__
+#pragma once
 
 #include "N3Base.h"
-//#include "N3FXDef.h"
+
 class CN3FXPartParticles;
 
 class CN3FXParticle : public CN3Base  
@@ -43,5 +38,3 @@ public:
 	CN3FXParticle();	
 	virtual ~CN3FXParticle();
 };
-
-#endif // #ifndef __N3FXPARTICLE_H__

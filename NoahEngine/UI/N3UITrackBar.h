@@ -1,13 +1,4 @@
-// N3UITrackBar.h: interface for the CN3UITrackBar class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_N3UITRACKBAR_H__EB496B74_468B_4D7B_89A9_D3A5A1A3E538__INCLUDED_)
-#define AFX_N3UITRACKBAR_H__EB496B74_468B_4D7B_89A9_D3A5A1A3E538__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "N3UIBase.h"
 
@@ -59,5 +50,3 @@ public:
 	CN3UIImage*		GetThumbImgRef() const {return m_pThumbImageRef;}
 #endif
 };
-
-#endif // !defined(AFX_N3UITRACKBAR_H__EB496B74_468B_4D7B_89A9_D3A5A1A3E538__INCLUDED_)

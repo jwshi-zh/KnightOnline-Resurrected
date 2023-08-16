@@ -1,23 +1,6 @@
-// DFont.h: interface for the CDFont class.
-// 사용법 및 사용제한
-// 1. SetText함수는 계산량이 많다.(글씨를 바꿀때만 부르자(중요))
-// 2. DrawText 함수는 2d평면상에 그려준다.
-// 3. DrawText3D 함수는 3d로 그릴때 사용한다.(SetText함수에서 3D라고 명시해줘야 한다.)
-// 제한 : 판때기를 현재 50개밖에 생성하지 못한다.(이 이상 나오게 하려면 MAX_NUM_VERTICES 를 고쳐주면 된다.)
-// 4. InvalidateDeviceObjects();를 호출한후 다시 글씨를 쓰려면 다시 SetText함수를 호출해줘야 한다.
-// 5. 3D공간상에 글씨를 찍을때 가운데 정렬해서 찍고 싶으면 SetText함수에 두번째 파라미터에 (D3DFONT_3D|D3DFONT_CENTERED)를 넣어준다.
-//////////////////////////////////////////////////////////////////////
-
-#pragma warning(disable:4786)
-
-#if !defined(AFX_DFONT_H__B1A14901_0027_40BC_8A6C_7FC78DE38686__INCLUDED_)
-#define AFX_DFONT_H__B1A14901_0027_40BC_8A6C_7FC78DE38686__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
-#include "..\N3Base\N3Base.h"
+#include "N3Base.h"
 
 // Font creation flags
 #define D3DFONT_BOLD        0x0001
@@ -95,5 +78,3 @@ protected:
 	void Make3DVertex(const int iFontHeight, const std::string& szText, DWORD dwFlags);	// 입력 받은 문자를 적절하게 배치된 3d 폴리곤을 만든다.
 
 };
-
-#endif // !defined(AFX_DFONT_H__B1A14901_0027_40BC_8A6C_7FC78DE38686__INCLUDED_)

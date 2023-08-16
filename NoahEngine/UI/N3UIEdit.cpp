@@ -1,7 +1,3 @@
-// N3UIEdit.cpp: implementation of the CN3UIEdit class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "pch.h"
 #include "N3UIEdit.h"
 #include "N3UIString.h"
@@ -13,12 +9,6 @@
 #include "N3SndObj.h"
 #include <imm.h>
 
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
 const float CARET_FLICKERING_TIME = 0.4f;
 
 //HWND CN3UIEdit::s_hWndParent = NULL;
@@ -27,9 +17,6 @@ HWND CN3UIEdit::s_hWndParent = NULL;
 WNDPROC	CN3UIEdit::s_lpfnEditProc = NULL;
 char CN3UIEdit::s_szBuffTmp[512] = "";
 
-//////////////////////////////////////////////////////////////////////
-// CN3UIEdit::CN3Caret
-//////////////////////////////////////////////////////////////////////
 CN3UIEdit::CN3Caret::CN3Caret()
 {
 	m_pVB[0].Set(0,0,UI_DEFAULT_Z, UI_DEFAULT_RHW, 0xffff0000);

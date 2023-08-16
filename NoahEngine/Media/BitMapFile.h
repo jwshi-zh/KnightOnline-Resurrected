@@ -1,13 +1,4 @@
-// BitMapFile.h: interface for the CBitMapFile class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_BITMAPFILE_H__F2C24227_F5AE_43B2_8616_2F2E057B59B8__INCLUDED_)
-#define AFX_BITMAPFILE_H__F2C24227_F5AE_43B2_8616_2F2E057B59B8__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 class CBitMapFile
 {
@@ -36,5 +27,3 @@ public:
 	virtual ~CBitMapFile();
 
 };
-
-#endif // !defined(AFX_BITMAPFILE_H__F2C24227_F5AE_43B2_8616_2F2E057B59B8__INCLUDED_)

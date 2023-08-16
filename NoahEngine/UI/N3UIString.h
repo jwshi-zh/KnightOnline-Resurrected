@@ -1,13 +1,4 @@
-// N3UIString.h: interface for the CN3UIString class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_N3UISTRING_H__E3559B01_72AE_4651_804D_B96D22738ED8__INCLUDED_)
-#define AFX_N3UISTRING_H__E3559B01_72AE_4651_804D_B96D22738ED8__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include <string>
 #include "N3UIBase.h"
@@ -79,5 +70,3 @@ public:
 protected:
 	void				WordWrap();		// wordwrap
 };
-
-#endif // !defined(AFX_N3UISTRING_H__E3559B01_72AE_4651_804D_B96D22738ED8__INCLUDED_)

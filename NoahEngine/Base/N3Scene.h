@@ -1,13 +1,4 @@
-// N3Scene.h: interface for the CN3Scene class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_N3Scene_h__INCLUDED_)
-#define AFX_N3Scene_h__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "N3Camera.h"
 #include "N3Light.h"
@@ -119,5 +110,3 @@ public:
 	virtual ~CN3Scene();
 
 };
-
-#endif // !defined(AFX_N3Scene_h__INCLUDED_)

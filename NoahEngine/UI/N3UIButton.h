@@ -1,15 +1,7 @@
-// N3UIButton.h: interface for the CN3UIButton class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_N3UIBUTTON_H__7A7B3E89_9D17_45E8_8405_87877F3E6FF0__INCLUDED_)
-#define AFX_N3UIBUTTON_H__7A7B3E89_9D17_45E8_8405_87877F3E6FF0__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "N3UIBase.h"
+
 class CN3UIImage;
 class CN3SndObj;
 class CN3UIButton : public CN3UIBase  
@@ -54,6 +46,3 @@ public:
 	std::string GetSndFName_Click() const;
 #endif
 };
-
-#endif // !defined(AFX_N3UIBUTTON_H__7A7B3E89_9D17_45E8_8405_87877F3E6FF0__INCLUDED_)
-

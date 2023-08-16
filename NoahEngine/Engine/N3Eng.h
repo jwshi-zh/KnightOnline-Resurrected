@@ -1,13 +1,4 @@
-// N3Eng.h: interface for the CN3Eng class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_N3Engine_h__INCLUDED_)
-#define AFX_N3Engine_h__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "N3BaseFileAccess.h"
 #include "ddraw.h"
@@ -27,7 +18,7 @@ public:
 		D3DDISPLAYMODE* pModes; // 디스플레이 모드
 	} __D3DDevInfo;
 
-	LPDIRECT3D8			m_lpD3D;
+	LPDIRECT3D9			m_lpD3D;
 	LPDIRECTDRAW		m_lpDD;
 
 protected:
@@ -66,5 +57,3 @@ public:
 	CN3Eng();
 	virtual ~CN3Eng();
 };
-
-#endif // !defined(AFX_N3Engine_h__INCLUDED_)

@@ -1,7 +1,3 @@
-// N3UIButton.cpp: implementation of the CN3UIButton class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "pch.h"
 #include "N3UIButton.h"
 #include "N3UIImage.h"
@@ -14,15 +10,6 @@
 
 #include "N3SndMgr.h"
 #include "N3SndObj.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 CN3UIButton::CN3UIButton()
 {

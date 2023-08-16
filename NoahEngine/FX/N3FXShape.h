@@ -1,11 +1,4 @@
-// N3FXShape.h: interface for the CN3FXShape class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#ifndef __N3FXSHAPE_H__
-#define __N3FXSHAPE_H__
-
-#pragma warning(disable : 4786)
+#pragma once
 
 #include "N3TransformCollision.h"
 #include "N3Texture.h"
@@ -63,11 +56,6 @@ public:
 	virtual ~CN3FXSPart();
 };
 
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//
-//	CN3FXShape
-//
 class CN3FXShape : public CN3TransformCollision
 {
 public:
@@ -113,5 +101,3 @@ public:
 	CN3FXShape();
 	virtual ~CN3FXShape();
 };
-
-#endif // !defined(AFX_N3Shape_h__INCLUDED_)

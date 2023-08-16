@@ -1,15 +1,4 @@
-// N3Base.h: interface for the CN3Base class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_N3Base_h__INCLUDED_)
-#define AFX_N3Base_h__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
-
-#pragma warning(disable : 4786)
 
 #include "My_3DStruct.h"
 #include "N3Mng.h"
@@ -64,7 +53,7 @@ struct __CameraData
 	float			fAspect; // Á¾È¾ºñ
 	float			fNP; // NearPlane
 	float			fFP; // FarPlane
-	D3DVIEWPORT8	vp; // ViewPort;
+	D3DVIEWPORT9	vp; // ViewPort;
 	__Matrix44		mtxView;
 	__Matrix44		mtxViewInverse;
 	__Matrix44		mtxProjection;
@@ -228,5 +217,3 @@ public:
 	CN3Base();
 	virtual ~CN3Base();
 };
-
-#endif // !defined(AFX_N3Base_h__INCLUDED_)

@@ -1,13 +1,4 @@
-// N3Cloak.h: interface for the CN3Cloak class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_N3CLOAK_H__3ED1C9F5_2F40_47B7_8CEC_6881E0D9FAEE__INCLUDED_)
-#define AFX_N3CLOAK_H__3ED1C9F5_2F40_47B7_8CEC_6881E0D9FAEE__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "N3Base.h"
 
@@ -89,5 +80,3 @@ public:
 	virtual void Render(__Matrix44 &mtx);
 	virtual void Release();
 };
-
-#endif // !defined(AFX_N3CLOAK_H__3ED1C9F5_2F40_47B7_8CEC_6881E0D9FAEE__INCLUDED_)

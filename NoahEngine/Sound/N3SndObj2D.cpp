@@ -1,22 +1,8 @@
-// N3SndObj.cpp: implementation of the CN3SndObj class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "pch.h"
 #include "N3SndMgr.h"
 #include "N3SndObj.h"
 #include "../N3Base/N3Base.h"
 #include <math.h>
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 CN3SndObj2D::CN3SndObj()
 {

@@ -1,20 +1,6 @@
-// N3FXParticle.cpp: implementation of the CN3FXParticle class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "pch.h"
 #include "N3FXParticle.h"
 #include "N3FXPartParticles.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 CN3FXParticle::CN3FXParticle()
 {

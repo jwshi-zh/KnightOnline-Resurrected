@@ -1,9 +1,4 @@
-// N3FXPartMesh.h: interface for the CN3FXPartMesh class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#ifndef __N3FXPARTMESH_H__
-#define __N3FXPARTMESH_H__
+#pragma once
 
 #include "N3FXPartBase.h"
 
@@ -61,5 +56,3 @@ public:
 #endif // end of _N3TOOL
 
 };
-
-#endif // #ifndef __N3FXPARTMESH_H__

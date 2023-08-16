@@ -1,13 +1,4 @@
-// N3Transform.h: interface for the CN3Transform class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_N3Transform_h__INCLUDED_)
-#define AFX_N3Transform_h__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "N3BaseFileAccess.h"
 #include "N3AnimKey.h"
@@ -56,5 +47,3 @@ public:
 	CN3Transform();
 	virtual ~CN3Transform();
 };
-
-#endif // !defined(AFX_N3Transform_h__INCLUDED_)

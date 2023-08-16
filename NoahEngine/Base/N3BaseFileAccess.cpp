@@ -1,19 +1,6 @@
-// N3BaseFileAccess.cpp: implementation of the CN3BaseFileAccess class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "pch.h"
 #include "N3BaseFileAccess.h"
 #include <vector>
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
 
 CN3BaseFileAccess::CN3BaseFileAccess()
 {

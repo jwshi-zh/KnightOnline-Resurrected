@@ -1,15 +1,4 @@
-// N3Shape.h: interface for the C3DObject class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_N3Shape_h__INCLUDED_)
-#define AFX_N3Shape_h__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
-
-#pragma warning(disable : 4786)
 
 #include "N3TransformCollision.h"
 #include "N3PMeshInstance.h"
@@ -170,5 +159,3 @@ __Vector3	  GetColVertexByIndex(int iIndex);
 	bool			LoadTransformOnly(HANDLE hFile);
 //	~(By Ecli666 On 2002-08-06 ¿ÀÈÄ 4:33:04 )
 };
-
-#endif // !defined(AFX_N3Shape_h__INCLUDED_)

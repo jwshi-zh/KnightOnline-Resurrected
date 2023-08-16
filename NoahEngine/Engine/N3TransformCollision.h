@@ -1,15 +1,4 @@
-// N3TransformCollision.h: interface for the CN3TransformCollision class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_N3TRANSFORMCOLLISION_H__81088A50_9039_45F5_82D7_B0FF14C161F2__INCLUDED_)
-#define AFX_N3TRANSFORMCOLLISION_H__81088A50_9039_45F5_82D7_B0FF14C161F2__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
-
-#pragma warning(disable : 4786)
 
 #include "N3Transform.h"
 #include "N3VMesh.h"
@@ -62,5 +51,3 @@ public:
 	CN3TransformCollision();
 	virtual ~CN3TransformCollision();
 };
-
-#endif // !defined(AFX_N3TRANSFORMCOLLISION_H__81088A50_9039_45F5_82D7_B0FF14C161F2__INCLUDED_)

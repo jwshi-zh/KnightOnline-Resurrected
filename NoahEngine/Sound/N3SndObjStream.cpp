@@ -1,21 +1,7 @@
-//////////////////////////////////////////////////
-//	Commented By : Lynus
-//	Commented On 2001-04-12 오후 8:42:02
-//
-//	CN3SndObjStream class (N3SndObjStream.h)
-//
-//	End Of Comment (By Lynus On 2001-04-12 오후 8:42:02 )
-//////////////////////////////////////////////////
 #include "pch.h"
 #include "N3SndObjStream.h"
 #include "N3SndMgr.h"
 #include "N3Base.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
 
 CN3SndObjStream::CN3SndObjStream()
 {

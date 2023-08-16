@@ -1,9 +1,4 @@
-// N3FXPartBottomBoard.h: interface for the CN3FXPartBottomBoard class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#ifndef __N3FXPARTBOTTOMBOARD_H__
-#define __N3FXPARTBOTTOMBOARD_H__
+#pragma once
 
 #include "N3BaseFileAccess.h"
 #include "N3FXDef.h"
@@ -65,5 +60,3 @@ public:
 	bool	ParseScript(char* szCommand, char* szBuff0, char* szBuff1, char* szBuff2, char* szBuff3);
 #endif // end of _N3TOOL
 };
-
-#endif // #ifndef __N3FXPARTBOTTOMBOARD_H__

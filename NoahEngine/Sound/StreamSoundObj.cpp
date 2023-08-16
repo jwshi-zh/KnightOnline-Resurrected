@@ -1,22 +1,8 @@
-//////////////////////////////////////////////////
-//	Commented By : Lynus
-//	Commented On 2001-04-12 오후 8:42:02
-//
-//	CStreamSoundObj class (StreamSoundObj.h)
-//
-//	End Of Comment (By Lynus On 2001-04-12 오후 8:42:02 )
-//////////////////////////////////////////////////
 #include "pch.h"
 #include "N3SndEng.h"
 #include "StreamSoundObj.h"
 #include "N3SndMgr.h"
-#include "../N3Base/N3Base.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
+#include "N3Base.h"
 
 CStreamSoundObj::CStreamSoundObj()
 {

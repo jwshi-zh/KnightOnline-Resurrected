@@ -1,22 +1,8 @@
-// N3PMeshInstance.cpp: implementation of the CN3PMeshInstance class.
-//
-//////////////////////////////////////////////////////////////////////
 #include "pch.h"
 #include "N3PMeshInstance.h"
 
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
-//
-// an instance of a mesh. Each version of each mesh that is rendered at a 
+// An instance of a mesh. Each version of each mesh that is rendered at a 
 // separate level of detail needs one of these.
-
 // Each instance is tied to the original mesh that it represents.
 CN3PMeshInstance::CN3PMeshInstance()
 {

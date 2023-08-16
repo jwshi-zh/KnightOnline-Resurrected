@@ -1,19 +1,5 @@
-// N3FXPMeshInstance.cpp: implementation of the CN3FXPMeshInstance class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "pch.h"
 #include "N3FXPMeshInstance.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 CN3FXPMeshInstance::CN3FXPMeshInstance()
 {

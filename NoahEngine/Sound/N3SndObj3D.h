@@ -1,13 +1,4 @@
-// N3SndObj3D.h: interface for the CN3SndObj3D class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_N3SndObj3D_H__0D78F306_9857_4199_B711_96FFC72D57FA__INCLUDED_)
-#define AFX_N3SndObj3D_H__0D78F306_9857_4199_B711_96FFC72D57FA__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "N3SndObj.h"
 
@@ -33,5 +24,3 @@ public:
 	CN3SndObj3D();
 	virtual ~CN3SndObj3D();
 };
-
-#endif // !defined(AFX_N3SndObj3D_H__0D78F306_9857_4199_B711_96FFC72D57FA__INCLUDED_)

@@ -1,15 +1,10 @@
-// DFont.cpp: implementation of the CDFont class.
-//
-//////////////////////////////////////////////////////////////////////
 #include "pch.h"
 #include "DFont.h"
 
 const int MAX_NUM_VERTICES = 50*6;
 const float Z_DEFAULT = 0.9f;
 const float RHW_DEFAULT = 1.0f;
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
+
 HDC CDFont::s_hDC = NULL;
 int CDFont::s_iInstanceCount = 0;
 HFONT CDFont::s_hFontOld = NULL;

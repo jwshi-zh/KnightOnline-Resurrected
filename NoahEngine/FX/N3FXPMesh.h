@@ -1,9 +1,4 @@
-// N3FXPMesh.h: interface for the CN3FXPMesh class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_N3FXPMESH_H__18E8E609_322F_4F0F_839B_0411986DA76E__INCLUDED_)
-#define AFX_N3FXPMESH_H__18E8E609_322F_4F0F_839B_0411986DA76E__INCLUDED_
+#pragma once
 
 #include "N3BaseFileAccess.h"
 #include "N3PMesh.h"
@@ -29,5 +24,3 @@ public:
 	CN3FXPMesh();
 	virtual ~CN3FXPMesh();
 };
-
-#endif

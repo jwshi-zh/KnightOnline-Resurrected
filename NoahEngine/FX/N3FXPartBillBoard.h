@@ -1,9 +1,4 @@
-// N3FXPartBillBoard.h: interface for the CN3FXPartBillBoard class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#ifndef __N3FXPARTBILLBOARD_H__
-#define __N3FXPARTBILLBOARD_H__
+#pragma once
 
 #include "N3FXPartBase.h"
 
@@ -70,5 +65,3 @@ public:
 	bool	ParseScript(char* szCommand, char* szBuff0, char* szBuff1, char* szBuff2, char* szBuff3);
 #endif // end of _N3TOOL
 };
-
-#endif // !defined(AFX_N3FXPARTBILLBOARD_H__3449DE4C_B687_459A_BF2C_A1FB98895B17__INCLUDED_)

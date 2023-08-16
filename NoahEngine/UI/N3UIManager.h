@@ -1,13 +1,4 @@
-// N3UIManager.h: interface for the CN3UIManager class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_N3UIMANAGER_H__1EED48B7_90A3_4242_99BD_ABC12040CDDE__INCLUDED_)
-#define AFX_N3UIMANAGER_H__1EED48B7_90A3_4242_99BD_ABC12040CDDE__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "N3UIBase.h"
 
@@ -42,5 +33,3 @@ public:
 	void	Render();
 	void	ReorderChildList();
 };
-
-#endif // !defined(AFX_N3UIMANAGER_H__1EED48B7_90A3_4242_99BD_ABC12040CDDE__INCLUDED_)

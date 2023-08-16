@@ -1,20 +1,6 @@
-// N3AlphaPrimitiveManager.cpp: implementation of the CN3AlphaPrimitiveManager class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "pch.h"
 #include "N3AlphaPrimitiveManager.h"
 #include "N3Base.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 CN3AlphaPrimitiveManager::CN3AlphaPrimitiveManager()
 {

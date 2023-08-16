@@ -1,13 +1,4 @@
-// N3FXPMeshInstance.h: interface for the CN3FXPMeshInstance class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_N3FXPMESHINSTANCE_H__19060ED0_7DDA_4279_A558_B586319324F0__INCLUDED_)
-#define AFX_N3FXPMESHINSTANCE_H__19060ED0_7DDA_4279_A558_B586319324F0__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "N3Base.h"
 #include "N3PMesh.h"
@@ -61,5 +52,3 @@ public:
 	__VertexXyzColorT1*	GetVertices() const;
 	WORD*				GetIndices() const { return m_pIndices;};
 };
-
-#endif // !defined(AFX_N3FXPMESHINSTANCE_H__19060ED0_7DDA_4279_A558_B586319324F0__INCLUDED_)

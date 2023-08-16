@@ -1,21 +1,8 @@
-// N3FXPlug.cpp: implementation of the CN3FXPlug class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "pch.h"
 #include "N3FXPlug.h"
 #include "N3FXBundle.h"
 #include "N3Chr.h"
 
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-////////////////////////////////////////////////////////////////////////////////////
-// CN3FXPlugPart
 CN3FXPlugPart::CN3FXPlugPart() :
 m_vOffsetPos(0,0,0), m_vOffsetDir(0,0,1)
 {

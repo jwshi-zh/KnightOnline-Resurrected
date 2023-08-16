@@ -1,13 +1,4 @@
-// N3RiverPatch.h: interface for the CN3RiverPatch class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_N3RIVERPATCH_H__1FF3C512_19EC_4C07_938E_2979F213E95F__INCLUDED_)
-#define AFX_N3RIVERPATCH_H__1FF3C512_19EC_4C07_938E_2979F213E95F__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "N3Base.h"
 
@@ -66,5 +57,3 @@ public:
 protected:
 
 };
-
-#endif // !defined(AFX_N3RIVERPATCH_H__1FF3C512_19EC_4C07_938E_2979F213E95F__INCLUDED_)

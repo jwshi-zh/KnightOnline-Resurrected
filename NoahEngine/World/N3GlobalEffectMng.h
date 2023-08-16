@@ -1,13 +1,4 @@
-// N3GlobalEffectMng.h: interface for the CN3GlobalEffectMng class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_N3GLOBALEFFECTMNG_H__E95C3268_DD68_45AE_AA24_DC64B11A1B08__INCLUDED_)
-#define AFX_N3GLOBALEFFECTMNG_H__E95C3268_DD68_45AE_AA24_DC64B11A1B08__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "N3Base.h"
 
@@ -52,5 +43,3 @@ public:
 protected:
 
 };
-
-#endif // !defined(AFX_N3GLOBALEFFECTMNG_H__E95C3268_DD68_45AE_AA24_DC64B11A1B08__INCLUDED_)

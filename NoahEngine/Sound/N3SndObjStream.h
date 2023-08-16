@@ -1,14 +1,4 @@
-//////////////////////////////////////////////////
-//	Commented By : Lynus
-//	Commented On 2001-04-12 오후 5:09:28
-//
-//	CN3SndObjStream class (SoundObj.h)
-//
-//	End Of Comment (By Lynus On 2001-04-12 오후 5:09:28 )
-//////////////////////////////////////////////////
-
-#ifndef __N3SndObjStream_H_
-#define __N3SndObjStream_H_
+#pragma once
 
 #include "N3SndObj.h"
 
@@ -60,5 +50,3 @@ private:
 	BOOL InitWriteBuffer();
 	void Reset();
 };
-
-#endif // #ifndef __N3SndObjStream_H_

@@ -1,21 +1,8 @@
-// N3SndObj.cpp: implementation of the CN3SndObj class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "pch.h"
 #include "N3SndObj.h"
 #include "N3Base.h"
 #include <math.h>
 
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 LPDIRECTSOUND				CN3SndObj::s_lpDS = NULL;
 LPDIRECTSOUND3DLISTENER		CN3SndObj::s_lpDSListener = NULL;		// 3D listener object
 DS3DLISTENER				CN3SndObj::s_dsListenerParams;			// Listener properties

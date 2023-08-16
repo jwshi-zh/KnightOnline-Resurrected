@@ -1,23 +1,8 @@
-// N3Cloak.cpp: implementation of the CN3Cloak class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "pch.h"
 #include "N3Cloak.h"
 #include "N3Texture.h"
 #include "N3PMeshInstance.h"
 #include "../WarFare/PlayerBase.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
-
 
 CN3Cloak::CN3Cloak()
 {

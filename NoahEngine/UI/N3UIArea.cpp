@@ -1,7 +1,3 @@
-// N3UIArea.cpp: implementation of the CN3UIArea class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "pch.h"
 #include "N3UIArea.h"
 #include "N3UIEdit.h"
@@ -12,16 +8,6 @@
 #include "..\warfare\uiinventory.h"
 #endif 
 #endif
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 CN3UIArea::CN3UIArea()
 {

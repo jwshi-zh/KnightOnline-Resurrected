@@ -1,21 +1,7 @@
-// N3ShapeEx.h: interface for the CN3ShapeEx class.
-// 만든이 : dino
-// n3shape의 한 일부분을 움직일 수 있게 한 클래스
-// 상태(0번 상태, 1번상태, 2번상태)를 변경할 수 있다.
-// 상태 변경시 (시간을 넣어주면 상태간의 pos rot scale 정보를 linear하게 변화시킨다.
-
-// 개선점 : Shape 전체가 움직이는 상태를 추가하자
-//          설계시 추가하려다 너무 복잡하여 보류함. 리마크 된 부분이 그에 관련된 것임. 추가 보강해야함.
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_N3SHAPEEX_H__C7E1DD38_999B_4AE7_942F_58A9225C2061__INCLUDED_)
-#define AFX_N3SHAPEEX_H__C7E1DD38_999B_4AE7_942F_58A9225C2061__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "N3Shape.h"
+
 const DWORD AF_POS = 0x00000001;		// Pos 변화가 있다.
 const DWORD AF_SCALE = 0x00000002;		// Scale 변화가 있다.
 const DWORD AF_ROTATION = 0x00000004;		// Rotation 변화가 있다.
@@ -82,5 +68,3 @@ public:
 	virtual bool	Load(HANDLE hFile);
 protected:
 };
-
-#endif // !defined(AFX_N3SHAPEEX_H__C7E1DD38_999B_4AE7_942F_58A9225C2061__INCLUDED_)

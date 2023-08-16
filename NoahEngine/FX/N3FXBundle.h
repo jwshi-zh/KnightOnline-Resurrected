@@ -1,9 +1,4 @@
-// N3FXBundle.h: interface for the CN3FXPartParticles class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#ifndef __N3FXBUNDLE_H__
-#define __N3FXBUNDLE_H__
+#pragma once
 
 #include "N3BaseFileAccess.h"
 #include "N3FXDef.h"
@@ -83,5 +78,3 @@ public:
 	bool	DecodeScriptFile(const char* lpPathName);
 #endif // end of _N3TOOL
 };
-
-#endif // #ifndef __N3FXBUNDLE_H__

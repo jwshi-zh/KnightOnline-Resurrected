@@ -1,6 +1,3 @@
-// N3SndEng.cpp: implementation of the CN3SndEng class.
-//
-//////////////////////////////////////////////////////////////////////
 #include "pch.h"
 #include "N3SndEng.h"
 #include "N3SndObj.h"
@@ -8,16 +5,6 @@
 #include <DSound.h>
 #include "WaveFile.h"
 #include "LogWriter.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 CN3SndEng::CN3SndEng()
 {

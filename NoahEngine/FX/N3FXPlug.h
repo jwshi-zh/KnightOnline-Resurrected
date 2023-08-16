@@ -1,16 +1,5 @@
-// N3FXPlug.h: interface for the CN3FXPlug class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_N3FXPLUG_H__32183758_2BF2_456F_B6AA_CBE9C248CDDE__INCLUDED_)
-#define AFX_N3FXPLUG_H__32183758_2BF2_456F_B6AA_CBE9C248CDDE__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
-////////////////////////////////////////////////////////////////////////////////////
-// CN3FXPlugPart
 #include "N3BaseFileAccess.h"
 
 class CN3FXPlugPart : public CN3BaseFileAccess  
@@ -89,5 +78,3 @@ public:
 #endif
 protected:
 };
-
-#endif // !defined(AFX_N3FXPLUG_H__32183758_2BF2_456F_B6AA_CBE9C248CDDE__INCLUDED_)

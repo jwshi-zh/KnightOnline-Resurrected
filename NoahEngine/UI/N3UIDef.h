@@ -1,9 +1,4 @@
-// N3UIDef.h: 
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined __N3UIDEF_H__
-#define __N3UIDEF_H__
+#pragma once
 
 #include <string>
 
@@ -177,5 +172,3 @@ struct __FLOAT_RECT
 	BOOL PtInRect2D(float x, float y) const {return ((x>=left && x<=right && y>=top && y<=bottom)?TRUE:FALSE);}
 	BOOL PtInRect3D(float x, float y) const {return ((x>=left && x<=right && y>=bottom && y<=top)?TRUE:FALSE);}
 };
-
-#endif // #if !defined __N3UIDEF_H__

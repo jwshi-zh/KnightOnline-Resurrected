@@ -1,15 +1,6 @@
-// Pick.h: interface for the CPick class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_PICK_H__4FEE8165_3BBD_4CD4_9D42_6F13B8A30603__INCLUDED_)
-#define AFX_PICK_H__4FEE8165_3BBD_4CD4_9D42_6F13B8A30603__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
-#include "../N3Base/N3Mesh.h"
+#include "N3Mesh.h"
 
 class CPick
 {
@@ -41,5 +32,3 @@ public:
 		return ::_IntersectTriangle( m_vPickRayOrig, m_vPickRayDir, v0, v1, v2, t, u, v, pVPos );
 	}
 };
-
-#endif // !defined(AFX_PICK_H__4FEE8165_3BBD_4CD4_9D42_6F13B8A30603__INCLUDED_)

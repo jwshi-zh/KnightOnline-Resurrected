@@ -1,13 +1,4 @@
-// N3AnimatedTexures.h: interface for the CN3AnimatedTexures class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_N3ANIMATEDTEXURES_H__8CA538E1_C4C9_45DA_9A73_D70F23C6281F__INCLUDED_)
-#define AFX_N3ANIMATEDTEXURES_H__8CA538E1_C4C9_45DA_9A73_D70F23C6281F__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "N3BaseFileAccess.h"
 #include <vector>
@@ -34,5 +25,3 @@ public:
 	virtual ~CN3AnimatedTexures();
 
 };
-
-#endif // !defined(AFX_N3ANIMATEDTEXURES_H__8CA538E1_C4C9_45DA_9A73_D70F23C6281F__INCLUDED_)

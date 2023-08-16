@@ -1,13 +1,4 @@
-// N3UIScrollBar.h: interface for the CN3UIScrollBar class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_N3UISCROLLBAR_H__76F849B9_9A93_4439_8FB0_A1DB922CBC73__INCLUDED_)
-#define AFX_N3UISCROLLBAR_H__76F849B9_9A93_4439_8FB0_A1DB922CBC73__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "N3UIBase.h"
 #include "N3UITrackBar.h"
@@ -55,5 +46,3 @@ public:
 #endif
 
 };
-
-#endif // !defined(AFX_N3UISCROLLBAR_H__76F849B9_9A93_4439_8FB0_A1DB922CBC73__INCLUDED_)

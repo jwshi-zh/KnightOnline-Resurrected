@@ -1,11 +1,4 @@
-// N3FXParticle.h: interface for the CN3FXParticle class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#ifndef __N3FXPARTPARTICLES_H__
-#define __N3FXPARTPARTICLES_H__
-
-#pragma warning(disable : 4786)
+#pragma once
 
 #include <list>
 #include "N3FXPartBase.h"
@@ -117,7 +110,3 @@ public:
 	bool	m_bChangeAlphaKey[NUM_KEY_COLOR];
 #endif // end of _N3TOOL
 };
-
-#endif // #ifndef __N3FXPARTPARTICLES_H__
-
-

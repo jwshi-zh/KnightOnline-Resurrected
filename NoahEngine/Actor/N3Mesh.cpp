@@ -1,21 +1,8 @@
-// N3Mesh.cpp: implementation of the C3DObject class.
-//
-//////////////////////////////////////////////////////////////////////
 #include "pch.h"
 #include "N3Mesh.h"
 #include "N3IMesh.h"
 #include "N3PMesh.h"
 #include "N3PMeshInstance.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 CN3Mesh::CN3Mesh()
 {

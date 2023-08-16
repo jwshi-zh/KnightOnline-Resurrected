@@ -1,7 +1,3 @@
-// N3UIString.cpp: implementation of the CN3UIString class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "pch.h"
 #include "N3UIString.h"
 
@@ -11,16 +7,6 @@
 #include "..\warfare\uiinventory.h"
 #endif 
 #endif
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 CN3UIString::CN3UIString()
 {

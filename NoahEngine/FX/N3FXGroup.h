@@ -1,9 +1,4 @@
-// N3FXGroup.h: interface for the CN3FXGroup class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#ifndef __N3FXGROUP_H__
-#define __N3FXGROUP_H__
+#pragma once
 
 #include "N3BaseFileAccess.h"
 #include "N3FXDef.h"
@@ -31,5 +26,3 @@ public:
 	bool	DecodeScriptFile(const char* lpPathName);
 #endif // end of _N3TOOL
 };
-
-#endif // #ifndef __N3FXGROUP_H__

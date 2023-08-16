@@ -1,13 +1,4 @@
-// AniKeyPos.h: interface for the CAniKeyPos class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_N3AnimKey_h__INCLUDED_)
-#define AFX_N3AnimKey_h__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "N3Base.h"
 
@@ -92,5 +83,3 @@ public:
 	CN3AnimKey();
 	virtual ~CN3AnimKey();
 };
-
-#endif // !defined(AFX_N3AnimKey_h__INCLUDED_)
