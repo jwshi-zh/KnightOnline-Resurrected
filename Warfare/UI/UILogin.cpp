@@ -22,11 +22,6 @@ CUILogIn::CUILogIn()
 	m_pGroup_ServerList = NULL;
 	m_pGroup_LogIn = NULL;
 	
-	m_pText_Rights = NULL;
-	m_pImg_MGameLogo = NULL;
-	m_pImg_DaumLogo = NULL;
-	m_pImg_GradeLogo = NULL;
-
 	m_pList_Server = NULL;
 	
 	m_bOpenningNow = false; // 위에서 아래로 스르륵...열려야 한다면..
@@ -99,17 +94,7 @@ bool CUILogIn::Load(HANDLE hFile)
 
 		m_pEdit_id = (CN3UIEdit*)m_pGroup_LogIn->GetChildByID("Edit_ID");			__ASSERT(m_pEdit_id, "NULL UI Component!!");
 		m_pEdit_pw = (CN3UIEdit*)m_pGroup_LogIn->GetChildByID("Edit_PW");			__ASSERT(m_pEdit_pw, "NULL UI Component!!");
-
-		m_pImg_GradeLogo = m_pGroup_LogIn->GetChildByID("Img_Grade");	__ASSERT(m_pImg_GradeLogo, "NULL UI Component!!");
 	}
-
-	m_pText_Rights = GetChildByID("Text_Rights");	__ASSERT(m_pText_Rights, "NULL UI Component!!");
-	m_pImg_MGameLogo = GetChildByID("Img_MGame");	__ASSERT(m_pImg_MGameLogo, "NULL UI Component!!");
-	m_pImg_DaumLogo = GetChildByID("Img_Daum");		__ASSERT(m_pImg_DaumLogo, "NULL UI Component!!");
-
-	if(m_pText_Rights) m_pText_Rights->SetVisible(false);
-	if(m_pImg_MGameLogo) m_pImg_MGameLogo->SetVisible(false);
-	if(m_pImg_DaumLogo) m_pImg_DaumLogo->SetVisible(false);
 
 	m_pGroup_ServerList = GetChildByID("Group_ServerList");		__ASSERT(m_pGroup_ServerList, "NULL UI Component!!");
 	if(m_pGroup_ServerList)
@@ -262,70 +247,6 @@ void CUILogIn::OpenServerList()
 void CUILogIn::SetVisibleLogInUIs(bool bEnable)
 {
 	if(m_pGroup_LogIn) m_pGroup_LogIn->SetVisible(bEnable); // 로그인을 숨긴다..
-	
-	// 로그인한 계정의 구분에 따라 UI 만지기...
-	if(m_pText_Rights) m_pText_Rights->SetVisible(false);
-	if(m_pImg_MGameLogo) m_pImg_MGameLogo->SetVisible(false);
-	if(m_pImg_DaumLogo) m_pImg_DaumLogo->SetVisible(false);
-	
-	if(false == bEnable)
-	{
-		if(LIC_MGAME == CGameProcedure::s_eLogInClassification)
-		{
-			if(m_pText_Rights && m_pImg_MGameLogo)
-			{
-				// 아래쪽 중단으로 맞춘다..
-				RECT rcView = { 0, 0, s_CameraData.vp.Width, s_CameraData.vp.Height };
-				int iX = (rcView.right - (m_pText_Rights->GetWidth() + m_pImg_MGameLogo->GetWidth()))/2;
-				int iY = rcView.bottom - m_pText_Rights->GetHeight() - 20;
-				m_pText_Rights->SetPos(iX, iY);
-				RECT rc = m_pText_Rights->GetRegion();
-				m_pImg_MGameLogo->SetPos(rc.right, rcView.bottom - m_pImg_MGameLogo->GetHeight() - 20);
-
-				m_pText_Rights->SetVisible(true);
-				m_pImg_MGameLogo->SetVisible(true);
-			}
-		}
-		else if(LIC_DAUM == CGameProcedure::s_eLogInClassification)
-		{
-			if(m_pText_Rights && m_pImg_DaumLogo)
-			{
-				// 아래쪽 중단으로 맞춘다..
-				RECT rcView = { 0, 0, s_CameraData.vp.Width, s_CameraData.vp.Height };
-				int iX = (rcView.right - (m_pText_Rights->GetWidth() + m_pImg_DaumLogo->GetWidth()))/2;
-				int iY = rcView.bottom - m_pText_Rights->GetHeight() - 20;
-				m_pText_Rights->SetPos(iX, iY);
-				RECT rc = m_pText_Rights->GetRegion();
-				m_pImg_DaumLogo->SetPos(rc.right, rcView.bottom - m_pImg_DaumLogo->GetHeight() - 20);
-
-				m_pText_Rights->SetVisible(true);
-				m_pImg_DaumLogo->SetVisible(true);
-			}
-		}
-		else
-		{
-			if(m_pText_Rights)
-			{
-				RECT rcView = { 0, 0, s_CameraData.vp.Width, s_CameraData.vp.Height };
-				int iX = (rcView.right - m_pText_Rights->GetWidth())/2;
-				int iY = rcView.bottom - m_pText_Rights->GetHeight() - 20;
-				m_pText_Rights->SetPos(iX, iY);
-
-				m_pText_Rights->SetVisible(true);
-			}
-		}
-	}
-}
-
-void CUILogIn::RecalcGradePos()
-{
-	if(m_pImg_GradeLogo) // 이용등급 표시
-	{
-		RECT rc = m_pImg_GradeLogo->GetRegion();
-		int iX = s_CameraData.vp.Width - (rc.right - rc.left + 10);
-		int iY = 10;
-		m_pImg_GradeLogo->SetPos(iX, iY);
-	}
 }
 
 bool CUILogIn::OnKeyPress(int iKey)

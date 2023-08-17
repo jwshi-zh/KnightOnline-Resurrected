@@ -37,11 +37,6 @@ protected:
 
 	CN3UIBase*	m_pGroup_ServerList;
 	CN3UIBase*	m_pGroup_LogIn;
-	
-	CN3UIBase* m_pText_Rights;
-	CN3UIBase* m_pImg_MGameLogo;
-	CN3UIBase* m_pImg_DaumLogo;
-	CN3UIBase* m_pImg_GradeLogo;
 
 	CN3UIList*	m_pList_Server;
 	
@@ -56,7 +51,6 @@ protected:
 public:
 	void SetRequestedLogIn(bool bLogIn) { m_bLogIn = bLogIn; }
 	bool OnKeyPress(int iKey);
-	void RecalcGradePos();
 	void SetVisibleLogInUIs(bool bEnable); // 계정 LogIn 에 필요한 UI 들을 숨긴다..
 	void OpenServerList();
 	void Tick();
