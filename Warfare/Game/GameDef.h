@@ -982,6 +982,7 @@ typedef struct __TABLE_UPC_SKILL_TYPE_2
 	DWORD		dwID;			// SKILL °íÀ¯ ID
 	int			iSuccessType;	// ¼º°øÅ¸ÀÔ.
 	int			iPower;			// °ø°Ý·Â
+	int            skipall0iPowerPlus;     //adddamageplus
 	int			iAddDist;		// °Å¸®Áõ°¡
 	int			iNumArrow;		// È­»ì¿ä±¸¼ö
 } TABLE_UPC_SKILL_TYPE_2;

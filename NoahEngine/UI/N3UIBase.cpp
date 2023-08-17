@@ -217,10 +217,13 @@ bool CN3UIBase::Load(HANDLE hFile)
 	DWORD dwRWC = NULL;
 
 	// children Á¤º¸
-	int iCC = 0;
-	ReadFile(hFile, &iCC, sizeof(iCC), &dwRWC, NULL); // children count
+	uint16_t sCC = 0;
+	uint16_t sIdk = 0;
+	ReadFile(hFile, &sCC, sizeof(sCC), &dwRWC, NULL); // children count
+	ReadFile(hFile, &sIdk, sizeof(sIdk), &dwRWC, NULL); // children count
 	eUI_TYPE eChildUIType;
-	for(int i = 0; i < iCC; i++)
+
+	for(int i = 0; i < sCC; i++)
 	{
 		CN3UIBase* pChild = NULL;
 		ReadFile(hFile, &eChildUIType, sizeof(eChildUIType), &dwRWC, NULL); // childÀÇ ui type

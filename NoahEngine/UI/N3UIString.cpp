@@ -161,11 +161,11 @@ void CN3UIString::WordWrap()
 		// 임시 변수 잡기
 		std::string szNewBuff;
 
-		if (size.cy>iRegionHeight)	// 글자 높이가 해당 영역보다 큰 경우
+		if (false && size.cy>iRegionHeight)	// 글자 높이가 해당 영역보다 큰 경우
 		{	
 			m_ptDrawPos.y = m_rcRegion.top;
-			m_pDFont->SetText("글자 높이가 STRING control보다 큽니다.");
-			return;
+			//m_pDFont->SetText("글자 높이가 STRING control보다 큽니다.");
+			//return;
 		}
 		else if (size.cx <= iRegionWidth)	// 글자 가로 길이가 영역 길이보다 작을경우
 		{
@@ -238,8 +238,8 @@ void CN3UIString::WordWrap()
 //		if (iCY > iRegionHeight)
 		if (size.cy > iRegionHeight)
 		{
-			m_pDFont->SetText("글자 높이가 STRING control보다 큽니다.");
-			return;
+			//m_pDFont->SetText("글자 높이가 STRING control보다 큽니다.");
+			//return;
 		}
 
 		m_iLineCount = 1;	// 여기까지 오면 1줄은 찍힌다.
@@ -372,6 +372,7 @@ bool CN3UIString::Load(HANDLE hFile)
 		ReadFile(hFile, &(szString[0]), iStrLen, &dwNum, NULL);				// string
 		SetString(szString);
 	}
+	ReadFile(hFile, &m_iPadding, sizeof(m_iPadding), &dwNum, NULL);
 	return true;
 }
 

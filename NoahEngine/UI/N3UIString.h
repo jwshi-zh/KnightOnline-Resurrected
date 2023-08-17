@@ -20,6 +20,7 @@ protected:
 	int				m_iLineCount;		// 현재 세팅된 글씨들의 line수
 	std::vector<int>	m_NewLineIndices;	// multiline일경우 새로운 라인의 인덱스들
 	int				m_iStartLine;		// multiline일경우 글씨가 찍히는 시작 라인번호
+	uint32_t		m_iPadding;
 
 public:
 	CN3UIString();
