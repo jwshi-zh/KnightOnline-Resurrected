@@ -1,21 +1,10 @@
-// GameBase.cpp: implementation of the CGameBase class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#include "StdAfx.h"
-#include "Resource.h"
+#include "pch.h"
 #include "GameBase.h"
 #include "N3WorldManager.h"
 #include "PlayerOtherMgr.h"
 #include "PlayerMySelf.h"
 
-#include "../N3Base/N3ShapeMgr.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
+#include "N3ShapeMgr.h"
 
 CN3TableBase<__TABLE_ZONE>*				CGameBase::s_pTbl_Zones = NULL;				// Zone 정보에 관한 Table
 CN3TableBase<__TABLE_UI_RESRC>*			CGameBase::s_pTbl_UI = NULL;				// UI FileName Table
@@ -73,7 +62,7 @@ void CGameBase::StaticMemberInit()
 	szFN = "Data\\Quest_Menu" + szLangTail;	s_pTbl_QuestMenu->LoadFromFile(szFN.c_str());	// 퀘스트 관련 선택메뉴
 	szFN = "Data\\Quest_Talk" + szLangTail;	s_pTbl_QuestTalk->LoadFromFile(szFN.c_str());	// 퀘스트 관련 지문
 
-	for(i = 0; i < MAX_ITEM_EXTENSION; i++)
+	for(auto i = 0; i < MAX_ITEM_EXTENSION; i++)
 	{
 		char szFNTmp[256] = "";
 		sprintf(szFNTmp, "Data\\Item_Ext_%d", i);
@@ -408,13 +397,13 @@ e_ItemType CGameBase::MakeResrcFileNameForUPC(	__TABLE_ITEM_BASIC* pItem,		// 아
 	{
 		if(pItem->dwIDResrc) 
 		{
-			sprintf(buffer.begin(),	"Item\\%.1d_%.4d_%.2d_%.1d%s",
+			sprintf(buffer.data(),	"Item\\%.1d_%.4d_%.2d_%.1d%s",
 				(pItem->dwIDResrc / 10000000), 
 				(pItem->dwIDResrc / 1000) % 10000, 
 				(pItem->dwIDResrc / 10) % 100, 
 				pItem->dwIDResrc % 10,
 				szExt.c_str());
-			*pszResrcFN = buffer.begin();
+			*pszResrcFN = buffer.data();
 		}
 		else // 아이콘만 있는 플러그나 파트 일수도 있다...
 		{
@@ -424,12 +413,12 @@ e_ItemType CGameBase::MakeResrcFileNameForUPC(	__TABLE_ITEM_BASIC* pItem,		// 아
 	if(pszIconFN)
 	{
 //		sprintf(buffer.begin(),	"UI\\ItemIcon_%.1d_%.4d_%.2d_%.1d.dxt", eType, iIndex, eRace, iPos);
-		sprintf(buffer.begin(),	"UI\\ItemIcon_%.1d_%.4d_%.2d_%.1d.dxt",
+		sprintf(buffer.data(),	"UI\\ItemIcon_%.1d_%.4d_%.2d_%.1d.dxt",
 			(pItem->dwIDIcon / 10000000), 
 			(pItem->dwIDIcon / 1000) % 10000, 
 			(pItem->dwIDIcon / 10) % 100, 
 			pItem->dwIDIcon % 10);
-		*pszIconFN = buffer.begin();
+		*pszIconFN = buffer.data();
 	}
 	
 	return eType;

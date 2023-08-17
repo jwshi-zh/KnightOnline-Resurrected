@@ -1,15 +1,6 @@
-// UIQuestTalk.h: interface for the CUIQuestTalk class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_UIQUESTTALK_H__DB9A4C59_4BE8_4698_9462_CF036C8D834D__INCLUDED_)
-#define AFX_UIQUESTTALK_H__DB9A4C59_4BE8_4698_9462_CF036C8D834D__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
-#include "../N3BASE/N3UIBase.h"
+#include "N3UIBase.h"
 #include "PacketDef.h"
 #include "APISocket.h"
 
@@ -35,5 +26,3 @@ public:
 	virtual ~CUIQuestTalk();
 
 };
-
-#endif // !defined(AFX_UIQUESTTALK_H__DB9A4C59_4BE8_4698_9462_CF036C8D834D__INCLUDED_)

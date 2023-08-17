@@ -1,39 +1,22 @@
-// N3Client.cpp : Defines the entry point for the application.
-//
-#include "StdAfx.h"
+#include "pch.h"
 #include "Warfaremain.h"
 
 #include "PacketDef.h"
 #include "APISocket.h"
-#include "Resource.h"
 #include "PlayerMySelf.h"
 #include "GameProcMain.h"
 #include "GameEng.h"
 #include "UIChat.h"
 
-#include "KnightChrMgr.h"
-
 #include "N3WorldManager.h"
 
-#include "../N3Base/N3SndMgr.h"
-#include "../N3Base/N3UIEdit.h"
+#include "N3SndMgr.h"
+#include "N3UIEdit.h"
 
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-/////////////////////////////////////////////////////////////////////////////////
-//
-///////////////////////////////////////////////////////////////////////////////// 
+#include "../resource.h"
 
 BOOL g_bActive = TRUE;
 HHOOK ghookdata = NULL;
-
-/////////////////////////////////////////////////////////////////////////////////
-//
-/////////////////////////////////////////////////////////////////////////////////
 
 /*
 LRESULT CALLBACK OYBLowLevelKeyboardProc (INT nCode, WPARAM wParam, LPARAM lParam)
@@ -246,11 +229,6 @@ LRESULT CALLBACK WndProcMain(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 
 			PostQuitMessage(0);
 			break;
-		case WM_RECEIVEDATA:
-			if (CGameProcedure::s_pKnightChr)
-				CGameProcedure::s_pKnightChr->OnReceiveSmq(wParam, lParam);
-			break;
-
 		case WM_MOUSEWHEEL:
 			{
 				if(CGameProcedure::s_pProcActive == CGameProcedure::s_pProcMain)
@@ -308,7 +286,7 @@ HWND CreateMainWindow(HINSTANCE hInstance)
 	wc.cbClsExtra    = 0;
 	wc.cbWndExtra    = 0;
 	wc.hInstance     = hInstance;
-	wc.hIcon         = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_MAIN));
+	wc.hIcon         = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_WARFARE));
 	wc.hCursor       = NULL;
 	wc.hbrBackground = (HBRUSH)GetStockObject(NULL_BRUSH);
 	wc.lpszMenuName  = NULL;
@@ -512,7 +490,6 @@ int APIENTRY WinMain(HINSTANCE hInstance,
     BOOL bGotMsg = FALSE;
 
 #if _DEBUG
-	HACCEL hAccel = LoadAccelerators( NULL, MAKEINTRESOURCE(IDR_MAIN_ACCELATOR) );
 	HDC hDC = GetDC(hWndMain);
 #endif // #if _DEBUG
 
@@ -528,16 +505,8 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 
 		if( bGotMsg )
 		{
-#if _DEBUG
-			if( 0 == TranslateAccelerator( hWndMain, hAccel, &msg ) )
-			{
-				TranslateMessage( &msg );
-				DispatchMessage( &msg );
-			}
-#else
-			TranslateMessage( &msg );
-			DispatchMessage( &msg );
-#endif // #if _DEBUG
+			TranslateMessage(&msg);
+			DispatchMessage(&msg);
 		}
 		else
 		{
@@ -606,7 +575,6 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 
 #if _DEBUG
 	ReleaseDC(hWndMain, hDC);
-	DestroyAcceleratorTable(hAccel);
 #endif // #if _DEBUG
 
 

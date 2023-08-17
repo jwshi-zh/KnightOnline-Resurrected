@@ -1,26 +1,12 @@
-// PortalVolume.cpp: implementation of the CPortalVolume class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#include "stdafx.h"
+#include "pch.h"
 #include "PortalVolume.h"
 #include "GameBase.h"
 #include "PlayerMySelf.h"
 
 #include "PvsMgr.h"
 
-#include "..\N3Base\N3ShapeMgr.h"
-#include "../N3Base/N3ShapeExtra.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
+#include "N3ShapeMgr.h"
+#include "N3ShapeExtra.h"
 
 CPortalVolume::CPortalVolume()	: m_fOffs(0.001f), m_fHeightOffs(0.01f), m_fVolOffs(0.001f), m_fPickIncline(0.6f), m_fCameraOffs(0.4f)
 {
@@ -108,7 +94,7 @@ void CPortalVolume::DeleteAllPvsObj()
 bool CPortalVolume::IsInVolumn(__Vector3 vec)
 {
 	__Vector3 vec2[8];
-	for( int i = 0; i < 8; i++)
+	for(auto i = 0; i < 8; i++)
 	{
 		vec2[i] = m_pvVertex[i];
 		vec2[i] *= m_Matrix;
@@ -202,7 +188,7 @@ void CPortalVolume::RenderShape()
 			int iSize = vpi.m_ivVector.size();
 		
 	#ifdef _USE_VERTEXBUFFER
-			LPDIRECT3DINDEXBUFFER8	pIB;
+			LPDIRECT3DINDEXBUFFER9	pIB;
 			HRESULT hr = CN3Base::s_lpD3DDev->CreateIndexBuffer(iSize*sizeof(WORD),
 											D3DUSAGE_DYNAMIC, D3DFMT_INDEX16, D3DPOOL_MANAGED, &pIB);
 			if (FAILED(hr)) return hr;
@@ -232,7 +218,7 @@ void CPortalVolume::RenderShape()
 			LPWORD pIndices;
 			pIndices = new WORD[iSize]; memset(pIndices, 0, sizeof(WORD)*iSize);
 			int iSizes = vpi.m_ivVector.size();
-			for( int k = 0; k < iSizes; k++)
+			for(auto k = 0; k < iSizes; k++)
 			{
 				pIndices[k] = vpi.m_ivVector[k];
 			}
@@ -268,7 +254,7 @@ void CPortalVolume::RenderCollision()
 		int iSize = pCI->m_ivVector.size();
 		pIndices = new DWORD[iSize]; memset(pIndices, 0, sizeof(DWORD)*iSize);
 		int iSizes = pCI->m_ivVector.size();
-		for( int k = 0; k < iSizes; k++)
+		for(auto k = 0; k < iSizes; k++)
 		{
 			pIndices[k] = pCI->m_ivVector[k];
 		}
@@ -299,7 +285,7 @@ bool CPortalVolume::Load(HANDLE hFile)
 	// 링크된 갯수를 로드..	일단 읽구 버린다..
 	int iLinkedCount = 0, iTID, iEWT;
 	ReadFile(hFile, &iLinkedCount, sizeof(int), &dwNum, NULL);
-	for( int i = 0; i < iLinkedCount; i++ )
+	for(auto i = 0; i < iLinkedCount; i++ )
 	{
 		ReadFile(hFile, &iTID, sizeof(int), &dwNum, NULL);
 		ReadFile(hFile, &iEWT, sizeof(int), &dwNum, NULL);
@@ -308,7 +294,7 @@ bool CPortalVolume::Load(HANDLE hFile)
 	// 링크된 Shape 갯수 로드..
 	int iCount = 0;
 	ReadFile(hFile, &iCount, sizeof(int), &dwNum, NULL);
-	for (i = 0; i < iCount; i++)
+	for (auto i = 0; i < iCount; i++)
 	{
 		ShapeInfo*	pSI = new ShapeInfo;
 		ReadFile(hFile, &pSI->m_iID, sizeof(int), &dwNum, NULL);
@@ -336,7 +322,7 @@ bool CPortalVolume::Load(HANDLE hFile)
 	IDAndPriority IDAP;
 	ReadFile(hFile, &iCount, sizeof(int), &dwNum, NULL);
 
-	for( i = 0; i < iCount; i++ )
+	for(auto i = 0; i < iCount; i++ )
 	{
 		ReadFile(hFile, &IDAP.m_iID, sizeof(int), &dwNum, NULL);
 		ReadFile(hFile, &IDAP.m_iPriority, sizeof(int), &dwNum, NULL);
@@ -347,19 +333,19 @@ bool CPortalVolume::Load(HANDLE hFile)
 	ReadFile(hFile, &iCount, sizeof(int), &dwNum, NULL);
 
 	int iSize_2 = 0, iSize_3 = 0;
-	for( i = 0; i < iCount; i++ )
+	for(auto i = 0; i < iCount; i++ )
 	{
 		ShapePart* pSP = new ShapePart;
 		ReadFile(hFile, &pSP->m_iID, sizeof(int), &dwNum, NULL);
 		
 		ReadFile(hFile, &iSize_2, sizeof(int), &dwNum, NULL);
-		for( int j = 0; j <iSize_2; j++ )
+		for(auto j = 0; j <iSize_2; j++ )
 		{
 			__VPI vpi;
 			ReadFile(hFile, &vpi.m_iPartIndex, sizeof(int), &dwNum, NULL);
 
 			ReadFile(hFile, &iSize_3, sizeof(int), &dwNum, NULL);
-			for( int k = 0; k < iSize_3; k++ )
+			for(auto k = 0; k < iSize_3; k++ )
 			{
 				int iV = 0;
 				ReadFile(hFile, &iV, sizeof(int), &dwNum, NULL);
@@ -374,13 +360,13 @@ bool CPortalVolume::Load(HANDLE hFile)
 
 	ReadFile(hFile, &iCount, sizeof(int), &dwNum, NULL);
 
-	for( i = 0; i < iCount; i++ )
+	for(auto i = 0; i < iCount; i++ )
 	{
 		__ColIndex* pCI = new __ColIndex;
 		ReadFile(hFile, &pCI->m_iID, sizeof(int), &dwNum, NULL);		
 
 		ReadFile(hFile, &iSize_2, sizeof(int), &dwNum, NULL);
-		for( int j = 0; j <iSize_2; j++ )
+		for(auto j = 0; j <iSize_2; j++ )
 		{
 			int iV = 0;			
 			ReadFile(hFile, &iV, sizeof(int), &dwNum, NULL);
@@ -422,7 +408,7 @@ bool CPortalVolume::CheckCollisionCameraWithTerrain(__Vector3& vEyeResult, const
 		pSI->m_pShape->Tick(-1000);
 		CN3Shape *pShape = pSI->m_pShape;
 
-		for( int k = 0; k < iSize/3; k++)
+		for(auto k = 0; k < iSize/3; k++)
 		{
 			pShape->PartialGetCollision(pCI->m_ivVector[k*3], vA);			vA *= pShape->m_Matrix;		vA.y += m_fCameraOffs;
 			pShape->PartialGetCollision(pCI->m_ivVector[k*3+1], vB);		vB *= pShape->m_Matrix;		vB.y += m_fCameraOffs;
@@ -464,7 +450,7 @@ bool CPortalVolume::CheckCollisionCameraWithShape(__Vector3& vEyeResult, const _
 		__Vector3 vA, vB, vC, vPick;
 		float t,u,v;
 
-		for( int k = 0; k < iSize/3; k++)
+		for(auto k = 0; k < iSize/3; k++)
 		{
 			vA = pSI->m_pShape->GetColVertexByIndex(pSI->m_pShape->GetColIndexByiOrder(k*3));		 vA *= pSI->m_Matrix;
 			vB = pSI->m_pShape->GetColVertexByIndex(pSI->m_pShape->GetColIndexByiOrder(k*3+1));		 vB *= pSI->m_Matrix;
@@ -520,7 +506,7 @@ bool CPortalVolume::GetHeightWithTerrain(float fx, float fz, float& fy)
 			pSI->m_pShape->Tick(-1000);
 			CN3Shape *pShape = pSI->m_pShape;
 
-			for( int k = 0; k < iSize/3; k++)
+			for(auto k = 0; k < iSize/3; k++)
 			{
 				pShape->PartialGetCollision(pCI->m_ivVector[k*3], vA);		 vA *= pShape->m_Matrix;
 				pShape->PartialGetCollision(pCI->m_ivVector[k*3+1], vB);	vB *= pShape->m_Matrix;
@@ -566,7 +552,7 @@ float CPortalVolume::GetHeightNearstPosWithShape(const __Vector3& vPos, float fD
 
 		int iSize = pSI->m_pShape->GetColIndexbufferCount();
 		__Vector3 vA, vB, vC;
-		for( int k = 0; k < iSize/3; k++)
+		for(auto k = 0; k < iSize/3; k++)
 		{
 			vA = pSI->m_pShape->GetColVertexByIndex(pSI->m_pShape->GetColIndexByiOrder(k*3));		 vA *= pSI->m_Matrix;
 			vB = pSI->m_pShape->GetColVertexByIndex(pSI->m_pShape->GetColIndexByiOrder(k*3+1));		 vB *= pSI->m_Matrix;
@@ -608,7 +594,7 @@ float CPortalVolume::GetHeightNearstPosWithShape(const __Vector3& vPos, float fD
 bool CPortalVolume::IsInTerrainWithTerrain(__Vector3& vec)
 {
 	__Vector3 vec2[3];
-	for( int i = 0; i < 3; i++)
+	for(auto i = 0; i < 3; i++)
 	{
 		vec2[i] = m_pvVertex[i];
 		vec2[i] *= m_Matrix;
@@ -660,7 +646,7 @@ BOOL CPortalVolume::PickWideWithTerrain(int x, int y, __Vector3& vPick)
 		CN3Shape *pShape = pSI->m_pShape;
 
 		int iSize = pCI->m_ivVector.size();
-		for( int k = 0; k < iSize/3; k++)
+		for(auto k = 0; k < iSize/3; k++)
 		{
 			pShape->PartialGetCollision(pCI->m_ivVector[k*3], A);		 A *= pShape->m_Matrix;
 			pShape->PartialGetCollision(pCI->m_ivVector[k*3+1], B);		B *= pShape->m_Matrix;
@@ -795,7 +781,7 @@ bool CPortalVolume::CheckCollisionWithShape(	const __Vector3& vPos,				 // 충돌 
 			__Vector3 vA, vB, vC, vPick;
 			float t,u,v;
 
-			for( int k = 0; k < iSize/3; k++)
+			for(auto k = 0; k < iSize/3; k++)
 			{
 				vA = pSI->m_pShape->GetColVertexByIndex(pSI->m_pShape->GetColIndexByiOrder(k*3));		 vA *= pSI->m_Matrix;
 				vB = pSI->m_pShape->GetColVertexByIndex(pSI->m_pShape->GetColIndexByiOrder(k*3+1));		 vB *= pSI->m_Matrix;

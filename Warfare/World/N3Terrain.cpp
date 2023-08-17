@@ -1,10 +1,4 @@
-//
-// N3Terrain.cpp: implementation of the CLyTerrain class.
-//	2001. 10. 22.
-//
-//////////////////////////////////////////////////////////////////////
-
-#include "StdAfx.h"
+#include "pch.h"
 #include <stdio.h>
 #include "N3Terrain.h"
 #include "N3TerrainPatch.h"
@@ -13,20 +7,11 @@
 #include "GameProcedure.h"
 #include "UILoading.h"
 
-#include "../N3Base/N3River.h"
-#include "../N3Base/N3Pond.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
+#include "N3River.h"
+#include "N3Pond.h"
 
 const float COLLISION_BOX = 100.0f;
 
-//
-// Construction/Destruction
-//
 CN3Terrain::CN3Terrain()
 {
 	m_Material.Init();
@@ -103,7 +88,7 @@ CN3Terrain::CN3Terrain()
 
 	m_bAvailableTile = true;
 
-	for(i=0;i<3;i++)
+	for(auto i =0;i<3;i++)
 		for(int j=0;j<3;j++) m_LightMapPatch[i][j].clear();
 }
 
@@ -690,7 +675,7 @@ void CN3Terrain::LoadTileInfo(HANDLE hFile)
 	short SrcIdx, TileIdx;
 	HANDLE hTTGFile;
 	char szLoadingBuff[128];
-	for(i=0;i<m_NumTileTex;i++)
+	for(auto i =0;i<m_NumTileTex;i++)
 	{
 		ReadFile(hFile, &SrcIdx, sizeof(short), &dwRWC, NULL);
 		ReadFile(hFile, &TileIdx, sizeof(short), &dwRWC, NULL);
@@ -714,7 +699,7 @@ void CN3Terrain::LoadTileInfo(HANDLE hFile)
 		CloseHandle(hTTGFile);
 	}
 
-	for(i=0;i<NumTileTexSrc;i++)
+	for(auto i =0;i<NumTileTexSrc;i++)
 	{
 		delete[] SrcName[i];
 		SrcName[i] = NULL;
@@ -1223,7 +1208,7 @@ bool CN3Terrain::CheckBound()
 		vFPs[i] = vFPs[i] * CN3Base::s_CameraData.mtxViewInverse;
 
 	
-	for(i=0;i<4;i++)
+	for(auto i =0;i<4;i++)
 	{
 		POINT FarPoint;
 		FarPoint.x = Real2Patch(vFPs[i].x);
@@ -1338,16 +1323,16 @@ void CN3Terrain::Render()
 	hr = CN3Base::s_lpD3DDev->GetTextureStageState( 2, D3DTSS_COLORARG2, &ColorArg22);
 
 	DWORD AddressU1, AddressV1, AddressU2, AddressV2;
-	hr = s_lpD3DDev->GetTextureStageState( 0, D3DTSS_ADDRESSU, &AddressU1 );
-	hr = s_lpD3DDev->GetTextureStageState( 0, D3DTSS_ADDRESSV, &AddressV1 );
-	hr = s_lpD3DDev->GetTextureStageState( 1, D3DTSS_ADDRESSU, &AddressU2 );
-	hr = s_lpD3DDev->GetTextureStageState( 1, D3DTSS_ADDRESSV, &AddressV2 );
+	hr = s_lpD3DDev->GetSamplerState( 0, D3DSAMP_ADDRESSU, &AddressU1 );
+	hr = s_lpD3DDev->GetSamplerState( 0, D3DSAMP_ADDRESSV, &AddressV1 );
+	hr = s_lpD3DDev->GetSamplerState( 1, D3DSAMP_ADDRESSU, &AddressU2 );
+	hr = s_lpD3DDev->GetSamplerState( 1, D3DSAMP_ADDRESSV, &AddressV2 );
 
 	// 각각의 텍스쳐들을 연결했을때 경계선을 없앨 수 있다..^^
-	hr = s_lpD3DDev->SetTextureStageState( 0, D3DTSS_ADDRESSU,  D3DTADDRESS_MIRROR );
-	hr = s_lpD3DDev->SetTextureStageState( 0, D3DTSS_ADDRESSV,  D3DTADDRESS_MIRROR );
-	hr = s_lpD3DDev->SetTextureStageState( 1, D3DTSS_ADDRESSU,  D3DTADDRESS_MIRROR );
-	hr = s_lpD3DDev->SetTextureStageState( 1, D3DTSS_ADDRESSV,  D3DTADDRESS_MIRROR );
+	hr = s_lpD3DDev->SetSamplerState( 0, D3DSAMP_ADDRESSU,  D3DTADDRESS_MIRROR );
+	hr = s_lpD3DDev->SetSamplerState( 0, D3DSAMP_ADDRESSV,  D3DTADDRESS_MIRROR );
+	hr = s_lpD3DDev->SetSamplerState( 1, D3DSAMP_ADDRESSU,  D3DTADDRESS_MIRROR );
+	hr = s_lpD3DDev->SetSamplerState( 1, D3DSAMP_ADDRESSV,  D3DTADDRESS_MIRROR );
 
 	int x,z;
 	for(x=m_pat_BoundRect.left; x<=m_pat_BoundRect.right; x++)
@@ -1359,10 +1344,10 @@ void CN3Terrain::Render()
 		}
 	}
 
-	hr = s_lpD3DDev->SetTextureStageState( 0, D3DTSS_ADDRESSU, AddressU1 );
-	hr = s_lpD3DDev->SetTextureStageState( 0, D3DTSS_ADDRESSV, AddressV1 );
-	hr = s_lpD3DDev->SetTextureStageState( 1, D3DTSS_ADDRESSU, AddressU2 );
-	hr = s_lpD3DDev->SetTextureStageState( 1, D3DTSS_ADDRESSV, AddressV2 );
+	hr = s_lpD3DDev->SetSamplerState( 0, D3DSAMP_ADDRESSU, AddressU1 );
+	hr = s_lpD3DDev->SetSamplerState( 0, D3DSAMP_ADDRESSV, AddressV1 );
+	hr = s_lpD3DDev->SetSamplerState( 1, D3DSAMP_ADDRESSU, AddressU2 );
+	hr = s_lpD3DDev->SetSamplerState( 1, D3DSAMP_ADDRESSV, AddressV2 );
 
 	// restor texture stage state settings...
 	hr = CN3Base::s_lpD3DDev->SetTextureStageState( 0, D3DTSS_COLOROP, ColorOP0);
@@ -1664,7 +1649,7 @@ BOOL CN3Terrain::Pick(int x, int y, __Vector3& vPick)
 		*pIdx++ = 7;  *pIdx++ = 6;  *pIdx++ = 4;
 		*pIdx++ = 5;  *pIdx++ = 4;  *pIdx++ = 6;
 
-		for ( int i = 0; FALSE == bCollision && i < 36; i += 3 )
+		for(auto i = 0; FALSE == bCollision && i < 36; i += 3 )
 		{
 			float t, u, v;
 			bCollision = ::_IntersectTriangle( vPos, vDir, AA[pIndex[i]], AA[pIndex[i+1]], AA[pIndex[i+2]], t, u, v, &vPick);
@@ -1704,7 +1689,7 @@ BOOL CN3Terrain::PickWide(int x, int y, __Vector3& vPick)
 		int ix = ((int)vPosCur.x) / TILE_SIZE;
 		int iz = ((int)vPosCur.z) / TILE_SIZE;
 
-		for ( int i = 0; i < 10; i++ )
+		for(auto i = 0; i < 10; i++ )
 		{
 			switch( i )
 			{
@@ -1826,7 +1811,7 @@ BOOL CN3Terrain::PickWide(int x, int y, __Vector3& vPick)
 		*pIdx++ = 7;  *pIdx++ = 6;  *pIdx++ = 4;
 		*pIdx++ = 5;  *pIdx++ = 4;  *pIdx++ = 6;
 
-		for ( int i = 0; FALSE == bCollision && i < 36; i += 3 )
+		for(auto i = 0; FALSE == bCollision && i < 36; i += 3 )
 		{
 			float t, u, v;
 			bCollision = ::_IntersectTriangle( vPos, vDir, AA[pIndex[i]], AA[pIndex[i+1]], AA[pIndex[i+2]], t, u, v, &vPick);
@@ -1947,7 +1932,7 @@ void CN3Terrain::CalcCollisionTerrainByOTPlayer(__Vector3 vOrig, __Vector3 vAt, 
 	*pIdx++ = 7;  *pIdx++ = 6;  *pIdx++ = 4;
 	*pIdx++ = 5;  *pIdx++ = 4;  *pIdx++ = 6;
 
-	for ( int i = 0; i < 36; i += 3 )
+	for(auto i = 0; i < 36; i += 3 )
 	{
 		boo = ::_IntersectTriangle( vOrig, vDir, AA[pIndex[i]], AA[pIndex[i+1]], AA[pIndex[i+2]], ftx, fty, ftz );
 		if ( boo == TRUE )
@@ -2110,7 +2095,7 @@ bool CN3Terrain::LoadColorMap(const std::string& szFN)
 	}
 
 	char szBuff[128];
-	for(x=0;x<m_iNumColorMap;x++)
+	for(auto x=0;x<m_iNumColorMap;x++)
 	{
 		for(int z=0;z<m_iNumColorMap;z++)
 		{

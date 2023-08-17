@@ -1,26 +1,11 @@
-// UITradeList.cpp: implementation of the CUITradeList class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#include "stdafx.h"
-#include "resource.h"
+#include "pch.h"
 #include "UITradeList.h"
 
 #include "GameDef.h"
 #include "GameProcedure.h"
 
-#include "../N3Base/N3UIString.h"
-#include "../N3Base/N3UIScrollBar.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
+#include "N3UIString.h"
+#include "N3UIScrollBar.h"
 
 CUITradeList::CUITradeList()
 {
@@ -97,7 +82,7 @@ void CUITradeList::Open(int iIDTarget)
 	iTotalCount = CGameBase::s_pTbl_Exchange_Quest->GetSize();
 	iIDIndexLast = 0;
 
-	for( i = iIDIndexFirst; i < iTotalCount; i++ )
+	for(auto i = iIDIndexFirst; i < iTotalCount; i++ )
 	{
 		pQuest = CGameBase::s_pTbl_Exchange_Quest->GetIndexedData(i);
 		if (!pQuest) 
@@ -118,7 +103,7 @@ void CUITradeList::Open(int iIDTarget)
 
 	// 메시지 박스 텍스트 표시..
 	char pszID[32];
-	for( i = iIDIndexFirst; i < iIDIndexFirst + 40; i++ )
+	for(auto i = iIDIndexFirst; i < iIDIndexFirst + 40; i++ )
 	{
 		pQuest						= CGameBase::s_pTbl_Exchange_Quest->GetIndexedData(i);
 		if (pQuest)
@@ -156,8 +141,8 @@ void CUITradeList::Close()
 void CUITradeList::SetTopLine(int iTopLine)		// 맨 윗줄을 지정해준다.
 {
 	// 0 ~ 10 사이값.. 먼저 총 갯수를 센다..
-	int i, iTotalCount, iFirstIndex, iLastIndex;
-	for(i = 0; i < 40; i++)
+	int i = 0, iTotalCount, iFirstIndex, iLastIndex;
+	for(; i < 40; i++)
 	{
 		if (m_sStr[i].empty())
 			break;
@@ -177,7 +162,7 @@ void CUITradeList::SetTopLine(int iTopLine)		// 맨 윗줄을 지정해준다.
 			iFirstIndex = iLastIndex - 9;
 	}
 
-	for (i = 0; i < 9; i++)
+	for (auto i = 0; i < 9; i++)
 	{
 		if(NULL == m_pStr_List[i]) continue;
 		m_pStr_List[i]->SetString(m_sStr[iFirstIndex+i]);

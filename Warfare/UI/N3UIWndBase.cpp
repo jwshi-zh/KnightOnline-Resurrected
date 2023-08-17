@@ -1,8 +1,4 @@
-// N3UIWndBase.cpp: implementation of the CN3UIWndBase class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#include "stdafx.h"
+#include "pch.h"
 #include "N3UIWndBase.h"
 
 #include "GameProcMain.h"
@@ -11,18 +7,8 @@
 #include "UIManager.h"
 #include "CountableItemEditDlg.h"
 
-#include "../N3Base/N3UITooltip.h"
-#include "../N3Base/N3SndObj.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
+#include "N3UITooltip.h"
+#include "N3SndObj.h"
 
 __InfoSelectedIcon		CN3UIWndBase::m_sSelectedIconInfo;
 __RecoveryJobInfo		CN3UIWndBase::m_sRecoveryJobInfo;

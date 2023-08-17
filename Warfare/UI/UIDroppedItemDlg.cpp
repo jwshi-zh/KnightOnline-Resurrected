@@ -1,7 +1,4 @@
-// UIDroppedItemDlg.cpp: implementation of the UIDroppedItemDlg class.
-//
-//////////////////////////////////////////////////////////////////////
-#include "stdafx.h"
+#include "pch.h"
 
 #include "UIDroppedItemDlg.h"
 
@@ -23,24 +20,12 @@
 #include "UIHotKeyDlg.h"
 #include "UISkillTreeDlg.h"
 
-#include "Resource.h"
-
-#include "../N3BASE/N3UIArea.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
+#include "N3UIArea.h"
 
 CUIDroppedItemDlg::CUIDroppedItemDlg()
 {
-	for( int i = 0; i < MAX_ITEM_BUNDLE_DROP_PIECE; i++ )	m_pMyDroppedItem[i] = NULL;
-	for( i = 0; i < MAX_ITEM_BUNDLE_DROP_PIECE; i++ )	m_bSendedIconArray[i] = false;
+	for(auto i = 0; i < MAX_ITEM_BUNDLE_DROP_PIECE; i++ )	m_pMyDroppedItem[i] = NULL;
+	for(auto i = 0; i < MAX_ITEM_BUNDLE_DROP_PIECE; i++ )	m_bSendedIconArray[i] = false;
 
 	m_iItemBundleID = 0;
 	m_pUITooltipDlg = NULL;
@@ -55,7 +40,7 @@ void CUIDroppedItemDlg::Release()
 {
 	CN3UIBase::Release();
 
-	for( int i = 0; i < MAX_ITEM_BUNDLE_DROP_PIECE; i++ )
+	for(auto i = 0; i < MAX_ITEM_BUNDLE_DROP_PIECE; i++ )
 	{
 		if ( m_pMyDroppedItem[i] != NULL )
 		{
@@ -77,7 +62,7 @@ void CUIDroppedItemDlg::Render()
 	m_pUITooltipDlg->DisplayTooltipsDisable();
 
 	bool bTooltipRender = false;
-	__IconItemSkill* spItem;
+	__IconItemSkill* spItem = nullptr;
 
 	for(UIListReverseItor itor = m_Children.rbegin(); m_Children.rend() != itor; ++itor)
 	{
@@ -90,12 +75,12 @@ void CUIDroppedItemDlg::Render()
 		}
 	}
 
-	if ( bTooltipRender )
+	if ( bTooltipRender && spItem )
 		m_pUITooltipDlg->DisplayTooltipsEnable(ptCur.x, ptCur.y, spItem );
 
 	// 갯수 표시되야 할 아이템 갯수 표시..
 	CN3UIString *pStr = NULL;
-	for( int i = 0; i < MAX_ITEM_BUNDLE_DROP_PIECE; i++ )
+	for(auto i = 0; i < MAX_ITEM_BUNDLE_DROP_PIECE; i++ )
 	{
 		if ( m_pMyDroppedItem[i] && ( (m_pMyDroppedItem[i]->pItemBasic->byContable == UIITEM_TYPE_COUNTABLE) || 
 			(m_pMyDroppedItem[i]->pItemBasic->byContable == UIITEM_TYPE_COUNTABLE_SMALL) ) )
@@ -152,7 +137,7 @@ void CUIDroppedItemDlg::InitIconUpdate()
 	float fUVAspect = (float)45.0f/(float)64.0f;
 	int i;
 
-	for( i = 0; i < MAX_ITEM_BUNDLE_DROP_PIECE; i++ )
+	for(auto i = 0; i < MAX_ITEM_BUNDLE_DROP_PIECE; i++ )
 	{
 		if ( m_pMyDroppedItem[i] )
 		{
@@ -174,7 +159,7 @@ void CUIDroppedItemDlg::InitIconUpdate()
 
 __IconItemSkill* CUIDroppedItemDlg::GetHighlightIconItem(CN3UIIcon* pUIIcon)
 {
-	for( int i = 0; i < MAX_ITEM_BUNDLE_DROP_PIECE; i++ )
+	for(auto i = 0; i < MAX_ITEM_BUNDLE_DROP_PIECE; i++ )
 	{
 		if ( (m_pMyDroppedItem[i] != NULL) && (m_pMyDroppedItem[i]->pUIIcon == pUIIcon) )
 			return m_pMyDroppedItem[i];
@@ -190,7 +175,7 @@ void CUIDroppedItemDlg::EnterDroppedState(int xpos, int ypos)
 	SetPos(xpos, ypos-150);
 
 	int i;
-	for( i = 0; i < MAX_ITEM_BUNDLE_DROP_PIECE; i++ )
+	for(auto i = 0; i < MAX_ITEM_BUNDLE_DROP_PIECE; i++ )
 	{
 		m_bSendedIconArray[i] = false;
 
@@ -217,7 +202,7 @@ void CUIDroppedItemDlg::LeaveDroppedState()
 	if ( IsVisible() )
 		SetVisible(false);
 
-	for( int i = 0; i < MAX_ITEM_BUNDLE_DROP_PIECE; i++ )	m_bSendedIconArray[i] = false;
+	for(auto i = 0; i < MAX_ITEM_BUNDLE_DROP_PIECE; i++ )	m_bSendedIconArray[i] = false;
 }
 
 DWORD CUIDroppedItemDlg::MouseProc(DWORD dwFlags, const POINT& ptCur, const POINT& ptOld)
@@ -341,7 +326,7 @@ int CUIDroppedItemDlg::GetInventoryEmptyInviOrder(__IconItemSkill* spItem)
 	int i;
 	if (spItem == NULL)
 	{
-		for ( i = 0; i < MAX_ITEM_INVENTORY; i++ )
+		for(auto i = 0; i < MAX_ITEM_INVENTORY; i++ )
 		{
 			if ( !CGameProcedure::s_pProcMain->m_pUIInventory->m_pMyInvWnd[i] )
 				return i;
@@ -349,14 +334,14 @@ int CUIDroppedItemDlg::GetInventoryEmptyInviOrder(__IconItemSkill* spItem)
 	}
 	else
 	{
-		for ( i = 0; i < MAX_ITEM_INVENTORY; i++ )
+		for(auto i = 0; i < MAX_ITEM_INVENTORY; i++ )
 		{
 			if ( CGameProcedure::s_pProcMain->m_pUIInventory->m_pMyInvWnd[i] && 
 				(CGameProcedure::s_pProcMain->m_pUIInventory->m_pMyInvWnd[i]->pItemBasic->dwID == spItem->pItemBasic->dwID) )
 				return i;
 		}
 
-		for ( i = 0; i < MAX_ITEM_INVENTORY; i++ )
+		for(auto i = 0; i < MAX_ITEM_INVENTORY; i++ )
 		{
 			if ( !CGameProcedure::s_pProcMain->m_pUIInventory->m_pMyInvWnd[i] )
 				return i;
@@ -370,7 +355,7 @@ int	CUIDroppedItemDlg::GetItemiOrder(__IconItemSkill* spItem)
 {
 	int i;
 
-	for( i = 0; i < MAX_ITEM_BUNDLE_DROP_PIECE; i++ )
+	for(auto i = 0; i < MAX_ITEM_BUNDLE_DROP_PIECE; i++ )
 	{
 		if ( (m_pMyDroppedItem[i] != NULL) && (m_pMyDroppedItem[i] == spItem) )
 			return i;
@@ -531,7 +516,8 @@ void CUIDroppedItemDlg::GetItemByIDToInventory(BYTE bResult, int iItemID, int iG
 
 		// 돈 아이콘이 있으면 없앤다..
 		bFound = false;
-		for( i = 0; i < MAX_ITEM_BUNDLE_DROP_PIECE; i++ )
+		int i = 0;
+		for(; i < MAX_ITEM_BUNDLE_DROP_PIECE; i++ )
 		{
 			if( m_pMyDroppedItem[i] && m_pMyDroppedItem[i]->pItemBasic->dwID == dwGold )
 			{
@@ -584,7 +570,8 @@ void CUIDroppedItemDlg::GetItemByIDToInventory(BYTE bResult, int iItemID, int iG
 
 		// 아이템 아이콘이 있으면 없앤다..
 		bFound = false;
-		for( i = 0; i < MAX_ITEM_BUNDLE_DROP_PIECE; i++ )
+		int i = 0;
+		for(; i < MAX_ITEM_BUNDLE_DROP_PIECE; i++ )
 		{
 			if( (m_pMyDroppedItem[i]) && (m_pMyDroppedItem[i]->pItemBasic->dwID+m_pMyDroppedItem[i]->pItemExt->dwID == iItemID) )
 			{
@@ -819,7 +806,7 @@ void CUIDroppedItemDlg::GetItemByIDToInventory(BYTE bResult, int iItemID, int iG
 	}
 
 	bFound = false;
-	for( i = 0; i < MAX_ITEM_BUNDLE_DROP_PIECE; i++ )
+	for(auto i = 0; i < MAX_ITEM_BUNDLE_DROP_PIECE; i++ )
 	{
 		if( m_pMyDroppedItem[i] != NULL )
 			bFound = true;
@@ -834,6 +821,6 @@ void CUIDroppedItemDlg::SetVisibleWithNoSound(bool bVisible, bool bWork, bool bR
 {
 	CN3UIBase::SetVisibleWithNoSound(bVisible, bWork, bReFocus);
 
-	for( int i = 0; i < MAX_ITEM_BUNDLE_DROP_PIECE; i++ )	m_bSendedIconArray[i] = false;
+	for(auto i = 0; i < MAX_ITEM_BUNDLE_DROP_PIECE; i++ )	m_bSendedIconArray[i] = false;
 }
 //this_ui_add_end

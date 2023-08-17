@@ -1,16 +1,7 @@
-// UILogIn.h: interface for the CUILogIn class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_UILogIn_H__5D51312E_7B98_43C2_871B_12A9CC0C2096__INCLUDED_)
-#define AFX_UILogIn_H__5D51312E_7B98_43C2_871B_12A9CC0C2096__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include <string>
-#include "../N3BASE/N3UIBase.h"
+#include "N3UIBase.h"
 
 struct __GameServerInfo : public binary_function<__GameServerInfo, __GameServerInfo, bool>
 {
@@ -90,5 +81,3 @@ public:
 	CUILogIn();
 	virtual ~CUILogIn();
 };
-
-#endif // !defined(AFX_UILogIn_H__5D51312E_7B98_43C2_871B_12A9CC0C2096__INCLUDED_)

@@ -1,25 +1,10 @@
-// UICharacterSelect.cpp: implementation of the UICharacterSelect class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#include "stdafx.h"
-#include "Resource.h"
+#include "pch.h"
 
 #include "GameProcCharacterSelect.h"
 #include "UICharacterSelect.h"
-#include "../N3Base/N3UIString.h"
-#include "../N3Base/N3UITooltip.h"
+#include "N3UIString.h"
+#include "N3UITooltip.h"
 #include "UIManager.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 CUICharacterSelect::CUICharacterSelect()
 {

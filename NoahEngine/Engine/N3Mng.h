@@ -3,15 +3,16 @@
 #include <string>
 #include <map>
 
+#include "LogWriter.h"
+
 template <class T> class CN3Mng
 {
 protected:
-	
-	typedef std::map<std::string, T*>::iterator		it_Data;
-	typedef std::map<std::string, T*>::value_type	val_Data;
+	typedef typename std::map<std::string, T*>::iterator		it_Data;
+	typedef typename std::map<std::string, T*>::value_type	val_Data;
 
-	typedef std::map<T*, int>::iterator				it_Ref;
-	typedef std::map<T*, int>::value_type			val_Ref;
+	typedef typename std::map<T*, int>::iterator				it_Ref;
+	typedef typename std::map<T*, int>::value_type			val_Ref;
 
 	std::map<std::string, T*>	m_Datas;
 	std::map<T*, int>			m_Refs;
@@ -36,7 +37,7 @@ public:
 			return -1;
 		}
 
-		std::pair<it_Ref, bool> pairRef = m_Refs.insert(val_Ref(pData, 1));
+		auto pairRef = m_Refs.insert(val_Ref(pData, 1));
 		if(false == pairRef.second)
 		{
 #ifdef _N3GAME
@@ -45,7 +46,7 @@ public:
 			return -1;
 		}
 
-		std::pair<it_Data, bool> pairData = m_Datas.insert(val_Data(pData->FileName(), pData));
+		auto pairData = m_Datas.insert(val_Data(pData->FileName(), pData));
 		if(false == pairData.second)
 		{
 #ifdef _N3GAME
@@ -64,12 +65,12 @@ public:
 
 		if(bIncreaseRefCount)
 		{
-			it_Ref it = m_Refs.begin();
+			auto it = m_Refs.begin();
 			for(int i = 0; i < index; i++, it++);
 			it->second++;
 		}
 
-		it_Data it = m_Datas.begin();
+		auto it = m_Datas.begin();
 		for(int i = 0; i < index; i++, it++);
 
 		return it->second;
@@ -82,7 +83,7 @@ public:
 		CharLower(&(szFN2[0]));
 
 		T* pData = NULL;
-		it_Data it = m_Datas.find(szFN2);
+		auto it = m_Datas.find(szFN2);
 		if(it == m_Datas.end()) // 못 찾았다..
 		{
 			pData = new T();
@@ -100,12 +101,12 @@ public:
 				if(reChk==-1)	//	추가시 전에 데이터가 있어 참조 카운트를 하나 더한다 
 				{
 					T* pBakData = pData;	//	같은 파일중 전 데이타를 받아 리턴(새로운 그림으로 바뀌지 않을수 있다)
-					it_Data it = m_Datas.find(pBakData->FileName());
+					auto it = m_Datas.find(pBakData->FileName());
 					pData = (*it).second;
 
 					if(bIncreaseRefCount)
 					{						
-						it_Ref it2 = m_Refs.find(pData);
+						auto it2 = m_Refs.find(pData);
 						if(it2 != m_Refs.end()) // 참조 카운트 찾기..
 						{
 							((*it2).second)++;
@@ -124,7 +125,7 @@ public:
 
 			if(bIncreaseRefCount)
 			{
-				it_Ref it2 = m_Refs.find(pData);
+				auto it2 = m_Refs.find(pData);
 				if(it2 != m_Refs.end()) // 참조 카운트 찾기..
 				{
 					((*it2).second)++;
@@ -150,11 +151,11 @@ public:
 #endif
 		if(NULL == ppData || NULL == *ppData) return;
 
-		it_Data it = m_Datas.find((*ppData)->FileName());
+		auto it = m_Datas.find((*ppData)->FileName());
 		if(it == m_Datas.end()) return; // 못 찾았다..
 		else //  찾았다..!!
 		{
-			it_Ref it2 = m_Refs.find(*ppData);
+			auto it2 = m_Refs.find(*ppData);
 			if(bReleaseOrg && it2 != m_Refs.end()) // 참조 카운트 찾기..
 			{
 				((*it2).second)--;
@@ -172,14 +173,14 @@ public:
 #ifdef _N3TOOL
 	void SaveToFiles()
 	{
-		it_Data it = m_Datas.begin(), itEnd = m_Datas.end();
+		auto it = m_Datas.begin(), itEnd = m_Datas.end();
 		for(; it != itEnd; it++) (*it).second->SaveToFile();
 	}
 #endif // end of _N3TOOL
 	
 	void Release()
 	{
-		it_Data it = m_Datas.begin(), itEnd = m_Datas.end();
+		auto it = m_Datas.begin(), itEnd = m_Datas.end();
 		for(; it != itEnd; it++) delete ((*it).second);
 
 		m_Datas.clear();

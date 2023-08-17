@@ -1,33 +1,16 @@
-// N3FXBundleGame.cpp: implementation of the CN3FXBundleGame class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#include "stdafx.h"
+#include "pch.h"
 #include "N3FXBundleGame.h"
 #include "GameProcMain.h"
 #include "PlayerBase.h"
-#include "../N3Base/N3SndObj.h"
+#include "N3SndObj.h"
 #include "N3Terrain.h"
-#include "../N3Base/N3FXPartMesh.h"
-#include "../N3Base/N3FXPartParticles.h"
-//#include "../N3Base/N3FXPartBillBoard.h"
+#include "N3FXPartMesh.h"
+#include "N3FXPartParticles.h"
 #include "N3FXPartBillBoardGame.h"
 #include "N3FXPartBottomBoardGame.h"
-#include "../N3Base/N3ShapeExtra.h"
-
-#include "../N3Base/StdAfxBase.h"
+#include "N3ShapeExtra.h"
 #include "GameEng.h"
-#include "../N3Base/N3Camera.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-/////////////////////////////////////////
-// Construction/Destruction
-/////////////////////////////////////////
+#include "N3Camera.h"
 
 CN3FXBundleGame::CN3FXBundleGame()
 {

@@ -1,18 +1,7 @@
-// PvsMgr.h: interface for the CPvsMgr class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_PVSMGR_H__7E562A54_E3B8_4484_A861_7ADD71D4411D__INCLUDED_)
-#define AFX_PVSMGR_H__7E562A54_E3B8_4484_A861_7ADD71D4411D__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
-#pragma warning(disable : 4786)
-
-#include "..\N3BASE\N3BaseFileAccess.h"
-#include "../N3Base/N3Shape.h"
+#include "N3BaseFileAccess.h"
+#include "N3Shape.h"
 
 #include "PortalVolume.h"
 #include <string>
@@ -77,5 +66,3 @@ public:
 	bool Load(HANDLE hFile);
 	bool LoadOldVersion(HANDLE hFile, int iVersionFromData);
 };
-
-#endif // !defined(AFX_PVSMGR_H__7E562A54_E3B8_4484_A861_7ADD71D4411D__INCLUDED_)

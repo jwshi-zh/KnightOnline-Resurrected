@@ -1,25 +1,10 @@
-// ServerMesh.cpp: implementation of the CServerMesh class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#include "stdafx.h"
+#include "pch.h"
 
 #include "ServerMesh.h"
 #include "N3Terrain.h"
 
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
 static const int SGRID_SIZE = 64;
 static const int SMAP_SIZE  = 4096;
-
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 CServerMesh::CServerMesh()
 {
@@ -290,7 +275,7 @@ void CServerMesh::Render()
 	s_lpD3DDev->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
 	s_lpD3DDev->SetTexture(0, NULL);
 
-	s_lpD3DDev->SetVertexShader( D3DFVF_XYZ );
+	s_lpD3DDev->SetFVF( D3DFVF_XYZ );
 	s_lpD3DDev->DrawPrimitiveUP( D3DPT_TRIANGLELIST, 16, &m_vSMesh, sizeof(__Vector3));
 
 	s_lpD3DDev->SetRenderState(D3DRS_FILLMODE, dwFillPrev);

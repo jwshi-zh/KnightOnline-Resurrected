@@ -1,13 +1,4 @@
-// GameProcedure.h: interface for the CGameProcedure class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_GameProcedure_H__0BEC53F2_1282_402C_9A28_FB98CC131F64__INCLUDED_)
-#define AFX_GameProcedure_H__0BEC53F2_1282_402C_9A28_FB98CC131F64__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 enum e_Version { W95 = 1, W98, WME, WNT4, W2K };
 enum e_LogInClassification { LIC_KNIGHTONLINE = 0, LIC_MGAME = 1, LIC_DAUM = 2 };
@@ -50,8 +41,7 @@ class DataPack;
 
 class CGameProcedure : public CGameBase
 {
-public:
-	static class CKnightChrMgr*		s_pKnightChr;		// 나이트 캐릭터..		
+public:		
 	static class CN3SndObjStream*	s_pSnd_BGM;			// 메인 배경음악 포인터..
 	static class CLocalInput*		s_pLocalInput;		// 마우스와 키보드 입력 객체 .. Direct Input 을 썼다.
 	static class CAPISocket*		s_pSocket;			// 메인 소켓 객체
@@ -83,7 +73,6 @@ public:
 	static HCURSOR	s_hCursorPreRepair;
 	static HCURSOR	s_hCursorNowRepair;
 
-	static e_Version				s_eVersion;
 	static e_LogInClassification	s_eLogInClassification; // 접속한 서비스.. MGame, Daum, KnightOnLine ....
 	static std::string				s_szAccount; // 계정 문자열..
 	static std::string				s_szPassWord; // 계정 비번..
@@ -158,6 +147,3 @@ public:
 	CGameProcedure();
 	virtual ~CGameProcedure();
 };
-
-
-#endif // !defined(AFX_GameProcedure_H__0BEC53F2_1282_402C_9A28_FB98CC131F64__INCLUDED_)

@@ -1,9 +1,4 @@
-// UIPartyBBS.cpp: implementation of the CUIPartyBBS class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#include "stdafx.h"
-#include "resource.h"
+#include "pch.h"
 #include "UIPartyBBS.h"
 #include "GameProcMain.h"
 #include "UIVarious.h"
@@ -11,21 +6,12 @@
 #include "PlayerMySelf.h"
 #include "UIManager.h"
 
-#include "../N3Base/N3UIList.h"
-#include "../N3Base/N3UIString.h"
-#include "../N3Base/N3UIButton.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
+#include "N3UIList.h"
+#include "N3UIString.h"
+#include "N3UIButton.h"
 
 #define PARTY_BBS_MAXSTRING	69
 #define PARTY_BBS_MAXLINE	23
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 CUIPartyBBS::CUIPartyBBS()
 {
@@ -224,7 +210,7 @@ void CUIPartyBBS::MsgRecv_RefreshData(DataPack* pDataPack, int& iOffset)
 
 	m_Datas.clear();
 
-	for( int i = 0 ; i < PARTY_BBS_MAXLINE ; i++ )
+	for(auto i = 0 ; i < PARTY_BBS_MAXLINE ; i++ )
 	{
 		__InfoPartyBBS Info;
 		int iNameLen	= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
@@ -286,7 +272,7 @@ void CUIPartyBBS::RefreshPage()
 	it_PartyBBS it = m_Datas.begin();
 
 	std::string szDuty, szClass;
-	for( int i = 0 ; i < PARTY_BBS_MAXLINE ; i++ )
+	for(auto i = 0 ; i < PARTY_BBS_MAXLINE ; i++ )
 	{
 		if(it==m_Datas.end()) return;
 
@@ -408,7 +394,7 @@ void CUIPartyBBS::RenderSelectContent()
 	CN3Base::s_lpD3DDev->GetTextureStageState(0, D3DTSS_COLORARG1, &dwCA1);
 	CN3Base::s_lpD3DDev->GetTextureStageState(0, D3DTSS_ALPHAOP, &dwAOP);
 	CN3Base::s_lpD3DDev->GetTextureStageState(0, D3DTSS_ALPHAARG1, &dwAA1);
-	CN3Base::s_lpD3DDev->GetVertexShader(&dwVertexShader); 
+	CN3Base::s_lpD3DDev->GetFVF(&dwVertexShader); 
 
 	CN3Base::s_lpD3DDev->SetRenderState(D3DRS_ZENABLE, FALSE);
 	CN3Base::s_lpD3DDev->SetRenderState(D3DRS_FOGENABLE, FALSE);
@@ -420,7 +406,7 @@ void CUIPartyBBS::RenderSelectContent()
 	CN3Base::s_lpD3DDev->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
 	CN3Base::s_lpD3DDev->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_DIFFUSE);
 
-	CN3Base::s_lpD3DDev->SetVertexShader(FVF_TRANSFORMEDCOLOR);
+	CN3Base::s_lpD3DDev->SetFVF(FVF_TRANSFORMEDCOLOR);
 	CN3Base::s_lpD3DDev->DrawPrimitiveUP(D3DPT_LINESTRIP, 4, vLines, sizeof(__VertexTransformedColor));
 	
 	CN3Base::s_lpD3DDev->SetRenderState(D3DRS_ZENABLE, dwZ);
@@ -432,7 +418,7 @@ void CUIPartyBBS::RenderSelectContent()
 	CN3Base::s_lpD3DDev->SetTextureStageState(0, D3DTSS_COLORARG1, dwCA1);
 	CN3Base::s_lpD3DDev->SetTextureStageState(0, D3DTSS_ALPHAOP, dwAOP);
 	CN3Base::s_lpD3DDev->SetTextureStageState(0, D3DTSS_ALPHAARG1, dwAA1);
-	CN3Base::s_lpD3DDev->SetVertexShader(dwVertexShader); 
+	CN3Base::s_lpD3DDev->SetFVF(dwVertexShader); 
 }
 
 void CUIPartyBBS::SetStringColor(int iIndex, DWORD dwColor)
@@ -454,7 +440,7 @@ void CUIPartyBBS::RequestWhisper()
 
 	it_PartyBBS it = m_Datas.begin();
 
-	for( int i = 0 ; i < PARTY_BBS_MAXLINE ; i++, it++ )
+	for(auto i = 0 ; i < PARTY_BBS_MAXLINE ; i++, it++ )
 	{
 		if( it == m_Datas.end() ) break;
 		if( i == m_iCurIndex )
@@ -476,7 +462,7 @@ void CUIPartyBBS::RequestParty()
 
 	it_PartyBBS it = m_Datas.begin();
 
-	for( int i = 0 ; i < PARTY_BBS_MAXLINE ; i++, it++ )
+	for(auto i = 0 ; i < PARTY_BBS_MAXLINE ; i++, it++ )
 	{
 		if( it == m_Datas.end() ) break;
 		if( i == m_iCurIndex )

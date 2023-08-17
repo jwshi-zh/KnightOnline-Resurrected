@@ -3,6 +3,8 @@
 #include <vector>
 #include <map>
 
+#include "LogWriter.h"
+
 template <typename Type> class CN3TableBase
 {
 public:
@@ -12,12 +14,7 @@ public:
 // Attributes
 protected:
 	enum DATA_TYPE {DT_NONE, DT_CHAR, DT_BYTE, DT_SHORT, DT_WORD, DT_INT, DT_DWORD, DT_STRING, DT_FLOAT, DT_DOUBLE};
-	typedef std::vector<DATA_TYPE>::iterator it_DataType;
 	
-	typedef std::map<unsigned int, Type>::iterator		it_Table;
-	typedef std::map<unsigned int, Type>::value_type	val_Table;
-	typedef std::pair<it_Table, bool> pair_Table;
-
 	std::vector<DATA_TYPE> m_DataTypes;	// 실제 사용되는 정보의 데이타 타입
 	std::map<unsigned int, Type> m_Datas; // 실제 사용되는 정보
 
@@ -26,7 +23,7 @@ public:
 	void	Release();
 	Type*	Find(unsigned int dwID) // ID로 data 찾기
 	{
-		it_Table it = m_Datas.find(dwID);
+		auto it = m_Datas.find(dwID);
 		if(it == m_Datas.end()) return NULL; // 찾기에 실패 했다!~!!
 		else return &(it->second);
 	}
@@ -36,16 +33,16 @@ public:
 		if(index < 0 || m_Datas.empty()) return NULL;
 		if(index >= m_Datas.size()) return NULL;
 		
-		it_Table it = m_Datas.begin();
+		auto it = m_Datas.begin();
 		for(int i = 0; i < index; i++, it++);
 		return &(it->second);
 	}
 	int		IDToIndex(unsigned int dwID) // 해당 ID의 Index 리턴..	Skill에서 쓴다..
 	{
-		it_Table it = m_Datas.find(dwID);
+		auto it = m_Datas.find(dwID);
 		if(it == m_Datas.end()) return -1; // 찾기에 실패 했다!~!!
 
-		it_Table itSkill = m_Datas.begin();
+		auto itSkill = m_Datas.begin();
 		int iSize = m_Datas.size();
 		for(int i = 0; i < iSize; i++, itSkill++)
 			if (itSkill == it)	return i;
@@ -418,7 +415,7 @@ BOOL CN3TableBase<Type>::Load(HANDLE hFile)
 		}
 
 		unsigned int dwKey = *((unsigned int*)(&Data));
-		pair_Table pt = m_Datas.insert(val_Table(dwKey, Data));
+		auto pt = m_Datas.insert(std::make_pair(dwKey, Data));
 
 		__ASSERT(pt.second, "CN3TableBase<Type> : Key 중복 경고.");
 	}

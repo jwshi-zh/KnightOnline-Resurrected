@@ -1,20 +1,11 @@
-// UIItemExchange.h: interface for the CUIItemRepairExchange class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_UIITEMREPAIREXCHANGE_H__DFB5AC89_C348_41B9_830C_A4FFE08B1E55__INCLUDED_)
-#define AFX_UIITEMREPAIREXCHANGE_H__DFB5AC89_C348_41B9_830C_A4FFE08B1E55__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "GameDef.h"
 
 #include "N3UIWndBase.h"
 
-#include "../N3BASE/N3UIBase.h"
-#include "../N3Base/N3UIImage.h"
+#include "N3UIBase.h"
+#include "N3UIImage.h"
 
 //////////////////////////////////////////////////////////////////////
 
@@ -73,5 +64,3 @@ public:
 	void UserPressOK();
 	void ReceiveResultFromServer(int iResult, int iUserGold);
 };
-
-#endif // !defined(AFX_UIITEMREPAIREXCHANGE_H__DFB5AC89_C348_41B9_830C_A4FFE08B1E55__INCLUDED_)

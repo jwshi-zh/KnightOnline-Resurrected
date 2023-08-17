@@ -1,23 +1,7 @@
-//	N3Terrain.h: interface for the CLyTerrain class.
-//	2001. 10. 22.
-//
-//////////////////////////////////////////////////////////////////////
-
-#ifndef __N3TERRAIN_H__
-#define __N3TERRAIN_H__
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
-////////////////////////////////
-//	변수앞에 ti_가 붙은 건 타일단위..
-//	변수앞에 pat_가 붙은 건 패치단위..
-//	변수앞에 re_가 붙은 건 미터단위..
-//
-
-#include "../N3Base/N3BaseFileAccess.h"
-#include "../N3Base/N3Texture.h"
+#include "N3BaseFileAccess.h"
+#include "N3Texture.h"
 #include "N3TerrainDef.h"
 #include "N3TerrainPatch.h"
 
@@ -154,5 +138,3 @@ public:	//additional........
 	bool			CheckCollision(__Vector3& vPos, __Vector3& vDir, float fVelocity, __Vector3* vpCol);
 	
 };
-
-#endif // !defined(__N3TERRAIN_H__)

@@ -1,28 +1,10 @@
-// UICreateClanName.cpp: implementation of the UINPCEvent class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#include "stdafx.h"
-#include "resource.h"
+#include "pch.h"
 #include "UICreateClanName.h"
 
 #include "GameProcMain.h"
 #include "GameProcedure.h"
 #include "PacketDef.h"
 #include "APISocket.h"
-
-#include "../N3Base/StdAfxBase.h"
-
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 CUICreateClanName::CUICreateClanName()
 {

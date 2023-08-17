@@ -1,13 +1,4 @@
-// DungeonManager.h: interface for the CDungeonManager class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_DUNGEONMANAGER_H__492B3E57_9A05_4F4D_B98C_63CB6ACC572E__INCLUDED_)
-#define AFX_DUNGEONMANAGER_H__492B3E57_9A05_4F4D_B98C_63CB6ACC572E__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "N3WorldBase.h"
 #include "PvsMgr.h"
@@ -63,5 +54,3 @@ public:
 	virtual ~CDungeonManager();
 
 };
-
-#endif // !defined(AFX_DUNGEONMANAGER_H__492B3E57_9A05_4F4D_B98C_63CB6ACC572E__INCLUDED_)

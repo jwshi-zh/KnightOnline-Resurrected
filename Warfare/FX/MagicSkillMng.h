@@ -1,13 +1,4 @@
-// MagicSkillMng.h: interface for the CMagicSkillMng class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_MAGICSKILLMNG_H__2C75CDA2_45CC_495F_BCE9_ED2E7CB1B60E__INCLUDED_)
-#define AFX_MAGICSKILLMNG_H__2C75CDA2_45CC_495F_BCE9_ED2E7CB1B60E__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "GameDef.h"
 #include "GameBase.h"
@@ -142,5 +133,3 @@ public:
 	CMagicSkillMng(CGameProcMain* pGameProcMain);
 	virtual ~CMagicSkillMng();
 };
-
-#endif // !defined(AFX_MAGICSKILLMNG_H__2C75CDA2_45CC_495F_BCE9_ED2E7CB1B60E__INCLUDED_)

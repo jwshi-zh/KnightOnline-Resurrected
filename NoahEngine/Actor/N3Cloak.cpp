@@ -176,9 +176,9 @@ void CN3Cloak::UpdateLocalForce()
 	D3DXVECTOR3 up, down, left, right;
 	const float nSub = 0.2f;
 
-	for ( i = 0; i < m_nGridH; i ++ )
+	for(auto i = 0; i < m_nGridH; i ++ )
 	{
-		for ( j = 0; j < m_nGridW; j ++ )
+		for(auto j = 0; j < m_nGridW; j ++ )
 		{
 			index = i*m_nGridW + j;			
 			

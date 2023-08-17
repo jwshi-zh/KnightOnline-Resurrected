@@ -1,13 +1,6 @@
 #include "pch.h"
 #include "N3UIString.h"
 
-#ifndef _REPENT
-#ifdef _N3GAME
-#include "..\warfare\n3uiwndbase.h"
-#include "..\warfare\uiinventory.h"
-#endif 
-#endif
-
 CN3UIString::CN3UIString()
 {
 	m_eType = UI_TYPE_STRING;
@@ -496,11 +489,12 @@ DWORD CN3UIString::MouseProc(DWORD dwFlags, const POINT &ptCur, const POINT &ptO
 	DWORD dwRet = UI_MOUSEPROC_NONE;
 	if (!m_bVisible) return dwRet;
 
-#ifndef _REPENT
-#ifdef _N3GAME
+	// TODO: Enable this code
+	/*
+	#ifdef _N3GAME
 	if ( CN3UIWndBase::m_sRecoveryJobInfo.m_bWaitFromServer ) return dwRet;
-#endif
-#endif
+	#endif
+	*/
 
 	// 특정 이벤트에 대해 메시지 전송..
 	if(IsIn(ptCur.x, ptCur.y) && (dwFlags & UI_MOUSE_LBCLICKED) )	

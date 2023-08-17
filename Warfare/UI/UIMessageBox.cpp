@@ -1,8 +1,4 @@
-// UIMessageBox.cpp: implementation of the CUIMessageBox class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#include "stdafx.h"
+#include "pch.h"
 #include "UIMessageBox.h"
 #include "GameProcMain.h"
 #include "PlayerMySelf.h"
@@ -18,21 +14,10 @@
 #include "SubProcPerTrade.h"
 #include "ShellApi.h"
 
-#include "../N3Base/N3UIButton.h"
-#include "../N3Base/N3UIString.h"
-#include "../N3Base/N3UIEdit.h"
-#include "../N3Base/N3Shape.h"
-
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
+#include "N3UIButton.h"
+#include "N3UIString.h"
+#include "N3UIEdit.h"
+#include "N3Shape.h"
 
 CUIMessageBox::CUIMessageBox()
 {

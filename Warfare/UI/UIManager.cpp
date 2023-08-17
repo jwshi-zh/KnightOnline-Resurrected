@@ -1,8 +1,4 @@
-// UIManager.cpp: implementation of the CUIManager class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#include "stdafx.h"
+#include "pch.h"
 #include "LocalInput.h"
 #include "N3UIWndBase.h"
 #include "UIManager.h"
@@ -16,17 +12,8 @@
 #include "UIItemExchange.h"
 #include "UIWareHouseDlg.h"
 
-#include "../N3Base/N3UITooltip.h"
+#include "N3UITooltip.h"
 
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 CUIManager::__RenderStateForUI CUIManager::s_sRSFU; // RenderStateForUI
 
 CUIManager::CUIManager()
@@ -202,9 +189,9 @@ void CUIManager::RenderStateSet()
 	s_lpD3DDev->GetRenderState(D3DRS_SRCBLEND, &(s_sRSFU.dwSrcBlend));
 	s_lpD3DDev->GetRenderState(D3DRS_DESTBLEND, &(s_sRSFU.dwDestBlend));
 	s_lpD3DDev->GetRenderState(D3DRS_FOGENABLE, &(s_sRSFU.dwFog));
-	s_lpD3DDev->GetTextureStageState(0, D3DTSS_MAGFILTER,   &(s_sRSFU.dwMagFilter));
-	s_lpD3DDev->GetTextureStageState(0, D3DTSS_MINFILTER,   &(s_sRSFU.dwMinFilter));
-	s_lpD3DDev->GetTextureStageState(0, D3DTSS_MIPFILTER,   &(s_sRSFU.dwMipFilter));
+	s_lpD3DDev->GetSamplerState(0, D3DSAMP_MAGFILTER,   &(s_sRSFU.dwMagFilter));
+	s_lpD3DDev->GetSamplerState(0, D3DSAMP_MINFILTER,   &(s_sRSFU.dwMinFilter));
+	s_lpD3DDev->GetSamplerState(0, D3DSAMP_MIPFILTER,   &(s_sRSFU.dwMipFilter));
 
 	// set state
 	if (D3DZB_FALSE != s_sRSFU.dwZEnable) s_lpD3DDev->SetRenderState(D3DRS_ZENABLE, D3DZB_FALSE);
@@ -212,9 +199,9 @@ void CUIManager::RenderStateSet()
 	if (D3DBLEND_SRCALPHA != s_sRSFU.dwSrcBlend) s_lpD3DDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	if (D3DBLEND_INVSRCALPHA != s_sRSFU.dwDestBlend) s_lpD3DDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 	if (FALSE != s_sRSFU.dwFog) s_lpD3DDev->SetRenderState(D3DRS_FOGENABLE   , FALSE);	// 2dµµ fog¸¦ ¸Ô´Â´Ù ¤Ñ.¤Ñ;
-	if (D3DTEXF_POINT != s_sRSFU.dwMagFilter ) s_lpD3DDev->SetTextureStageState(0, D3DTSS_MAGFILTER,   D3DTEXF_POINT);
-	if (D3DTEXF_POINT != s_sRSFU.dwMinFilter ) s_lpD3DDev->SetTextureStageState(0, D3DTSS_MINFILTER,   D3DTEXF_POINT);
-	if (D3DTEXF_NONE != s_sRSFU.dwMipFilter ) s_lpD3DDev->SetTextureStageState(0, D3DTSS_MIPFILTER,   D3DTEXF_NONE);
+	if (D3DTEXF_POINT != s_sRSFU.dwMagFilter ) s_lpD3DDev->SetSamplerState(0, D3DSAMP_MAGFILTER,   D3DTEXF_POINT);
+	if (D3DTEXF_POINT != s_sRSFU.dwMinFilter ) s_lpD3DDev->SetSamplerState(0, D3DSAMP_MINFILTER,   D3DTEXF_POINT);
+	if (D3DTEXF_NONE != s_sRSFU.dwMipFilter ) s_lpD3DDev->SetSamplerState(0, D3DSAMP_MIPFILTER,   D3DTEXF_NONE);
 }
 
 void CUIManager::RenderStateRestore()
@@ -230,9 +217,9 @@ void CUIManager::RenderStateRestore()
 	if (D3DBLEND_SRCALPHA != s_sRSFU.dwSrcBlend) s_lpD3DDev->SetRenderState(D3DRS_SRCBLEND, s_sRSFU.dwSrcBlend);
 	if (D3DBLEND_INVSRCALPHA != s_sRSFU.dwDestBlend) s_lpD3DDev->SetRenderState(D3DRS_DESTBLEND, s_sRSFU.dwDestBlend);
 	if (FALSE != s_sRSFU.dwFog) s_lpD3DDev->SetRenderState(D3DRS_FOGENABLE   , s_sRSFU.dwFog);
-	if (D3DTEXF_POINT != s_sRSFU.dwMagFilter ) s_lpD3DDev->SetTextureStageState(0, D3DTSS_MAGFILTER,   s_sRSFU.dwMagFilter);
-	if (D3DTEXF_POINT != s_sRSFU.dwMinFilter ) s_lpD3DDev->SetTextureStageState(0, D3DTSS_MINFILTER,   s_sRSFU.dwMinFilter);
-	if (D3DTEXF_NONE != s_sRSFU.dwMipFilter ) s_lpD3DDev->SetTextureStageState(0, D3DTSS_MIPFILTER,   s_sRSFU.dwMipFilter);
+	if (D3DTEXF_POINT != s_sRSFU.dwMagFilter ) s_lpD3DDev->SetSamplerState(0, D3DSAMP_MAGFILTER,   s_sRSFU.dwMagFilter);
+	if (D3DTEXF_POINT != s_sRSFU.dwMinFilter ) s_lpD3DDev->SetSamplerState(0, D3DSAMP_MINFILTER,   s_sRSFU.dwMinFilter);
+	if (D3DTEXF_NONE != s_sRSFU.dwMipFilter ) s_lpD3DDev->SetSamplerState(0, D3DSAMP_MIPFILTER,   s_sRSFU.dwMipFilter);
 }
 
 bool CUIManager::BroadcastIconDropMsg(__IconItemSkill* spItem)

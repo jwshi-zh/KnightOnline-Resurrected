@@ -1,22 +1,7 @@
-// UIImageTooltipDlg.cpp: implementation of the CUIImageTooltipDlg class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#include "stdafx.h"
-#include "Resource.h"
+#include "pch.h"
 #include "UIImageTooltipDlg.h"
 
 #include "PlayerMySelf.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 CUIImageTooltipDlg::CUIImageTooltipDlg() : m_CYellow(D3DCOLOR_RGBA(255, 255, 0, 255)), 
 						m_CBlue(D3DCOLOR_RGBA(128, 128, 255, 255)),
@@ -138,7 +123,7 @@ void CUIImageTooltipDlg::SetPosSomething(int xpos, int ypos, int iNum)
 	SetPos(iX, iY);
 	SetSize(rect.right - rect.left, rect.bottom - rect.top);
 
-	for (i = 0; i < iNum; i++)
+	for (auto i = 0; i < iNum; i++)
 	{
 		if (!m_pStr[i])	continue;		
 		rect2 = m_pStr[i]->GetRegion();
@@ -150,7 +135,7 @@ void CUIImageTooltipDlg::SetPosSomething(int xpos, int ypos, int iNum)
 			m_pStr[i]->SetString("  "+m_pstdstr[i]);
 	}
 
-	for (i = iNum; i < MAX_TOOLTIP_COUNT; i++ )
+	for (auto i = iNum; i < MAX_TOOLTIP_COUNT; i++ )
 		m_pStr[i]->SetString("");
 
 	m_pImg->SetRegion(rect);
@@ -193,7 +178,7 @@ int	CUIImageTooltipDlg::CalcTooltipStringNumAndWrite(__IconItemSkill* spItem, bo
 				m_pstdstr[iIndex] = szBuff;
 				iIndex++;			
 
-				for( int i = iIndex; i < MAX_TOOLTIP_COUNT; i++ )
+				for(auto i = iIndex; i < MAX_TOOLTIP_COUNT; i++ )
 					m_pstdstr[iIndex] = "";
 
 				return iIndex;	
@@ -1012,7 +997,7 @@ exceptions:;
 			iIndex++;			
 		}
 
-		for( int i = iIndex; i < MAX_TOOLTIP_COUNT; i++ )
+		for(auto i = iIndex; i < MAX_TOOLTIP_COUNT; i++ )
 			m_pstdstr[iIndex] = "";
 	}
 

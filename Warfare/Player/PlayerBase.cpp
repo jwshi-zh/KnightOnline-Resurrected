@@ -1,31 +1,16 @@
-// CPlayerBase.cpp: implementation of the CPlayerBase class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#include "stdafx.h"
+#include "pch.h"
 #include "PlayerBase.h"
 
 #include "N3WorldManager.h"
-#include "Resource.h"
 
-#include "../N3Base/N3ShapeExtra.h"
-#include "../N3Base/DFont.h"
-#include "../N3Base/N3SndObj.h"
+#include "N3ShapeExtra.h"
+#include "DFont.h"
+#include "N3SndObj.h"
 
 #include "N3FXMgr.h"
 
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
 static const __Vector3 s_vLightOffset = __Vector3(10.0f, 40.0f, 30.0f);
 CN3SndObj*	CPlayerBase::m_pSnd_MyMove = NULL;
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 CPlayerBase::CPlayerBase()
 {
@@ -453,7 +438,7 @@ void CPlayerBase::RenderShadow()
 	mtx._42 = 0.05f;
 	mtx._43 -= 0.1f;
 	s_lpD3DDev->SetTransform(D3DTS_WORLD, &mtx);
-	s_lpD3DDev->SetVertexShader(FVF_XYZT1);
+	s_lpD3DDev->SetFVF(FVF_XYZT1);
 
 	for(int i = 0; i < 4; i++)
 		m_vShadows[i].y = s_pTerrain->GetHeight(mtx._41 + m_vShadows[i].x, mtx._43 + m_vShadows[i].z);
@@ -483,7 +468,7 @@ void CPlayerBase::RenderChrInRect(CN3Chr* pChr, const RECT& Rect)
 	else rcViewport.bottom = Rect.bottom;
 
 	// set viewport
-	D3DVIEWPORT8 vp;
+	D3DVIEWPORT9 vp;
 	vp.X = rcViewport.left;
 	vp.Y = rcViewport.top;
 	vp.Width = rcViewport.right - rcViewport.left;
@@ -517,9 +502,10 @@ void CPlayerBase::RenderChrInRect(CN3Chr* pChr, const RECT& Rect)
 //								  &D3DXVECTOR3( 0.0f + fCameraMoveX, fVCenter + fCameraMoveY, 0.0f ),	// fVCenter: 캐릭터 키의 중간을 바라보기
 //								  &D3DXVECTOR3( 0.0f, 1.0f, 0.0f ) );
 	const __Vector3& vChrPos = pChr->Pos();
-	D3DXMatrixLookAtLH( &mtxView, &D3DXVECTOR3( vChrPos.x + fCameraMoveX, vChrPos.y + fVCenter+2.0f + fCameraMoveY, vChrPos.z + 10.0f ),	// 여기서 View matrix는 카메라 각도와 상관있다. 거리는 원근에 아무 영향을 미치지 않는다.
-								  &D3DXVECTOR3( vChrPos.x + fCameraMoveX, vChrPos.y + fVCenter + fCameraMoveY, vChrPos.z + 0.0f ),	// fVCenter: 캐릭터 키의 중간을 바라보기
-								  &D3DXVECTOR3( 0.0f, 1.0f, 0.0f ) );
+	auto vEye = D3DXVECTOR3(vChrPos.x + fCameraMoveX, vChrPos.y + fVCenter + 2.0f + fCameraMoveY, vChrPos.z + 10.0f);
+	auto vAt = D3DXVECTOR3(vChrPos.x + fCameraMoveX, vChrPos.y + fVCenter + fCameraMoveY, vChrPos.z + 0.0f);
+	auto vUp = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+	D3DXMatrixLookAtLH(&mtxView, &vEye, &vAt, &vUp);
 	s_lpD3DDev->SetTransform( D3DTS_VIEW, &mtxView );
 	s_lpD3DDev->SetTransform( D3DTS_PROJECTION, &mtxProj);
 
@@ -1228,7 +1214,7 @@ bool CPlayerBase::ActionMove(e_StateMove eMove)
 {
 	if(this->IsDead()) return false;
 	
-	static sStateTableMove[PSM_COUNT][PSM_COUNT] = // State Table Move
+	static int sStateTableMove[PSM_COUNT][PSM_COUNT] = // State Table Move
 	{
 		//---------------------------------------------------------------------------------------------------------------------------------------
 		//	STOP,	WALK,	RUN,	WALK_BACKWARD
@@ -2175,10 +2161,10 @@ void CPlayerBase::RenderShadow(float fAngle)
 	mV.PosSet(vPosBack);
 	mVvar = mV;
 
-	for( int i = 0; i < SHADOW_SIZE; i++ )
+	for(auto i = 0; i < SHADOW_SIZE; i++ )
 		m_bitset[i].Resize(SHADOW_SIZE);
 
-	for ( i = 0; i < 4; i++ )
+	for(auto i = 0; i < 4; i++ )
 	{
 		m_vTVertex[i]  = m_pvVertex[i];	
 		m_vTVertex[i] *= mV;
@@ -2191,7 +2177,7 @@ void CPlayerBase::RenderShadow(float fAngle)
 	if (fScale > 6.6f)
 	{
 		m_fShaScale = 2.2f;
-		for ( i = 0; i < 4; i++ )
+		for(auto i = 0; i < 4; i++ )
 		{
 			m_vTVertex[i]  = m_pvVertex[i];	
 			m_vTVertex[i] *= m_fShaScale;
@@ -2200,7 +2186,7 @@ void CPlayerBase::RenderShadow(float fAngle)
 	}
 	else
 	{
-		for ( i = 0; i < 4; i++ )
+		for(auto i = 0; i < 4; i++ )
 		{
 			m_vTVertex[i]  = m_pvVertex[i];	
 			m_vTVertex[i] *= mtPos;
@@ -2231,13 +2217,13 @@ void CPlayerBase::RenderShadow(float fAngle)
 	__Vector3 vLP; vLP.Set(-zVal, 0.0f, 0.0f );	vLP *= mtxRZ;	vLP.Normalize();
 
 	int iPC = m_Chr.PartCount();
-	for( i = 0; i < iPC; i++)
+	for(auto i = 0; i < iPC; i++)
 	{
 		CalcPart(m_Chr.Part(i), iLODTemp, vLP);
 	}
 
 	iPC = m_Chr.PlugCount();
-	for(i = 0; i < iPC; i++)
+	for(auto i = 0; i < iPC; i++)
 	{
 		CalcPlug(m_Chr.Plug(i), m_Chr.MatrixGet(m_Chr.Plug(i)->m_nJointIndex), mVvar, vLP);
 	}
@@ -2245,7 +2231,7 @@ void CPlayerBase::RenderShadow(float fAngle)
 	// 렌더링하기 전에 스케일을 줄인다..
 	if (fScale > 6.6f)
 	{
-		for ( i = 0; i < 4; i++ )
+		for(auto i = 0; i < 4; i++ )
 		{
 			m_vTVertex[i]  = m_pvVertex[i];	
 			m_vTVertex[i] *= 0.82f;	
@@ -2255,7 +2241,7 @@ void CPlayerBase::RenderShadow(float fAngle)
 	}
 	else
 	{
-		for ( i = 0; i < 4; i++ )
+		for(auto i = 0; i < 4; i++ )
 		{
 			m_vTVertex[i]  = m_pvVertex[i];	
 			m_vTVertex[i] *= 0.5f;	
@@ -2272,7 +2258,7 @@ void CPlayerBase::RenderShadow(float fAngle)
 	LPWORD pDst16 = (LPWORD)LR.pBits;
 	WORD dwColor = SHADOW_COLOR;
 	dwColor = dwColor << 12;
-	for( i = 0; i < SHADOW_SIZE; i++ )
+	for(auto i = 0; i < SHADOW_SIZE; i++ )
 	{
 		for(int j = 0; j < SHADOW_SIZE; j++ )
 		{
@@ -2308,10 +2294,10 @@ void CPlayerBase::RenderShadow(float fAngle)
 	CN3Base::s_lpD3DDev->GetTextureStageState(1, D3DTSS_ALPHAOP, &dwAlphaOp1);
 	CN3Base::s_lpD3DDev->GetTextureStageState(1, D3DTSS_ALPHAARG1, &dwAlphaArg11);
 	CN3Base::s_lpD3DDev->GetTextureStageState(1, D3DTSS_ALPHAARG2, &dwAlphaArg12);
-	CN3Base::s_lpD3DDev->GetTextureStageState(0, D3DTSS_MAGFILTER, &dwMagFilter0);
-	CN3Base::s_lpD3DDev->GetTextureStageState(0, D3DTSS_MINFILTER, &dwMinFilter0);
-	CN3Base::s_lpD3DDev->GetTextureStageState(1, D3DTSS_MAGFILTER, &dwMagFilter1);
-	CN3Base::s_lpD3DDev->GetTextureStageState(1, D3DTSS_MINFILTER, &dwMinFilter1);
+	CN3Base::s_lpD3DDev->GetSamplerState(0, D3DSAMP_MAGFILTER, &dwMagFilter0);
+	CN3Base::s_lpD3DDev->GetSamplerState(0, D3DSAMP_MINFILTER, &dwMinFilter0);
+	CN3Base::s_lpD3DDev->GetSamplerState(1, D3DSAMP_MAGFILTER, &dwMagFilter1);
+	CN3Base::s_lpD3DDev->GetSamplerState(1, D3DSAMP_MINFILTER, &dwMinFilter1);
 	CN3Base::s_lpD3DDev->GetRenderState(D3DRS_SRCBLEND, &dwSrcBlend);
 	CN3Base::s_lpD3DDev->GetRenderState(D3DRS_DESTBLEND, &dwDestBlend);
 	CN3Base::s_lpD3DDev->GetRenderState(D3DRS_BLENDOP, &dwBlendOp);
@@ -2334,12 +2320,12 @@ void CPlayerBase::RenderShadow(float fAngle)
 	CN3Base::s_lpD3DDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	CN3Base::s_lpD3DDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
-	CN3Base::s_lpD3DDev->SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
-	CN3Base::s_lpD3DDev->SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
-	CN3Base::s_lpD3DDev->SetTextureStageState(1, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
-	CN3Base::s_lpD3DDev->SetTextureStageState(1, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
+	CN3Base::s_lpD3DDev->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+	CN3Base::s_lpD3DDev->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+	CN3Base::s_lpD3DDev->SetSamplerState(1, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+	CN3Base::s_lpD3DDev->SetSamplerState(1, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
 
-	CN3Base::s_lpD3DDev->SetVertexShader(FVF_VNT1);	
+	CN3Base::s_lpD3DDev->SetFVF(FVF_VNT1);	
 	CN3Base::s_lpD3DDev->DrawIndexedPrimitiveUP(D3DPT_TRIANGLELIST, 0, 4, 2, m_pIndex, D3DFMT_INDEX16, m_vTVertex, sizeof(__VertexT1) );
 
 	//..
@@ -2356,10 +2342,10 @@ void CPlayerBase::RenderShadow(float fAngle)
 	CN3Base::s_lpD3DDev->SetTextureStageState(1, D3DTSS_ALPHAARG1, dwAlphaArg11);
 	CN3Base::s_lpD3DDev->SetTextureStageState(1, D3DTSS_ALPHAARG2, dwAlphaArg12);
 
-	CN3Base::s_lpD3DDev->SetTextureStageState(0, D3DTSS_MAGFILTER, dwMagFilter0);
-	CN3Base::s_lpD3DDev->SetTextureStageState(0, D3DTSS_MINFILTER, dwMinFilter0);
-	CN3Base::s_lpD3DDev->SetTextureStageState(1, D3DTSS_MAGFILTER, dwMagFilter1);
-	CN3Base::s_lpD3DDev->SetTextureStageState(1, D3DTSS_MINFILTER, dwMinFilter1);
+	CN3Base::s_lpD3DDev->SetSamplerState(0, D3DSAMP_MAGFILTER, dwMagFilter0);
+	CN3Base::s_lpD3DDev->SetSamplerState(0, D3DSAMP_MINFILTER, dwMinFilter0);
+	CN3Base::s_lpD3DDev->SetSamplerState(1, D3DSAMP_MAGFILTER, dwMagFilter1);
+	CN3Base::s_lpD3DDev->SetSamplerState(1, D3DSAMP_MINFILTER, dwMinFilter1);
 
 	CN3Base::s_lpD3DDev->SetRenderState(D3DRS_COLORVERTEX, dwColorVertex);
 	CN3Base::s_lpD3DDev->SetRenderState(D3DRS_DIFFUSEMATERIALSOURCE, dwMaterial);
@@ -2394,7 +2380,7 @@ void CPlayerBase::CalcPart(CN3CPart* pPart, int nLOD, __Vector3 vDir)
 	__VertexXyzNormal* pVDest = pPart->Skin(nLOD)->Vertices();
 	float t, u, v, fx, fz;
 
-	for ( int i = 0; i < iTotalCount; i++ )
+	for(auto i = 0; i < iTotalCount; i++ )
 	{
 		if (pVDest)
 		{
@@ -2451,7 +2437,7 @@ void CPlayerBase::CalcPlug(CN3CPlugBase* pPlug, const __Matrix44* pmtxJoint, __M
 	float t, u, v, fx, fz;
 
 #ifdef _USE_VERTEXBUFFER
-	LPDIRECT3DVERTEXBUFFER8	pBuf = NULL;
+	LPDIRECT3DVERTEXBUFFER9	pBuf = NULL;
 	__VertexT1*	pVerT1 = NULL;
 	pBuf = pPlug->PMeshInst()->GetVertexBuffer();
 	if (pBuf)
@@ -2461,7 +2447,7 @@ void CPlayerBase::CalcPlug(CN3CPlugBase* pPlug, const __Matrix44* pmtxJoint, __M
 	pVerT1 = pPlug->PMeshInst()->GetVertices();
 #endif
 
-	for ( int i = 0; i < iTotalCount; i++ )
+	for(auto i = 0; i < iTotalCount; i++ )
 	{
 		if (pVerT1)
 		{

@@ -1,19 +1,10 @@
-// CountableItemEditDlg.h: interface for the CCountableItemEditDlg class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_COUNTABLEITEMEDITDLG_H__55E83755_6471_4A3D_84D7_857B0FF88833__INCLUDED_)
-#define AFX_COUNTABLEITEMEDITDLG_H__55E83755_6471_4A3D_84D7_857B0FF88833__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
-#include "..\N3BASE\N3UIBase.h"
-#include "..\N3BASE\N3UIArea.h"
-#include "..\N3BASE\N3UIImage.h"
-#include "..\N3BASE\N3UIString.h"
-#include "..\N3BASE\N3UIButton.h"
+#include "N3UIBase.h"
+#include "N3UIArea.h"
+#include "N3UIImage.h"
+#include "N3UIString.h"
+#include "N3UIButton.h"
 
 #include "N3UIWndBase.h"
 #include "GameProcedure.h"
@@ -61,5 +52,3 @@ public:
 	e_UIWND				GetCallerWnd()	{	return m_eCallerWnd;	}
 	e_UIWND_DISTRICT	GetCallerWndDistrict()	{	return m_eCallerWndDistrict;	}
 };
-
-#endif // !defined(AFX_COUNTABLEITEMEDITDLG_H__55E83755_6471_4A3D_84D7_857B0FF88833__INCLUDED_)

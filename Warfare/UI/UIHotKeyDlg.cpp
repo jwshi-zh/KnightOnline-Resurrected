@@ -1,9 +1,4 @@
-// UIHotKeyDlg.cpp: implementation of the CUIHotKeyDlg class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#include "stdafx.h"
-#include "resource.h"
+#include "pch.h"
 #include "UIHotKeyDlg.h"
 
 #include "LocalInput.h"
@@ -15,28 +10,17 @@
 #include "UIManager.h"
 #include "UIInventory.h"
 
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
-
 CUIHotKeyDlg::CUIHotKeyDlg()
 {
 	m_iCurPage		= 0;
 	m_iSelectIndex	= -1;
 	m_iSelectPage	= -1;
 
-	for( int i = 0; i < MAX_SKILL_HOTKEY_PAGE; i++ )
-		for( int j = 0; j < MAX_SKILL_IN_HOTKEY; j++ )
+	for(auto i = 0; i < MAX_SKILL_HOTKEY_PAGE; i++ )
+		for(auto j = 0; j < MAX_SKILL_IN_HOTKEY; j++ )
 			m_pMyHotkey[i][j] = NULL;
 
-	for( int j = 0; j < MAX_SKILL_IN_HOTKEY; j++ )
+	for(auto j = 0; j < MAX_SKILL_IN_HOTKEY; j++ )
 	{
 		m_pCountStr[j] = NULL;
 		m_pTooltipStr[j] = NULL;
@@ -50,9 +34,9 @@ CUIHotKeyDlg::~CUIHotKeyDlg()
 
 void CUIHotKeyDlg::Release()
 {
-	for( int i = 0; i < MAX_SKILL_HOTKEY_PAGE; i++ )
+	for(auto i = 0; i < MAX_SKILL_HOTKEY_PAGE; i++ )
 	{
-		for( int j = 0; j < MAX_SKILL_IN_HOTKEY; j++ )
+		for(auto j = 0; j < MAX_SKILL_IN_HOTKEY; j++ )
 		{
 			if ( m_pMyHotkey[i][j] != NULL )
 			{
@@ -62,7 +46,7 @@ void CUIHotKeyDlg::Release()
 		}
 	}
 
-	for( int j = 0; j < MAX_SKILL_IN_HOTKEY; j++ )
+	for(auto j = 0; j < MAX_SKILL_IN_HOTKEY; j++ )
 	{
 		m_pCountStr[j] = NULL;
 		m_pTooltipStr[j] = NULL;
@@ -77,9 +61,9 @@ void CUIHotKeyDlg::Release()
 
 void CUIHotKeyDlg::ReleaseItem()
 {
-	for( int i = 0; i < MAX_SKILL_HOTKEY_PAGE; i++ )
+	for(auto i = 0; i < MAX_SKILL_HOTKEY_PAGE; i++ )
 	{
-		for( int j = 0; j < MAX_SKILL_IN_HOTKEY; j++ )
+		for(auto j = 0; j < MAX_SKILL_IN_HOTKEY; j++ )
 		{
 			if ( m_pMyHotkey[i][j] != NULL )
 			{
@@ -321,7 +305,9 @@ void CUIHotKeyDlg::Render()
 	CN3UIArea* pArea;
 	POINT ptCur = CGameProcedure::s_pLocalInput->MouseGetPos();
 
-	for( int k = 0; k < MAX_SKILL_IN_HOTKEY; k++ )
+	int k;
+
+	for( k = 0; k < MAX_SKILL_IN_HOTKEY; k++ )
 	{
 		if (m_pMyHotkey[m_iCurPage][k] != NULL) 
 			DisplayCountStr(m_pMyHotkey[m_iCurPage][k]);
@@ -369,7 +355,7 @@ void CUIHotKeyDlg::InitIconUpdate()
 	// Get Hotkey Data From Registry.. 
 	// First, Getting Hotkey Data Count.. 
 
-	for( int j = 0; j < MAX_SKILL_IN_HOTKEY; j++ )
+	for(auto j = 0; j < MAX_SKILL_IN_HOTKEY; j++ )
 	{
 		m_pTooltipStr[j] = GetTooltipStrControl(j);
 		m_pCountStr[j] = GetCountStrControl(j);
@@ -409,8 +395,8 @@ void CUIHotKeyDlg::InitIconUpdate()
 
 			// 아이콘 이름 만들기.. ^^
 			std::vector<char> buffer(256, NULL);
-			sprintf(buffer.begin(),	"UI\\skillicon_%.2d_%d.dxt", HD.iID%100, HD.iID/100);
-			spSkill->szIconFN = buffer.begin();
+			sprintf(buffer.data(),	"UI\\skillicon_%.2d_%d.dxt", HD.iID%100, HD.iID/100);
+			spSkill->szIconFN = buffer.data();
 
 			// 아이콘 로드하기.. ^^
 			spSkill->pUIIcon = new CN3UIIcon;
@@ -442,7 +428,7 @@ void CUIHotKeyDlg::UpdateDisableCheck()
 	int i, j;
 	DWORD bitMask;
 
-	for( i = 0; i < MAX_SKILL_HOTKEY_PAGE; i++ )
+	for(auto i = 0; i < MAX_SKILL_HOTKEY_PAGE; i++ )
 	{
 		for( j = 0; j < MAX_SKILL_IN_HOTKEY; j++ )
 		{
@@ -465,7 +451,7 @@ void CUIHotKeyDlg::CloseIconRegistry()
 	int i, j;
 
 	int iHCount = 0;
-	for( i = 0; i < MAX_SKILL_HOTKEY_PAGE; i++ )
+	for(auto i = 0; i < MAX_SKILL_HOTKEY_PAGE; i++ )
 	{
 		for( j = 0; j < MAX_SKILL_IN_HOTKEY; j++ )
 		{
@@ -479,7 +465,7 @@ void CUIHotKeyDlg::CloseIconRegistry()
 	char szSkill[32];
 	int iSkillCount = 0;
 
-	for( i = 0; i < MAX_SKILL_HOTKEY_PAGE; i++ )
+	for(auto i = 0; i < MAX_SKILL_HOTKEY_PAGE; i++ )
 	{
 		for( j = 0; j < MAX_SKILL_IN_HOTKEY; j++ )
 		{
@@ -499,7 +485,7 @@ void CUIHotKeyDlg::CloseIconRegistry()
 
 __IconItemSkill* CUIHotKeyDlg::GetHighlightIconItem(CN3UIIcon* pUIIcon)
 {
-	for( int k = 0; k < MAX_SKILL_IN_HOTKEY; k++ )
+	for(auto k = 0; k < MAX_SKILL_IN_HOTKEY; k++ )
 	{
 		if ( (m_pMyHotkey[m_iCurPage][k] != NULL) && 
 			(m_pMyHotkey[m_iCurPage][k]->pUIIcon == pUIIcon) )
@@ -513,9 +499,9 @@ void CUIHotKeyDlg::AllFactorClear()
 {
 	__IconItemSkill *spSkill = NULL;
 
-	for( int i = 0; i < MAX_SKILL_HOTKEY_PAGE; i++ )
+	for(auto i = 0; i < MAX_SKILL_HOTKEY_PAGE; i++ )
 	{
-		for( int j = 0; j < MAX_SKILL_IN_HOTKEY; j++ )
+		for(auto j = 0; j < MAX_SKILL_IN_HOTKEY; j++ )
 		{
 			if ( m_pMyHotkey[i][j] != NULL )
 			{
@@ -545,7 +531,7 @@ int	CUIHotKeyDlg::GetAreaiOrder()
 	CN3UIArea* pArea;
 	POINT ptCur = CGameProcedure::s_pLocalInput->MouseGetPos();
 
-	for( int i = 0; i < MAX_SKILL_IN_HOTKEY; i++ )
+	for(auto i = 0; i < MAX_SKILL_IN_HOTKEY; i++ )
 	{
 		pArea = CN3UIWndBase::GetChildAreaByiOrder(UI_AREA_TYPE_SKILL_HOTKEY, i);
 		if (pArea && pArea->IsIn(ptCur.x, ptCur.y))
@@ -562,7 +548,9 @@ bool CUIHotKeyDlg::IsSelectedSkillInRealIconArea()
 	bool bFound = false;
 	POINT ptCur = CGameProcedure::s_pLocalInput->MouseGetPos();
 
-	for( int i = 0; i < MAX_SKILL_IN_HOTKEY; i++ )
+	int i;
+
+	for(i = 0; i < MAX_SKILL_IN_HOTKEY; i++ )
 	{
 		pArea = CN3UIWndBase::GetChildAreaByiOrder(UI_AREA_TYPE_SKILL_HOTKEY, i);
 		if (pArea && pArea->IsIn(ptCur.x, ptCur.y))
@@ -583,7 +571,7 @@ bool CUIHotKeyDlg::GetEmptySlotIndex(int &iIndex)
 {
 	__IconItemSkill *spSkill = NULL;
 
-	for( int i = 0; i < MAX_SKILL_IN_HOTKEY; i++ )
+	for(auto i = 0; i < MAX_SKILL_IN_HOTKEY; i++ )
 	{
 		if (!m_pMyHotkey[m_iCurPage][i])
 		{
@@ -661,7 +649,7 @@ void CUIHotKeyDlg::SetHotKeyPage(int iPageNum)
 {
 	int i, j;
 	
-	for( i = 0; i < MAX_SKILL_HOTKEY_PAGE; i++ )
+	for(auto i = 0; i < MAX_SKILL_HOTKEY_PAGE; i++ )
 	{
 		if ( i != iPageNum )
 		{
@@ -723,9 +711,9 @@ void CUIHotKeyDlg::ClassChangeHotkeyFlush()
 {
 	__IconItemSkill* spSkill;
 
-	for( int i = 0; i < MAX_SKILL_HOTKEY_PAGE; i++ )
+	for(auto i = 0; i < MAX_SKILL_HOTKEY_PAGE; i++ )
 	{
-		for( int j = 0; j < MAX_SKILL_IN_HOTKEY; j++ )
+		for(auto j = 0; j < MAX_SKILL_IN_HOTKEY; j++ )
 		{
 			if ( m_pMyHotkey[i][j] != NULL )
 			{
@@ -784,7 +772,7 @@ void CUIHotKeyDlg::DisplayTooltipStr(__IconItemSkill* spSkill)
 
 void CUIHotKeyDlg::DisableTooltipDisplay()
 {
-	for( int j = 0; j < MAX_SKILL_IN_HOTKEY; j++ )
+	for(auto j = 0; j < MAX_SKILL_IN_HOTKEY; j++ )
 	{
 		if (m_pTooltipStr[j])	
 			m_pTooltipStr[j]->SetVisible(false);
@@ -808,7 +796,7 @@ void CUIHotKeyDlg::DisplayCountStr(__IconItemSkill* spSkill)
 
 void CUIHotKeyDlg::DisableCountStrDisplay()
 {
-	for( int j = 0; j < MAX_SKILL_IN_HOTKEY; j++ )
+	for(auto j = 0; j < MAX_SKILL_IN_HOTKEY; j++ )
 	{
 		if (m_pCountStr[j])	
 			m_pCountStr[j]->SetVisible(false);
@@ -817,7 +805,7 @@ void CUIHotKeyDlg::DisableCountStrDisplay()
 
 int CUIHotKeyDlg::GetTooltipCurPageIndex(__IconItemSkill* pSkill)
 {
-	for( int k = 0; k < MAX_SKILL_IN_HOTKEY; k++ )
+	for(auto k = 0; k < MAX_SKILL_IN_HOTKEY; k++ )
 	{
 		if ( (m_pMyHotkey[m_iCurPage][k] != NULL) && 
 			(m_pMyHotkey[m_iCurPage][k] == pSkill) )
@@ -846,7 +834,7 @@ bool CUIHotKeyDlg::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 		CN3UIArea* pArea = NULL;
 
 		int iOrder;
-		for( int i = 0; i < ITEM_SLOT_COUNT; i++ )
+		for(auto i = 0; i < ITEM_SLOT_COUNT; i++ )
 		{
 			pArea = CN3UIWndBase::GetChildAreaByiOrder(UI_AREA_TYPE_SKILL_HOTKEY, i);
 			if ( pArea && pArea->IsIn(ptCur.x, ptCur.y) )
@@ -890,8 +878,8 @@ bool CUIHotKeyDlg::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 
 		// 아이콘 이름 만들기.. ^^
 		std::vector<char> buffer(256, NULL);
-		sprintf(buffer.begin(),	"UI\\skillicon_%.2d_%d.dxt", spItem->pItemBasic->dwEffectID1%100, spItem->pItemBasic->dwEffectID1/100);
-		spSkill->szIconFN = buffer.begin();
+		sprintf(buffer.data(),	"UI\\skillicon_%.2d_%d.dxt", spItem->pItemBasic->dwEffectID1%100, spItem->pItemBasic->dwEffectID1/100);
+		spSkill->szIconFN = buffer.data();
 
 		// 아이콘 로드하기.. ^^
 		spSkill->pUIIcon = new CN3UIIcon;
@@ -957,7 +945,7 @@ void CUIHotKeyDlg::RenderSelectIcon(CN3UIIcon* pUIIcon)
 	CN3Base::s_lpD3DDev->GetTextureStageState(0, D3DTSS_COLORARG1, &dwCA1);
 	CN3Base::s_lpD3DDev->GetTextureStageState(0, D3DTSS_ALPHAOP, &dwAOP);
 	CN3Base::s_lpD3DDev->GetTextureStageState(0, D3DTSS_ALPHAARG1, &dwAA1);
-	CN3Base::s_lpD3DDev->GetVertexShader(&dwVertexShader); 
+	CN3Base::s_lpD3DDev->GetFVF(&dwVertexShader); 
 
 	CN3Base::s_lpD3DDev->SetRenderState(D3DRS_ZENABLE, FALSE);
 	CN3Base::s_lpD3DDev->SetRenderState(D3DRS_FOGENABLE, FALSE);
@@ -969,7 +957,7 @@ void CUIHotKeyDlg::RenderSelectIcon(CN3UIIcon* pUIIcon)
 	CN3Base::s_lpD3DDev->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
 	CN3Base::s_lpD3DDev->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_DIFFUSE);
 
-	CN3Base::s_lpD3DDev->SetVertexShader(FVF_TRANSFORMEDCOLOR);
+	CN3Base::s_lpD3DDev->SetFVF(FVF_TRANSFORMEDCOLOR);
 	CN3Base::s_lpD3DDev->DrawPrimitiveUP(D3DPT_LINESTRIP, 4, vLines, sizeof(__VertexTransformedColor));
 	
 	CN3Base::s_lpD3DDev->SetRenderState(D3DRS_ZENABLE, dwZ);
@@ -981,7 +969,7 @@ void CUIHotKeyDlg::RenderSelectIcon(CN3UIIcon* pUIIcon)
 	CN3Base::s_lpD3DDev->SetTextureStageState(0, D3DTSS_COLORARG1, dwCA1);
 	CN3Base::s_lpD3DDev->SetTextureStageState(0, D3DTSS_ALPHAOP, dwAOP);
 	CN3Base::s_lpD3DDev->SetTextureStageState(0, D3DTSS_ALPHAARG1, dwAA1);
-	CN3Base::s_lpD3DDev->SetVertexShader(dwVertexShader); 
+	CN3Base::s_lpD3DDev->SetFVF(dwVertexShader); 
 }
 
 //this_ui_add_start

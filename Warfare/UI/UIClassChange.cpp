@@ -1,9 +1,4 @@
-// UIClassChange.cpp: implementation of the CUIClassChange class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#include "stdafx.h"
-#include "resource.h"
+#include "pch.h"
 #include "UIClassChange.h"
 
 #include "PacketDef.h"
@@ -18,16 +13,6 @@
 #include "UIVarious.h"
 
 #include "UIHotkeyDlg.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 CUIClassChange::CUIClassChange()
 {

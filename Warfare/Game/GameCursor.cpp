@@ -1,24 +1,10 @@
-// GameCursor.cpp: implementation of the CGameCursor class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#include "stdafx.h"
-#include "../N3Base/N3UIBase.h"
-#include "../N3Base/N3UIImage.h"
+#include "pch.h"
+#include "N3UIBase.h"
+#include "N3UIImage.h"
 #include "GameProcedure.h"
 #include "LocalInput.h"
 #include "GameCursor.h"
 #include "UIManager.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 CGameCursor::CGameCursor()
 {

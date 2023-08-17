@@ -2,13 +2,6 @@
 #include "N3UIArea.h"
 #include "N3UIEdit.h"
 
-#ifndef _REPENT
-#ifdef _N3GAME
-#include "..\warfare\n3uiwndbase.h"
-#include "..\warfare\uiinventory.h"
-#endif 
-#endif
-
 CN3UIArea::CN3UIArea()
 {
 	m_eType = UI_TYPE_AREA;
@@ -51,8 +44,10 @@ DWORD CN3UIArea::MouseProc(DWORD dwFlags, const POINT& ptCur, const POINT& ptOld
 {
 	DWORD dwRet = UI_MOUSEPROC_NONE;
 	if (!m_bVisible) return dwRet;
-#ifndef _REPENT
-#ifdef _N3GAME
+
+	// TODO: Enable this code
+	/*
+	#ifdef _N3GAME
 	if ( CN3UIWndBase::m_sRecoveryJobInfo.m_bWaitFromServer ) return dwRet;
 	// 부모가 아이콘 매니저이로 Inventory Wnd라면..	
 	if ( (m_pParent->UIType() == UI_TYPE_ICON_MANAGER) && (((CN3UIWndBase* )m_pParent)->GetUIWnd() == UIWND_INVENTORY) )
@@ -65,8 +60,9 @@ DWORD CN3UIArea::MouseProc(DWORD dwFlags, const POINT& ptCur, const POINT& ptOld
 			return dwRet;
 		}
 	}
-#endif
-#endif
+	#endif
+	*/
+
 	// 특정 이벤트에 대해 메시지 전송..
 	if(IsIn(ptCur.x, ptCur.y) && (dwFlags & UI_MOUSE_LBCLICK) )	
 	{
@@ -78,10 +74,11 @@ DWORD CN3UIArea::MouseProc(DWORD dwFlags, const POINT& ptCur, const POINT& ptOld
 	return dwRet;
 }
 
-#ifndef _REPENT
 #ifdef _N3GAME
 bool CN3UIArea::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 {
+	// TODO: Enable this code
+	/*
 	if ( CN3UIWndBase::m_sRecoveryJobInfo.m_bWaitFromServer ) return false;
 	// 부모가 아이콘 매니저이로 Inventory Wnd라면..	
 	if ( (m_pParent->UIType() == UI_TYPE_ICON_MANAGER) && (((CN3UIWndBase* )m_pParent)->GetUIWnd() == UIWND_INVENTORY) )
@@ -101,12 +98,11 @@ bool CN3UIArea::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 			}
 		}
 	}
+	*/
 
 	return true;
 }
 #endif
-#endif
-
 
 #ifdef _N3TOOL
 bool CN3UIArea::Save(HANDLE hFile)

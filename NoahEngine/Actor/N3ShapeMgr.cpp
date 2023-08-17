@@ -1,12 +1,4 @@
-#ifdef _N3GAME
-#include "../WarFare/StdAfx.h"
-#include "../WarFare/GameProcedure.h"
-#ifndef _REPENT
-#include "../WarFare/UILoading.h"
-#endif	// _REPENT
-#else
 #include "pch.h"
-#endif // end of #ifndef _N3GAME
 
 #include "N3ShapeMgr.h"
 
@@ -89,11 +81,12 @@ bool CN3ShapeMgr::Load(HANDLE hFile)
 
 	if(false == LoadCollisionData(hFile)) return false;
 
-#ifdef _N3GAME
-#ifndef _REPENT
+	// TODO: Enable this code
+	/*
+	#ifdef _N3GAME
 	CUILoading* pUILoading = CGameProcedure::s_pUILoading; // 로딩바..
-#endif
-#endif // end of #ifndef _N3GAME
+	#endif
+	*/
 
 	char szBuff[128];
 	int iSC = 0;
@@ -135,7 +128,10 @@ bool CN3ShapeMgr::Load(HANDLE hFile)
 				}
 				else pShape->m_bVisible = true;
 			}
-#ifdef _N3GAME
+
+			// TODO: Enable this code
+			/*
+			#ifdef _N3GAME
 			
 			// 강제 코딩... 각종 성문 열기..
 //			if(dwType & OBJ_SHAPE_EXTRA)
@@ -147,15 +143,12 @@ bool CN3ShapeMgr::Load(HANDLE hFile)
 
 			if(!(i%64))
 			{
-#ifdef _REPENT
-				CGameProcedure::RenderLoadingBar(80 + 15 * i / iSC);
-#else
-				int iLoading = (i+1) * 100 / iSC;
+				int iLoading = (i + 1) * 100 / iSC;
 				sprintf(szBuff, "Loading Objects... %d %%", iLoading);
 				pUILoading->Render(szBuff, iLoading);
-#endif
 			}
-#endif // end of #ifndef _N3GAME
+			#endif // end of #ifndef _N3GAME
+			*/
 		}
 	}
 
@@ -681,11 +674,11 @@ bool CN3ShapeMgr::CheckCollision(	const __Vector3& vPos,		// 충돌 위치
 	static float fT, fU, fV;
 	float fDistTmp = FLT_MAX, fDistClosest = FLT_MAX;
 
-	for ( int i = 0; i < iSubCellCount; i++ )
+	for(auto i = 0; i < iSubCellCount; i++ )
 	{
 		if ( ppCells[i]->nCCPolyCount <= 0 ) continue;
 
-		for ( int j = 0; j < ppCells[i]->nCCPolyCount; j++ )
+		for(auto j = 0; j < ppCells[i]->nCCPolyCount; j++ )
 		{
 			nIndex0 = ppCells[i]->pdwCCVertIndices[j*3];
 			nIndex1 = ppCells[i]->pdwCCVertIndices[j*3+1];
@@ -807,7 +800,7 @@ void CN3ShapeMgr::RenderCollision(__Vector3 &vPos)
 	s_lpD3DDev->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_DIFFUSE);
 	s_lpD3DDev->SetTexture(0, NULL);
 
-	for( int i = 0; i < 9; i++ )
+	for(auto i = 0; i < 9; i++ )
 	{
 		if(NULL == ppCell[i] || ppCell[i]->nCCPolyCount <= 0) continue;
 		int nFC = ppCell[i]->nCCPolyCount;
@@ -1008,7 +1001,7 @@ float CN3ShapeMgr::GetHeightNearstPos(const __Vector3 &vPos, float fDist, __Vect
 	float fT, fU, fV;
 	float fNearst = FLT_MAX, fMinTmp = 0, fHeight = -FLT_MAX;		// 일단 최소값을 큰값으로 잡고..
 
-	for ( int i = 0; i < pCell->nCCPolyCount; i++ )
+	for(auto i = 0; i < pCell->nCCPolyCount; i++ )
 	{
 		nIndex0 = pCell->pdwCCVertIndices[i*3];
 		nIndex1 = pCell->pdwCCVertIndices[i*3+1];
@@ -1048,7 +1041,7 @@ float CN3ShapeMgr::GetHeight(float fX, float fZ, __Vector3* pvNormal) // 가장 높
 	float fT, fU, fV;
 	float fMaxTmp = -FLT_MAX;;
 
-	for ( int i = 0; i < pCell->nCCPolyCount; i++ )
+	for(auto i = 0; i < pCell->nCCPolyCount; i++ )
 	{
 		nIndex0 = pCell->pdwCCVertIndices[i*3];
 		nIndex1 = pCell->pdwCCVertIndices[i*3+1];
@@ -1083,7 +1076,7 @@ void CN3ShapeMgr::SubCell(const __Vector3& vPos, __CellSub** ppSubCell)			// 해�
 	int xx = (((int)vPos.x)%CELL_MAIN_SIZE)/CELL_SUB_SIZE;			// 2, 3, 4
 	int zz = (((int)vPos.z)%CELL_MAIN_SIZE)/CELL_SUB_SIZE;			// 1, 0, 5
 																	// 8, 7, 6	
-	for ( int i = 0; i < 9; i++ )
+	for(auto i = 0; i < 9; i++ )
 	{
 		switch( i )
 		{
@@ -1380,4 +1373,3 @@ void CN3ShapeMgr::SubCell(const __Vector3& vPos, __CellSub** ppSubCell)			// 해�
 		}	// switch
 	}	// for 
 }
-

@@ -1,15 +1,8 @@
-// N3FXMgr.h: interface for the CN3FXMgr class.
-//
-//////////////////////////////////////////////////////////////////////
+#pragma once
 
-#ifndef __N3FXMGR_H__
-#define __N3FXMGR_H__
-
-#pragma warning(disable : 4786)
-
-#include "../N3Base/N3BaseFileAccess.h"
-#include "../N3Base/N3FXDef.h"
-#include "../N3Base/N3TableBase.h"
+#include "N3BaseFileAccess.h"
+#include "N3FXDef.h"
+#include "N3TableBase.h"
 
 #include <list>
 #include <map>
@@ -64,5 +57,3 @@ public:
 	CN3FXMgr();	
 	virtual ~CN3FXMgr();
 };
-
-#endif // #ifndef __N3FXMGR_H__

@@ -1,18 +1,9 @@
-// UITradeExplanation.h: interface for the CUITradeExplanation class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_UITRADEEXPLANATION_H__DFFA77BD_3013_4389_84CB_EB1DFAD7F3FA__INCLUDED_)
-#define AFX_UITRADEEXPLANATION_H__DFFA77BD_3013_4389_84CB_EB1DFAD7F3FA__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "GameDef.h"
 #include "PacketDef.h"
 #include "APISocket.h"
-#include "../N3Base/N3UIBase.h"
+#include "N3UIBase.h"
 
 class CUITradeExplanation : public CN3UIBase  
 {
@@ -34,5 +25,3 @@ public:
 	virtual ~CUITradeExplanation();
 
 };
-
-#endif // !defined(AFX_UITRADEEXPLANATION_H__DFFA77BD_3013_4389_84CB_EB1DFAD7F3FA__INCLUDED_)

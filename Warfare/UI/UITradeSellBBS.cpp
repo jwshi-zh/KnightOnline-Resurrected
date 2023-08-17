@@ -1,14 +1,9 @@
-// UITradeSellBBS.cpp: implementation of the CUITradeSellBBS class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#include "stdafx.h"
-#include "resource.h"
+#include "pch.h"
 #include "UITradeSellBBS.h"
-#include "../N3Base/N3UIList.h"
-#include "../N3Base/N3UIButton.h"
-#include "../N3Base/N3UIImage.h"
-#include "../N3Base/N3UIString.h"
+#include "N3UIList.h"
+#include "N3UIButton.h"
+#include "N3UIImage.h"
+#include "N3UIString.h"
 #include "GameProcedure.h"
 #include "GameProcMain.h"
 #include "UITradeBBSEditDlg.h"
@@ -16,20 +11,11 @@
 #include "UIManager.h"
 #include "LocalInput.h"
 
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
 #define CHILD_UI_SELL_MSG			1
 #define CHILD_UI_TRADE_MSG			2
 #define CHILD_UI_EXPLANATION_EDIT	3
 #define CHILD_UI_EXPLANATION		4
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 #define TRADE_BBS_MAXSTRING	69
 #define TRADE_BBS_MAX_LINE	23
 
@@ -299,7 +285,7 @@ void CUITradeSellBBS::MsgRecv_RefreshData(DataPack *pDataPack, int &iOffset)
 	int iLen;
 	m_Datas.clear();
 
-	for( int i = 0 ; i < TRADE_BBS_MAX_LINE ; i++ )
+	for(auto i = 0 ; i < TRADE_BBS_MAX_LINE ; i++ )
 	{
 		__InfoTradeSellBBS Info;
 		Info.sID = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
@@ -336,7 +322,7 @@ void CUITradeSellBBS::RefreshPage()
 
 	it_TradeSellBBS it = m_Datas.begin();
 
-	for( int i = 0 ; i < TRADE_BBS_MAX_LINE ; i++ )
+	for(auto i = 0 ; i < TRADE_BBS_MAX_LINE ; i++ )
 	{
 		if(it==m_Datas.end()) break;
 
@@ -495,7 +481,7 @@ void CUITradeSellBBS::OnButtonRegisterCancel()
 
 	it_TradeSellBBS it = m_Datas.begin();
 
-	for( int i = 0 ; i < TRADE_BBS_MAX_LINE ; i++, it++ )
+	for(auto i = 0 ; i < TRADE_BBS_MAX_LINE ; i++, it++ )
 	{
 		if( it == m_Datas.end() ) break;
 		if( i == m_iCurIndex )
@@ -522,7 +508,7 @@ void CUITradeSellBBS::OnButtonWhisper()
 
 	it_TradeSellBBS it = m_Datas.begin();
 
-	for( int i = 0 ; i < TRADE_BBS_MAX_LINE ; i++, it++ )
+	for(auto i = 0 ; i < TRADE_BBS_MAX_LINE ; i++, it++ )
 	{
 		if( it == m_Datas.end() ) break;
 		if( i == m_iCurIndex )
@@ -554,7 +540,7 @@ void CUITradeSellBBS::OnButtonTrade()
 
 	it_TradeSellBBS it = m_Datas.begin();
 
-	for( int i = 0 ; i < TRADE_BBS_MAX_LINE ; i++, it++ )
+	for(auto i = 0 ; i < TRADE_BBS_MAX_LINE ; i++, it++ )
 	{
 		if( it == m_Datas.end() ) break;
 		if( i == m_iCurIndex )
@@ -598,7 +584,7 @@ void CUITradeSellBBS::RefreshExplanation(bool bPageUp)
 
 	it_TradeSellBBS it = m_Datas.begin();
 
-	for( int i = 0 ; i < TRADE_BBS_MAX_LINE ; i++, it++ )
+	for(auto i = 0 ; i < TRADE_BBS_MAX_LINE ; i++, it++ )
 	{
 		if( it == m_Datas.end() ) break;
 		if( i == m_iCurIndex )
@@ -617,7 +603,7 @@ void CUITradeSellBBS::OnListExplanation()
 
 	it_TradeSellBBS it = m_Datas.begin();
 
-	for( int i = 0 ; i < TRADE_BBS_MAX_LINE ; i++, it++ )
+	for(auto i = 0 ; i < TRADE_BBS_MAX_LINE ; i++, it++ )
 	{
 		if( it == m_Datas.end() ) break;
 		if( i == m_iCurIndex )
@@ -698,7 +684,7 @@ void CUITradeSellBBS::RenderSelectContent()
 	CN3Base::s_lpD3DDev->GetTextureStageState(0, D3DTSS_COLORARG1, &dwCA1);
 	CN3Base::s_lpD3DDev->GetTextureStageState(0, D3DTSS_ALPHAOP, &dwAOP);
 	CN3Base::s_lpD3DDev->GetTextureStageState(0, D3DTSS_ALPHAARG1, &dwAA1);
-	CN3Base::s_lpD3DDev->GetVertexShader(&dwVertexShader); 
+	CN3Base::s_lpD3DDev->GetFVF(&dwVertexShader); 
 
 	CN3Base::s_lpD3DDev->SetRenderState(D3DRS_ZENABLE, FALSE);
 	CN3Base::s_lpD3DDev->SetRenderState(D3DRS_FOGENABLE, FALSE);
@@ -710,7 +696,7 @@ void CUITradeSellBBS::RenderSelectContent()
 	CN3Base::s_lpD3DDev->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
 	CN3Base::s_lpD3DDev->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_DIFFUSE);
 
-	CN3Base::s_lpD3DDev->SetVertexShader(FVF_TRANSFORMEDCOLOR);
+	CN3Base::s_lpD3DDev->SetFVF(FVF_TRANSFORMEDCOLOR);
 	CN3Base::s_lpD3DDev->DrawPrimitiveUP(D3DPT_LINESTRIP, 4, vLines, sizeof(__VertexTransformedColor));
 	
 	CN3Base::s_lpD3DDev->SetRenderState(D3DRS_ZENABLE, dwZ);
@@ -722,7 +708,7 @@ void CUITradeSellBBS::RenderSelectContent()
 	CN3Base::s_lpD3DDev->SetTextureStageState(0, D3DTSS_COLORARG1, dwCA1);
 	CN3Base::s_lpD3DDev->SetTextureStageState(0, D3DTSS_ALPHAOP, dwAOP);
 	CN3Base::s_lpD3DDev->SetTextureStageState(0, D3DTSS_ALPHAARG1, dwAA1);
-	CN3Base::s_lpD3DDev->SetVertexShader(dwVertexShader); 
+	CN3Base::s_lpD3DDev->SetFVF(dwVertexShader); 
 }
 
 bool CUITradeSellBBS::SelectedString(CN3UIBase* pSender, int& iID)

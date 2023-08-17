@@ -79,7 +79,7 @@ public:
 	{
 		if(m_Shapes.empty()) return NULL;
 		int iSize = m_Shapes.size();
-		for( int i = 0; i < iSize; i++)
+		for(auto i = 0; i < iSize; i++)
 		{
 			if (str == m_Shapes[i]->FileName())
 				return m_Shapes[i];

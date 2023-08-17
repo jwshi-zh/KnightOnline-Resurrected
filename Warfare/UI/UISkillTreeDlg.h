@@ -1,20 +1,11 @@
-// UISkillTreeDlg.h: interface for the CUISkillTreeDlg class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_UISKILLTREEDLG_H__2A724E44_B3A7_41E4_B588_8AF6BC7FB911__INCLUDED_)
-#define AFX_UISKILLTREEDLG_H__2A724E44_B3A7_41E4_B588_8AF6BC7FB911__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "GameDef.h"
 #include "N3UIWndBase.h"
 
-#include "..\N3Base\N3UIButton.h"
-#include "..\N3Base\N3UIImage.h"
-#include "..\N3Base\N3UIString.h"
+#include "N3UIButton.h"
+#include "N3UIImage.h"
+#include "N3UIString.h"
 
 const int SKILL_DEF_BASIC = 0;
 const int SKILL_DEF_SPECIAL0 = 1;
@@ -103,5 +94,3 @@ public:
 	void				UpdateDisableCheck();
 	int					  GetIndexInArea(POINT pt);
 };
-
-#endif // !defined(AFX_UISKILLTREEDLG_H__2A724E44_B3A7_41E4_B588_8AF6BC7FB911__INCLUDED_)

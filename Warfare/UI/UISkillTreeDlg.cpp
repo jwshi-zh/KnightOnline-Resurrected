@@ -1,13 +1,8 @@
-// UISkillTreeDlg.cpp: implementation of the CUISkillTreeDlg class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#include "stdafx.h"
+#include "pch.h"
 
 #include "PacketDef.h"
 #include "LocalInput.h"
 #include "APISocket.h"
-#include "resource.h"
 #include "UISkillTreeDlg.h"
 
 #include "GameProcedure.h"
@@ -20,19 +15,9 @@
 #include "MagicSkillMng.h"
 #include "UIManager.h"
 
-#include "..\N3Base\N3UIArea.h"
-#include "..\N3Base\N3UIString.h"
-#include "..\N3Base\N3SndObj.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
+#include "N3UIArea.h"
+#include "N3UIString.h"
+#include "N3SndObj.h"
 
 CUISkillTreeDlg::CUISkillTreeDlg()
 {
@@ -47,10 +32,10 @@ CUISkillTreeDlg::CUISkillTreeDlg()
 	m_iCurKindOf		= 0;
 	m_iCurSkillPage		= 0;
 
-	for( i = 0; i < MAX_SKILL_FROM_SERVER; i++ )
+	for(auto i = 0; i < MAX_SKILL_FROM_SERVER; i++ )
 		m_iSkillInfo[i] = NULL;
 
-	for( i = 0; i < MAX_SKILL_KIND_OF; i++ )
+	for(auto i = 0; i < MAX_SKILL_KIND_OF; i++ )
 		for( j = 0; j < MAX_SKILL_PAGE_NUM; j++ )
 			for( k = 0; k < MAX_SKILL_IN_PAGE; k++ )
 				m_pMySkillTree[i][j][k] = NULL;	
@@ -64,7 +49,7 @@ CUISkillTreeDlg::~CUISkillTreeDlg()
 	Release();
 /*	int i, j, k;
 
-	for( i = 0; i < MAX_SKILL_KIND_OF; i++ )
+	for(auto i = 0; i < MAX_SKILL_KIND_OF; i++ )
 		for( j = 0; j < MAX_SKILL_PAGE_NUM; j++ )
 			for( k = 0; k < MAX_SKILL_IN_PAGE; k++ )
 				if ( m_pMySkillTree[i][j][k] != NULL )
@@ -90,7 +75,7 @@ void CUISkillTreeDlg::Release()
 
 	int i, j, k;
 
-	for( i = 0; i < MAX_SKILL_KIND_OF; i++ )
+	for(auto i = 0; i < MAX_SKILL_KIND_OF; i++ )
 	{
 		for( j = 0; j < MAX_SKILL_PAGE_NUM; j++ )
 		{
@@ -116,7 +101,7 @@ bool CUISkillTreeDlg::HasIDSkill(int iID)
 {
 	int i, j, k;
 
-	for( i = 0; i < MAX_SKILL_KIND_OF; i++ )
+	for(auto i = 0; i < MAX_SKILL_KIND_OF; i++ )
 		for( j = 0; j < MAX_SKILL_PAGE_NUM; j++ )
 			for( k = 0; k < MAX_SKILL_IN_PAGE; k++ )
 				if ( m_pMySkillTree[i][j][k] != NULL )
@@ -133,7 +118,7 @@ void CUISkillTreeDlg::UpdateDisableCheck()
 	int i, j, k;
 	DWORD bitMask;
 
-	for( i = 0; i < MAX_SKILL_KIND_OF; i++ )
+	for(auto i = 0; i < MAX_SKILL_KIND_OF; i++ )
 		for( j = 0; j < MAX_SKILL_PAGE_NUM; j++ )
 			for( k = 0; k < MAX_SKILL_IN_PAGE; k++ )
 				if ( m_pMySkillTree[i][j][k] != NULL )
@@ -669,7 +654,7 @@ void CUISkillTreeDlg::PointPushUpButton(int iValue)
 			pStrName2 = (CN3UIString* )GetChildByID("string_6"); __ASSERT(pStrName2, "NULL UI Component!!");
 			break;
 
-		case 8:
+		default:
 			pStrName2 = (CN3UIString* )GetChildByID("string_7"); __ASSERT(pStrName2, "NULL UI Component!!");
 			break;
 
@@ -799,7 +784,7 @@ void CUISkillTreeDlg::CheckButtonTooltipRenderEnable()
 
 	POINT ptCur = CGameProcedure::s_pLocalInput->MouseGetPos();
 
-	for( int i = 0; i < MAX_SKILL_KIND_OF; i++ )
+	for(auto i = 0; i < MAX_SKILL_KIND_OF; i++ )
 	{
 		if (IN_RECT(rect[i], ptCur))
 			ButtonTooltipRender(i);
@@ -1051,7 +1036,7 @@ void CUISkillTreeDlg::InitIconUpdate()
 	__TABLE_UPC_SKILL* pUSkill = NULL;
 
 	// 기존 아이콘 모두 클리어..
-	for( i = 0; i < MAX_SKILL_KIND_OF; i++ )
+	for(auto i = 0; i < MAX_SKILL_KIND_OF; i++ )
 		for( j = 0; j < MAX_SKILL_PAGE_NUM; j++ )
 			for( k = 0; k < MAX_SKILL_IN_PAGE; k++ )
 				if ( m_pMySkillTree[i][j][k] != NULL )
@@ -1085,7 +1070,7 @@ void CUISkillTreeDlg::InitIconUpdate()
 
 	if ( CGameBase::s_pPlayer->m_InfoBase.eClass != CLASS_EL_DRUID )
 	{
-		for( i = iSkillIndexFirst; i < CGameBase::s_pTbl_Skill->GetSize(); i++ )
+		for(auto i = iSkillIndexFirst; i < CGameBase::s_pTbl_Skill->GetSize(); i++ )
 		{
 			pUSkill = CGameBase::s_pTbl_Skill->GetIndexedData(i);
 			iDivide = pUSkill->dwID / 1000;
@@ -1097,7 +1082,7 @@ void CUISkillTreeDlg::InitIconUpdate()
 		}
 	}
 
-	for( i = iSkillIndexFirst; i < iSkillIndexLast; i++ )
+	for(auto i = iSkillIndexFirst; i < iSkillIndexLast; i++ )
 	{
 		__TABLE_UPC_SKILL* pUSkill = CGameBase::s_pTbl_Skill->GetIndexedData(i);
 		if ( pUSkill == NULL ) continue;
@@ -1305,8 +1290,8 @@ void CUISkillTreeDlg::AddSkillToPage(__TABLE_UPC_SKILL* pUSkill, int iOffset)
 	bool bFound = false;
 
 	// m_pMySkillTree[iOffset]에 같은 아이디가 있는지 살펴본다..
-	for( i = 0; i < MAX_SKILL_PAGE_NUM; i++ )
-		for ( j = 0; j < MAX_SKILL_IN_PAGE; j++ )
+	for(i = 0; i < MAX_SKILL_PAGE_NUM; i++ )
+		for(j = 0; j < MAX_SKILL_IN_PAGE; j++ )
 		{
 			if ( m_pMySkillTree[iOffset][i][j] != NULL )
 			{
@@ -1316,8 +1301,8 @@ void CUISkillTreeDlg::AddSkillToPage(__TABLE_UPC_SKILL* pUSkill, int iOffset)
 		}
 
 	// m_pMySkillTree[iOffset]에 들어갈 수 있는지 살펴본다..
-	for( i = 0; i < MAX_SKILL_PAGE_NUM; i++ )
-		for ( j = 0; j < MAX_SKILL_IN_PAGE; j++ )
+	for(i = 0; i < MAX_SKILL_PAGE_NUM; i++ )
+		for(j = 0; j < MAX_SKILL_IN_PAGE; j++ )
 		{
 			if ( m_pMySkillTree[iOffset][i][j] == NULL )
 			{
@@ -1334,8 +1319,8 @@ stop:
 
 	// 아이콘 이름 만들기.. ^^
 	std::vector<char> buffer(256, NULL);
-	sprintf(buffer.begin(),	"UI\\skillicon_%.2d_%d.dxt", pUSkill->dwID%100, pUSkill->dwID/100);
-	spSkill->szIconFN = buffer.begin();
+	sprintf(buffer.data(),	"UI\\skillicon_%.2d_%d.dxt", pUSkill->dwID%100, pUSkill->dwID/100);
+	spSkill->szIconFN = buffer.data();
 
 	// 아이콘 로드하기.. ^^
 	spSkill->pUIIcon = new CN3UIIcon;
@@ -1405,7 +1390,7 @@ void CUISkillTreeDlg::Close()
 
 __IconItemSkill* CUISkillTreeDlg::GetHighlightIconItem(CN3UIIcon* pUIIcon)
 {
-	for( int k = 0; k < MAX_SKILL_IN_PAGE; k++ )
+	for(auto k = 0; k < MAX_SKILL_IN_PAGE; k++ )
 	{
 		if ( (m_pMySkillTree[m_iCurKindOf][m_iCurSkillPage][k] != NULL) && 
 			(m_pMySkillTree[m_iCurKindOf][m_iCurSkillPage][k]->pUIIcon == pUIIcon) )
@@ -1417,7 +1402,7 @@ __IconItemSkill* CUISkillTreeDlg::GetHighlightIconItem(CN3UIIcon* pUIIcon)
 
 int CUISkillTreeDlg::GetSkilliOrder(__IconItemSkill* spSkill)
 {
-	for( int k = 0; k < MAX_SKILL_IN_PAGE; k++ )
+	for(auto k = 0; k < MAX_SKILL_IN_PAGE; k++ )
 	{
 		if ( m_pMySkillTree[m_iCurKindOf][m_iCurSkillPage][k] == spSkill )
 			return k;
@@ -1451,7 +1436,7 @@ void CUISkillTreeDlg::SetPageInIconRegion(int iKindOf, int iPageNum)		// 아이콘 
 
 	int i, j, k;
 
-	for( i = 0; i < MAX_SKILL_KIND_OF; i++ )
+	for(auto i = 0; i < MAX_SKILL_KIND_OF; i++ )
 	{
 		if ( i != iKindOf )
 		{
@@ -1526,7 +1511,7 @@ void CUISkillTreeDlg::AllClearImageByName(const std::string& szFN, bool bTrueOrN
 	std::string str;
 	char	cstr[4];
 
-	for ( int i = 0; i < 4; i++ )
+	for(auto i = 0; i < 4; i++ )
 	{
 		str = "img_";	str += szFN;	sprintf(cstr, "_%d", i);	str+= cstr;
 		pBase = GetChildBaseByName(str);
@@ -1537,7 +1522,7 @@ void CUISkillTreeDlg::AllClearImageByName(const std::string& szFN, bool bTrueOrN
 	pBase = GetChildBaseByName(str);
 	if (pBase) pBase->SetVisible(bTrueOrNot);
 
-	for ( i = 0; i < 4; i++ )
+	for(auto i = 0; i < 4; i++ )
 	{
 		str = "btn_";	str += szFN;	sprintf(cstr, "%d", i);	str+= cstr;
 		pButton = GetChildButtonByName(str);

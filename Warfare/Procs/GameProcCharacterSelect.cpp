@@ -1,11 +1,6 @@
-// GameProcCharacterSelect.cpp: implementation of the CGameProcCharacterSelect class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#include "stdafx.h"
+#include "pch.h"
 #include "GameProcCharacterSelect.h"
 
-#include "Resource.h"
 #include "PacketDef.h"
 #include "GameEng.h"
 #include "LocalInput.h"
@@ -17,26 +12,16 @@
 #include "UIMessageBox.h"
 #include "UILoading.h"
 
-#include "../N3Base/N3SndObjStream.h"
-#include "../N3Base/N3Shape.h"
-#include "../N3Base/N3Camera.h"
-#include "../N3Base/N3Light.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
+#include "N3SndObjStream.h"
+#include "N3Shape.h"
+#include "N3Camera.h"
+#include "N3Light.h"
 
 CGameProcCharacterSelect::CGameProcCharacterSelect()
 {
 	m_pCamera = NULL;
-	for ( int i = 0; i < 8; i++ ) m_pLights[i] = NULL;
-	for ( i = 0; i < MAX_AVAILABLE_CHARACTER; i++ )	{ m_pChrs[i] = NULL; }
+	for(auto i = 0; i < 8; i++ ) m_pLights[i] = NULL;
+	for(auto i = 0; i < MAX_AVAILABLE_CHARACTER; i++ )	{ m_pChrs[i] = NULL; }
 	m_pActiveBg = NULL;
 
 	m_eCurPos = POS_CENTER;
@@ -55,8 +40,8 @@ CGameProcCharacterSelect::CGameProcCharacterSelect()
 CGameProcCharacterSelect::~CGameProcCharacterSelect()
 {
 	delete m_pCamera;
-	for ( int i = 0; i < 8; i++ ) delete m_pLights[i];
-	for ( i = 0; i < MAX_AVAILABLE_CHARACTER; i++ ) delete m_pChrs[i];
+	for(auto i = 0; i < 8; i++ ) delete m_pLights[i];
+	for(auto i = 0; i < MAX_AVAILABLE_CHARACTER; i++ ) delete m_pChrs[i];
 	delete m_pActiveBg;
 	delete m_pUICharacterSelect;
 
@@ -68,8 +53,8 @@ void CGameProcCharacterSelect::Release()
 	CGameProcedure::Release();
 
 	delete m_pCamera; m_pCamera = NULL;
-	for ( int i = 0; i < 8; i++ ) { delete m_pLights[i]; m_pLights[i] = NULL; }
-	for ( i = 0; i < MAX_AVAILABLE_CHARACTER; i++ )
+	for(auto i = 0; i < 8; i++ ) { delete m_pLights[i]; m_pLights[i] = NULL; }
+	for(auto i = 0; i < MAX_AVAILABLE_CHARACTER; i++ )
 	{
 		delete m_pChrs[i]; m_pChrs[i] = NULL;
 		m_InfoChrs[i].clear();
@@ -86,8 +71,8 @@ void CGameProcCharacterSelect::Init()
 {
 //..
 	m_pCamera = NULL;
-	for ( int i = 0; i < 8; i++ ) m_pLights[i] = NULL;
-	for ( i = 0; i < MAX_AVAILABLE_CHARACTER; i++ )	{ m_pChrs[i] = NULL; }
+	for(auto i = 0; i < 8; i++ ) m_pLights[i] = NULL;
+	for(auto i = 0; i < MAX_AVAILABLE_CHARACTER; i++ )	{ m_pChrs[i] = NULL; }
 	m_pActiveBg = NULL;
 
 	m_eCurPos = POS_CENTER;
@@ -111,8 +96,8 @@ void CGameProcCharacterSelect::Init()
 	s_pUIMgr->EnableOperationSet(false); // 기존의 캐릭터 정보 패킷이 들어올때까지 UI 를 Disable 시킨다...
 
 	m_pCamera = new CN3Camera();
-	for ( i = 0; i < 8; i++ ) m_pLights[i] = new CN3Light();
-	for ( i = 0; i < MAX_AVAILABLE_CHARACTER; i++ )	m_pChrs[i] = NULL;
+	for(auto i = 0; i < 8; i++ ) m_pLights[i] = new CN3Light();
+	for(auto i = 0; i < MAX_AVAILABLE_CHARACTER; i++ )	m_pChrs[i] = NULL;
 
 	m_eCurPos = POS_CENTER;
 	m_eDestPos = POS_CENTER;
@@ -145,9 +130,9 @@ void CGameProcCharacterSelect::Init()
 
 	// 배경..
 	m_pActiveBg = new CN3Shape;	
-	memset(&m_lgt[0], 0, sizeof(D3DLIGHT8));	
-	memset(&m_lgt[1], 0, sizeof(D3DLIGHT8));	
-	memset(&m_lgt[2], 0, sizeof(D3DLIGHT8));	
+	memset(&m_lgt[0], 0, sizeof(D3DLIGHT9));	
+	memset(&m_lgt[1], 0, sizeof(D3DLIGHT9));	
+	memset(&m_lgt[2], 0, sizeof(D3DLIGHT9));	
 
 	// 0가운데.. 1왼쪽..
 	m_lgt[2].Type = m_lgt[1].Type = m_lgt[0].Type = D3DLIGHT_SPOT;
@@ -240,7 +225,7 @@ void CGameProcCharacterSelect::Tick()
 			if (m_eCurProcess == PROCESS_ROTATEING)
 				goto NowRotating;
 
-			D3DVIEWPORT8 vp;
+			D3DVIEWPORT9 vp;
 			CN3Base::s_lpD3DDev->GetViewport(&vp);
 			
 			RECT rc = { vp.Width * 0.36f, vp.Height * 0.44f, vp.Width * 0.64f, vp.Height * 0.86f };
@@ -258,7 +243,7 @@ NowRotating:
 // 라이트..
 	for(int i = 0; i < 8; i++) s_pEng->s_lpD3DDev->LightEnable(i, FALSE); // 일단 라이트 다 끄고..
 	
-	for(i = 0; i < 2; i++)
+	for(auto i = 0; i < 2; i++)
 	{
 		m_pLights[i]->Tick(m_pLights[i]->m_fFrmCur);
 		m_pLights[i]->Apply(); // 라이트 적용
@@ -1121,14 +1106,14 @@ void CGameProcCharacterSelect::FadeOutRender()
 	CN3Base::s_lpD3DDev->GetRenderState( D3DRS_ALPHABLENDENABLE,	&bUseAlphaBlend );
 
 	int	bLight[8];
-	for ( int i = 0; i < 8; i++ )	CN3Base::s_lpD3DDev->GetLightEnable(i, &bLight[i]);
+	for(auto i = 0; i < 8; i++ )	CN3Base::s_lpD3DDev->GetLightEnable(i, &bLight[i]);
 
 	if (bUseAlphaBlend == FALSE) CN3Base::s_lpD3DDev->SetRenderState( D3DRS_ALPHABLENDENABLE,	TRUE );
 	if (dwUseLighting) CN3Base::s_lpD3DDev->SetRenderState( D3DRS_LIGHTING, FALSE );
 	if (dwUsefog) CN3Base::s_lpD3DDev->SetRenderState( D3DRS_FOGENABLE, FALSE );
 	// set render states
 	if (dwUseColorVertex == FALSE) CN3Base::s_lpD3DDev->SetRenderState( D3DRS_COLORVERTEX, TRUE );
-	for ( i = 0; i < 8; i++ )	CN3Base::s_lpD3DDev->LightEnable(i, FALSE);
+	for(auto i = 0; i < 8; i++ )	CN3Base::s_lpD3DDev->LightEnable(i, FALSE);
 
 	DWORD dwTexStageCO, dwTexStageCARG1, dwTexStageAO, dwTexStageAARG1, dwRSSB, dwRSDB;
 
@@ -1148,7 +1133,7 @@ void CGameProcCharacterSelect::FadeOutRender()
 
 	CN3Base::s_lpD3DDev->SetTexture(0, NULL);
 
-	CN3Base::s_lpD3DDev->SetVertexShader(FVF_TRANSFORMEDCOLOR);
+	CN3Base::s_lpD3DDev->SetFVF(FVF_TRANSFORMEDCOLOR);
 	CN3Base::s_lpD3DDev->DrawPrimitiveUP(D3DPT_TRIANGLEFAN, 2, pVertices, sizeof(__VertexTransformedColor));
 
 	s_pEng->s_lpD3DDev->SetTextureStageState(0, D3DTSS_COLOROP, dwTexStageCO);
@@ -1162,13 +1147,13 @@ void CGameProcCharacterSelect::FadeOutRender()
 	CN3Base::s_lpD3DDev->SetRenderState( D3DRS_ALPHABLENDENABLE,		bUseAlphaBlend );
 	CN3Base::s_lpD3DDev->SetRenderState( D3DRS_LIGHTING, dwUseLighting );
 	CN3Base::s_lpD3DDev->SetRenderState( D3DRS_FOGENABLE , dwUsefog );
-	for ( i = 0; i < 8; i++ )	CN3Base::s_lpD3DDev->LightEnable(i, bLight[i]);
+	for(auto i = 0; i < 8; i++ )	CN3Base::s_lpD3DDev->LightEnable(i, bLight[i]);
 }
 
 
 void CGameProcCharacterSelect::DoProcPreselect()
 {
-	D3DVIEWPORT8 vp;
+	D3DVIEWPORT9 vp;
 	CN3Base::s_lpD3DDev->GetViewport(&vp);
 	
 	float left, right, top, bottom;
@@ -1223,7 +1208,7 @@ void CGameProcCharacterSelect::DoProcPreselect()
 	}
 
 	// Light..
-	for( int i = 0; i < 3; i++ ) m_lgt[i].Theta   = 0.0f;
+	for(auto i = 0; i < 3; i++ ) m_lgt[i].Theta   = 0.0f;
 	m_lgt[iPosIndex].Theta = m_fCurTheta;	
 
 	switch ( s_pPlayer->m_InfoBase.eNation )

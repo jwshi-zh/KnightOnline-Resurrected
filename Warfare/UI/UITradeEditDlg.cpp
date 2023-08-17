@@ -1,9 +1,4 @@
-// UITradeEditDlg.cpp: implementation of the CUITradeEditDlg class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#include "stdafx.h"
-#include "resource.h"
+#include "pch.h"
 
 #include "PacketDef.h"
 #include "LocalInput.h"
@@ -17,19 +12,7 @@
 #include "SubProcPerTrade.h"
 #include "UIPerTradeDlg.h"
 
-#include "../N3Base/N3UIEdit.h"
-
-
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
+#include "N3UIEdit.h"
 
 CUITradeEditDlg::CUITradeEditDlg()
 {

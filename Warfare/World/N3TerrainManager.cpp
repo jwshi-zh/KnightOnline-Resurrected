@@ -1,30 +1,15 @@
-// N3TerrainManager.cpp: implementation of the CN3TerrainManager class.
-//
-//////////////////////////////////////////////////////////////////////
+#include "pch.h"
 
-#include "stdafx.h"
-
-#include "../N3Base/N3SkyMng.h"
-#include "../N3Base/N3ShapeMgr.h"
+#include "N3SkyMng.h"
+#include "N3ShapeMgr.h"
 
 #include "N3TerrainManager.h"
 
 #include "N3Terrain.h"
 #include "BirdMng.h"
-//#include "GrassMng.h"
 
 #include "GameProcedure.h"
 #include "PlayerMySelf.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 CN3TerrainManager::CN3TerrainManager()
 {

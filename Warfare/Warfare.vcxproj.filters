@@ -1,34 +1,351 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
     <Filter Include="Resource Files">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Base">
+      <UniqueIdentifier>{85806034-87e4-48b4-ba40-e47c526c555f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FX">
+      <UniqueIdentifier>{0b02a723-0e31-448d-97a0-26d595146ae2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game">
+      <UniqueIdentifier>{51efcfe6-db47-45dc-ac00-31ef08099814}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Network">
+      <UniqueIdentifier>{6d0bb9d4-fc65-4008-9d68-eecc10e7b0b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Player">
+      <UniqueIdentifier>{3244e40d-9506-439b-aecb-4dd8a640f494}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Procs">
+      <UniqueIdentifier>{2766ef66-e3a7-4f1f-8911-64e079a6c86a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{d549eeed-733f-47ed-99d3-bbeb6790258f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="World">
+      <UniqueIdentifier>{c22c4773-8d7d-42cb-a1e1-0370976e7be8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="framework.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Resource.h">
-      <Filter>Header Files</Filter>
+      <Filter>Resource Files</Filter>
     </ClInclude>
-    <ClInclude Include="Warfare.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Base\pch.h">
+      <Filter>Base</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Warfare.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <ClInclude Include="Base\Bitset.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="FX\N3EffectWave2.h">
+      <Filter>FX</Filter>
+    </ClInclude>
+    <ClInclude Include="FX\N3FXBundleGame.h">
+      <Filter>FX</Filter>
+    </ClInclude>
+    <ClInclude Include="FX\N3FXMgr.h">
+      <Filter>FX</Filter>
+    </ClInclude>
+    <ClInclude Include="FX\N3FXPartBillBoardGame.h">
+      <Filter>FX</Filter>
+    </ClInclude>
+    <ClInclude Include="FX\N3FXPartBottomBoardGame.h">
+      <Filter>FX</Filter>
+    </ClInclude>
+    <ClInclude Include="FX\MagicSkillMng.h">
+      <Filter>FX</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameEng.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\LocalInput.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\WarFareMain.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\WarMessage.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameBase.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameCursor.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameDef.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Network\APISocket.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Network\PacketDef.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Player\PlayerMySelf.h">
+      <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Player\PlayerNPC.h">
+      <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Player\PlayerOther.h">
+      <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Player\PlayerOtherMgr.h">
+      <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Player\ItemRepairMgr.h">
+      <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Player\PlayerBase.h">
+      <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Procs\GameProcedure.h">
+      <Filter>Procs</Filter>
+    </ClInclude>
+    <ClInclude Include="Procs\GameProcLogIn.h">
+      <Filter>Procs</Filter>
+    </ClInclude>
+    <ClInclude Include="Procs\GameProcMain.h">
+      <Filter>Procs</Filter>
+    </ClInclude>
+    <ClInclude Include="Procs\GameProcNationSelect.h">
+      <Filter>Procs</Filter>
+    </ClInclude>
+    <ClInclude Include="Procs\GameProcOption.h">
+      <Filter>Procs</Filter>
+    </ClInclude>
+    <ClInclude Include="Procs\GameProcCharacterCreate.h">
+      <Filter>Procs</Filter>
+    </ClInclude>
+    <ClInclude Include="Procs\GameProcCharacterSelect.h">
+      <Filter>Procs</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\N3UIWndBase.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\SubProcPerTrade.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UICharacterCreate.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UICharacterSelect.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UIChat.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UIClassChange.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UICmd.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UICreateClanName.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UIDead.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UIDroppedItemDlg.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UIEndingDisplay.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UIHelp.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UIHotKeyDlg.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UIImageTooltipDlg.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UIInn.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UIInventory.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UIItemExchange.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UIKnightsOperation.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UILoading.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UILoadingDlg.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UILogin.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UIManager.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UIMessageBox.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UIMessageBoxManager.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UIMessageWnd.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UINationSelectDlg.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UINotice.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UINPCChangeEvent.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UINPCEvent.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UINpcTalk.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UIPartyBBS.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UIPartyBBSSelector.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UIPartyOrForce.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UIPerTradeDlg.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UIPointInitDlg.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UIQuestMenu.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UIQuestTalk.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UIRepairTooltipDlg.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UISkillTreeDlg.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UIStateBar.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UITargetBar.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UITradeBBSEditDlg.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UITradeBBSSelector.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UITradeEditDlg.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UITradeExplanation.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UITradeList.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UITradeSellBBS.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UITransactionDlg.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UIVarious.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UIWareHouseDlg.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UIWarp.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\CountableItemEditDlg.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\N3UIDBCLButton.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\N3UIIcon.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="World\EventManager.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="World\GrassBoard.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="World\GrassMng.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="World\LightMgr.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="World\MachineBase.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="World\MachineMng.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="World\N3Terrain.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="World\N3TerrainDef.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="World\N3TerrainManager.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="World\N3TerrainPatch.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="World\N3WorldBase.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="World\N3WorldManager.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="World\PortalVolume.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="World\PvsMgr.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="World\ServerMesh.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="World\Bird.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="World\BirdMng.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="World\Catapult.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="World\DungeonManager.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="StringIds.h">
+      <Filter>Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Warfare.rc">
@@ -36,11 +353,333 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="small.ico">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="Warfare.ico">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="small.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Cursors\Cursor_Attack.cur">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Cursors\Cursor_Click.cur">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Cursors\cursor_click1.cur">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Cursors\Cursor_Normal.cur">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Cursors\cursor_normal1.cur">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Cursors\repair0.cur">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Cursors\repair1.cur">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Base\pch.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="FX\N3FXBundleGame.cpp">
+      <Filter>FX</Filter>
+    </ClCompile>
+    <ClCompile Include="FX\N3FXMgr.cpp">
+      <Filter>FX</Filter>
+    </ClCompile>
+    <ClCompile Include="FX\N3FXPartBillBoardGame.cpp">
+      <Filter>FX</Filter>
+    </ClCompile>
+    <ClCompile Include="FX\N3FXPartBottomBoardGame.cpp">
+      <Filter>FX</Filter>
+    </ClCompile>
+    <ClCompile Include="FX\MagicSkillMng.cpp">
+      <Filter>FX</Filter>
+    </ClCompile>
+    <ClCompile Include="FX\N3EffectWave2.cpp">
+      <Filter>FX</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameEng.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\LocalInput.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\WarFareMain.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\WarMessage.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameBase.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameCursor.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Network\APISocket.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Player\PlayerNPC.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Player\PlayerOther.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Player\PlayerOtherMgr.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Player\ItemRepairMgr.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Player\PlayerBase.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Player\PlayerMySelf.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Procs\GameProcLogIn.cpp">
+      <Filter>Procs</Filter>
+    </ClCompile>
+    <ClCompile Include="Procs\GameProcMain.cpp">
+      <Filter>Procs</Filter>
+    </ClCompile>
+    <ClCompile Include="Procs\GameProcNationSelect.cpp">
+      <Filter>Procs</Filter>
+    </ClCompile>
+    <ClCompile Include="Procs\GameProcOption.cpp">
+      <Filter>Procs</Filter>
+    </ClCompile>
+    <ClCompile Include="Procs\GameProcCharacterCreate.cpp">
+      <Filter>Procs</Filter>
+    </ClCompile>
+    <ClCompile Include="Procs\GameProcCharacterSelect.cpp">
+      <Filter>Procs</Filter>
+    </ClCompile>
+    <ClCompile Include="Procs\GameProcedure.cpp">
+      <Filter>Procs</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\SubProcPerTrade.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UICharacterCreate.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UICharacterSelect.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UIChat.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UIClassChange.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UICmd.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UICreateClanName.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UIDead.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UIDroppedItemDlg.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UIEndingDisplay.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UIHelp.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UIHotKeyDlg.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UIImageTooltipDlg.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UIInn.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UIInventory.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UIItemExchange.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UIKnightsOperation.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UILoading.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UILoadingDlg.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UILogin.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UIManager.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UIMessageBox.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UIMessageBoxManager.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UIMessageWnd.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UINationSelectDlg.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UINotice.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UINPCChangeEvent.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UINPCEvent.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UINpcTalk.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UIPartyBBS.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UIPartyBBSSelector.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UIPartyOrForce.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UIPerTradeDlg.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UIPointInitDlg.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UIQuestMenu.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UIQuestTalk.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UIRepairTooltipDlg.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UISkillTreeDlg.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UIStateBar.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UITargetBar.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UITradeBBSEditDlg.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UITradeBBSSelector.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UITradeEditDlg.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UITradeExplanation.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UITradeList.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UITradeSellBBS.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UITransactionDlg.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UIVarious.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UIWareHouseDlg.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UIWarp.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\CountableItemEditDlg.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\N3UIDBCLButton.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\N3UIIcon.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\N3UIWndBase.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="World\EventManager.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
+    <ClCompile Include="World\GrassBoard.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
+    <ClCompile Include="World\GrassMng.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
+    <ClCompile Include="World\LightMgr.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
+    <ClCompile Include="World\MachineBase.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
+    <ClCompile Include="World\MachineMng.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
+    <ClCompile Include="World\N3Terrain.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
+    <ClCompile Include="World\N3TerrainManager.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
+    <ClCompile Include="World\N3TerrainPatch.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
+    <ClCompile Include="World\N3WorldBase.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
+    <ClCompile Include="World\N3WorldManager.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
+    <ClCompile Include="World\PortalVolume.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
+    <ClCompile Include="World\PvsMgr.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
+    <ClCompile Include="World\ServerMesh.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
+    <ClCompile Include="World\Bird.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
+    <ClCompile Include="World\BirdMng.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
+    <ClCompile Include="World\Catapult.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
+    <ClCompile Include="World\DungeonManager.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

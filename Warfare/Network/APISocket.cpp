@@ -1,15 +1,6 @@
-// APISocket.cpp: implementation of the CAPISocket class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#include "stdafx.h"
+#include "pch.h"
 #include "APISocket.h"
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
-
-//
 WSAData		CAPISocket::s_WSData;
 int			CAPISocket::s_nInstanceCount = 0;
 
@@ -23,16 +14,13 @@ WORD		DataPack::s_wSendVal = 0;
 WORD		DataPack::s_wRcvVal = 0;
 #endif
 
-
-
-
 //#define STX 1007
 //#define ETX 1005
 const WORD PACKET_HEADER = 0XAA55;
 const WORD PACKET_TAIL = 0X55AA;
 
 #ifdef _N3GAME
-#include "../N3Base/LogWriter.h"
+#include "LogWriter.h"
 #endif
 
 #ifdef _DEBUG
@@ -314,7 +302,7 @@ int CAPISocket::Connect(HWND hWnd, const char* pszIP, DWORD dwPort)
 	m_bConnected = TRUE;
 	
 #ifdef _DEBUG
-	for(i = 0; i < 255; i++)
+	for(auto i = 0; i < 255; i++)
 	{
 		memset(m_Statistics_Send_Sum, 0, sizeof(m_Statistics_Send_Sum));
 		memset(m_Statistics_Recv_Sum, 0, sizeof(m_Statistics_Recv_Sum));

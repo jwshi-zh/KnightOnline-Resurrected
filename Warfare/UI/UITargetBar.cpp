@@ -1,23 +1,8 @@
-// UITargetBar.cpp: implementation of the UITargetBar class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#include "stdafx.h"
-#include "Resource.h"
+#include "pch.h"
 #include "UITargetBar.h"
 
-#include "../N3Base/N3UIProgress.h"
-#include "../N3Base/N3UIString.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
+#include "N3UIProgress.h"
+#include "N3UIString.h"
 
 CUITargetBar::CUITargetBar()
 {

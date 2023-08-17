@@ -1,21 +1,7 @@
-// N3UIIcon.cpp: implementation of the CN3UIIcon class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#include "stdafx.h"
+#include "pch.h"
 #include "N3UIDBCLButton.h"
 #include "GameProcedure.h"
 #include "UIImageTooltipDlg.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 CN3UIDBCLButton::CN3UIDBCLButton()
 {

@@ -1,20 +1,10 @@
-// N3EffectWave2.h: interface for the CN3EffectWave2 class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_N3EFFECTWAVE2_H__B9A59A74_B468_4552_8D80_E8AF3FE586E0__INCLUDED_)
-#define AFX_N3EFFECTWAVE2_H__B9A59A74_B468_4552_8D80_E8AF3FE586E0__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #define MAX_PONDMESH_LINE		200
 #define MAX_PONDMESH_VERTEX		200*4
 #define MAX_POND_TEX	32
 
-
-#include "../N3Base/N3BaseFileAccess.h"
+#include "N3BaseFileAccess.h"
 
 class CN3EffectWave2 : public CN3BaseFileAccess
 {
@@ -92,5 +82,3 @@ private:
 
 	void		UpdateWaterPositions();
 };
-
-#endif // !defined(AFX_N3EFFECTWAVE2_H__B9A59A74_B468_4552_8D80_E8AF3FE586E0__INCLUDED_)

@@ -1,19 +1,6 @@
-// MachineBase.cpp: implementation of the CMachineBase class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#include "StdAfx.h"
+#include "pch.h"
 #include "MachineBase.h"
 #include "N3Terrain.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 CMachineBase::CMachineBase()
 {

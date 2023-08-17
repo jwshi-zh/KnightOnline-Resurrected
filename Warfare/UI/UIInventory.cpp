@@ -1,8 +1,4 @@
-// UIInventory.cpp: implementation of the CUIInventory class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#include "stdafx.h"
+#include "pch.h"
 
 #include "PlayerMySelf.h"
 #include "PacketDef.h"
@@ -25,16 +21,9 @@
 #include "UIHotKeyDlg.h"
 #include "UISkillTreeDlg.h"
 
-#include "../N3Base/N3UIString.h"
-#include "../N3Base/N3UIEdit.h"
-#include "../N3Base/N3SndObj.h"
-#include "Resource.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
+#include "N3UIString.h"
+#include "N3UIEdit.h"
+#include "N3SndObj.h"
 
 static bool g_bItemClassGroup[26][26] = {	// [아이템][플레이어]	
 //	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }	// 초기그룹
@@ -66,14 +55,10 @@ static bool g_bItemClassGroup[26][26] = {	// [아이템][플레이어]
 	{ 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 0, 0 },	// 24번 Group
 	{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 } };	// 25번 Group (모든 Class)
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
-
 CUIInventory::CUIInventory()
 {
-	for( int i = 0; i < ITEM_SLOT_COUNT; i++ )	m_pMySlot[i] = NULL;
-	for( i = 0; i < MAX_ITEM_INVENTORY; i++ )	m_pMyInvWnd[i] = NULL;
+	for(auto i = 0; i < ITEM_SLOT_COUNT; i++ )	m_pMySlot[i] = NULL;
+	for(auto i = 0; i < MAX_ITEM_INVENTORY; i++ )	m_pMyInvWnd[i] = NULL;
 
 	m_pUITooltipDlg = NULL;
 	CN3UIWndBase::m_sRecoveryJobInfo.m_bWaitFromServer = false;
@@ -98,7 +83,7 @@ void CUIInventory::Release()
 {
 	CN3UIBase::Release();
 
-	for( int i = 0; i < ITEM_SLOT_COUNT; i++ )
+	for(auto i = 0; i < ITEM_SLOT_COUNT; i++ )
 	{
 		if ( m_pMySlot[i] != NULL )
 		{
@@ -107,7 +92,7 @@ void CUIInventory::Release()
 		}
 	}
 
-	for( i = 0; i < MAX_ITEM_INVENTORY; i++ )
+	for(auto i = 0; i < MAX_ITEM_INVENTORY; i++ )
 	{
 		if ( m_pMyInvWnd[i] != NULL )
 		{
@@ -124,7 +109,7 @@ void CUIInventory::Release()
 
 bool CUIInventory::HasAnyItemInSlot()
 {
-	for( int i = 0; i < ITEM_SLOT_COUNT; i++ )
+	for(auto i = 0; i < ITEM_SLOT_COUNT; i++ )
 	{
 		if ( m_pMySlot[i] != NULL )
 			return true;
@@ -134,7 +119,7 @@ bool CUIInventory::HasAnyItemInSlot()
 
 void CUIInventory::ReleaseItem()
 {
-	for( int i = 0; i < ITEM_SLOT_COUNT; i++ )
+	for(auto i = 0; i < ITEM_SLOT_COUNT; i++ )
 	{
 		if ( m_pMySlot[i] != NULL )
 		{
@@ -151,7 +136,7 @@ void CUIInventory::ReleaseItem()
 		}
 	}
 
-	for( i = 0; i < MAX_ITEM_INVENTORY; i++ )
+	for(auto i = 0; i < MAX_ITEM_INVENTORY; i++ )
 	{
 		if ( m_pMyInvWnd[i] != NULL )
 		{
@@ -336,7 +321,7 @@ void CUIInventory::Render()
 		CN3UIWndBase::m_sSelectedIconInfo.pItemSelect->pUIIcon->Render();		
 
 	// 갯수 표시되야 할 아이템 갯수 표시..
-	for( int i = 0; i < MAX_ITEM_INVENTORY; i++ )
+	for(auto i = 0; i < MAX_ITEM_INVENTORY; i++ )
 	{
 		if ( m_pMyInvWnd[i] && ((m_pMyInvWnd[i]->pItemBasic->byContable == UIITEM_TYPE_COUNTABLE) || 
 					(m_pMyInvWnd[i]->pItemBasic->byContable == UIITEM_TYPE_COUNTABLE_SMALL)) )
@@ -413,7 +398,7 @@ void CUIInventory::InitIconUpdate()
 	CN3UIArea* pArea;
 	float fUVAspect = (float)45.0f/(float)64.0f;
 
-	for( int i = 0; i < ITEM_SLOT_COUNT; i++ )
+	for(auto i = 0; i < ITEM_SLOT_COUNT; i++ )
 	{
 		if ( m_pMySlot[i] != NULL )
 		{
@@ -434,7 +419,7 @@ void CUIInventory::InitIconUpdate()
 		}
 	}
 
-	for( i = 0; i < MAX_ITEM_INVENTORY; i++ )
+	for(auto i = 0; i < MAX_ITEM_INVENTORY; i++ )
 	{
 		if ( m_pMyInvWnd[i] != NULL )
 		{
@@ -458,13 +443,13 @@ void CUIInventory::InitIconUpdate()
 
 __IconItemSkill* CUIInventory::GetHighlightIconItem(CN3UIIcon* pUIIcon)
 {
-	for( int i = 0; i < ITEM_SLOT_COUNT; i++ )
+	for(auto i = 0; i < ITEM_SLOT_COUNT; i++ )
 	{
 		if ( (m_pMySlot[i] != NULL) && (m_pMySlot[i]->pUIIcon == pUIIcon) )
 			return m_pMySlot[i];
 	}
 
-	for( i = 0; i < MAX_ITEM_INVENTORY; i++ )
+	for(auto i = 0; i < MAX_ITEM_INVENTORY; i++ )
 	{
 		if ( (m_pMyInvWnd[i] != NULL) && (m_pMyInvWnd[i]->pUIIcon == pUIIcon) )
 			return m_pMyInvWnd[i];
@@ -474,13 +459,13 @@ __IconItemSkill* CUIInventory::GetHighlightIconItem(CN3UIIcon* pUIIcon)
 
 e_UIWND_DISTRICT CUIInventory::GetWndDistrict(__IconItemSkill* spItem)
 {
-	for( int i = 0; i < ITEM_SLOT_COUNT; i++ )
+	for(auto i = 0; i < ITEM_SLOT_COUNT; i++ )
 	{
 		if ( (m_pMySlot[i] != NULL) && (m_pMySlot[i] == spItem) )
 			return UIWND_DISTRICT_INVENTORY_SLOT;
 	}
 
-	for( i = 0; i < MAX_ITEM_INVENTORY; i++ )
+	for(auto i = 0; i < MAX_ITEM_INVENTORY; i++ )
 	{
 		if ( (m_pMyInvWnd[i] != NULL) && (m_pMyInvWnd[i] == spItem) )
 			return UIWND_DISTRICT_INVENTORY_INV;
@@ -496,7 +481,7 @@ int CUIInventory::GetItemiOrder(__IconItemSkill* spItem, e_UIWND_DISTRICT eWndDi
 	switch ( eWndDist )
 	{
 		case UIWND_DISTRICT_INVENTORY_SLOT:
-			for( i = 0; i < ITEM_SLOT_COUNT; i++ )
+			for(auto i = 0; i < ITEM_SLOT_COUNT; i++ )
 			{
 				if ( (m_pMySlot[i] != NULL) && (m_pMySlot[i] == spItem) )
 					return i;
@@ -504,7 +489,7 @@ int CUIInventory::GetItemiOrder(__IconItemSkill* spItem, e_UIWND_DISTRICT eWndDi
 			break;
 
 		case UIWND_DISTRICT_INVENTORY_INV:
-			for( i = 0; i < MAX_ITEM_INVENTORY; i++ )
+			for(auto i = 0; i < MAX_ITEM_INVENTORY; i++ )
 			{
 				if ( (m_pMyInvWnd[i] != NULL) && (m_pMyInvWnd[i] == spItem) )
 					return i;
@@ -556,7 +541,7 @@ DWORD CUIInventory::MouseProc(DWORD dwFlags, const POINT& ptCur, const POINT& pt
 			return dwRet;
 		}
 
-		for ( int i = 0; i < m_pArea_Destroy->GetChildrenCount(); i++ )
+		for(auto i = 0; i < m_pArea_Destroy->GetChildrenCount(); i++ )
 		{
 			CN3UIBase* pChild = m_pArea_Destroy->GetChildByIndex(i);
 			if (pChild)	
@@ -598,7 +583,7 @@ int CUIInventory::GetInvDestinationIndex(__IconItemSkill* spItem)
 	if( CN3UIWndBase::m_sSelectedIconInfo.pItemSelect == NULL )
 		return false;
 
-	for( int i = 0; i < MAX_ITEM_INVENTORY; i++ )
+	for(auto i = 0; i < MAX_ITEM_INVENTORY; i++ )
 	{
 		if (!m_pMyInvWnd[i])
 			return i;
@@ -712,7 +697,7 @@ bool CUIInventory::CheckIconDropIfSuccessSendToServer(__IconItemSkill* spItem)
 	if (!m_bRBtnProcessing)
 	{
 		POINT ptCur = CGameProcedure::s_pLocalInput->MouseGetPos();
-		for( i = 0; i < ITEM_SLOT_COUNT; i++ )
+		for(auto i = 0; i < ITEM_SLOT_COUNT; i++ )
 		{
 			pArea = CN3UIWndBase::GetChildAreaByiOrder(UI_AREA_TYPE_SLOT, i);
 			if ( pArea && pArea->IsIn(ptCur.x, ptCur.y) )
@@ -725,7 +710,7 @@ bool CUIInventory::CheckIconDropIfSuccessSendToServer(__IconItemSkill* spItem)
 		}
 		if ( !bFound )
 		{
-			for( i = 0; i < MAX_ITEM_INVENTORY; i++ )
+			for(auto i = 0; i < MAX_ITEM_INVENTORY; i++ )
 			{
 				pArea = CN3UIWndBase::GetChildAreaByiOrder(UI_AREA_TYPE_INV, i);
 				if ( pArea && pArea->IsIn(ptCur.x, ptCur.y) )
@@ -880,7 +865,8 @@ bool CUIInventory::CheckIconDropIfSuccessSendToServer(__IconItemSkill* spItem)
 		{
 			// 인벤토리 빈슬롯을 찾아 들어간다..
 			bFound = false;
-			for( i = 0; i < MAX_ITEM_INVENTORY; i++ )
+			int i = 0;
+			for(; i < MAX_ITEM_INVENTORY; i++ )
 			{
 				if ( !m_pMyInvWnd[i] )
 				{
@@ -1421,7 +1407,7 @@ int CUIInventory::GetIndexInArea(POINT pt)
 		}
 	}
 
-	for (i = 0; i < MAX_ITEM_INVENTORY; i++)
+	for (auto i = 0; i < MAX_ITEM_INVENTORY; i++)
 	{
 		pArea = NULL;
 		pArea = CN3UIWndBase::GetChildAreaByiOrder(UI_AREA_TYPE_INV, i);
@@ -2367,7 +2353,7 @@ void CUIInventory::ReceiveResultFromServer(int iResult, int iUserGold)
 int CUIInventory::GetCountInInvByID(int iID)
 {
 	int i;
-	for( i = 0; i < MAX_ITEM_INVENTORY; i++ )
+	for(auto i = 0; i < MAX_ITEM_INVENTORY; i++ )
 	{
 		if ( (m_pMyInvWnd[i] != NULL) && (m_pMyInvWnd[i]->pItemBasic->dwID == (iID/1000*1000)) &&
 				(m_pMyInvWnd[i]->pItemExt->dwID == (iID%1000)) )
@@ -2849,7 +2835,7 @@ int CUIInventory::GetIndexItemCount(DWORD dwIndex)
 {
 	int iCnt = 0;
 
-	for( int i = 0; i < ITEM_SLOT_COUNT; i++ )
+	for(auto i = 0; i < ITEM_SLOT_COUNT; i++ )
 	{
 		if(m_pMySlot[i] && m_pMySlot[i]->pItemBasic)
 		{
@@ -2858,7 +2844,7 @@ int CUIInventory::GetIndexItemCount(DWORD dwIndex)
 		}
 	}
 
-	for( i = 0; i < MAX_ITEM_INVENTORY; i++ )
+	for(auto i = 0; i < MAX_ITEM_INVENTORY; i++ )
 	{
 		if(m_pMyInvWnd[i] && m_pMyInvWnd[i]->pItemBasic)
 		{

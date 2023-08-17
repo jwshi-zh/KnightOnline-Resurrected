@@ -1,21 +1,6 @@
-// N3EffectWave2.cpp: implementation of the CN3EffectWave2 class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#include "StdAfx.h"
+#include "pch.h"
 #include "N3EffectWave2.h"
-#include "../N3Base/N3Texture.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
-
+#include "N3Texture.h"
 
 #define ATISQRT	4.94974747f
 
@@ -198,7 +183,7 @@ void CN3EffectWave2::Tick()
 	}
 
 	// 프레임이 임계값보다 작으면 버린다..
-	if ( CN3Base::s_fFrmPerSec < g_EPSILON ) return;
+	if ( CN3Base::s_fFrmPerSec < 30 ) return;
 	
 	// Desire Frame Rate보다 Frame이 잘 나오는 경우..
 	if ( 30.0f <= CN3Base::s_fFrmPerSec )
@@ -221,7 +206,7 @@ void CN3EffectWave2::Tick()
 		int i    = (int)ftemp;
 		float j  = ftemp - (float)i;
 
-		for ( int k = 0; k < i; k++ )
+		for(auto k = 0; k < i; k++ )
 		{
 			UpdateWaterPositions();
 		}
@@ -245,12 +230,12 @@ void CN3EffectWave2::Render()
 	s_lpD3DDev->GetTextureStageState(0, D3DTSS_COLOROP, &dwColor_0);
 	s_lpD3DDev->GetTextureStageState(0, D3DTSS_COLORARG1, &dwColorArg1_0);
 	s_lpD3DDev->GetTextureStageState(0, D3DTSS_COLORARG2, &dwColorArg2_0);
-	s_lpD3DDev->GetTextureStageState(0, D3DTSS_MIPFILTER, &dwMipFilter_0);
+	s_lpD3DDev->GetSamplerState(0, D3DSAMP_MIPFILTER, &dwMipFilter_0);
 	DWORD dwColor_1, dwColorArg1_1, dwColorArg2_1, dwMipFilter_1;
 	s_lpD3DDev->GetTextureStageState(1, D3DTSS_COLOROP, &dwColor_1);
 	s_lpD3DDev->GetTextureStageState(1, D3DTSS_COLORARG1, &dwColorArg1_1);
 	s_lpD3DDev->GetTextureStageState(1, D3DTSS_COLORARG2, &dwColorArg2_1);
-	s_lpD3DDev->GetTextureStageState(1, D3DTSS_MIPFILTER, &dwMipFilter_1);
+	s_lpD3DDev->GetSamplerState(1, D3DSAMP_MIPFILTER, &dwMipFilter_1);
 
 
 	// Set
@@ -271,10 +256,10 @@ void CN3EffectWave2::Render()
 	s_lpD3DDev->SetTextureStageState( 1, D3DTSS_COLOROP,   D3DTOP_MODULATE);
     s_lpD3DDev->SetTextureStageState( 1, D3DTSS_COLORARG1, D3DTA_TEXTURE );
     s_lpD3DDev->SetTextureStageState( 1, D3DTSS_COLORARG2, D3DTA_CURRENT);	
-    s_lpD3DDev->SetTextureStageState( 0, D3DTSS_MIPFILTER, D3DTEXF_NONE );
-    s_lpD3DDev->SetTextureStageState( 1, D3DTSS_MIPFILTER, D3DTEXF_NONE );
+    s_lpD3DDev->SetSamplerState( 0, D3DSAMP_MIPFILTER, D3DTEXF_NONE );
+    s_lpD3DDev->SetSamplerState( 1, D3DSAMP_MIPFILTER, D3DTEXF_NONE );
 
-	s_lpD3DDev->SetVertexShader(D3DFVF_XYZ|D3DFVF_NORMAL|D3DFVF_DIFFUSE|D3DFVF_TEX2);
+	s_lpD3DDev->SetFVF(D3DFVF_XYZ|D3DFVF_NORMAL|D3DFVF_DIFFUSE|D3DFVF_TEX2);
 
 	for(int i=0;i<m_iPondMeshNum;i++)
 	{
@@ -299,12 +284,12 @@ void CN3EffectWave2::Render()
 	s_lpD3DDev->SetTextureStageState(0, D3DTSS_COLOROP, dwColor_0);
 	s_lpD3DDev->SetTextureStageState(0, D3DTSS_COLORARG1, dwColorArg1_0);
 	s_lpD3DDev->SetTextureStageState(0, D3DTSS_COLORARG2, dwColorArg2_0);
-	s_lpD3DDev->SetTextureStageState(0, D3DTSS_MIPFILTER, dwMipFilter_0);
+	s_lpD3DDev->SetSamplerState(0, D3DSAMP_MIPFILTER, dwMipFilter_0);
 
 	s_lpD3DDev->SetTextureStageState(1, D3DTSS_COLOROP, dwColor_1);
 	s_lpD3DDev->SetTextureStageState(1, D3DTSS_COLORARG1, dwColorArg1_1);
 	s_lpD3DDev->SetTextureStageState(1, D3DTSS_COLORARG2, dwColorArg2_1);
-	s_lpD3DDev->SetTextureStageState(1, D3DTSS_MIPFILTER, dwMipFilter_1);
+	s_lpD3DDev->SetSamplerState(1, D3DSAMP_MIPFILTER, dwMipFilter_1);
 }
 
 void CN3EffectWave2::UpdateWaterPositions()

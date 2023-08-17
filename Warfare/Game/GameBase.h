@@ -1,16 +1,7 @@
-// N3GameBase.h: interface for the CN3GameBase class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_N3GAMEBASE_H__5F0720A7_AFF6_4AB5_B469_701AA2935158__INCLUDED_)
-#define AFX_N3GAMEBASE_H__5F0720A7_AFF6_4AB5_B469_701AA2935158__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
-#include "../N3Base/N3Base.h"
-#include "../N3Base/N3TableBase.h"
+#include "N3Base.h"
+#include "N3TableBase.h"
 #include "GameDef.h"
 
 class CGameBase : public CN3Base
@@ -59,5 +50,3 @@ public:
 	CGameBase();
 	virtual ~CGameBase();
 };
-
-#endif // !defined(AFX_N3GAMEBASE_H__5F0720A7_AFF6_4AB5_B469_701AA2935158__INCLUDED_)

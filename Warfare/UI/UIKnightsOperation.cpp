@@ -1,29 +1,13 @@
-// UIKnightsOperation.cpp: implementation of the CUIKnightsOperation class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#include "stdafx.h"
-#include "Resource.h"
+#include "pch.h"
 #include "UIKnightsOperation.h"
 #include "GameProcMain.h"
 #include "PacketDef.h"
 #include "APISocket.h"
 
-#include "../N3Base/N3UIButton.h"
-#include "../N3Base/N3UIEdit.h"
-#include "../N3Base/N3UIList.h"
-#include "../N3Base/N3UIScrollBar.h"
-
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
+#include "N3UIButton.h"
+#include "N3UIEdit.h"
+#include "N3UIList.h"
+#include "N3UIScrollBar.h"
 
 CUIKnightsOperation::CUIKnightsOperation()
 {

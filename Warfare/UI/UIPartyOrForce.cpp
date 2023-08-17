@@ -1,27 +1,13 @@
-// UIPartyOrForce.cpp: implementation of the CUIPartyOrForce class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#include "stdafx.h"
+#include "pch.h"
 #include "UIPartyOrForce.h"
 #include "GameProcMain.h"
 #include "PlayerOtherMgr.h"
 
-#include "../N3Base/N3UIProgress.h"
-#include "../N3Base/N3UIStatic.h"
-#include "../N3Base/N3UIImage.h"
-#include "../N3Base/N3UIArea.h"
+#include "N3UIProgress.h"
+#include "N3UIStatic.h"
+#include "N3UIImage.h"
+#include "N3UIArea.h"
 #include "UIManager.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 CUIPartyOrForce::CUIPartyOrForce()
 {
@@ -201,7 +187,7 @@ const __InfoPartyOrForce* CUIPartyOrForce::MemberInfoGetByIndex(int iIndex)
 
 CPlayerOther* CUIPartyOrForce::MemberGetByNearst(const __Vector3& vPosPlayer)
 {
-	if(m_Members.empty()) return false;
+	if(m_Members.empty()) return nullptr;
 
 	float fDistMin = FLT_MAX, fDistTmp = 0;
 	CPlayerOther* pTarget = NULL;
@@ -280,7 +266,9 @@ void CUIPartyOrForce::MemberInfoReInit() // 파티원 구성이 변경될때.. 순서 및 각�
 {
 	it_PartyOrForce it = m_Members.begin(), itEnd = m_Members.end();
 	__InfoPartyOrForce* pIP = NULL;
-	for(int i = 0; it != itEnd && i < MAX_PARTY_OR_FORCE; it++, i++)
+	int i;
+
+	for(i = 0; it != itEnd && i < MAX_PARTY_OR_FORCE; it++, i++)
 	{
 		pIP = &(*it); // 디버깅 하기 쉬우라고 이렇게 했다..
 		if(pIP->iHPMax <= 0)

@@ -1,9 +1,4 @@
-// CountableItemEditDlg.cpp: implementation of the CCountableItemEditDlg class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#include "stdafx.h"
-#include "resource.h"
+#include "pch.h"
 #include "CountableItemEditDlg.h"
 
 #include "GameProcedure.h"
@@ -16,17 +11,7 @@
 #include "UIWareHouseDlg.h"
 #include "UIManager.h"
 
-#include "../N3Base/N3UIEdit.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
+#include "N3UIEdit.h"
 
 CCountableItemEditDlg::CCountableItemEditDlg()
 {

@@ -1,11 +1,6 @@
-// PlayerMgr.cpp: implementation of the CPlayerMySelf class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#include "StdAfx.h"
+#include "pch.h"
 #include "PlayerMySelf.h"
 
-#include "Resource.h"
 #include "PacketDef.h"
 #include "PlayerOtherMgr.h"
 
@@ -16,21 +11,10 @@
 
 #include "GameEng.h"
 
-#include "../N3Base/DFont.h"
-#include "../N3Base/N3Camera.h"
-#include "../N3Base/N3ShapeMgr.h"
-#include "../N3Base/N3SndObj.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
-
+#include "DFont.h"
+#include "N3Camera.h"
+#include "N3ShapeMgr.h"
+#include "N3SndObj.h"
 
 CPlayerMySelf::CPlayerMySelf()
 {
@@ -429,17 +413,17 @@ void CPlayerMySelf::InventoryChrRender(const RECT& Rect)
 	CN3Base::s_lpD3DDev->GetRenderState( D3DRS_LIGHTING, &dwUseLighting );
 
 	int	bLight[8];
-	for ( int i = 0; i < 8; i++ )	CN3Base::s_lpD3DDev->GetLightEnable(i, &bLight[i]);
+	for(auto i = 0; i < 8; i++ )	CN3Base::s_lpD3DDev->GetLightEnable(i, &bLight[i]);
 
 	if (dwUseLighting) CN3Base::s_lpD3DDev->SetRenderState( D3DRS_LIGHTING, TRUE );
 	if (dwUsefog) CN3Base::s_lpD3DDev->SetRenderState( D3DRS_FOGENABLE, FALSE );
 	// set render states
-	for ( i = 1; i < 8; i++ )	CN3Base::s_lpD3DDev->LightEnable(i, FALSE);
+	for(auto i = 1; i < 8; i++ )	CN3Base::s_lpD3DDev->LightEnable(i, FALSE);
 	CN3Base::s_lpD3DDev->LightEnable(0, TRUE);
 
-	D3DLIGHT8 lgt0;
+	D3DLIGHT9 lgt0;
 	
-	memset(&lgt0, 0, sizeof(D3DLIGHT8));
+	memset(&lgt0, 0, sizeof(D3DLIGHT9));
 	lgt0.Type = D3DLIGHT_POINT;
 	lgt0.Attenuation0 = 0.5f;
 	lgt0.Range = 100.0f;
@@ -507,26 +491,26 @@ void CPlayerMySelf::InventoryChrRender(const RECT& Rect)
 
 	CN3Base::s_lpD3DDev->SetRenderState( D3DRS_LIGHTING, dwUseLighting );
 	CN3Base::s_lpD3DDev->SetRenderState( D3DRS_FOGENABLE , dwUsefog );
-	for ( i = 0; i < 8; i++ )	CN3Base::s_lpD3DDev->LightEnable(i, bLight[i]);
+	for(auto i = 0; i < 8; i++ )	CN3Base::s_lpD3DDev->LightEnable(i, bLight[i]);
 */
 	// 아래로 dino수정
 	// backup render state
 	DWORD dwLighting;
-	D3DLIGHT8 BackupLight0;
+	D3DLIGHT9 BackupLight0;
 
 	s_lpD3DDev->GetRenderState( D3DRS_LIGHTING, &dwLighting );
 	BOOL bLight[8];
-	for ( int i = 0; i < 8; ++i )	s_lpD3DDev->GetLightEnable(i, &(bLight[i]));
+	for(auto i = 0; i < 8; ++i )	s_lpD3DDev->GetLightEnable(i, &(bLight[i]));
 	s_lpD3DDev->GetLight(0, &BackupLight0);
 
 	// set render state
 	if (TRUE != dwLighting) s_lpD3DDev->SetRenderState( D3DRS_LIGHTING, TRUE );
-	for ( i = 1; i < 8; ++i )	s_lpD3DDev->LightEnable(i, FALSE);
+	for(auto i = 1; i < 8; ++i )	s_lpD3DDev->LightEnable(i, FALSE);
 	s_lpD3DDev->LightEnable(0, TRUE);
 
 	// 0번 light 설정
-	D3DLIGHT8 Light0;
-	memset(&Light0, 0, sizeof(D3DLIGHT8));
+	D3DLIGHT9 Light0;
+	memset(&Light0, 0, sizeof(D3DLIGHT9));
 	Light0.Type = D3DLIGHT_POINT;
 	Light0.Attenuation0 = 0.5f;
 	Light0.Range = 100.0f;
@@ -545,7 +529,7 @@ void CPlayerMySelf::InventoryChrRender(const RECT& Rect)
 
 	// restore
 	if (TRUE != dwLighting) s_lpD3DDev->SetRenderState( D3DRS_LIGHTING, dwLighting );
-	for (i = 0; i < 8; ++i )	s_lpD3DDev->LightEnable(i, bLight[i]);
+	for (auto i = 0; i < 8; ++i )	s_lpD3DDev->LightEnable(i, bLight[i]);
 	s_lpD3DDev->SetLight(0, &BackupLight0);
 }
 
@@ -911,7 +895,7 @@ bool CPlayerMySelf::CheckCollision()
 	// 캐릭터 충돌 체크..
 //	int iSize = s_pOPMgr->m_OPCs.size();
 //	it_UPC it = s_pOPMgr->m_OPCs.begin();
-//	for( int i = 0; i < iSize; i++, it++ )
+//	for(auto i = 0; i < iSize; i++, it++ )
 //	{
 //		if ( ((*it)->Position() - vPosAfter).Magnitude() < 1.2f )
 //			return vPosBefore;

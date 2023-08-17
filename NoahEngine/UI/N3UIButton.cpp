@@ -2,12 +2,6 @@
 #include "N3UIButton.h"
 #include "N3UIImage.h"
 
-#ifndef _REPENT
-#ifdef _N3GAME
-#include "..\Warfare\N3UIWndBase.h"
-#endif
-#endif
-
 #include "N3SndMgr.h"
 #include "N3SndObj.h"
 
@@ -105,10 +99,9 @@ DWORD CN3UIButton::MouseProc(DWORD dwFlags, const POINT& ptCur, const POINT& ptO
 	DWORD dwRet = UI_MOUSEPROC_NONE;
 	if (!m_bVisible) return dwRet;
 
-#ifndef _REPENT
 #ifdef _N3GAME
-	if ( CN3UIWndBase::m_sRecoveryJobInfo.m_bWaitFromServer ) return dwRet;
-#endif
+	// TODO: Enable this later on
+	// if ( CN3UIWndBase::m_sRecoveryJobInfo.m_bWaitFromServer ) return dwRet;
 #endif
 
 	if(false == IsIn(ptCur.x, ptCur.y))	// 영역 밖이면

@@ -1,13 +1,4 @@
-// MachineBase.h: interface for the CMachineBase class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_MACHINEBASE_H__CA5C8B1C_9A41_465B_875E_979A9BCD0483__INCLUDED_)
-#define AFX_MACHINEBASE_H__CA5C8B1C_9A41_465B_875E_979A9BCD0483__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 const DWORD MS_STOP		= 0x00000000;
 const DWORD MS_FORWARD	= 0x00000001;
@@ -20,7 +11,7 @@ const DWORD MACHINE_TYPE_CATAPULT = 0x21;
 class CN3Texture;
 class CN3PMeshInstance;
 
-#include "..\N3BASE\N3Shape.h"
+#include "N3Shape.h"
 
 class CMachineBase : public CN3Shape
 {
@@ -89,5 +80,3 @@ public:
 
 	virtual void Fire();		// น฿ป็
 };
-
-#endif // !defined(AFX_MACHINEBASE_H__CA5C8B1C_9A41_465B_875E_979A9BCD0483__INCLUDED_)

@@ -1,19 +1,10 @@
-// UIWareHouseDlg.h: interface for the UIWareHouseDlg class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_UIWAREHOUSEDLG_H__47E9608F_598A_49CF_B10E_3D95FA647768__INCLUDED_)
-#define AFX_UIWAREHOUSEDLG_H__47E9608F_598A_49CF_B10E_3D95FA647768__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
-#include "..\N3BASE\N3UIBase.h"
-#include "..\N3BASE\N3UIArea.h"
-#include "..\N3Base\N3UIString.h"
-#include "..\N3Base\N3UIImage.h"
-#include "..\N3Base\N3UIButton.h"
+#include "N3UIBase.h"
+#include "N3UIArea.h"
+#include "N3UIString.h"
+#include "N3UIImage.h"
+#include "N3UIButton.h"
 #include "GameProcedure.h"
 
 #include "GameDef.h"
@@ -105,5 +96,3 @@ public:
 	void				ItemMoveFromInvToThis();
 	void				ItemMoveFromThisToInv();
 };
-
-#endif // !defined(AFX_UIWAREHOUSEDLG_H__47E9608F_598A_49CF_B10E_3D95FA647768__INCLUDED_)

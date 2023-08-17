@@ -1,17 +1,15 @@
-// GameProcMain.cpp: implementation of the CGameProcMain class.
-//
-//////////////////////////////////////////////////////////////////////
+#include "pch.h"
+
 #include <io.h>
 
-#include "stdafx.h"
-#include "Resource.h"
+#include <lz4.h>
+#include <crc32c/crc32c.h>
 
 #include "GameEng.h"
 #include "GameProcMain.h"
 #include "LocalInput.h"
 
 #include "APISocket.h"
-#include "Compress.h"
 #include "PacketDef.h"
 
 #include "PlayerMySelf.h"
@@ -66,19 +64,14 @@
 
 #include "LightMgr.h"
 
-#include "../N3Base/N3SkyMng.h"
-#include "../N3Base/N3ShapeExtra.h"
-#include "../N3Base/N3Camera.h"
-#include "../N3Base/N3SndObj.h"
-#include "../N3Base/N3SndObjStream.h"
-#include "../N3Base/N3SndMgr.h"
-#include "../N3Base/N3TableBase.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
+#include "N3SkyMng.h"
+#include "N3ShapeExtra.h"
+#include "N3Camera.h"
+#include "N3SndObj.h"
+#include "N3SndObjStream.h"
+#include "N3SndMgr.h"
+#include "N3TableBase.h"
+#include <LogWriter.h>
 
 enum e_ChatCmd { 	CMD_WHISPER, CMD_TOWN, CMD_TRADE, CMD_EXIT, CMD_PARTY,
 					CMD_LEAVEPARTY, CMD_RECRUITPARTY, CMD_JOINCLAN, CMD_WITHDRAWCLAN, CMD_FIRECLAN, 
@@ -89,12 +82,6 @@ enum e_ChatCmd { 	CMD_WHISPER, CMD_TOWN, CMD_TRADE, CMD_EXIT, CMD_PARTY,
 					CMD_COUNT,
 					CMD_UNKNOWN = 0xffffffff };
 static std::string s_szCmdMsg[CMD_COUNT]; // 게임상 명령어
-
-
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 CGameProcMain::CGameProcMain()				// r기본 생성자.. 각 변수의 역활은 헤더 참조..
 {	
@@ -247,7 +234,7 @@ void CGameProcMain::Init()
 	m_pLightMgr->Release();
 	s_pEng->SetDefaultLight(m_pLightMgr->Light(0), m_pLightMgr->Light(1), m_pLightMgr->Light(2));
 
-	for( int i = IDS_CMD_WHISPER ; i <= IDS_CMD_GAME_SAVE ; i++ ) //명령어 로딩...
+	for(auto i = IDS_CMD_WHISPER ; i <= IDS_CMD_GAME_SAVE ; i++ ) //명령어 로딩...
 	{
 		::_LoadStringFromResource(i, s_szCmdMsg[i - IDS_CMD_WHISPER]);
 	}
@@ -584,12 +571,12 @@ void CGameProcMain::Render()
 	float fSunAngle = ACT_WORLD->GetSunAngleByRadinWithSky(); // 해의 각도를 가져오고..
 
 	DWORD dwFilter = D3DTEXF_LINEAR;
-	CN3Base::s_lpD3DDev->SetTextureStageState( 0, D3DTSS_MINFILTER, dwFilter );		// 텍스쳐를 줄여서 찍었을 경우 픽셀이 깨진것처럼 보이는 것 방지
-	CN3Base::s_lpD3DDev->SetTextureStageState( 0, D3DTSS_MAGFILTER, dwFilter );		// 텍스쳐를 늘여서 찍었을 경우 픽셀이 깨진것처럼 보이는 것 방지
-	CN3Base::s_lpD3DDev->SetTextureStageState( 0, D3DTSS_MIPFILTER, dwFilter );		// 텍스쳐를 줄여서 찍었을 경우 픽셀이 깨진것처럼 보이는 것 방지
-	CN3Base::s_lpD3DDev->SetTextureStageState( 1, D3DTSS_MINFILTER, dwFilter );		// 텍스쳐를 줄여서 찍었을 경우 픽셀이 깨진것처럼 보이는 것 방지
-	CN3Base::s_lpD3DDev->SetTextureStageState( 1, D3DTSS_MAGFILTER, dwFilter );		// 텍스쳐를 늘여서 찍었을 경우 픽셀이 깨진것처럼 보이는 것 방지
-	CN3Base::s_lpD3DDev->SetTextureStageState( 1, D3DTSS_MIPFILTER, dwFilter );		// 텍스쳐를 줄여서 찍었을 경우 픽셀이 깨진것처럼 보이는 것 방지
+	CN3Base::s_lpD3DDev->SetSamplerState( 0, D3DSAMP_MINFILTER, dwFilter );		// 텍스쳐를 줄여서 찍었을 경우 픽셀이 깨진것처럼 보이는 것 방지
+	CN3Base::s_lpD3DDev->SetSamplerState( 0, D3DSAMP_MAGFILTER, dwFilter );		// 텍스쳐를 늘여서 찍었을 경우 픽셀이 깨진것처럼 보이는 것 방지
+	CN3Base::s_lpD3DDev->SetSamplerState( 0, D3DSAMP_MIPFILTER, dwFilter );		// 텍스쳐를 줄여서 찍었을 경우 픽셀이 깨진것처럼 보이는 것 방지
+	CN3Base::s_lpD3DDev->SetSamplerState( 1, D3DSAMP_MINFILTER, dwFilter );		// 텍스쳐를 줄여서 찍었을 경우 픽셀이 깨진것처럼 보이는 것 방지
+	CN3Base::s_lpD3DDev->SetSamplerState( 1, D3DSAMP_MAGFILTER, dwFilter );		// 텍스쳐를 늘여서 찍었을 경우 픽셀이 깨진것처럼 보이는 것 방지
+	CN3Base::s_lpD3DDev->SetSamplerState( 1, D3DSAMP_MIPFILTER, dwFilter );		// 텍스쳐를 줄여서 찍었을 경우 픽셀이 깨진것처럼 보이는 것 방지
 
 	ACT_WORLD->RenderTerrain();						// 지형 렌더..
 	ACT_WORLD->RenderShape();						// 물체 렌더..
@@ -597,7 +584,8 @@ void CGameProcMain::Render()
 	s_pPlayer->Render(fSunAngle);			// 플레이어 렌더..
 
 #ifdef _DEBUG
-	ACT_WORLD->RenderCollisionWithShape(s_pPlayer->Position());				// 충돌 메쉬 렌더..
+	auto vColPos = s_pPlayer->Position();
+	ACT_WORLD->RenderCollisionWithShape(vColPos);				// 충돌 메쉬 렌더..
 #endif
 
 #ifdef _N3_64GRID_
@@ -1659,7 +1647,7 @@ bool CGameProcMain::MsgRecv_MyInfo_All(DataPack* pDataPack, int& iOffset)
 	s_pPlayer->m_InfoBase.iAuthority		= CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); //권한.. 
 
 	// 스킬 UI 갱신..
-	for ( int i = 0; i < 9; i++ )
+	for(auto i = 0; i < 9; i++ )
 	{
 		m_pUISkillTreeDlg->m_iSkillInfo[i] = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
 	}
@@ -1672,7 +1660,7 @@ bool CGameProcMain::MsgRecv_MyInfo_All(DataPack* pDataPack, int& iOffset)
 	int iItemDurabilityInSlots[ITEM_SLOT_COUNT]; memset(iItemDurabilityInSlots, -1, sizeof(iItemDurabilityInSlots));
 	int iItemCountInSlots[ITEM_SLOT_COUNT]; memset(iItemCountInSlots, -1, sizeof(iItemCountInSlots));
 
-	for ( i = 0; i < ITEM_SLOT_COUNT; i++ )				// 슬롯 갯수마큼..
+	for(auto i = 0; i < ITEM_SLOT_COUNT; i++ )				// 슬롯 갯수마큼..
 	{
 		iItemIDInSlots[i]			= CAPISocket::Parse_GetDword(pDataPack->m_pData, iOffset);
 		iItemDurabilityInSlots[i]	= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
@@ -1705,7 +1693,7 @@ bool CGameProcMain::MsgRecv_MyInfo_All(DataPack* pDataPack, int& iOffset)
 	int iItemCountInInventorys[MAX_ITEM_INVENTORY]; memset(iItemCountInInventorys, -1, sizeof(iItemCountInInventorys));
 	int iItemDurabilityInInventorys[MAX_ITEM_INVENTORY]; memset(iItemDurabilityInInventorys, -1, sizeof(iItemDurabilityInInventorys));
 
-	for ( i = 0; i < MAX_ITEM_INVENTORY; i++ )				// 슬롯 갯수마큼..
+	for(auto i = 0; i < MAX_ITEM_INVENTORY; i++ )				// 슬롯 갯수마큼..
 	{
 		iItemIDInInventorys[i]			= CAPISocket::Parse_GetDword(pDataPack->m_pData, iOffset);
 		iItemDurabilityInInventorys[i]	= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
@@ -1715,7 +1703,7 @@ bool CGameProcMain::MsgRecv_MyInfo_All(DataPack* pDataPack, int& iOffset)
 	m_pUIInventory->ReleaseItem();
 
 	std::string szResrcFN, szIconFN;
-	for ( i = 0; i < ITEM_SLOT_COUNT; i++ )				// 슬롯 갯수마큼..
+	for(auto i = 0; i < ITEM_SLOT_COUNT; i++ )				// 슬롯 갯수마큼..
 	{
 		if(0 == iItemIDInSlots[i]) continue;
 
@@ -1800,7 +1788,7 @@ bool CGameProcMain::MsgRecv_MyInfo_All(DataPack* pDataPack, int& iOffset)
 
 	// 인벤토리..
 	int iItemCount = 0;
-	for ( i = 0; i < MAX_ITEM_INVENTORY; i++ )				// 인벤토리 갯수만큼..	
+	for(auto i = 0; i < MAX_ITEM_INVENTORY; i++ )				// 인벤토리 갯수만큼..	
 	{
 		if(!iItemIDInInventorys[i]) continue;
 
@@ -2364,7 +2352,7 @@ bool CGameProcMain::MsgRecv_UserInAndRequest(DataPack* pDataPack, int& iOffset)
 	it_ID itID, itIDEnd = m_SetUPCID.end();
 	pair_ID pairID;
 
-	for ( int i = 0; i < iUPCCountReceived; i++ )
+	for(auto i = 0; i < iUPCCountReceived; i++ )
 	{
 		iID = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
 //		TRACE("               ID : %d\n", iID);
@@ -2420,7 +2408,7 @@ bool CGameProcMain::MsgRecv_UserInAndRequest(DataPack* pDataPack, int& iOffset)
 		CAPISocket::MP_AddShort(&(byBuff[0]), iOffset, iNewUPCCount);		// 아이디 갯수..
 		
 		itID = m_SetUPCID.begin(); itIDEnd = m_SetUPCID.end();
-		for(i = 0; itID != itIDEnd; itID++, i++)
+		for(auto i = 0; itID != itIDEnd; itID++, i++)
 		{
 			iID = *itID;
 			CAPISocket::MP_AddShort(&(byBuff[0]), iOffset, iID);			// 자세한 정보가 필요한 아이디들..
@@ -2452,7 +2440,7 @@ bool CGameProcMain::MsgRecv_UserInRequested(DataPack* pDataPack, int& iOffset)
 #endif
 
 	//	int iOffset2 = iOffset;
-	for ( int i = 0; i < iPlayerCount; i++ )
+	for(auto i = 0; i < iPlayerCount; i++ )
 	{
 		this->MsgRecv_UserIn(pDataPack, iOffset); // 플레이어 갯수 만큼 유저 인...
 	}
@@ -2718,7 +2706,7 @@ bool CGameProcMain::MsgRecv_NPCInAndRequest(DataPack* pDataPack, int& iOffset)
 	it_ID itID, itIDEnd = m_SetNPCID.end();
 	pair_ID pairID;
 
-	for ( int i = 0; i < iNPCCountReceived; i++ )
+	for(auto i = 0; i < iNPCCountReceived; i++ )
 	{
 		iID = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
 		pairID = m_SetNPCID.insert(iID);
@@ -2772,7 +2760,7 @@ bool CGameProcMain::MsgRecv_NPCInAndRequest(DataPack* pDataPack, int& iOffset)
 		CAPISocket::MP_AddShort(&(byBuff[0]), iOffset, iNewNPCCount);		// 아이디 갯수..
 		
 		itID = m_SetNPCID.begin(); itIDEnd = m_SetNPCID.end();
-		for(i = 0; itID != itIDEnd; itID++, i++)
+		for(auto i = 0; itID != itIDEnd; itID++, i++)
 		{
 			iID = *itID;
 			CAPISocket::MP_AddShort(&(byBuff[0]), iOffset, iID);			// 자세한 정보가 필요한 아이디들..
@@ -2803,7 +2791,7 @@ bool CGameProcMain::MsgRecv_NPCInRequested(DataPack* pDataPack, int& iOffset)
 	float fTime = CN3Base::TimeGet();
 #endif
 
-	for ( int i = 0; i < iNPCCount; i++ )
+	for(auto i = 0; i < iNPCCount; i++ )
 	{
 		this->MsgRecv_NPCIn(pDataPack, iOffset); // 플레이어 갯수 만큼 유저 인...
 	}
@@ -3184,7 +3172,7 @@ void CGameProcMain::MsgRecv_ItemCountChange(DataPack* pDataPack, int& iOffset)		
 {
 	int iTotalCount = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);		// Trade id
 
-	for( int i = 0; i < iTotalCount; i++ )
+	for(auto i = 0; i < iTotalCount; i++ )
 	{
 		int iDistrict	= CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);		// Trade id
 		int iIndex		= CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);		// Trade id
@@ -4030,7 +4018,8 @@ void CGameProcMain::InitZone(int iZone, const __Vector3& vPosPlayer)
 		pCamera->m_Data.fFP		= 512.0f;						// Far Plane..
 		pCamera->m_Data.fNP		= 0.5f;							// Near Plane..
 		CLogWriter::Write("pCamera->LookAt()"); // TmpLog1122
-		pCamera->LookAt(vPosPlayer + __Vector3(0,0,-1), vPosPlayer, __Vector3(0,1,0));
+		auto vUp = __Vector3(0, 1, 0);
+		pCamera->LookAt(vPosPlayer + __Vector3(0,0,-1), vPosPlayer, vUp);
 		CLogWriter::Write("pCamera->Tick()"); // TmpLog1122
 		pCamera->Tick();
 		CLogWriter::Write("pCamera->Apply()"); // TmpLog1122
@@ -4830,7 +4819,7 @@ void CGameProcMain::MsgRecv_PerTrade(DataPack* pDataPack, int& iOffset)
 				iTotalGold = CAPISocket::Parse_GetDword(pDataPack->m_pData, iOffset);
 				m_pSubProcPerTrade->ReceiveMsgPerTradeDoneSuccessBegin(iTotalGold);
 				sItemCount = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
-				for( int i = 0; i < sItemCount; i++ )
+				for(auto i = 0; i < sItemCount; i++ )
 				{
 					bItemPos = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);	
 					iItemID = CAPISocket::Parse_GetDword(pDataPack->m_pData, iOffset);
@@ -5740,26 +5729,18 @@ void CGameProcMain::MsgRecv_CompressedPacket(DataPack* pDataPack, int& iOffset) 
 	sOrgLen =		CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);		// 원래데이타길이얻기...
 	dwCrcValue =	CAPISocket::Parse_GetDword(pDataPack->m_pData, iOffset);	// CRC값 얻기...
 
-	
-	/// 압축 데이터 얻기 및 해제	
-	CCompressMng Compressor;
-	Compressor.PreUncompressWork((char*)(pDataPack->m_pData+iOffset), sCompLen, sOrgLen);	// 압축 풀기... 
-	iOffset += sCompLen;
+	auto pOutBuf = new char[sOrgLen];
+	LZ4_decompress_safe((char*)(pDataPack->m_pData + iOffset), pOutBuf, sCompLen, sOrgLen);
+	uint32_t dwCalculatedCrc = crc32c::Crc32c((const unsigned char*)pOutBuf, sOrgLen);
 
-	if (Compressor.Extract() == false || 
-		Compressor.m_nErrorOccurred != 0 ||
-		dwCrcValue != Compressor.m_dwCrc )
+	if (dwCrcValue != dwCalculatedCrc)
 	{
 		return;
 	}
 
-	// 압축 풀린 데이타 읽기
-	BYTE* pDecodeBuf = (BYTE*)(Compressor.m_pOutputBuffer);
-
-	// 임시로 데이터 팩 만들고..
 	DataPack DataPackTemp;
 	DataPackTemp.m_Size = sOrgLen;
-	DataPackTemp.m_pData = pDecodeBuf;
+	DataPackTemp.m_pData = (BYTE*)pOutBuf;
 	int iOffset2 = 0;
 	this->ProcessPacket(&DataPackTemp, iOffset2); // 바로 파싱...
 	DataPackTemp.m_Size = 0;
@@ -5838,7 +5819,7 @@ void CGameProcMain::MsgRecv_WareHouseOpen(DataPack* pDataPack, int& iOffset)		//
 	iWareGold		= CAPISocket::Parse_GetDword(pDataPack->m_pData, iOffset);
 	m_pUIWareHouseDlg->EnterWareHouseStateStart(iWareGold);
 
-	for ( int i = 0; i < MAX_ITEM_WARE_PAGE*MAX_ITEM_TRADE; i++ )				// 슬롯 갯수마큼..
+	for(auto i = 0; i < MAX_ITEM_WARE_PAGE*MAX_ITEM_TRADE; i++ )				// 슬롯 갯수마큼..
 	{
 		iItemID			= CAPISocket::Parse_GetDword(pDataPack->m_pData, iOffset);
 		iItemDurability	= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
@@ -5995,7 +5976,7 @@ void CGameProcMain::MsgRecv_SkillPointInit(DataPack* pDataPack, int& iOffset)		/
 
 		case 0x01:	// 성공..
 			m_pUISkillTreeDlg->m_iSkillInfo[0] = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
-			for ( i = 1; i < 9; i++ )
+			for(auto i = 1; i < 9; i++ )
 				m_pUISkillTreeDlg->m_iSkillInfo[i] = 0;
 			m_pUISkillTreeDlg->InitIconUpdate();
 
@@ -6584,7 +6565,7 @@ void CGameProcMain::MsgRecv_Knights_GradeChangeAll(DataPack* pDataPack, int& iOf
 		int iIDTmp = pUPC->m_InfoExt.iKnightsID;
 		if(iIDTmp <= 0) continue;
 
-		for(i = 0; i < iCount; i++)
+		for(auto i = 0; i < iCount; i++)
 		{
 			if(iIDs[i] == iIDTmp)
 			{

@@ -1,23 +1,9 @@
-// Grass.cpp: implementation of the CGrassMng class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#include "stdafx.h"
+#include "pch.h"
 #include "GameProcMain.h"
 #include "N3WorldManager.h"
 #include "N3Terrain.h"
 #include "GameEng.h"
 #include "GrassMng.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 enum {GRASS_LEFT=0,GRASS_TOP,GRASS_RIGHT,GRASS_BOTTOM};
 
@@ -341,7 +327,7 @@ void CGrassMng::ChkThisZoneUseGrass(int nGrassUseOrder)
 //		for(int nGrassCount=0;nGrassCount<iSize;nGrassCount++)
 		while(nGrassCount<iSize)
 		{
-			for(i=0;i<GrassInputCount && nGrassCount<iSize;i++,nGrassCount++,it++)
+			for(auto i =0;i<GrassInputCount && nGrassCount<iSize;i++,nGrassCount++,it++)
 			{
 				pGrass = *it;
 				pGrass->TexSelectNum(InputGrass[i],InputGrassOrg[i]);
@@ -365,8 +351,9 @@ bool CGrassMng::ChangeZone()
 		return false;
 	}
 
-	//	그림의 수많큰 이름을 옮기고 나머지 지움
-	for(int i=0;i<m_iFileMaxNum;i++)
+	int i;
+
+	for(i=0;i<m_iFileMaxNum;i++)
 	{
 #ifdef _DEBUG
 		if (ACT_WORLD->GetTerrainRef())

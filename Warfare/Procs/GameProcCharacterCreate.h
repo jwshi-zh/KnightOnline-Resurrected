@@ -1,16 +1,7 @@
-// GameProcCharacterCreate.h: interface for the CGameProcCharacterCreate class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_GAMEPROCCHARACTERCREATE_H__DC02405A_668C_4A6F_A2A5_A050431CF900__INCLUDED_)
-#define AFX_GAMEPROCCHARACTERCREATE_H__DC02405A_668C_4A6F_A2A5_A050431CF900__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "GameProcedure.h"
-#include "../N3Base/N3TableBase.h"
+#include "N3TableBase.h"
 
 enum e_ChrValue { CVAL_STR=0, CVAL_STA=1, CVAL_DEX=2, CVAL_INT=3, CVAL_CHA=4, CVAL_BONUS=5, CVAL_NUM=6 }; 
 enum e_ErrorCharacterCreate {	ERROR_CHARACTER_CREATE_SUCCESS = 0,
@@ -67,5 +58,3 @@ public:
 	CGameProcCharacterCreate();
 	virtual ~CGameProcCharacterCreate();
 };
-
-#endif // !defined(AFX_GAMEPROCCHARACTERCREATE_H__DC02405A_668C_4A6F_A2A5_A050431CF900__INCLUDED_)

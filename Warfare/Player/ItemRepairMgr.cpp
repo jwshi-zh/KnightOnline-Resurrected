@@ -1,9 +1,4 @@
-// ItemRepairMgr.cpp: implementation of the CItemRepairMgr class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#include "stdafx.h"
-#include "resource.h"
+#include "pch.h"
 #include "ItemRepairMgr.h"
 
 #include "PacketDef.h"
@@ -15,17 +10,7 @@
 
 #include "UIRepairTooltipDlg.h"
 
-#include "../N3Base/N3UIString.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
+#include "N3UIString.h"
 
 CItemRepairMgr::CItemRepairMgr()
 {
@@ -52,7 +37,7 @@ void CItemRepairMgr::Tick()
 
 	// 위치를 구해서 
 	int i;	int iArm = 0x00; int iOrder = -1; __IconItemSkill* spItem = NULL;
-	for (i = 0; i < ITEM_SLOT_COUNT; i++)
+	for (auto i = 0; i < ITEM_SLOT_COUNT; i++)
 	{
 		if (spItem) break;
 		if (pInv->m_pMySlot[i])
@@ -68,7 +53,7 @@ void CItemRepairMgr::Tick()
 
 	if (!spItem)
 	{
-		for (i = 0; i < MAX_ITEM_INVENTORY; i++)
+		for (auto i = 0; i < MAX_ITEM_INVENTORY; i++)
 		{
 			if (spItem) break;
 			if (pInv->m_pMyInvWnd[i])
@@ -224,8 +209,3 @@ int CItemRepairMgr::CalcRepairGold(__IconItemSkill* spItem)
 
 	return (int)fValue;
 }
-
-
-
-
-

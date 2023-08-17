@@ -1,28 +1,13 @@
-// UILogIn.cpp: implementation of the CUILogIn class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#include "stdafx.h"
-#include "resource.h"
+#include "pch.h"
 #include "UILogIn.h"
 #include "GameProcLogIn.h"
 
-#include "../N3Base/N3UIEdit.h"
-#include "../N3Base/N3UIButton.h"
-#include "../N3Base/N3UIList.h"
+#include "N3UIEdit.h"
+#include "N3UIButton.h"
+#include "N3UIList.h"
 #include "UIMessageBoxManager.h"
 
 #include <algorithm>
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 CUILogIn::CUILogIn()
 {
@@ -223,7 +208,6 @@ void CUILogIn::ServerInfoUpdate()
 	m_pList_Server->ResetContent();
 	if(!m_ListServerInfos.empty())
 	{
-		sort(m_ListServerInfos.begin(), m_ListServerInfos.end(), not2(__GameServerInfo()));
 		int iSize = m_ListServerInfos.size();
 		for(int i = 0; i < iSize; i++)
 		{

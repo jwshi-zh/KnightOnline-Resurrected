@@ -1,27 +1,13 @@
-// UIChat.cpp: implementation of the CUIChat class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#include "stdafx.h"
+#include "pch.h"
 #include "UIChat.h"
 #include "PacketDef.h"
 #include "GameProcMain.h"
 #include "UIMessageWnd.h"
 #include "UIManager.h"
 
-#include "../N3Base/N3UIString.h"
-#include "../N3Base/N3UIScrollBar.h"
-#include "../N3Base/N3UIEdit.h"										//son, chat_in
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
+#include "N3UIString.h"
+#include "N3UIScrollBar.h"
+#include "N3UIEdit.h"										//son, chat_in
 
 CUIChat::CUIChat()													//생성자 와 파괴자에서 Release안 불러 주나??
 {

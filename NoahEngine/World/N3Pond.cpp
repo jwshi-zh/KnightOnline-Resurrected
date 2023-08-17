@@ -244,7 +244,7 @@ void CN3Pond::Tick()
 		int i    = (int)ftemp;
 		float j  = ftemp - (float)i;
 
-		for ( int k = 0; k < i; k++ )
+		for(auto k = 0; k < i; k++ )
 		{
 			UpdateWaterPositions();
 		}

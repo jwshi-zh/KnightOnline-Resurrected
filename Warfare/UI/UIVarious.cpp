@@ -1,9 +1,4 @@
-// UIState.cpp: implementation of the CUIState class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#include "stdafx.h"
-#include "Resource.h"
+#include "pch.h"
 #include "UIVarious.h"
 #include "GameProcMain.h"
 #include "PlayerMySelf.h"
@@ -11,24 +6,14 @@
 #include "PacketDef.h"
 #include "APISocket.h"
 
-#include "../N3Base/N3UIString.h"
-#include "../N3Base/N3UIImage.h"
-#include "../N3Base/N3UIButton.h"
-#include "../N3Base/N3UIList.h"
-#include "../N3Base/N3SndObj.h"
+#include "N3UIString.h"
+#include "N3UIImage.h"
+#include "N3UIButton.h"
+#include "N3UIList.h"
+#include "N3SndObj.h"
 
 #include "UIManager.h"
 #include "UIInventory.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 CUIState::CUIState()
 {
@@ -938,7 +923,7 @@ void CUIKnights::RefreshPage()
 
 	std::string szDuty, szClass;
 	char szBuff[80];
-	for(i=0;i<10;i++)
+	for(auto i =0;i<10;i++)
 	{
 		if(it==m_MemberList.end()) break;
 
@@ -1418,7 +1403,7 @@ void CUIFriends::UpdateList()
 	it_FI it = m_MapFriends.begin(), itEnd = m_MapFriends.end();
 	for(int i = 0; i < iSkip; i++, it++);
 
-	for(i = 0; i < iLinePerPage && it != itEnd; i++, it++)
+	for(auto i = 0; i < iLinePerPage && it != itEnd; i++, it++)
 	{
 		__FriendsInfo& FI = it->second;
 		int iIndex = m_pList_Friends->AddString(FI.szName);

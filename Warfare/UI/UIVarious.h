@@ -1,16 +1,7 @@
-// UIVarious.h: interface for the CUIState class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_UIVarious_H__094F9A3E_1620_4E07_8726_82881B21B48C__INCLUDED_)
-#define AFX_UIVarious_H__094F9A3E_1620_4E07_8726_82881B21B48C__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "GameDef.h"
-#include "../N3BASE/N3UIBase.h"
+#include "N3UIBase.h"
 #include <string>
 #include <list>
 
@@ -285,5 +276,3 @@ public:
 	CUIVarious();
 	virtual ~CUIVarious();
 };
-
-#endif // !defined(AFX_UIVarious_H__094F9A3E_1620_4E07_8726_82881B21B48C__INCLUDED_)

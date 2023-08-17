@@ -1,17 +1,8 @@
-// UIInventory.h: interface for the CUIInventory class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_UIInventory_H__863D2E52_65A8_47E1_BCBE_6281692DDCA2__INCLUDED_)
-#define AFX_UIInventory_H__863D2E52_65A8_47E1_BCBE_6281692DDCA2__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
-#include "..\N3BASE\N3UIBase.h"
-#include "..\N3BASE\N3UIArea.h"
-#include "..\N3BASE\N3UIImage.h"
+#include "N3UIBase.h"
+#include "N3UIArea.h"
+#include "N3UIImage.h"
 #include "GameProcedure.h"
 #include "GameDef.h"
 #include "N3UIWndBase.h"
@@ -166,8 +157,3 @@ public:
 	CUIInventory();
 	virtual	~CUIInventory();
 };
-
-#endif // !defined(AFX_UIInventory_H__863D2E52_65A8_47E1_BCBE_6281692DDCA2__INCLUDED_)
-
-
-

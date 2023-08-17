@@ -1,21 +1,7 @@
-// UIEndingDisplay.cpp: implementation of the CUIEndingDisplay class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#include "stdafx.h"
+#include "pch.h"
 #include "UIEndingDisplay.h"
 #include "UIManager.h"
 #include "GameEng.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 CUIEndingDisplay::CUIEndingDisplay()
 {

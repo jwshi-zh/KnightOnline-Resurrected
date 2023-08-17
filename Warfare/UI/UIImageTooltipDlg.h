@@ -1,16 +1,7 @@
-// UIImageTooltipDlg.h: interface for the CUIImageTooltipDlg class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_UIIMAGETOOLTIPDLG_H__CC12484D_5DC0_4F7A_ABF7_0506B2F36292__INCLUDED_)
-#define AFX_UIIMAGETOOLTIPDLG_H__CC12484D_5DC0_4F7A_ABF7_0506B2F36292__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
-#include "..\N3BASE\N3UIBase.h"
-#include "..\N3BASE\N3UIString.h"
+#include "N3UIBase.h"
+#include "N3UIString.h"
 
 #include "GameDef.h"
 
@@ -55,5 +46,3 @@ public:
 	void	DisplayTooltipsEnable(int xpos, int ypos, __IconItemSkill* spItem, bool bPrice = false, bool bBuy = true);
 	void	DisplayTooltipsDisable();
 };
-
-#endif // !defined(AFX_UIIMAGETOOLTIPDLG_H__CC12484D_5DC0_4F7A_ABF7_0506B2F36292__INCLUDED_)

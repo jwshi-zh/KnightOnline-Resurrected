@@ -1,16 +1,7 @@
-// UIPerTradeDlg.h: interface for the CUIPerTradeDlg class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_UIPERTRADEDLG_H__8C9B06AA_B16D_4135_B198_4AB3C6B09FEA__INCLUDED_)
-#define AFX_UIPERTRADEDLG_H__8C9B06AA_B16D_4135_B198_4AB3C6B09FEA__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
-#include "..\N3BASE\N3UIBase.h"
-#include "..\N3BASE\N3UIArea.h"
+#include "N3UIBase.h"
+#include "N3UIArea.h"
 #include "GameProcedure.h"
 
 #include "GameDef.h"
@@ -80,6 +71,3 @@ public:
 
 	void				GoldUpdate();
 };
-
-
-#endif // !defined(AFX_UIPERTRADEDLG_H__8C9B06AA_B16D_4135_B198_4AB3C6B09FEA__INCLUDED_)

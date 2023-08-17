@@ -1,25 +1,11 @@
-// UINotice.cpp: implementation of the CUINotice class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#include "stdafx.h"
+#include "pch.h"
 #include "UINotice.h"
 #include "GameProcedure.h"
 #include "UIManager.h"
 
-#include "../N3Base/N3UIString.h"
-#include "../N3Base/N3UIScrollBar.h"
-#include "../N3Base/N3UIButton.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
+#include "N3UIString.h"
+#include "N3UIScrollBar.h"
+#include "N3UIButton.h"
 
 CUINotice::CUINotice()
 {

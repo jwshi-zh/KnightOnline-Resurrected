@@ -5,6 +5,14 @@
       <Configuration>Debug</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="GameDebug|Win32">
+      <Configuration>GameDebug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="GameDebug|x64">
+      <Configuration>GameDebug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Release|Win32">
       <Configuration>Release</Configuration>
       <Platform>Win32</Platform>
@@ -30,7 +38,13 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='GameDebug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -43,7 +57,13 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='GameDebug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -60,22 +80,66 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='GameDebug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='GameDebug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>$(ProjectDir)Base;$(ProjectDir)FX;$(ProjectDir)Game;$(ProjectDir)Network;$(ProjectDir)Player;$(ProjectDir)Procs;$(ProjectDir)UI;$(ProjectDir)World;$(ProjectDir)..\NoahEngine\World;$(ProjectDir)..\NoahEngine\Actor;$(ProjectDir)..\NoahEngine\AlphaActorManager;$(ProjectDir)..\NoahEngine\Logging;$(ProjectDir)..\NoahEngine\Media;$(ProjectDir)..\NoahEngine\UI;$(ProjectDir)..\NoahEngine\Engine;$(ProjectDir)..\NoahEngine\Sound;$(ProjectDir)..\NoahEngine\Animation;$(ProjectDir)..\NoahEngine\FX;$(ProjectDir)..\NoahEngine\Base;$(IncludePath)</IncludePath>
+    <ExternalIncludePath>$(DXSDK_DIR)Include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</ExternalIncludePath>
+    <LibraryPath>$(OutDir);$(DXSDK_DIR)Lib\x64;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='GameDebug|x64'">
+    <IncludePath>$(ProjectDir)Base;$(ProjectDir)FX;$(ProjectDir)Game;$(ProjectDir)Network;$(ProjectDir)Player;$(ProjectDir)Procs;$(ProjectDir)UI;$(ProjectDir)World;$(ProjectDir)..\NoahEngine\World;$(ProjectDir)..\NoahEngine\Actor;$(ProjectDir)..\NoahEngine\AlphaActorManager;$(ProjectDir)..\NoahEngine\Logging;$(ProjectDir)..\NoahEngine\Media;$(ProjectDir)..\NoahEngine\UI;$(ProjectDir)..\NoahEngine\Engine;$(ProjectDir)..\NoahEngine\Sound;$(ProjectDir)..\NoahEngine\Animation;$(ProjectDir)..\NoahEngine\FX;$(ProjectDir)..\NoahEngine\Base;$(IncludePath)</IncludePath>
+    <ExternalIncludePath>$(DXSDK_DIR)Include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</ExternalIncludePath>
+    <LibraryPath>$(OutDir);$(DXSDK_DIR)Lib\x64;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>$(ProjectDir)Base;$(ProjectDir)FX;$(ProjectDir)Game;$(ProjectDir)Network;$(ProjectDir)Player;$(ProjectDir)Procs;$(ProjectDir)UI;$(ProjectDir)World;$(ProjectDir)..\NoahEngine\World;$(ProjectDir)..\NoahEngine\Actor;$(ProjectDir)..\NoahEngine\AlphaActorManager;$(ProjectDir)..\NoahEngine\Logging;$(ProjectDir)..\NoahEngine\Media;$(ProjectDir)..\NoahEngine\UI;$(ProjectDir)..\NoahEngine\Engine;$(ProjectDir)..\NoahEngine\Sound;$(ProjectDir)..\NoahEngine\Animation;$(ProjectDir)..\NoahEngine\FX;$(ProjectDir)..\NoahEngine\Base;$(IncludePath)</IncludePath>
+    <ExternalIncludePath>$(DXSDK_DIR)Include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</ExternalIncludePath>
+    <LibraryPath>$(OutDir);$(DXSDK_DIR)Lib\x86;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='GameDebug|Win32'">
+    <IncludePath>$(ProjectDir)Base;$(ProjectDir)FX;$(ProjectDir)Game;$(ProjectDir)Network;$(ProjectDir)Player;$(ProjectDir)Procs;$(ProjectDir)UI;$(ProjectDir)World;$(ProjectDir)..\NoahEngine\World;$(ProjectDir)..\NoahEngine\Actor;$(ProjectDir)..\NoahEngine\AlphaActorManager;$(ProjectDir)..\NoahEngine\Logging;$(ProjectDir)..\NoahEngine\Media;$(ProjectDir)..\NoahEngine\UI;$(ProjectDir)..\NoahEngine\Engine;$(ProjectDir)..\NoahEngine\Sound;$(ProjectDir)..\NoahEngine\Animation;$(ProjectDir)..\NoahEngine\FX;$(ProjectDir)..\NoahEngine\Base;$(IncludePath)</IncludePath>
+    <ExternalIncludePath>$(DXSDK_DIR)Include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</ExternalIncludePath>
+    <LibraryPath>$(OutDir);$(DXSDK_DIR)Lib\x86;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86)</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='GameDebug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -102,8 +166,22 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='GameDebug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -127,12 +205,111 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="framework.h" />
+    <ClInclude Include="Base\Bitset.h" />
+    <ClInclude Include="Base\pch.h" />
+    <ClInclude Include="FX\MagicSkillMng.h" />
+    <ClInclude Include="FX\N3EffectWave2.h" />
+    <ClInclude Include="FX\N3FXBundleGame.h" />
+    <ClInclude Include="FX\N3FXMgr.h" />
+    <ClInclude Include="FX\N3FXPartBillBoardGame.h" />
+    <ClInclude Include="FX\N3FXPartBottomBoardGame.h" />
+    <ClInclude Include="Game\GameBase.h" />
+    <ClInclude Include="Game\GameCursor.h" />
+    <ClInclude Include="Game\GameDef.h" />
+    <ClInclude Include="Game\GameEng.h" />
+    <ClInclude Include="Game\LocalInput.h" />
+    <ClInclude Include="Game\WarFareMain.h" />
+    <ClInclude Include="Game\WarMessage.h" />
+    <ClInclude Include="Network\APISocket.h" />
+    <ClInclude Include="Network\PacketDef.h" />
+    <ClInclude Include="Player\ItemRepairMgr.h" />
+    <ClInclude Include="Player\PlayerBase.h" />
+    <ClInclude Include="Player\PlayerMySelf.h" />
+    <ClInclude Include="Player\PlayerNPC.h" />
+    <ClInclude Include="Player\PlayerOther.h" />
+    <ClInclude Include="Player\PlayerOtherMgr.h" />
+    <ClInclude Include="Procs\GameProcCharacterCreate.h" />
+    <ClInclude Include="Procs\GameProcCharacterSelect.h" />
+    <ClInclude Include="Procs\GameProcedure.h" />
+    <ClInclude Include="Procs\GameProcLogIn.h" />
+    <ClInclude Include="Procs\GameProcMain.h" />
+    <ClInclude Include="Procs\GameProcNationSelect.h" />
+    <ClInclude Include="Procs\GameProcOption.h" />
     <ClInclude Include="Resource.h" />
-    <ClInclude Include="Warfare.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Warfare.cpp" />
+    <ClInclude Include="StringIds.h" />
+    <ClInclude Include="UI\CountableItemEditDlg.h" />
+    <ClInclude Include="UI\N3UIDBCLButton.h" />
+    <ClInclude Include="UI\N3UIIcon.h" />
+    <ClInclude Include="UI\N3UIWndBase.h" />
+    <ClInclude Include="UI\SubProcPerTrade.h" />
+    <ClInclude Include="UI\UICharacterCreate.h" />
+    <ClInclude Include="UI\UICharacterSelect.h" />
+    <ClInclude Include="UI\UIChat.h" />
+    <ClInclude Include="UI\UIClassChange.h" />
+    <ClInclude Include="UI\UICmd.h" />
+    <ClInclude Include="UI\UICreateClanName.h" />
+    <ClInclude Include="UI\UIDead.h" />
+    <ClInclude Include="UI\UIDroppedItemDlg.h" />
+    <ClInclude Include="UI\UIEndingDisplay.h" />
+    <ClInclude Include="UI\UIHelp.h" />
+    <ClInclude Include="UI\UIHotKeyDlg.h" />
+    <ClInclude Include="UI\UIImageTooltipDlg.h" />
+    <ClInclude Include="UI\UIInn.h" />
+    <ClInclude Include="UI\UIInventory.h" />
+    <ClInclude Include="UI\UIItemExchange.h" />
+    <ClInclude Include="UI\UIKnightsOperation.h" />
+    <ClInclude Include="UI\UILoading.h" />
+    <ClInclude Include="UI\UILoadingDlg.h" />
+    <ClInclude Include="UI\UILogin.h" />
+    <ClInclude Include="UI\UIManager.h" />
+    <ClInclude Include="UI\UIMessageBox.h" />
+    <ClInclude Include="UI\UIMessageBoxManager.h" />
+    <ClInclude Include="UI\UIMessageWnd.h" />
+    <ClInclude Include="UI\UINationSelectDlg.h" />
+    <ClInclude Include="UI\UINotice.h" />
+    <ClInclude Include="UI\UINPCChangeEvent.h" />
+    <ClInclude Include="UI\UINPCEvent.h" />
+    <ClInclude Include="UI\UINpcTalk.h" />
+    <ClInclude Include="UI\UIPartyBBS.h" />
+    <ClInclude Include="UI\UIPartyBBSSelector.h" />
+    <ClInclude Include="UI\UIPartyOrForce.h" />
+    <ClInclude Include="UI\UIPerTradeDlg.h" />
+    <ClInclude Include="UI\UIPointInitDlg.h" />
+    <ClInclude Include="UI\UIQuestMenu.h" />
+    <ClInclude Include="UI\UIQuestTalk.h" />
+    <ClInclude Include="UI\UIRepairTooltipDlg.h" />
+    <ClInclude Include="UI\UISkillTreeDlg.h" />
+    <ClInclude Include="UI\UIStateBar.h" />
+    <ClInclude Include="UI\UITargetBar.h" />
+    <ClInclude Include="UI\UITradeBBSEditDlg.h" />
+    <ClInclude Include="UI\UITradeBBSSelector.h" />
+    <ClInclude Include="UI\UITradeEditDlg.h" />
+    <ClInclude Include="UI\UITradeExplanation.h" />
+    <ClInclude Include="UI\UITradeList.h" />
+    <ClInclude Include="UI\UITradeSellBBS.h" />
+    <ClInclude Include="UI\UITransactionDlg.h" />
+    <ClInclude Include="UI\UIVarious.h" />
+    <ClInclude Include="UI\UIWareHouseDlg.h" />
+    <ClInclude Include="UI\UIWarp.h" />
+    <ClInclude Include="World\Bird.h" />
+    <ClInclude Include="World\BirdMng.h" />
+    <ClInclude Include="World\Catapult.h" />
+    <ClInclude Include="World\DungeonManager.h" />
+    <ClInclude Include="World\EventManager.h" />
+    <ClInclude Include="World\GrassBoard.h" />
+    <ClInclude Include="World\GrassMng.h" />
+    <ClInclude Include="World\LightMgr.h" />
+    <ClInclude Include="World\MachineBase.h" />
+    <ClInclude Include="World\MachineMng.h" />
+    <ClInclude Include="World\N3Terrain.h" />
+    <ClInclude Include="World\N3TerrainDef.h" />
+    <ClInclude Include="World\N3TerrainManager.h" />
+    <ClInclude Include="World\N3TerrainPatch.h" />
+    <ClInclude Include="World\N3WorldBase.h" />
+    <ClInclude Include="World\N3WorldManager.h" />
+    <ClInclude Include="World\PortalVolume.h" />
+    <ClInclude Include="World\PvsMgr.h" />
+    <ClInclude Include="World\ServerMesh.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Warfare.rc" />
@@ -140,6 +317,119 @@
   <ItemGroup>
     <Image Include="small.ico" />
     <Image Include="Warfare.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Cursors\Cursor_Attack.cur" />
+    <None Include="Cursors\Cursor_Click.cur" />
+    <None Include="Cursors\cursor_click1.cur" />
+    <None Include="Cursors\Cursor_Normal.cur" />
+    <None Include="Cursors\cursor_normal1.cur" />
+    <None Include="Cursors\repair0.cur" />
+    <None Include="Cursors\repair1.cur" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Base\pch.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='GameDebug|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="FX\MagicSkillMng.cpp" />
+    <ClCompile Include="FX\N3EffectWave2.cpp" />
+    <ClCompile Include="FX\N3FXBundleGame.cpp" />
+    <ClCompile Include="FX\N3FXMgr.cpp" />
+    <ClCompile Include="FX\N3FXPartBillBoardGame.cpp" />
+    <ClCompile Include="FX\N3FXPartBottomBoardGame.cpp" />
+    <ClCompile Include="Game\GameBase.cpp" />
+    <ClCompile Include="Game\GameCursor.cpp" />
+    <ClCompile Include="Game\GameEng.cpp" />
+    <ClCompile Include="Game\LocalInput.cpp" />
+    <ClCompile Include="Game\WarFareMain.cpp" />
+    <ClCompile Include="Game\WarMessage.cpp" />
+    <ClCompile Include="Network\APISocket.cpp" />
+    <ClCompile Include="Player\ItemRepairMgr.cpp" />
+    <ClCompile Include="Player\PlayerBase.cpp" />
+    <ClCompile Include="Player\PlayerMySelf.cpp" />
+    <ClCompile Include="Player\PlayerNPC.cpp" />
+    <ClCompile Include="Player\PlayerOther.cpp" />
+    <ClCompile Include="Player\PlayerOtherMgr.cpp" />
+    <ClCompile Include="Procs\GameProcCharacterCreate.cpp" />
+    <ClCompile Include="Procs\GameProcCharacterSelect.cpp" />
+    <ClCompile Include="Procs\GameProcedure.cpp" />
+    <ClCompile Include="Procs\GameProcLogIn.cpp" />
+    <ClCompile Include="Procs\GameProcMain.cpp" />
+    <ClCompile Include="Procs\GameProcNationSelect.cpp" />
+    <ClCompile Include="Procs\GameProcOption.cpp" />
+    <ClCompile Include="UI\CountableItemEditDlg.cpp" />
+    <ClCompile Include="UI\N3UIDBCLButton.cpp" />
+    <ClCompile Include="UI\N3UIIcon.cpp" />
+    <ClCompile Include="UI\N3UIWndBase.cpp" />
+    <ClCompile Include="UI\SubProcPerTrade.cpp" />
+    <ClCompile Include="UI\UICharacterCreate.cpp" />
+    <ClCompile Include="UI\UICharacterSelect.cpp" />
+    <ClCompile Include="UI\UIChat.cpp" />
+    <ClCompile Include="UI\UIClassChange.cpp" />
+    <ClCompile Include="UI\UICmd.cpp" />
+    <ClCompile Include="UI\UICreateClanName.cpp" />
+    <ClCompile Include="UI\UIDead.cpp" />
+    <ClCompile Include="UI\UIDroppedItemDlg.cpp" />
+    <ClCompile Include="UI\UIEndingDisplay.cpp" />
+    <ClCompile Include="UI\UIHelp.cpp" />
+    <ClCompile Include="UI\UIHotKeyDlg.cpp" />
+    <ClCompile Include="UI\UIImageTooltipDlg.cpp" />
+    <ClCompile Include="UI\UIInn.cpp" />
+    <ClCompile Include="UI\UIInventory.cpp" />
+    <ClCompile Include="UI\UIItemExchange.cpp" />
+    <ClCompile Include="UI\UIKnightsOperation.cpp" />
+    <ClCompile Include="UI\UILoading.cpp" />
+    <ClCompile Include="UI\UILoadingDlg.cpp" />
+    <ClCompile Include="UI\UILogin.cpp" />
+    <ClCompile Include="UI\UIManager.cpp" />
+    <ClCompile Include="UI\UIMessageBox.cpp" />
+    <ClCompile Include="UI\UIMessageBoxManager.cpp" />
+    <ClCompile Include="UI\UIMessageWnd.cpp" />
+    <ClCompile Include="UI\UINationSelectDlg.cpp" />
+    <ClCompile Include="UI\UINotice.cpp" />
+    <ClCompile Include="UI\UINPCChangeEvent.cpp" />
+    <ClCompile Include="UI\UINPCEvent.cpp" />
+    <ClCompile Include="UI\UINpcTalk.cpp" />
+    <ClCompile Include="UI\UIPartyBBS.cpp" />
+    <ClCompile Include="UI\UIPartyBBSSelector.cpp" />
+    <ClCompile Include="UI\UIPartyOrForce.cpp" />
+    <ClCompile Include="UI\UIPerTradeDlg.cpp" />
+    <ClCompile Include="UI\UIPointInitDlg.cpp" />
+    <ClCompile Include="UI\UIQuestMenu.cpp" />
+    <ClCompile Include="UI\UIQuestTalk.cpp" />
+    <ClCompile Include="UI\UIRepairTooltipDlg.cpp" />
+    <ClCompile Include="UI\UISkillTreeDlg.cpp" />
+    <ClCompile Include="UI\UIStateBar.cpp" />
+    <ClCompile Include="UI\UITargetBar.cpp" />
+    <ClCompile Include="UI\UITradeBBSEditDlg.cpp" />
+    <ClCompile Include="UI\UITradeBBSSelector.cpp" />
+    <ClCompile Include="UI\UITradeEditDlg.cpp" />
+    <ClCompile Include="UI\UITradeExplanation.cpp" />
+    <ClCompile Include="UI\UITradeList.cpp" />
+    <ClCompile Include="UI\UITradeSellBBS.cpp" />
+    <ClCompile Include="UI\UITransactionDlg.cpp" />
+    <ClCompile Include="UI\UIVarious.cpp" />
+    <ClCompile Include="UI\UIWareHouseDlg.cpp" />
+    <ClCompile Include="UI\UIWarp.cpp" />
+    <ClCompile Include="World\Bird.cpp" />
+    <ClCompile Include="World\BirdMng.cpp" />
+    <ClCompile Include="World\Catapult.cpp" />
+    <ClCompile Include="World\DungeonManager.cpp" />
+    <ClCompile Include="World\EventManager.cpp" />
+    <ClCompile Include="World\GrassBoard.cpp" />
+    <ClCompile Include="World\GrassMng.cpp" />
+    <ClCompile Include="World\LightMgr.cpp" />
+    <ClCompile Include="World\MachineBase.cpp" />
+    <ClCompile Include="World\MachineMng.cpp" />
+    <ClCompile Include="World\N3Terrain.cpp" />
+    <ClCompile Include="World\N3TerrainManager.cpp" />
+    <ClCompile Include="World\N3TerrainPatch.cpp" />
+    <ClCompile Include="World\N3WorldBase.cpp" />
+    <ClCompile Include="World\N3WorldManager.cpp" />
+    <ClCompile Include="World\PortalVolume.cpp" />
+    <ClCompile Include="World\PvsMgr.cpp" />
+    <ClCompile Include="World\ServerMesh.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

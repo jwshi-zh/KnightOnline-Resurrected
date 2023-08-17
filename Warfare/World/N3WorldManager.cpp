@@ -1,16 +1,10 @@
-// N3WorldManager.cpp: implementation of the CN3WorldManager class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#include "stdafx.h"
-#include "resource.h"
+#include "pch.h"
 #include "N3WorldManager.h"
 
 #include "N3TerrainManager.h"
 #include "DungeonManager.h"
 
 #include "APISocket.h"
-#include "Compress.h"
 #include "PacketDef.h"
 
 #include "GameProcedure.h"
@@ -18,19 +12,9 @@
 
 #include "GameEng.h"
 
-#include "../N3Base/N3SndObj.h"
-#include "../N3Base/N3SndObjStream.h"
-#include "../N3Base/N3SndMgr.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
+#include "N3SndObj.h"
+#include "N3SndObjStream.h"
+#include "N3SndMgr.h"
 
 CN3WorldManager::CN3WorldManager()
 {

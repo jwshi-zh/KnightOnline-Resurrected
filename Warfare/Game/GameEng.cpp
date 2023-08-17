@@ -1,26 +1,13 @@
-// GameEng.cpp: implementation of the CGameEng class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#include "stdafx.h"
+#include "pch.h"
 #include "GameEng.h"
 #include "GameBase.h"
 #include "N3WorldManager.h"
 
-#include "../N3BASE/N3Camera.h"
-#include "../N3BASE/N3Light.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
+#include "N3Camera.h"
+#include "N3Light.h"
 
 const float LIGHTNING_DURATION = 2.0f;
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 CGameEng::CGameEng()
 {
 	m_pActiveCam	= NULL;
@@ -104,7 +91,7 @@ CGameEng::~CGameEng()
 
 /*	it_Light itLgt = m_Lights.begin();
 	iSize = m_Lights.size();
-	for(i = 0; i < iSize; i++, itLgt++)
+	for(auto i = 0; i < iSize; i++, itLgt++)
 	{
 		delete *itLgt; 
 	}
@@ -112,7 +99,7 @@ CGameEng::~CGameEng()
 
 	itLgt = m_LightsBackup.begin();
 	iSize = m_LightsBackup.size();
-	for(i = 0; i < iSize; i++, itLgt++)
+	for(auto i = 0; i < iSize; i++, itLgt++)
 	{
 		delete *itLgt; 
 	}
@@ -227,7 +214,8 @@ void CGameEng::Tick(const D3DCOLOR* crDiffuses,			// Diffuse 라이트 색깔.. 3 개 
 	// 카메라 충돌 체크...
 	if(VP_FIRST_PERSON == m_eViewPoint) // 일인칭때는 충돌체크 안한다.
 	{
-		m_pActiveCam->LookAt(m_vEyeToReach, m_vAtToReach, __Vector3(0,1,0)); // 처다본다..
+		auto vUp = __Vector3(0, 1, 0);
+		m_pActiveCam->LookAt(m_vEyeToReach, m_vAtToReach, vUp); // 처다본다..
 	}
 	else
 	{
@@ -235,7 +223,8 @@ void CGameEng::Tick(const D3DCOLOR* crDiffuses,			// Diffuse 라이트 색깔.. 3 개 
 		float fNP = m_pActiveCam->m_Data.fNP;
 		CGameBase::ACT_WORLD->CheckCollisionCameraWithTerrain(vEyeResult, m_vAtToReach, fNP); // 지형과 충돌체크
 		CGameBase::ACT_WORLD->CheckCollisionCameraWithShape(vEyeResult, m_vAtToReach, fNP); // 오브젝트와 충돌체크..
-		m_pActiveCam->LookAt(vEyeResult, m_vAtToReach, __Vector3(0,1,0)); // 처다본다..
+		auto vUp = __Vector3(0, 1, 0);
+		m_pActiveCam->LookAt(vEyeResult, m_vAtToReach, vUp); // 처다본다..
 	}
 	// 카메라 충돌 체크...
 	////////////////////////////////////////////////////////////////////////////////////

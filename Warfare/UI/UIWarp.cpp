@@ -1,28 +1,13 @@
-// UIWarp.cpp: implementation of the UIWarp class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#include "stdafx.h"
-#include "resource.h"
+#include "pch.h"
 
 #include "UIWarp.h"
 #include "GameProcMain.h"
 
-#include "../N3Base/N3UIButton.h"
-#include "../N3Base/N3UIString.h"
-#include "../N3Base/N3UIList.h"
+#include "N3UIButton.h"
+#include "N3UIString.h"
+#include "N3UIList.h"
 
 #include "UIManager.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 CUIWarp::CUIWarp()
 {

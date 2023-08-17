@@ -1,15 +1,6 @@
-// UIManager.h: interface for the CUIManager class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_UIMANAGER_H__1EED48B7_90A3_4242_99BD_ABC12040CDDE__INCLUDED_)
-#define AFX_UIMANAGER_H__1EED48B7_90A3_4242_99BD_ABC12040CDDE__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
-#include "..\N3BASE\N3UIBase.h"
+#include "N3UIBase.h"
 
 struct __IconItemSkill;
 
@@ -59,5 +50,3 @@ public:
 	CUIManager();
 	virtual ~CUIManager();
 };
-
-#endif // !defined(AFX_UIMANAGER_H__1EED48B7_90A3_4242_99BD_ABC12040CDDE__INCLUDED_)

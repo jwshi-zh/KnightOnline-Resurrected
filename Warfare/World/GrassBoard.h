@@ -1,15 +1,6 @@
-// N3Board2DGrass.h: interface for the GrassBoard class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_GRASSBOARD_H__D53F0EC4_B777_49CD_BEE8_071AD4A1680E__INCLUDED_)
-#define AFX_GRASSBOARD_H__D53F0EC4_B777_49CD_BEE8_071AD4A1680E__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
-#include "../N3Base/N3Transform.h"
+#include "N3Transform.h"
 
 const DWORD BOARD_X				= 0;
 const DWORD BOARD_Y				= 1;
@@ -83,5 +74,3 @@ protected:
 	void FindGrassIndex(const unsigned char uCGrassMngOrder,int* pnInputGrass,int& nGrassTotNum);
 
 };
-
-#endif // !defined(AFX_GRASSBOARD_H__D53F0EC4_B777_49CD_BEE8_071AD4A1680E__INCLUDED_)

@@ -1,9 +1,4 @@
-// GameProcedure.cpp: implementation of the CGameProcedure class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#include "stdafx.h"
-#include "Resource.h"
+#include "pch.h"
 
 #include "GameDef.h"
 #include "GameEng.h"
@@ -18,7 +13,6 @@
 #include "PlayerMyself.h"
 #include "GameProcedure.h"
 #include "GameProcLogIn.h"
-//#include "GameProcStart.h"
 #include "GameProcNationSelect.h"
 #include "GameProcCharacterCreate.h"
 #include "GameProcCharacterSelect.h"
@@ -35,30 +29,14 @@
 #include "UIMessageWnd.h"
 #include "UIEndingDisplay.h"
 
-#include "../N3Base/N3UIEdit.h"
-#include "../N3Base/N3SndObjStream.h"
-#include "../N3Base/N3TableBase.h"
-#include "..\N3Base\N3FXBundle.h"
-
-#include "../N3Base/BitmapFile.h"
-#include "../N3Base/Jpeg.h"
-#include "../JPEG/JpegFile.h"
-
+#include "N3UIEdit.h"
+#include "N3SndObjStream.h"
+#include "N3TableBase.h"
+#include "N3FXBundle.h"
+#include "BitmapFile.h"
 #include "MagicSkillMng.h"
-#include "KnightChrMgr.h"
 #include "GameCursor.h"
 
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
-CKnightChrMgr*		CGameProcedure::s_pKnightChr = NULL;		// 나이트 캐릭터..
 CN3SndObjStream*	CGameProcedure::s_pSnd_BGM = NULL;			// 메인 배경음악 포인터..
 CLocalInput*		CGameProcedure::s_pLocalInput = NULL;		// 마우스와 키보드 입력 객체 .. Direct Input 을 썼다.
 CAPISocket*			CGameProcedure::s_pSocket = NULL;			// 메인 소켓 객체
@@ -90,7 +68,6 @@ HCURSOR	CGameProcedure::s_hCursorAttack = NULL;
 HCURSOR	CGameProcedure::s_hCursorPreRepair = NULL;
 HCURSOR	CGameProcedure::s_hCursorNowRepair = NULL;
 
-e_Version CGameProcedure::s_eVersion =	W95;
 e_LogInClassification CGameProcedure::s_eLogInClassification; // 접속한 서비스.. MGame, Daum, KnightOnLine ....
 std::string	CGameProcedure::s_szAccount = ""; // 계정 문자열..
 std::string	CGameProcedure::s_szPassWord = ""; // 계정 비번..
@@ -126,10 +103,6 @@ void CGameProcedure::Init()
 
 void CGameProcedure::StaticMemberInit(HINSTANCE hInstance, HWND hWndMain, HWND hWndSub)
 {
-	s_pKnightChr = new CKnightChrMgr(hWndMain);
-
-	//////////////////////////////////////////////////////////////////////////////////////////
-	// 게임 기본 3D 엔진 만들기..
 #if _DEBUG 
 	s_bWindowed = true;
 #endif // #if _DEBUG 
@@ -219,30 +192,6 @@ void CGameProcedure::StaticMemberInit(HINSTANCE hInstance, HWND hWndMain, HWND h
 	s_pProcCharacterCreate	= new CGameProcCharacterCreate();	// 캐릭터 만들기
 	s_pProcMain				= new CGameProcMain();				// 메인 게임 프로시져
 	s_pProcOption			= new CGameProcOption();			// 게임 옵션 프로시져
-
-	//////////////////////////////////////////////////////////////////////////////////////////
-	// 버전 정보.. ^^
-	OSVERSIONINFO winfo;
-	winfo.dwOSVersionInfoSize=sizeof(OSVERSIONINFO);
-	GetVersionEx(&winfo);
-	if(winfo.dwPlatformId==VER_PLATFORM_WIN32_NT)
-	{
-		if(winfo.dwMajorVersion>=5)
-			s_eVersion=W2K;
-		else
-			s_eVersion=WNT4;
-	}
-	else
-	if(winfo.dwPlatformId==VER_PLATFORM_WIN32_WINDOWS)
-	{
-		if(winfo.dwMinorVersion<10)
-			s_eVersion=W95;
-		else
-		if(winfo.dwMinorVersion<90)
-		   s_eVersion=W98;
-		else
-		   s_eVersion=WME;				
-	}
 }
 
 void CGameProcedure::StaticMemberRelease()
@@ -304,7 +253,6 @@ void CGameProcedure::StaticMemberRelease()
 	// 엔딩화면 보이기..
 	////////////////////////////////////////////////////////////////////////
 
-	delete s_pKnightChr;	s_pKnightChr = NULL;
 //	if ( (s_pProcMain) && (s_pProcMain->m_pUIHotKeyDlg) )
 //			s_pProcMain->m_pUIHotKeyDlg->CloseIconRegistry();
 
@@ -458,6 +406,8 @@ void CGameProcedure::RenderActive()
 
 bool CGameProcedure::CaptureScreenAndSaveToFile(const std::string& szFN)
 {
+	return true;
+	/*
 	if(szFN.empty()) return false;
 	CJpegFile file;
 
@@ -481,6 +431,7 @@ bool CGameProcedure::CaptureScreenAndSaveToFile(const std::string& szFN)
 		GlobalFree(hDIB);
 	}
 	return true;
+	*/
 /*
 	int iW = CN3Base::s_CameraData.vp.Width;
 	int iH = CN3Base::s_CameraData.vp.Height;
@@ -865,7 +816,7 @@ void CGameProcedure::ReportDebugStringAndSendToServer(const std::string& szDebug
 	{
 		int iLen = szDebug.size();
 		std::vector<BYTE> buffer;	// 버퍼.. 
-		buffer.assign(iLen + 4);
+		buffer.reserve(iLen + 4);
 		int iOffset=0;												// 옵셋..
 		s_pSocket->MP_AddByte(&(buffer[0]), iOffset, N3_REPORT_DEBUG_STRING);
 		s_pSocket->MP_AddShort(&(buffer[0]), iOffset, iLen);

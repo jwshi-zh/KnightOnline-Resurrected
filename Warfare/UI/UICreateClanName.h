@@ -1,19 +1,10 @@
-// UICreateClanName.h: interface for the UICreateClanName class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(__UICREATECLANNAME_H__)
-#define __UICREATECLANNAME_H__
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "GameDef.h"
-#include "../N3BASE/N3UIBase.h"
+#include "N3UIBase.h"
 
-#include "../N3Base/N3UIString.h"
-#include "../N3Base/N3UIEdit.h"
+#include "N3UIString.h"
+#include "N3UIEdit.h"
 
 //////////////////////////////////////////////////////////////////////
 
@@ -36,5 +27,3 @@ public:
 	CUICreateClanName();
 	virtual ~CUICreateClanName();	
 };
-
-#endif //#if !defined(__UICREATECLANNAME_H__)

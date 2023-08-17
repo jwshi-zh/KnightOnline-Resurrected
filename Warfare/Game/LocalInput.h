@@ -1,5 +1,4 @@
-#ifndef _LocalInput_H_
-#define _LocalInput_H_
+#pragma once
 
 #include <DInput.h>
 
@@ -9,7 +8,6 @@ const int DK_PRESS = 2;
 const int DK_REPEAT = 4;
 const int NUMDIKEYS = 256;
 
-// 마우스 플래그 - 한개 이상의 플래그가 OR 연산으로 조합되어 있다..
 const int MOUSE_LBCLICK		= 0x1;
 const int MOUSE_LBCLICKED	= 0x2;
 const int MOUSE_LBDOWN		= 0x4;
@@ -23,10 +21,6 @@ const int MOUSE_LBDBLCLK	= 0x200;
 const int MOUSE_MBDBLCLK	= 0x400;
 const int MOUSE_RBDBLCLK	= 0x800;
 
-//////////////////////////////////////////////////////////////////////////////////
-// CLocalInput is a class wrapper for DirectInput and contains functions to receive 
-// data from the mouse, keyboard
-//////////////////////////////////////////////////////////////////////////////////
 class CLocalInput
 {
 private:
@@ -110,5 +104,3 @@ public:
 	CLocalInput(void);
 	~CLocalInput(void);
 };
-
-#endif // end of _LocalInput_H_

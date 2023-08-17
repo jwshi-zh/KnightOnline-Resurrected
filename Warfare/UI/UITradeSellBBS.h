@@ -1,18 +1,9 @@
-// UITradeSellBBS.h: interface for the CUITradeSellBBS class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_UITRADESELLBBS_H__2550F618_FFC2_425A_B66A_2275D1E1FCAB__INCLUDED_)
-#define AFX_UITRADESELLBBS_H__2550F618_FFC2_425A_B66A_2275D1E1FCAB__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "GameDef.h"
 #include "PacketDef.h"
 #include "APISocket.h"
-#include "../N3Base/N3UIBase.h"
+#include "N3UIBase.h"
 #include "UIMessageBox.h"
 #include "UITradeExplanation.h"
 #include <list>
@@ -111,5 +102,3 @@ public:
 	virtual ~CUITradeSellBBS();
 
 };
-
-#endif // !defined(AFX_UITRADESELLBBS_H__2550F618_FFC2_425A_B66A_2275D1E1FCAB__INCLUDED_)

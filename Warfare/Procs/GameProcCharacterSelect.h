@@ -1,13 +1,4 @@
-// GameProcCharacterSelect.h: interface for the CGameProcCharacterSelect class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_GAMEPROCCHARACTERSELECT_H__FA8E7800_AE8D_4469_8D6A_7F409EED8C86__INCLUDED_)
-#define AFX_GAMEPROCCHARACTERSELECT_H__FA8E7800_AE8D_4469_8D6A_7F409EED8C86__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "GameProcedure.h"
 
@@ -88,7 +79,7 @@ public:
 	__Vector3				m_vEyeBackup;
 	__Vector3				m_vAt;
 	__Vector3				m_vUp;
-	D3DLIGHT8				m_lgt[3];
+	D3DLIGHT9				m_lgt[3];
 
 	CUICharacterSelect*		m_pUICharacterSelect;
 
@@ -147,5 +138,3 @@ public:
 protected:
 	bool ProcessPacket(DataPack* pDataPack, int& iOffset);
 };
-
-#endif // !defined(AFX_GAMEPROCCHARACTERSELECT_H__FA8E7800_AE8D_4469_8D6A_7F409EED8C86__INCLUDED_)

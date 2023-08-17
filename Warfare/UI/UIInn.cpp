@@ -1,9 +1,4 @@
-// UINPCEvent.cpp: implementation of the UINPCEvent class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#include "stdafx.h"
-#include "resource.h"
+#include "pch.h"
 #include "UIInn.h"
 #include "UICreateClanName.h"
 
@@ -14,19 +9,6 @@
 #include "PlayerMySelf.h"
 #include "UITradeBBSSelector.h"
 #include "UIManager.h"
-
-#include "../N3Base/StdAfxBase.h"
-
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 CUIInn::CUIInn()
 {

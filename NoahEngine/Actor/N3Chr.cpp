@@ -1801,7 +1801,7 @@ void CN3Chr::BuildMesh()
 		__Vector3 vFinal;
 		int nAffect = 0;
 		float* pfWeights = NULL;
-		for(j = 0; j < nVC; j++) // j < m_nBoneVertices 와 같다..
+		for(auto j = 0; j < nVC; j++) // j < m_nBoneVertices 와 같다..
 		{
 
 			nAffect = pVSrc[j].nAffect;
@@ -1842,7 +1842,7 @@ void CN3Chr::BuildMesh()
 		{
 			int nAffect = 0;
 			float* pfWeights = NULL;
-			for(j = 0; j < nVC; j++) // j < m_nBoneVertices 와 같다..
+			for(auto j = 0; j < nVC; j++) // j < m_nBoneVertices 와 같다..
 			{
 				nAffect = pVSrc[j].nAffect;
 				if(1 == nAffect)
@@ -1900,7 +1900,7 @@ void CN3Chr::BuildMesh(int nLOD)
 		__Vector3 vFinal;
 		int nAffect = 0;
 		float* pfWeights = NULL;
-		for(j = 0; j < nVC; j++) // j < m_nBoneVertices 와 같다..
+		for(auto j = 0; j < nVC; j++) // j < m_nBoneVertices 와 같다..
 		{
 
 			nAffect = pVSrc[j].nAffect;

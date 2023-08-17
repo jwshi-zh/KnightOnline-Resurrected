@@ -1,18 +1,9 @@
-// CPlayerBase.h: interface for the CPlayerBase class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_PlayerBase_H__B8B8986B_3635_462D_8C38_A052CA75B331__INCLUDED_)
-#define AFX_PlayerBase_H__B8B8986B_3635_462D_8C38_A052CA75B331__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "GameBase.h"
 #include "GameDef.h"
 #include "Bitset.h"
-#include "../N3Base/N3Chr.h"
+#include "N3Chr.h"
 #include <deque>
 
 //	By : Ecli666 ( On 2002-07-22 ¿ÀÀü 9:59:19 )
@@ -255,5 +246,3 @@ public:
 
 	int					GetNPCOriginID() {	if (m_pLooksRef) return m_pLooksRef->dwID; else return -1;	}
 };
-
-#endif // !defined(AFX_PlayerBase_H__B8B8986B_3635_462D_8C38_A052CA75B331__INCLUDED_)

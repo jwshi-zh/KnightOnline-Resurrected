@@ -1,15 +1,4 @@
-// PlayerOtherMgr.h: interface for the CPlayerOtherMgr class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_PlayerOtherMgr_H__B32C59B8_6C08_494E_B9DE_338B3CD026C5__INCLUDED_)
-#define AFX_PlayerOtherMgr_H__B32C59B8_6C08_494E_B9DE_338B3CD026C5__INCLUDED_
-
-#include <map>
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "PlayerOther.h"
 #include "GameBase.h"
@@ -181,5 +170,3 @@ inline bool CPlayerOtherMgr::NPCDelete(int iID)
 	m_NPCs.erase(it);
 	return true;
 }
-
-#endif // !defined(AFX_PlayerOtherMgr_H__B32C59B8_6C08_494E_B9DE_338B3CD026C5__INCLUDED_)

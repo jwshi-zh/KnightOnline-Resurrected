@@ -1,13 +1,4 @@
-// PlayerNPC.h: interface for the CPlayerNPC class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_PLAYERNPC_H__8A79604A_EFA6_408E_A0EB_4B7BF4FDDAB4__INCLUDED_)
-#define AFX_PLAYERNPC_H__8A79604A_EFA6_408E_A0EB_4B7BF4FDDAB4__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "PlayerBase.h"
 #include "GameBase.h"
@@ -26,5 +17,3 @@ public:
 	CPlayerNPC();
 	virtual ~CPlayerNPC();
 };
-
-#endif // !defined(AFX_PLAYERNPC_H__8A79604A_EFA6_408E_A0EB_4B7BF4FDDAB4__INCLUDED_)

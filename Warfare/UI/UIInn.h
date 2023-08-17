@@ -1,18 +1,7 @@
-// UIInn.h: interface for the UIInn class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(__UIINN_H__)
-#define __UIINN_H__
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "GameDef.h"
-#include "../N3BASE/N3UIBase.h"
-
-//////////////////////////////////////////////////////////////////////
+#include "N3UIBase.h"
 
 class CUIInn : public CN3UIBase  
 {	
@@ -28,5 +17,3 @@ public:
 
 	bool ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg);
 };
-
-#endif //#if !defined(__UIINN_H__)

@@ -1,15 +1,6 @@
-// UICmd.h: interface for the CUICmd class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_UICmd_H__CA4F5382_D9A9_447C_B717_7A0A38724715__INCLUDED_)
-#define AFX_UICmd_H__CA4F5382_D9A9_447C_B717_7A0A38724715__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
-#include "..\N3BASE\N3UIBase.h"
+#include "N3UIBase.h"
 
 class CUICmd : public CN3UIBase  
 {
@@ -48,5 +39,3 @@ public:
 	CUICmd();
 	virtual ~CUICmd();
 };
-
-#endif // !defined(AFX_UICmd_H__CA4F5382_D9A9_447C_B717_7A0A38724715__INCLUDED_)

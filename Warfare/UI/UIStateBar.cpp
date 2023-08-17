@@ -1,16 +1,12 @@
-// UIStateBar.cpp: implementation of the CUIStateBar class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#include "stdafx.h"
+#include "pch.h"
 #include "GameDef.h"
 #include "UIStateBar.h"
 #include "GameProcedure.h"
 #include "LocalInput.h"
 
-#include "../N3Base/N3UIProgress.h"
-#include "../N3Base/N3UIString.h"
-#include "../N3Base/N3UIImage.h"
+#include "N3UIProgress.h"
+#include "N3UIString.h"
+#include "N3UIImage.h"
 #include "GameProcMain.h"
 #include "APISocket.h"
 #include "PacketDef.h"
@@ -18,19 +14,9 @@
 #include "MagicSkillMng.h"
 #include "UIManager.h"
 
-#include "../N3Base/N3Texture.h"
+#include "N3Texture.h"
 
 #include "N3UIDBCLButton.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 CUIStateBar::CUIStateBar()
 {
@@ -259,7 +245,7 @@ void CUIStateBar::Render()
 	CN3Base::s_lpD3DDev->GetTextureStageState(0, D3DTSS_COLORARG1, &dwCA1);
 	CN3Base::s_lpD3DDev->GetTextureStageState(0, D3DTSS_ALPHAOP, &dwAOP);
 	CN3Base::s_lpD3DDev->GetTextureStageState(0, D3DTSS_ALPHAARG1, &dwAA1);
-	CN3Base::s_lpD3DDev->GetVertexShader(&dwVertexShader); 
+	CN3Base::s_lpD3DDev->GetFVF(&dwVertexShader); 
 
 	CN3Base::s_lpD3DDev->SetRenderState(D3DRS_ZENABLE, FALSE);
 	CN3Base::s_lpD3DDev->SetRenderState(D3DRS_FOGENABLE, FALSE);
@@ -271,7 +257,7 @@ void CUIStateBar::Render()
 	CN3Base::s_lpD3DDev->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
 	CN3Base::s_lpD3DDev->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_DIFFUSE);
 
-	CN3Base::s_lpD3DDev->SetVertexShader(FVF_TRANSFORMEDCOLOR); // 플레이어의 위치및 방향 표시..
+	CN3Base::s_lpD3DDev->SetFVF(FVF_TRANSFORMEDCOLOR); // 플레이어의 위치및 방향 표시..
 
 	__Vector3 vPos;
 	it_PositionInfo it = m_Positions.begin(), itEnd = m_Positions.end();
@@ -371,7 +357,7 @@ void CUIStateBar::Render()
 	CN3Base::s_lpD3DDev->SetTextureStageState(0, D3DTSS_COLORARG1, dwCA1);
 	CN3Base::s_lpD3DDev->SetTextureStageState(0, D3DTSS_ALPHAOP, dwAOP);
 	CN3Base::s_lpD3DDev->SetTextureStageState(0, D3DTSS_ALPHAARG1, dwAA1);
-	CN3Base::s_lpD3DDev->SetVertexShader(dwVertexShader); 
+	CN3Base::s_lpD3DDev->SetFVF(dwVertexShader); 
 }
 
 void CUIStateBar::Tick()
@@ -533,7 +519,7 @@ bool CUIStateBar::ToggleMiniMap()
 void CUIStateBar::AddMagic(__TABLE_UPC_SKILL* pSkill, float fDuration)
 {
 	std::vector<char> buffer(256, NULL);
-	sprintf(buffer.begin(),	"UI\\skillicon_%.2d_%d.dxt", pSkill->dwID%100, pSkill->dwID/100);
+	sprintf(buffer.data(),	"UI\\skillicon_%.2d_%d.dxt", pSkill->dwID%100, pSkill->dwID/100);
 
 	__DurationMagicImg* pMagicImg = new __DurationMagicImg;
 	pMagicImg->fDuration = fDuration;
@@ -542,7 +528,7 @@ void CUIStateBar::AddMagic(__TABLE_UPC_SKILL* pSkill, float fDuration)
 
 	CN3UIDBCLButton* pIcon = pMagicImg->pIcon;
 	pIcon->Init(this);
-	pIcon->SetTex(buffer.begin());
+	pIcon->SetTex(buffer.data());
 	pIcon->SetTooltipText(pSkill->szName.c_str());
 	pIcon->SetUVRect(0,0,1,1);
 
@@ -568,7 +554,7 @@ void CUIStateBar::AddMagic(__TABLE_UPC_SKILL* pSkill, float fDuration)
 void CUIStateBar::DelMagic(__TABLE_UPC_SKILL* pSkill)
 {
 	std::vector<char> buffer(256, NULL);
-	sprintf(buffer.begin(),	"UI\\skillicon_%.2d_%d.dxt", pSkill->dwID%100, pSkill->dwID/100);
+	sprintf(buffer.data(),	"UI\\skillicon_%.2d_%d.dxt", pSkill->dwID%100, pSkill->dwID/100);
 
 	it_MagicImg it, ite, itRemove;
 	itRemove = ite = m_pMagic.end();	
@@ -577,7 +563,7 @@ void CUIStateBar::DelMagic(__TABLE_UPC_SKILL* pSkill)
 		__DurationMagicImg* pMagicImg = (*it);
 		CN3UIDBCLButton* pIcon = pMagicImg->pIcon;
 		CN3Texture* pTex = pIcon->GetTex();
-		if(pTex && lstrcmpi(pTex->FileName().c_str(), buffer.begin())==0)
+		if(pTex && lstrcmpi(pTex->FileName().c_str(), buffer.data())==0)
 		{
 			itRemove = it;
 		}

@@ -1,26 +1,10 @@
-// PlayerNPC.cpp: implementation of the CPlayerNPC class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#include "StdAfx.h"
+#include "pch.h"
 #include "PlayerNPC.h"
 #include "GameProcMain.h"
 #include "N3WorldManager.h"
-#include "../N3Base/N3Shape.h"
-#include "../N3Base/N3ShapeMgr.h"
-#include "../N3Base/N3SndObj.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
-
+#include "N3Shape.h"
+#include "N3ShapeMgr.h"
+#include "N3SndObj.h"
 
 CPlayerNPC::CPlayerNPC()
 {

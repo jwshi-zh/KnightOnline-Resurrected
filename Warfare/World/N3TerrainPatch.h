@@ -1,17 +1,7 @@
-// N3Patch.h: interface for the CN3TerrainPatch class.
-// 2001.10.22.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_LYTERRAIN_H__38B10089_4193_49B7_BF2A_CD9C6CD3251A__INCLUDED_)
-#define AFX_LYTERRAIN_H__38B10089_4193_49B7_BF2A_CD9C6CD3251A__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "N3TerrainDef.h"
-#include "../N3Base/N3Base.h"
+#include "N3Base.h"
 
 class CN3Texture;
 class CN3Terrain;
@@ -29,7 +19,7 @@ protected:
 	int							m_CellSize;
 	int							m_NumCell;
 	int							m_iLevel;
-	LPDIRECT3DVERTEXBUFFER8		m_pVB;
+	LPDIRECT3DVERTEXBUFFER9		m_pVB;
 	int							m_VBSize[MAX_PATCH_LEVEL];
 	
 	FanInfoList					m_FanInfoList;
@@ -39,12 +29,12 @@ protected:
 	bool*						m_pIsTileFull;
 
 	//lightmap...
-	LPDIRECT3DVERTEXBUFFER8		m_pLightMapVB;
+	LPDIRECT3DVERTEXBUFFER9		m_pLightMapVB;
 	CN3Texture**				m_pRefLightMapTex;
 	int							m_NumLightMapTex;
 
 	//Tile지원 안하는 카드들을 위한 설정.
-	//LPDIRECT3DVERTEXBUFFER8		m_pFoolishTileVB;
+	//LPDIRECT3DVERTEXBUFFER9		m_pFoolishTileVB;
 	//int							m_NumFoolishTile;
 
 public:
@@ -61,5 +51,3 @@ public:
 	CN3TerrainPatch();
 	virtual ~CN3TerrainPatch();
 };
-
-#endif // !defined(AFX_LYTERRAIN_H__38B10089_4193_49B7_BF2A_CD9C6CD3251A__INCLUDED_)

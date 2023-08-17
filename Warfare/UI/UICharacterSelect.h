@@ -1,15 +1,6 @@
-// UICharacterSelect.h: interface for the UICharacterSelect class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_UICharacterSelect_H__665CADA6_E25B_47D6_B962_6DA49673048F__INCLUDED_)
-#define AFX_UICharacterSelect_H__665CADA6_E25B_47D6_B962_6DA49673048F__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
-#include "../N3Base/N3UIBase.h"
+#include "N3UIBase.h"
 #include "GameProcCharacterSelect.h"
 
 class CGameProcedure;
@@ -36,5 +27,3 @@ public:
 	void	DisplayChrInfo(__CharacterSelectInfo* pCSInfo);
 	void	DontDisplayInfo();
 };
-
-#endif // !defined(AFX_UICharacterSelect_H__665CADA6_E25B_47D6_B962_6DA49673048F__INCLUDED_)

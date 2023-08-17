@@ -1,13 +1,4 @@
-// GameProcNationSelect.h: interface for the CGameProcNationSelect class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_GAMEPROCNATIONSELECT_H__83F05883_F45C_4119_BD8F_EBF2C2CF0A29__INCLUDED_)
-#define AFX_GAMEPROCNATIONSELECT_H__83F05883_F45C_4119_BD8F_EBF2C2CF0A29__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "GameProcedure.h"
 
@@ -30,5 +21,3 @@ public:
 	CGameProcNationSelect();
 	virtual ~CGameProcNationSelect();
 };
-
-#endif // !defined(AFX_GAMEPROCNATIONSELECT_H__83F05883_F45C_4119_BD8F_EBF2C2CF0A29__INCLUDED_)

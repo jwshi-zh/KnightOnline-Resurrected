@@ -1,9 +1,4 @@
-// MagicSkillMng.cpp: implementation of the CMagicSkillMng class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#include "stdafx.h"
-#include "Resource.h"
+#include "pch.h"
 
 #include "GameProcMain.h"
 #include "APISocket.h"
@@ -18,21 +13,9 @@
 #include "UIVarious.h"
 #include "UIPartyOrForce.h"
 #include "MagicSkillMng.h"
-#include "../N3Base/N3SndObj.h"
-#include "../N3Base/N3SndObjStream.h"
-#include "../N3Base/N3ShapeExtra.h"
-
-#include "../N3Base/StdAfxBase.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
+#include "N3SndObj.h"
+#include "N3SndObjStream.h"
+#include "N3ShapeExtra.h"
 
 CMagicSkillMng::CMagicSkillMng()
 {
@@ -2424,7 +2407,8 @@ void CMagicSkillMng::FlyingType2(__TABLE_UPC_SKILL* pSkill, int iSourceID, int i
 
 	if(LeftItem == (ITEM_CLASS_BOW/10))//»∞¿Ã¥Â..
 	{
-		CN3Base::s_SndMgr.PlayOnceAndRelease(ID_SOUND_SKILL_THROW_ARROW, &(pPlayer->Position()));
+		auto vPlayerPos = pPlayer->Position();
+		CN3Base::s_SndMgr.PlayOnceAndRelease(ID_SOUND_SKILL_THROW_ARROW, &vPlayerPos);
 	}
 	else if(RightItem == (ITEM_CLASS_JAVELIN/10))//≈ı√¢¿Ã¥Â...pla
 	{

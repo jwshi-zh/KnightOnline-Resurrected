@@ -1,15 +1,6 @@
-// UIHelp.h: interface for the CUIHelp class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_UIHELP_H__EFE9F4A4_295F_4A67_B97A_1DF248F1101A__INCLUDED_)
-#define AFX_UIHELP_H__EFE9F4A4_295F_4A67_B97A_1DF248F1101A__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
-#include "../N3Base/N3UIBase.h"
+#include "N3UIBase.h"
 
 const int MAX_HELP_PAGE = 4;
 
@@ -32,5 +23,3 @@ public:
 	CUIHelp();
 	virtual ~CUIHelp();
 };
-
-#endif // !defined(AFX_UIHELP_H__EFE9F4A4_295F_4A67_B97A_1DF248F1101A__INCLUDED_)

@@ -1,22 +1,9 @@
-// EventManager.cpp: implementation of the CEventManager class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#include "stdafx.h"
+#include "pch.h"
 #include "EventManager.h"
 #include "GameProcedure.h"
 #include "PlayerMySelf.h"
 #include "N3FXMgr.h"
 
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 #define EVENT_TYPE_POISON	3
 
 CEventCell::CEventCell()

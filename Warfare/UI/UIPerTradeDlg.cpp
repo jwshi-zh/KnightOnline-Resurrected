@@ -1,8 +1,4 @@
-// UIPerTradeDlg.cpp: implementation of the CUIPerTradeDlg class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#include "stdafx.h"
+#include "pch.h"
 
 #include "PacketDef.h"
 #include "LocalInput.h"
@@ -19,28 +15,17 @@
 #include "CountableItemEditDlg.h"
 
 #include "UIManager.h"
-#include "..\N3Base\N3UIButton.h"
-#include "..\N3Base\N3UIEdit.h"
-#include "../N3Base/N3SndObj.h"
-#include "Resource.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
+#include "N3UIButton.h"
+#include "N3UIEdit.h"
+#include "N3SndObj.h"
 
 CUIPerTradeDlg::CUIPerTradeDlg()
 {
 	m_pSubProcPerTrade = NULL;
-	for( int i = 0; i < MAX_ITEM_PER_TRADE; i++ )	m_pPerTradeMy[i] = NULL;
-	for( i = 0; i < MAX_ITEM_PER_TRADE; i++ )	m_pPerTradeOther[i] = NULL;
-	for( i = 0; i < MAX_ITEM_PER_TRADE; i++ )	m_iBackupiOrder[i] = -1;
-	for( i = 0; i < MAX_ITEM_INVENTORY; i++ )	m_pPerTradeInv[i] = NULL;
+	for(auto i = 0; i < MAX_ITEM_PER_TRADE; i++ )	m_pPerTradeMy[i] = NULL;
+	for(auto i = 0; i < MAX_ITEM_PER_TRADE; i++ )	m_pPerTradeOther[i] = NULL;
+	for(auto i = 0; i < MAX_ITEM_PER_TRADE; i++ )	m_iBackupiOrder[i] = -1;
+	for(auto i = 0; i < MAX_ITEM_INVENTORY; i++ )	m_pPerTradeInv[i] = NULL;
 
 	m_iBackupiCount = 0;
 	m_pUITooltipDlg = NULL;
@@ -60,7 +45,7 @@ void CUIPerTradeDlg::Release()
 {
 	CN3UIBase::Release();
 
-	for( int i = 0; i < MAX_ITEM_PER_TRADE; i++ )
+	for(auto i = 0; i < MAX_ITEM_PER_TRADE; i++ )
 	{
 		if ( m_pPerTradeMy[i] != NULL )
 		{
@@ -69,7 +54,7 @@ void CUIPerTradeDlg::Release()
 		}
 	}
 
-	for( i = 0; i < MAX_ITEM_PER_TRADE; i++ )
+	for(auto i = 0; i < MAX_ITEM_PER_TRADE; i++ )
 	{
 		if ( m_pPerTradeOther[i] != NULL )
 		{
@@ -78,7 +63,7 @@ void CUIPerTradeDlg::Release()
 		}
 	}
 
-	for( i = 0; i < MAX_ITEM_INVENTORY; i++ )
+	for(auto i = 0; i < MAX_ITEM_INVENTORY; i++ )
 	{
 		if ( m_pPerTradeInv[i] != NULL )
 		{
@@ -112,7 +97,7 @@ void CUIPerTradeDlg::Render()
 	}
 
 	// 갯수 표시되야 할 아이템 갯수 표시..
-	for( int i = 0; i < MAX_ITEM_PER_TRADE; i++ )
+	for(auto i = 0; i < MAX_ITEM_PER_TRADE; i++ )
 	{
 		if ( m_pPerTradeMy[i] && ( (m_pPerTradeMy[i]->pItemBasic->byContable == UIITEM_TYPE_COUNTABLE) || (m_pPerTradeMy[i]->pItemBasic->byContable == UIITEM_TYPE_COUNTABLE_SMALL) ) )
 		{
@@ -135,7 +120,7 @@ void CUIPerTradeDlg::Render()
 	}
 
 	// 갯수 표시되야 할 아이템 갯수 표시..
-	for( i = 0; i < MAX_ITEM_PER_TRADE; i++ )
+	for(auto i = 0; i < MAX_ITEM_PER_TRADE; i++ )
 	{
 		if ( m_pPerTradeOther[i] && ( (m_pPerTradeOther[i]->pItemBasic->byContable == UIITEM_TYPE_COUNTABLE) || (m_pPerTradeOther[i]->pItemBasic->byContable == UIITEM_TYPE_COUNTABLE_SMALL) ) )
 		{
@@ -158,7 +143,7 @@ void CUIPerTradeDlg::Render()
 	}
 
 	// 갯수 표시되야 할 아이템 갯수 표시..
-	for( i = 0; i < MAX_ITEM_INVENTORY; i++ )
+	for(auto i = 0; i < MAX_ITEM_INVENTORY; i++ )
 	{
 		if ( m_pPerTradeInv[i] && ( (m_pPerTradeInv[i]->pItemBasic->byContable == UIITEM_TYPE_COUNTABLE) || (m_pPerTradeInv[i]->pItemBasic->byContable == UIITEM_TYPE_COUNTABLE_SMALL) ) )
 		{
@@ -233,19 +218,19 @@ void CUIPerTradeDlg::InitIconUpdate()
 
 __IconItemSkill* CUIPerTradeDlg::GetHighlightIconItem(CN3UIIcon* pUIIcon)
 {
-	for( int i = 0; i < MAX_ITEM_PER_TRADE; i++ )
+	for(auto i = 0; i < MAX_ITEM_PER_TRADE; i++ )
 	{
 		if ( (m_pPerTradeMy[i] != NULL) && (m_pPerTradeMy[i]->pUIIcon == pUIIcon) )
 			return m_pPerTradeMy[i];
 	}
 
-	for( i = 0; i < MAX_ITEM_PER_TRADE; i++ )
+	for(auto i = 0; i < MAX_ITEM_PER_TRADE; i++ )
 	{
 		if ( (m_pPerTradeOther[i] != NULL) && (m_pPerTradeOther[i]->pUIIcon == pUIIcon) )
 			return m_pPerTradeOther[i];
 	}
 
-	for( i = 0; i < MAX_ITEM_INVENTORY; i++ )
+	for(auto i = 0; i < MAX_ITEM_INVENTORY; i++ )
 	{
 		if ( (m_pPerTradeInv[i] != NULL) && (m_pPerTradeInv[i]->pUIIcon == pUIIcon) ) 
 			return m_pPerTradeInv[i];
@@ -257,7 +242,7 @@ __IconItemSkill* CUIPerTradeDlg::GetHighlightIconItem(CN3UIIcon* pUIIcon)
 void CUIPerTradeDlg::LeavePerTradeState()
 {
 	// 변수 클리어..
-	for( int i = 0; i < MAX_ITEM_PER_TRADE; i++ )	m_iBackupiOrder[i] = -1;
+	for(auto i = 0; i < MAX_ITEM_PER_TRADE; i++ )	m_iBackupiOrder[i] = -1;
 	// 내 결정 버튼 보통 상태로..
 	std::string szFN = "btn_trade_my";
 	CN3UIButton* pButton;
@@ -275,7 +260,7 @@ void CUIPerTradeDlg::LeavePerTradeState()
 void CUIPerTradeDlg::EnterPerTradeState()
 {
 	// 변수 초기화..
-	for( int i = 0; i < MAX_ITEM_PER_TRADE; i++ )	m_iBackupiOrder[i] = -1;
+	for(auto i = 0; i < MAX_ITEM_PER_TRADE; i++ )	m_iBackupiOrder[i] = -1;
 
 	// 내 결정 버튼 보통 상태로..
 	std::string szFN = "btn_trade_my";
@@ -283,7 +268,7 @@ void CUIPerTradeDlg::EnterPerTradeState()
 	pButton = (CN3UIButton* )GetChildButtonByName(szFN);
 	if(pButton) pButton->SetState(UI_STATE_BUTTON_NORMAL);
 
-	for( i = 0; i < MAX_ITEM_TRADE; i++ )
+	for(auto i = 0; i < MAX_ITEM_TRADE; i++ )
 	{
 		if ( m_pPerTradeMy[i] != NULL )
 		{
@@ -299,7 +284,7 @@ void CUIPerTradeDlg::EnterPerTradeState()
 		}
 	}
 
-	for( i = 0; i < MAX_ITEM_TRADE; i++ )
+	for(auto i = 0; i < MAX_ITEM_TRADE; i++ )
 	{
 		if ( m_pPerTradeOther[i] != NULL )
 		{
@@ -315,7 +300,7 @@ void CUIPerTradeDlg::EnterPerTradeState()
 		}
 	}
 
-	for( i = 0; i < MAX_ITEM_INVENTORY; i++ )
+	for(auto i = 0; i < MAX_ITEM_INVENTORY; i++ )
 	{
 		if ( m_pPerTradeInv[i] != NULL )
 		{
@@ -351,7 +336,7 @@ void CUIPerTradeDlg::ItemMoveFromInvToThis()
 	if(!pInven) return;
 
 	int i;
-	for( i = 0; i < MAX_ITEM_INVENTORY; i++ )
+	for(auto i = 0; i < MAX_ITEM_INVENTORY; i++ )
 	{
 		if(pInven->m_pMyInvWnd[i])
 		{
@@ -379,7 +364,7 @@ void CUIPerTradeDlg::ItemMoveFromThisToInv()
 	if(!pInven) return;
 
 	int i;
-	for( i = 0; i < MAX_ITEM_INVENTORY; i++ )
+	for(auto i = 0; i < MAX_ITEM_INVENTORY; i++ )
 	{
 		if(m_pPerTradeInv[i])
 		{
@@ -470,7 +455,7 @@ void CUIPerTradeDlg::ItemCountCancel()
 	// Sound..
 	if (CN3UIWndBase::m_sRecoveryJobInfo.pItemSource) PlayItemSound(CN3UIWndBase::m_sRecoveryJobInfo.pItemSource->pItemBasic);
 
-	for( int i = 0; i < MAX_ITEM_PER_TRADE; i++ )
+	for(auto i = 0; i < MAX_ITEM_PER_TRADE; i++ )
 	{
 		if( (m_pPerTradeMy[i]) && ( (m_pPerTradeMy[i]->pItemBasic->byContable == UIITEM_TYPE_COUNTABLE) || (m_pPerTradeMy[i]->pItemBasic->byContable == UIITEM_TYPE_COUNTABLE_SMALL) ) )
 		{
@@ -542,7 +527,7 @@ bool CUIPerTradeDlg::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 	int i, iDestiOrder = -1; 
 	bool bFound = false;
 
-	for( i = 0; i < MAX_ITEM_INVENTORY; i++ )
+	for(auto i = 0; i < MAX_ITEM_INVENTORY; i++ )
 	{
 		pArea = CN3UIWndBase::GetChildAreaByiOrder(UI_AREA_TYPE_PER_TRADE_MY, i);
 		if ( (pArea) && (pArea->IsIn(ptCur.x, ptCur.y)) )
@@ -571,7 +556,9 @@ bool CUIPerTradeDlg::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 	{
 		// 활이나 물약등 아이템인 경우..
 		// 면저 슬롯에 해당 아이콘이 있는지 알아본다..
-		for( i = 0; i < MAX_ITEM_PER_TRADE; i++ )
+		int i = 0;
+
+		for(i = 0; i < MAX_ITEM_PER_TRADE; i++ )
 		{
 			if ( bFound )
 				break;
@@ -588,7 +575,7 @@ bool CUIPerTradeDlg::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 		if ( !bFound )
 		{
 			// 빈슬롯을 찾아 들어간다..
-			for( i = 0; i < MAX_ITEM_PER_TRADE; i++ )
+			for(i = 0; i < MAX_ITEM_PER_TRADE; i++ )
 			{
 				if ( !m_pPerTradeMy[i] )
 				{
@@ -655,7 +642,7 @@ bool CUIPerTradeDlg::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 	else
 	{
 		// 아이템이 들어갈 수 있는지 확인, 아이템이 들어 가는 자리 계산..
-		for( i = 0; i < MAX_ITEM_PER_TRADE; i++ )
+		for(i = 0; i < MAX_ITEM_PER_TRADE; i++ )
 		{
 			if (m_pPerTradeMy[i] == NULL)	
 			{
@@ -754,7 +741,7 @@ int	CUIPerTradeDlg::GetItemiOrder(__IconItemSkill* spItem, e_UIWND_DISTRICT eWnd
 	switch ( eWndDist )
 	{
 		case UIWND_DISTRICT_PER_TRADE_INV:
-			for( i = 0; i < MAX_ITEM_INVENTORY; i++ )
+			for(auto i = 0; i < MAX_ITEM_INVENTORY; i++ )
 			{
 				if ( (m_pPerTradeInv[i] != NULL) && (m_pPerTradeInv[i] == spItem) )
 					return i;

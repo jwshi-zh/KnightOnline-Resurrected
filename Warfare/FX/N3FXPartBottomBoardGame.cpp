@@ -1,23 +1,7 @@
-// N3FXPartBottomBoard.cpp: implementation of the CN3FXPartBottomBoard class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#include "stdafx.h"
+#include "pch.h"
 #include "GameProcedure.h"
 #include "N3WorldManager.h"
 #include "N3FXPartBottomBoardGame.h"
-
-#include "../N3Base/StdAfxBase.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 CN3FXPartBottomBoardGame::CN3FXPartBottomBoardGame()
 {
@@ -37,11 +21,6 @@ CN3FXPartBottomBoardGame::~CN3FXPartBottomBoardGame()
 		m_vUnit = NULL;
 	}
 }
-
-
-//////////////////////////////////////////////////////////////////////
-//
-//////////////////////////////////////////////////////////////////////
 
 float CN3FXPartBottomBoardGame::GetGroundHeight(float x, float z)
 {

@@ -1,19 +1,10 @@
-// UITransactionDlg.h: interface for the CUITransactionDlg class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_UITRANSACTIONDLG_H__42671245_FF4F_42FC_AF7B_DACEDA8734B7__INCLUDED_)
-#define AFX_UITRANSACTIONDLG_H__42671245_FF4F_42FC_AF7B_DACEDA8734B7__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
-#include "..\N3BASE\N3UIBase.h"
-#include "..\N3BASE\N3UIArea.h"
-#include "..\N3Base\N3UIString.h"
-#include "..\N3Base\N3UIImage.h"
-#include "..\N3Base\N3UIButton.h"
+#include "N3UIBase.h"
+#include "N3UIArea.h"
+#include "N3UIString.h"
+#include "N3UIImage.h"
+#include "N3UIButton.h"
 #include "GameProcedure.h"
 
 #include "GameDef.h"
@@ -110,5 +101,3 @@ public:
 
 	void				GoldUpdate();
 };
-
-#endif // !defined(AFX_UITRANSACTIONDLG_H__42671245_FF4F_42FC_AF7B_DACEDA8734B7__INCLUDED_)

@@ -1,13 +1,4 @@
-// PlayerOther.h: interface for the CPlayerOther class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_PlayerOther_H__06F94EA0_0640_4532_B8CC_7FB9A99291AB__INCLUDED_)
-#define AFX_PlayerOther_H__06F94EA0_0640_4532_B8CC_7FB9A99291AB__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "GameBase.h"
 #include "PlayerNPC.h"
@@ -31,6 +22,3 @@ public:
 	CPlayerOther();
 	virtual ~CPlayerOther();
 };
-
-
-#endif // !defined(AFX_PlayerOther_H__06F94EA0_0640_4532_B8CC_7FB9A99291AB__INCLUDED_)

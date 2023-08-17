@@ -1,9 +1,4 @@
-// UIItemExchange.cpp: implementation of the CUIItemRepairExchange class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#include "stdafx.h"
-#include "resource.h"
+#include "pch.h"
 #include "UIItemExchange.h"
 
 #include "PacketDef.h"
@@ -17,32 +12,22 @@
 #include "UIInventory.h"
 #include "UIManager.h"
 
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
-
 CUIItemExchange::CUIItemExchange()
 {
 	m_pUITooltipDlg = NULL;
 
 	int i;
-	for( i = 0; i < MAX_ITEM_INVENTORY; i++ )
+	for(auto i = 0; i < MAX_ITEM_INVENTORY; i++ )
 	{
 		m_pMyInvWnd[i] = NULL;
 	}
 
-	for( i = 0; i < MAX_ITEM_EX_RE_NPC; i++ )
+	for(auto i = 0; i < MAX_ITEM_EX_RE_NPC; i++ )
 	{
 		m_pMyNpcWnd[i] = NULL;
 	}
 
-	for( i = 0; i < MAX_ITEM_EX_RE_NPC; i++ )
+	for(auto i = 0; i < MAX_ITEM_EX_RE_NPC; i++ )
 	{
 		m_pMyNpcWndOriginIndex[i] = -1;
 	}
@@ -59,7 +44,7 @@ void CUIItemExchange::Release()
 {
 	CN3UIBase::Release();
 
-	for( int i = 0; i < MAX_ITEM_INVENTORY; i++ )
+	for(auto i = 0; i < MAX_ITEM_INVENTORY; i++ )
 	{
 		if ( m_pMyInvWnd[i] != NULL )
 		{
@@ -68,7 +53,7 @@ void CUIItemExchange::Release()
 		}
 	}
 
-	for( i = 0; i < MAX_ITEM_EX_RE_NPC; i++ )
+	for(auto i = 0; i < MAX_ITEM_EX_RE_NPC; i++ )
 	{
 		if ( m_pMyNpcWnd[i] != NULL )
 		{
@@ -95,7 +80,7 @@ void CUIItemExchange::Render()
 	m_pUITooltipDlg->DisplayTooltipsDisable();
 
 	bool bTooltipRender = false;
-	__IconItemSkill* spItem;
+	__IconItemSkill* spItem = nullptr;
 
 	for(UIListReverseItor itor = m_Children.rbegin(); m_Children.rend() != itor; ++itor)
 	{
@@ -108,7 +93,7 @@ void CUIItemExchange::Render()
 		}
 	}
 
-	if ( bTooltipRender )
+	if ( bTooltipRender && spItem )
 		m_pUITooltipDlg->DisplayTooltipsEnable(ptCur.x, ptCur.y, spItem );
 }
 
@@ -128,7 +113,7 @@ void CUIItemExchange::InitIconWnd(e_UIWND eWnd)
 __IconItemSkill* CUIItemExchange::GetHighlightIconItem(CN3UIIcon* pUIIcon)
 {
 	int i;
-	for( i = 0; i < MAX_ITEM_INVENTORY; i++ )
+	for(auto i = 0; i < MAX_ITEM_INVENTORY; i++ )
 	{
 		if ( (m_pMyInvWnd[i] != NULL) && (m_pMyInvWnd[i]->pUIIcon == pUIIcon) )
 			return m_pMyInvWnd[i];
@@ -144,7 +129,7 @@ int	CUIItemExchange::GetItemiOrder(__IconItemSkill* spItem, e_UIWND_DISTRICT eWn
 	switch ( eWndDist )
 	{
 		case UIWND_DISTRICT_EX_RE_INV:
-			for( i = 0; i < MAX_ITEM_INVENTORY; i++ )
+			for(auto i = 0; i < MAX_ITEM_INVENTORY; i++ )
 			{
 				if ( (m_pMyInvWnd[i] != NULL) && (m_pMyInvWnd[i] == spItem) )
 					return i;
@@ -157,13 +142,13 @@ int	CUIItemExchange::GetItemiOrder(__IconItemSkill* spItem, e_UIWND_DISTRICT eWn
 
 e_UIWND_DISTRICT CUIItemExchange::GetWndDistrict(__IconItemSkill* spItem)
 {
-	for( int i = 0; i < MAX_ITEM_INVENTORY; i++ )
+	for(auto i = 0; i < MAX_ITEM_INVENTORY; i++ )
 	{
 		if ( (m_pMyInvWnd[i] != NULL) && (m_pMyInvWnd[i] == spItem) )
 			return UIWND_DISTRICT_EX_RE_INV;
 	}
 
-	for( i = 0; i < MAX_ITEM_EX_RE_NPC; i++ )
+	for(auto i = 0; i < MAX_ITEM_EX_RE_NPC; i++ )
 	{
 		if ( (m_pMyNpcWnd[i] != NULL) && (m_pMyNpcWnd[i] == spItem) )
 			return UIWND_DISTRICT_EX_RE_NPC;
@@ -232,7 +217,7 @@ bool CUIItemExchange::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 
 	// 내가 가졌던 아이콘이면.. npc영역인지 검사한다..
 	int i; bool bFound = false;
-	for( i = 0; i < MAX_ITEM_EX_RE_NPC; i++ )
+	for(i = 0; i < MAX_ITEM_EX_RE_NPC; i++ )
 	{
 		pArea = CN3UIWndBase::GetChildAreaByiOrder(UI_AREA_TYPE_REPAIR_NPC, i);
 		if ( (pArea) && (pArea->IsIn(ptCur.x, ptCur.y)) )
@@ -246,7 +231,7 @@ bool CUIItemExchange::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 
 	// 아이템이 꽉 차있는지 검사한다..
 	bFound = false;
-	for( i = 0; i < MAX_ITEM_EX_RE_NPC; i++ )
+	for(auto i = 0; i < MAX_ITEM_EX_RE_NPC; i++ )
 	{
 		if(!m_pMyNpcWnd[i])
 		{ 
@@ -415,12 +400,12 @@ void CUIItemExchange::Open()
 
 	// 기타 작업..
 	int i;
-	for( i = 0; i < MAX_ITEM_EX_RE_NPC; i++ )
+	for(auto i = 0; i < MAX_ITEM_EX_RE_NPC; i++ )
 	{
 		m_pMyNpcWnd[i] = NULL;
 	}
 
-	for( i = 0; i < MAX_ITEM_EX_RE_NPC; i++ )
+	for(auto i = 0; i < MAX_ITEM_EX_RE_NPC; i++ )
 	{
 		m_pMyNpcWndOriginIndex[i] = -1;
 	}
@@ -436,7 +421,7 @@ void CUIItemExchange::UserPressOK()
 {
 	// 갯수 세기..
 	int iCount = 0;
-	for( int i = 0; i < MAX_ITEM_EX_RE_NPC; i++ )
+	for(auto i = 0; i < MAX_ITEM_EX_RE_NPC; i++ )
 	{
 		if(m_pMyNpcWnd[i])	iCount++;
 	}
@@ -450,7 +435,7 @@ void CUIItemExchange::UserPressOK()
 
 	CAPISocket::MP_AddByte(byBuff, iOffset, N3_ITEM_REPAIR_REQUEST);			// 게임 스타트 패킷 커멘드..
 	CAPISocket::MP_AddShort(byBuff, iOffset, iCount);		// 아이디 길이 패킷에 넣기..
-	for( i = 0; i < iCount; i++ )
+	for(auto i = 0; i < iCount; i++ )
 	{
 		CAPISocket::MP_AddByte(byBuff, iOffset, m_pMyNpcWndOriginIndex[i]);		// 아이디 길이 패킷에 넣기..
 		CAPISocket::MP_AddDword(byBuff, iOffset, m_pMyNpcWnd[i]->pItemBasic->dwID+m_pMyNpcWnd[i]->pItemExt->dwID);	// 아이디 문자열 패킷에 넣기..
@@ -466,7 +451,7 @@ void CUIItemExchange::ReceiveResultFromServer(int iResult, int iUserGold)
 	// 성공이면 npc영역의 Durability를 최대값으로..
 	if(iResult == 0x01)
 	{
-		for( int i = 0; i < MAX_ITEM_EX_RE_NPC; i++ )
+		for(auto i = 0; i < MAX_ITEM_EX_RE_NPC; i++ )
 		{
 			if(m_pMyNpcWnd[i])	
 			{
@@ -486,7 +471,7 @@ void CUIItemExchange::ReceiveResultFromServer(int iResult, int iUserGold)
 
 	// 이 윈도우의 npc 영역의 아이템을 이 윈도우의 inv 영역으로 옮긴다..
 	CN3UIArea* pArea = NULL;
-	for( int i = 0; i < MAX_ITEM_EX_RE_NPC; i++ )
+	for(auto i = 0; i < MAX_ITEM_EX_RE_NPC; i++ )
 	{
 		if(m_pMyNpcWnd[i])
 		{
@@ -512,7 +497,7 @@ void CUIItemExchange::UserPressCancel()
 
 	// 이 윈도우의 npc 영역의 아이템을 이 윈도우의 inv 영역으로 옮긴다..
 	int i;
-	for( i = 0; i < MAX_ITEM_EX_RE_NPC; i++ )
+	for(auto i = 0; i < MAX_ITEM_EX_RE_NPC; i++ )
 	{
 		if(m_pMyNpcWnd[i])
 		{
@@ -546,12 +531,12 @@ void CUIItemExchange::ItemMoveFromInvToThis()
 	if(!pInven) return;
 
 	int i;
-	for( i = 0; i < MAX_ITEM_INVENTORY; i++ )
+	for(auto i = 0; i < MAX_ITEM_INVENTORY; i++ )
 	{
 		m_pMyInvWnd[i] = NULL;
 	}
 
-	for( i = 0; i < MAX_ITEM_INVENTORY; i++ )
+	for(auto i = 0; i < MAX_ITEM_INVENTORY; i++ )
 	{
 		if(pInven->m_pMyInvWnd[i])
 		{
@@ -579,7 +564,7 @@ void CUIItemExchange::ItemMoveFromThisToInv()
 	if(!pInven) return;
 
 	int i;
-	for( i = 0; i < MAX_ITEM_INVENTORY; i++ )
+	for(auto i = 0; i < MAX_ITEM_INVENTORY; i++ )
 	{
 		if(m_pMyInvWnd[i])
 		{

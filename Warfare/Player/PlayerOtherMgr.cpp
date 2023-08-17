@@ -1,20 +1,7 @@
-// PlayerOtherMgr.cpp: implementation of the CPlayerOtherMgr class.
-//
-//////////////////////////////////////////////////////////////////////
-#include "StdAfx.h"
+#include "pch.h"
 #include "PlayerOtherMgr.h"
 
-#include "../N3Base/N3ShapeExtra.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
+#include "N3ShapeExtra.h"
 
 CPlayerOtherMgr::CPlayerOtherMgr()
 {
@@ -655,7 +642,7 @@ CPlayerNPC* CPlayerOtherMgr::PickAllPrecisely(int ixScreen, int iyScreen, int &i
 		}
 	}
 
-	for(i = 0; i < iBufCnt; i++)
+	for(auto i = 0; i < iBufCnt; i++)
 	{
 		pNPC = NUPCBufs[i];
 		if(pNPC->LODLevel() < 0 || pNPC->LODLevel() >= MAX_CHR_LOD) continue; // Level Of Detail 이 없는건 지나간다.

@@ -1,15 +1,6 @@
-// GameEng.h: interface for the CGameEng class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_GAMEENG_H__5422B19E_D43E_4252_B79B_69323824F3F9__INCLUDED_)
-#define AFX_GAMEENG_H__5422B19E_D43E_4252_B79B_69323824F3F9__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
-#include "../N3BASE/N3Eng.h"
+#include "N3Eng.h"
 #include <list>
 
 typedef std::list<class CN3Light*>::iterator		it_Light;
@@ -116,6 +107,3 @@ inline CN3Camera* CGameEng::Camera(int index)
 
 	return *itCam;
 }
-
-
-#endif // !defined(AFX_GAMEENG_H__5422B19E_D43E_4252_B79B_69323824F3F9__INCLUDED_)

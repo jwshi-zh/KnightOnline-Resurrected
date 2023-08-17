@@ -178,7 +178,7 @@ void CN3UIImage::SetColor(D3DCOLOR color)
 	if ((UISTYLE_IMAGE_ANIMATE & m_dwStyle) && m_pAnimImagesRef)
 	{
 		int i;
-		for(i=0; i<m_iAnimCount; ++i) m_pAnimImagesRef[i]->SetColor(color);
+		for(auto i =0; i<m_iAnimCount; ++i) m_pAnimImagesRef[i]->SetColor(color);
 	}
 	SetVB();
 }

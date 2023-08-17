@@ -1,8 +1,8 @@
-#ifndef __GAME_DEF_H_
-#define __GAME_DEF_H_
+#pragma once
 
 #include <string>
 #include "DInput.h"
+
 const int CURRENT_VERSION = 1068; // 현재 버전
 
 const float PACKET_INTERVAL_MOVE = 1.5f;				// 정기적으로 보내는 패킷 시간 간격..
@@ -1186,6 +1186,3 @@ enum e_Cursor		{	CURSOR_ATTACK,
 						CURSOR_COUNT,
 						CURSOR_UNKNOWN = 0xffffffff
 					};
-
-#endif // end of #define __GAME_DEF_H_
-

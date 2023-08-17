@@ -1,20 +1,5 @@
-// UIRepairTooltipDlg.cpp: implementation of the UIRepairTooltipDlg class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#include "stdafx.h"
-#include "resource.h"
+#include "pch.h"
 #include "UIRepairTooltipDlg.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 CUIRepairTooltipDlg::CUIRepairTooltipDlg()
 {
@@ -138,7 +123,7 @@ void CUIRepairTooltipDlg::DisplayTooltipsEnable(int xpos, int ypos, __IconItemSk
 			m_pStr[iIndex]->SetString(szBuff);
 			iIndex++;
 
-			for( int i = iIndex; i < MAX_REPAIR_TOOLTIP_COUNT; i++ )
+			for(auto i = iIndex; i < MAX_REPAIR_TOOLTIP_COUNT; i++ )
 				m_pStr[i]->SetString("");
 		}
 		else

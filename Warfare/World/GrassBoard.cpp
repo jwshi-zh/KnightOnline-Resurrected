@@ -1,21 +1,7 @@
-// N3Board2DGrass.cpp: implementation of the CGrassBoard class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#include "StdAfx.h"
+#include "pch.h"
 #include "GrassBoard.h"
 #include "N3Terrain.h"
-#include "../N3Base/N3Texture.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
+#include "N3Texture.h"
 
 CGrassBoard::CGrassBoard()
 {
@@ -119,7 +105,7 @@ void CGrassBoard::Render(CN3Texture** ppTex)
 		s_lpD3DDev->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
 		s_lpD3DDev->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_DIFFUSE);
 
-		s_lpD3DDev->SetVertexShader(FVF_XYZCOLORT1);
+		s_lpD3DDev->SetFVF(FVF_XYZCOLORT1);
 
 		static __VertexXyzColorT1 vRects[4];
 		vRects[0].Set((-1.0f/2.0f), 1.0f, 0,  pGrass->dwAlpColor, 0.0f, 0.0f);

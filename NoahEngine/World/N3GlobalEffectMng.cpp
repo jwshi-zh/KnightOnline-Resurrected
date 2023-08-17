@@ -36,7 +36,7 @@ void CN3GlobalEffectMng::Tick()
 	{
 		m_CurCellPos = NewCellPos;
 		int i, j;
-		for(i=0; i<3; ++i)
+		for(auto i =0; i<3; ++i)
 			for(j=0; j<3; ++j)
 				m_vPos[j*3+i].Set( (m_CurCellPos.x+i-0.5f)*m_fCellSize, 0, (m_CurCellPos.y+j-0.5f)*m_fCellSize);
 	}

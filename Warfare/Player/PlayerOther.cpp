@@ -1,25 +1,9 @@
-// PlayerOther.cpp: implementation of the CPlayerOther class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#include "StdAfx.h"
-#include "Resource.h"
+#include "pch.h"
 #include "GameProcedure.h"
 #include "PlayerOther.h"
 #include "PlayerMySelf.h"
 
-#include "../N3Base/DFont.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
-
+#include "DFont.h"
 
 CPlayerOther::CPlayerOther()
 {

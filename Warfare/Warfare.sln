@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.5.33627.172
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Warfare", "Warfare.vcxproj", "{522F0D93-6D3F-4765-830D-AE1835D6018C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2EC66A18-48A7-464C-87FD-4A81C7F94B64} = {2EC66A18-48A7-464C-87FD-4A81C7F94B64}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NoahEngine", "..\NoahEngine\NoahEngine.vcxproj", "{2EC66A18-48A7-464C-87FD-4A81C7F94B64}"
 EndProject
@@ -11,22 +14,32 @@ Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
+		GameDebug|x64 = GameDebug|x64
+		GameDebug|x86 = GameDebug|x86
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{522F0D93-6D3F-4765-830D-AE1835D6018C}.Debug|x64.ActiveCfg = Debug|x64
-		{522F0D93-6D3F-4765-830D-AE1835D6018C}.Debug|x64.Build.0 = Debug|x64
+		{522F0D93-6D3F-4765-830D-AE1835D6018C}.Debug|x64.ActiveCfg = Debug|Win32
+		{522F0D93-6D3F-4765-830D-AE1835D6018C}.Debug|x64.Build.0 = Debug|Win32
 		{522F0D93-6D3F-4765-830D-AE1835D6018C}.Debug|x86.ActiveCfg = Debug|Win32
 		{522F0D93-6D3F-4765-830D-AE1835D6018C}.Debug|x86.Build.0 = Debug|Win32
+		{522F0D93-6D3F-4765-830D-AE1835D6018C}.GameDebug|x64.ActiveCfg = GameDebug|x64
+		{522F0D93-6D3F-4765-830D-AE1835D6018C}.GameDebug|x64.Build.0 = GameDebug|x64
+		{522F0D93-6D3F-4765-830D-AE1835D6018C}.GameDebug|x86.ActiveCfg = GameDebug|Win32
+		{522F0D93-6D3F-4765-830D-AE1835D6018C}.GameDebug|x86.Build.0 = GameDebug|Win32
 		{522F0D93-6D3F-4765-830D-AE1835D6018C}.Release|x64.ActiveCfg = Release|x64
 		{522F0D93-6D3F-4765-830D-AE1835D6018C}.Release|x64.Build.0 = Release|x64
 		{522F0D93-6D3F-4765-830D-AE1835D6018C}.Release|x86.ActiveCfg = Release|Win32
 		{522F0D93-6D3F-4765-830D-AE1835D6018C}.Release|x86.Build.0 = Release|Win32
-		{2EC66A18-48A7-464C-87FD-4A81C7F94B64}.Debug|x64.ActiveCfg = Debug|x64
-		{2EC66A18-48A7-464C-87FD-4A81C7F94B64}.Debug|x64.Build.0 = Debug|x64
+		{2EC66A18-48A7-464C-87FD-4A81C7F94B64}.Debug|x64.ActiveCfg = Debug|Win32
+		{2EC66A18-48A7-464C-87FD-4A81C7F94B64}.Debug|x64.Build.0 = Debug|Win32
 		{2EC66A18-48A7-464C-87FD-4A81C7F94B64}.Debug|x86.ActiveCfg = Debug|Win32
 		{2EC66A18-48A7-464C-87FD-4A81C7F94B64}.Debug|x86.Build.0 = Debug|Win32
+		{2EC66A18-48A7-464C-87FD-4A81C7F94B64}.GameDebug|x64.ActiveCfg = GameDebug|x64
+		{2EC66A18-48A7-464C-87FD-4A81C7F94B64}.GameDebug|x64.Build.0 = GameDebug|x64
+		{2EC66A18-48A7-464C-87FD-4A81C7F94B64}.GameDebug|x86.ActiveCfg = GameDebug|Win32
+		{2EC66A18-48A7-464C-87FD-4A81C7F94B64}.GameDebug|x86.Build.0 = GameDebug|Win32
 		{2EC66A18-48A7-464C-87FD-4A81C7F94B64}.Release|x64.ActiveCfg = Release|x64
 		{2EC66A18-48A7-464C-87FD-4A81C7F94B64}.Release|x64.Build.0 = Release|x64
 		{2EC66A18-48A7-464C-87FD-4A81C7F94B64}.Release|x86.ActiveCfg = Release|Win32

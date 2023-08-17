@@ -1,20 +1,7 @@
-// MachineMng.cpp: implementation of the CMachineMng class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#include "StdAfx.h"
+#include "pch.h"
 #include "MachineBase.h"
 #include "Catapult.h"
 #include "MachineMng.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 CMachineMng::CMachineMng()
 {

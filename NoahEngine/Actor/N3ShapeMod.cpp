@@ -125,7 +125,7 @@ BOOL CN3ShapeMod::LoadStateInfo(FILE* stream)	// 상태 정보를 읽어온다.(text로부�
 	if (iPartCount>0) m_pMatchPart2ModPart = new __ModPart*[iPartCount];
 	ZeroMemory(m_pMatchPart2ModPart, sizeof(m_pMatchPart2ModPart[0])*iPartCount);
 	// (매칭시키기)
-	for(i=0; i<m_iModPartCount; ++i)
+	for(auto i =0; i<m_iModPartCount; ++i)
 	{
 		it_SPart it = m_Parts.begin();
 		int iPC = m_Parts.size();

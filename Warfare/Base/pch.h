@@ -15,3 +15,11 @@
 #include <malloc.h>
 #include <memory.h>
 #include <tchar.h>
+
+#define _N3GAME
+
+#pragma comment(lib, "NoahEngine.lib")
+
+#include "../../NoahEngine/Base/pch.h"
+
+#include "../StringIds.h"

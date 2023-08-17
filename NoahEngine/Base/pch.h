@@ -9,8 +9,6 @@
 
 #define WIN32_LEAN_AND_MEAN
 
-#define _CRT_SECURE_NO_WARNINGS
-
 #include "My_3DStruct.h"
 
 #include <string>
@@ -26,5 +24,15 @@
 #define TRACE( format, ... )   printf( "%s::%s(%d)" format, __FILE__, __FUNCTION__,  __LINE__, __VA_ARGS__ )
 #define DXTRACE_ERR( format, ... )   printf( "%s::%s(%d)" format, __FILE__, __FUNCTION__,  __LINE__, __VA_ARGS__ )
 #endif
+
+#pragma comment(lib, "d3d9.lib")
+#pragma comment(lib, "d3dx9.lib")
+#pragma comment(lib, "dinput8.lib")
+#pragma comment(lib, "wsock32.lib")
+#pragma comment(lib, "dsound.lib")
+#pragma comment(lib, "dxguid.lib")
+#pragma comment(lib, "dxerr.lib")
+#pragma comment(lib, "imm32.lib")
+#pragma comment(lib, "Winmm.lib")
 
 #endif //PCH_H

@@ -1,11 +1,6 @@
-// GameProcCharacterCreate.cpp: implementation of the CGameProcCharacterCreate class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#include "stdafx.h"
+#include "pch.h"
 #include "GameProcCharacterCreate.h"
 
-#include "Resource.h"
 #include "GameEng.h"
 #include "UICharacterCreate.h"
 #include "UIMessageBox.h"
@@ -17,17 +12,8 @@
 #include "PacketDef.h"
 #include "GameCursor.h"
 
-#include "../N3Base/N3UIString.h"
+#include "N3UIString.h"
 
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 CGameProcCharacterCreate::CGameProcCharacterCreate()
 {
 	m_pUICharacterCreate = NULL;

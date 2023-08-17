@@ -9,7 +9,6 @@
 #define IDM_ABOUT                       104
 #define IDM_EXIT                        105
 #define IDI_WARFARE                     107
-#define IDI_SMALL                       108
 #define IDC_WARFARE                     109
 #define IDR_MAINFRAME                   128
 #define IDC_CURSOR1                     137

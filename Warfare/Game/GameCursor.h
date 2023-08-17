@@ -1,16 +1,7 @@
-// GameCursor.h: interface for the CGameCursor class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_GAMECURSOR_H__3BC4F8E1_6DEC_4848_A6EB_0352007AC780__INCLUDED_)
-#define AFX_GAMECURSOR_H__3BC4F8E1_6DEC_4848_A6EB_0352007AC780__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "GameDef.h"
-#include "../N3BASE/N3UIBase.h"
+#include "N3UIBase.h"
 
 class CGameCursor   : public CN3UIBase  
 {
@@ -31,5 +22,3 @@ public:
 	virtual ~CGameCursor();
 
 };
-
-#endif // !defined(AFX_GAMECURSOR_H__3BC4F8E1_6DEC_4848_A6EB_0352007AC780__INCLUDED_)

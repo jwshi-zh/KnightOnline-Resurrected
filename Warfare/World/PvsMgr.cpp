@@ -1,33 +1,19 @@
-// PvsMgr.cpp: implementation of the CPvsMgr class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#include "stdafx.h"
+#include "pch.h"
 #include "PvsMgr.h"
 #include "GameBase.h"
 #include "PlayerMySelf.h"
 #include "GameProcedure.h"
 #include "GameEng.h"
 
-#include "..\N3Base\N3Camera.h"
-#include "..\N3Base\N3ShapeMgr.h"
+#include "N3Camera.h"
+#include "N3ShapeMgr.h"
 
 #define INDOOR_FOLDER "N3Indoor\\"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
 
 CN3Mng <class CN3Shape>		CPvsMgr::s_MngShape; 
 CN3Mng <class CN3ShapeExtra>	CPvsMgr::s_MngShapeExt; 
 std::list<ShapeInfo* > CPvsMgr::s_plShapeInfoList;
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
- 
 CPvsMgr::CPvsMgr()	: m_IndoorFolder("N3Indoor\\"), m_fVolumeOffs(0.6f)	//..
 {
 	s_plShapeInfoList.clear();
@@ -188,7 +174,7 @@ bool CPvsMgr::Load(HANDLE hFile)
 	CPortalVolume* pVol = NULL, *pVolTo = NULL;
 	int iID;
 
-	for( i = 0; i < iCount; i++ )
+	for(auto i = 0; i < iCount; i++ )
 	{
 		ReadFile(hFile, &iID, sizeof(int), &dwNum, NULL);
 		pVol = new CPortalVolume;
@@ -251,12 +237,12 @@ std::string CPvsMgr::ReadDecryptString(HANDLE hFile)
 	std::vector<char> buffer(iCount);
 
 	ReadFile(hFile, &(buffer[0]), iCount, &dwNum, NULL);				// string
-	for( int i = 0; i < iCount; i++)
+	for(auto i = 0; i < iCount; i++)
 		buffer[i] ^= CRY_KEY;
 	buffer.push_back((char)0x00);
 
 	std::string strDest;
-	strDest = buffer.begin();
+	strDest = buffer.data();
 	
 	return strDest;
 }

@@ -288,14 +288,14 @@ done_triangle_list:
 	__ASSERT(m_iNumVertices < MAX_VERTICES_PER_MATERIAL, "You must increase MAX_VERTICES_PER_MATERIAL");
 
 	int i;
-	for (i = 0; i < m_iNumIndices; i++)
+	for (auto i = 0; i < m_iNumIndices; i++)
 	{
 		__ASSERT(m_pIndices[i] < m_iNumVertices, "indices array index overflow");
 		referred[m_pIndices[i]] = 1;
 	}
 
 	// If not, let's lose them.
-	for (i = 0; i < m_iNumVertices;)
+	for (auto i = 0; i < m_iNumVertices;)
 	{
 		if (!referred[i])
 		{
@@ -602,7 +602,7 @@ CN3PMesh *CN3PMeshCreate::CreateRendererMesh()
 	int i;
 
 	float fTempValue = 0.0f;
-	for (i = 0; i < pPMesh->m_iNumCollapses; i++)
+	for (auto i = 0; i < pPMesh->m_iNumCollapses; i++)
 	{
 		__PMCEdgeCollapse &src  = m_pCollapses[pPMesh->m_iNumCollapses - i - 1];
 		CN3PMesh::__EdgeCollapse &dest = pPMesh->m_pCollapses[i];
@@ -684,7 +684,7 @@ int CN3PMeshCreate::ReGenerate(CN3PMesh *pPMesh)
 	int i;
 
 	float fTempValue = 0.0f;
-	for (i = 0; i < pPMesh->m_iNumCollapses; i++)
+	for (auto i = 0; i < pPMesh->m_iNumCollapses; i++)
 	{
 		__PMCEdgeCollapse &src  = m_pCollapses[pPMesh->m_iNumCollapses - i - 1];
 		CN3PMesh::__EdgeCollapse &dest = pPMesh->m_pCollapses[i];

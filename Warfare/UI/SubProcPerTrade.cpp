@@ -1,9 +1,4 @@
-// SubProcPerTrade.cpp: implementation of the CSubProcPerTrade class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#include "stdafx.h"
-#include "Resource.h"
+#include "pch.h"
 
 #include "SubProcPerTrade.h"
 #include "GameProcedure.h"
@@ -27,20 +22,9 @@
 #include "UIHotKeyDlg.h"
 #include "UISkillTreeDlg.h"
 
-#include "..\N3Base\N3UIString.h"
-#include "..\N3Base\N3UIEdit.h"
-#include "..\N3Base\N3UIButton.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
+#include "N3UIString.h"
+#include "N3UIEdit.h"
+#include "N3UIButton.h"
 
 CSubProcPerTrade::CSubProcPerTrade()
 {
@@ -247,7 +231,7 @@ void CSubProcPerTrade::FinalizePerTrade()
 void CSubProcPerTrade::PerTradeCompleteSuccess()						// 개인 거래 최종 성공..
 {
 	// 개인 거래 창에 있는 아이템 삭제..
-	for ( int i = 0; i < MAX_ITEM_PER_TRADE; i++ )
+	for(auto i = 0; i < MAX_ITEM_PER_TRADE; i++ )
 	{
 		if (m_pUIPerTradeDlg->m_pPerTradeMy[i] != NULL)	
 		{
@@ -309,7 +293,7 @@ void CSubProcPerTrade::PerTradeCompleteCancel()							// 개인 거래 취소..
 
 		// 그다음 아이템을 검사한다..
 		// 아이템들을 원래 대로..
-		for ( int i = 0; i < MAX_ITEM_PER_TRADE; i++ )
+		for(auto i = 0; i < MAX_ITEM_PER_TRADE; i++ )
 		{
 			if (m_pUIPerTradeDlg->m_pPerTradeMy[i] != NULL)	
 			{
@@ -512,7 +496,7 @@ void CSubProcPerTrade::PerTradeCoreInvDisable()
 {
 	RECT rect = { 0, 0, 0 ,0 };
 
-	for( int i = 0; i < MAX_ITEM_INVENTORY; i++ )
+	for(auto i = 0; i < MAX_ITEM_INVENTORY; i++ )
 	{
 		if ( m_pUIPerTradeDlg->m_pPerTradeInv[i] != NULL )
 			m_pUIPerTradeDlg->m_pPerTradeInv[i]->pUIIcon->SetMoveRect(rect);
@@ -877,7 +861,9 @@ void CSubProcPerTrade::ReceiveMsgPerTradeOtherAdd(int iItemID, int iCount, int i
 
 		if( (pItem->byContable == UIITEM_TYPE_COUNTABLE) || (pItem->byContable == UIITEM_TYPE_COUNTABLE_SMALL) )
 		{
-			for( int i = 0; i < MAX_ITEM_PER_TRADE; i++ )
+			int i;
+
+			for(i = 0; i < MAX_ITEM_PER_TRADE; i++ )
 			{
 				if( (m_pUIPerTradeDlg->m_pPerTradeOther[i]) && (m_pUIPerTradeDlg->m_pPerTradeOther[i]->pItemBasic->dwID == pItem->dwID) )
 				{
@@ -891,7 +877,7 @@ void CSubProcPerTrade::ReceiveMsgPerTradeOtherAdd(int iItemID, int iCount, int i
 			if ( !bFound )
 			{
 				// 인벤토리 빈슬롯을 찾아 들어간다..
-				for( i = 0; i < MAX_ITEM_PER_TRADE; i++ )
+				for(i = 0; i < MAX_ITEM_PER_TRADE; i++ )
 				{
 					if ( !m_pUIPerTradeDlg->m_pPerTradeOther[i] )
 					{
@@ -948,7 +934,9 @@ void CSubProcPerTrade::ReceiveMsgPerTradeOtherAdd(int iItemID, int iCount, int i
 		}
 		else
 		{
-			for( int i = 0; i < MAX_ITEM_PER_TRADE; i++ )
+			int i;
+
+			for(i = 0; i < MAX_ITEM_PER_TRADE; i++ )
 			{
 				if (m_pUIPerTradeDlg->m_pPerTradeOther[i] == NULL)	
 				{

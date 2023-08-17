@@ -1,20 +1,11 @@
-// UIClassChange.h: interface for the CUIClassChange class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_UICLASSCHANGE_H__74E2A304_165D_44C9_88C5_00746B408CCF__INCLUDED_)
-#define AFX_UICLASSCHANGE_H__74E2A304_165D_44C9_88C5_00746B408CCF__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "GameDef.h"
 
-#include "../N3BASE/N3UIBase.h"
-#include "../N3Base/N3UIButton.h"
-#include "../N3Base/N3UIString.h"
-#include "../N3Base/N3UIArea.h"
+#include "N3UIBase.h"
+#include "N3UIButton.h"
+#include "N3UIString.h"
+#include "N3UIArea.h"
 
 enum e_ClassChangeState {	UISTATE_NORMAL = 1, UISTATE_WARNING	};
 
@@ -54,5 +45,3 @@ public:
 	void	ChangeToWarningState();
 	void	ChangeToNormalState();
 };
-
-#endif // !defined(AFX_UICLASSCHANGE_H__74E2A304_165D_44C9_88C5_00746B408CCF__INCLUDED_)

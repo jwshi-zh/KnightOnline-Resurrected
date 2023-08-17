@@ -284,7 +284,7 @@ void CN3SkyMng::Tick()
 		{
 			m_CurCellPos = NewCellPos;
 			int i, j;
-			for(i=0; i<3; ++i)
+			for(auto i =0; i<3; ++i)
 				for(j=0; j<3; ++j)
 					m_vPos[j*3+i].Set( (m_CurCellPos.x+i-0.5f)*m_fCellSize, 0, (m_CurCellPos.y+j-0.5f)*m_fCellSize);
 		}
@@ -684,7 +684,7 @@ void CN3SkyMng::SetCheckGameTime(DWORD dwCheckGameTime)
 
 	// 현재 게임시간에서 각 sky상태별로 가장 최근에 변경된 값을 찾아서 값을 지정해준다.
 	int i;
-	for(i=0; i<NUM_SKYDAYCHANGE; ++i)
+	for(auto i =0; i<NUM_SKYDAYCHANGE; ++i)
 	{
 		if (i == SDC_MOONPHASE) continue;
 
