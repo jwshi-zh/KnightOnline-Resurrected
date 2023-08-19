@@ -19,15 +19,14 @@ CUIMessageWnd::~CUIMessageWnd()
 {
 	if (m_ppUILines) {delete [] m_ppUILines; m_ppUILines = nullptr;}	// m_ppUILines[n]의 포인터는 메모리 할당되어 있어도 부모가 해제될때 자동으로 해제하므로 안지워야 한다.
 
-	ChatListItor itor;
-	for(itor = m_ChatBuffer.begin(); m_ChatBuffer.end() != itor; ++itor)
+	for(auto itor = m_ChatBuffer.begin(); m_ChatBuffer.end() != itor; ++itor)
 	{
 		__ChatInfo* pChatInfo = (*itor);
 		if (pChatInfo) delete pChatInfo;
 	}
 	m_ChatBuffer.clear();
 
-	for(itor = m_LineBuffer.begin(); m_LineBuffer.end() != itor; ++itor)
+	for(auto itor = m_LineBuffer.begin(); m_LineBuffer.end() != itor; ++itor)
 	{
 		__ChatInfo* pChatInfo = (*itor);
 		if (pChatInfo) delete pChatInfo;
@@ -45,15 +44,14 @@ void CUIMessageWnd::Release()
 	if (m_ppUILines) {delete [] m_ppUILines; m_ppUILines = nullptr;}	// m_ppUILines[n]의 포인터는 메모리 할당되어 있어도 부모가 해제될때 자동으로 해제하므로 안지워야 한다.
 	ZeroMemory(&m_rcChatOutRegion, sizeof(m_rcChatOutRegion));
 
-	ChatListItor itor;
-	for(itor = m_ChatBuffer.begin(); m_ChatBuffer.end() != itor; ++itor)
+	for(auto itor = m_ChatBuffer.begin(); m_ChatBuffer.end() != itor; ++itor)
 	{
 		__ChatInfo* pChatInfo = (*itor);
 		if (pChatInfo) delete pChatInfo;
 	}
 	m_ChatBuffer.clear();
 
-	for(itor = m_LineBuffer.begin(); m_LineBuffer.end() != itor; ++itor)
+	for(auto itor = m_LineBuffer.begin(); m_LineBuffer.end() != itor; ++itor)
 	{
 		__ChatInfo* pChatInfo = (*itor);
 		if (pChatInfo) delete pChatInfo;
@@ -74,7 +72,7 @@ BOOL CUIMessageWnd::MoveOffset(int iOffsetX, int iOffsetY)
 
 	// children 좌표 갱신
 	// Child UI...
-	for(UIListItor itor = m_Children.begin(); m_Children.end() != itor; ++itor)
+	for(auto itor = m_Children.begin(); m_Children.end() != itor; ++itor)
 	{
 		CN3UIBase* pCUI = (*itor);
 		__ASSERT(pCUI, "child UI pointer is NULL!");
@@ -166,7 +164,7 @@ void CUIMessageWnd::AddMsg(const std::string& szString, D3DCOLOR color)
 	if (0 >= iStrLen) return;
 
 	// ChatBuffer에 넣기
-	__ChatInfo* pChatInfo = new __ChatInfo;
+	auto* pChatInfo = new __ChatInfo;
 	pChatInfo->szChat = szString;
 	pChatInfo->color = color;
 	m_ChatBuffer.push_back(pChatInfo);
@@ -233,7 +231,7 @@ void CUIMessageWnd::AddLineBuffer(const std::string& szString, D3DCOLOR color)
 	{
 		if ('\n' == szString[iCount])		// \n
 		{
-			__ChatInfo* pLineInfo = new __ChatInfo;
+			auto* pLineInfo = new __ChatInfo;
 			m_LineBuffer.push_back(pLineInfo);
 
 			pLineInfo->color = color;
@@ -263,7 +261,7 @@ void CUIMessageWnd::AddLineBuffer(const std::string& szString, D3DCOLOR color)
 				int iLineLength = iCount - iLineStart;
 				if (iLineLength>0)
 				{
-					__ChatInfo* pLineInfo = new __ChatInfo;
+					auto* pLineInfo = new __ChatInfo;
 					m_LineBuffer.push_back(pLineInfo);
 
 					pLineInfo->color = color;
@@ -287,7 +285,7 @@ void CUIMessageWnd::AddLineBuffer(const std::string& szString, D3DCOLOR color)
 	int iLineLength = iStrLen - iLineStart;
 	if (iLineLength>0)
 	{
-		__ChatInfo* pLineInfo = new __ChatInfo;
+		auto* pLineInfo = new __ChatInfo;
 		m_LineBuffer.push_back(pLineInfo);
 
 		pLineInfo->color = color;
@@ -305,7 +303,7 @@ void CUIMessageWnd::SetTopLine(int iTopLine) const
 	
 	int i;
 	// 앞줄서부터 차례로 임시버퍼에 저장하고 string 길이 측정
-	__ChatInfo** ppLineInfos  = new __ChatInfo*[m_iChatLineCount];
+	auto** ppLineInfos  = new __ChatInfo*[m_iChatLineCount];
 	ZeroMemory(ppLineInfos, sizeof(__ChatInfo*)*m_iChatLineCount);
 
 	for (i=0; i<m_iChatLineCount; ++i)
@@ -337,8 +335,7 @@ void CUIMessageWnd::SetTopLine(int iTopLine) const
 void CUIMessageWnd::RecalcLineBuffer()	// 채팅창 사이즈가 변했을때 호출해주면 line buffer를 다시 계산해서 넣어준다.
 {
 	// line buffer 초기화하기
-	ChatListItor itor;
-	for(itor = m_LineBuffer.begin(); m_LineBuffer.end() != itor; ++itor)
+	for(auto itor = m_LineBuffer.begin(); m_LineBuffer.end() != itor; ++itor)
 	{
 		__ChatInfo* pLineBuff = (*itor);
 		if (pLineBuff) delete pLineBuff;
@@ -346,7 +343,7 @@ void CUIMessageWnd::RecalcLineBuffer()	// 채팅창 사이즈가 변했을때 �
 	m_LineBuffer.clear();
 
 	// Line buffer 다시 넣기
-	for(itor = m_ChatBuffer.begin(); m_ChatBuffer.end() != itor; ++itor)
+	for(auto itor = m_ChatBuffer.begin(); m_ChatBuffer.end() != itor; ++itor)
 	{
 		__ChatInfo* pChatBuff = (*itor);
 		if (pChatBuff) AddLineBuffer(pChatBuff->szChat, pChatBuff->color);

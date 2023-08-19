@@ -94,7 +94,7 @@ BOOL CN3UIEdit::CreateEditWindow(HWND hParent, RECT rect)
 	::SendMessage(s_hWndEdit, EM_LIMITTEXT, 0, 0);
 
 	// Set the edit control's font
-	HFONT hFont = (HFONT)GetStockObject(ANSI_FIXED_FONT);
+	auto hFont = (HFONT)GetStockObject(ANSI_FIXED_FONT);
 	::SendMessage(s_hWndEdit, WM_SETFONT, (WPARAM)hFont, MAKELPARAM(TRUE, 0));
 	::SendMessage(s_hWndEdit, WM_SETFONT, (WPARAM)hFont, MAKELPARAM(TRUE, 0));
 
@@ -779,8 +779,7 @@ void CN3UIEdit::SetImeStatus(POINT ptPos, bool bOpen)
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 #include<map>
-typedef std::map<HWND, CN3UIEdit*>::iterator		it_Edit;
-typedef std::map<HWND, CN3UIEdit*>::value_type		val_Edit;
+
 static std::map<HWND, CN3UIEdit*> s_Edits;
 
 bool CN3UIEdit::AddEdit(CN3UIEdit* pEdit)

@@ -6,8 +6,6 @@
 
 #include <vector>
 
-typedef std::vector<CN3Texture*> it_pTex;
-
 class CN3SPart : public CN3BaseFileAccess
 {
 	friend class CN3Shape;
@@ -88,8 +86,6 @@ public:
 #endif
 };
 
-typedef std::vector<CN3SPart*>::iterator it_SPart;
-
 class CN3Shape : public CN3TransformCollision
 {
 public:
@@ -123,7 +119,8 @@ public:
 	virtual void	Render();
 
 	CN3SPart*		Part(int iIndex) { if(iIndex < 0 || iIndex >= m_Parts.size()) return nullptr; return m_Parts[iIndex]; }
-	CN3SPart*		PartAdd() { CN3SPart* pPart = new CN3SPart(); m_Parts.push_back(pPart); return pPart; }
+	CN3SPart*		PartAdd() {
+		auto* pPart = new CN3SPart(); m_Parts.push_back(pPart); return pPart; }
 	int				PartCount() { return m_Parts.size(); }
 	void			PartDelete(int iIndex);
 	

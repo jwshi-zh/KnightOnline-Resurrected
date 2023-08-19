@@ -4,8 +4,6 @@ class CMachineBase;
 
 #include "GameBase.h"
 
-typedef std::list<CMachineBase*>::iterator it_Machine;
-
 class CMachineMng : public CGameBase  
 {
 public:

@@ -70,8 +70,8 @@ int CUIWarp::InfoGetCur(__WarpInfo& WI)
 	
 	int iSel = m_pList_Infos->GetCurSel();
 	if(iSel < 0 || iSel >= m_ListInfos.size()) return -1;
-	
-	it_WI it = m_ListInfos.begin(), itEnd = m_ListInfos.end();
+
+	auto it = m_ListInfos.begin(), itEnd = m_ListInfos.end();
 	for(int i = 0; i < iSel; i++, it++);
 	WI = *it;
 
@@ -83,7 +83,7 @@ void CUIWarp::UpdateList()
 	if(nullptr == m_pList_Infos) return;
 
 	m_pList_Infos->ResetContent();
-	it_WI it = m_ListInfos.begin(), itEnd = m_ListInfos.end();
+	auto it = m_ListInfos.begin(), itEnd = m_ListInfos.end();
 	for(; it != itEnd; it++)
 	{
 		m_pList_Infos->AddString(it->szName);
@@ -99,7 +99,7 @@ void CUIWarp::UpdateAgreement()
 	int iSel = m_pList_Infos->GetCurSel();
 	if(iSel < 0 || iSel >= m_ListInfos.size()) return;
 
-	it_WI it = m_ListInfos.begin();
+	auto it = m_ListInfos.begin();
 	for(int i = 0; i < iSel; i++, it++);
 	
 	m_pText_Agreement->SetString(it->szAgreement);

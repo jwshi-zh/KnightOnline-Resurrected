@@ -4,10 +4,6 @@
 #include "GameBase.h"
 #include <map>
 
-typedef std::map<int, DWORD>::value_type stlmapVAL_INT_DWORD;
-typedef std::multimap<int, DWORD>::value_type stlmultimapVAL_INT_DWORD;
-
-
 class CMagicSkillMng : public CGameBase
 {
 public:

@@ -283,7 +283,7 @@ void CUIHotKeyDlg::Render()
 	DisableTooltipDisplay();
 	DisableCountStrDisplay();
 
-	for(UIListReverseItor itor = m_Children.rbegin(); m_Children.rend() != itor; ++itor)
+	for(auto itor = m_Children.rbegin(); m_Children.rend() != itor; ++itor)
 	{
 		CN3UIBase* pChild = (*itor);
 		if ( (GetState() == UI_STATE_ICON_MOVING) && (pChild->UIType() == UI_TYPE_ICON) && (CN3UIWndBase::m_sSkillSelectInfo.pSkillDoneInfo) &&
@@ -390,7 +390,7 @@ void CUIHotKeyDlg::InitIconUpdate()
 			if ( !pUSkill )
 				continue;
 
-			__IconItemSkill* spSkill = new __IconItemSkill();
+			auto* spSkill = new __IconItemSkill();
 			spSkill->pSkill = pUSkill;
 
 			// 아이콘 이름 만들기.. ^^

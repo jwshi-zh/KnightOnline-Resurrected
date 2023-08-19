@@ -135,7 +135,7 @@ bool CUIKnightsOperation::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 
 void CUIKnightsOperation::KnightsInfoDelete(int iID)
 {
-	it_KIB it = m_KnightsMapBase.find(iID);
+	auto it = m_KnightsMapBase.find(iID);
 	if(it != m_KnightsMapBase.end()) m_KnightsMapBase.erase(it);
 }
 
@@ -145,12 +145,12 @@ void CUIKnightsOperation::KnightsInfoInsert(int iID, const std::string& szName)
 	KIB.iID = iID;
 	KIB.szName = szName;
 
-	m_KnightsMapBase.insert(val_KIB(iID, KIB));
+	m_KnightsMapBase.insert(std::make_pair(iID, KIB));
 }
 
 __KnightsInfoBase* CUIKnightsOperation::KnightsInfoFind(int iID)
 {
-	it_KIB it = m_KnightsMapBase.find(iID);
+	auto it = m_KnightsMapBase.find(iID);
 	if(it != m_KnightsMapBase.end()) return &(it->second);
 	return nullptr;
 }
@@ -178,10 +178,10 @@ void CUIKnightsOperation::KnightsListUpdate()
 	m_pList_Knights->ResetContent();
 
 	char szBuff[80];
-	it_KIE it = m_KnightsListExt.begin(), itEnd = m_KnightsListExt.end();
+	auto it = m_KnightsListExt.begin(), itEnd = m_KnightsListExt.end();
 	for(; it != itEnd; it++)
 	{
-		__KnightsInfoExt* pKIE = (__KnightsInfoExt*)(&(*it));
+		auto* pKIE = (__KnightsInfoExt*)(&(*it));
 		std::string szName = pKIE->szName;
 		std::string szChiefName = pKIE->szChiefName;
 
@@ -293,7 +293,7 @@ void CUIKnightsOperation::MsgSend_KnightsJoin()
 	int iCurSel = m_pList_Knights->GetCurSel();
 	if(iCurSel < 0 && iCurSel >= m_KnightsListExt.size()) return;
 
-	it_KIE it = m_KnightsListExt.begin();
+	auto it = m_KnightsListExt.begin();
 	for(int i = 0; i < iCurSel; i++, it++);
 	__KnightsInfoExt KIE = (*it);
 

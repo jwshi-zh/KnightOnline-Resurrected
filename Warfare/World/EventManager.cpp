@@ -54,7 +54,7 @@ bool CEventManager::LoadFromFile(const char* szFileName)
 
 	for(int i = 0; i < nEventCellCount ; i++)
 	{
-		CEventCell* pEventCell = new CEventCell();
+		auto* pEventCell = new CEventCell();
 		pEventCell->Load(hGevFile);
 		m_lstEvents.push_back(pEventCell);
 	}
@@ -68,8 +68,7 @@ void CEventManager::Release()
 	m_sEventType = -1;
 	memset(&m_rcEvent, 0x00, sizeof(RECT));
 
-	EventItor it;
-	for(it=m_lstEvents.begin(); it!=m_lstEvents.end(); it++)
+	for(auto it=m_lstEvents.begin(); it!=m_lstEvents.end(); it++)
 	{
 		CEventCell* pEventCell = (*it);
 		if(pEventCell) delete pEventCell;
@@ -85,8 +84,7 @@ short CEventManager::SetPos(float fX, float fZ)
 	if(PtInRect(x, y, m_rcEvent))
 		return m_sEventType;
 
-	EventItor it;
-	for(it=m_lstEvents.begin(); it!=m_lstEvents.end(); it++)
+	for(auto it=m_lstEvents.begin(); it!=m_lstEvents.end(); it++)
 	{
 		CEventCell* pEventCell = (*it);
 		if(pEventCell)

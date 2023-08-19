@@ -346,7 +346,7 @@ e_ItemType CGameBase::MakeResrcFileNameForUPC(	__TABLE_ITEM_BASIC* pItem,		// �
 	
 	// 총 8 자리이다.
 	e_ItemType eType	= ITEM_TYPE_UNKNOWN;
-	e_ItemPosition ePos	= (e_ItemPosition)pItem->byAttachPoint;	// 장착위치...
+	auto ePos	= (e_ItemPosition)pItem->byAttachPoint;	// 장착위치...
 
 	std::string szExt; // 확장자..
 	

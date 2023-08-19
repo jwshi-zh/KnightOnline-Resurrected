@@ -863,7 +863,7 @@ void CUIKnights::MemberListAdd(const std::string& szName, e_KnightsDuty eDuty, e
 
 void CUIKnights::MemberListSort()
 {
-	it_KMI it = m_MemberList.begin(), itEnd = m_MemberList.end();
+	auto it = m_MemberList.begin(), itEnd = m_MemberList.end();
 
 	__KnightsMemberInfo Chief; Chief.eDuty = KNIGHTS_DUTY_UNKNOWN;
 	__KnightsMemberInfo ViceChief[3]; 
@@ -911,7 +911,7 @@ void CUIKnights::RefreshPage()
 {
 	m_pList_Members->ResetContent();
 
-	it_KMI it = m_MemberList.begin();
+	auto it = m_MemberList.begin();
 
 	int i = 10;
 	int e = m_iPageCur * 10;
@@ -1244,7 +1244,7 @@ void CUIFriends::SaveListToTextFile(const std::string& szID) // 문자열이 있
 	std::string szIDTmp;
 	if(szID.empty())
 	{
-		it_FI it = m_MapFriends.begin(), itEnd = m_MapFriends.end();
+		auto it = m_MapFriends.begin(), itEnd = m_MapFriends.end();
 		for(; it != itEnd; it++)
 		{
 			szIDTmp = it->second.szName + "\r\n";
@@ -1340,7 +1340,7 @@ bool CUIFriends::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 			int iSel = m_pList_Friends->GetCurSel();
 			std::string szID;
 			m_pList_Friends->GetString(iSel, szID);
-			it_FI it = m_MapFriends.find(szID);
+			auto it = m_MapFriends.find(szID);
 			if(it != m_MapFriends.end())
 			{
 				std::string szMsg;
@@ -1364,14 +1364,14 @@ bool CUIFriends::MemberAdd(const std::string &szID, int iID, bool bOnLine, bool 
 	FI.iID = iID;
 	FI.bOnLine = bOnLine;
 	FI.bIsParty = bIsParty;
-	m_MapFriends.insert(val_FI(FI.szName, FI));
+	m_MapFriends.insert(std::make_pair(FI.szName, FI));
 
 	return true;
 }
 
 bool CUIFriends::MemberDelete(const std::string &szID)
 {
-	it_FI it = m_MapFriends.find(szID);
+	auto it = m_MapFriends.find(szID);
 	if(it == m_MapFriends.end()) return false;
 
 	m_MapFriends.erase(it);
@@ -1401,7 +1401,7 @@ void CUIFriends::UpdateList()
 
 	if(m_pText_Page) m_pText_Page->SetStringAsInt(m_iPageCur+1); // 페이지 표시..
 
-	it_FI it = m_MapFriends.begin(), itEnd = m_MapFriends.end();
+	auto it = m_MapFriends.begin(), itEnd = m_MapFriends.end();
 	for(int i = 0; i < iSkip; i++, it++);
 
 	for(auto i = 0; i < iLinePerPage && it != itEnd; i++, it++)
@@ -1485,7 +1485,7 @@ void CUIFriends::MsgRecv_MemberInfo(DataPack* pDataPack, int& iOffset)
 		iID = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); 
 		bStatus = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
 
-		it_FI it = m_MapFriends.find(szID);
+		auto it = m_MapFriends.find(szID);
 		if(it == m_MapFriends.end()) continue;
 
 		__FriendsInfo& FI = it->second;
@@ -1694,7 +1694,7 @@ void CUIVarious::Tick()
 	{
 		POINT ptCur = this->GetPos();
 		RECT rc = this->GetRegion();
-		float fWidth = (float)(rc.right - rc.left);
+		auto fWidth = (float)(rc.right - rc.left);
 
 		float fDelta = 5000.0f * CN3Base::s_fSecPerFrm;
 		fDelta *= (fWidth - m_fMoveDelta) / fWidth;
@@ -1715,7 +1715,7 @@ void CUIVarious::Tick()
 	{
 		POINT ptCur = this->GetPos();
 		RECT rc = this->GetRegion();
-		float fWidth = (float)(rc.right - rc.left);
+		auto fWidth = (float)(rc.right - rc.left);
 
 		float fDelta = 5000.0f * CN3Base::s_fSecPerFrm;
 		fDelta *= (fWidth - m_fMoveDelta) / fWidth;

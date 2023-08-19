@@ -362,7 +362,7 @@ void CPlayerBase::KnightsInfoSet(int iID, const std::string& szName, int iGrade,
 
 	if (nullptr == pPlug) return;
 
-	CN3CPlug* pCPlug = (CN3CPlug*)pPlug;
+	auto* pCPlug = (CN3CPlug*)pPlug;
 	__TABLE_FX* pFXClanRank = s_pTbl_FXSource->Find(FXID_CLAN_RANK_1);
 
 	std::string szFXClanRank = "";
@@ -1838,7 +1838,7 @@ CN3CPlugBase* CPlayerBase::PlugSet(e_PlugPosition ePos, const std::string& szFN,
 	{
 		if ((pItemExt->byMagicOrRare == ITEM_UNIQUE && pItemExt->byDamageFire > 0) || (pItemExt->byDamageFire >= LIMIT_FX_DAMAGE)) // 17 추가데미지 - 불
 		{
-			CN3CPlug* pCPlug = (CN3CPlug*)pPlug;
+			auto* pCPlug = (CN3CPlug*)pPlug;
 			__TABLE_FX* pFXMain = s_pTbl_FXSource->Find(FXID_SWORD_FIRE_MAIN);
 			__TABLE_FX* pFXTail = s_pTbl_FXSource->Find(FXID_SWORD_FIRE_TAIL);
 
@@ -1851,7 +1851,7 @@ CN3CPlugBase* CPlayerBase::PlugSet(e_PlugPosition ePos, const std::string& szFN,
 		}
 		else if ((pItemExt->byMagicOrRare == ITEM_UNIQUE && pItemExt->byDamageIce > 0) || (pItemExt->byDamageIce >= LIMIT_FX_DAMAGE))// 18 추가데미지 - 얼음
 		{
-			CN3CPlug* pCPlug = (CN3CPlug*)pPlug;
+			auto* pCPlug = (CN3CPlug*)pPlug;
 			__TABLE_FX* pFXMain = s_pTbl_FXSource->Find(FXID_SWORD_ICE_MAIN);
 			__TABLE_FX* pFXTail = s_pTbl_FXSource->Find(FXID_SWORD_ICE_TAIL);
 
@@ -1865,7 +1865,7 @@ CN3CPlugBase* CPlayerBase::PlugSet(e_PlugPosition ePos, const std::string& szFN,
 		}
 		else if ((pItemExt->byMagicOrRare == ITEM_UNIQUE && pItemExt->byDamageThuner > 0) || (pItemExt->byDamageThuner >= LIMIT_FX_DAMAGE))// 19 추가데미지 - 전격			
 		{
-			CN3CPlug* pCPlug = (CN3CPlug*)pPlug;
+			auto* pCPlug = (CN3CPlug*)pPlug;
 			__TABLE_FX* pFXMain = s_pTbl_FXSource->Find(FXID_SWORD_LIGHTNING_MAIN);
 			__TABLE_FX* pFXTail = s_pTbl_FXSource->Find(FXID_SWORD_LIGHTNING_TAIL);
 
@@ -1879,7 +1879,7 @@ CN3CPlugBase* CPlayerBase::PlugSet(e_PlugPosition ePos, const std::string& szFN,
 		}
 		else if ((pItemExt->byMagicOrRare == ITEM_UNIQUE && pItemExt->byDamagePoison > 0) || (pItemExt->byDamagePoison >= LIMIT_FX_DAMAGE))// 20 추가데미지 - 독			
 		{
-			CN3CPlug* pCPlug = (CN3CPlug*)pPlug;
+			auto* pCPlug = (CN3CPlug*)pPlug;
 			__TABLE_FX* pFXMain = s_pTbl_FXSource->Find(FXID_SWORD_POISON_MAIN);
 			__TABLE_FX* pFXTail = s_pTbl_FXSource->Find(FXID_SWORD_POISON_TAIL);
 
@@ -2255,7 +2255,7 @@ void CPlayerBase::RenderShadow(float fAngle)
 	if (hr != D3D_OK)
 		return;
 
-	LPWORD pDst16 = (LPWORD)LR.pBits;
+	auto pDst16 = (LPWORD)LR.pBits;
 	WORD dwColor = SHADOW_COLOR;
 	dwColor = dwColor << 12;
 	for (auto i = 0; i < SHADOW_SIZE; i++)

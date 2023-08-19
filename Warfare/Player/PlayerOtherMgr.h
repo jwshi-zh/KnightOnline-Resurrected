@@ -4,18 +4,6 @@
 #include "GameBase.h"
 #include "GameProcedure.h"
 
-//typedef std::list<CPlayerOther*>::iterator it_UPC;
-//typedef std::list<CPlayerNPC*>::iterator it_NPC;
-//typedef std::list<CPlayerBase*>::iterator it_BPC;
-
-typedef std::map<int, CPlayerOther*>::iterator it_UPC;
-typedef std::map<int, CPlayerNPC*>::iterator it_NPC;
-typedef std::map<int, CPlayerBase*>::iterator it_BPC;
-
-typedef std::map<int, CPlayerOther*>::value_type val_UPC;
-typedef std::map<int, CPlayerNPC*>::value_type val_NPC;
-typedef std::map<int, CPlayerBase*>::value_type val_BPC;
-
 class CPlayerOtherMgr : public CGameBase
 {
 public:
@@ -76,7 +64,7 @@ public:
 
 inline CPlayerOther* CPlayerOtherMgr::UPCGetByID(int iID, bool bFromAliveOnly)
 {
-	it_UPC it = m_UPCs.find(iID);
+	auto it = m_UPCs.find(iID);
 	if(it != m_UPCs.end())
 	{
 		CPlayerOther* pUPC = it->second;
@@ -92,7 +80,7 @@ inline CPlayerOther* CPlayerOtherMgr::UPCGetByID(int iID, bool bFromAliveOnly)
 
 inline CPlayerNPC* CPlayerOtherMgr::NPCGetByID(int iID, bool bFromAliveOnly)
 {
-	it_NPC it = m_NPCs.find(iID);
+	auto it = m_NPCs.find(iID);
 	if(it != m_NPCs.end())
 	{
 		CPlayerNPC* pNPC = it->second;
@@ -108,7 +96,7 @@ inline CPlayerNPC* CPlayerOtherMgr::NPCGetByID(int iID, bool bFromAliveOnly)
 
 inline CPlayerBase* CPlayerOtherMgr::CorpseGetByID(int iID)
 {
-	it_NPC it = m_Corpses.find(iID);
+	auto it = m_Corpses.find(iID);
 	if(it != m_Corpses.end()) return it->second;
 	else return nullptr;
 }
@@ -125,10 +113,10 @@ inline CPlayerNPC* CPlayerOtherMgr::CharacterGetByID(int iID, bool bFromAliveOnl
 
 inline void CPlayerOtherMgr::UPCAdd(CPlayerOther* pUPC)
 {
-	it_UPC it = m_UPCs.find(pUPC->IDNumber());
+	auto it = m_UPCs.find(pUPC->IDNumber());
 	if(it == m_UPCs.end()) // 중복된게 없으면..
 	{
-		m_UPCs.insert(val_UPC(pUPC->IDNumber(), pUPC));
+		m_UPCs.insert(std::make_pair(pUPC->IDNumber(), pUPC));
 	}
 	else // 중복되었으면..
 	{
@@ -139,7 +127,7 @@ inline void CPlayerOtherMgr::UPCAdd(CPlayerOther* pUPC)
 
 inline bool CPlayerOtherMgr::UPCDelete(int iID)
 {
-	it_UPC it = m_UPCs.find(iID);
+	auto it = m_UPCs.find(iID);
 	if(it == m_UPCs.end()) return false;
 
 	T_Delete(it->second);
@@ -149,10 +137,10 @@ inline bool CPlayerOtherMgr::UPCDelete(int iID)
 
 inline void CPlayerOtherMgr::NPCAdd(CPlayerNPC* pNPC)
 {
-	it_NPC it = m_NPCs.find(pNPC->IDNumber());
+	auto it = m_NPCs.find(pNPC->IDNumber());
 	if(it == m_NPCs.end()) // 중복된게 없으면..
 	{
-		m_NPCs.insert(val_NPC(pNPC->IDNumber(), pNPC));
+		m_NPCs.insert(std::make_pair(pNPC->IDNumber(), pNPC));
 	}
 	else // 중복되었으면..
 	{
@@ -163,7 +151,7 @@ inline void CPlayerOtherMgr::NPCAdd(CPlayerNPC* pNPC)
 
 inline bool CPlayerOtherMgr::NPCDelete(int iID)
 {
-	it_NPC it = m_NPCs.find(iID);
+	auto it = m_NPCs.find(iID);
 	if(it == m_NPCs.end()) return false;
 
 	T_Delete(it->second);

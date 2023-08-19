@@ -589,7 +589,7 @@ bool CN3CPlug::Load(HANDLE hFile)
 	ReadFile(hFile, &iUseVMesh, 4, &dwRWC, nullptr); // 메시를 쓰는가??
 	if(iUseVMesh)
 	{
-		CN3PMesh* pPMesh = new CN3PMesh();
+		auto* pPMesh = new CN3PMesh();
 		pPMesh->Load(hFile);
 		static int iSN = 0;
 		char szFNTmp[256]; sprintf(szFNTmp, "Temp_Plug_%d.N3PMesh", iSN++);
@@ -1988,7 +1988,7 @@ void CN3Chr::PartDelete(int iIndex)
 {
 	if(iIndex < 0 || iIndex >= m_Parts.size()) return;
 
-	it_CPart it = m_Parts.begin();
+	auto it = m_Parts.begin();
 	for(int i = 0; i < iIndex; i++, it++);
 	delete *it;
 	m_Parts.erase(it);
@@ -2009,7 +2009,7 @@ void CN3Chr::PlugDelete(int iIndex)
 {
 	if(iIndex < 0 || iIndex >= m_Plugs.size()) return;
 
-	it_CPlug it = m_Plugs.begin();
+	auto it = m_Plugs.begin();
 	for(int i = 0; i < iIndex; i++, it++);
 	
 	delete *it;

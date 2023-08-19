@@ -683,7 +683,7 @@ void CN3FXBundle::Duplicate(CN3FXBundle* pDestBundle)
 				pDestBundle->m_pPart[i]->fStartTime = m_pPart[i]->fStartTime;
 
 				pDestBundle->m_pPart[i]->pPart = new CN3FXPartParticles;
-				CN3FXPartParticles* pPart = (CN3FXPartParticles*)pDestBundle->m_pPart[i]->pPart;
+				auto* pPart = (CN3FXPartParticles*)pDestBundle->m_pPart[i]->pPart;
 
 				pPart->m_pRefBundle = pDestBundle;
 				pPart->m_pRefPrevPart = nullptr;
@@ -698,7 +698,7 @@ void CN3FXBundle::Duplicate(CN3FXBundle* pDestBundle)
 				pDestBundle->m_pPart[i]->fStartTime = m_pPart[i]->fStartTime;				
 
 				pDestBundle->m_pPart[i]->pPart = new CN3FXPartBillBoard;
-				CN3FXPartBillBoard* pPart = (CN3FXPartBillBoard*)pDestBundle->m_pPart[i]->pPart;
+				auto* pPart = (CN3FXPartBillBoard*)pDestBundle->m_pPart[i]->pPart;
 
 				pPart->m_pRefBundle = pDestBundle;
 				pPart->m_pRefPrevPart = nullptr;
@@ -713,7 +713,7 @@ void CN3FXBundle::Duplicate(CN3FXBundle* pDestBundle)
 				pDestBundle->m_pPart[i]->fStartTime = m_pPart[i]->fStartTime;
 
 				pDestBundle->m_pPart[i]->pPart = new CN3FXPartMesh;
-				CN3FXPartMesh* pPart = (CN3FXPartMesh*)pDestBundle->m_pPart[i]->pPart;
+				auto* pPart = (CN3FXPartMesh*)pDestBundle->m_pPart[i]->pPart;
 				
 				pPart->m_pRefBundle = pDestBundle;
 				pPart->m_pRefPrevPart = nullptr;
@@ -729,7 +729,7 @@ void CN3FXBundle::Duplicate(CN3FXBundle* pDestBundle)
 				pDestBundle->m_pPart[i]->fStartTime = m_pPart[i]->fStartTime;
 
 				pDestBundle->m_pPart[i]->pPart = new CN3FXPartBottomBoard;
-				CN3FXPartBottomBoard* pPart = (CN3FXPartBottomBoard*)pDestBundle->m_pPart[i]->pPart;
+				auto* pPart = (CN3FXPartBottomBoard*)pDestBundle->m_pPart[i]->pPart;
 				
 				pPart->m_pRefBundle = pDestBundle;
 				pPart->m_pRefPrevPart = nullptr;

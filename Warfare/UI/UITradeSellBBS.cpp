@@ -320,7 +320,7 @@ void CUITradeSellBBS::RefreshPage()
 
 	ResetContent();
 
-	it_TradeSellBBS it = m_Datas.begin();
+	auto it = m_Datas.begin();
 
 	for(auto i = 0 ; i < TRADE_BBS_MAX_LINE ; i++ )
 	{
@@ -479,7 +479,7 @@ void CUITradeSellBBS::OnButtonRegisterCancel()
 	if(m_bProcessing) return; //전에 보낸 패킷 응답이 없으면
 	if(m_iCurIndex <= -1) return;
 
-	it_TradeSellBBS it = m_Datas.begin();
+	auto it = m_Datas.begin();
 
 	for(auto i = 0 ; i < TRADE_BBS_MAX_LINE ; i++, it++ )
 	{
@@ -506,7 +506,7 @@ void CUITradeSellBBS::OnButtonWhisper()
 {
 	if(m_iCurIndex <= -1) return;
 
-	it_TradeSellBBS it = m_Datas.begin();
+	auto it = m_Datas.begin();
 
 	for(auto i = 0 ; i < TRADE_BBS_MAX_LINE ; i++, it++ )
 	{
@@ -538,7 +538,7 @@ void CUITradeSellBBS::OnButtonTrade()
 
 	if(m_iCurIndex <= -1) return;
 
-	it_TradeSellBBS it = m_Datas.begin();
+	auto it = m_Datas.begin();
 
 	for(auto i = 0 ; i < TRADE_BBS_MAX_LINE ; i++, it++ )
 	{
@@ -582,7 +582,7 @@ void CUITradeSellBBS::RefreshExplanation(bool bPageUp)
 		m_iCurIndex++;
 	}
 
-	it_TradeSellBBS it = m_Datas.begin();
+	auto it = m_Datas.begin();
 
 	for(auto i = 0 ; i < TRADE_BBS_MAX_LINE ; i++, it++ )
 	{
@@ -601,7 +601,7 @@ void CUITradeSellBBS::OnListExplanation()
 {
 	if(m_iCurIndex <= -1) return;
 
-	it_TradeSellBBS it = m_Datas.begin();
+	auto it = m_Datas.begin();
 
 	for(auto i = 0 ; i < TRADE_BBS_MAX_LINE ; i++, it++ )
 	{

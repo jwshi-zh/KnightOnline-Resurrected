@@ -20,15 +20,13 @@ CN3FXMgr::CN3FXMgr()
 
 CN3FXMgr::~CN3FXMgr()
 {
-	stlLIST_BUNDLEGAME_IT it;
-	for(it=m_ListBundle.begin(); it!=m_ListBundle.end(); it++)
+	for(auto it=m_ListBundle.begin(); it!=m_ListBundle.end(); it++)
 	{
 		delete (*it);
 	}
 	m_ListBundle.clear();
 
-	stlMAP_BUNDLEORIGIN_IT itOrigin;
-	for(itOrigin=m_OriginBundle.begin(); itOrigin!=m_OriginBundle.end(); itOrigin++)
+	for(auto itOrigin=m_OriginBundle.begin(); itOrigin!=m_OriginBundle.end(); itOrigin++)
 	{
 		LPFXBUNDLEORIGIN pSrc = itOrigin->second;
 		delete pSrc->pBundle;
@@ -51,14 +49,14 @@ void CN3FXMgr::TriggerBundle(int SourceID, int SourceJoint, int FXID, int Target
 	_strlwr(buff);
 	std::string strTmp = buff;
 
-	
-	stlMAP_BUNDLEORIGIN_IT itOrigin = m_OriginBundle.find(strTmp);
+
+	auto itOrigin = m_OriginBundle.find(strTmp);
 	
 	if(itOrigin != m_OriginBundle.end())	//같은 효과가 있다..
 	{
 		LPFXBUNDLEORIGIN pSrc = itOrigin->second;
-		
-		CN3FXBundleGame* pBundle = new CN3FXBundleGame;
+
+		auto* pBundle = new CN3FXBundleGame;
 		
 		pBundle->SetPreBundlePos(SourceID, Joint);
 		pSrc->pBundle->Duplicate(pBundle);
@@ -74,11 +72,11 @@ void CN3FXMgr::TriggerBundle(int SourceID, int SourceJoint, int FXID, int Target
 	}
 	else	//같은 효과가 없다..
 	{
-		LPFXBUNDLEORIGIN pSrc = new FXBUNDLEORIGIN;
+		auto pSrc = new FXBUNDLEORIGIN;
 		pSrc->pBundle = new CN3FXBundleGame;
 		pSrc->pBundle->LoadFromFile(strTmp);
 
-		CN3FXBundleGame* pBundle = new CN3FXBundleGame;
+		auto* pBundle = new CN3FXBundleGame;
 
 		pBundle->SetPreBundlePos(SourceID, Joint);
 		pSrc->pBundle->Duplicate(pBundle);	
@@ -92,7 +90,7 @@ void CN3FXMgr::TriggerBundle(int SourceID, int SourceJoint, int FXID, int Target
 		m_ListBundle.push_back(pBundle);
 		
 		pSrc->iNum++;
-		m_OriginBundle.insert(stlMAP_BUNDLEORIGIN_VALUE(strTmp, pSrc));
+		m_OriginBundle.insert(std::make_pair(strTmp, pSrc));
 	}
 }
 
@@ -110,12 +108,12 @@ void CN3FXMgr::TriggerBundle(int SourceID, int SourceJoint, int FXID, __Vector3 
 	_strlwr(buff);
 	std::string strTmp = buff;
 
-	stlMAP_BUNDLEORIGIN_IT itOrigin = m_OriginBundle.find(strTmp);
+	auto itOrigin = m_OriginBundle.find(strTmp);
 
 	if(itOrigin != m_OriginBundle.end())	//같은 효과가 있다..
 	{
-		LPFXBUNDLEORIGIN pSrc = itOrigin->second;		
-		CN3FXBundleGame* pBundle = new CN3FXBundleGame;
+		LPFXBUNDLEORIGIN pSrc = itOrigin->second;
+		auto* pBundle = new CN3FXBundleGame;
 				
 		pBundle->SetPreBundlePos(SourceID, SourceJoint);
 		pSrc->pBundle->Duplicate(pBundle);
@@ -130,11 +128,11 @@ void CN3FXMgr::TriggerBundle(int SourceID, int SourceJoint, int FXID, __Vector3 
 	}
 	else	//같은 효과가 없다..
 	{
-		LPFXBUNDLEORIGIN pSrc = new FXBUNDLEORIGIN;
+		auto pSrc = new FXBUNDLEORIGIN;
 		pSrc->pBundle = new CN3FXBundleGame;
 		pSrc->pBundle->LoadFromFile(pFX->szFN);
 
-		CN3FXBundleGame* pBundle = new CN3FXBundleGame;
+		auto* pBundle = new CN3FXBundleGame;
 
 		pBundle->SetPreBundlePos(SourceID, SourceJoint);
 		pSrc->pBundle->Duplicate(pBundle);	
@@ -147,7 +145,7 @@ void CN3FXMgr::TriggerBundle(int SourceID, int SourceJoint, int FXID, __Vector3 
 		m_ListBundle.push_back(pBundle);
 
 		pSrc->iNum++;
-		m_OriginBundle.insert(stlMAP_BUNDLEORIGIN_VALUE(strTmp, pSrc));
+		m_OriginBundle.insert(std::make_pair(strTmp, pSrc));
 	}
 }
 
@@ -160,7 +158,7 @@ void CN3FXMgr::Stop(int SourceID, int TargetID, int FXID, int idx, bool immediat
 	CN3FXBundleGame* pBundle;
 	if(FXID < 0)
 	{
-		stlLIST_BUNDLEGAME_IT it = m_ListBundle.begin();	
+		auto it = m_ListBundle.begin();	
 		while(it!=m_ListBundle.end())
 		{
 			pBundle = (*it);
@@ -178,7 +176,7 @@ void CN3FXMgr::Stop(int SourceID, int TargetID, int FXID, int idx, bool immediat
 	}
 	else
 	{
-		stlLIST_BUNDLEGAME_IT it = m_ListBundle.begin();	
+		auto it = m_ListBundle.begin();	
 		while(it!=m_ListBundle.end())
 		{
 			pBundle = (*it);
@@ -201,7 +199,7 @@ void CN3FXMgr::Stop(int SourceID, int TargetID, int FXID, int idx, bool immediat
 //
 void CN3FXMgr::SetBundlePos(int FXID, int idx, __Vector3& vPos)
 {
-	stlLIST_BUNDLEGAME_IT it = m_ListBundle.begin();
+	auto it = m_ListBundle.begin();
 	CN3FXBundleGame* pBundle;
 	while(it!=m_ListBundle.end())
 	{
@@ -222,7 +220,7 @@ void CN3FXMgr::StopMine()
 {
 	CN3FXBundleGame* pBundle;
 
-	stlLIST_BUNDLEGAME_IT it = m_ListBundle.begin();	
+	auto it = m_ListBundle.begin();	
 	while(it!=m_ListBundle.end())
 	{
 		pBundle = (*it);
@@ -245,7 +243,7 @@ void CN3FXMgr::StopMine()
 //
 void CN3FXMgr::Tick()
 {
-	stlMAP_BUNDLEORIGIN_IT itOrigin = m_OriginBundle.begin();
+	auto itOrigin = m_OriginBundle.begin();
 	while(itOrigin!=m_OriginBundle.end())
 	{
 		LPFXBUNDLEORIGIN pSrc = itOrigin->second;
@@ -266,7 +264,7 @@ void CN3FXMgr::Tick()
 //	TRACE("Origin Bundle Count : %d \n", m_OriginBundle.size());
 //	TRACE("현재쓰고 있는 효과의 수 : %d \n", m_ListBundle.size());
 
-	stlLIST_BUNDLEGAME_IT it = m_ListBundle.begin();
+	auto it = m_ListBundle.begin();
 	//std::list<CN3FXBundleGame*>::iterator it = m_ListBundle.begin();
 	while(it!=m_ListBundle.end())
 	{
@@ -278,7 +276,7 @@ void CN3FXMgr::Tick()
 		}
 		if(pBundle->m_dwState==FX_BUNDLE_STATE_DEAD)
 		{
-			stlMAP_BUNDLEORIGIN_IT itOrigin = m_OriginBundle.find(pBundle->FileName());
+			auto itOrigin = m_OriginBundle.find(pBundle->FileName());
 			if(itOrigin!=m_OriginBundle.end())	//같은 효과가 있다..
 			{
 				LPFXBUNDLEORIGIN pSrc = itOrigin->second;
@@ -327,8 +325,8 @@ void CN3FXMgr::Tick()
 
 				// npc or player와 충돌체크..
 				bool bCol = false;
-				it_UPC it = s_pOPMgr->m_UPCs.begin();
-				it_UPC itEnd = s_pOPMgr->m_UPCs.end();
+				auto it = s_pOPMgr->m_UPCs.begin();
+				auto itEnd = s_pOPMgr->m_UPCs.end();
 				CPlayerOther* pUPC = nullptr;
 
 				if( dwToMe==2 && ((pBundle->m_vPos - s_pPlayer->Position()).Magnitude()<16.0f) )
@@ -440,8 +438,8 @@ void CN3FXMgr::Tick()
 				{
 					__Vector3 vNext = pBundle->m_vPos + pBundle->m_vDir * (pBundle->m_fVelocity * CN3Base::s_fSecPerFrm * 1.2f);
 
-					it_NPC it2 = s_pOPMgr->m_NPCs.begin();
-					it_NPC itEnd2 = s_pOPMgr->m_NPCs.end();
+					auto it2 = s_pOPMgr->m_NPCs.begin();
+					auto itEnd2 = s_pOPMgr->m_NPCs.end();
 					CPlayerNPC* pSNPC = s_pOPMgr->NPCGetByID(pBundle->m_iSourceID, FALSE);
 					CPlayerNPC* pNPC = nullptr;
 					for(; it2 != itEnd2; it2++)
@@ -677,12 +675,11 @@ void CN3FXMgr::Render()
 	__Matrix44 mtx;
 	mtx.Identity();
 	s_lpD3DDev->SetTransform(D3DTS_WORLD, &mtx);
+
+	auto itBegin = m_ListBundle.begin();
+	auto itEnd = m_ListBundle.end();
 	
-	stlLIST_BUNDLEGAME_IT itBegin = m_ListBundle.begin();
-	stlLIST_BUNDLEGAME_IT itEnd = m_ListBundle.end();
-	stlLIST_BUNDLEGAME_IT it;
-	
-	for(it=itBegin; it!=itEnd; it++) (*it)->Render();
+	for(auto it=itBegin; it!=itEnd; it++) (*it)->Render();
 
 	s_lpD3DDev->SetRenderState( D3DRS_LIGHTING, dwLgt );
 	s_lpD3DDev->SetRenderState( D3DRS_ALPHABLENDENABLE,	dwAlpha );
@@ -727,16 +724,14 @@ bool CN3FXMgr::CheckCollisionSphere(__Vector3 vSp, __Vector3 vEp, __Vector3 vCp,
 
 void CN3FXMgr::ClearAll()
 {
-	stlLIST_BUNDLEGAME_IT it;
-	for(it=m_ListBundle.begin(); it!=m_ListBundle.end(); it++)
+	for(auto it=m_ListBundle.begin(); it!=m_ListBundle.end(); it++)
 	{
 		CN3FXBundleGame* pBundle = (*it);
 		if(pBundle) delete pBundle;
 	}
 	m_ListBundle.clear();
 
-	stlMAP_BUNDLEORIGIN_IT itOrigin;
-	for(itOrigin=m_OriginBundle.begin(); itOrigin!=m_OriginBundle.end(); itOrigin++)
+	for(auto itOrigin=m_OriginBundle.begin(); itOrigin!=m_OriginBundle.end(); itOrigin++)
 	{
 		LPFXBUNDLEORIGIN pSrc = itOrigin->second;
 		if(pSrc)

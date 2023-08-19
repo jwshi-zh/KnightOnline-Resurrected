@@ -633,8 +633,8 @@ void CN3ShapeMgr::Tick()
 void CN3ShapeMgr::Render()
 {
 	CN3Shape* pShpCur = nullptr;
-	it_Shp it = m_ShapesToRender.begin(), itEnd = m_ShapesToRender.end();
-	for (; it != itEnd; it++)
+	auto itEnd = m_ShapesToRender.end();
+	for (auto it = m_ShapesToRender.begin(); it != itEnd; it++)
 	{
 		pShpCur = *it;
 		__ASSERT(pShpCur, "Shape pointer is null!!!");
@@ -717,7 +717,7 @@ bool CN3ShapeMgr::CheckCollision(const __Vector3& vPos,		// 충돌 위치
 #ifndef _3DSERVER
 	else
 	{
-		it_Shp it = m_ShapesToRender.begin(), itEnd = m_ShapesToRender.end(); // 눈에 보이는것만 대상으로 해서...
+		auto it = m_ShapesToRender.begin(), itEnd = m_ShapesToRender.end(); // 눈에 보이는것만 대상으로 해서...
 		int iSC = m_ShapesToRender.size();
 
 		if (iSC > 0)
@@ -846,7 +846,7 @@ CN3Shape* CN3ShapeMgr::Pick(int iXScreen, int iYScreen, bool bMustHaveEvent, __V
 	__Vector3 vPos, vDir;
 	::_Convert2D_To_3DCoordinate(iXScreen, iYScreen, s_CameraData.mtxView, s_CameraData.mtxProjection, s_CameraData.vp, vPos, vDir);
 
-	it_Shp it = m_ShapesToRender.begin(), itEnd = m_ShapesToRender.end(); // 눈에 보이는것만 대상으로 해서...
+	auto it = m_ShapesToRender.begin(), itEnd = m_ShapesToRender.end(); // 눈에 보이는것만 대상으로 해서...
 	int iSC = m_ShapesToRender.size();
 
 	// 거리순으로 정렬..
@@ -873,7 +873,7 @@ CN3Shape* CN3ShapeMgr::PickMovable(int iXScreen, int iYScreen, __Vector3* pvPick
 	__Vector3 vPos, vDir;
 	::_Convert2D_To_3DCoordinate(iXScreen, iYScreen, s_CameraData.mtxView, s_CameraData.mtxProjection, s_CameraData.vp, vPos, vDir);
 
-	it_Shp it = m_ShapesToRender.begin(), itEnd = m_ShapesToRender.end(); // 눈에 보이는것만 대상으로 해서...
+	auto it = m_ShapesToRender.begin(), itEnd = m_ShapesToRender.end(); // 눈에 보이는것만 대상으로 해서...
 	int iSC = m_ShapesToRender.size();
 
 	// 거리순으로 정렬..
@@ -895,7 +895,7 @@ CN3Shape* CN3ShapeMgr::PickMovable(int iXScreen, int iYScreen, __Vector3* pvPick
 CN3Shape* CN3ShapeMgr::ShapeGetByID(int iID)
 {
 	CN3Shape* pShape = nullptr;
-	it_Shp it = m_ShapesHaveID.begin(), itEnd = m_ShapesHaveID.end();
+	auto it = m_ShapesHaveID.begin(), itEnd = m_ShapesHaveID.end();
 	for (; it != itEnd; it++)
 	{
 		pShape = *it;

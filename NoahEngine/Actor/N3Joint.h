@@ -4,7 +4,6 @@
 
 #include <list>
 class CN3Joint;
-typedef std::list<CN3Joint*>::iterator	it_Joint;
 
 const int MAX_JOINT_TRANSFORM = 64;
 
@@ -40,7 +39,7 @@ public:
 	CN3Joint* Child(int index)
 	{
 		if(index < 0 || index > m_Children.size()) return nullptr;
-		it_Joint it = m_Children.begin();
+		auto it = m_Children.begin();
 		for(int i = 0; i < index; i++, it++);
 		return *it;
 	}

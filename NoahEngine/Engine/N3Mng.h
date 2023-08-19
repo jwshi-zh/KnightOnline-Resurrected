@@ -8,12 +8,6 @@
 template <class T> class CN3Mng
 {
 protected:
-	typedef typename std::map<std::string, T*>::iterator		it_Data;
-	typedef typename std::map<std::string, T*>::value_type	val_Data;
-
-	typedef typename std::map<T*, int>::iterator				it_Ref;
-	typedef typename std::map<T*, int>::value_type			val_Ref;
-
 	std::map<std::string, T*>	m_Datas;
 	std::map<T*, int>			m_Refs;
 
@@ -37,7 +31,7 @@ public:
 			return -1;
 		}
 
-		auto pairRef = m_Refs.insert(val_Ref(pData, 1));
+		auto pairRef = m_Refs.insert(std::make_pair(pData, 1));
 		if(false == pairRef.second)
 		{
 #ifdef _N3GAME
@@ -46,7 +40,7 @@ public:
 			return -1;
 		}
 
-		auto pairData = m_Datas.insert(val_Data(pData->FileName(), pData));
+		auto pairData = m_Datas.insert(std::make_pair(pData->FileName(), pData));
 		if(false == pairData.second)
 		{
 #ifdef _N3GAME

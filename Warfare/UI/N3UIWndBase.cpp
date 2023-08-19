@@ -65,9 +65,9 @@ CN3UIArea* CN3UIWndBase::GetChildAreaByiOrder(eUI_AREA_TYPE eUAT, int iOrder)
 	char pszID[32];
 	sprintf(pszID, "%d",iOrder);
 
-	for(UIListItor itor = m_Children.begin(); m_Children.end() != itor; ++itor)
+	for(auto itor = m_Children.begin(); m_Children.end() != itor; ++itor)
 	{
-		CN3UIArea* pChild = (CN3UIArea* )(*itor);
+		auto* pChild = (CN3UIArea* )(*itor);
 		if ( (pChild->UIType() == UI_TYPE_AREA) && (pChild->m_eAreaType == eUAT) )
 		{
 			if (pChild->m_szID == pszID) return pChild;
@@ -82,9 +82,9 @@ CN3UIString* CN3UIWndBase::GetChildStringByiOrder(int iOrder)
 	char pszID[32];
 	sprintf(pszID, "%d",iOrder);
 
-	for(UIListItor itor = m_Children.begin(); m_Children.end() != itor; ++itor)
+	for(auto itor = m_Children.begin(); m_Children.end() != itor; ++itor)
 	{
-		CN3UIString* pChild = (CN3UIString* )(*itor);
+		auto* pChild = (CN3UIString* )(*itor);
 		if ( pChild->UIType() == UI_TYPE_STRING )
 		{
 			if (pChild->m_szID == pszID) return pChild;
@@ -97,7 +97,7 @@ CN3UIString* CN3UIWndBase::GetChildStringByiOrder(int iOrder)
 
 void CN3UIWndBase::AllHighLightIconFree()
 {
-	for(UIListReverseItor itor = m_Children.rbegin(); m_Children.rend() != itor; ++itor)
+	for(auto itor = m_Children.rbegin(); m_Children.rend() != itor; ++itor)
 	{
 		CN3UIBase* pChild = (*itor);
 		if ( pChild->UIType() == UI_TYPE_ICON )
@@ -144,7 +144,7 @@ DWORD CN3UIWndBase::MouseProc(DWORD dwFlags, const POINT& ptCur, const POINT& pt
 	dwRet |= UI_MOUSEPROC_INREGION;	// 이번 좌표는 영역 안이다.
 
 	// child에게 메세지 전달
-	for(UIListItor itor = m_Children.begin(); m_Children.end() != itor; ++itor)
+	for(auto itor = m_Children.begin(); m_Children.end() != itor; ++itor)
 	{
 		CN3UIBase* pChild = (*itor);
 		DWORD dwChildRet = pChild->MouseProc(dwFlags, ptCur, ptOld);

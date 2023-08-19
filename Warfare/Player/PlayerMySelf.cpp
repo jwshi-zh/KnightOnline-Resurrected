@@ -772,7 +772,7 @@ bool CPlayerMySelf::CheckCollision()
 	//////////////////////////////////
 	// 다른 플레이어와 체크..
 	float fHeightSum, fMag;
-	it_UPC it = s_pOPMgr->m_UPCs.begin(), itEnd = s_pOPMgr->m_UPCs.end();
+	auto it = s_pOPMgr->m_UPCs.begin(), itEnd = s_pOPMgr->m_UPCs.end();
 	for(; it != itEnd; it++)
 	{
 		CPlayerOther* pUPC = it->second;
@@ -799,7 +799,7 @@ bool CPlayerMySelf::CheckCollision()
 //	if(pZoneInfo && pZoneInfo->bNPCCollisionCheck) //this_zone
 
 	//적국 엔피씨는 충돌 체크를 한다.
-	it_NPC it_N = s_pOPMgr->m_NPCs.begin(),	it_NEnd	= s_pOPMgr->m_NPCs.end();
+	auto it_N = s_pOPMgr->m_NPCs.begin(),	it_NEnd	= s_pOPMgr->m_NPCs.end();
 	for(; it_N != it_NEnd; it_N++)
 	{
 		CPlayerNPC* pNPC = it_N->second;

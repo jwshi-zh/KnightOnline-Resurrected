@@ -315,7 +315,7 @@ bool CN3FXPartMesh::Tick()
 
 	if(m_fCurrLife<=m_fFadeIn)
 	{
-		DWORD Alpha = (DWORD)(255.0f * m_fCurrLife / m_fFadeIn);
+		auto Alpha = (DWORD)(255.0f * m_fCurrLife / m_fFadeIn);
 		m_dwCurrColor = (Alpha<<24) + 0x00ffffff;
 		
 		int PartCount = m_pShape->PartCount();
@@ -346,7 +346,7 @@ bool CN3FXPartMesh::Tick()
 		}
 		else
 		{
-			DWORD Alpha = (DWORD)(255.0f * (TotalLife - m_fCurrLife) / m_fFadeOut);
+			auto Alpha = (DWORD)(255.0f * (TotalLife - m_fCurrLife) / m_fFadeOut);
 			m_dwCurrColor = (Alpha<<24) + 0x00ffffff;
 		}
 

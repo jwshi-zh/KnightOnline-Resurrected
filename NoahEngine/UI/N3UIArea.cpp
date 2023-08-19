@@ -20,7 +20,7 @@ void CN3UIArea::Release()
 void CN3UIArea::SetRegion(const RECT& Rect)
 {
 	CN3UIBase::SetRegion(Rect);
-	for(UIListItor itor = m_Children.begin(); m_Children.end() != itor; ++itor)
+	for(auto itor = m_Children.begin(); m_Children.end() != itor; ++itor)
 	{
 		(*itor)->SetRegion(Rect);
 	}

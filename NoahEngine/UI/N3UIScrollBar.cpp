@@ -28,7 +28,7 @@ bool CN3UIScrollBar::Load(HANDLE hFile)
 	__ASSERT(NULL == m_pTrackBarRef, "scrollbar가 초기화되어 있지 않아여");
 
 	// m_pTrackBarRef, m_pBtnRef  설정하기
-	for(UIListItor itor = m_Children.begin(); m_Children.end() != itor; ++itor)
+	for(auto itor = m_Children.begin(); m_Children.end() != itor; ++itor)
 	{
 		CN3UIBase* pChild = (*itor);
 		if (UI_TYPE_TRACKBAR == pChild->UIType())

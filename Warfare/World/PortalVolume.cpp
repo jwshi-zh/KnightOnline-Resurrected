@@ -60,7 +60,7 @@ CPortalVolume::~CPortalVolume()
 void CPortalVolume::DeleteAllPvsObj()
 {
 	ShapeInfo* pSI;
-	siiter siit = m_plShapeInfoList.begin();
+	auto siit = m_plShapeInfoList.begin();
 	while(siit != m_plShapeInfoList.end())
 	{
 		pSI = *siit++;
@@ -69,7 +69,7 @@ void CPortalVolume::DeleteAllPvsObj()
 	m_plShapeInfoList.clear();	
 
 	ShapePart* pSP;
-	spiter spit = m_lpShapePartList.begin();
+	auto spit = m_lpShapePartList.begin();
 	while(spit != m_lpShapePartList.end())
 	{
 		pSP = *spit++;
@@ -79,7 +79,7 @@ void CPortalVolume::DeleteAllPvsObj()
 	m_lpShapePartList.clear();
 
 	__ColIndex* pCI;
-	ciiter ciit = m_lpShapeColPartList.begin();
+	auto ciit = m_lpShapeColPartList.begin();
 	while(ciit != m_lpShapeColPartList.end())
 	{
 		pCI = *ciit++;
@@ -148,7 +148,7 @@ void CPortalVolume::Render()
 void CPortalVolume::RenderShape()
 {
 	ShapeInfo* pSI;
-	siiter siit = m_plShapeInfoList.begin();
+	auto siit = m_plShapeInfoList.begin();
 	while(siit != m_plShapeInfoList.end())
 	{
 		pSI = *siit++;
@@ -174,12 +174,12 @@ void CPortalVolume::RenderShape()
 	}
 
 	ShapePart* pSP = nullptr;
-	spiter spit = m_lpShapePartList.begin();
+	auto spit = m_lpShapePartList.begin();
 	while( spit != m_lpShapePartList.end())
 	{
 		pSP = *spit++;
 
-		viter vit =	pSP->m_viIndex.begin();
+		auto vit =	pSP->m_viIndex.begin();
 		__VPI vpi;
 
 		while (vit != pSP->m_viIndex.end())
@@ -239,7 +239,7 @@ void CPortalVolume::RenderCollision()
 	__ColIndex * pCI = nullptr;
 	ShapeInfo* pSI = nullptr;
 
-	ciiter ciit = m_lpShapeColPartList.begin();
+	auto ciit = m_lpShapeColPartList.begin();
 	while(ciit != m_lpShapeColPartList.end())
 	{
 		pCI = *ciit++;
@@ -296,7 +296,7 @@ bool CPortalVolume::Load(HANDLE hFile)
 	ReadFile(hFile, &iCount, sizeof(int), &dwNum, nullptr);
 	for (auto i = 0; i < iCount; i++)
 	{
-		ShapeInfo*	pSI = new ShapeInfo;
+		auto*	pSI = new ShapeInfo;
 		ReadFile(hFile, &pSI->m_iID, sizeof(int), &dwNum, nullptr);
 
 		// 문자열 길이..
@@ -335,7 +335,7 @@ bool CPortalVolume::Load(HANDLE hFile)
 	int iSize_2 = 0, iSize_3 = 0;
 	for(auto i = 0; i < iCount; i++ )
 	{
-		ShapePart* pSP = new ShapePart;
+		auto* pSP = new ShapePart;
 		ReadFile(hFile, &pSP->m_iID, sizeof(int), &dwNum, nullptr);
 		
 		ReadFile(hFile, &iSize_2, sizeof(int), &dwNum, nullptr);
@@ -362,7 +362,7 @@ bool CPortalVolume::Load(HANDLE hFile)
 
 	for(auto i = 0; i < iCount; i++ )
 	{
-		__ColIndex* pCI = new __ColIndex;
+		auto* pCI = new __ColIndex;
 		ReadFile(hFile, &pCI->m_iID, sizeof(int), &dwNum, nullptr);		
 
 		ReadFile(hFile, &iSize_2, sizeof(int), &dwNum, nullptr);
@@ -392,7 +392,7 @@ bool CPortalVolume::CheckCollisionCameraWithTerrain(__Vector3& vEyeResult, const
 	__ColIndex * pCI = nullptr;
 
 	int iCount = m_lpShapeColPartList.size();
-	ciiter ciit = m_lpShapeColPartList.begin();
+	auto ciit = m_lpShapeColPartList.begin();
 	while(ciit != m_lpShapeColPartList.end())
 	{
 		pCI = *ciit++;
@@ -441,7 +441,7 @@ bool CPortalVolume::CheckCollisionCameraWithShape(__Vector3& vEyeResult, const _
 	__Vector3 vDir = vEyeResult- vAt;	vDir.Normalize();
 	ShapeInfo* pSI = nullptr;
 
-	siiter siit = m_plShapeInfoList.begin();
+	auto siit = m_plShapeInfoList.begin();
 	while(siit != m_plShapeInfoList.end())
 	{
 		pSI = *siit++;
@@ -481,7 +481,7 @@ bool CPortalVolume::GetHeightWithTerrain(float fx, float fz, float& fy)
 	CPortalVolume* pVol = nullptr;
 
 	VisPortalPriority vPP;
-	vppiter vppit = m_pVisiblePvsList.begin();
+	auto vppit = m_pVisiblePvsList.begin();
 	while( vppit != m_pVisiblePvsList.end())
 	{
 		vPP = *vppit++;
@@ -492,7 +492,7 @@ bool CPortalVolume::GetHeightWithTerrain(float fx, float fz, float& fy)
 
 		__ColIndex * pCI = nullptr;
 		int iCount = pVol->m_lpShapeColPartList.size();
-		ciiter ciit = pVol->m_lpShapeColPartList.begin();
+		auto ciit = pVol->m_lpShapeColPartList.begin();
 		while(ciit != pVol->m_lpShapeColPartList.end())
 		{
 			pCI = *ciit++;
@@ -545,7 +545,7 @@ float CPortalVolume::GetHeightNearstPosWithShape(const __Vector3& vPos, float fD
 	ShapeInfo* pSI = nullptr;
 
 	int iCount = m_plShapeInfoList.size();
-	siiter siit = m_plShapeInfoList.begin();
+	auto siit = m_plShapeInfoList.begin();
 	while(siit != m_plShapeInfoList.end())
 	{
 		pSI = *siit++;
@@ -633,7 +633,7 @@ BOOL CPortalVolume::PickWideWithTerrain(int x, int y, __Vector3& vPick)
 	__ColIndex * pCI = nullptr;
 
 	int iCount = m_lpShapeColPartList.size();
-	ciiter ciit = m_lpShapeColPartList.begin();
+	auto ciit = m_lpShapeColPartList.begin();
 	while(ciit != m_lpShapeColPartList.end())
 	{
 		pCI = *ciit++;
@@ -682,13 +682,13 @@ CN3Shape* CPortalVolume::PickWithShape(int iXScreen, int iYScreen, bool bMustHav
 	ShapeInfo* pSI = nullptr;
 	CPortalVolume* pVol = nullptr;
 	VisPortalPriority vPP;
-	vppiter vppit = m_pVisiblePvsList.begin();
+	auto vppit = m_pVisiblePvsList.begin();
 	while( vppit != m_pVisiblePvsList.end())
 	{
 		vPP = *vppit++;
 		pVol = vPP.m_pVol;
 
-		siiter siit = pVol->m_plShapeInfoList.begin();
+		auto siit = pVol->m_plShapeInfoList.begin();
 		while(siit != pVol->m_plShapeInfoList.end())
 		{
 			pSI = *siit++;
@@ -723,13 +723,13 @@ CN3Shape* CPortalVolume::ShapeGetByIDWithShape(int iID)
 	ShapeInfo* pSI = nullptr;
 	CPortalVolume* pVol = nullptr;
 	VisPortalPriority vPP;
-	vppiter vppit = m_pVisiblePvsList.begin();
+	auto vppit = m_pVisiblePvsList.begin();
 	while( vppit != m_pVisiblePvsList.end())
 	{
 		vPP = *vppit++;
 		pVol = vPP.m_pVol;
 
-		siiter siit = pVol->m_plShapeInfoList.begin();
+		auto siit = pVol->m_plShapeInfoList.begin();
 		while(siit != pVol->m_plShapeInfoList.end())
 		{
 			pSI = *siit++;
@@ -763,7 +763,7 @@ bool CPortalVolume::CheckCollisionWithShape(	const __Vector3& vPos,				 // 충�
 	ShapeInfo* pSI = nullptr;
 
 	VisPortalPriority vPP;
-	vppiter vppit = m_pVisiblePvsList.begin();
+	auto vppit = m_pVisiblePvsList.begin();
 	while( vppit != m_pVisiblePvsList.end())
 	{
 		vPP = *vppit++;
@@ -771,8 +771,8 @@ bool CPortalVolume::CheckCollisionWithShape(	const __Vector3& vPos,				 // 충�
 			continue;	
 
 		pVol = vPP.m_pVol;
-		
-		siiter siit = pVol->m_plShapeInfoList.begin();
+
+		auto siit = pVol->m_plShapeInfoList.begin();
 		while(siit != pVol->m_plShapeInfoList.end())
 		{
 			pSI = *siit++;

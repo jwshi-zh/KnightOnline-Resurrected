@@ -17,21 +17,21 @@ CPlayerOtherMgr::~CPlayerOtherMgr()
 
 void CPlayerOtherMgr::ReleaseUPCs()
 {
-	it_UPC it = m_UPCs.begin(), itEnd = m_UPCs.end();
+	auto it = m_UPCs.begin(), itEnd = m_UPCs.end();
 	for(; it != itEnd; it++) T_Delete(it->second);
 	m_UPCs.clear();
 }
 
 void CPlayerOtherMgr::ReleaseNPCs()
 {
-	it_NPC it = m_NPCs.begin(), itEnd = m_NPCs.end();
+	auto it = m_NPCs.begin(), itEnd = m_NPCs.end();
 	for(; it != itEnd; it++) T_Delete(it->second);
 	m_NPCs.clear();
 }
 
 void CPlayerOtherMgr::ReleaseCorpses()
 {
-	it_NPC it = m_Corpses.begin(), itEnd = m_Corpses.end();
+	auto it = m_Corpses.begin(), itEnd = m_Corpses.end();
 	for(; it != itEnd; it++) T_Delete(it->second);
 	m_Corpses.clear();
 }
@@ -54,7 +54,7 @@ void CPlayerOtherMgr::Tick(const __Vector3& vPosPlayer)
 	int iLOD = 0;
 	int iLODTotal = 0;
 
-	it_UPC it = m_UPCs.begin(), itEnd = m_UPCs.end();
+	auto it = m_UPCs.begin(), itEnd = m_UPCs.end();
 	CPlayerNPC* pNPC = nullptr;
 	for(; it != itEnd; )
 	{
@@ -70,7 +70,7 @@ void CPlayerOtherMgr::Tick(const __Vector3& vPosPlayer)
 		it++;
 	}
 
-	it_NPC it2 = m_NPCs.begin(), itEnd2 = m_NPCs.end();
+	auto it2 = m_NPCs.begin(), itEnd2 = m_NPCs.end();
 	for(; it2 != itEnd2; )
 	{
 		pNPC = it2->second;
@@ -95,7 +95,7 @@ void CPlayerOtherMgr::Tick(const __Vector3& vPosPlayer)
 
 	// 죽은놈 처리..
 	CPlayerBase* pCorpse = nullptr;
-	it_NPC it3 = m_Corpses.begin(), itEnd3 = m_Corpses.end();
+	auto it3 = m_Corpses.begin(), itEnd3 = m_Corpses.end();
 	for(; it3 != itEnd3; )
 	{
 		pCorpse = it3->second;
@@ -147,7 +147,7 @@ void CPlayerOtherMgr::Render(float fSunAngle)
 	{
 		std::vector<CPlayerOther*> UPCs;
 		UPCs.reserve(iUPCSize);
-		it_UPC it = m_UPCs.begin(), itEnd = m_UPCs.end();
+		auto it = m_UPCs.begin(), itEnd = m_UPCs.end();
 		for(; it != itEnd; it++) UPCs.push_back(it->second);
 		qsort(&(UPCs[0]), UPCs.size(), 4, SortByCameraDistance);
 
@@ -174,7 +174,7 @@ void CPlayerOtherMgr::Render(float fSunAngle)
 	{
 		std::vector<CPlayerNPC*> NPCs;
 		NPCs.reserve(iNPCSize);
-		it_NPC it = m_NPCs.begin(), itEnd = m_NPCs.end();
+		auto it = m_NPCs.begin(), itEnd = m_NPCs.end();
 		for(; it != itEnd; it++) NPCs.push_back(it->second);
 		qsort(&(NPCs[0]), NPCs.size(), 4, SortByCameraDistance);
 
@@ -197,7 +197,7 @@ void CPlayerOtherMgr::Render(float fSunAngle)
 	{
 		std::vector<CPlayerNPC*> Corpses;
 		Corpses.reserve(iCorpseSize);
-		it_NPC it = m_Corpses.begin(), itEnd = m_Corpses.end();
+		auto it = m_Corpses.begin(), itEnd = m_Corpses.end();
 		for(; it != itEnd; it++) Corpses.push_back(it->second);
 		qsort(&(Corpses[0]), iCorpseSize, 4, SortByCameraDistance);
 
@@ -211,7 +211,7 @@ void CPlayerOtherMgr::Render(float fSunAngle)
 
 CPlayerNPC*	CPlayerOtherMgr::NPCGetByPos(const __Vector3& vPos)
 {
-	it_NPC it = m_NPCs.begin(), itEnd = m_NPCs.end();
+	auto it = m_NPCs.begin(), itEnd = m_NPCs.end();
 	for(; it != itEnd; it++)
 	{
 		CPlayerNPC* pNPC = it->second;
@@ -249,7 +249,7 @@ CPlayerOther* CPlayerOtherMgr::PickUPC(int ixScreen, int iyScreen, int& iIDResul
 		// 카메라 거리순으로 정렬
 		std::vector<CPlayerOther*> UPCs;
 		UPCs.reserve(m_UPCs.size());
-		it_UPC it = m_UPCs.begin(), itEnd = m_UPCs.end();
+		auto it = m_UPCs.begin(), itEnd = m_UPCs.end();
 		for(; it != itEnd; it++) UPCs.push_back(it->second);
 		qsort(&(UPCs[0]), UPCs.size(), 4, SortByCameraDistance);
 
@@ -281,7 +281,7 @@ CPlayerNPC* CPlayerOtherMgr::PickNPC(int ixScreen, int iyScreen, int& iIDResult,
 	{
 		// 카메라 거리순으로 정렬
 		std::vector<CPlayerNPC*> NPCs;
-		it_NPC it = m_NPCs.begin(), itEnd = m_NPCs.end();
+		auto it = m_NPCs.begin(), itEnd = m_NPCs.end();
 		NPCs.reserve(m_NPCs.size());
 		for(; it != itEnd; it++) NPCs.push_back(it->second);
 		qsort(&(NPCs[0]), NPCs.size(), 4, SortByCameraDistance);
@@ -331,7 +331,7 @@ CPlayerNPC* CPlayerOtherMgr::PickCorpse(int ixScreen, int iyScreen, int& iIDResu
 	// 카메라 거리순으로 정렬
 	std::vector<CPlayerNPC*> Corpses;
 	Corpses.reserve(m_Corpses.size());
-	it_NPC it = m_Corpses.begin(), itEnd = m_Corpses.end();
+	auto it = m_Corpses.begin(), itEnd = m_Corpses.end();
 	for(; it != itEnd; it++) Corpses.push_back(it->second);
 	qsort(&(Corpses[0]), Corpses.size(), 4, SortByCameraDistance);
 
@@ -353,21 +353,21 @@ CPlayerNPC* CPlayerOtherMgr::PickCorpse(int ixScreen, int iyScreen, int& iIDResu
 
 bool CPlayerOtherMgr::IsValidCharacter(CPlayerBase *pCharacter)
 {
-	it_UPC it = m_UPCs.begin(), itEnd = m_UPCs.end();
+	auto it = m_UPCs.begin(), itEnd = m_UPCs.end();
 	for(; it != itEnd; it++)
 	{
 		CPlayerOther* pUPC = it->second;
 		if(pCharacter == pUPC) return true;
 	}
 
-	it_NPC it2 = m_NPCs.begin(), itEnd2 = m_NPCs.end();
+	auto it2 = m_NPCs.begin(), itEnd2 = m_NPCs.end();
 	for(; it2 != itEnd2; it2++)
 	{
 		CPlayerNPC* pNPC = it2->second;
 		if(pCharacter == pNPC) return true;
 	}
 
-	it_NPC it3 = m_Corpses.begin(), itEnd3 = m_Corpses.end();
+	auto it3 = m_Corpses.begin(), itEnd3 = m_Corpses.end();
 	for(; it3 != itEnd3; it3++)
 	{
 		CPlayerBase* pCorpse = it3->second;
@@ -392,7 +392,7 @@ void CPlayerOtherMgr::CorpseRemove(CPlayerNPC *pCorpse, bool bRemoveImmediately)
 void CPlayerOtherMgr::CorpseAdd(CPlayerNPC* pNPC)
 {
 	if(nullptr == pNPC) return;
-	std::pair<it_NPC, bool> result = m_Corpses.insert(val_NPC(pNPC->IDNumber(), pNPC));
+	auto result = m_Corpses.insert(std::make_pair(pNPC->IDNumber(), pNPC));
 	if(false == result.second) // 중복되었으면..
 	{
 		T_Delete(result.first->second); // 전의걸 지워주고..
@@ -405,7 +405,7 @@ CPlayerNPC*	CPlayerOtherMgr::CorpseGetNearstNPC(bool bMustHaveItem, e_Nation eNa
 	CPlayerNPC* pTarget = nullptr;
 	float fDistMin = FLT_MAX;
 
-	it_NPC it2 = m_NPCs.begin(), itEnd2 = m_NPCs.end();
+	auto it2 = m_NPCs.begin(), itEnd2 = m_NPCs.end();
 	for(; it2 != itEnd2; it2++)
 	{
 		CPlayerNPC* pNPC = it2->second;
@@ -432,7 +432,7 @@ void CPlayerOtherMgr::MoveToCorpsesForcely(CPlayerNPC* pNPC, bool bErase)
 	if(bErase) pNPC->m_fTimeAfterDeath = TIME_CORPSE_REMAIN - 10.0f; // 죽은 시간을 세팅...
 	else pNPC->m_fTimeAfterDeath = 0.1f;
 
-	it_UPC it = m_UPCs.find(iID); // User를 찾아보고...
+	auto it = m_UPCs.find(iID); // User를 찾아보고...
 	if(it != m_UPCs.end())
 	{
 		if( bErase ) //삭제일때는 시체로 만든다
@@ -448,7 +448,7 @@ void CPlayerOtherMgr::MoveToCorpsesForcely(CPlayerNPC* pNPC, bool bErase)
 	}
 	else
 	{
-		it_NPC it2 = m_NPCs.find(iID);
+		auto it2 = m_NPCs.find(iID);
 		if(it2 != m_NPCs.end())
 		{
 			CPlayerNPC* pNPC = it2->second; 
@@ -463,7 +463,7 @@ CPlayerNPC*	CPlayerOtherMgr::CharacterGetByNearstEnemy(e_Nation eNation, const _
 	CPlayerNPC* pTarget = nullptr;
 	float fDistMin = FLT_MAX, fDistTmp = 0;
 
-	it_UPC it = m_UPCs.begin(), itEnd = m_UPCs.end();
+	auto it = m_UPCs.begin(), itEnd = m_UPCs.end();
 	CPlayerNPC* pNPC = nullptr;
 	for(; it != itEnd; it++)
 	{
@@ -478,7 +478,7 @@ CPlayerNPC*	CPlayerOtherMgr::CharacterGetByNearstEnemy(e_Nation eNation, const _
 		}
 	}
 
-	it_NPC it2 = m_NPCs.begin(), itEnd2 = m_NPCs.end();
+	auto it2 = m_NPCs.begin(), itEnd2 = m_NPCs.end();
 	for(; it2 != itEnd2; it2++)
 	{
 		pNPC = it2->second;
@@ -497,7 +497,7 @@ CPlayerNPC*	CPlayerOtherMgr::CharacterGetByNearstEnemy(e_Nation eNation, const _
 
 bool CPlayerOtherMgr::CharacterDelete(int iID) // User, NPC 안 가리고 지운다..
 {
-	it_UPC it = m_UPCs.find(iID); // User를 찾아보고...
+	auto it = m_UPCs.find(iID); // User를 찾아보고...
 	if(it != m_UPCs.end())
 	{
 		CPlayerOther* pUPC = it->second;
@@ -506,7 +506,7 @@ bool CPlayerOtherMgr::CharacterDelete(int iID) // User, NPC 안 가리고 지운
 		return true;
 	}
 
-	it_NPC it2 = m_NPCs.find(iID);
+	auto it2 = m_NPCs.find(iID);
 	if(it2 != m_NPCs.end())
 	{
 		CPlayerNPC* pNPC = it2->second; 
@@ -534,7 +534,7 @@ int CPlayerOtherMgr::SortByCameraDistance(const void* pArg1, const void* pArg2)
 
 void CPlayerOtherMgr::CorpseAdd(int iID)
 {
-	it_UPC it = m_UPCs.find(iID); // User를 찾아보고...
+	auto it = m_UPCs.find(iID); // User를 찾아보고...
 	if(it != m_UPCs.end())
 	{
 		CPlayerOther* pUPC = it->second;
@@ -562,8 +562,8 @@ CPlayerNPC* CPlayerOtherMgr::PickAllPrecisely(int ixScreen, int iyScreen, int &i
 	std::vector<CPlayerNPC*> NUPCBufs;
 	if(!m_NPCs.empty() || !m_UPCs.empty())
 	{
-		it_NPC it = m_NPCs.begin(), itEnd = m_NPCs.end();
-		it_UPC it_u = m_UPCs.begin(), itEnd_u = m_UPCs.end();
+		auto it = m_NPCs.begin(), itEnd = m_NPCs.end();
+		auto it_u = m_UPCs.begin(), itEnd_u = m_UPCs.end();
 		NPCs.reserve(m_NPCs.size()+m_UPCs.size());
 		for(; it != itEnd; it++) NPCs.push_back(it->second);
 		for(; it_u != itEnd_u; it_u++) NPCs.push_back(it_u->second);
@@ -670,7 +670,7 @@ CPlayerNPC* CPlayerOtherMgr::PickNPCPrecisely(int ixScreen, int iyScreen, int &i
 	{
 		// 카메라 거리순으로 정렬
 		std::vector<CPlayerNPC*> NPCs;
-		it_NPC it = m_NPCs.begin(), itEnd = m_NPCs.end();
+		auto it = m_NPCs.begin(), itEnd = m_NPCs.end();
 		NPCs.reserve(m_NPCs.size());
 		for(; it != itEnd; it++) NPCs.push_back(it->second);
 		qsort(&(NPCs[0]), NPCs.size(), 4, SortByCameraDistance);
@@ -724,7 +724,7 @@ CPlayerOther* CPlayerOtherMgr::PickUPCPrecisely(int ixScreen, int iyScreen, int 
 		// 카메라 거리순으로 정렬
 		std::vector<CPlayerOther*> UPCs;
 		UPCs.reserve(m_UPCs.size());
-		it_UPC it = m_UPCs.begin(), itEnd = m_UPCs.end();
+		auto it = m_UPCs.begin(), itEnd = m_UPCs.end();
 		for(; it != itEnd; it++) UPCs.push_back(it->second);
 		qsort(&(UPCs[0]), UPCs.size(), 4, SortByCameraDistance);
 

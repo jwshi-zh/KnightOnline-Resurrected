@@ -34,7 +34,7 @@ public:
 
 	//LightMap Info..
 	POINT				m_pat_CenterPos;
-	stlMap_N3Tex		m_LightMapPatch[3][3];
+	std::map<DWORD, CN3Texture*>		m_LightMapPatch[3][3];
 	
 	//bool**			m_ppIsLightMap;
 	//CN3Texture***		m_pppLightMapTex;
@@ -77,7 +77,7 @@ public:
 protected:
 	void	SetNormals();
 	void	SetLightMap(int dir);
-	void	ReplaceLightMapPatch(int x, int z, stlMap_N3Tex& LightMapPatch);
+	void	ReplaceLightMapPatch(int x, int z, std::map<DWORD, class CN3Texture*>& LightMapPatch);
 	void	SetLightMapPatch(int x, int z, HANDLE hFile, int* pAddr);
 
 	

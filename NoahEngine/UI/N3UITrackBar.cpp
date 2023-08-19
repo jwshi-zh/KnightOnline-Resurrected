@@ -34,7 +34,7 @@ bool CN3UITrackBar::Load(HANDLE hFile)
 	if (false == CN3UIBase::Load(hFile)) return false;
 
 	// ImageRef 설정하기
-	for(UIListItor itor = m_Children.begin(); m_Children.end() != itor; ++itor)
+	for(auto itor = m_Children.begin(); m_Children.end() != itor; ++itor)
 	{
 		CN3UIBase* pChild = (*itor);
 		if (UI_TYPE_IMAGE != pChild->UIType()) continue;	// image만 골라내기

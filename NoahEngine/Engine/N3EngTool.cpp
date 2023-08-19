@@ -221,8 +221,8 @@ void CN3EngTool::RenderTexturePreview(CN3Texture *pTex, HWND hWndDiffuse, RECT* 
 			// 만약 Rect 가 있으면..
 			if(pRCSrc)
 			{
-				float fW = (float)(pTex->Width());
-				float fH = (float)(pTex->Height());
+				auto fW = (float)(pTex->Width());
+				auto fH = (float)(pTex->Height());
 
 				fU_Left = pRCSrc->left / fW;
 				fV_Top = pRCSrc->top / fH;

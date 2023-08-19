@@ -22,7 +22,7 @@ protected:
 	LPDIRECT3DVERTEXBUFFER9		m_pVB;
 	int							m_VBSize[MAX_PATCH_LEVEL];
 	
-	FanInfoList					m_FanInfoList;
+	std::list<FANINFO>					m_FanInfoList;
 	
 	//for level1
 	int*						m_pTileTexIndx[2];

@@ -16,8 +16,6 @@
 #include "N3SndMgr.h"
 #endif // #ifdef _N3GAME
 
-typedef std::vector<__SKY_DAYCHANGE>::iterator it_SDC;
-
 CN3SkyMng::CN3SkyMng()
 {
 	m_pMoon = nullptr;

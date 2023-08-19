@@ -27,7 +27,7 @@ CPvsMgr::~CPvsMgr()
 
 void CPvsMgr::DeleteAllPvsObj()
 {
-	iter it = m_pPvsList.begin();
+	auto it = m_pPvsList.begin();
 
 	while (it != m_pPvsList.end())	
 	{
@@ -38,7 +38,7 @@ void CPvsMgr::DeleteAllPvsObj()
 	m_pPvsList.clear();
 
 	ShapeInfo* pSI;
-	siiter siit = s_plShapeInfoList.begin();
+	auto siit = s_plShapeInfoList.begin();
 	while(siit != s_plShapeInfoList.end())
 	{
 		pSI = *siit++;
@@ -52,7 +52,7 @@ void CPvsMgr::DeleteAllPvsObj()
 ShapeInfo* CPvsMgr::GetShapeInfoByManager(int iID)
 {
 	ShapeInfo* pSI;
-	siiter siit = s_plShapeInfoList.begin();
+	auto siit = s_plShapeInfoList.begin();
 	while(siit != s_plShapeInfoList.end())
 	{
 		pSI = *siit++;
@@ -72,8 +72,8 @@ void CPvsMgr::Tick(bool bWarp, __Vector3 vPos)
 
 	vec.y += m_fVolumeOffs;
 	m_pCurVol = nullptr;
-	
-	iter it = m_pPvsList.begin();
+
+	auto it = m_pPvsList.begin();
 	while(it != m_pPvsList.end())
 	{
 		pVol = *it++;	
@@ -94,7 +94,7 @@ void CPvsMgr::Tick(bool bWarp, __Vector3 vPos)
 	if (!m_pCurVol) return;
 
 	VisPortalPriority vPP;
-	vppiter vppit = m_pCurVol->m_pVisiblePvsList.begin();
+	auto vppit = m_pCurVol->m_pVisiblePvsList.begin();
 	while(vppit != m_pCurVol->m_pVisiblePvsList.end())
 	{
 		vPP = *vppit++;
@@ -105,7 +105,7 @@ void CPvsMgr::Tick(bool bWarp, __Vector3 vPos)
 void CPvsMgr::Render()
 {
 	CPortalVolume* pVol = nullptr;
-	iter it = m_pPvsList.begin();
+	auto it = m_pPvsList.begin();
 
 	while(it != m_pPvsList.end())
 	{
@@ -148,7 +148,7 @@ bool CPvsMgr::Load(HANDLE hFile)
 
 	for (int i = 0; i < iCount; i++ )
 	{
-		ShapeInfo*	pSI = new ShapeInfo;
+		auto*	pSI = new ShapeInfo;
 		ReadFile(hFile, &pSI->m_iID, sizeof(int), &dwNum, nullptr);
 		
 		// 문자열 길이..
@@ -184,8 +184,7 @@ bool CPvsMgr::Load(HANDLE hFile)
 		m_pPvsList.push_back(pVol);
 	}
 
-	iter it = m_pPvsList.begin();
-	idapiter idapit;
+	auto it = m_pPvsList.begin();
 	IDAndPriority IDAP;
 	VisPortalPriority vPP;
 
@@ -193,7 +192,7 @@ bool CPvsMgr::Load(HANDLE hFile)
 	{
 		pVol = *it++;
 
-		idapit = pVol->m_piVisibleIDList.begin();
+		auto idapit = pVol->m_piVisibleIDList.begin();
 		while (idapit != pVol->m_piVisibleIDList.end())
 		{
 			 IDAP = *idapit++;
@@ -213,7 +212,7 @@ CPortalVolume* CPvsMgr::GetPortalVolPointerByID(int iID)
 {
 	CPortalVolume* pVol = nullptr;
 
-	iter it = m_pPvsList.begin();
+	auto it = m_pPvsList.begin();
 
 	while(it != m_pPvsList.end())
 	{
@@ -257,7 +256,7 @@ bool CPvsMgr::CheckCollisionCameraWithTerrain(__Vector3& vEyeResult, const __Vec
 	float fNPMin = fNP, fTemp = 0.0f;
 
 	CPortalVolume* pVol = nullptr;
-	iter it = m_pPvsList.begin();
+	auto it = m_pPvsList.begin();
 
 	while(it != m_pPvsList.end())
 	{
@@ -287,7 +286,7 @@ bool CPvsMgr::CheckCollisionCameraWithShape(__Vector3& vEyeResult, const __Vecto
 	float fNPMin = fNP, fTemp = 0.0f;
 
 	CPortalVolume* pVol = nullptr;
-	iter it = m_pPvsList.begin();
+	auto it = m_pPvsList.begin();
 
 	while(it != m_pPvsList.end())
 	{
@@ -328,7 +327,7 @@ float CPvsMgr::GetHeightNearstPosWithShape(const __Vector3& vPos, float fDist, _
 	float fHeightMax = FLT_MIN, fHeight;
 
 	CPortalVolume* pVol = nullptr;
-	iter it = m_pPvsList.begin();
+	auto it = m_pPvsList.begin();
 
 	while(it != m_pPvsList.end())
 	{
@@ -361,7 +360,7 @@ float CPvsMgr::GetHeightWithShape(float fX, float fZ, __Vector3* pvNormal)
 	float fHeightMax = FLT_MIN, fHeight;
 
 	CPortalVolume* pVol = nullptr, *pVolNe = nullptr;
-	iter it = m_pPvsList.begin();
+	auto it = m_pPvsList.begin();
 
 	while(it != m_pPvsList.end())
 	{
@@ -388,7 +387,7 @@ BOOL CPvsMgr::PickWideWithTerrain(int x, int y, __Vector3& vPick)
 	float fDistMax = FLT_MAX, fDT;
 
 	CPortalVolume* pVol = nullptr, *pVolNe = nullptr;
-	iter it = m_pPvsList.begin();
+	auto it = m_pPvsList.begin();
 
 	while(it != m_pPvsList.end())
 	{

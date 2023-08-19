@@ -12,7 +12,7 @@ CN3Joint::CN3Joint()
 
 CN3Joint::~CN3Joint()
 {
-	for(it_Joint it = m_Children.begin(), itEnd = m_Children.end(); it != itEnd; it++)
+	for(auto it = m_Children.begin(), itEnd = m_Children.end(); it != itEnd; it++)
 	{
 		delete *it;
 	}
@@ -24,7 +24,7 @@ void CN3Joint::Release()
 	m_qOrient.Identity();		// Joint Orient Quaternion
 	m_KeyOrient.Release();		// Joint Orient 키값... NULL 이면 없는거다..
 	
-	for(it_Joint it = m_Children.begin(), itEnd = m_Children.end(); it != itEnd; it++)
+	for(auto it = m_Children.begin(), itEnd = m_Children.end(); it != itEnd; it++)
 	{
 		delete *it;
 	}
@@ -47,7 +47,7 @@ bool CN3Joint::Load(HANDLE hFile)
 	ReadFile(hFile, &nCC, 4, &dwRWC, nullptr);
 	for(int i = 0; i < nCC; i++)
 	{
-		CN3Joint* pChild = new CN3Joint();
+		auto* pChild = new CN3Joint();
 		this->ChildAdd(pChild);
 
 		pChild->Load(hFile);
@@ -192,7 +192,7 @@ void CN3Joint::ChildAdd(CN3Joint *pChild)
 {
 	__ASSERT(pChild, "Child joint pointer is NULL!");
 
-	it_Joint it = m_Children.begin();
+	auto it = m_Children.begin();
 	int iSize = m_Children.size();
 	for(int i = 0; i < iSize; i++, it++)
 	{
@@ -207,7 +207,7 @@ void CN3Joint::ChildAdd(CN3Joint *pChild)
 void CN3Joint::ChildDelete(CN3Joint *pChild)
 {
 	if(nullptr == pChild) return;
-	it_Joint it = m_Children.begin(), itEnd = m_Children.end();
+	auto it = m_Children.begin(), itEnd = m_Children.end();
 	int iSize = m_Children.size();
 	for(; it != itEnd; )
 	{
@@ -236,7 +236,7 @@ void CN3Joint::NodeCount(int &nCount)
 {
 	nCount++;
 
-	it_Joint it = m_Children.begin();
+	auto it = m_Children.begin();
 	int iSize = m_Children.size();
 	for(int i = 0; i < iSize; i++, it++)
 	{
@@ -283,7 +283,7 @@ BOOL CN3Joint::FindPointerByID(int nID, CN3Joint *&pJoint)
 	if(nID == stnID) return TRUE;
 	stnID++;
 
-	it_Joint it = m_Children.begin();
+	auto it = m_Children.begin();
 	int iSize = m_Children.size();
 	for(int i = 0; i < iSize; i++, it++)
 	{
@@ -332,7 +332,7 @@ void CN3Joint::Tick(float fFrm)
 
 	CN3Joint::ReCalcMatrix();
 
-	it_Joint it = m_Children.begin();
+	auto it = m_Children.begin();
 	int iSize = m_Children.size();
 	for(int i = 0; i < iSize; i++, it++)
 	{
@@ -399,7 +399,7 @@ void CN3Joint::MatricesGet(__Matrix44 *pMtxs, int &nJointIndex)
 	memcpy(&(pMtxs[nJointIndex]), &m_Matrix, sizeof(__Matrix44));
 	nJointIndex++;
 
-	it_Joint it = m_Children.begin();
+	auto it = m_Children.begin();
 	int iSize = m_Children.size();
 	for(int i = 0; i < iSize; i++, it++)
 	{

@@ -12,13 +12,10 @@ public:
 
 };
 
-typedef std::list<CEventCell*>		EventList;
-typedef EventList::iterator			EventItor;
-
 class CEventManager  
 {
 private:
-	EventList	m_lstEvents;
+	std::list<CEventCell*>	m_lstEvents;
 	short		m_sEventType;
 	RECT		m_rcEvent;
 

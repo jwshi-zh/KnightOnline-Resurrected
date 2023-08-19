@@ -229,7 +229,7 @@ void CUIInventory::Tick()
 	{
 		POINT ptCur = this->GetPos();
 		RECT rc = this->GetRegion();
-		float fWidth = (float)(rc.right - rc.left);
+		auto fWidth = (float)(rc.right - rc.left);
 
 		float fDelta = 5000.0f * CN3Base::s_fSecPerFrm;
 		fDelta *= (fWidth - m_fMoveDelta) / fWidth;
@@ -252,7 +252,7 @@ void CUIInventory::Tick()
 	{
 		POINT ptCur = this->GetPos();
 		RECT rc = this->GetRegion();
-		float fWidth = (float)(rc.right - rc.left);
+		auto fWidth = (float)(rc.right - rc.left);
 
 		float fDelta = 5000.0f * CN3Base::s_fSecPerFrm;
 		fDelta *= (fWidth - m_fMoveDelta) / fWidth;
@@ -296,7 +296,7 @@ void CUIInventory::Render()
 	char strDummy[32];
 	lstrcpy(strDummy, "elmo_ecli666");
 
-	for(UIListReverseItor itor = m_Children.rbegin(); m_Children.rend() != itor; ++itor)
+	for(auto itor = m_Children.rbegin(); m_Children.rend() != itor; ++itor)
 	{
 		CN3UIBase* pChild = (*itor);
 		if ( (m_szID != "Base_Iteminfo") && (pChild->GetID() != "area_samma") )

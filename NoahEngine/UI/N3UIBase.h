@@ -129,7 +129,7 @@ public:
 	CN3UIBase*		GetChildByIndex(int iIndex)
 	{
 		if(iIndex < 0 || iIndex >= m_Children.size()) return nullptr;
-		UIListItor it = m_Children.begin();
+		auto it = m_Children.begin();
 		for(int i = 0; i < iIndex; it++, i++);
 		return *it;
 	}

@@ -43,11 +43,10 @@ CUIChat::~CUIChat()
 {
 	if (m_ppUILines) {delete [] m_ppUILines; m_ppUILines = nullptr;}	// m_ppUILines[n]의 포인터는 메모리 할당되어 있어도 부모가 해제될때 자동으로 해제하므로 안지워야 한다.
 
-	ChatListItor itor;
 //	for(int i = 0; i < CHAT_BUFFER_COUNT; i++)
 //	{
 //		for(itor = m_ChatBuffers[i].begin(); m_ChatBuffers[i].end() != itor; ++itor)
-		for(itor = m_ChatBuffer.begin(); m_ChatBuffer.end() != itor; ++itor)
+		for(auto itor = m_ChatBuffer.begin(); m_ChatBuffer.end() != itor; ++itor)
 		{
 			__ChatInfo* pChatInfo = (*itor);
 			if (pChatInfo) delete pChatInfo;
@@ -56,7 +55,7 @@ CUIChat::~CUIChat()
 		m_ChatBuffer.clear();
 
 //		for(itor = m_LineBuffers[i].begin(); m_LineBuffers[i].end() != itor; ++itor)
-		for(itor = m_LineBuffer.begin(); m_LineBuffer.end() != itor; ++itor)
+		for(auto itor = m_LineBuffer.begin(); m_LineBuffer.end() != itor; ++itor)
 		{
 			__ChatInfo* pChatInfo = (*itor);
 			if (pChatInfo) delete pChatInfo;
@@ -80,11 +79,10 @@ void CUIChat::Release()
 	if (m_ppUILines) {delete [] m_ppUILines; m_ppUILines = nullptr;}	// m_ppUILines[n]의 포인터는 메모리 할당되어 있어도 부모가 해제될때 자동으로 해제하므로 안지워야 한다.
 	ZeroMemory(&m_rcChatOutRegion, sizeof(m_rcChatOutRegion));
 
-	ChatListItor itor;
 //	for(int i = 0; i < CHAT_BUFFER_COUNT; i++)
 //	{
 //		for(itor = m_ChatBuffers[i].begin(); m_ChatBuffers[i].end() != itor; ++itor)
-		for(itor = m_ChatBuffer.begin(); m_ChatBuffer.end() != itor; ++itor)
+		for(auto itor = m_ChatBuffer.begin(); m_ChatBuffer.end() != itor; ++itor)
 		{
 			__ChatInfo* pChatInfo = (*itor);
 			if (pChatInfo) delete pChatInfo;
@@ -93,7 +91,7 @@ void CUIChat::Release()
 		m_ChatBuffer.clear();
 
 //		for(itor = m_LineBuffers[i].begin(); m_LineBuffers[i].end() != itor; ++itor)
-		for(itor = m_LineBuffer.begin(); m_LineBuffer.end() != itor; ++itor)
+		for(auto itor = m_LineBuffer.begin(); m_LineBuffer.end() != itor; ++itor)
 		{
 			__ChatInfo* pChatInfo = (*itor);
 			if (pChatInfo) delete pChatInfo;
@@ -142,8 +140,8 @@ bool CUIChat::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 	
 	//son, chat_in
 	else if (dwMsg == UIMSG_EDIT_RETURN)
-	{													
-		CN3UIEdit* pEdit = (CN3UIEdit*)pSender;
+	{
+		auto* pEdit = (CN3UIEdit*)pSender;
 		//채팅 m_pEdit->SetString(""); 해버린 후에는 m_pEdit->GetString();해서 얻어온 포인터가
 		// 유효하지 않은 포인터가 되므로 주의..
 
@@ -310,7 +308,7 @@ void CUIChat::AddChatMsg(e_ChatMode eCM, const std::string& szString, D3DCOLOR c
 	// 일반 ChatBuffer에 넣기
 //	if(CHAT_BUFFER_NORMAL != eCB)
 //	{
-		__ChatInfo* pChatInfo = new __ChatInfo(szString, color);
+	auto* pChatInfo = new __ChatInfo(szString, color);
 //		m_ChatBuffers[CHAT_BUFFER_NORMAL].push_back(pChatInfo);
 		m_ChatBuffer.push_back(pChatInfo);
 //		if (m_ChatBuffers[CHAT_BUFFER_NORMAL].size() > 255)	// 255개가 넘으면 앞에서부터 지우기
@@ -400,7 +398,7 @@ void CUIChat::AddLineBuffer(const std::string& szString, D3DCOLOR color)
 	{
 		if ('\n' == szString[iCount])		// \n
 		{
-			__ChatInfo* pLineInfo = new __ChatInfo;
+			auto* pLineInfo = new __ChatInfo;
 //			m_LineBuffers[eCB].push_back(pLineInfo);
 			m_LineBuffer.push_back(pLineInfo);
 
@@ -431,7 +429,7 @@ void CUIChat::AddLineBuffer(const std::string& szString, D3DCOLOR color)
 				int iLineLength = iCount - iLineStart;
 				if (iLineLength>0)
 				{
-					__ChatInfo* pLineInfo = new __ChatInfo;
+					auto* pLineInfo = new __ChatInfo;
 //					m_LineBuffers[eCB].push_back(pLineInfo);
 					m_LineBuffer.push_back(pLineInfo);
 
@@ -456,7 +454,7 @@ void CUIChat::AddLineBuffer(const std::string& szString, D3DCOLOR color)
 	int iLineLength = iStrLen - iLineStart;
 	if (iLineLength>0)
 	{
-		__ChatInfo* pLineInfo = new __ChatInfo;
+		auto* pLineInfo = new __ChatInfo;
 //		m_LineBuffers[eCB].push_back(pLineInfo);
 		m_LineBuffer.push_back(pLineInfo);
 
@@ -476,7 +474,7 @@ void CUIChat::SetTopLine(int iTopLine) const
 	
 	int i;
 	// 앞줄서부터 차례로 임시버퍼에 저장하고 string 길이 측정
-	__ChatInfo** ppLineInfos  = new __ChatInfo*[m_iChatLineCount];
+	auto** ppLineInfos  = new __ChatInfo*[m_iChatLineCount];
 	ZeroMemory(ppLineInfos, sizeof(__ChatInfo*)*m_iChatLineCount);
 
 	int iCurLine = 0;
@@ -513,9 +511,8 @@ void CUIChat::RecalcLineBuffers()	// 채팅창 사이즈가 변했을때 호출�
 //	for(int i = 0; i < CHAT_BUFFER_COUNT; i++)
 //	{
 		// line buffer 초기화하기
-		ChatListItor itor;
 //		for(itor = m_LineBuffers[i].begin(); m_LineBuffers[i].end() != itor; ++itor)
-		for(itor = m_LineBuffer.begin(); m_LineBuffer.end() != itor; ++itor)
+		for(auto itor = m_LineBuffer.begin(); m_LineBuffer.end() != itor; ++itor)
 		{
 			__ChatInfo* pLineBuff = (*itor);
 			if (pLineBuff) delete pLineBuff;
@@ -525,7 +522,7 @@ void CUIChat::RecalcLineBuffers()	// 채팅창 사이즈가 변했을때 호출�
 
 		// Line buffer 다시 넣기
 //		for(itor = m_ChatBuffers[i].begin(); m_ChatBuffers[i].end() != itor; ++itor)
-		for(itor = m_ChatBuffer.begin(); m_ChatBuffer.end() != itor; ++itor)
+		for(auto itor = m_ChatBuffer.begin(); m_ChatBuffer.end() != itor; ++itor)
 		{
 			__ChatInfo* pChatBuff = (*itor);
 //			if (pChatBuff) AddLineBuffer((e_ChatBuffer)i, pChatBuff->szChat, pChatBuff->color);
@@ -612,7 +609,7 @@ BOOL CUIChat::MoveOffset(int iOffsetX, int iOffsetY)
 
 	// children 좌표 갱신
 	CN3UIBase* pCUI = nullptr; // Child UI...
-	for(UIListItor itor = m_Children.begin(); m_Children.end() != itor; ++itor)
+	for(auto itor = m_Children.begin(); m_Children.end() != itor; ++itor)
 	{
 		pCUI = (*itor);
 		__ASSERT(pCUI, "child UI pointer is NULL!");
@@ -738,7 +735,7 @@ bool CUIChat::OnKeyPress(int iKey)
 
 void CUIChat::AddContinueMsg(e_ChatMode eCM, const std::string& szString, D3DCOLOR color)
 {
-	__ChatInfo* pChatInfo = new __ChatInfo(szString, color);
+	auto* pChatInfo = new __ChatInfo(szString, color);
 	m_ContinueMsg.push_back(pChatInfo);
 
 	AddChatMsg(eCM, szString, color);	
@@ -748,8 +745,7 @@ void CUIChat::DeleteContinueMsg()
 {
 	m_iCurContinueMsg = 0;
 
-	ChatListItor itor;
-	for(itor = m_ContinueMsg.begin(); m_ContinueMsg.end() != itor; ++itor)
+	for(auto itor = m_ContinueMsg.begin(); m_ContinueMsg.end() != itor; ++itor)
 	{
 		__ChatInfo* pChatInfo = (*itor);
 		if (pChatInfo) delete pChatInfo;
@@ -764,8 +760,7 @@ void CUIChat::ShowContinueMsg()
 		m_iCurContinueMsg = 0;
 
 	int iCnt = 0;
-	ChatListItor itor;
-	for(itor = m_ContinueMsg.begin(); m_ContinueMsg.end() != itor; ++itor)
+	for(auto itor = m_ContinueMsg.begin(); m_ContinueMsg.end() != itor; ++itor)
 	{
 		if( iCnt == m_iCurContinueMsg )
 		{

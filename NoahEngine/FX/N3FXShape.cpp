@@ -408,7 +408,7 @@ bool CN3FXShape::Save(HANDLE hFile)
 void CN3FXShape::PartDelete(int iIndex)
 {
 	if(iIndex < 0 || iIndex >= m_Parts.size()) return;
-	std::vector<CN3FXSPart*>::iterator it = m_Parts.begin();
+	auto it = m_Parts.begin();
 
 	for(int i = 0; i < iIndex; i++, it++);
 	delete *it;

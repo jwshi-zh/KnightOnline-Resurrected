@@ -4,8 +4,6 @@
 #include <list>
 #include <string>
 
-typedef std::list<std::string>::iterator it_String;
-
 class CUINotice : public CN3UIBase  
 {
 public:

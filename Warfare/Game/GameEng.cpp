@@ -21,7 +21,7 @@ CGameEng::CGameEng()
 
 	///////////////////////////////////////////////////////////////
 	// 기본 카메라 세팅..
-	CN3Camera* pCamera			= new CN3Camera();
+	auto* pCamera			= new CN3Camera();
 	pCamera->m_bFogUse			= TRUE;
 	pCamera->m_Data.fFOV		= D3DXToRadian(70);
 	pCamera->m_Data.fNP			= 0.7f;
@@ -81,7 +81,7 @@ CGameEng::CGameEng()
 
 CGameEng::~CGameEng()
 {
-	it_Camera itCam = m_Cameras.begin();
+	auto itCam = m_Cameras.begin();
 	int iSize = m_Cameras.size();
 	for(int i = 0; i < iSize; i++, itCam++)
 	{

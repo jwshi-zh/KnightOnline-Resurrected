@@ -8,8 +8,6 @@
 
 const int ciVersion = 1;
 
-typedef std::list<CPortalVolume*>::iterator iter;
-
 class CPvsMgr : public CN3BaseFileAccess
 {
 	friend class CDungeonManager;

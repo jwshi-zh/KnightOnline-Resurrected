@@ -96,7 +96,7 @@ void CN3UIBase::RemoveChild(CN3UIBase* pChild)
 {
 	if(nullptr == pChild) return;
 
-	for(UIListItor itor = m_Children.begin(); m_Children.end() != itor;)
+	for(auto itor = m_Children.begin(); m_Children.end() != itor;)
 	{
 		if((*itor) == pChild)
 		{
@@ -167,7 +167,7 @@ BOOL CN3UIBase::MoveOffset(int iOffsetX, int iOffsetY)
 
 	// children 좌표 갱신
 	CN3UIBase* pCUI = nullptr; // Child UI...
-	for(UIListItor itor = m_Children.begin(); m_Children.end() != itor; ++itor)
+	for(auto itor = m_Children.begin(); m_Children.end() != itor; ++itor)
 	{
 		pCUI = (*itor);
 		__ASSERT(pCUI, "child UI pointer is NULL!");
@@ -305,7 +305,7 @@ bool CN3UIBase::Load(HANDLE hFile)
 
 void CN3UIBase::Tick()
 {
-	for(UIListItor itor = m_Children.begin(); m_Children.end() != itor; ++itor)
+	for(auto itor = m_Children.begin(); m_Children.end() != itor; ++itor)
 	{
 		CN3UIBase* pChild = (*itor);
 		pChild->Tick();
@@ -316,7 +316,7 @@ void CN3UIBase::Render()
 {
 	if (!m_bVisible) return;	// 보이지 않으면 자식들을 render하지 않는다.
 
-	for(UIListReverseItor itor = m_Children.rbegin(); m_Children.rend() != itor; ++itor)
+	for(auto itor = m_Children.rbegin(); m_Children.rend() != itor; ++itor)
 	{
 		CN3UIBase* pChild = (*itor);
 		pChild->Render();
@@ -373,7 +373,7 @@ DWORD CN3UIBase::MouseProc(DWORD dwFlags, const POINT& ptCur, const POINT& ptOld
 		return dwRet;
 
 	// child에게 메세지 전달
-	for(UIListItor itor = m_Children.begin(); m_Children.end() != itor; ++itor)
+	for(auto itor = m_Children.begin(); m_Children.end() != itor; ++itor)
 	{
 		CN3UIBase* pChild = (*itor);
 		DWORD dwChildRet = pChild->MouseProc(dwFlags, ptCur, ptOld);
@@ -421,7 +421,7 @@ CN3UIBase* CN3UIBase::GetChildByID(const std::string& szID)
 {
 	if(szID.empty()) return nullptr;
 
-	for(UIListItor itor = m_Children.begin(); m_Children.end() != itor; ++itor)
+	for(auto itor = m_Children.begin(); m_Children.end() != itor; ++itor)
 	{
 		CN3UIBase* pChild = (*itor);
 //		if(pChild->m_szID == szID) return pChild;
@@ -480,8 +480,8 @@ void CN3UIBase::operator = (const CN3UIBase& other)
 {
 	Init(nullptr);	// 일단 부모는 없게 초기화
 
-	UIListItorConst it = other.m_Children.begin();
-	UIListItorConst itEnd = other.m_Children.end();
+	auto it = other.m_Children.begin();
+	auto itEnd = other.m_Children.end();
 	CN3UIBase* pOtherChild = nullptr;
 	CN3UIBase* pChild = nullptr;
 	for(; it != itEnd; it++)
@@ -501,77 +501,77 @@ void CN3UIBase::operator = (const CN3UIBase& other)
 			break;
 		case UI_TYPE_BUTTON:
 			{
-				CN3UIButton *pUINew = new CN3UIButton();
+				auto*pUINew = new CN3UIButton();
 				*pUINew = *((CN3UIButton*)pOtherChild);
 				pChild = pUINew;
 			}
 			break;	// button
 		case UI_TYPE_STATIC:	
-			{ 
-				CN3UIStatic* pUINew = new CN3UIStatic();		
+			{
+				auto* pUINew = new CN3UIStatic();		
 				*pUINew = *((CN3UIStatic*)pOtherChild); 
 				pChild = pUINew;
 			} 
 			break;	// static (배경그림과 글자가 나오는 클래스)
 		case UI_TYPE_PROGRESS:	
-			{ 
-				CN3UIProgress* pUINew = new CN3UIProgress();	
+			{
+				auto* pUINew = new CN3UIProgress();	
 				*pUINew = *((CN3UIProgress*)pOtherChild); 
 				pChild = pUINew;
 			} 
 			break;	// progress
 		case UI_TYPE_IMAGE:		
-			{ 
-				CN3UIImage* pUINew = new CN3UIImage();		
+			{
+				auto* pUINew = new CN3UIImage();		
 				*pUINew = *((CN3UIImage*)pOtherChild); 
 				pChild = pUINew;
 			} 
 			break;	// image
 		case UI_TYPE_SCROLLBAR:	
-			{ 
-				CN3UIScrollBar* pUINew = new CN3UIScrollBar();	
+			{
+				auto* pUINew = new CN3UIScrollBar();	
 				*pUINew = *((CN3UIScrollBar*)pOtherChild); 
 				pChild = pUINew;
 			} 
 			break;	// scroll bar
 		case UI_TYPE_STRING:	
-			{ 
-				CN3UIString* pUINew = new CN3UIString();		
+			{
+				auto* pUINew = new CN3UIString();		
 				*pUINew = *((CN3UIString*)pOtherChild); 
 				pChild = pUINew;
 			} 
 			break;	// string
 		case UI_TYPE_TRACKBAR:	
-			{ 
-				CN3UITrackBar* pUINew = new CN3UITrackBar();	
+			{
+				auto* pUINew = new CN3UITrackBar();	
 				*pUINew = *((CN3UITrackBar*)pOtherChild); 
 				pChild = pUINew;
 			} 
 			break;	// track bar
 		case UI_TYPE_EDIT:		
-			{ 
-				CN3UIEdit* pUINew = new CN3UIEdit();		
+			{
+				auto* pUINew = new CN3UIEdit();		
 				*pUINew = *((CN3UIEdit*)pOtherChild); 
 				pChild = pUINew;
 			} 
 			break;	// edit
 		case UI_TYPE_AREA:		
-			{ 
-				CN3UIArea* pUINew = new CN3UIArea();		
+			{
+				auto* pUINew = new CN3UIArea();		
 				*pUINew = *((CN3UIArea*)pOtherChild); 
 				pChild = pUINew;
 			} 
 			break;	// area
 		case UI_TYPE_TOOLTIP:
-			{ 
-				CN3UITooltip* pUINew = new CN3UITooltip();
+			{
+				auto* pUINew = new CN3UITooltip();
 				*pUINew = *((CN3UITooltip*)pOtherChild);
 				pChild = pUINew;
 			} 
 			break;	// tooltip
 		case UI_TYPE_LIST:
-			{ 
-				CN3UIList* pUINew = new CN3UIList();
+			{
+				auto* pUINew = new CN3UIList();
 				*pUINew = *((CN3UIList*)pOtherChild);
 				pChild = pUINew;
 			} 

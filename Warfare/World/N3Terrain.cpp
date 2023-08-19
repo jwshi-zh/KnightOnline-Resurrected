@@ -243,11 +243,10 @@ void CN3Terrain::Release()
 	{
 		for(z=0;z<3;z++)
 		{
-			stlMap_N3TexIt itBegin = m_LightMapPatch[x][z].begin();
-			stlMap_N3TexIt itEnd = m_LightMapPatch[x][z].end();
-			stlMap_N3TexIt it;
+			auto itBegin = m_LightMapPatch[x][z].begin();
+			auto itEnd = m_LightMapPatch[x][z].end();
 
-			for(it=itBegin; it!=itEnd; it++)
+			for(auto it=itBegin; it!=itEnd; it++)
 			{
 				CN3Texture* pTex = (*it).second;
 				if(pTex) delete pTex;
@@ -491,7 +490,7 @@ bool CN3Terrain::Load(HANDLE hFile)
 	ReadFile(hFile, &NumLightMap, sizeof(int), &dwRWC, nullptr);
 	
 	short sx,sz;
-	CN3Texture* pTmpTex = new CN3Texture;
+	auto* pTmpTex = new CN3Texture;
 	for(int i=0;i<NumLightMap;i++)
 	{
 		ReadFile(hFile, &sx, sizeof(short), &dwRWC, nullptr);
@@ -1087,17 +1086,12 @@ void CN3Terrain::SetLightMap(int dir)
 	CloseHandle(hFile);
 }
 
-
-//
-//
-//
-void CN3Terrain::ReplaceLightMapPatch(int x, int z, stlMap_N3Tex& LightMapPatch)
+void CN3Terrain::ReplaceLightMapPatch(int x, int z, std::map<DWORD, class CN3Texture*>& LightMapPatch)
 {
-	stlMap_N3TexIt itBegin = m_LightMapPatch[x][z].begin();
-	stlMap_N3TexIt itEnd = m_LightMapPatch[x][z].end();
-	stlMap_N3TexIt it;
+	auto itBegin = m_LightMapPatch[x][z].begin();
+	auto itEnd = m_LightMapPatch[x][z].end();
 
-	for(it=itBegin; it!=itEnd; it++)
+	for(auto it=itBegin; it!=itEnd; it++)
 	{
 		CN3Texture* pTex = (*it).second;
 		if(pTex) delete pTex;
@@ -1113,11 +1107,10 @@ void CN3Terrain::ReplaceLightMapPatch(int x, int z, stlMap_N3Tex& LightMapPatch)
 //
 void CN3Terrain::SetLightMapPatch(int x, int z, HANDLE hFile, int* pAddr)
 {
-	stlMap_N3TexIt itBegin = m_LightMapPatch[x][z].begin();
-	stlMap_N3TexIt itEnd = m_LightMapPatch[x][z].end();
-	stlMap_N3TexIt it;
+	auto itBegin = m_LightMapPatch[x][z].begin();
+	auto itEnd = m_LightMapPatch[x][z].end();
 
-	for(it=itBegin; it!=itEnd; it++)
+	for(auto it=itBegin; it!=itEnd; it++)
 	{
 		CN3Texture* pTex = (*it).second;
 		if(pTex) delete pTex;
@@ -1145,13 +1138,13 @@ void CN3Terrain::SetLightMapPatch(int x, int z, HANDLE hFile, int* pAddr)
 		ReadFile(hFile, &tx, sizeof(int), &dwRWC, nullptr);
 		ReadFile(hFile, &tz, sizeof(int), &dwRWC, nullptr);
 
-		CN3Texture* pTex = new CN3Texture;
+		auto* pTex = new CN3Texture;
 		pTex->Load(hFile);
 		rtx = px*PATCH_TILE_SIZE + tx;
 		rtz = pz*PATCH_TILE_SIZE + tz;
 
 		DWORD key = rtx*10000+rtz;
-		m_LightMapPatch[x][z].insert(stlMap_N3TexValue(key,pTex));
+		m_LightMapPatch[x][z].insert(std::make_pair(key,pTex));
 	}	
 }
 
@@ -1170,7 +1163,7 @@ CN3Texture* CN3Terrain::GetLightMap(int tx, int tz)
 	if(px<0 || px>2 || pz<0 || pz>2) return nullptr;
 
 	DWORD key = tx*10000 + tz;
-	stlMap_N3TexIt it = m_LightMapPatch[px][pz].find(key);
+	auto it = m_LightMapPatch[px][pz].find(key);
 	if(it!=m_LightMapPatch[px][pz].end())
 	{
 		return (*it).second;

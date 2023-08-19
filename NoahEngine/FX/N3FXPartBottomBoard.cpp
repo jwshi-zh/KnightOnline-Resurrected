@@ -246,7 +246,7 @@ bool CN3FXPartBottomBoard::Tick()
 
 	if(m_fCurrLife<=m_fFadeIn)
 	{
-		DWORD Alpha = (DWORD)(255.0f * m_fCurrLife / m_fFadeIn);
+		auto Alpha = (DWORD)(255.0f * m_fCurrLife / m_fFadeIn);
 		m_dwCurrColor = (Alpha<<24) + 0x00ffffff;		
 	}
 	else m_dwCurrColor = 0xffffffff;
@@ -260,7 +260,7 @@ bool CN3FXPartBottomBoard::Tick()
 		}
 		else
 		{
-			DWORD Alpha = (DWORD)(255.0f * (TotalLife - m_fCurrLife) / m_fFadeOut);
+			auto Alpha = (DWORD)(255.0f * (TotalLife - m_fCurrLife) / m_fFadeOut);
 			m_dwCurrColor = (Alpha<<24) + 0x00ffffff;
 		}
 	}

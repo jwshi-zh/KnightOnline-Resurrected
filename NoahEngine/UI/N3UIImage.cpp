@@ -92,7 +92,7 @@ void CN3UIImage::SetTex(const std::string& szFN)
 void CN3UIImage::SetRegion(const RECT& Rect)
 {
 	CN3UIBase::SetRegion(Rect);
-	for(UIListItor itor = m_Children.begin(); m_Children.end() != itor; ++itor)
+	for(auto itor = m_Children.begin(); m_Children.end() != itor; ++itor)
 	{
 		(*itor)->SetRegion(Rect);
 	}
@@ -204,7 +204,7 @@ bool CN3UIImage::Load(HANDLE hFile)
 
 	// Animate 되는 image이면 관련된 변수 세팅
 	m_iAnimCount = 0; // animate image 수 정하기
-	for(UIListItor itor = m_Children.begin(); m_Children.end() != itor; ++itor)
+	for(auto itor = m_Children.begin(); m_Children.end() != itor; ++itor)
 	{
 		if(UI_TYPE_IMAGE == (*itor)->UIType()) m_iAnimCount++;
 	}
@@ -246,7 +246,7 @@ void CN3UIImage::operator = (const CN3UIImage& other)
 		m_pAnimImagesRef = new CN3UIImage*[m_iAnimCount];
 		ZeroMemory(m_pAnimImagesRef, sizeof(CN3UIImage*)*m_iAnimCount);
 		int i=0;
-		for(UIListItor itor = m_Children.begin(); m_Children.end() != itor; ++itor)
+		for(auto itor = m_Children.begin(); m_Children.end() != itor; ++itor)
 		{
 			__ASSERT(UI_TYPE_IMAGE == (*itor)->UIType(), "animate image child의 UI type이 image가 아니다.");
 			m_pAnimImagesRef[i] = (CN3UIImage*)(*itor);

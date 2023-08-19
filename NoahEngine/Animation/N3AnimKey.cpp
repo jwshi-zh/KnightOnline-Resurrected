@@ -73,13 +73,13 @@ bool CN3AnimKey::Load(HANDLE hFile)
 		if(KEY_VECTOR3 == m_eType)
 		{
 			ReadFile(hFile, m_pDatas, sizeof(__Vector3)*m_nCount, &dwRWC, nullptr);
-			__Vector3* pKeys = (__Vector3*)m_pDatas; // 끝에 하나더 복사해준다.
+			auto* pKeys = (__Vector3*)m_pDatas; // 끝에 하나더 복사해준다.
 			pKeys[m_nCount] = pKeys[m_nCount-1];
 		}
 		else if(KEY_QUATERNION == m_eType)
 		{
 			ReadFile(hFile, m_pDatas, sizeof(__Quaternion)*m_nCount, &dwRWC, nullptr);
-			__Quaternion* pKeys = (__Quaternion*)m_pDatas; // 끝에 하나더 복사해준다.
+			auto* pKeys = (__Quaternion*)m_pDatas; // 끝에 하나더 복사해준다.
 			pKeys[m_nCount] = pKeys[m_nCount-1];
 		}
 	}

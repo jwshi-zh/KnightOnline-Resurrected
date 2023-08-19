@@ -41,7 +41,7 @@ void CN3UIStatic::Release()
 void CN3UIStatic::SetRegion(const RECT& Rect)
 {
 	CN3UIBase::SetRegion(Rect);
-	for(UIListItor itor = m_Children.begin(); m_Children.end() != itor; ++itor)
+	for(auto itor = m_Children.begin(); m_Children.end() != itor; ++itor)
 	{
 		(*itor)->SetRegion(Rect);
 	}
@@ -52,7 +52,7 @@ bool CN3UIStatic::Load(HANDLE hFile)
 	if (false == CN3UIBase::Load(hFile)) return false;
 
 	// m_pImageBkGnd,  m_pBuffOutRef 설정하기
-	for(UIListItor itor = m_Children.begin(); m_Children.end() != itor; ++itor)
+	for(auto itor = m_Children.begin(); m_Children.end() != itor; ++itor)
 	{
 		CN3UIBase* pChild = (*itor);
 		if (UI_TYPE_IMAGE == pChild->UIType())

@@ -26,7 +26,7 @@ DWORD CN3UIManager::MouseProc(DWORD dwFlags, const POINT& ptCur, const POINT& pt
 	if (s_pTooltipCtrl)	s_pTooltipCtrl->MouseProc(dwFlags, ptCur, ptOld);	// 툴팁에게 마우스 메세지 전달.
 
 	// child에게 메세지 전달
-	for(UIListItor itor = m_Children.begin(); m_Children.end() != itor; )
+	for(auto itor = m_Children.begin(); m_Children.end() != itor; )
 	{
 		CN3UIBase* pChild = (*itor);
 		DWORD dwChildRet = pChild->MouseProc(dwFlags, ptCur, ptOld);
@@ -59,10 +59,10 @@ void CN3UIManager::ReorderChildList()	// 다이알로그 순서 재배치
 {
 	int iChildCount = m_Children.size();
 	if (iChildCount<=0) return;
-	CN3UIBase** ppBuffer = new CN3UIBase*[iChildCount];
+	auto** ppBuffer = new CN3UIBase*[iChildCount];
 	int iAlwaysTopChildCount = 0;
 
-	for(UIListItor itor = m_Children.begin(); m_Children.end() != itor; )
+	for(auto itor = m_Children.begin(); m_Children.end() != itor; )
 	{
 		CN3UIBase* pChild = (*itor);
 		if (pChild->GetStyle() & UISTYLE_ALWAYSTOP)

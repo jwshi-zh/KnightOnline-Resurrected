@@ -1,5 +1,8 @@
 #pragma once
 
+#include <list>
+#include <map>
+
 const int PATCH_TILE_SIZE = 8;		//	패치 하나에 타일이 8x8개 들어간다.
 const int TILE_SIZE = 4;			//	타일하나당 길이 4m
 const int MAX_LOD_LEVEL = 10;		//	LOD수준이 가장 높은 단계 가장 Detail...
@@ -77,13 +80,3 @@ typedef struct __TerrainBGMInfo
 		}
 	}
 } TERRAINBGMINFO, *LPTERRAINBGMINFO;
-
-#include <list>
-typedef std::list<FANINFO> FanInfoList;
-typedef FanInfoList::iterator FIIt;
-//typedef CellInfoList::value_type DTValue;
-
-#include <map>
-typedef std::map<DWORD,class CN3Texture*> stlMap_N3Tex;
-typedef stlMap_N3Tex::iterator stlMap_N3TexIt;
-typedef stlMap_N3Tex::value_type stlMap_N3TexValue;

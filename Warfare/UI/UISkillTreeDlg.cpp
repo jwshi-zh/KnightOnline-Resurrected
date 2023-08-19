@@ -136,7 +136,7 @@ void CUISkillTreeDlg::Tick()
 	{
 		POINT ptCur = this->GetPos();
 		RECT rc = this->GetRegion();
-		float fWidth = (float)(rc.right - rc.left);
+		auto fWidth = (float)(rc.right - rc.left);
 
 		float fDelta = 5000.0f * CN3Base::s_fSecPerFrm;
 		fDelta *= (fWidth - m_fMoveDelta) / fWidth;
@@ -157,7 +157,7 @@ void CUISkillTreeDlg::Tick()
 	{
 		POINT ptCur = this->GetPos();
 		RECT rc = this->GetRegion();
-		float fWidth = (float)(rc.right - rc.left);
+		auto fWidth = (float)(rc.right - rc.left);
 
 		float fDelta = 5000.0f * CN3Base::s_fSecPerFrm;
 		fDelta *= (fWidth - m_fMoveDelta) / fWidth;
@@ -736,7 +736,7 @@ void CUISkillTreeDlg::Render()
 
 	TooltipRenderDisable();
 
-	for(UIListReverseItor itor = m_Children.rbegin(); m_Children.rend() != itor; ++itor)
+	for(auto itor = m_Children.rbegin(); m_Children.rend() != itor; ++itor)
 	{
 		CN3UIBase* pChild = (*itor);
 		if ( (GetState() == UI_STATE_ICON_MOVING) && (pChild->UIType() == UI_TYPE_ICON) && (CN3UIWndBase::m_sSkillSelectInfo.pSkillDoneInfo) &&
@@ -1314,7 +1314,7 @@ void CUISkillTreeDlg::AddSkillToPage(__TABLE_UPC_SKILL* pUSkill, int iOffset)
 stop:
 	if ( !bFound ) return;
 
-	__IconItemSkill* spSkill = new __IconItemSkill();
+	auto* spSkill = new __IconItemSkill();
 	spSkill->pSkill = pUSkill;
 
 	// 아이콘 이름 만들기.. ^^
@@ -1608,9 +1608,9 @@ void CUISkillTreeDlg::SetPageInCharRegion()						// 문자 역역에서 현재 �
 
 CN3UIImage*	CUISkillTreeDlg::GetChildImageByName(const std::string& szFN)
 {
-	for(UIListItor itor = m_Children.begin(); m_Children.end() != itor; ++itor)
+	for(auto itor = m_Children.begin(); m_Children.end() != itor; ++itor)
 	{
-		CN3UIBase* pChild = (CN3UIBase* )(*itor);
+		auto* pChild = (CN3UIBase* )(*itor);
 		if ( (pChild->UIType() == UI_TYPE_IMAGE) && (szFN.compare(pChild->m_szID) == 0) )
 			return (CN3UIImage*)pChild;
 	}
@@ -1620,9 +1620,9 @@ CN3UIImage*	CUISkillTreeDlg::GetChildImageByName(const std::string& szFN)
 
 CN3UIBase* CUISkillTreeDlg::GetChildBaseByName(const std::string &szFN)
 {
-	for(UIListItor itor = m_Children.begin(); m_Children.end() != itor; ++itor)
+	for(auto itor = m_Children.begin(); m_Children.end() != itor; ++itor)
 	{
-		CN3UIBase* pChild = (CN3UIBase* )(*itor);
+		auto* pChild = (CN3UIBase* )(*itor);
 		if ( szFN.compare(pChild->m_szID) == 0 )
 			return pChild;
 	}
@@ -1632,9 +1632,9 @@ CN3UIBase* CUISkillTreeDlg::GetChildBaseByName(const std::string &szFN)
 
 CN3UIButton* CUISkillTreeDlg::GetChildButtonByName(const std::string& szFN)
 {
-	for(UIListItor itor = m_Children.begin(); m_Children.end() != itor; ++itor)
+	for(auto itor = m_Children.begin(); m_Children.end() != itor; ++itor)
 	{
-		CN3UIBase* pChild = (CN3UIBase* )(*itor);
+		auto* pChild = (CN3UIBase* )(*itor);
 		if ( (pChild->UIType() == UI_TYPE_BUTTON) && (szFN.compare(pChild->m_szID) == 0) )
 			return (CN3UIButton*)pChild;
 	}

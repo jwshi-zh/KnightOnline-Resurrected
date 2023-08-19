@@ -84,7 +84,8 @@ public:
 	void			FindMinMax();
 
 	CN3FXSPart*		Part(int iIndex) { if(iIndex < 0 || iIndex >= m_Parts.size()) return nullptr; return m_Parts[iIndex]; }
-	CN3FXSPart*		PartAdd() { CN3FXSPart* pPart = new CN3FXSPart(); m_Parts.push_back(pPart); return pPart; }
+	CN3FXSPart*		PartAdd() {
+		auto* pPart = new CN3FXSPart(); m_Parts.push_back(pPart); return pPart; }
 	int				PartCount() { return m_Parts.size(); }
 	void			PartDelete(int iIndex);
 	

@@ -369,7 +369,7 @@ void CN3FXBundleGame::Duplicate(CN3FXBundleGame* pDestBundle) const
 				pDestBundle->m_pPart[i]->fStartTime = m_pPart[i]->fStartTime;
 
 				pDestBundle->m_pPart[i]->pPart = new CN3FXPartParticles;
-				CN3FXPartParticles* pPart = (CN3FXPartParticles*)pDestBundle->m_pPart[i]->pPart;
+				auto* pPart = (CN3FXPartParticles*)pDestBundle->m_pPart[i]->pPart;
 
 				pPart->m_pRefBundle = pDestBundle;
 				pPart->m_pRefPrevPart = nullptr;
@@ -384,7 +384,7 @@ void CN3FXBundleGame::Duplicate(CN3FXBundleGame* pDestBundle) const
 				pDestBundle->m_pPart[i]->fStartTime = m_pPart[i]->fStartTime;				
 
 				pDestBundle->m_pPart[i]->pPart = new CN3FXPartBillBoardGame;
-				CN3FXPartBillBoardGame* pPart = (CN3FXPartBillBoardGame*)pDestBundle->m_pPart[i]->pPart;
+				auto* pPart = (CN3FXPartBillBoardGame*)pDestBundle->m_pPart[i]->pPart;
 
 				pPart->m_pRefBundle = pDestBundle;
 				pPart->m_pRefPrevPart = nullptr;
@@ -399,7 +399,7 @@ void CN3FXBundleGame::Duplicate(CN3FXBundleGame* pDestBundle) const
 				pDestBundle->m_pPart[i]->fStartTime = m_pPart[i]->fStartTime;
 
 				pDestBundle->m_pPart[i]->pPart = new CN3FXPartMesh;
-				CN3FXPartMesh* pPart = (CN3FXPartMesh*)pDestBundle->m_pPart[i]->pPart;
+				auto* pPart = (CN3FXPartMesh*)pDestBundle->m_pPart[i]->pPart;
 				
 				pPart->m_pRefBundle = pDestBundle;
 				pPart->m_pRefPrevPart = nullptr;
@@ -415,7 +415,7 @@ void CN3FXBundleGame::Duplicate(CN3FXBundleGame* pDestBundle) const
 				pDestBundle->m_pPart[i]->fStartTime = m_pPart[i]->fStartTime;
 
 				pDestBundle->m_pPart[i]->pPart = new CN3FXPartBottomBoardGame;
-				CN3FXPartBottomBoardGame* pPart = (CN3FXPartBottomBoardGame*)pDestBundle->m_pPart[i]->pPart;
+				auto* pPart = (CN3FXPartBottomBoardGame*)pDestBundle->m_pPart[i]->pPart;
 				
 				pPart->m_pRefBundle = pDestBundle;
 				pPart->m_pRefPrevPart = nullptr;

@@ -121,8 +121,8 @@ LRESULT CALLBACK WndProcMain(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 
 	case WM_NOTIFY:
 		{
-			int idCtrl = (int) wParam; 
-			NMHDR* pnmh = (NMHDR*) lParam; 
+			int idCtrl = (int) wParam;
+			auto* pnmh = (NMHDR*) lParam; 
 		}
 		break;
 

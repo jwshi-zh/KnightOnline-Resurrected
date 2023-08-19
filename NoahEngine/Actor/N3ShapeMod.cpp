@@ -127,7 +127,7 @@ BOOL CN3ShapeMod::LoadStateInfo(FILE* stream)	// 상태 정보를 읽어온다.(
 	// (매칭시키기)
 	for(auto i =0; i<m_iModPartCount; ++i)
 	{
-		it_SPart it = m_Parts.begin();
+		auto it = m_Parts.begin();
 		int iPC = m_Parts.size();
 		for(int j = 0; j < iPC; j++)
 		{

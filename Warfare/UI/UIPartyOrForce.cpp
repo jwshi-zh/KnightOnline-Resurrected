@@ -96,7 +96,7 @@ bool CUIPartyOrForce::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 	if( dwMsg == UIMSG_BUTTON_CLICK )
 	{
 		__InfoPartyOrForce* pIP = nullptr;
-		it_PartyOrForce it = m_Members.begin(), itEnd = m_Members.end();
+		auto it = m_Members.begin(), itEnd = m_Members.end();
 		for(int i = 0; it != itEnd && i < MAX_PARTY_OR_FORCE; it++, i++)
 		{
 //			if(m_pStatic_IDs[i] && pSender == m_pStatic_IDs[i])
@@ -145,7 +145,7 @@ bool CUIPartyOrForce::TargetByIndex(int iIndex)
 {
 	if(iIndex < 0 || iIndex >= m_Members.size()) return false;
 
-	it_PartyOrForce it = m_Members.begin();
+	auto it = m_Members.begin();
 	for(int i = 0; i < iIndex; i++) it++;
 
 	__InfoPartyOrForce* pIP = &(*it);
@@ -160,7 +160,7 @@ const __InfoPartyOrForce* CUIPartyOrForce::MemberInfoGetByID(int iID, int& iInde
 {
 	if(m_Members.empty()) return nullptr;
 
-	it_PartyOrForce it = m_Members.begin(), itEnd = m_Members.end();
+	auto it = m_Members.begin(), itEnd = m_Members.end();
 	iIndexResult = 0;
 	for(; it != itEnd; it++, iIndexResult++)
 	{
@@ -179,7 +179,7 @@ const __InfoPartyOrForce* CUIPartyOrForce::MemberInfoGetByIndex(int iIndex)
 	if(m_Members.empty()) return nullptr;
 	if(iIndex < 0 || iIndex > m_Members.size()) return nullptr;
 
-	it_PartyOrForce it = m_Members.begin(), itEnd = m_Members.end();
+	auto it = m_Members.begin(), itEnd = m_Members.end();
 	for(int i = 0; i < iIndex; i++) it++;
 
 	return &(*it);
@@ -192,7 +192,7 @@ CPlayerOther* CUIPartyOrForce::MemberGetByNearst(const __Vector3& vPosPlayer)
 	float fDistMin = FLT_MAX;
 	CPlayerOther* pTarget = nullptr;
 
-	it_PartyOrForce it = m_Members.begin(), itEnd = m_Members.end();
+	auto it = m_Members.begin(), itEnd = m_Members.end();
 	for(; it != itEnd; it++)
 	{
 		CPlayerOther* pUPC = CGameBase::s_pOPMgr->UPCGetByID(it->iID, false);
@@ -221,7 +221,7 @@ const __InfoPartyOrForce* CUIPartyOrForce::MemberAdd(int iID, const std::string 
 
 	m_Members.push_back(InfoTmp);
 
-	it_PartyOrForce it = m_Members.end();
+	auto it = m_Members.end();
 	it--;
 	
 	this->MemberInfoReInit();
@@ -233,7 +233,7 @@ bool CUIPartyOrForce::MemberRemove(int iID)
 {
 	if(m_Members.empty()) return false;
 
-	it_PartyOrForce it = m_Members.begin(), itEnd = m_Members.end();
+	auto it = m_Members.begin(), itEnd = m_Members.end();
 	for(; it != itEnd; it++)
 	{
 		if(iID == it->iID)
@@ -264,7 +264,7 @@ void CUIPartyOrForce::MemberDestroy()
 
 void CUIPartyOrForce::MemberInfoReInit() // 파티원 구성이 변경될때.. 순서 및 각종 정보 업데이트..
 {
-	it_PartyOrForce it = m_Members.begin(), itEnd = m_Members.end();
+	auto it = m_Members.begin(), itEnd = m_Members.end();
 	int i;
 
 	for(i = 0; it != itEnd && i < MAX_PARTY_OR_FORCE; it++, i++)
@@ -315,7 +315,7 @@ const __InfoPartyOrForce* CUIPartyOrForce::MemberInfoGetSelected()
 	if(m_Members.empty()) return nullptr;
 	if(m_iIndexSelected < 0 || m_iIndexSelected > m_Members.size()) return nullptr;
 
-	it_PartyOrForce it = m_Members.begin(), itEnd = m_Members.end();
+	auto it = m_Members.begin(), itEnd = m_Members.end();
 	for(int i = 0; i < m_iIndexSelected; i++) it++;
 
 	return &(*it);
@@ -323,7 +323,7 @@ const __InfoPartyOrForce* CUIPartyOrForce::MemberInfoGetSelected()
 
 void CUIPartyOrForce::MemberHPChange(int iID, int iHP, int iHPMax)
 {
-	it_PartyOrForce it = m_Members.begin(), itEnd = m_Members.end();
+	auto it = m_Members.begin(), itEnd = m_Members.end();
 	for(int i = 0; it != itEnd && i < MAX_PARTY_OR_FORCE; it++, i++)
 	{
 		__InfoPartyOrForce* pIP = &(*it); // 디버깅 하기 쉬우라고 이렇게 했다..
@@ -342,7 +342,7 @@ void CUIPartyOrForce::MemberHPChange(int iID, int iHP, int iHPMax)
 
 void CUIPartyOrForce::MemberStatusChange(int iID, e_PartyStatus ePS, bool bSuffer)
 {
-	it_PartyOrForce it = m_Members.begin(), itEnd = m_Members.end();
+	auto it = m_Members.begin(), itEnd = m_Members.end();
 	for(int i = 0; it != itEnd && i < MAX_PARTY_OR_FORCE; it++, i++)
 	{
 		__InfoPartyOrForce* pIP = &(*it); // 디버깅 하기 쉬우라고 이렇게 했다..
@@ -357,7 +357,7 @@ void CUIPartyOrForce::MemberStatusChange(int iID, e_PartyStatus ePS, bool bSuffe
 
 void CUIPartyOrForce::MemberLevelChange(int iID, int iLevel)
 {
-	it_PartyOrForce it = m_Members.begin(), itEnd = m_Members.end();
+	auto it = m_Members.begin(), itEnd = m_Members.end();
 	for(int i = 0; it != itEnd && i < MAX_PARTY_OR_FORCE; it++, i++)
 	{
 		__InfoPartyOrForce* pIP = &(*it); // 디버깅 하기 쉬우라고 이렇게 했다..
@@ -371,7 +371,7 @@ void CUIPartyOrForce::MemberLevelChange(int iID, int iLevel)
 
 void CUIPartyOrForce::MemberClassChange(int iID, e_Class eClass)
 {
-	it_PartyOrForce it = m_Members.begin(), itEnd = m_Members.end();
+	auto it = m_Members.begin(), itEnd = m_Members.end();
 	for(int i = 0; it != itEnd && i < MAX_PARTY_OR_FORCE; it++, i++)
 	{
 		__InfoPartyOrForce* pIP = &(*it); // 디버깅 하기 쉬우라고 이렇게 했다..
@@ -395,7 +395,7 @@ void CUIPartyOrForce::Tick()
 
 	if(dwTime == 1)	bBlink = true;
 
-	it_PartyOrForce it = m_Members.begin(), itEnd = m_Members.end();
+	auto it = m_Members.begin(), itEnd = m_Members.end();
 	for(int i = 0; it != itEnd && i < MAX_PARTY_OR_FORCE; it++, i++)
 	{
 		__InfoPartyOrForce* pIP = &(*it); // 디버깅 하기 쉬우라고 이렇게 했다..

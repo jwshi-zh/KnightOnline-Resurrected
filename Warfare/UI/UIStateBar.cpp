@@ -43,9 +43,8 @@ CUIStateBar::CUIStateBar()
 
 CUIStateBar::~CUIStateBar()
 {
-	it_MagicImg it, ite;
-	ite = m_pMagic.end();	
-	for(it = m_pMagic.begin(); it!=ite; it++)
+	auto ite = m_pMagic.end();	
+	for(auto it = m_pMagic.begin(); it!=ite; it++)
 	{
 		__DurationMagicImg* pMagicImg = (*it);
 		if(pMagicImg)
@@ -60,9 +59,8 @@ CUIStateBar::~CUIStateBar()
 
 void CUIStateBar::Release()
 {
-	it_MagicImg it, ite;
-	ite = m_pMagic.end();	
-	for(it = m_pMagic.begin(); it!=ite; it++)
+	auto ite = m_pMagic.end();
+	for(auto it = m_pMagic.begin(); it!=ite; it++)
 	{
 		__DurationMagicImg* pMagicImg = (*it);
 		if(pMagicImg)
@@ -260,7 +258,7 @@ void CUIStateBar::Render()
 	CN3Base::s_lpD3DDev->SetFVF(FVF_TRANSFORMEDCOLOR); // 플레이어의 위치및 방향 표시..
 
 	__Vector3 vPos;
-	it_PositionInfo it = m_Positions.begin(), itEnd = m_Positions.end();
+	auto it = m_Positions.begin(), itEnd = m_Positions.end();
 	for(; it != itEnd; it++)
 	{
 		info = *it;
@@ -340,9 +338,8 @@ void CUIStateBar::Render()
 
 	//Render..
 	//m_pMagic.clear();
-	it_MagicImg itMagic, iteMagic;
-	iteMagic = m_pMagic.end();
-	for(itMagic = m_pMagic.begin(); itMagic!=iteMagic; itMagic++)
+	auto iteMagic = m_pMagic.end();
+	for(auto itMagic = m_pMagic.begin(); itMagic!=iteMagic; itMagic++)
 	{
 		__DurationMagicImg* pMagicImg = (*itMagic);
 		pMagicImg->pIcon->Render();
@@ -403,7 +400,7 @@ void CUIStateBar::TickMiniMap()
 void CUIStateBar::TickMagicIcon()
 {
 	int cnt = m_pMagic.size();
-	it_MagicImg it = m_pMagic.begin();
+	auto it = m_pMagic.begin();
 	__TABLE_UPC_SKILL* pRemoveSkill = nullptr;
 	for(int i=0;i<cnt;i++,it++)
 	{
@@ -443,9 +440,8 @@ bool CUIStateBar::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 {
 	if(dwMsg==UIMSG_ICON_DBLCLK)
 	{
-		it_MagicImg it, ite;
-		ite = m_pMagic.end();	
-		for(it = m_pMagic.begin(); it!=ite; it++)
+		auto ite = m_pMagic.end();	
+		for(auto it = m_pMagic.begin(); it!=ite; it++)
 		{
 			__DurationMagicImg* pMagicImg = (*it);
 
@@ -521,7 +517,7 @@ void CUIStateBar::AddMagic(__TABLE_UPC_SKILL* pSkill, float fDuration)
 	std::vector<char> buffer(256, NULL);
 	sprintf(buffer.data(),	"UI\\skillicon_%.2d_%d.dxt", pSkill->dwID%100, pSkill->dwID/100);
 
-	__DurationMagicImg* pMagicImg = new __DurationMagicImg;
+	auto* pMagicImg = new __DurationMagicImg;
 	pMagicImg->fDuration = fDuration;
 	pMagicImg->pIcon = new CN3UIDBCLButton;
 	pMagicImg->dwSkillID = pSkill->dwID;
@@ -556,9 +552,9 @@ void CUIStateBar::DelMagic(__TABLE_UPC_SKILL* pSkill)
 	std::vector<char> buffer(256, NULL);
 	sprintf(buffer.data(),	"UI\\skillicon_%.2d_%d.dxt", pSkill->dwID%100, pSkill->dwID/100);
 
-	it_MagicImg it, ite, itRemove;
-	itRemove = ite = m_pMagic.end();	
-	for(it = m_pMagic.begin(); it!=ite; it++)
+	auto itRemove = m_pMagic.end();
+	auto ite = m_pMagic.end();
+	for(auto it = m_pMagic.begin(); it!=ite; it++)
 	{
 		__DurationMagicImg* pMagicImg = (*it);
 		CN3UIDBCLButton* pIcon = pMagicImg->pIcon;
@@ -586,9 +582,8 @@ void CUIStateBar::DelMagic(__TABLE_UPC_SKILL* pSkill)
 
 void CUIStateBar::ClearMagic()
 {
-	it_MagicImg it, ite;
-	ite = m_pMagic.end();
-	for(it = m_pMagic.begin(); it!=ite; it++)
+	auto ite = m_pMagic.end();
+	for(auto it = m_pMagic.begin(); it!=ite; it++)
 	{
 		__DurationMagicImg* pMagicImg = (*it);
 		CN3UIDBCLButton* pIcon = pMagicImg->pIcon;
@@ -603,7 +598,7 @@ DWORD CUIStateBar::MouseProc(DWORD dwFlags, const POINT &ptCur, const POINT &ptO
 	DWORD dwRet = UI_MOUSEPROC_NONE;
 
 	int cnt = m_pMagic.size();
-	it_MagicImg it = m_pMagic.begin();
+	auto it = m_pMagic.begin();
 	for(int i=0;i<cnt;i++,it++)
 	{
 		__DurationMagicImg* pMagicImg = (*it);

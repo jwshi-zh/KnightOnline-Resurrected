@@ -185,7 +185,7 @@ int	CUIImageTooltipDlg::CalcTooltipStringNumAndWrite(__IconItemSkill* spItem, bo
 			}
 			else if ( spItem->pItemBasic->szName != m_pStr[iIndex]->GetString() )
 			{
-				e_ItemAttrib eTA = (e_ItemAttrib)(spItem->pItemExt->byMagicOrRare);
+				auto eTA = (e_ItemAttrib)(spItem->pItemExt->byMagicOrRare);
 				switch (eTA)
 				{
 					case ITEM_ATTRIB_GENERAL:
@@ -234,14 +234,14 @@ int	CUIImageTooltipDlg::CalcTooltipStringNumAndWrite(__IconItemSkill* spItem, bo
 		if ( (spItem->pItemBasic->byContable != UIITEM_TYPE_COUNTABLE) && (spItem->pItemBasic->byContable != UIITEM_TYPE_COUNTABLE_SMALL) )
 		{
 			m_pStr[iIndex]->SetStyle(UI_STR_TYPE_HALIGN, UISTYLE_STRING_ALIGNCENTER);
-			e_ItemClass eIC = (e_ItemClass)(spItem->pItemBasic->byClass);
+			auto eIC = (e_ItemClass)(spItem->pItemBasic->byClass);
 			CGameProcedure::GetTextByItemClass(eIC, szString); // 아이템 종류에 따라 문자열 만들기..
 			m_pStr[iIndex]->SetColor(m_CWhite);
 			m_pstdstr[iIndex] = szString;
 			iIndex++;
 		}
 
-		e_Race eRace = (e_Race)spItem->pItemBasic->byNeedRace;
+		auto eRace = (e_Race)spItem->pItemBasic->byNeedRace;
 		if (eRace != RACE_ALL)
 		{
 			m_pStr[iIndex]->SetStyle(UI_STR_TYPE_HALIGN, UISTYLE_STRING_ALIGNCENTER);
@@ -258,7 +258,7 @@ int	CUIImageTooltipDlg::CalcTooltipStringNumAndWrite(__IconItemSkill* spItem, bo
 		if ((int)spItem->pItemBasic->byNeedClass != 0)
 		{
 			m_pStr[iIndex]->SetStyle(UI_STR_TYPE_HALIGN, UISTYLE_STRING_ALIGNCENTER);
-			e_Class eClass = (e_Class)spItem->pItemBasic->byNeedClass;
+			auto eClass = (e_Class)spItem->pItemBasic->byNeedClass;
 			CGameProcedure::GetTextByClass(eClass, szString); // 아이템을 찰수 있는 종족에 따른 문자열 만들기.
 
 			switch (eClass)

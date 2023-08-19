@@ -10,8 +10,8 @@ protected:
 	CN3UIString*	m_pChatOut;		// 채팅이 출력되는 UIString 참조포인터(실제 m_Child로 관리), 글씨체와 초기 영역만 참조한다.
 	CN3UIScrollBar* m_pScrollbar;	// scrollbar 참조포인터(실제 m_Child로 관리)
 
-	ChatList		m_ChatBuffer;		// 채팅 packet기준으로 된 buffer
-	ChatList		m_LineBuffer;		// Line 기준으로 된 buffer
+	deque<__ChatInfo*>		m_ChatBuffer;		// 채팅 packet기준으로 된 buffer
+	deque<__ChatInfo*>		m_LineBuffer;		// Line 기준으로 된 buffer
 	
 	int				m_iChatLineCount;	// 채팅창에 출력되는 line의 수(채팅창 사이즈가 변했을때 다시 계산해주자.)
 	RECT			m_rcChatOutRegion;	// 채팅이 출력되는 영역

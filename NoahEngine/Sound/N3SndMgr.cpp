@@ -38,7 +38,7 @@ CN3SndObj* CN3SndMgr::CreateObj(const std::string& szFN, e_SndType eType)
 	if(!m_bSndEnable) return nullptr;
 
 	CN3SndObj* pObjSrc = nullptr;
-	itm_Snd it = m_SndObjSrcs.find(szFN);
+	auto it = m_SndObjSrcs.find(szFN);
 	if(it == m_SndObjSrcs.end()) // 못 찾았다... 새로 만들자..
 	{
 		pObjSrc = new CN3SndObj();
@@ -47,7 +47,7 @@ CN3SndObj* CN3SndMgr::CreateObj(const std::string& szFN, e_SndType eType)
 			delete pObjSrc; pObjSrc = nullptr;
 			return nullptr;
 		}
-		m_SndObjSrcs.insert(val_Snd(szFN, pObjSrc)); // 맵에 추가한다..
+		m_SndObjSrcs.insert(std::make_pair(szFN, pObjSrc)); // 맵에 추가한다..
 	}
 	else pObjSrc = it->second;
 
@@ -55,7 +55,7 @@ CN3SndObj* CN3SndMgr::CreateObj(const std::string& szFN, e_SndType eType)
 
 	if(nullptr == pObjSrc) return nullptr;
 
-	CN3SndObj* pObjNew = new CN3SndObj();
+	auto* pObjNew = new CN3SndObj();
 	if(false == pObjNew->Duplicate(pObjSrc, eType)) // Duplicate 처리..
 	{
 		delete pObjNew; pObjNew = nullptr;
@@ -68,7 +68,7 @@ CN3SndObj* CN3SndMgr::CreateObj(const std::string& szFN, e_SndType eType)
 
 CN3SndObjStream* CN3SndMgr::CreateStreamObj(const std::string& szFN)
 {
-	CN3SndObjStream* pObj = new CN3SndObjStream();
+	auto* pObj = new CN3SndObjStream();
 	if(false == pObj->Create(szFN))
 	{
 		delete pObj; pObj = nullptr;
@@ -92,7 +92,7 @@ void CN3SndMgr::ReleaseStreamObj(CN3SndObjStream** ppObj)
 {
 	if(nullptr == ppObj || nullptr == *ppObj) return;
 
-	itl_SndStream it = m_SndObjStreams.begin(), itEnd = m_SndObjStreams.end();
+	auto it = m_SndObjStreams.begin(), itEnd = m_SndObjStreams.end();
 	for(; it != itEnd; it++)
 	{
 		if(*ppObj == *it) 
@@ -130,11 +130,10 @@ void CN3SndMgr::Tick()
 		pObj->Tick();
 	}
 */
-	itl_Snd it, itEnd;//this_Snd
 	CN3SndObj* pObj = nullptr;
 	if(!m_bSndDuplicated)
 	{
-		itm_Snd it_m = m_SndObjSrcs.begin(), itEnd_m = m_SndObjSrcs.end();
+		auto it_m = m_SndObjSrcs.begin(), itEnd_m = m_SndObjSrcs.end();
 		for(; it_m != itEnd_m; it_m++)
 		{
 			pObj = it_m->second;
@@ -143,19 +142,16 @@ void CN3SndMgr::Tick()
 	}
 	else
 	{
-		it = m_SndObjs_Duplicated.begin();
-		itEnd = m_SndObjs_Duplicated.end();
-		for(; it != itEnd; it++)
+		const auto itEnd = m_SndObjs_Duplicated.end();
+		for(auto it = m_SndObjs_Duplicated.begin(); it != itEnd; it++)
 		{
 			pObj = *it;
 			pObj->Tick();
 		}
 	}
 
-
-	it = m_SndObjs_PlayOnceAndRelease.begin();
-	itEnd = m_SndObjs_PlayOnceAndRelease.end();
-	for(; it != itEnd; )
+	const auto itEnd = m_SndObjs_PlayOnceAndRelease.end();
+	for(auto it = m_SndObjs_PlayOnceAndRelease.begin(); it != itEnd; )
 	{
 		pObj = *it;
 		pObj->Tick();
@@ -167,7 +163,7 @@ void CN3SndMgr::Tick()
 		else it++;
 	}
 
-	itl_SndStream it2 = m_SndObjStreams.begin(), itEnd2 = m_SndObjStreams.end();
+	auto it2 = m_SndObjStreams.begin(), itEnd2 = m_SndObjStreams.end();
 	for(; it2 != itEnd2; it2++)
 	{
 		CN3SndObjStream* pObj2 = *it2;
@@ -192,7 +188,7 @@ void CN3SndMgr::ReleaseObj(CN3SndObj** ppObj)
 	if(nullptr == ppObj || nullptr == *ppObj) return;
 	std::string szFN = (*ppObj)->m_szFileName; // 파일 이름을 기억하고..
 
-	itl_Snd it = m_SndObjs_Duplicated.begin(), itEnd = m_SndObjs_Duplicated.end();
+	auto it = m_SndObjs_Duplicated.begin(), itEnd = m_SndObjs_Duplicated.end();
 	for(; it != itEnd; it++)
 	{
 		if(*ppObj == *it)
@@ -250,7 +246,7 @@ void CN3SndMgr::Release()
 	if(!m_bSndEnable) return;
 
 	CN3SndObj* pObj = nullptr;
-	itm_Snd it = m_SndObjSrcs.begin(), itEnd = m_SndObjSrcs.end();
+	auto it = m_SndObjSrcs.begin(), itEnd = m_SndObjSrcs.end();
 	for(; it != itEnd; it++)
 	{
 		pObj = it->second;
@@ -258,7 +254,7 @@ void CN3SndMgr::Release()
 	}
 	m_SndObjSrcs.clear();
 
-	itl_Snd it2 = m_SndObjs_Duplicated.begin(), itEnd2 = m_SndObjs_Duplicated.end();
+	auto it2 = m_SndObjs_Duplicated.begin(), itEnd2 = m_SndObjs_Duplicated.end();
 	for(; it2 != itEnd2; it2++)
 	{
 		pObj = *it2;
@@ -275,7 +271,7 @@ void CN3SndMgr::Release()
 	}
 	m_SndObjs_PlayOnceAndRelease.clear();
 
-	itl_SndStream it3 = m_SndObjStreams.begin(), itEnd3 = m_SndObjStreams.end();
+	auto it3 = m_SndObjStreams.begin(), itEnd3 = m_SndObjStreams.end();
 	for(; it3 != itEnd3; it3++)
 	{
 		CN3SndObjStream* pObj2 = *it3;
@@ -297,7 +293,7 @@ bool CN3SndMgr::PlayOnceAndRelease(int iSndID, const _D3DVECTOR* pPos)
 	if(pTbl== nullptr || pTbl->szFN.empty()) return false;
 	
 	CN3SndObj* pObjSrc = nullptr;
-	itm_Snd it = m_SndObjSrcs.find(pTbl->szFN);
+	auto it = m_SndObjSrcs.find(pTbl->szFN);
 	if(it == m_SndObjSrcs.end()) // 못 찾았다... 새로 만들자..
 	{
 		pObjSrc = new CN3SndObj();
@@ -306,7 +302,7 @@ bool CN3SndMgr::PlayOnceAndRelease(int iSndID, const _D3DVECTOR* pPos)
 			delete pObjSrc; pObjSrc = nullptr;
 			return NULL;
 		}
-		m_SndObjSrcs.insert(val_Snd(pTbl->szFN, pObjSrc)); // 맵에 추가한다..
+		m_SndObjSrcs.insert(std::make_pair(pTbl->szFN, pObjSrc)); // 맵에 추가한다..
 		if(!m_bSndDuplicated) pObjSrc->Play(pPos);//this_Snd
 	}
 	else pObjSrc = it->second;
@@ -319,7 +315,7 @@ bool CN3SndMgr::PlayOnceAndRelease(int iSndID, const _D3DVECTOR* pPos)
 		return true;
 	}
 
-	CN3SndObj* pObj = new CN3SndObj();
+	auto* pObj = new CN3SndObj();
 	if(false == pObj->Duplicate(pObjSrc, (e_SndType)pTbl->iType)) // Duplicate 처리..
 	{
 		delete pObj; pObj = nullptr;

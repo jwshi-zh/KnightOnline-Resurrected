@@ -74,7 +74,7 @@ bool CN3Scene::Load(HANDLE hFile)
 		ReadFile(hFile, szName, nL, &dwRWC, nullptr);
 		szName[nL] = NULL;
 
-		CN3Camera* pCamera = new CN3Camera();
+		auto* pCamera = new CN3Camera();
 		if(false == pCamera->LoadFromFile(szName))
 		{
 			delete pCamera;
@@ -94,7 +94,7 @@ bool CN3Scene::Load(HANDLE hFile)
 		ReadFile(hFile, szName, nL, &dwRWC, nullptr);
 		szName[nL] = NULL;
 
-		CN3Light* pLight = new CN3Light();
+		auto* pLight = new CN3Light();
 		if(false == pLight->LoadFromFile(szName))
 		{
 			delete pLight;
@@ -114,7 +114,7 @@ bool CN3Scene::Load(HANDLE hFile)
 		ReadFile(hFile, szName, nL, &dwRWC, nullptr);
 		szName[nL] = NULL;
 
-		CN3Shape* pShape = new CN3Shape();
+		auto* pShape = new CN3Shape();
 		if(false == pShape->LoadFromFile(szName))
 		{
 			delete pShape;
@@ -134,7 +134,7 @@ bool CN3Scene::Load(HANDLE hFile)
 		ReadFile(hFile, szName, nL, &dwRWC, nullptr);
 		szName[nL] = NULL;
 
-		CN3Chr* pChr = new CN3Chr();
+		auto* pChr = new CN3Chr();
 		if(false == pChr->LoadFromFile(szName))
 		{
 			delete pChr;
@@ -409,7 +409,7 @@ void CN3Scene::ShapeDelete(int iIndex)
 {
 	if(iIndex < 0 || iIndex >= m_Shapes.size()) return;
 
-	it_Shape it = m_Shapes.begin(), itEnd = m_Shapes.end();
+	auto it = m_Shapes.begin(), itEnd = m_Shapes.end();
 	for(int i = 0; i < iIndex; i++, it++);
 	CN3Shape* pShape = *it;
 	delete pShape;
@@ -418,7 +418,7 @@ void CN3Scene::ShapeDelete(int iIndex)
 
 void CN3Scene::ShapeDelete(CN3Shape* pShape)
 {
-	it_Shape it = m_Shapes.begin(), itEnd = m_Shapes.end();
+	auto it = m_Shapes.begin(), itEnd = m_Shapes.end();
 	for(; it != itEnd; it++)
 	{
 		CN3Shape* pShapeSrc = *it;
@@ -453,7 +453,7 @@ void CN3Scene::ChrDelete(int iIndex)
 {
 	if(iIndex < 0 || iIndex >= m_Chrs.size()) return;
 
-	it_Chr it = m_Chrs.begin(), itEnd = m_Chrs.end();
+	auto it = m_Chrs.begin(), itEnd = m_Chrs.end();
 	for(; it != itEnd; it++);
 
 	CN3Chr* pChr = *it; delete pChr;
@@ -462,7 +462,7 @@ void CN3Scene::ChrDelete(int iIndex)
 
 void CN3Scene::ChrDelete(CN3Chr* pChr)
 {
-	it_Chr it = m_Chrs.begin(), itEnd = m_Chrs.end();
+	auto it = m_Chrs.begin(), itEnd = m_Chrs.end();
 	CN3Chr* pChrSrc;
 	for(; it != itEnd; it++);
 	{
@@ -601,7 +601,7 @@ bool CN3Scene::SaveDataAndResourcesToFile(const std::string& szFN)
 
 void CN3Scene::DefaultCameraAdd()
 {
-	CN3Camera* pCamera = new CN3Camera();
+	auto* pCamera = new CN3Camera();
 	pCamera->m_szName = "DefaultCamera";
 	pCamera->FileNameSet("Data\\DefaultCamera.N3Camera");
 	this->CameraAdd(pCamera);
@@ -609,7 +609,7 @@ void CN3Scene::DefaultCameraAdd()
 void CN3Scene::DefaultLightAdd()
 {
 	// Light 초기화..
-	CN3Light* pLight = new CN3Light();
+	auto* pLight = new CN3Light();
 	pLight->m_szName = "DefaultLight";
 	pLight->FileNameSet("Data\\DefaultLight.N3Light");
 	int nLight = this->LightAdd(pLight) - 1;

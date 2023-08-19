@@ -438,7 +438,7 @@ void CN3IMesh::TickForShadow(bool bUseTwoUV)
 
 	if(bUseTwoUV)
 	{
-		__Vector3* pVs = (__Vector3*)this->BuildVertexListTwoUV();
+		auto* pVs = (__Vector3*)this->BuildVertexListTwoUV();
 		if(pVs)
 			m_pVertexT1 = pVs;
 		else
@@ -446,7 +446,7 @@ void CN3IMesh::TickForShadow(bool bUseTwoUV)
 	}
 	else
 	{
-		__Vector3* pVs = (__Vector3*)this->BuildVertexList();
+		auto* pVs = (__Vector3*)this->BuildVertexList();
 		if(pVs)
 			m_pVertexT1 = pVs;
 		else

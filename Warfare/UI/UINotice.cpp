@@ -75,7 +75,7 @@ void CUINotice::GenerateText()
 	
 	// 글자수를 센다..
 	int iTextLen = 0;
-	it_String it = m_Texts.begin(), itEnd = m_Texts.end();
+	auto it = m_Texts.begin(), itEnd = m_Texts.end();
 	for(; it != itEnd; it++)
 		iTextLen += it->size() + 3; // LineFeed, Carriage return
 

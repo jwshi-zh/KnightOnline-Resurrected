@@ -211,7 +211,7 @@ void CUILogIn::Tick()
 		{
 			POINT ptCur = m_pGroup_ServerList->GetPos();
 			RECT rc = m_pGroup_ServerList->GetRegion();
-			float fHeight = (float)(rc.bottom - rc.top);
+			auto fHeight = (float)(rc.bottom - rc.top);
 
 			float fDelta = 5000.0f * CN3Base::s_fSecPerFrm;
 			fDelta *= (fHeight - m_fMoveDelta) / fHeight;

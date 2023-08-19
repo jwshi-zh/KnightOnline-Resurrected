@@ -42,7 +42,7 @@ DWORD CUIManager::MouseProc(DWORD dwFlags, const POINT& ptCur, const POINT& ptOl
 	if (s_pTooltipCtrl)	s_pTooltipCtrl->MouseProc(dwFlags, ptCur, ptOld);	// 툴팁에게 마우스 메세지 전달.
 
 	// child에게 메세지 전달
-	for(UIListItor itor = m_Children.begin(); m_Children.end() != itor; )
+	for(auto itor = m_Children.begin(); m_Children.end() != itor; )
 	{
 		CN3UIBase* pChild = (*itor);
 		// 상거래 중이면 아이콘 매니저 윈도우만 작동..
@@ -137,10 +137,10 @@ void CUIManager::ReorderChildList()	// 다이알로그 순서 재배치
 {
 	int iChildCount = m_Children.size();
 	if (iChildCount<=0) return;
-	CN3UIBase** ppBuffer = new CN3UIBase*[iChildCount];
+	auto** ppBuffer = new CN3UIBase*[iChildCount];
 	int iAlwaysTopChildCount = 0;
 
-	for(UIListItor itor = m_Children.begin(); m_Children.end() != itor; )
+	for(auto itor = m_Children.begin(); m_Children.end() != itor; )
 	{
 		CN3UIBase* pChild = (*itor);
 		if (pChild->GetStyle() & UISTYLE_ALWAYSTOP)
@@ -228,7 +228,7 @@ bool CUIManager::BroadcastIconDropMsg(__IconItemSkill* spItem)
 	POINT ptCur = CGameProcedure::s_pLocalInput->MouseGetPos();
 
 	// 윈도우들을 돌아 다니면서 검사..
-	for(UIListItor itor = m_Children.begin(); m_Children.end() != itor; ++itor)
+	for(auto itor = m_Children.begin(); m_Children.end() != itor; ++itor)
 	{
 		if ( bFound ) break;
 		CN3UIBase* pChild = (*itor);
@@ -277,7 +277,7 @@ CN3UIBase* CUIManager::GetTopUI(bool bVisible)
 		else return *(m_Children.begin());
 	}
 
-	UIListItor it = m_Children.begin(), itEnd = m_Children.end();
+	auto it = m_Children.begin(), itEnd = m_Children.end();
 	for(; it != itEnd; it++)
 	{
 		CN3UIBase* pUI = *(it);
@@ -295,7 +295,7 @@ void CUIManager::SetFocusedUI(CN3UIBase* pUI)
 		return;
 	}
 
-	UIListItor it = m_Children.begin(), itEnd = m_Children.end();
+	auto it = m_Children.begin(), itEnd = m_Children.end();
 	it = m_Children.begin();
 	for(; it != itEnd; it++)
 	{
@@ -327,7 +327,7 @@ void CUIManager::SetVisibleFocusedUI(CN3UIBase *pUI)
 	if(!pUI->IsVisible())
 		return;
 
-	UIListItor it = m_Children.begin(), itEnd = m_Children.end();
+	auto it = m_Children.begin(), itEnd = m_Children.end();
 
 	DWORD dwUIStyle, dwUIHideStyle;
 	CN3UIBase* pUIHide = nullptr;
@@ -407,7 +407,7 @@ CN3UIBase* CUIManager::GetEnableFocusTopUI(bool bVisible)
 		else return *(m_Children.begin());
 	}
 
-	UIListItor it = m_Children.begin(), itEnd = m_Children.end();
+	auto it = m_Children.begin(), itEnd = m_Children.end();
 	for(; it != itEnd; it++)
 	{
 		CN3UIBase* pUI = *(it);
@@ -423,7 +423,7 @@ CN3UIBase* CUIManager::GetEnableFocusTopUI(bool bVisible)
 void CUIManager::UserMoveHideUIs()
 {
 	bool bHide = false;
-	UIListItor it = m_Children.begin(), itEnd = m_Children.end();
+	auto it = m_Children.begin(), itEnd = m_Children.end();
 	for(; it != itEnd; it++)
 	{
 		CN3UIBase* pUI = *(it);

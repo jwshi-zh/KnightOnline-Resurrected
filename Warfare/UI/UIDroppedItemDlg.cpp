@@ -64,7 +64,7 @@ void CUIDroppedItemDlg::Render()
 	bool bTooltipRender = false;
 	__IconItemSkill* spItem = nullptr;
 
-	for(UIListReverseItor itor = m_Children.rbegin(); m_Children.rend() != itor; ++itor)
+	for(auto itor = m_Children.rbegin(); m_Children.rend() != itor; ++itor)
 	{
 		CN3UIBase* pChild = (*itor);
 		pChild->Render();

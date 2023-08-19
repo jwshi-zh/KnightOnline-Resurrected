@@ -37,7 +37,7 @@ bool CN3FXGroup::Load(HANDLE hFile)
 
 	for(int i=0;i<count;i++)
 	{
-		__FXBInfo* pFXB = new __FXBInfo;
+		auto* pFXB = new __FXBInfo;
 		ReadFile(hFile, pFXB, sizeof(__FXBInfo), &dwRWC, nullptr);
 		FXBList.push_back(pFXB);
 	}

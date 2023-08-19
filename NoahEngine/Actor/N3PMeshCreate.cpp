@@ -580,7 +580,7 @@ void CN3PMeshCreate::CreateCollapseList()
 // Converts the mesh into one that can be used by the renderer
 CN3PMesh *CN3PMeshCreate::CreateRendererMesh()
 {
-	CN3PMesh *pPMesh = new CN3PMesh;
+	auto*pPMesh = new CN3PMesh;
 
 	pPMesh->m_iTotalIndexChanges = m_iTotalIndexChanges;
 	if (m_iTotalIndexChanges>0)

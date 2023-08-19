@@ -2638,7 +2638,7 @@ void CMagicSkillMng::EffectingType3(DWORD dwMagicID)
 		
 	__TABLE_UPC_SKILL* pSkill = s_pTbl_Skill->Find(dwMagicID);
 	m_pGameProcMain->m_pUIStateBarAndMiniMap->AddMagic(pSkill, (float)pType3->iDurationTime);
-	m_ListBuffTypeID.insert(stlmultimapVAL_INT_DWORD(key, dwMagicID));
+	m_ListBuffTypeID.insert(std::make_pair(key, dwMagicID));
 }
 
 //
@@ -2663,7 +2663,7 @@ void CMagicSkillMng::EffectingType4(DWORD dwMagicID)
 
 	__TABLE_UPC_SKILL* pSkill = s_pTbl_Skill->Find(dwMagicID);
 	m_pGameProcMain->m_pUIStateBarAndMiniMap->AddMagic(pSkill, (float)pType4->iDuration);
-	m_ListBuffTypeID.insert(stlmultimapVAL_INT_DWORD(pType4->iBuffType,dwMagicID));
+	m_ListBuffTypeID.insert(std::make_pair(pType4->iBuffType,dwMagicID));
 
 	//같은 버프타입의 마법은 중복사용할 수 없다...먼저 사용된 것만 유효..
 	if(pType4)
@@ -2784,7 +2784,7 @@ int CMagicSkillMng::AddIdx(DWORD MagicID, int iNum)
 
 		for(int i=0;i<iNum;i++)
 		{
-			m_MySelf.insert(stlmapVAL_INT_DWORD(idx+i, MagicID));
+			m_MySelf.insert(std::make_pair(idx+i, MagicID));
 		}
 		return idx;
 	}
@@ -2799,13 +2799,13 @@ int CMagicSkillMng::AddIdx(DWORD MagicID, int iNum)
 		}
 		else
 		{
-			m_MySelf.insert(stlmapVAL_INT_DWORD(idx, MagicID));
+			m_MySelf.insert(std::make_pair(idx, MagicID));
 			break;
 		}
 	}
 	if(it==m_MySelf.end())
 	{
-		m_MySelf.insert(stlmapVAL_INT_DWORD(idx, MagicID));
+		m_MySelf.insert(std::make_pair(idx, MagicID));
 	}
 
 	return idx;

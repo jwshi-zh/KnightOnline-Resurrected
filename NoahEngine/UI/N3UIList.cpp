@@ -49,7 +49,7 @@ void CN3UIList::SetFont(const std::string& szFontName, DWORD dwHeight, BOOL bBol
 	m_bFontBold = bBold;
 	m_bFontItalic = bItalic;
 
-	it_pString it = m_ListString.begin(), itEnd = m_ListString.end();
+	auto it = m_ListString.begin(), itEnd = m_ListString.end();
 	for(int i = 0; it != itEnd; it++, i++)
 	{
 		(*it)->SetFont(m_szFontName, m_dwFontHeight, m_bFontBold, m_bFontItalic);
@@ -61,7 +61,7 @@ void CN3UIList::SetFontColor(int iIndex, D3DCOLOR color)
 {
 	if(iIndex < 0 || iIndex >= m_ListString.size()) return;
 
-	it_pString it = m_ListString.begin();
+	auto it = m_ListString.begin();
 	for(int i = 0; i < iIndex; it++, i++);
 
 	(*it)->SetColor(color);
@@ -70,7 +70,7 @@ void CN3UIList::SetFontColor(int iIndex, D3DCOLOR color)
 void CN3UIList::SetFontColor(D3DCOLOR color)
 {
 	m_crFont = color;
-	it_pString it = m_ListString.begin(), itEnd = m_ListString.end();
+	auto it = m_ListString.begin(), itEnd = m_ListString.end();
 	for(int i = 0; it != itEnd; it++, i++)
 	{
 		(*it)->SetColor(m_crFont);
@@ -81,7 +81,7 @@ int CN3UIList::AddStrings(const std::string* pszStrings, int iStringCount)
 {
 	for(int i = 0; i < iStringCount; i++)
 	{
-		CN3UIString* pString = new CN3UIString();
+		auto* pString = new CN3UIString();
 		pString->Init(this);
 		pString->SetFont(m_szFontName, m_dwFontHeight, m_bFontBold, m_bFontItalic);
 		pString->SetColor(m_crFont);
@@ -97,7 +97,7 @@ int CN3UIList::AddStrings(const std::string* pszStrings, int iStringCount)
 
 int	CN3UIList::AddString(const std::string& szString)
 {
-	CN3UIString* pString = new CN3UIString();
+	auto* pString = new CN3UIString();
 	pString->Init(this);
 	pString->SetFont(m_szFontName, m_dwFontHeight, m_bFontBold, m_bFontItalic);
 	pString->SetColor(m_crFont);
@@ -113,13 +113,13 @@ bool CN3UIList::InsertString(int iIndex, const std::string& szString)
 {
 	if(iIndex < 0 || iIndex >= m_ListString.size()) return false;
 
-	CN3UIString* pString = new CN3UIString();
+	auto* pString = new CN3UIString();
 	pString->Init(this);
 	pString->SetFont(m_szFontName, m_dwFontHeight, m_bFontBold, m_bFontItalic);
 	pString->SetColor(m_crFont);
 	pString->SetString(szString);
 
-	it_pString it = m_ListString.begin();
+	auto it = m_ListString.begin();
 	for(int i = 0; i < iIndex; it++);
 
 	m_ListString.insert(it, pString);
@@ -132,7 +132,7 @@ bool CN3UIList::DeleteString(int iIndex)
 {
 	if(iIndex < 0 || iIndex >= m_ListString.size()) return false;
 
-	it_pString it = m_ListString.begin();
+	auto it = m_ListString.begin();
 	for(int i = 0; i < iIndex; it++);
 	
 	delete (*it);
@@ -161,7 +161,7 @@ bool CN3UIList::GetString(int iIndex, std::string& szString)
 
 	if(iIndex < 0 || iIndex >= m_ListString.size()) return false;
 
-	it_pString it = m_ListString.begin();
+	auto it = m_ListString.begin();
 	for(int i = 0; i < iIndex; it++, i++);
 	
 	CN3UIString* pUIString = (*it);
@@ -174,7 +174,7 @@ bool CN3UIList::SetString(int iIndex, const std::string& szString)
 {
 	if(iIndex < 0 || iIndex >= m_ListString.size()) return false;
 
-	it_pString it = m_ListString.begin();
+	auto it = m_ListString.begin();
 	for(int i = 0; i < iIndex; it++, i++);
 	
 	CN3UIString* pUIString = (*it);
@@ -197,7 +197,7 @@ void CN3UIList::UpdateChildRegions()
 		rc.right = rcTmp.left;
 	}
 
-	it_pString it = m_ListString.begin(), itEnd = m_ListString.end();
+	auto it = m_ListString.begin(), itEnd = m_ListString.end();
 	for(int i = 0; it != itEnd; it++, i++)
 	{
 		CN3UIString* pStr = *it;
@@ -270,7 +270,7 @@ bool CN3UIList::Load(HANDLE hFile)
 	}
 
 	// Child 중에 Scroll Bar 가 있는지 찾아본다.
-	for(UIListItor itor = m_Children.begin(); m_Children.end() != itor; ++itor)
+	for(auto itor = m_Children.begin(); m_Children.end() != itor; ++itor)
 	{
 		CN3UIBase* pUI = *itor;
 		if(pUI->UIType() == UI_TYPE_SCROLLBAR)
@@ -341,7 +341,7 @@ DWORD CN3UIList::MouseProc(DWORD dwFlags, const POINT& ptCur, const POINT& ptOld
 		RECT rc = this->GetRegion(), rcStr;
 		SIZE size;
 
-		it_pString it = m_ListString.begin(), itEnd = m_ListString.end();
+		auto it = m_ListString.begin(), itEnd = m_ListString.end();
 		for(int i = 0; it != itEnd; it++, i++)
 		{
 			CN3UIString* pStr = (*it);
@@ -382,7 +382,7 @@ void CN3UIList::Render()
 
 	if(m_iCurSel >= 0 && m_iCurSel < m_ListString.size())
 	{
-		it_pString it = m_ListString.begin();
+		auto it = m_ListString.begin();
 		for(int i = 0; i < m_iCurSel; it++, i++);
 		CN3UIString* pStr = *it;
 		if(pStr)
@@ -451,7 +451,7 @@ bool CN3UIList::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 
 void CN3UIList::ResetContent()
 {
-	it_pString it = m_ListString.begin(), itEnd = m_ListString.end();
+	auto it = m_ListString.begin(), itEnd = m_ListString.end();
 	for(; it != itEnd; it++)
 	{
 		

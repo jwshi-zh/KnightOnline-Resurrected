@@ -23,10 +23,8 @@ std::string CUIMessageBoxManager::MessageBoxPost(const std::string& szMsg, const
 	CUIMessageBox*		pMB		= nullptr;
 	__TABLE_UI_RESRC*	pTblUI	= nullptr;
 
-	it_UBM it, it_e;
-
-	it		= m_UBMs.find(szMsg);
-	it_e	= m_UBMs.end();
+	auto it		= m_UBMs.find(szMsg);
+	auto it_e	= m_UBMs.end();
 
 	if( it == it_e )
 	{
@@ -38,7 +36,7 @@ std::string CUIMessageBoxManager::MessageBoxPost(const std::string& szMsg, const
 
 		pMB->LoadFromFile(pTblUI->szMessageBox );
 		pMB->SetVisible(false);
-		m_UBMs.insert(val_UBM(szMsg, pMB));
+		m_UBMs.insert(std::make_pair(szMsg, pMB));
 	}
 	else
 	{
@@ -83,9 +81,8 @@ std::string CUIMessageBoxManager::MessageBoxPost(const std::string& szMsg, const
 
 void CUIMessageBoxManager::MessageBoxClose(const std::string& szMsg)
 {
-	it_UBM it_f, it_e;
-	it_f = m_UBMs.find(szMsg);
-	it_e = m_UBMs.end();
+	auto it_f = m_UBMs.find(szMsg);
+	auto it_e = m_UBMs.end();
 
 	if(it_f != it_e)
 	{
@@ -99,7 +96,7 @@ void CUIMessageBoxManager::MessageBoxClose(const std::string& szMsg)
 
 void CUIMessageBoxManager::Render()
 {
-	it_UBM it = m_UBMs.begin(), it_e = m_UBMs.end();
+	auto it = m_UBMs.begin(), it_e = m_UBMs.end();
 	for(; it != it_e; it++)
 	{
 		CUIMessageBox* pMB = it->second;
@@ -120,7 +117,7 @@ void CUIMessageBoxManager::Render()
 
 void CUIMessageBoxManager::MessageBoxCloseAll()
 {
-	it_UBM it = m_UBMs.begin(), it_e = m_UBMs.end();
+	auto it = m_UBMs.begin(), it_e = m_UBMs.end();
 	for(; it != it_e; it++)
 	{
 		CUIMessageBox* pMB = it->second;
@@ -142,7 +139,7 @@ DWORD CUIMessageBoxManager::MouseProcAndTick(DWORD &dwFlags, const POINT &ptCur,
 		if(m_pMsgBoxLatestRef) m_pMsgBoxLatestRef->Tick();
 	}
 
-	it_UBM it = m_UBMs.begin(), it_e = m_UBMs.end();
+	auto it = m_UBMs.begin(), it_e = m_UBMs.end();
 	for(; it != it_e; it++)
 	{
 		pMB = it->second;
@@ -159,7 +156,7 @@ DWORD CUIMessageBoxManager::MouseProcAndTick(DWORD &dwFlags, const POINT &ptCur,
 
 void CUIMessageBoxManager::Release()
 {
-	it_UBM it = m_UBMs.begin(), it_e = m_UBMs.end();
+	auto it = m_UBMs.begin(), it_e = m_UBMs.end();
 	for(; it != it_e; it++)
 	{
 		T_Delete(it->second);
@@ -171,7 +168,7 @@ void CUIMessageBoxManager::Release()
 
 CUIMessageBox* CUIMessageBoxManager::ReFocusMsgBox()
 {
-	for(rit_UBM itor = m_UBMs.rbegin(); m_UBMs.rend() != itor; ++itor)
+	for(auto itor = m_UBMs.rbegin(); m_UBMs.rend() != itor; ++itor)
 	{
 		CUIMessageBox* pMsgBox = itor->second;
 		if(pMsgBox && pMsgBox->IsVisible())

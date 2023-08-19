@@ -441,7 +441,7 @@ void CGameProcMain::Tick()
 		char szBuff[1024];
 		sprintf(szBuff, "NPC Region Test : %d", iNPC);
 		CLogWriter::Write(szBuff);
-		it_NPC it = s_pOPMgr->m_NPCs.begin(), itEnd = s_pOPMgr->m_NPCs.end();
+		auto it = s_pOPMgr->m_NPCs.begin(), itEnd = s_pOPMgr->m_NPCs.end();
 		for(; it != itEnd; it++)
 		{
 			CPlayerNPC* pNPC = it->second;
@@ -1603,7 +1603,7 @@ bool CGameProcMain::MsgRecv_MyInfo_All(DataPack* pDataPack, int& iOffset)
 	
 	std::string szKnightsName;
 	int iKnightsID				= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // 소속 기사단 ID
-	e_KnightsDuty eKnightsDuty	= (e_KnightsDuty)CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // 기사단에서의 권한..
+	auto eKnightsDuty	= (e_KnightsDuty)CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // 기사단에서의 권한..
 	int iKnightNameLen = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // 소속 기사단 이름 길이.
 	CAPISocket::Parse_GetString(pDataPack->m_pData, iOffset, szKnightsName, iKnightNameLen);
 	int iKnightsGrade			= CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // 소속 기사단 등급
@@ -1725,7 +1725,7 @@ bool CGameProcMain::MsgRecv_MyInfo_All(DataPack* pDataPack, int& iOffset)
 		e_ItemType eType = CGameProcedure::MakeResrcFileNameForUPC(pItem, &szResrcFN, &szIconFN, ePart, ePlug); // 아이템에 따른 파일 이름을 만들어서
 		if(ITEM_TYPE_UNKNOWN == eType) CLogWriter::Write("MyInfo - slot - Unknown Item");
 		__ASSERT(ITEM_TYPE_UNKNOWN != eType, "Unknown Item Type");
-		e_ItemSlot eSlot = (e_ItemSlot)i;
+		auto eSlot = (e_ItemSlot)i;
 
 		switch(eSlot)
 		{
@@ -1774,7 +1774,7 @@ bool CGameProcMain::MsgRecv_MyInfo_All(DataPack* pDataPack, int& iOffset)
 
 		s_pPlayer->DurabilitySet(eSlot, iItemDurabilityInSlots[eSlot]);	// 무기 낡음 처리..
 
-		__IconItemSkill* spItem = new __IconItemSkill;
+		auto* spItem = new __IconItemSkill;
 		spItem->pItemBasic	= pItem;
 		spItem->pItemExt	= pItemExt;
 		spItem->szIconFN	= szIconFN; // 아이콘 파일 이름 복사..
@@ -1808,8 +1808,8 @@ bool CGameProcMain::MsgRecv_MyInfo_All(DataPack* pDataPack, int& iOffset)
 		e_ItemType eType = CGameProcedure::MakeResrcFileNameForUPC(pItem, nullptr, &szIconFN, ePart, ePlug); // 아이템에 따른 파일 이름을 만들어서
 		if(ITEM_TYPE_UNKNOWN == eType) CLogWriter::Write("MyInfo - slot - Unknown Item");
 		__ASSERT(ITEM_TYPE_UNKNOWN != eType, "Unknown Item");
-		
-		__IconItemSkill* spItem = new __IconItemSkill;
+
+		auto* spItem = new __IconItemSkill;
 		spItem->pItemBasic	= pItem;
 		spItem->pItemExt	= pItemExt;
 		spItem->szIconFN = szIconFN; // 아이콘 파일 이름 복사..
@@ -1877,8 +1877,8 @@ bool CGameProcMain::MsgRecv_MyInfo_All(DataPack* pDataPack, int& iOffset)
 bool CGameProcMain::MsgRecv_Chat(DataPack* pDataPack, int& iOffset)
 {
 	std::string szChat;				// 버퍼..
-	e_ChatMode eCM	=	(e_ChatMode)CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);	// 채팅 타입
-	e_Nation eNation =	(e_Nation)CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);	// 보낸사람 국가
+	auto eCM	=	(e_ChatMode)CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);	// 채팅 타입
+	auto eNation =	(e_Nation)CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);	// 보낸사람 국가
 	int iID =			CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);			// 보낸사람
 	int iChatLen =		CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);			// 채팅 문자열 길이..
 	CAPISocket::Parse_GetString(pDataPack->m_pData, iOffset, szChat, iChatLen );
@@ -2186,11 +2186,11 @@ bool CGameProcMain::MsgRecv_UserIn(DataPack* pDataPack, int& iOffset, bool bWith
 	int iNameLen	= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
 	CAPISocket::Parse_GetString(pDataPack->m_pData, iOffset, szName, iNameLen );
 
-	e_Nation eNation =				(e_Nation)CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // 소속 국가. 0 이면 없다. 1
+	auto eNation =				(e_Nation)CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // 소속 국가. 0 이면 없다. 1
 
 	// 기사단 관련
 	int iKnightsID =					CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // 기사단 ID
-	e_KnightsDuty eKnightsDuty =	(e_KnightsDuty)CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // 소속 국가. 0 이면 없다. 1
+	auto eKnightsDuty =	(e_KnightsDuty)CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // 소속 국가. 0 이면 없다. 1
 	int iKnightNameLen = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // 소속 기사단 이름 길이.
 	std::string szKnightsName;
 	CAPISocket::Parse_GetString(pDataPack->m_pData, iOffset, szKnightsName, iKnightNameLen);
@@ -2198,8 +2198,8 @@ bool CGameProcMain::MsgRecv_UserIn(DataPack* pDataPack, int& iOffset, bool bWith
 	int iKnightsRank = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);			// 순위
 
 	int iLevel =					CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // 레벨...
-	e_Race eRace =					(e_Race)CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
-	e_Class eClass =				(e_Class)CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
+	auto eRace =					(e_Race)CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
+	auto eClass =				(e_Class)CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
 	float fXPos	=					(CAPISocket::Parse_GetWord(pDataPack->m_pData, iOffset))/10.0f;
 	float fZPos	=					(CAPISocket::Parse_GetWord(pDataPack->m_pData, iOffset))/10.0f;
 	float fYPos	=					(CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset))/10.0f;
@@ -2349,8 +2349,7 @@ bool CGameProcMain::MsgRecv_UserInAndRequest(DataPack* pDataPack, int& iOffset)
 
 	int iID = 0;
 	m_SetUPCID.clear(); // 싹 지우고...
-	it_ID itID, itIDEnd = m_SetUPCID.end();
-	pair_ID pairID;
+	auto itIDEnd = m_SetUPCID.end();
 
 	for(auto i = 0; i < iUPCCountReceived; i++ )
 	{
@@ -2358,7 +2357,7 @@ bool CGameProcMain::MsgRecv_UserInAndRequest(DataPack* pDataPack, int& iOffset)
 //		TRACE("               ID : %d\n", iID);
 		if(iID == s_pPlayer->IDNumber()) continue; // 내 아이디이다.. 고로 넣으면 안된다.
 
-		pairID = m_SetUPCID.insert(iID);
+		m_SetUPCID.insert(iID);
 	}
 
 	if(m_SetUPCID.empty()) // 새로 받은게 한개도 없다면 몽땅 날린다..
@@ -2369,13 +2368,13 @@ bool CGameProcMain::MsgRecv_UserInAndRequest(DataPack* pDataPack, int& iOffset)
 
 	// 새로 받은 아이디와 리스트에 있는 UPC ID 를 검색해서..
 	CPlayerOther* pUPC = nullptr;
-	it_UPC itUPC = s_pOPMgr->m_UPCs.begin(), itUPCEnd = s_pOPMgr->m_UPCs.end();
+	auto itUPC = s_pOPMgr->m_UPCs.begin(), itUPCEnd = s_pOPMgr->m_UPCs.end();
 	for(; itUPC != itUPCEnd; )
 	{
 		pUPC = itUPC->second;
 		iID = pUPC->IDNumber();
 		
-		itID = m_SetUPCID.find(iID);
+		auto itID = m_SetUPCID.find(iID);
 		if(itID != itIDEnd) // 새로 들어온 리스트에 있으면.. 
 		{
 			m_SetUPCID.erase(itID); // 요청할 리스트에서 빼고..
@@ -2407,7 +2406,7 @@ bool CGameProcMain::MsgRecv_UserInAndRequest(DataPack* pDataPack, int& iOffset)
 		CAPISocket::MP_AddByte(&(byBuff[0]), iOffset, N3_REQUEST_USER_IN);	// 커멘드.
 		CAPISocket::MP_AddShort(&(byBuff[0]), iOffset, iNewUPCCount);		// 아이디 갯수..
 		
-		itID = m_SetUPCID.begin(); itIDEnd = m_SetUPCID.end();
+		auto itID = m_SetUPCID.begin(); itIDEnd = m_SetUPCID.end();
 		for(auto i = 0; itID != itIDEnd; itID++, i++)
 		{
 			iID = *itID;
@@ -2486,7 +2485,7 @@ bool CGameProcMain::MsgRecv_NPCIn(DataPack* pDataPack, int& iOffset)
 //	CLogWriter::Write("NPC In - ID(%d) Name(%s) Time(%.1f)", iID, szName.c_str(), CN3Base::TimeGet()); // 캐릭 세팅..
 //#endif
 
-	e_Nation eNation = (e_Nation)CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // 소속 국가. 0 이면 없다. 1
+	auto eNation = (e_Nation)CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // 소속 국가. 0 이면 없다. 1
 	int iLevel		= CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
 
 	float fXPos	= (CAPISocket::Parse_GetWord(pDataPack->m_pData, iOffset))/10.0f;
@@ -2605,7 +2604,7 @@ bool CGameProcMain::MsgRecv_NPCIn(DataPack* pDataPack, int& iOffset)
 	}
 	else if(pShape && (pShape->Type() & OBJ_SHAPE_EXTRA))
 	{
-		CN3ShapeExtra* pSE = (CN3ShapeExtra*)pShape;
+		auto* pSE = (CN3ShapeExtra*)pShape;
 		pNPC->m_pShapeExtraRef = pSE; // 참조 오브젝트 세팅..
 		pSE->m_bVisible = true; // 강제로 렌더링하지 않게 하는 플래그 해제..
 		
@@ -2703,13 +2702,12 @@ bool CGameProcMain::MsgRecv_NPCInAndRequest(DataPack* pDataPack, int& iOffset)
 
 	int iID = 0;
 	m_SetNPCID.clear(); // 싹 지우고...
-	it_ID itID, itIDEnd = m_SetNPCID.end();
-	pair_ID pairID;
+	auto itIDEnd = m_SetNPCID.end();
 
 	for(auto i = 0; i < iNPCCountReceived; i++ )
 	{
 		iID = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
-		pairID = m_SetNPCID.insert(iID);
+		m_SetNPCID.insert(iID);
 		TRACE("               ID : %d\n", iID);
 	}
 
@@ -2721,13 +2719,13 @@ bool CGameProcMain::MsgRecv_NPCInAndRequest(DataPack* pDataPack, int& iOffset)
 
 	// 새로 받은 아이디와 리스트에 있는 NPC ID 를 검색해서..
 	CPlayerNPC* pNPC = nullptr;
-	it_NPC itNPC = s_pOPMgr->m_NPCs.begin(), itNPCEnd = s_pOPMgr->m_NPCs.end();
+	auto itNPC = s_pOPMgr->m_NPCs.begin(), itNPCEnd = s_pOPMgr->m_NPCs.end();
 	for(; itNPC != itNPCEnd; )
 	{
 		pNPC = itNPC->second;
 		iID = pNPC->IDNumber();
 		
-		itID = m_SetNPCID.find(iID);
+		auto itID = m_SetNPCID.find(iID);
 		if(itID != itIDEnd) // 새로 들어온 리스트에 있으면.. 
 		{
 			m_SetNPCID.erase(itID); // 요청할 리스트에서 빼고..
@@ -2759,7 +2757,7 @@ bool CGameProcMain::MsgRecv_NPCInAndRequest(DataPack* pDataPack, int& iOffset)
 		CAPISocket::MP_AddByte(&(byBuff[0]), iOffset, N3_REQUEST_NPC_IN);	// 커멘드.
 		CAPISocket::MP_AddShort(&(byBuff[0]), iOffset, iNewNPCCount);		// 아이디 갯수..
 		
-		itID = m_SetNPCID.begin(); itIDEnd = m_SetNPCID.end();
+		auto itID = m_SetNPCID.begin(); itIDEnd = m_SetNPCID.end();
 		for(auto i = 0; itID != itIDEnd; itID++, i++)
 		{
 			iID = *itID;
@@ -3035,7 +3033,7 @@ bool CGameProcMain::MsgRecv_ItemWeightChange(DataPack* pDataPack, int& iOffset)	
 bool CGameProcMain::MsgRecv_UserLookChange(DataPack* pDataPack, int& iOffset)
 {
 	int iID				= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
-	e_ItemSlot eSlot	= (e_ItemSlot)CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
+	auto eSlot	= (e_ItemSlot)CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
 	DWORD dwItemID = CAPISocket::Parse_GetDword(pDataPack->m_pData, iOffset);
 	int iDurability = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
 
@@ -4400,7 +4398,7 @@ void CGameProcMain::MsgRecv_ZoneChange(DataPack* pDataPack, int& iOffset)
 void CGameProcMain::MsgRecv_UserState(DataPack* pDataPack, int& iOffset)
 {
 	int iID = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
-	e_SubPacket_State eSP = (e_SubPacket_State)CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // 0x01
+	auto eSP = (e_SubPacket_State)CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // 0x01
 	int iState = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
 
 	CPlayerBase* pBPC = nullptr;
@@ -4519,7 +4517,7 @@ void CGameProcMain::MsgRecv_PartyOrForce(DataPack* pDataPack, int& iOffset)
 				int iHPMax		= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
 				int iHP			= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
 				int iLevel		= CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
-				e_Class eClass	= (e_Class)(CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset));
+				auto eClass	= (e_Class)(CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset));
 
 				m_pUIPartyOrForce->MemberAdd(iID, szID, iLevel, eClass, iHP, iHPMax); // 다른넘 파티에추가..
 				if(iID != s_pPlayer->IDNumber()) // 자기 자신이 아닌 경우 메시지 출력.
@@ -4603,7 +4601,7 @@ void CGameProcMain::MsgRecv_PartyOrForce(DataPack* pDataPack, int& iOffset)
 		case N3_SP_PARTY_OR_FORCE_CLASS_CHANGE:		// 0x07	// Recv - s1(ID), b1(Class)드물지만 전직할때...
 		{
 			int iID			= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
-			e_Class eClass	= (e_Class)(CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset));
+			auto eClass	= (e_Class)(CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset));
 
 			m_pUIPartyOrForce->MemberClassChange(iID, eClass);
 		}
@@ -4612,7 +4610,7 @@ void CGameProcMain::MsgRecv_PartyOrForce(DataPack* pDataPack, int& iOffset)
 		case N3_SP_PARTY_OR_FORCE_STATUS_CHANGE:	// 0x08	// Recv - s1(ID), b1(Status)...독, 저주, 지속성마법, 축복
 		{
 			int iID	=			CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
-			e_PartyStatus ePS =	(e_PartyStatus)CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
+			auto ePS =	(e_PartyStatus)CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
 			int iSuffer = 		CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
 			bool bSuffer = (iSuffer) ? true : false; 
 
@@ -4912,7 +4910,7 @@ void CGameProcMain::MsgRecv_SkillChange(DataPack* pDataPack, int& iOffset)			// 
 
 void CGameProcMain::MsgRecv_MagicProcess(DataPack* pDataPack, int& iOffset)
 {
-	e_SubPacket_Magic eSP = (e_SubPacket_Magic)CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
+	auto eSP = (e_SubPacket_Magic)CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
 	
 	switch ( eSP )
 	{
@@ -4936,7 +4934,7 @@ void CGameProcMain::MsgRecv_MagicProcess(DataPack* pDataPack, int& iOffset)
 
 void CGameProcMain::MsgRecv_ClassChange(DataPack* pDataPack, int& iOffset)			// 직업 변화..
 {
-	e_SubPacket_ClassChange eSP = (e_SubPacket_ClassChange)CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
+	auto eSP = (e_SubPacket_ClassChange)CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
 
 	switch ( eSP )
 	{
@@ -5020,7 +5018,7 @@ void CGameProcMain::MsgRecv_ObjectEvent(DataPack* pDataPack, int& iOffset)
 					::_LoadStringFromResource(IDS_DOOR_CLOSED, szMsg);
 				}
 
-				CN3ShapeExtra* pSE = (CN3ShapeExtra*)pNPC->m_pShapeExtraRef;
+				auto* pSE = (CN3ShapeExtra*)pNPC->m_pShapeExtraRef;
 				if(bShouldBeRotate)
 				{
 					pSE->RotateTo(0, vAxis, fRadian, 1);
@@ -5049,8 +5047,8 @@ void CGameProcMain::ParseChattingCommand(const std::string& szCmd)
 
 	if(0 == lstrcmp(szCmds[0], "goto"))
 	{
-		float fX = (float)atof(szCmds[1]);
-		float fZ = (float)atof(szCmds[2]);
+		auto fX = (float)atof(szCmds[1]);
+		auto fZ = (float)atof(szCmds[2]);
 		
 		int iOffset = 0;
 		CAPISocket::MP_AddByte(byBuff, iOffset, N3_WARP);
@@ -5374,7 +5372,7 @@ void CGameProcMain::UpdateUI_MiniMap()
 	D3DCOLOR crType = 0xffffffff;
 	e_Nation eNation = s_pPlayer->m_InfoBase.eNation;
 
-	it_NPC it = s_pOPMgr->m_NPCs.begin(), itEnd = s_pOPMgr->m_NPCs.end();
+	auto it = s_pOPMgr->m_NPCs.begin(), itEnd = s_pOPMgr->m_NPCs.end();
 	CPlayerNPC* pNPC = nullptr;
 	for(; it != itEnd; it++) // NPC
 	{
@@ -5386,7 +5384,7 @@ void CGameProcMain::UpdateUI_MiniMap()
 		m_pUIStateBarAndMiniMap->PositionInfoAdd(pNPC->IDNumber(), pNPC->Position(), crType, false);
 	}
 
-	it_UPC it2 = s_pOPMgr->m_UPCs.begin(), itEnd2 = s_pOPMgr->m_UPCs.end();
+	auto it2 = s_pOPMgr->m_UPCs.begin(), itEnd2 = s_pOPMgr->m_UPCs.end();
 	CPlayerOther* pUPC = nullptr;
 	__TABLE_ZONE* pZoneInfo = s_pTbl_Zones->Find(s_pPlayer->m_InfoExt.iZoneCur);
 	for(; it2 != itEnd2; it2++) // User
@@ -5469,7 +5467,7 @@ void CGameProcMain::UpdateBGM()
 
 	bool bStopBattleBgm = true;
 	CPlayerBase* pBPC;
-	it_NPC it = s_pOPMgr->m_NPCs.begin(), itEnd = s_pOPMgr->m_NPCs.end();
+	auto it = s_pOPMgr->m_NPCs.begin(), itEnd = s_pOPMgr->m_NPCs.end();
 	for(; it != itEnd && bStopBattleBgm; it++)
 	{
 		pBPC = it->second;
@@ -5480,7 +5478,7 @@ void CGameProcMain::UpdateBGM()
 	}
 
 	CPlayerOther* pUPC;
-	it_UPC it2 = s_pOPMgr->m_UPCs.begin(), itEnd2 = s_pOPMgr->m_UPCs.end();
+	auto it2 = s_pOPMgr->m_UPCs.begin(), itEnd2 = s_pOPMgr->m_UPCs.end();
 	for(; it2 != itEnd2 && bStopBattleBgm; it2++)
 	{
 		pUPC = it2->second;
@@ -5519,7 +5517,7 @@ void CGameProcMain::UpdateCameraAndLight()
 
 void CGameProcMain::MsgRecv_DurabilityChange(DataPack* pDataPack, int& iOffset)		// 내구력 변경..
 {
-	e_ItemSlot eSlot = (e_ItemSlot)CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);	
+	auto eSlot = (e_ItemSlot)CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);	
 	int iCurValue  = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);	
 
 	s_pPlayer->DurabilitySet(eSlot, iCurValue);
@@ -5538,7 +5536,7 @@ void CGameProcMain::MsgRecv_NpcEvent(DataPack* pDataPack, int& iOffset)				// Np
 
 void CGameProcMain::MsgRecv_Knights(DataPack* pDataPack, int& iOffset)
 {
-	e_SubPacket_Knights eSP = (e_SubPacket_Knights)(CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset));	// Sub Packet
+	auto eSP = (e_SubPacket_Knights)(CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset));	// Sub Packet
 
 	switch(eSP)
 	{
@@ -5685,7 +5683,7 @@ void CGameProcMain::MsgRecv_Knights(DataPack* pDataPack, int& iOffset)
 
 void CGameProcMain::MsgRecv_KnightsListBasic(DataPack* pDataPack, int& iOffset) // 기사단 기본 정보 받기..
 {
-	e_SubPacket_KnightsList eSP = (e_SubPacket_KnightsList)(CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset));	// Sub Packet
+	auto eSP = (e_SubPacket_KnightsList)(CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset));	// Sub Packet
 	switch(eSP)
 	{
 	case N3_SP_KNIGHTS_LIST_BASIC_ALL: // Receive - s1(knights Count) { s21(id, 이름길이), str1(이름) }
@@ -6245,7 +6243,7 @@ void CGameProcMain::MsgRecv_Knights_Withdraw(DataPack* pDataPack, int& iOffset)
 			else
 			{
 				int iKnightsID = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
-				e_KnightsDuty eKnightsDuty = (e_KnightsDuty)CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
+				auto eKnightsDuty = (e_KnightsDuty)CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
 
 				CPlayerOther* pUPC = s_pOPMgr->UPCGetByID(sid, true);
 				if(pUPC)
@@ -6290,7 +6288,7 @@ void CGameProcMain::MsgRecv_Knights_Join(DataPack* pDataPack, int& iOffset)
 		{
 			int sid = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
 			int iID = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
-			e_KnightsDuty eDuty = (e_KnightsDuty)CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
+			auto eDuty = (e_KnightsDuty)CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
 			int iL = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // 소속 기사단 이름 길이.
 			std::string szKnightsName;
 			CAPISocket::Parse_GetString(pDataPack->m_pData, iOffset, szKnightsName, iL);
@@ -6380,7 +6378,7 @@ void CGameProcMain::MsgRecv_Knights_Leave(DataPack* pDataPack, int& iOffset)
 		{
 			int sid = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
 			int iID = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
-			e_KnightsDuty eDuty = (e_KnightsDuty)CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
+			auto eDuty = (e_KnightsDuty)CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
 			int iL = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // 소속 기사단 이름 길이.
 			std::string szKnightsName;
 			CAPISocket::Parse_GetString(pDataPack->m_pData, iOffset, szKnightsName, iL);
@@ -6465,7 +6463,7 @@ void CGameProcMain::MsgRecv_Knights_AppointViceChief(DataPack* pDataPack, int& i
 	case N3_SP_KNIGHTS_COMMON_SUCCESS: //클랜가입 성공
 		{
 			int iID = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
-			e_KnightsDuty eDuty = (e_KnightsDuty)CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
+			auto eDuty = (e_KnightsDuty)CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
 
 			s_pPlayer->m_InfoExt.iKnightsID = iID;
 			s_pPlayer->m_InfoExt.eKnightsDuty = eDuty;
@@ -6556,7 +6554,7 @@ void CGameProcMain::MsgRecv_Knights_GradeChangeAll(DataPack* pDataPack, int& iOf
 		iRanks[i] = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
 	}
 
-	it_UPC it = s_pOPMgr->m_UPCs.begin(), itEnd = s_pOPMgr->m_UPCs.end();
+	auto it = s_pOPMgr->m_UPCs.begin(), itEnd = s_pOPMgr->m_UPCs.end();
 	for(; it != itEnd; it++)
 	{
 		CPlayerOther* pUPC = it->second;
@@ -6587,7 +6585,7 @@ void CGameProcMain::MsgRecv_Knights_Duty_Change(DataPack* pDataPack, int& iOffse
 		{
 			int sid = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
 			int iID = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
-			e_KnightsDuty eDuty = (e_KnightsDuty)CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
+			auto eDuty = (e_KnightsDuty)CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
 
 			if(s_pPlayer->IDNumber()==sid)
 			{

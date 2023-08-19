@@ -159,7 +159,7 @@ DWORD CUIDead::MouseProc(DWORD dwFlags, const POINT &ptCur, const POINT &ptOld)
 		return dwRet;
 
 	// child에게 메세지 전달
-	for(UIListItor itor = m_Children.begin(); m_Children.end() != itor; ++itor)
+	for(auto itor = m_Children.begin(); m_Children.end() != itor; ++itor)
 	{
 		CN3UIBase* pChild = (*itor);
 

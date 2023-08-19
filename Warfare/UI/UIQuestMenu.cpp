@@ -71,7 +71,7 @@ void CUIQuestMenu::Render()
 {
 	if (!m_bVisible) return;	// 보이지 않으면 자식들을 render하지 않는다.
 
-	for(UIListReverseItor itor = m_ReSizeChildren.rbegin(); m_ReSizeChildren.rend() != itor; ++itor)
+	for(auto itor = m_ReSizeChildren.rbegin(); m_ReSizeChildren.rend() != itor; ++itor)
 	{
 		CN3UIBase* pChild = (*itor);
 		pChild->Render();
@@ -124,7 +124,7 @@ DWORD CUIQuestMenu::MouseProc(DWORD dwFlags, const POINT &ptCur, const POINT &pt
 		return dwRet;
 
 	// child에게 메세지 전달
-	for(UIListItor itor = m_ReSizeChildren.begin(); m_ReSizeChildren.end() != itor; ++itor)
+	for(auto itor = m_ReSizeChildren.begin(); m_ReSizeChildren.end() != itor; ++itor)
 	{
 		CN3UIBase* pChild = (*itor);
 
@@ -210,7 +210,7 @@ BOOL CUIQuestMenu::MoveOffset(int iOffsetX, int iOffsetY)
 
 	// children 좌표 갱신
 	// Child UI...
-	for(UIListItor itor = m_ReSizeChildren.begin(); m_ReSizeChildren.end() != itor; ++itor)
+	for(auto itor = m_ReSizeChildren.begin(); m_ReSizeChildren.end() != itor; ++itor)
 	{
 		CN3UIBase* pCUI = (*itor);
 		__ASSERT(pCUI, "child UI pointer is NULL!");
@@ -276,7 +276,7 @@ void CUIQuestMenu::Open(DataPack *pDataPack, int &iOffset)
 	m_pImageCenter->SetRegion(m_rcCImage);
 
 	m_ReSizeChildren.clear();
-	for(UIListItor itor = m_Children.begin(); m_Children.end() != itor; ++itor)
+	for(auto itor = m_Children.begin(); m_Children.end() != itor; ++itor)
 	{
 		CN3UIBase* pChild = (*itor);
 		m_ReSizeChildren.push_back(pChild);

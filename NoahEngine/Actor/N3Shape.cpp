@@ -761,7 +761,7 @@ bool CN3Shape::Save(HANDLE hFile)
 void CN3Shape::PartDelete(int iIndex)
 {
 	if(iIndex < 0 || iIndex >= m_Parts.size()) return;
-	it_SPart it = m_Parts.begin();
+	auto it = m_Parts.begin();
 	for(int i = 0; i < iIndex; i++, it++);
 	delete *it;
 	m_Parts.erase(it);
@@ -939,7 +939,7 @@ bool CN3Shape::MakeCollisionMeshByParts()  // 충돌 메시를 박스로 만든�
 
 	if(iVC <= 0 || iIC <= 0) return false;
 
-	CN3VMesh* pVMesh = new CN3VMesh();
+	auto* pVMesh = new CN3VMesh();
 	pVMesh->CreateVertices(iVC);
 	pVMesh->CreateIndex(iIC);
 
@@ -1011,7 +1011,7 @@ bool CN3Shape::MakeCollisionMeshByPartsDetail()  // 현재 모습 그대로... �
 
 	if(iVC <= 0 || iIC <= 0) return false;
 
-	CN3VMesh* pVMesh = new CN3VMesh();
+	auto* pVMesh = new CN3VMesh();
 	pVMesh->CreateVertices(iVC);
 	pVMesh->CreateIndex(iIC);
 

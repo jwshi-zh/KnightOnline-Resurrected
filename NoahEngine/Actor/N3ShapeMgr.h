@@ -6,6 +6,7 @@
 #include "N3BaseFileAccess.h"
 #endif // end of #ifndef _3DSERVER
 
+class CN3Shape;
 
 const int CELL_MAIN_DEVIDE = 4; // 메인셀은 4 X 4 의 서브셀로 나뉜다..
 const int CELL_SUB_SIZE = 4; // 4 Meter 가 서브셀의 사이즈이다..
@@ -18,8 +19,7 @@ class CN3ShapeMgr
 #else
 #include <list>
 #include <vector>
-typedef std::list<class CN3Shape*>::iterator	it_Shp;
-typedef std::list<__Vector3>::iterator			it_Vector3;
+
 class CN3ShapeMgr : public CN3BaseFileAccess
 #endif // end of #ifndef _3DSERVER
 {

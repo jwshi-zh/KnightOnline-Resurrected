@@ -759,10 +759,9 @@ void CN3TerrainPatch::Render()
 		if(m_pRefColorTex->Get()) hr = CN3Base::s_lpD3DDev->SetTexture( 0, m_pRefColorTex->Get() );
 		else hr = CN3Base::s_lpD3DDev->SetTexture( 0, nullptr);
 
-		FIIt it;
 		int vc = 0;
 		int fc;
-		for(it = m_FanInfoList.begin(); it != m_FanInfoList.end(); it++)
+		for(auto it = m_FanInfoList.begin(); it != m_FanInfoList.end(); it++)
 		{
 			fc = it->NumFace;
 			hr = CN3Base::s_lpD3DDev->DrawPrimitive( D3DPT_TRIANGLEFAN, vc, fc);

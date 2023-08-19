@@ -202,9 +202,6 @@ const int MAX_CHR_ANI_PART = 2; // 0 - 상체, 1 - 하체 ::: 관절들을 나�
 const int MAX_PLUG_TRACE = 2; // 최대 두개의 무기 궤적을 남긴다..
 const int MAX_PLUG_TRACE_VERTEX = 64; // 무기 궤적 점의 수.. 점 8 개로는 잔상이 3단계로 남는다..
 
-typedef std::vector<CN3CPart*>::iterator	it_CPart;
-typedef std::vector<CN3CPlug*>::iterator	it_CPlug;
-
 class CN3Chr : public CN3TransformCollision
 {
 	friend class CPlayerBase;
@@ -298,14 +295,16 @@ public:
 	void		PartAlloc(int nCount);
 	int			PartCount() { return m_Parts.size(); }
 	CN3CPart*	PartSet(int iIndex, const std::string& szFN);
-	CN3CPart*  	PartAdd() { CN3CPart* pPart = new CN3CPart(); m_Parts.push_back(pPart); return pPart; }
+	CN3CPart*  	PartAdd() {
+		auto* pPart = new CN3CPart(); m_Parts.push_back(pPart); return pPart; }
 	CN3CPart*	Part(int iIndex) { if(iIndex < 0 || iIndex >= m_Parts.size()) return nullptr; return m_Parts[iIndex]; }
 
 	void		PlugDelete(int iIndex);
 	void		PlugAlloc(int nCount);
 	int			PlugCount() { return m_Plugs.size(); }
 	CN3CPlug*	PlugSet(int iIndex, const std::string& szFN);
-	CN3CPlug*	PlugAdd(e_PlugType eType=PLUGTYPE_NORMAL) { CN3CPlug* pPlug = new CN3CPlug(); m_Plugs.push_back(pPlug); return pPlug; }
+	CN3CPlug*	PlugAdd(e_PlugType eType=PLUGTYPE_NORMAL) {
+		auto* pPlug = new CN3CPlug(); m_Plugs.push_back(pPlug); return pPlug; }
 	CN3CPlug*	Plug(int iIndex) { if(iIndex < 0 || iIndex >= m_Plugs.size()) return nullptr; return m_Plugs[iIndex]; }
 
 	void		Tick(float fFrm = FRAME_SELFPLAY);

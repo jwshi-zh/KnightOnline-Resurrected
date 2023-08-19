@@ -40,7 +40,7 @@ void CN3UIButton::SetRegion(const RECT& Rect)
 {
 	CN3UIBase::SetRegion(Rect);
 	SetClickRect(Rect);
-	for(UIListItor itor = m_Children.begin(); m_Children.end() != itor; ++itor)
+	for(auto itor = m_Children.begin(); m_Children.end() != itor; ++itor)
 	{
 		(*itor)->SetRegion(Rect);
 	}
@@ -85,7 +85,7 @@ void CN3UIButton::Render()
 	}
 
 	int i = 0;
-	for(UIListReverseItor itor = m_Children.rbegin(); m_Children.rend() != itor; ++itor)
+	for(auto itor = m_Children.rbegin(); m_Children.rend() != itor; ++itor)
 	{
 		CN3UIBase* pChild = (*itor);
 		for(auto i = 0; i < NUM_BTN_STATE; i++) // 버튼의 구성 요소가 아닌지 보고..
@@ -239,7 +239,7 @@ bool CN3UIButton::Load(HANDLE hFile)
 	ReadFile(hFile, &m_rcClick, sizeof(m_rcClick), &dwNum, nullptr);	// click 영역
 
 	// m_ImageRef 설정하기
-	for(UIListItor itor = m_Children.begin(); m_Children.end() != itor; ++itor)
+	for(auto itor = m_Children.begin(); m_Children.end() != itor; ++itor)
 	{
 		CN3UIBase* pChild = (*itor);
 		if (UI_TYPE_IMAGE != pChild->UIType()) continue;	// image만 골라내기

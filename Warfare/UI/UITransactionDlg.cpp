@@ -81,7 +81,7 @@ void CUITransactionDlg::Render()
 	bool bTooltipRender = false;
 	__IconItemSkill* spItem = nullptr;
 
-	for (UIListReverseItor itor = m_Children.rbegin(); m_Children.rend() != itor; ++itor)
+	for (auto itor = m_Children.rbegin(); m_Children.rend() != itor; ++itor)
 	{
 		CN3UIBase* pChild = (*itor);
 		if ((GetState() == UI_STATE_ICON_MOVING) && (pChild->UIType() == UI_TYPE_ICON) && (CN3UIWndBase::m_sSelectedIconInfo.pItemSelect) &&
@@ -1504,9 +1504,9 @@ bool CUITransactionDlg::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 
 CN3UIBase* CUITransactionDlg::GetChildButtonByName(const std::string& szFN)
 {
-	for (UIListItor itor = m_Children.begin(); m_Children.end() != itor; ++itor)
+	for (auto itor = m_Children.begin(); m_Children.end() != itor; ++itor)
 	{
-		CN3UIBase* pChild = (CN3UIBase*)(*itor);
+		auto* pChild = (CN3UIBase*)(*itor);
 		if ((pChild->UIType() == UI_TYPE_BUTTON) && (szFN.compare(pChild->m_szID) == 0))
 			return pChild;
 	}

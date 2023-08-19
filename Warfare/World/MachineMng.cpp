@@ -16,7 +16,7 @@ CMachineMng::~CMachineMng()
 void CMachineMng::Release()
 {
 	CMachineBase*	pMachine = nullptr;
-	it_Machine it = m_Machines.begin();
+	auto it = m_Machines.begin();
 	int iSize = m_Machines.size();
 	for(int i = 0; i < iSize; i++, it++)
 	{
@@ -148,7 +148,7 @@ void CMachineMng::AddMachine(ReplyMsg& RPMsg)
 */
 void CMachineMng::Render()
 {
-	it_Machine it = m_Machines.begin();
+	auto it = m_Machines.begin();
 	int iSize = m_Machines.size();
 	for(int i = 0; i < iSize; i++, it++)
 	{
@@ -159,7 +159,7 @@ void CMachineMng::Render()
 
 void CMachineMng::Tick()
 {
-	it_Machine it = m_Machines.begin();
+	auto it = m_Machines.begin();
 	int iSize = m_Machines.size();
 	for(int i = 0; i < iSize; i++, it++)
 	{
@@ -182,7 +182,7 @@ CMachineBase* CMachineMng::GetMachine(const std::string& szID)
 {
 	if(szID.empty()) return nullptr;
 
-	it_Machine it = m_Machines.begin();
+	auto it = m_Machines.begin();
 	int iSize = m_Machines.size();
 	for(int i = 0; i < iSize; i++, it++)
 	{

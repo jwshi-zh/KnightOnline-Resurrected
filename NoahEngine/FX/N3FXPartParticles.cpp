@@ -891,7 +891,7 @@ void CN3FXPartParticles::InitVB()
 
 	for(auto i =0;i<m_iNumParticle;i++)
 	{
-		CN3FXParticle* pParticle = new CN3FXParticle;
+		auto* pParticle = new CN3FXParticle;
 		pParticle->m_iID = i * NUM_VERTEX_PARTICLE;
 		m_pVBList_Dead.push_back(pParticle);
 	}
@@ -948,7 +948,7 @@ void CN3FXPartParticles::CreateParticles_Spread()
 		if(m_uEmitCon.fEmitAngle!=0) fUnitAngleXZ = (float)(rand()%(int)m_uEmitCon.fEmitAngle) - (m_uEmitCon.fEmitAngle/2.0f);
 		else fUnitAngleXZ = 0.0f;
 
-		float fUnitAxisZ = (float)(rand()%360);
+		auto fUnitAxisZ = (float)(rand()%360);
 
 		vDir.Set(sin(D3DXToRadian(fUnitAngleXZ)), 0, cos(D3DXToRadian(fUnitAngleXZ)));
 		
@@ -1461,12 +1461,12 @@ void CN3FXPartParticles::PMerge(std::list<CN3FXParticle*>& l1, std::list<CN3FXPa
 {
 	if (&l1 != &l2)
 	{
-		std::list<CN3FXParticle*>::iterator _F1 = l1.begin(), _L1 = l1.end();
-		std::list<CN3FXParticle*>::iterator _F2 = l2.begin(), _L2 = l2.end();
+		auto _F1 = l1.begin(), _L1 = l1.end();
+		auto _F2 = l2.begin(), _L2 = l2.end();
 		while (_F1 != _L1 && _F2 != _L2)
 			if (PComp(*_F2, *_F1))
 			{
-				std::list<CN3FXParticle*>::iterator _Mid2 = _F2;
+				auto _Mid2 = _F2;
 				l1.splice(_F1, l2, _F2, ++_Mid2);
 				_F2 = _Mid2;
 			}

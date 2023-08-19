@@ -14,9 +14,6 @@ struct __ChatInfo
 	__ChatInfo(const std::string& szChat_Arg, D3DCOLOR color_Arg) { szChat = szChat_Arg; color = color_Arg; }
 };
 
-typedef deque<__ChatInfo*>			ChatList;
-typedef ChatList::iterator			ChatListItor;
-typedef ChatList::reverse_iterator	ChatListReverseItor;
 const int MAX_CHAT_LINES = 100;
 
 class CUIChat : public CN3UIBase  
@@ -24,9 +21,9 @@ class CUIChat : public CN3UIBase
 protected:
 //	ChatList		m_ChatBuffers[CHAT_BUFFER_COUNT];		// 채팅 packet기준으로 된 buffer
 //	ChatList		m_LineBuffers[CHAT_BUFFER_COUNT];		// Line 기준으로 된 buffer
-	ChatList		m_ChatBuffer;		// 채팅 packet기준으로 된 buffer
-	ChatList		m_LineBuffer;		// Line 기준으로 된 buffer
-	ChatList		m_ContinueMsg;		// 지속적으로 공지해주는 메시지 buffer
+	deque<__ChatInfo*>		m_ChatBuffer;		// 채팅 packet기준으로 된 buffer
+	deque<__ChatInfo*>		m_LineBuffer;		// Line 기준으로 된 buffer
+	deque<__ChatInfo*>		m_ContinueMsg;		// 지속적으로 공지해주는 메시지 buffer
 	int				m_iCurContinueMsg;
 
 	CN3UIString*	m_pNoticeTitle;		// 채팅창 맨윗줄에 표시될 공지...

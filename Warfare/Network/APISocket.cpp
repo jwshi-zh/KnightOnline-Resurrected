@@ -372,7 +372,7 @@ BOOL CAPISocket::ReceiveProcess()
 #ifdef _CRYPTION
 					DataPack *pDP = new DataPack(siCore, pData+4, FALSE);
 #else
-					DataPack *pDP = new DataPack(siCore, pData+4);
+					auto*pDP = new DataPack(siCore, pData+4);
 #endif
 
 					m_qRecvPkt.push(pDP);

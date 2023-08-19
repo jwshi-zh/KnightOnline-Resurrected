@@ -3,8 +3,8 @@
 #include "N3Eng.h"
 #include <list>
 
-typedef std::list<class CN3Light*>::iterator		it_Light;
-typedef std::list<class CN3Camera*> ::iterator	it_Camera;
+class CN3Camera;
+class CN3Light;
 
 // 카메라 시점
 enum e_ViewPoint		{	VP_BACKWARD = 0,			// 플레이어 등 뒤에서 바라본 모습 1.5인칭
@@ -102,7 +102,7 @@ inline CN3Light* CGameEng::Light(int index)
 inline CN3Camera* CGameEng::Camera(int index)
 {
 	if(index < 0 || index >= m_Cameras.size()) return nullptr;
-	it_Camera itCam = m_Cameras.begin();
+	auto itCam = m_Cameras.begin();
 	for(int i = 0; i < index; i++, itCam++);
 
 	return *itCam;

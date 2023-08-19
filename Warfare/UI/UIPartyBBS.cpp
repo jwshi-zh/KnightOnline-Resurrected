@@ -269,7 +269,7 @@ void CUIPartyBBS::RefreshPage()
 
 	ResetContent();
 
-	it_PartyBBS it = m_Datas.begin();
+	auto it = m_Datas.begin();
 
 	std::string szDuty, szClass;
 	for(auto i = 0 ; i < PARTY_BBS_MAXLINE ; i++ )
@@ -438,7 +438,7 @@ void CUIPartyBBS::RequestWhisper()
 	if(m_iCurIndex <= -1)
 		return;
 
-	it_PartyBBS it = m_Datas.begin();
+	auto it = m_Datas.begin();
 
 	for(auto i = 0 ; i < PARTY_BBS_MAXLINE ; i++, it++ )
 	{
@@ -460,7 +460,7 @@ void CUIPartyBBS::RequestParty()
 	if(m_iCurIndex <= -1)
 		return;
 
-	it_PartyBBS it = m_Datas.begin();
+	auto it = m_Datas.begin();
 
 	for(auto i = 0 ; i < PARTY_BBS_MAXLINE ; i++, it++ )
 	{
