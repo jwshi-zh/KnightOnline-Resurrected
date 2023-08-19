@@ -10,9 +10,9 @@ typedef struct __AnimData
 public:
 	std::string	szName;
 
-	float	fFrmStart; // 상체 시작
-	float	fFrmEnd; // 상체 끝
-	float	fFrmPerSec; // 초당 30프레임이 표준이다..
+	float	fFrmStart; // upper body start
+	float	fFrmEnd; // upper body end
+	float	fFrmPerSec; // 30 frames per second is standard.
 
 	float	fFrmPlugTraceStart;
 	float	fFrmPlugTraceEnd;
@@ -20,21 +20,21 @@ public:
 	float	fFrmSound0;
 	float	fFrmSound1;
 
-	float	fTimeBlend; // 다른 동작과 연결시 블렌딩 시간
-	int		iBlendFlags; // 블렌딩 플래그 0 이면 걍 블렌딩.. 1이면 루핑시 블렌딩 타임만큼 시간 지연
+	float	fTimeBlend; // Blending time when connected with other actions
+	int		iBlendFlags; // If the blending flag is 0, just blending. If it is 1, the time delay is equal to the blending time when looping.
 	
 	float	fFrmStrike0;
 	float	fFrmStrike1;
 	
 	__AnimData()
 	{
-		fFrmPerSec = 30.0f; // 초당 30프레임이 표준이다..
+		fFrmPerSec = 30.0f; // 30 frames per second is standard.
 
 		fFrmStart = fFrmEnd = 0;
 		fFrmPlugTraceStart = fFrmPlugTraceEnd = 0;
 		fFrmSound0 = fFrmSound1 = 0;
-		fTimeBlend = 0.25f; // 기본 블렌딩 시간..
-		iBlendFlags = 0; // 블렌딩 플래그 0 이면 걍 블렌딩.. 1이면 루핑시 블렌딩 타임만큼 시간 지연
+		fTimeBlend = 0.25f; // Basic blending time..
+		iBlendFlags = 0; // If the blending flag is 0, just blending. If it is 1, the time delay is equal to the blending time when looping.
 		fFrmStrike0 = fFrmStrike1 = 0;
 	}
 	
@@ -51,7 +51,7 @@ public:
 		fFrmSound1 = other.fFrmSound1;
 
 		fTimeBlend = other.fTimeBlend;
-		iBlendFlags = other.iBlendFlags; // 블렌딩 플래그 0 이면 걍 블렌딩.. 1이면 루핑시 블렌딩 타임만큼 시간 지연
+		iBlendFlags = other.iBlendFlags;
 		
 		fFrmStrike0 = other.fFrmStrike0;
 		fFrmStrike1 = other.fFrmStrike1;
@@ -66,11 +66,11 @@ public:
 		DWORD dwRWC = 0;
 
 		int nL = 0;
-		ReadFile(hFile, &nL, 4, &dwRWC, nullptr); // 원래는 문자열 포인터가 있던자리이다.. 호환성을 위헤서.. 걍...
+		ReadFile(hFile, &nL, 4, &dwRWC, nullptr);
 
-		ReadFile(hFile, &fFrmStart, 4, &dwRWC, nullptr); // 상체 시작
-		ReadFile(hFile, &fFrmEnd, 4, &dwRWC, nullptr); // 상체 끝
-		ReadFile(hFile, &fFrmPerSec, 4, &dwRWC, nullptr); // 초당 30프레임이 표준이다..
+		ReadFile(hFile, &fFrmStart, 4, &dwRWC, nullptr);
+		ReadFile(hFile, &fFrmEnd, 4, &dwRWC, nullptr);
+		ReadFile(hFile, &fFrmPerSec, 4, &dwRWC, nullptr);
 
 		ReadFile(hFile, &fFrmPlugTraceStart, 4, &dwRWC, nullptr);
 		ReadFile(hFile, &fFrmPlugTraceEnd, 4, &dwRWC, nullptr);
@@ -79,7 +79,7 @@ public:
 		ReadFile(hFile, &fFrmSound1, 4, &dwRWC, nullptr);
 
 		ReadFile(hFile, &fTimeBlend, 4, &dwRWC, nullptr);
-		ReadFile(hFile, &iBlendFlags, 4, &dwRWC, nullptr); // 블렌딩 플래그 0 이면 걍 블렌딩.. 1이면 루핑시 블렌딩 타임만큼 시간 지연
+		ReadFile(hFile, &iBlendFlags, 4, &dwRWC, nullptr);
 		
 		ReadFile(hFile, &fFrmStrike0, 4, &dwRWC, nullptr);
 		ReadFile(hFile, &fFrmStrike1, 4, &dwRWC, nullptr);
@@ -101,11 +101,11 @@ public:
 		DWORD dwRWC = 0;
 
 		int nL = 0;
-		WriteFile(hFile, &nL, 4, &dwRWC, nullptr); // 원래는 문자열 포인터가 있던자리이다.. 호환성을 위헤서.. 걍...
+		WriteFile(hFile, &nL, 4, &dwRWC, nullptr);
 
-		WriteFile(hFile, &fFrmStart, 4, &dwRWC, nullptr); // 상체 시작
-		WriteFile(hFile, &fFrmEnd, 4, &dwRWC, nullptr); // 상체 끝
-		WriteFile(hFile, &fFrmPerSec, 4, &dwRWC, nullptr); // 초당 30프레임이 표준이다..
+		WriteFile(hFile, &fFrmStart, 4, &dwRWC, nullptr);
+		WriteFile(hFile, &fFrmEnd, 4, &dwRWC, nullptr);
+		WriteFile(hFile, &fFrmPerSec, 4, &dwRWC, nullptr);
 
 		WriteFile(hFile, &fFrmPlugTraceStart, 4, &dwRWC, nullptr);
 		WriteFile(hFile, &fFrmPlugTraceEnd, 4, &dwRWC, nullptr);
@@ -114,12 +114,11 @@ public:
 		WriteFile(hFile, &fFrmSound1, 4, &dwRWC, nullptr);
 
 		WriteFile(hFile, &fTimeBlend, 4, &dwRWC, nullptr);
-		WriteFile(hFile, &iBlendFlags, 4, &dwRWC, nullptr); // 블렌딩 플래그 0 이면 걍 블렌딩.. 1이면 루핑시 블렌딩 타임만큼 시간 지연
+		WriteFile(hFile, &iBlendFlags, 4, &dwRWC, nullptr);
 		
 		WriteFile(hFile, &fFrmStrike0, 4, &dwRWC, nullptr);
 		WriteFile(hFile, &fFrmStrike1, 4, &dwRWC, nullptr);
 
-		// 이름 읽기..
 		nL = szName.size();
 		WriteFile(hFile, &nL, 4, &dwRWC, nullptr);
 		if(nL > 0) WriteFile(hFile, szName.c_str(), nL, &dwRWC, nullptr);
@@ -147,7 +146,7 @@ public:
 class CN3AnimControl : public CN3BaseFileAccess
 {
 protected:
-	std::vector<__AnimData>		m_Datas; // animation Data List
+	std::vector<__AnimData>		m_Datas;
 
 public:
 	__AnimData* DataGet(int index) { if(index < 0 || index >= m_Datas.size()) return nullptr; return &(m_Datas[index]); }

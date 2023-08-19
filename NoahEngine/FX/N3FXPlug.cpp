@@ -72,10 +72,8 @@ void CN3FXPlugPart::Tick(const __Matrix44& mtxParent) const
 {
 	if (m_pFXB)
 	{
-		// 위치
 		m_pFXB->m_vPos = m_vOffsetPos*mtxParent;
 
-		// 회전
 		static __Matrix44 mtxRot;
 		mtxRot = mtxParent; mtxRot.PosSet(0,0,0);
 		m_pFXB->m_vDir = m_vOffsetDir*mtxRot;
@@ -89,7 +87,6 @@ void CN3FXPlugPart::Tick(const CN3Chr* pChr)
 	__ASSERT(pChr, "no chr");
 	if (m_pFXB)
 	{
-		// 위치
 		const __Matrix44* pMtxJoint = pChr->MatrixGet(m_nRefIndex);
 		if (nullptr == pMtxJoint) return;
 
@@ -98,7 +95,6 @@ void CN3FXPlugPart::Tick(const CN3Chr* pChr)
 		mtx *= pChr->m_Matrix;
 		m_pFXB->m_vPos = m_vOffsetPos*mtx;
 		
-		// 회전
 		mtx.PosSet(0,0,0);
 		m_pFXB->m_vDir = m_vOffsetDir*mtx;
 
@@ -117,10 +113,10 @@ void CN3FXPlugPart::SetFXB(const std::string& strFN)
 	else m_pFXB->Release();
 	m_pFXB->LoadFromFile(strFN);
 
-	m_vOffsetPos = m_pFXB->m_vPos;	//일단 FXB에 설정되어 있는 vPos와 vDir값을 가져와서 적용.
+	m_vOffsetPos = m_pFXB->m_vPos;	// Once the vPos and vDir values set in FXB are imported and applied.
 	m_vOffsetDir = m_pFXB->m_vDir;
 
-	m_pFXB->Init();					// FX 나오게 하기
+	m_pFXB->Init();
 	m_pFXB->Trigger();
 }
 
@@ -134,8 +130,6 @@ void CN3FXPlugPart::TriggerFXB()
 	if (m_pFXB) m_pFXB->Trigger();
 }
 
-////////////////////////////////////////////////////////////////////////////////////
-// CN3FXPlug
 CN3FXPlug::CN3FXPlug()
 {
 	m_dwType |= OBJ_FX_PLUG;
@@ -163,7 +157,7 @@ bool CN3FXPlug::Load(HANDLE hFile)
 	__ASSERT(0 == m_FXPParts.size(), "must 0");
 	DWORD dwNum;
 	int i, nCount;
-	ReadFile(hFile, &nCount, sizeof(nCount), &dwNum, nullptr);		// Part의 갯수
+	ReadFile(hFile, &nCount, sizeof(nCount), &dwNum, nullptr);
 
 	if (nCount > 0) m_FXPParts.assign(nCount, nullptr);
 	for(auto i =0; i<nCount; ++i)
@@ -210,29 +204,28 @@ bool CN3FXPlug::Save(HANDLE hFile)
 {
 	if (false == CN3BaseFileAccess::Save(hFile)) return false;
 
-	RemoveFXPParts_HaveNoBundle();	// 번들 없는 파트들 지우기
+	RemoveFXPParts_HaveNoBundle();	// Clear unbundled parts
 
 	DWORD dwNum;
 	int i, nCount = m_FXPParts.size();
-	WriteFile(hFile, &nCount, sizeof(nCount), &dwNum, NULL);		// Part의 갯수
+	WriteFile(hFile, &nCount, sizeof(nCount), &dwNum, NULL);
 	for(auto i =0; i<nCount; ++i)	m_FXPParts[i]->Save(hFile);
 
 	return true;
 }
 
-void CN3FXPlug::RemoveFXPParts_HaveNoBundle()	// 번들 없는 Part들 제거하기
+void CN3FXPlug::RemoveFXPParts_HaveNoBundle()
 {
 	int i, nCount = m_FXPParts.size();
 	for(auto i =0; i<nCount; ++i)
 	{
 		if (m_FXPParts[i] && NULL == m_FXPParts[i]->GetFXB())
 		{
-			delete m_FXPParts[i];								// FXB가 없으면 이 파트는 지운다.
+			delete m_FXPParts[i];
 			m_FXPParts[i] = NULL;
 		}
 	}
 
-	// NULL인 포인터들을 없앤다.
 	std::vector<CN3FXPlugPart*>::iterator itor;
 	for (itor = m_FXPParts.begin(); itor != m_FXPParts.end();)
 	{

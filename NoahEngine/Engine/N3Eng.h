@@ -10,21 +10,21 @@ public:
 	{
 		char	szDeviceName[128];
 		char	szDeviceDesc[128];
-		int		nAdapter; // 몇번째 그래픽 카드인지.
-		int		nDevice; // 몇번째 장치인지.
+		int		nAdapter;
+		int		nDevice;
 		
-		D3DDEVTYPE		DevType; // 하드웨어 가속인지.
-		int				nModeCount; // 디스플레이 모드 갯수
-		D3DDISPLAYMODE* pModes; // 디스플레이 모드
+		D3DDEVTYPE		DevType;
+		int				nModeCount;
+		D3DDISPLAYMODE* pModes;
 	} __D3DDevInfo;
 
 	LPDIRECT3D9			m_lpD3D;
 	LPDIRECTDRAW		m_lpDD;
 
 protected:
-	int		m_nModeActive; // 현재 선택된 Mode
-	int		m_nAdapterCount; // 그래픽 카드 갯수
-	__D3DDEV_INFO m_DeviceInfo; // Device 정보	
+	int		m_nModeActive;
+	int		m_nAdapterCount;
+	__D3DDEV_INFO m_DeviceInfo;
 	
 public:
 	

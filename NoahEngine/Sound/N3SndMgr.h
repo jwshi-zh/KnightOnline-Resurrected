@@ -11,14 +11,14 @@ class CN3SndObjStream;
 class CN3SndMgr
 {
 protected:
-	CN3TableBase<__TABLE_SOUND>			m_Tbl_Source; // 사운드 소스 정보 테이블..
+	CN3TableBase<__TABLE_SOUND>			m_Tbl_Source;
 
 	bool								m_bSndEnable;
 	bool								m_bSndDuplicated;
 	std::map<std::string, CN3SndObj*>	m_SndObjSrcs;
-	std::list<CN3SndObjStream*>			m_SndObjStreams;	// 스트리밍 사운드..
+	std::list<CN3SndObjStream*>			m_SndObjStreams;
 	std::list<CN3SndObj*>				m_SndObjs_Duplicated;
-	std::list<CN3SndObj*>				m_SndObjs_PlayOnceAndRelease;	// 한번만 플레이 하고 릴리즈 해야 하는 사운드들
+	std::list<CN3SndObj*>				m_SndObjs_PlayOnceAndRelease;
 	
 public:
 	void		ReleaseObj(CN3SndObj** ppObj);

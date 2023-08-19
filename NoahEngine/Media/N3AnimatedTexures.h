@@ -2,7 +2,7 @@
 
 #include "N3BaseFileAccess.h"
 #include <vector>
-#include "N3Texture.h"	// Added by ClassView
+#include "N3Texture.h"
 
 class CN3AnimatedTexures : public CN3BaseFileAccess
 {

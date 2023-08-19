@@ -48,8 +48,6 @@ bool CN3FXParticle::Tick()
 	if(m_pRefParent->m_bChangeColor && m_fCurrLife >= m_fLife) return false;
 	if(!m_pRefParent->m_bChangeColor && m_fCurrLife >= (m_pRefParent->m_fFadeIn + m_fLife + m_pRefParent->m_fFadeOut)) return false;
 
-	///////////////////////////////////////////////
-	//현재처리..
 	__Quaternion qt;
 	qt.RotationAxis(m_vAxis, m_fRot);
 
@@ -81,8 +79,6 @@ bool CN3FXParticle::Tick()
 		m_pVB[i].tv = m_pRefParent->m_vUnit[i].tv;
 	}
 	
-	///////////////////////////////////////////////
-	//다음준비..
 	m_vLcPos += m_vVelocity * CN3Base::s_fSecPerFrm;
 
 	if(m_pRefParent->m_bChangeColor)

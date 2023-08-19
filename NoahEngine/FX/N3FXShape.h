@@ -13,9 +13,9 @@ friend class CN3FXShape;
 
 public:
 	__Material	m_Mtl;					// Material
-	__Vector3	m_vPivot;				// Local 축
-	__Matrix44	m_WorldMtx;				// World Matrix.. Shape Loading 때 미리 계산해야 좋다..		
-	BOOL		m_bOutOfCameraRange;	// Camera 범위 바깥에 있음...
+	__Vector3	m_vPivot;				// Local
+	__Matrix44	m_WorldMtx;				// World Matrix.. It is good to calculate in advance when loading the shape.	
+	BOOL		m_bOutOfCameraRange;	// Out of scope of Camera...
 
 	float		m_fTexFPS;				// Texture Animation Interval;
 	bool		m_bTexLoop;
@@ -26,7 +26,7 @@ protected:
 	std::vector<CN3Texture*>	m_TexRefs;		// Texture Reference Pointers
 	CN3FXPMeshInstance			m_FXPMInst;		// Progressive Mesh Instance
 
-	float						m_fTexIndex;	// Current Texture Index.. Animation 시킬때 필요한 인덱스이다.. float 로 해서 텍스처 에니메이션 제어한다.
+	float						m_fTexIndex;	// Current Texture Index.. This is the index necessary for animation. Controls texture animation with a float.
 
 public:
 	bool Load(HANDLE hFile);
@@ -39,8 +39,8 @@ public:
 	CN3Texture*	TexSet(int iIndex, const std::string& szFN);
 	void		TexSet(int iIndex, CN3Texture* pTex);
 
-	__Vector3 Min() { if(m_FXPMInst.GetMesh()) return m_FXPMInst.GetMesh()->Min() * m_WorldMtx; else return __Vector3(0,0,0); } // 월드 상의 최소값
-	__Vector3 Max() { if(m_FXPMInst.GetMesh()) return m_FXPMInst.GetMesh()->Max() * m_WorldMtx; else return __Vector3(0,0,0); } // 월드 상의 최대값
+	__Vector3 Min() { if(m_FXPMInst.GetMesh()) return m_FXPMInst.GetMesh()->Min() * m_WorldMtx; else return __Vector3(0,0,0); }
+	__Vector3 Max() { if(m_FXPMInst.GetMesh()) return m_FXPMInst.GetMesh()->Max() * m_WorldMtx; else return __Vector3(0,0,0); }
 	float	Radius() { if(m_FXPMInst.GetMesh()) return m_FXPMInst.GetMesh()->Radius(); else return 0.0f; }
 
 
@@ -59,7 +59,7 @@ public:
 class CN3FXShape : public CN3TransformCollision
 {
 public:
-	std::vector<CN3FXSPart*>	m_Parts; // Part Data Pointer Linked List
+	std::vector<CN3FXSPart*>	m_Parts;
 
 	__Matrix44		m_mtxParent;
 	__Matrix44		m_mtxFinalTransform;

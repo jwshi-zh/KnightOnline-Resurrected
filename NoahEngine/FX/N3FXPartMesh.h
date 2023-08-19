@@ -10,11 +10,11 @@ public:
 	CN3FXShape*	m_pShape;
 	CN3FXShape*	m_pRefShape;
 
-	DWORD		m_dwCurrColor;	//
+	DWORD		m_dwCurrColor;
 	
-	char		m_cTextureMoveDir;	//텍스쳐 이동 방향..1:up 2:down, 3:left, 4:right
-	float		m_fu;				//텍스쳐 이동 속도
-	float		m_fv;				//텍스쳐 이동 속도
+	char		m_cTextureMoveDir;	//Texture movement direction..1:up 2:down, 3:left, 4:right
+	float		m_fu;
+	float		m_fv;
 
 	__Vector3	m_vUnitScale;
 	__Vector3	m_vScaleVel;
@@ -29,13 +29,13 @@ protected:
 	bool	IsDead();
 
 public:
-	void	Init();				//	각종 변수들을 처음 로딩한 상태로 초기화...
-	void	Start();			//	파트 구동 시작.
-	void	Stop();				//	파트 구동 멈춤..
-	bool	Tick();				//	ticktick...
-	void	Render();			//	화면에 뿌리기..
-	bool	Load(HANDLE hFile);	//	게임파일 불러오기.
-	bool	Save(HANDLE hFile);	//	게임파일 저장오기.
+	void	Init();
+	void	Start();
+	void	Stop();
+	bool	Tick();
+	void	Render();
+	bool	Load(HANDLE hFile);
+	bool	Save(HANDLE hFile);
 	void	Duplicate(CN3FXPartMesh* pSrc);
 		
 public:

@@ -15,9 +15,6 @@ CN3SndMgr::~CN3SndMgr()
 	Release();
 }
 
-//
-//	엔진 초기화..
-//
 void CN3SndMgr::Init(HWND hWnd)
 {
 	Release();
@@ -39,30 +36,30 @@ CN3SndObj* CN3SndMgr::CreateObj(const std::string& szFN, e_SndType eType)
 
 	CN3SndObj* pObjSrc = nullptr;
 	const auto it = m_SndObjSrcs.find(szFN);
-	if(it == m_SndObjSrcs.end()) // 못 찾았다... 새로 만들자..
+	if(it == m_SndObjSrcs.end())
 	{
 		pObjSrc = new CN3SndObj();
-		if(false == pObjSrc->Create(szFN, eType)) // 새로 로딩..
+		if(false == pObjSrc->Create(szFN, eType))
 		{
 			delete pObjSrc; pObjSrc = nullptr;
 			return nullptr;
 		}
-		m_SndObjSrcs.insert(std::make_pair(szFN, pObjSrc)); // 맵에 추가한다..
+		m_SndObjSrcs.insert(std::make_pair(szFN, pObjSrc));
 	}
 	else pObjSrc = it->second;
 
-	if(!m_bSndDuplicated) return pObjSrc;//this_Snd
+	if(!m_bSndDuplicated) return pObjSrc;
 
 	if(nullptr == pObjSrc) return nullptr;
 
 	auto* pObjNew = new CN3SndObj();
-	if(false == pObjNew->Duplicate(pObjSrc, eType)) // Duplicate 처리..
+	if(false == pObjNew->Duplicate(pObjSrc, eType))
 	{
 		delete pObjNew; pObjNew = nullptr;
 		return nullptr;
 	}
 	
-	if(pObjNew) m_SndObjs_Duplicated.push_back(pObjNew); // 리스트에 넣는다...
+	if(pObjNew) m_SndObjs_Duplicated.push_back(pObjNew);
 	return pObjNew;
 }
 
@@ -75,7 +72,7 @@ CN3SndObjStream* CN3SndMgr::CreateStreamObj(const std::string& szFN)
 		return nullptr;
 	}
 
-	m_SndObjStreams.push_back(pObj); // 리스트에 넣기..
+	m_SndObjStreams.push_back(pObj);
 
 	return pObj;
 }
@@ -104,10 +101,6 @@ void CN3SndMgr::ReleaseStreamObj(CN3SndObjStream** ppObj)
 	}
 }
 
-
-//
-//	TickTick...^^
-//
 void CN3SndMgr::Tick()
 {
 	if(!m_bSndEnable) return;
@@ -180,13 +173,10 @@ void CN3SndMgr::Tick()
 	CN3SndObj::StaticTick(); // CommitDeferredSetting...
 }
 
-
-//
-//	Obj하나 무효화..
 void CN3SndMgr::ReleaseObj(CN3SndObj** ppObj)
 {
 	if(nullptr == ppObj || nullptr == *ppObj) return;
-	std::string szFN = (*ppObj)->m_szFileName; // 파일 이름을 기억하고..
+	std::string szFN = (*ppObj)->m_szFileName;
 
 	auto it = m_SndObjs_Duplicated.begin(), itEnd = m_SndObjs_Duplicated.end();
 	for(; it != itEnd; it++)
@@ -194,7 +184,7 @@ void CN3SndMgr::ReleaseObj(CN3SndObj** ppObj)
 		if(*ppObj == *it)
 		{
 			m_SndObjs_Duplicated.erase(it);
-			delete *ppObj; *ppObj = nullptr; // 객체 지우기..
+			delete *ppObj; *ppObj = nullptr;
 			return;
 		}
 	}
@@ -206,12 +196,12 @@ void CN3SndMgr::ReleaseObj(CN3SndObj** ppObj)
 		if(*ppObj == *it)
 		{
 			m_SndObjs_PlayOnceAndRelease.erase(it);
-			delete *ppObj; *ppObj = nullptr; // 객체 지우기..
+			delete *ppObj; *ppObj = nullptr;
 			return;
 		}
 	}
 
-	*ppObj = nullptr; // 포인터만 널로 만들어 준다..
+	*ppObj = nullptr;
 
 /*	itm_Snd it = m_SndObjSrcs.find(szFN);
 	if(it != m_SndObjSrcs.end()) // 찾았다..
@@ -237,10 +227,6 @@ void CN3SndMgr::ReleaseObj(CN3SndObj** ppObj)
 */
 }
 
-
-//
-//	Release Whole Objects & Sound Sources & Sound Engine..
-//
 void CN3SndMgr::Release()
 {
 	if(!m_bSndEnable) return;
@@ -282,9 +268,6 @@ void CN3SndMgr::Release()
 	CN3SndObj::StaticRelease();
 }
 
-
-// 이 함수는 한번 플레이 하고 그 포인터를 다시 쓸수있게 ReleaseObj를 호출한다.
-// 대신 위치는 처음 한번밖에 지정할 수 없다.
 bool CN3SndMgr::PlayOnceAndRelease(int iSndID, const _D3DVECTOR* pPos)
 {
 	if(!m_bSndEnable) return false;
@@ -294,16 +277,16 @@ bool CN3SndMgr::PlayOnceAndRelease(int iSndID, const _D3DVECTOR* pPos)
 	
 	CN3SndObj* pObjSrc = nullptr;
 	const auto it = m_SndObjSrcs.find(pTbl->szFN);
-	if(it == m_SndObjSrcs.end()) // 못 찾았다... 새로 만들자..
+	if(it == m_SndObjSrcs.end())
 	{
 		pObjSrc = new CN3SndObj();
-		if(false == pObjSrc->Create(pTbl->szFN, (e_SndType)pTbl->iType)) // 새로 로딩..
+		if(false == pObjSrc->Create(pTbl->szFN, (e_SndType)pTbl->iType))
 		{
 			delete pObjSrc; pObjSrc = nullptr;
 			return NULL;
 		}
-		m_SndObjSrcs.insert(std::make_pair(pTbl->szFN, pObjSrc)); // 맵에 추가한다..
-		if(!m_bSndDuplicated) pObjSrc->Play(pPos);//this_Snd
+		m_SndObjSrcs.insert(std::make_pair(pTbl->szFN, pObjSrc));
+		if(!m_bSndDuplicated) pObjSrc->Play(pPos);
 	}
 	else pObjSrc = it->second;
 
@@ -311,18 +294,18 @@ bool CN3SndMgr::PlayOnceAndRelease(int iSndID, const _D3DVECTOR* pPos)
 
 	if(!m_bSndDuplicated)
 	{
-		pObjSrc->Play(pPos); //this_Snd
+		pObjSrc->Play(pPos);
 		return true;
 	}
 
 	auto* pObj = new CN3SndObj();
-	if(false == pObj->Duplicate(pObjSrc, (e_SndType)pTbl->iType)) // Duplicate 처리..
+	if(false == pObj->Duplicate(pObjSrc, (e_SndType)pTbl->iType))
 	{
 		delete pObj; pObj = nullptr;
 		return NULL;
 	}
 	
-	if(pObj) // 리스트에 넣는다...noah
+	if(pObj)
 	{
 		m_SndObjs_PlayOnceAndRelease.push_back(pObj);
 		pObj->Play(pPos);

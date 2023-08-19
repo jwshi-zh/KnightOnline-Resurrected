@@ -14,7 +14,6 @@ CLogWriter::~CLogWriter()
 
 void CLogWriter::Open(const std::string& szFN)
 {
-//	if(s_hFile || szFN.empty()) return;
 	if(szFN.empty()) return;
 
 	s_szFileName = szFN;
@@ -28,7 +27,7 @@ void CLogWriter::Open(const std::string& szFN)
 
 	DWORD dwSizeHigh = 0;
 const DWORD dwSizeLow = ::GetFileSize(hFile, &dwSizeHigh);
-	if(dwSizeLow > 256000)  // 파일 사이즈가 너무 크면 지운다..
+	if(dwSizeLow > 256000)  // If the file size is too large, delete it.
 	{
 		CloseHandle(hFile);
 		::DeleteFile(s_szFileName.c_str());
@@ -36,7 +35,7 @@ const DWORD dwSizeLow = ::GetFileSize(hFile, &dwSizeHigh);
 		if(INVALID_HANDLE_VALUE == hFile) return;
 	}
 
-	::SetFilePointer(hFile, 0, nullptr, FILE_END); // 추가 하기 위해서 파일의 끝으로 옮기고..
+	::SetFilePointer(hFile, 0, nullptr, FILE_END);
 
 	char szBuff[1024];
 	SYSTEMTIME time;
@@ -65,7 +64,7 @@ void CLogWriter::Close()
 
 	if(hFile)
 	{
-		::SetFilePointer(hFile, 0, nullptr, FILE_END); // 추가 하기 위해서 파일의 끝으로 옮기고..
+		::SetFilePointer(hFile, 0, nullptr, FILE_END);
 
 		char szBuff[1024];
 		SYSTEMTIME time;
@@ -118,7 +117,7 @@ void CLogWriter::Write(const char *lpszFormat, ...)
 
 	if(hFile)
 	{
-		::SetFilePointer(hFile, 0, nullptr, FILE_END); // 추가 하기 위해서 파일의 끝으로 옮기고..
+		::SetFilePointer(hFile, 0, nullptr, FILE_END);
 
 		WriteFile(hFile, szFinal, iLength, &dwRWC, nullptr);
 		CloseHandle(hFile);

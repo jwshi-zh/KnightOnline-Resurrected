@@ -18,11 +18,10 @@ protected:
 	__VertexXyzColorT1* m_pColorVertices;
 	WORD*				m_pIndices;
 
-	// number of triangles/vertices to use at this moment.
 	int					m_iNumIndices;
 	int					m_iNumVertices; 
 
-	CN3PMesh::__EdgeCollapse*	m_pCollapseUpTo;	// 참조 포인터
+	CN3PMesh::__EdgeCollapse*	m_pCollapseUpTo;
 
 	// A pointer to the original mesh. This is where you'll find the vertex data (which
 	// is invariant between PMRInstance's)

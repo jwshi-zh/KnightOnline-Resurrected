@@ -12,18 +12,18 @@ protected:
 
 public:
 	__Vector3		m_vPos;
-	__Matrix44		m_Matrix; // 변환 행렬
+	__Matrix44		m_Matrix;
 
-	CN3AnimKey		m_KeyPos; // 에니메이션 키
+	CN3AnimKey		m_KeyPos;
 	CN3AnimKey		m_KeyRot;
 	CN3AnimKey		m_KeyScale;
 
-	float			m_fFrmWhole; // 전체 프레임수
-	float			m_fFrmCur; // 현재 프레임
+	float			m_fFrmWhole;
+	float			m_fFrmCur;
 
 public:
 	virtual void	Tick(float fFrm = FRAME_SELFPLAY);
-	virtual bool	TickAnimationKey(float fFrm); // Animation Key Tick... Animation Key 가 있어 움직이면 true, 아니면 false 를 return;
+	virtual bool	TickAnimationKey(float fFrm);
 
 	__Vector3		Pos() const { return m_vPos; }
 	__Quaternion	Rot() const { return m_qRot; }

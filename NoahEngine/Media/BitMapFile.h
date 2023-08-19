@@ -7,8 +7,8 @@ protected:
 	BITMAPINFOHEADER m_bmInfoHeader;
 
 public:
-	void* m_pPixels; // 실제 픽셀 데이터
-	int Pitch() const { return ((int)((m_bmInfoHeader.biWidth*3 + 3)/4))*4; } // 비트맵의 실제 너비(byte 단위)..
+	void* m_pPixels; // actual pixel data
+	int Pitch() const { return ((int)((m_bmInfoHeader.biWidth*3 + 3)/4))*4; } // The actual width of the bitmap in bytes.
 	bool Create(int nWidth, int nHeight, int nBPP = 24);
 	bool SaveRectToFile(const std::string& szFN, RECT rc);
 	void* Pixels(int x = 0, int y = 0) const;

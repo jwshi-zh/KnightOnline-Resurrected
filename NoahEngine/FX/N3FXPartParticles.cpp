@@ -7,7 +7,7 @@
 
 CN3FXPartParticles::CN3FXPartParticles()
 {
-	m_iVersion = 5;	//3이하는 다 무시해버려..
+	m_iVersion = 5;
 
 	m_iNumParticle		= 0;
 	m_iNumLodParticle	= 0;
@@ -39,11 +39,9 @@ CN3FXPartParticles::CN3FXPartParticles()
 	//m_wUnitIB[0] = 0;	m_wUnitIB[1] = 1;	m_wUnitIB[2] = 3;
 	//m_wUnitIB[3] = 3;	m_wUnitIB[4] = 1;	m_wUnitIB[5] = 2;
 	
-	//emitter...
 	m_dwEmitType = FX_PART_PARTICLE_EMIT_TYPE_NORMAL;
 	ZeroMemory(&m_uEmitCon, sizeof(m_uEmitCon));
 	
-	//particle..
 	m_vPtEmitDir.Set(0.0f, 0.0f, -1.0f);
 	m_fPtVelocity = m_fPtAccel = m_fPtRotVelocity = m_fPtGravity = 0.0f;
 
@@ -115,16 +113,11 @@ CN3FXPartParticles::~CN3FXPartParticles()
 	//}
 }
 
-
-//
-//
-//
 #ifdef _N3TOOL
 bool CN3FXPartParticles::ParseScript(char* szCommand, char* szBuff0, char* szBuff1, char* szBuff2, char* szBuff3)
 {
 	if(CN3FXPartBase::ParseScript(szCommand, szBuff0, szBuff1, szBuff2, szBuff3)) return true;
 
-	//	파티클 수.
 	if(lstrcmpi(szCommand, "<particle_count>")==0)
 	{
 		m_iNumParticle = atoi(szBuff0);
@@ -132,7 +125,6 @@ bool CN3FXPartParticles::ParseScript(char* szCommand, char* szBuff0, char* szBuf
 		return true;
 	}
 
-	//	파티클 크기.
 	if(lstrcmpi(szCommand, "<particle_size>")==0)
 	{
 		m_pair_fParticleSize.first = m_pair_fParticleSize.second = atof(szBuff0);
@@ -145,7 +137,6 @@ bool CN3FXPartParticles::ParseScript(char* szCommand, char* szBuff0, char* szBuf
 		return true;
 	}
 
-	//	파티클 생명.
 	if(lstrcmpi(szCommand, "<particle_life>")==0)
 	{
 		m_pair_fParticleLife.first = atof(szBuff0);
@@ -153,35 +144,30 @@ bool CN3FXPartParticles::ParseScript(char* szCommand, char* szBuff0, char* szBuf
 		return true;
 	}
 
-	//	파티클 시작오차..min
 	if(lstrcmpi(szCommand, "<start_range_min>")==0)
 	{
 		m_MinCreateRange.Set(atof(szBuff0), atof(szBuff1), atof(szBuff2));
 		return true;
 	}
 
-	//	파티클 시작오차..max
 	if(lstrcmpi(szCommand, "<start_range_max>")==0)
 	{
 		m_MaxCreateRange.Set(atof(szBuff0), atof(szBuff1), atof(szBuff2));
 		return true;
 	}
 
-	//	파티클 한번에 생성 갯수
 	if(lstrcmpi(szCommand, "<create_count>")==0)
 	{
 		m_iNumCreate = atoi(szBuff0);
 		return true;
 	}
 
-	//	파티클 한번에 생성 시간 범위
 	if(lstrcmpi(szCommand, "<create_delay>")==0)
 	{
 		m_CurrCreateDelay = m_fCreateDelay = atof(szBuff0);
 		return true;
 	}
 
-	//	시작하는 방법.
 	if(lstrcmpi(szCommand, "<emit_type>")==0)
 	{
 		if(lstrcmpi(szBuff0, "spread")==0)
@@ -294,10 +280,6 @@ bool CN3FXPartParticles::ParseScript(char* szCommand, char* szBuff0, char* szBuf
 }
 #endif // end of _N3TOOL
 
-
-//
-//	init...
-//
 void CN3FXPartParticles::Init()
 {
 	CN3FXPartBase::Init();
@@ -342,10 +324,6 @@ void CN3FXPartParticles::Init()
 	}
 }
 
-
-//
-//
-//
 bool CN3FXPartParticles::Load(HANDLE hFile)
 {
 	if(!CN3FXPartBase::Load(hFile)) return false;
@@ -435,10 +413,6 @@ bool CN3FXPartParticles::Load(HANDLE hFile)
 	return true;
 }
 
-
-//
-//
-//
 bool CN3FXPartParticles::Save(HANDLE hFile)
 {
 	if(!CN3FXPartBase::Save(hFile)) return false;
@@ -502,30 +476,18 @@ bool CN3FXPartParticles::Save(HANDLE hFile)
 	return true;
 }
 
-
-//
-//
-//
 void CN3FXPartParticles::Start()
 {
 	CN3FXPartBase::Start();
 
 }
 
-
-//
-//
-//
 void CN3FXPartParticles::Stop()
 {
 	CN3FXPartBase::Stop();
 
 }
 
-
-//
-//
-//
 bool CN3FXPartParticles::Tick()
 {
 	if(!CN3FXPartBase::Tick()) return false;
@@ -550,7 +512,6 @@ bool CN3FXPartParticles::Tick()
 
 	if(m_bAnimKey && m_pShape)
 	{
-		//frm 계산..
 		float fFrm = m_fCurrLife * m_fMeshFPS;
 		const int share = fFrm / m_pShape->GetWholeFrm();
 		//if(fFrm > m_pShape->GetWholeFrm()-1.0f) fFrm = m_pShape->GetWholeFrm()-1.0f;
@@ -571,7 +532,6 @@ bool CN3FXPartParticles::Tick()
 	}
 	else
 	{
-		// tick emitter...
 		m_vCurrVelocity += m_vAcceleration * CN3Base::s_fSecPerFrm;
 		m_vCurrPos += m_vCurrVelocity * CN3Base::s_fSecPerFrm;
 		if(m_vCurrVelocity.Magnitude()!=0.0f)
@@ -583,8 +543,7 @@ bool CN3FXPartParticles::Tick()
 		
 	}
 	
-	// make particles...
-	if(m_CurrCreateDelay >= m_fCreateDelay && m_dwState==FX_PART_STATE_LIVE)	//파티클 생성...
+	if(m_CurrCreateDelay >= m_fCreateDelay && m_dwState==FX_PART_STATE_LIVE)
 	{
 		m_CurrCreateDelay = 0.0f;
 		CreateParticles();		
@@ -604,19 +563,11 @@ bool CN3FXPartParticles::Tick()
 	return true;
 }
 
-
-//
-//
-//
 void CN3FXPartParticles::Rotate() const
 {
 	m_pShape->m_mtxParent.Rotation(m_fCurrLife*m_vRotVelocity);
 }
 
-
-//
-//
-//
 void CN3FXPartParticles::Move()
 {
 	__Vector3 v;
@@ -625,10 +576,6 @@ void CN3FXPartParticles::Move()
 	m_pShape->m_mtxParent.PosSet(m_vShapePos);
 }
 
-
-//
-//
-//
 void CN3FXPartParticles::Scaling()
 {
 	__Vector3 vScale;
@@ -645,17 +592,11 @@ void CN3FXPartParticles::Scaling()
 	m_pShape->m_mtxParent *= mtx;
 }
 
-
-//
-//	render...
-//	일단은 파티클 하나씩 그리고....
-//	나중에는 같은 텍스쳐 쓰는 것들끼리 묶어서 그리자...
-//
 void CN3FXPartParticles::Render()
 {
 	if(m_pVBList_Alive.size()==0) return;
 
-	if(m_bAlpha) // Use Alpha
+	if(m_bAlpha)
 	{
 		std::list<CN3FXParticle*>::iterator it;
 		it = m_pVBList_Alive.begin();
@@ -691,7 +632,7 @@ void CN3FXPartParticles::Render()
 			}
 		}		
 
-		return; // 렌더링 안하지롱.
+		return;
 	}
 		
 	CN3Base::s_lpD3DDev->SetFVF(FVF_XYZCOLORT1);
@@ -821,7 +762,7 @@ void CN3FXPartParticles::Render()
 	////////////////////////////////////////////////////////////////////////////////////
 	//ParticleGreater pg;
 	//m_pVBList_Alive.sort(pg);
-	// 이거이 안되서 안에 있는 루틴 그대로 베껴서 PSort()함수 만들었엉...ㅠ.ㅠ;;
+	// This didn't work, so I copied the routine inside and made a PSort() function...
 	PSort();
 
 	std::list<CN3FXParticle*>::iterator it;
@@ -867,9 +808,6 @@ void CN3FXPartParticles::Render()
 }
 */
 
-//
-//
-//
 void CN3FXPartParticles::InitVB()
 {
 	std::list<CN3FXParticle*>::iterator it;
@@ -903,10 +841,6 @@ void CN3FXPartParticles::InitVB()
 	//m_pIB = new WORD[m_iNumParticle*6];
 }
 
-
-//
-//
-//
 std::list<CN3FXParticle*>::iterator CN3FXPartParticles::DestroyParticle(std::list<CN3FXParticle*>::iterator it)
 {
 	CN3FXParticle* pParticle = (*it);
@@ -926,10 +860,6 @@ std::list<CN3FXParticle*>::iterator CN3FXPartParticles::DestroyParticle(std::lis
 	return it;
 }
 
-
-//
-//
-//
 void CN3FXPartParticles::CreateParticles_Spread()
 {
 	std::list<CN3FXParticle*>::iterator it;
@@ -963,7 +893,6 @@ void CN3FXPartParticles::CreateParticles_Spread()
 
 		__Quaternion Qt;
 
-		//bundle의 방향 적용..
 		if(m_pRefBundle)
 		{			
 			if(RotateQuaternion(v, m_pRefBundle->m_vDir, &Qt))
@@ -981,7 +910,6 @@ void CN3FXPartParticles::CreateParticles_Spread()
 			}
 		}
 
-		//part(emiiter)의 방향 적용
 		//if(m_vEmitterDir.Magnitude()!=0)
 		if(vDirPart.Magnitude()!=0)
 		{
@@ -1001,7 +929,6 @@ void CN3FXPartParticles::CreateParticles_Spread()
 			}
 		}
 
-		//뿌려지는 방향 적용..
 		//if(RotateQuaternion(v, m_vPtEmitDir, &Qt))
 		if(RotateQuaternion(v, vDirEmit, &Qt))
 		{
@@ -1113,10 +1040,6 @@ void CN3FXPartParticles::CreateParticles_Spread()
 	}
 }
 
-
-//
-//
-//
 void CN3FXPartParticles::CreateParticles_Gather()
 {
 	std::list<CN3FXParticle*>::iterator it;
@@ -1141,7 +1064,6 @@ void CN3FXPartParticles::CreateParticles_Gather()
 
 		__Quaternion Qt;
 
-		//bundle의 방향 적용..
 		if(m_pRefBundle)
 		{			
 			if(RotateQuaternion(v, m_pRefBundle->m_vDir, &Qt))
@@ -1159,7 +1081,6 @@ void CN3FXPartParticles::CreateParticles_Gather()
 			}
 		}
 
-		//part(emiiter)의 방향 적용
 		if(vDirPart.Magnitude()!=0)
 		{
 			if(RotateQuaternion(v, vDirPart, &Qt))
@@ -1176,7 +1097,7 @@ void CN3FXPartParticles::CreateParticles_Gather()
 				vDirEmit *= -1.0f;
 			}
 		}
-		//뿌려지는 방향 적용..
+
 		//if(RotateQuaternion(v, m_vPtEmitDir, &Qt))
 		if(RotateQuaternion(v, vDirEmit, &Qt))
 		{
@@ -1294,10 +1215,6 @@ void CN3FXPartParticles::CreateParticles_Gather()
 	}
 }
 
-
-//
-//
-//
 void CN3FXPartParticles::CreateParticles()
 {
 	const int iNumLiveParticle = m_pVBList_Alive.size();
@@ -1307,9 +1224,6 @@ void CN3FXPartParticles::CreateParticles()
 	else if(m_dwEmitType==FX_PART_PARTICLE_EMIT_TYPE_GATHER) CreateParticles_Gather();
 }
 
-//
-//
-//
 bool CN3FXPartParticles::IsDead()
 {
 	if(m_pVBList_Alive.size()==0) return true;
@@ -1386,10 +1300,6 @@ void CN3FXPartParticles::Duplicate(CN3FXPartParticles* pSrc)
 	return;	
 }
 
-
-//
-//
-//
 bool CN3FXPartParticles::GetColor(int key, DWORD& color)
 {
 	if(key<0 || key>=NUM_KEY_COLOR) return false;
@@ -1398,10 +1308,6 @@ bool CN3FXPartParticles::GetColor(int key, DWORD& color)
 	return true;
 }
 
-
-//
-// 두 방향 벡터가 있을때 하나의 방향벡터에서 다른 하나의 방향벡터로 회전하는 mtx구하기..
-//
 bool CN3FXPartParticles::RotateQuaternion(__Vector3 vSrcDir, __Vector3 vDestDir, __Quaternion* pQt)
 {
 	vSrcDir.Normalize();
@@ -1420,15 +1326,6 @@ bool CN3FXPartParticles::RotateQuaternion(__Vector3 vSrcDir, __Vector3 vDestDir,
 	
 	return true;
 }
-
-
-
-//
-///////////////////////////////////////////////////////////////////////////////////////////////
-// related sort list...
-// list의 sort함수 베꼈당..-.-
-// 제대로 동작 안하더라..ㅠ.ㅠ
-//
 
 void CN3FXPartParticles::PSort()
 {
@@ -1480,8 +1377,3 @@ bool CN3FXPartParticles::PComp(CN3FXParticle* pP1, CN3FXParticle* pP2)
 	if(pP1->m_iTexIdx < pP2->m_iTexIdx) return true;
 	return false;
 }
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-//
-
-

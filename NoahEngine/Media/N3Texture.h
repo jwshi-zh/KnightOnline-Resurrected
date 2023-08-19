@@ -8,11 +8,11 @@ class CN3Texture : public CN3BaseFileAccess
 public:
 	typedef struct __DXT_HEADER
 	{
-		char szID[4]; // "NTF"숫자 - Noah Texture File Ver. ?.0
+		char szID[4];
 		int nWidth;
 		int nHeight;
-		D3DFORMAT Format; // 0 - 압축 안함 1 ~ 5 : D3DFMT_DXT1 ~ D3DFMT_DXT5
-		BOOL bMipMap; // Mip Map ??
+		D3DFORMAT Format;
+		BOOL bMipMap;
 	} __DxtHeader;
 
 protected:
@@ -26,13 +26,12 @@ public:
 	bool				SkipFileHandle(HANDLE hFile);
 
 #ifdef _N3TOOL
-	bool				GenerateMipMap(LPDIRECT3DSURFACE9 lpSurf = NULL); // NULL 이면 0 레벨의 서피스로부터 생성..
+	bool				GenerateMipMap(LPDIRECT3DSURFACE9 lpSurf = NULL);
 	bool				Convert(D3DFORMAT Format, int nWidth = 0, int nHeight = 0, BOOL bGenerateMipMap = TRUE);
-//#ifdef _N3TOOL
-	bool				SaveToFile(); // 현재 파일 이름대로 저장.
-	bool				SaveToFile(const std::string& szFileName); // 새이름으로 저장.
+	bool				SaveToFile();
+	bool				SaveToFile(const std::string& szFileName);
 	bool				Save(HANDLE hFile);
-	bool				SaveToBitmapFile(const std::string& szFN); // 24비트 비트맵 파일로 저장..
+	bool				SaveToBitmapFile(const std::string& szFN);
 	bool				CreateFromSurface(LPDIRECT3DSURFACE9 lpSurf, D3DFORMAT Format, BOOL bGenerateMipMap);
 #endif // end of _N3TOOL
 
@@ -41,7 +40,7 @@ public:
 	D3DFORMAT			PixelFormat() { return m_Header.Format; }
 	int					MipMapCount() { if(nullptr == m_lpTexture) return 0; else return m_lpTexture->GetLevelCount(); }
 	
-	bool				Create(int nWidth, int nHeight, D3DFORMAT Format, BOOL bGenerateMipMap); // 장치에 맞게 생성
+	bool				Create(int nWidth, int nHeight, D3DFORMAT Format, BOOL bGenerateMipMap);
 	LPDIRECT3DTEXTURE9	Get() { return m_lpTexture; }
 	operator LPDIRECT3DTEXTURE9 () { return m_lpTexture; }
 	

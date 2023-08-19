@@ -46,7 +46,7 @@ public:
 #ifdef _N3GAME
 			CLogWriter::Write("CN3Mng::Add - duplicated object's file name.");
 #endif
-			m_Refs.erase(pairRef.first); // 참조 카운트 지우고..
+			m_Refs.erase(pairRef.first);
 			return -1;
 		}
 
@@ -78,49 +78,48 @@ public:
 
 		T* pData = nullptr;
 		auto it = m_Datas.find(szFN2);
-		if(it == m_Datas.end()) // 못 찾았다..
+		if(it == m_Datas.end())
 		{
 			pData = new T();
-			pData->m_iLOD = iLOD; // 로딩시 LOD 적용
+			pData->m_iLOD = iLOD;
 
-			if(false == pData->LoadFromFile(szFN2)) // 파일 읽기에 실패했다!!
+			if(false == pData->LoadFromFile(szFN2))
 			{
 				delete pData;
 				pData = NULL;
 			}
 			else 
 			{
-				const int reChk = Add(pData); // 읽기 성공하면 추가..
-				//	asm
-				if(reChk==-1)	//	추가시 전에 데이터가 있어 참조 카운트를 하나 더한다 
+				const int reChk = Add(pData);
+
+				if(reChk==-1)
 				{
-					T* pBakData = pData;	//	같은 파일중 전 데이타를 받아 리턴(새로운 그림으로 바뀌지 않을수 있다)
+					T* pBakData = pData;
 					auto it = m_Datas.find(pBakData->FileName());
 					pData = (*it).second;
 
 					if(bIncreaseRefCount)
 					{						
 						auto it2 = m_Refs.find(pData);
-						if(it2 != m_Refs.end()) // 참조 카운트 찾기..
+						if(it2 != m_Refs.end())
 						{
 							((*it2).second)++;
 						}
 					}
 
-					delete pBakData;	//	이번에 읽은 데이타는 필요가 없으므로 지움
+					delete pBakData;
 					pBakData = NULL;
 				}
-				//	asm
 			}
 		}
-		else //  찾았다..!!
+		else
 		{
 			pData = (*it).second;
 
 			if(bIncreaseRefCount)
 			{
 				auto it2 = m_Refs.find(pData);
-				if(it2 != m_Refs.end()) // 참조 카운트 찾기..
+				if(it2 != m_Refs.end())
 				{
 					((*it2).second)++;
 				}
@@ -136,21 +135,21 @@ public:
 
 		if(m_Datas.find(szFN) != m_Datas.end()) return true;
 		else return false;
-	} // 있나 없나~
+	}
 
 	void Delete(T** ppData, bool bReleaseOrg = true)
 	{
 #ifndef _N3GAME
-		bReleaseOrg = true; // 툴에서는 무조건 
+		bReleaseOrg = true;
 #endif
 		if(nullptr == ppData || NULL == *ppData) return;
 
 		auto it = m_Datas.find((*ppData)->FileName());
-		if(it == m_Datas.end()) return; // 못 찾았다..
-		else //  찾았다..!!
+		if(it == m_Datas.end()) return;
+		else
 		{
 			auto it2 = m_Refs.find(*ppData);
-			if(bReleaseOrg && it2 != m_Refs.end()) // 참조 카운트 찾기..
+			if(bReleaseOrg && it2 != m_Refs.end())
 			{
 				((*it2).second)--;
 				if(0 == (*it2).second)

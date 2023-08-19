@@ -70,7 +70,7 @@ void CN3FXPMesh::operator=(const CN3FXPMesh& fxPMesh)
 
 	if (m_iNumCollapses>0)
 	{
-		m_pCollapses = new __EdgeCollapse[m_iNumCollapses+1];	// +1을 한 이유 : PMeshInstance::SplitOne() 함수에서 부득이하게 포인터가 경계선을 가르키게 해야 하는 경우가 있어서.
+		m_pCollapses = new __EdgeCollapse[m_iNumCollapses+1];	// Reason for +1: There was a case where the PMeshInstance::SplitOne() function inevitably required the pointer to point to the boundary line.
 		memcpy(m_pCollapses, fxPMesh.m_pCollapses, sizeof(__EdgeCollapse)*(m_iMaxNumIndices+1));
 	}
 
@@ -119,9 +119,9 @@ bool CN3FXPMesh::Load(HANDLE hFile)
 
 	if (m_iNumCollapses>0)
 	{
-		m_pCollapses = new __EdgeCollapse[m_iNumCollapses+1];	// +1을 한 이유 : PMeshInstance::SplitOne() 함수에서 부득이하게 포인터가 경계선을 가르키게 해야 하는 경우가 있어서.
+		m_pCollapses = new __EdgeCollapse[m_iNumCollapses+1];	// Reason for +1: There was a case where the PMeshInstance::SplitOne() function inevitably required the pointer to point to the boundary line.
 		ReadFile(hFile, m_pCollapses, m_iNumCollapses*sizeof(__EdgeCollapse), &dwNum, nullptr);
-		ZeroMemory(m_pCollapses + m_iNumCollapses, sizeof(__EdgeCollapse));	// 위의 +1을 한이유와 같음. 만약을 대비해 마지막 데이타를 초기화 해둠
+		ZeroMemory(m_pCollapses + m_iNumCollapses, sizeof(__EdgeCollapse));
 
 		bool bFixed = false;
 		for(int i = 0; i < m_iNumCollapses; i++)
@@ -170,7 +170,7 @@ void CN3FXPMesh::Render() const
 {
 	s_lpD3DDev->SetFVF(FVF_XYZCOLORT1);
 
-	const int iPCToRender = 1000;	// primitive count to render
+	const int iPCToRender = 1000;
 	if(m_iMaxNumIndices > 3)
 	{
 		const int iPC = m_iMaxNumIndices / 3;
@@ -197,7 +197,6 @@ void CN3FXPMesh::FindMinMax()
 		return;
 	}
 
-	// 최소, 최대 점을 찾는다.
 	m_vMin.Set(FLT_MAX, FLT_MAX, FLT_MAX);
 	m_vMax.Set(-FLT_MAX, -FLT_MAX, -FLT_MAX);
 
@@ -212,7 +211,6 @@ void CN3FXPMesh::FindMinMax()
 		if(m_pColorVertices[i].z > m_vMax.z) m_vMax.z = m_pColorVertices[i].z;
 	}
 
-	// 최대 최소값을 갖고 반지름 계산한다..
 	m_fRadius  = (m_vMax - m_vMin).Magnitude() * 0.5f;
 }
 

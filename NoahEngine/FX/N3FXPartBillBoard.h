@@ -5,8 +5,8 @@
 class CN3FXPartBillBoard : public CN3FXPartBase  
 {
 public:
-	int					m_iNum;				//	보드의 갯수.
-	float				m_fSizeX;			//	보드의 크기
+	int					m_iNum;
+	float				m_fSizeX;
 	float				m_fSizeY;
 	bool				m_bTexLoop;
 	
@@ -27,7 +27,7 @@ public:
 	float				m_fCurrScaleVelX;
 	float				m_fCurrScaleVelY;
 
-	float				m_fCurrSizeX;			//	보드의 크기
+	float				m_fCurrSizeX;
 	float				m_fCurrSizeY;
 
 	__Matrix44			m_mtxRot;
@@ -45,13 +45,13 @@ protected:
 	float	CameraDist() const;
 
 public:
-	void	Init();				//	각종 변수들을 처음 로딩한 상태로 초기화...
-	void	Start();			//	파트 구동 시작.
-	void	Stop();				//	파트 구동 멈춤..
-	bool	Tick();				//	ticktick...
-	void	Render();			//	화면에 뿌리기..
-	bool	Load(HANDLE hFile);	//	게임파일 불러오기.
-	bool	Save(HANDLE hFile);	//	게임파일 저장오기.
+	void	Init();
+	void	Start();
+	void	Stop();
+	bool	Tick();
+	void	Render();
+	bool	Load(HANDLE hFile);
+	bool	Save(HANDLE hFile);
 	void	Duplicate(CN3FXPartBillBoard* pSrc);
 
 	void	SetScale(float size) { m_fSizeX = m_fCurrSizeX = size; m_fSizeY = m_fCurrSizeY = size; }

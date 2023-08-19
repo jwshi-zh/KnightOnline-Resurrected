@@ -39,21 +39,11 @@ CN3FXPartBottomBoard::~CN3FXPartBottomBoard()
 	}
 }
 
-
-//////////////////////////////////////////////////////////////////////
-//
-//////////////////////////////////////////////////////////////////////
-
-
-//
-//
-//
 #ifdef _N3TOOL
 bool CN3FXPartBottomBoard::ParseScript(char* szCommand, char* szBuff0, char* szBuff1, char* szBuff2, char* szBuff3)
 {
 	if(CN3FXPartBase::ParseScript(szCommand, szBuff0, szBuff1, szBuff2, szBuff3)) return true;
 
-	//	보드 크기.
 	if(lstrcmpi(szCommand, "<ground_size>")==0)
 	{
 		m_fCurrSizeX = m_fSizeX = atof(szBuff0);
@@ -94,10 +84,6 @@ bool CN3FXPartBottomBoard::ParseScript(char* szCommand, char* szBuff0, char* szB
 }
 #endif // end of _N3TOOL
 
-
-//
-//
-//
 void CN3FXPartBottomBoard::CreateVB()
 {
 	if(m_vUnit)
@@ -143,10 +129,6 @@ void CN3FXPartBottomBoard::CreateVB()
 	}
 }
 
-
-//
-//	init...
-//
 void CN3FXPartBottomBoard::Init()
 {
 	CN3FXPartBase::Init();
@@ -163,10 +145,6 @@ void CN3FXPartBottomBoard::Init()
 	m_fCurrSizeZ = m_fSizeZ;
 }
 
-
-//
-//
-//
 bool CN3FXPartBottomBoard::Load(HANDLE hFile)
 {
 	if(!CN3FXPartBase::Load(hFile)) return false;
@@ -192,10 +170,6 @@ bool CN3FXPartBottomBoard::Load(HANDLE hFile)
 	return true;
 }
 
-
-//
-//
-//
 bool CN3FXPartBottomBoard::Save(HANDLE hFile)
 {
 	if(!CN3FXPartBase::Save(hFile)) return false;
@@ -210,33 +184,20 @@ bool CN3FXPartBottomBoard::Save(HANDLE hFile)
 
 	WriteFile(hFile, &m_bTexLoop, sizeof(bool), &dwRWC, nullptr);	
 	
-	//version 1....
 	WriteFile(hFile, &m_fGap, sizeof(float), &dwRWC, nullptr);	
 	return true;
 }
 
-
-//
-//
-//
 void CN3FXPartBottomBoard::Start()
 {
 	CN3FXPartBase::Start();
 }
 
-
-//
-//
-//
 void CN3FXPartBottomBoard::Stop()
 {
 	CN3FXPartBase::Stop();
 }
 
-
-//
-//
-//
 bool CN3FXPartBottomBoard::Tick()
 {
 	if(!CN3FXPartBase::Tick()) return false;
@@ -265,16 +226,13 @@ bool CN3FXPartBottomBoard::Tick()
 		}
 	}
 
-	//위치이동..
 	m_vCurrVelocity += m_vAcceleration*CN3Base::s_fSecPerFrm;
 	m_vCurrPos += m_vCurrVelocity*CN3Base::s_fSecPerFrm;
 
-	//회전...
 	__Matrix44 mtxRot;
 	mtxRot.Identity();
 	mtxRot.RotationY(m_fCurrLife*m_vRotVelocity.y);
 
-	//스케일변환..
 	m_fCurrScaleVelX += m_fScaleAccelX*CN3Base::s_fSecPerFrm;
 	m_fCurrScaleVelZ += m_fScaleAccelZ*CN3Base::s_fSecPerFrm;
 	m_fCurrSizeX += m_fCurrScaleVelX*CN3Base::s_fSecPerFrm;
@@ -321,10 +279,6 @@ bool CN3FXPartBottomBoard::Tick()
 	return true;
 }
 
-
-//
-//
-//
 bool CN3FXPartBottomBoard::IsDead()
 {
 	const float TotalLife = m_fFadeIn + m_fLife + m_fFadeOut;
@@ -332,17 +286,11 @@ bool CN3FXPartBottomBoard::IsDead()
 	return false;
 }
 
-
-//
-//	render...
-//	일단은 파티클 하나씩 그리고....
-//	나중에는 같은 텍스쳐 쓰는 것들끼리 묶어서 그리자...
-//
 void CN3FXPartBottomBoard::Render()
 {
 	if(m_iTexIdx >= m_iNumTex) return;
 
-	if(m_bAlpha) // Use Alpha
+	if(m_bAlpha)
 	{
 		__AlphaPrimitive* pAP = s_AlphaMgr.Add();
 		if(pAP)
@@ -368,7 +316,7 @@ void CN3FXPartBottomBoard::Render()
 			pAP->pwIndices			= nullptr;
 		}
 
-		return; // 렌더링 안하지롱.
+		return;
 	}
 	else 
 	{

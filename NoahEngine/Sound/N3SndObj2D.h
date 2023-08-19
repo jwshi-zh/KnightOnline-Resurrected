@@ -28,7 +28,7 @@ protected:
 public:
 	int						m_iID;
 	bool					m_bUse;
-	std::string				m_szFileName;	//파일이름...(ID 대용).
+	std::string				m_szFileName;
 	
 
 protected:

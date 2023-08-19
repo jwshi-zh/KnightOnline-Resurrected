@@ -1,18 +1,5 @@
-// N3AnimControl.cpp: implementation of the CN3AnimControl class.
-//
-//////////////////////////////////////////////////////////////////////
 #include "pch.h"
 #include "N3AnimControl.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 CN3AnimControl::CN3AnimControl()
 {
@@ -25,7 +12,7 @@ CN3AnimControl::~CN3AnimControl()
 
 void CN3AnimControl::Release()
 {
-	m_Datas.clear(); // animation Data List
+	m_Datas.clear();
 
 	CN3BaseFileAccess::Release();
 }
@@ -38,7 +25,7 @@ bool CN3AnimControl::Load(HANDLE hFile)
 	int nCount = 0;
 	ReadFile(hFile, &nCount, 4, &dwRWC, nullptr);
 
-	m_Datas.clear(); // animation Data List
+	m_Datas.clear();
 	for(int i = 0; i < nCount; i++)
 	{
 		__AnimData Data;

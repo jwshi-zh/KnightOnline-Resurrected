@@ -18,7 +18,7 @@ void CN3AlphaPrimitiveManager::Render()
 	
 	static __AlphaPrimitive* pBuffs[MAX_ALPHAPRIMITIVE_BUFFER];
 	for(int i = 0; i < m_nToDrawCount; i++) pBuffs[i] = &(m_Buffers[i]);
-	qsort(pBuffs, m_nToDrawCount, 4, SortByCameraDistance); // 버퍼에 쌓인 프리미티브대로 정렬하고..
+	qsort(pBuffs, m_nToDrawCount, 4, SortByCameraDistance); // Sort the primitives in the buffer.
 
 	struct __RenderState
 	{
@@ -27,8 +27,8 @@ void CN3AlphaPrimitiveManager::Render()
 		DWORD dwSrcBlend, dwDestBlend;
 		DWORD dwZEnable;
 	};
-	__RenderState RS_old;		// 이전 render state (나중에 되돌려놓기 위해)
-	__RenderState RS_current;	// 현재 render state (현재 어떤 상태인가 판단하기 위해)
+	__RenderState RS_old;
+	__RenderState RS_current;
 
 	CN3Base::s_lpD3DDev->GetRenderState(D3DRS_ALPHABLENDENABLE, &RS_old.dwAlpha);
 	CN3Base::s_lpD3DDev->GetRenderState(D3DRS_FOGENABLE, &RS_old.dwFog);
@@ -115,7 +115,7 @@ void CN3AlphaPrimitiveManager::Render()
 
 		CN3Base::s_lpD3DDev->SetFVF(pBuffs[i]->dwFVF);
 		CN3Base::s_lpD3DDev->SetTexture(0, pBuffs[i]->lpTex);
-		CN3Base::s_lpD3DDev->SetTransform(D3DTS_WORLD, &(pBuffs[i]->MtxWorld)); // 월드 행렬 적용
+		CN3Base::s_lpD3DDev->SetTransform(D3DTS_WORLD, &(pBuffs[i]->MtxWorld));
 
 		if(pBuffs[i]->lpTex)
 		{
@@ -129,7 +129,7 @@ void CN3AlphaPrimitiveManager::Render()
 			CN3Base::s_lpD3DDev->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_DIFFUSE);
 		}
 	
-		if(pBuffs[i]->pwIndices && pBuffs[i]->nPrimitiveCount > 0) // Index 가 있으면..
+		if(pBuffs[i]->pwIndices && pBuffs[i]->nPrimitiveCount > 0)
 		{
 			if (pBuffs[i]->bUseVB)
 			{
@@ -173,11 +173,11 @@ void CN3AlphaPrimitiveManager::Render()
 		}
 
 #ifdef _DEBUG
-		CN3Base::s_RenderInfo.nAlpha_Polygon += pBuffs[i]->nPrimitiveCount / 3; // Rendering Information Update...
+		CN3Base::s_RenderInfo.nAlpha_Polygon += pBuffs[i]->nPrimitiveCount / 3;
 #endif
 	}
 		
-	m_nToDrawCount = 0; // 다 그렸다...
+	m_nToDrawCount = 0;
 
 	// restore
 	CN3Base::s_lpD3DDev->SetRenderState(D3DRS_ALPHABLENDENABLE, RS_old.dwAlpha);
@@ -231,15 +231,15 @@ void CN3AlphaPrimitiveManager::Render()
 	
 	static __AlphaPrimitive* pBuffs[MAX_ALPHAPRIMITIVE_BUFFER];
 	for(int i = 0; i < m_nToDrawCount; i++) pBuffs[i] = &(m_Buffers[i]);
-	qsort(pBuffs, m_nToDrawCount, 4, SortByCameraDistance); // 버퍼에 쌓인 프리미티브대로 정렬하고..
+	qsort(pBuffs, m_nToDrawCount, 4, SortByCameraDistance);
 
 	struct __RenderState
 	{
 		DWORD dwAlpha, dwFog, dwCull, dwLgt, dwZWrite, dwAO, dwAA1, dwAA2, dwCO, dwCA1, dwCA2, dwPointSampling;
 		DWORD dwSrcBlend, dwDestBlend;
 	};
-	__RenderState RS_old;		// 이전 render state (나중에 되돌려놓기 위해)
-	__RenderState RS_current;	// 현재 render state (현재 어떤 상태인가 판단하기 위해)
+	__RenderState RS_old;
+	__RenderState RS_current;
 
 	CN3Base::s_lpD3DDev->GetRenderState(D3DRS_ALPHABLENDENABLE, &RS_old.dwAlpha);
 	CN3Base::s_lpD3DDev->GetRenderState(D3DRS_FOGENABLE, &RS_old.dwFog);
@@ -267,7 +267,7 @@ void CN3AlphaPrimitiveManager::Render()
 		if(pBuffs[i]->nRenderFlags & RF_NOTUSEFOG)
 		{
 			if (FALSE != RS_current.dwFog) { RS_current.dwFog = FALSE;	CN3Base::s_lpD3DDev->SetRenderState(D3DRS_FOGENABLE, FALSE);}
-		} // Fog 무시..
+		}
 		else
 		{
 			if (TRUE != RS_current.dwFog) {	RS_current.dwFog = TRUE;	CN3Base::s_lpD3DDev->SetRenderState(D3DRS_FOGENABLE, TRUE);	}
@@ -276,7 +276,7 @@ void CN3AlphaPrimitiveManager::Render()
 		if(pBuffs[i]->nRenderFlags & RF_DOUBLESIDED)
 		{
 			if (D3DCULL_NONE != RS_current.dwCull) { RS_current.dwCull = D3DCULL_NONE;	CN3Base::s_lpD3DDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);}
-		} // Render Flags - 
+		}
 		else
 		{
 			if (D3DCULL_CCW != RS_current.dwCull) {	RS_current.dwCull = D3DCULL_CCW; CN3Base::s_lpD3DDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);}
@@ -285,7 +285,7 @@ void CN3AlphaPrimitiveManager::Render()
 		if(pBuffs[i]->nRenderFlags & RF_NOTUSELIGHT)
 		{
 			if (FALSE != RS_current.dwLgt) { RS_current.dwLgt = FALSE;	CN3Base::s_lpD3DDev->SetRenderState(D3DRS_LIGHTING, FALSE);	}
-		} // Render Flags - 
+		}
 		else
 		{
 			if (TRUE != RS_current.dwLgt) {	RS_current.dwLgt = TRUE;	CN3Base::s_lpD3DDev->SetRenderState(D3DRS_LIGHTING, TRUE);}
@@ -316,11 +316,11 @@ void CN3AlphaPrimitiveManager::Render()
 		}
 		if(pBuffs[i]->nRenderFlags & RF_POINTSAMPLING)
 		{
-			if ( D3DTEXF_POINT != RS_current.dwPointSampling) { RS_current.dwPointSampling = D3DTEXF_POINT;	CN3Base::s_lpD3DDev->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_POINT); }// Render Flags -
+			if ( D3DTEXF_POINT != RS_current.dwPointSampling) { RS_current.dwPointSampling = D3DTEXF_POINT;	CN3Base::s_lpD3DDev->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_POINT); }
 		}
 		else
 		{
-			if ( D3DTEXF_NONE != RS_current.dwPointSampling) { RS_current.dwPointSampling = D3DTEXF_NONE; CN3Base::s_lpD3DDev->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_NONE); }// Render Flags - 
+			if ( D3DTEXF_NONE != RS_current.dwPointSampling) { RS_current.dwPointSampling = D3DTEXF_NONE; CN3Base::s_lpD3DDev->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_NONE); }
 		}
 		
 		if (pBuffs[i]->dwBlendSrc != RS_current.dwSrcBlend)	{ RS_current.dwSrcBlend = pBuffs[i]->dwBlendSrc; CN3Base::s_lpD3DDev->SetRenderState(D3DRS_SRCBLEND,   pBuffs[i]->dwBlendSrc);}
@@ -328,7 +328,7 @@ void CN3AlphaPrimitiveManager::Render()
 
 		CN3Base::s_lpD3DDev->SetFVF(pBuffs[i]->dwFVF);
 		CN3Base::s_lpD3DDev->SetTexture(0, pBuffs[i]->lpTex);
-		CN3Base::s_lpD3DDev->SetTransform(D3DTS_WORLD, &(pBuffs[i]->MtxWorld)); // 월드 행렬 적용
+		CN3Base::s_lpD3DDev->SetTransform(D3DTS_WORLD, &(pBuffs[i]->MtxWorld));
 
 		if(pBuffs[i]->lpTex)
 		{
@@ -342,7 +342,7 @@ void CN3AlphaPrimitiveManager::Render()
 			if (D3DTA_DIFFUSE != RS_current.dwCA1) { RS_current.dwCA1 = D3DTA_DIFFUSE;	CN3Base::s_lpD3DDev->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_DIFFUSE);}
 		}
 	
-		if(pBuffs[i]->pwIndices && pBuffs[i]->nPrimitiveCount > 0) // Index 가 있으면..
+		if(pBuffs[i]->pwIndices && pBuffs[i]->nPrimitiveCount > 0)
 		{
 			if (pBuffs[i]->bUseVB)
 			{
@@ -385,11 +385,11 @@ void CN3AlphaPrimitiveManager::Render()
 		}
 
 #ifdef _DEBUG
-		CN3Base::s_RenderInfo.nAlpha_Polygon += pBuffs[i]->nPrimitiveCount / 3; // Rendering Information Update...
+		CN3Base::s_RenderInfo.nAlpha_Polygon += pBuffs[i]->nPrimitiveCount / 3;
 #endif
 	}
 		
-	m_nToDrawCount = 0; // 다 그렸다...
+	m_nToDrawCount = 0;
 
 	// restore
 	if(RS_old.dwAlpha != RS_current.dwAlpha) CN3Base::s_lpD3DDev->SetRenderState(D3DRS_ALPHABLENDENABLE, RS_old.dwAlpha);
@@ -436,7 +436,7 @@ __AlphaPrimitive* CN3AlphaPrimitiveManager::Add(	__Vector3& vCamera,
 													const __Matrix44& MtxWorld )
 {
 	__ASSERT(m_nToDrawCount < MAX_ALPHAPRIMITIVE_BUFFER, "Alpha primnitive buffer is full");
-	// 메인렌더링시 반드시 이 클래스의 Render() 를 한번 호출해주어야 버퍼를 비워준다..
+	// During main rendering, you must call Render() of this class once to empty the buffer.
 
 	__Vector3 vPos = *((__Vector3*)pVertices);
 
@@ -465,7 +465,7 @@ int CN3AlphaPrimitiveManager::SortByCameraDistance(const void *pArg1, const void
 	const __AlphaPrimitive *pObj1 = *((__AlphaPrimitive**)pArg1);
 	const __AlphaPrimitive *pObj2 = *((__AlphaPrimitive**)pArg2);
 
-	if(pObj1->fCameraDistance > pObj2->fCameraDistance) return -1; // 거리가 먼것부터 소팅..
+	if(pObj1->fCameraDistance > pObj2->fCameraDistance) return -1; // Sorting from far away..
 	else if(pObj1->fCameraDistance < pObj2->fCameraDistance) return 1;
 	else return 0;
 }

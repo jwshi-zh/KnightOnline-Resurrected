@@ -38,14 +38,6 @@ CN3FXPartMesh::~CN3FXPartMesh()
 	}
 }
 
-//////////////////////////////////////////////////////////////////////
-//
-//////////////////////////////////////////////////////////////////////
-
-
-//
-//
-//
 #ifdef _N3TOOL
 bool CN3FXPartMesh::ParseScript(char* szCommand, char* szBuff0, char* szBuff1, char* szBuff2, char* szBuff3)
 {
@@ -152,10 +144,6 @@ bool CN3FXPartMesh::ParseScript(char* szCommand, char* szBuff0, char* szBuff1, c
 }
 #endif // end of _N3TOOL
 
-
-//
-//	init...
-//
 void CN3FXPartMesh::Init()
 {
 	CN3FXPartBase::Init();
@@ -176,10 +164,6 @@ void CN3FXPartMesh::Init()
 	if(m_pShape) m_pShape->SetPartsMtl(m_bAlpha, m_dwSrcBlend, m_dwDestBlend, m_dwZEnable, m_dwZWrite, m_dwLight, m_dwDoubleSide);
 }
 
-
-//
-//
-//
 bool CN3FXPartMesh::Load(HANDLE hFile)
 {
 	if(!CN3FXPartBase::Load(hFile)) return false;
@@ -225,10 +209,6 @@ bool CN3FXPartMesh::Load(HANDLE hFile)
 	return true;
 }
 
-
-//
-//
-//
 bool CN3FXPartMesh::Save(HANDLE hFile)
 {
 	if(!CN3FXPartBase::Save(hFile)) return false;
@@ -254,10 +234,6 @@ bool CN3FXPartMesh::Save(HANDLE hFile)
 	return true;
 }
 
-
-//
-//
-//
 void CN3FXPartMesh::Start()
 {
 	m_dwCurrColor = 0xffffffff;
@@ -294,19 +270,11 @@ void CN3FXPartMesh::Start()
 	CN3FXPartBase::Start();	
 }
 
-
-//
-//
-//
 void CN3FXPartMesh::Stop()
 {
 	CN3FXPartBase::Stop();	
 }
 
-
-//
-//
-//
 bool CN3FXPartMesh::Tick()
 {
 	if(!CN3FXPartBase::Tick()) return false;
@@ -375,7 +343,6 @@ bool CN3FXPartMesh::Tick()
 	return true;
 
 /*	
-	//회전과 이동..
 	__Matrix44 mtx;
 	mtx.Identity();]
 	mtx.Rotation(m_fCurrLife*m_vRotVelocity);
@@ -426,7 +393,6 @@ bool CN3FXPartMesh::Tick()
 	//m_pShape->ScaleSet(m_vUnitScale.x+vScale.x, m_vUnitScale.y+vScale.y, m_vUnitScale.z+vScale.z);
 	m_pShape->ScaleSet(vScale.x, vScale.y, vScale.z);
 
-	//텍스쳐 이동..
 	if(m_cTextureMoveDir>0)
 	{
 		int cnt = m_pShape->PartCount();
@@ -465,8 +431,7 @@ void CN3FXPartMesh::Rotate() const
 	//__Quaternion qtLocalRot(mtx);
 
 	m_pShape->m_mtxParent.Rotation(m_fCurrLife*m_vRotVelocity);
-		
-	//mesh방향과 bundle방향을 맞춰라...
+
 	__Quaternion qtBundle;
 	__Vector3 vDirAxis;
 	float fDirAng;
@@ -488,10 +453,6 @@ void CN3FXPartMesh::Rotate() const
 	m_pShape->m_mtxParent *= mtx;
 }
 
-
-//
-//
-//
 void CN3FXPartMesh::Move()
 {
 	m_vCurrVelocity += m_vAcceleration*CN3Base::s_fSecPerFrm;
@@ -524,10 +485,6 @@ void CN3FXPartMesh::Move()
 	m_pShape->m_mtxParent.PosSet(vPos);
 }
 
-
-//
-//
-//
 void CN3FXPartMesh::Scaling()
 {
 	m_vCurrScaleVel += m_vScaleAccel*m_fCurrLife;
@@ -547,10 +504,6 @@ void CN3FXPartMesh::Scaling()
 	//m_pShape->m_mtxParent.Scale(vScale);
 }
 
-
-//
-//
-//
 void CN3FXPartMesh::MoveTexUV()
 {
 	const int cnt = m_pShape->PartCount();
@@ -572,10 +525,6 @@ void CN3FXPartMesh::MoveTexUV()
 	}
 }
 
-
-//
-//
-//
 int	CN3FXPartMesh::NumPart()
 {
 	if(!m_pShape) return 0;
@@ -583,10 +532,6 @@ int	CN3FXPartMesh::NumPart()
 	return m_pShape->PartCount();
 }
 
-
-//
-//
-//
 int CN3FXPartMesh::NumVertices(int Part)
 {
 	if(!m_pShape) return 0;
@@ -594,10 +539,6 @@ int CN3FXPartMesh::NumVertices(int Part)
 	return m_pShape->Part(Part)->Mesh()->GetMaxNumVertices();
 }
 
-
-//
-//
-//
 LPDIRECT3DVERTEXBUFFER9 CN3FXPartMesh::GetVB(int Part)
 {
 	if(!m_pShape) return nullptr;
@@ -605,10 +546,6 @@ LPDIRECT3DVERTEXBUFFER9 CN3FXPartMesh::GetVB(int Part)
 //	return m_pShape->Part(Part)->Mesh()->GetVertexBuffer();	//this_fx
 }
 
-
-//
-//
-//
 bool CN3FXPartMesh::IsDead()
 {
 	const float TotalLife = m_fFadeIn + m_fLife + m_fFadeOut;
@@ -616,15 +553,8 @@ bool CN3FXPartMesh::IsDead()
 	return false;
 }
 
-
-//
-//	render...
-//	일단은 파티클 하나씩 그리고....
-//	나중에는 같은 텍스쳐 쓰는 것들끼리 묶어서 그리자...
-//
 void CN3FXPartMesh::Render()
 {
-	// render state 세팅
 	if(!m_pShape) return;
 
 	DWORD dwAlpha;

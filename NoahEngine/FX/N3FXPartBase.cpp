@@ -46,20 +46,6 @@ CN3FXPartBase::CN3FXPartBase()
 	m_dwZWrite = TRUE;
 	m_dwLight = FALSE;
 	m_dwDoubleSide = D3DCULL_NONE;
-/*
-const DWORD RF_NOTHING			= 0x0;
-const DWORD RF_ALPHABLENDING	= 0x1;		// Alpha blending
-const DWORD RF_NOTUSEFOG		= 0x2;		// 안개 무시
-const DWORD RF_DOUBLESIDED		= 0x4;		// 양면 - D3DCULL_NONE
-const DWORD RF_BOARD_Y			= 0x8;		// Y 축으로 해서.. 카메라를 본다.
-const DWORD RF_POINTSAMPLING	= 0x10;		// MipMap 에서.. PointSampling 으로 한다..
-const DWORD RF_WINDY			= 0x20;		// 바람에 날린다.. 바람의 값은 CN3Base::s_vWindFactor 를 참조 한다..
-const DWORD RF_NOTUSELIGHT		= 0x40;		// Light Off
-const DWORD RF_DIFFUSEALPHA		= 0x80;		// Diffuse 값을 갖고 투명하게 Alpha blending
-const DWORD RF_NOTZWRITE		= 0x100;	// ZBuffer 에 안쓴다.
-const DWORD RF_UV_CLAMP			= 0x200;	// texture UV적용을 Clamp로 한다..default는 wrap이다..
-const DWORD RF_NOTZBUFFER		= 0x400;	// ZBuffer 무시.
-*/
 }
 
 CN3FXPartBase::~CN3FXPartBase()
@@ -72,40 +58,30 @@ CN3FXPartBase::~CN3FXPartBase()
 	}
 }
 
-
-//
-//	parse script...
-//	스크립트 해서 & 셋팅.
-//
 #ifdef _N3TOOL
 bool CN3FXPartBase::ParseScript(char* szCommand, char* szBuff0, char* szBuff1, char* szBuff2, char* szBuff3)
 {
-	//	이름.
 	if(lstrcmpi(szCommand, "<name>")==0)
 	{
 		m_strName = szBuff0;
 		return true;
 	}
 
-	//	타입..
 	if(lstrcmpi(szCommand, "<type>")==0)
 	{
 		if(lstrcmpi(szBuff0, "particle")==0) m_iType = FX_PART_TYPE_PARTICLE;
 		if(lstrcmpi(szBuff0, "board")==0) m_iType = FX_PART_TYPE_BOARD;
 		if(lstrcmpi(szBuff0, "mesh")==0) m_iType = FX_PART_TYPE_MESH;
 		if(lstrcmpi(szBuff0, "ground")==0) m_iType = FX_PART_TYPE_BOTTOMBOARD;
-		//^^v 더 넣을꺼 있으면 넣어라..
 		return true;
 	}
 
-	//	지속시간.(0이면 무한대...)
 	if(lstrcmpi(szCommand, "<life>")==0)
 	{
 		m_fLife = atof(szBuff0);
 		return true;
 	}
 
-	//	texture 이름과 개수 읽기.
 	if(lstrcmpi(szCommand, "<texture>")==0)
 	{
 		m_iNumTex = atoi(szBuff1);
@@ -133,14 +109,12 @@ bool CN3FXPartBase::ParseScript(char* szCommand, char* szBuff0, char* szBuff1, c
 		return true;
 	}
 
-	//	texture animation speed 설정..
 	if(lstrcmpi(szCommand, "<texture_animation_speed>")==0)
 	{
 		m_fTexFPS = atof(szBuff0);
 		return true;
 	}
 
-	//	상대위치...
 	if(lstrcmpi(szCommand, "<position0>")==0)
 	{
 		m_vPos.x = atof(szBuff0);
@@ -149,7 +123,6 @@ bool CN3FXPartBase::ParseScript(char* szCommand, char* szBuff0, char* szBuff1, c
 		return true;
 	}
 
-	//	속도..
 	if(lstrcmpi(szCommand, "<velocity>")==0)
 	{
 		__Vector3 v;
@@ -159,7 +132,6 @@ bool CN3FXPartBase::ParseScript(char* szCommand, char* szBuff0, char* szBuff1, c
 		return true;
 	}
 
-	//	가속도..
 	if(lstrcmpi(szCommand, "<acceleration>")==0)
 	{
 		__Vector3 v;
@@ -169,7 +141,6 @@ bool CN3FXPartBase::ParseScript(char* szCommand, char* szBuff0, char* szBuff1, c
 		return true;
 	}
 
-	//	회전 각속도..
 	if(lstrcmpi(szCommand, "<rot_velocity>")==0)
 	{
 		__Vector3 v;
@@ -179,7 +150,6 @@ bool CN3FXPartBase::ParseScript(char* szCommand, char* szBuff0, char* szBuff1, c
 		return true;
 	}
 
-	//	SRCBLEND..
 	if(lstrcmpi(szCommand, "<src_blend>")==0)
 	{
 		if(lstrcmpi(szBuff0, "ONE")==0) m_dwSrcBlend = D3DBLEND_ONE;
@@ -191,7 +161,6 @@ bool CN3FXPartBase::ParseScript(char* szCommand, char* szBuff0, char* szBuff1, c
 		return true;
 	}
 
-	//	SRCBLEND..
 	if(lstrcmpi(szCommand, "<dest_blend>")==0)
 	{
 		if(lstrcmpi(szBuff0, "ONE")==0) m_dwDestBlend = D3DBLEND_ONE;
@@ -286,11 +255,6 @@ bool CN3FXPartBase::ParseScript(char* szCommand, char* szBuff0, char* szBuff1, c
 }
 #endif // end of _N3TOOL
 
-
-//
-//	Decode Script File
-//	스크립트 파일 읽고 해석.(call parse script..)
-//
 #ifdef _N3TOOL
 bool CN3FXPartBase::DecodeScriptFile(const char* lpPathName)
 {
@@ -334,10 +298,6 @@ bool CN3FXPartBase::DecodeScriptFile(const char* lpPathName)
 }
 #endif // end of _N3TOOL
 
-
-//
-//	init...변수 초기화..
-//
 void CN3FXPartBase::Init()
 {
 	m_fCurrLife = 0.0f;
@@ -345,32 +305,17 @@ void CN3FXPartBase::Init()
 	m_vCurrPos = m_vPos;
 }
 
-
-//
-//	start...파트 구동 시작...	
-//
 void CN3FXPartBase::Start()
 {
 	m_dwState = FX_PART_STATE_LIVE;
 }
 
-
-//
-//	stop..
-//	파트 멈춤시도...
-//	이함수 호출한다고 파트가 바로 끝나는건 아니다..끝내는 과정을 시작하는 거다..
-//	실질적인 끝맺음은 tick에서 할껄...^^
-//
 void CN3FXPartBase::Stop()
 {
 	m_dwState = FX_PART_STATE_DYING;
 	m_fCurrLife = m_fLife + m_fFadeIn;
 }
 
-
-//
-//	Tick...
-//
 bool CN3FXPartBase::Tick()
 {
 	if(m_dwState==FX_PART_STATE_DEAD || m_dwState==FX_PART_STATE_READY) return false;
@@ -392,27 +337,15 @@ bool CN3FXPartBase::Tick()
 	return true;
 }
 
-
-//
-//
-//
 bool CN3FXPartBase::IsDead()
 {
 	return true;
 }
 
-
-//
-//	Render..
-//
 void CN3FXPartBase::Render()
 {
 }
 
-
-//
-//	load...
-//
 bool CN3FXPartBase::Load(HANDLE hFile)
 {	
 	unsigned char	cTmp;
@@ -490,10 +423,6 @@ bool CN3FXPartBase::Load(HANDLE hFile)
 	return true;
 }
 
-
-//
-//
-//
 bool CN3FXPartBase::Save(HANDLE hFile)
 {
 	unsigned char	cTmp;

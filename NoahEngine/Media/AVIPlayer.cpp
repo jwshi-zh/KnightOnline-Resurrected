@@ -78,15 +78,13 @@ bool CAVIPlayer::PlayCutScene(LPTSTR pszMovie, HINSTANCE hInstance)
 	{
 		m_pVideoWindow->get_MessageDrain((OAHWND*)&hDrain);
 		m_pVideoWindow->put_MessageDrain((OAHWND)m_hWndMain);
-		lMode = -1;		// OATRUE
+		lMode = -1;
 		m_pVideoWindow->put_FullScreenMode(lMode);
 	}
 
-	//
 	m_pMediaControl->Pause();
 	m_pMediaControl->Run();
 
-	//
 	while (1)
     {
         MSG msg;

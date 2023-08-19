@@ -16,12 +16,12 @@ const int MAX_SCENE_CHARACTER = 4096;
 class CN3Scene : public CN3BaseFileAccess
 {
 public:
-	float			m_fFrmCur, m_fFrmStart, m_fFrmEnd; // 현재, 시작, 끝 프레임..
-	bool			m_bDisableDefaultLight; // 참이면 기본라이트를 끈다..
+	float			m_fFrmCur, m_fFrmStart, m_fFrmEnd;
+	bool			m_bDisableDefaultLight;
 	D3DCOLOR		m_AmbientLightColor;
 
 protected:
-	int				m_nCameraActive; // 현재 선택된 카메라..
+	int				m_nCameraActive;
 	int				m_nCameraCount;
 	int				m_nLightCount;
 

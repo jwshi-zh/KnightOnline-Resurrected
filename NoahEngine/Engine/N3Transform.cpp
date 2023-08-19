@@ -5,7 +5,7 @@ CN3Transform::CN3Transform()
 {
 	m_dwType |= OBJ_TRANSFORM;
 
-	m_vPos.Set(0,0,0); // 위치, 스케일, 회전 벡터. 
+	m_vPos.Set(0,0,0);
 	m_vScale.Set(1,1,1);
 	m_qRot.Identity();
 	m_Matrix.Identity();
@@ -21,7 +21,7 @@ CN3Transform::~CN3Transform()
 
 void CN3Transform::Release()
 {
-	m_vPos.Set(0,0,0); // 위치, 스케일, 회전 벡터. 
+	m_vPos.Set(0,0,0);
 	m_vScale.Set(1,1,1);
 	m_qRot.Identity();
 
@@ -43,7 +43,7 @@ bool CN3Transform::Load(HANDLE hFile)
 	CN3BaseFileAccess::Load(hFile);
 
 	DWORD dwRWC = 0;
-	ReadFile(hFile, &m_vPos, sizeof(__Vector3), &dwRWC, nullptr); // 위치, 스케일, 회전 벡터. 
+	ReadFile(hFile, &m_vPos, sizeof(__Vector3), &dwRWC, nullptr);
 	ReadFile(hFile, &m_qRot, sizeof(__Quaternion), &dwRWC, nullptr);
 	ReadFile(hFile, &m_vScale, sizeof(__Vector3), &dwRWC, nullptr);
 
@@ -62,7 +62,7 @@ bool CN3Transform::Load(HANDLE hFile)
 	fFrmWhole = m_KeyScale.Count() * m_KeyScale.SamplingRate() / 30.0f;
 	if(fFrmWhole > m_fFrmWhole) m_fFrmWhole = fFrmWhole;
 
-	this->ReCalcMatrix(); // 변환 행렬 계산..
+	this->ReCalcMatrix();
 
 	return true;
 }
@@ -73,7 +73,7 @@ bool CN3Transform::Save(HANDLE hFile)
 	CN3BaseFileAccess::Save(hFile);
 
 	DWORD dwRWC = 0;
-	WriteFile(hFile, &m_vPos, sizeof(__Vector3), &dwRWC, NULL); // 위치, 스케일, 회전 벡터. 
+	WriteFile(hFile, &m_vPos, sizeof(__Vector3), &dwRWC, NULL);
 	WriteFile(hFile, &m_qRot, sizeof(__Quaternion), &dwRWC, NULL);
 	WriteFile(hFile, &m_vScale, sizeof(__Vector3), &dwRWC, NULL);
 
@@ -102,7 +102,7 @@ void CN3Transform::Tick(float fFrm)
 
 	const bool bNdeedReCalcMatrix = this->TickAnimationKey(m_fFrmCur);
 	
-	if(m_dwType & OBJ_JOINT) return; // Joint 일 경우는 행렬을 계산하는 방법이 다르기 땜시 넘어간다..
+	if(m_dwType & OBJ_JOINT) return; // In the case of Joint, it is skipped because the method of calculating the matrix is different.
 
 	if(bNdeedReCalcMatrix) this->ReCalcMatrix();
 }
@@ -121,7 +121,6 @@ void CN3Transform::ReCalcMatrix()
 
 bool CN3Transform::TickAnimationKey(float fFrm)
 {
-	// 에니메이션 키
 	const int nKCP = m_KeyPos.Count();
 	const int nKCR = m_KeyRot.Count();
 	const int nKCS = m_KeyScale.Count();
@@ -138,7 +137,6 @@ bool CN3Transform::TickAnimationKey(float fFrm)
 #ifdef _N3TOOL
 void CN3Transform::Render(const __Matrix44* pMtxParent, float fUnitSize)
 {
-	// 축 그리기..
 	static __Vector3 vAxis[9];
 	static bool bAxisCreated = false;
 	if(false == bAxisCreated)
@@ -147,9 +145,9 @@ void CN3Transform::Render(const __Matrix44* pMtxParent, float fUnitSize)
 		__Matrix44 mtxRot;
 		for(int i = 0; i < 3; i++)
 		{
-			if(i == 0) { mtxRot.Identity(); } // X 축
-			else if(i == 1) { mtxRot.RotationZ(D3DXToRadian(90.0f)); } // Y 축
-			else if(i == 2) { mtxRot.RotationY(D3DXToRadian(-90.0f)); } // Z 축
+			if(i == 0) { mtxRot.Identity(); }
+			else if(i == 1) { mtxRot.RotationZ(D3DXToRadian(90.0f)); }
+			else if(i == 2) { mtxRot.RotationY(D3DXToRadian(-90.0f)); }
 			
 			vAxis[i*3+0] = v0*mtxRot;
 			vAxis[i*3+1] = v1*mtxRot;
@@ -160,22 +158,20 @@ void CN3Transform::Render(const __Matrix44* pMtxParent, float fUnitSize)
 	}
 
 	__Matrix44 mtxBox;
-	mtxBox.Scale(fUnitSize, fUnitSize, fUnitSize); // 관절부 박스에 스케일 적용
+	mtxBox.Scale(fUnitSize, fUnitSize, fUnitSize); // Scale applied to joint box
 	mtxBox *= m_Matrix;
 
 	s_lpD3DDev->SetTransform(D3DTS_WORLD, &mtxBox);
-	CN3Base::RenderLines(&(vAxis[0]), 2, 0xffff0000); // 선그리기..
-	CN3Base::RenderLines(&(vAxis[3]), 2, 0xff00ff00); // 선그리기..
-	CN3Base::RenderLines(&(vAxis[6]), 2, 0xff0000ff); // 선그리기..
+	CN3Base::RenderLines(&(vAxis[0]), 2, 0xffff0000);
+	CN3Base::RenderLines(&(vAxis[3]), 2, 0xff00ff00);
+	CN3Base::RenderLines(&(vAxis[6]), 2, 0xff0000ff);
 }
 #endif // end of _N3TOOL
 
 /*
 #if _DEBUG 
-// 선택 상자 만들기.
 void CN3Transform::GenerateSelectBox(__Vector3 &vMin, __Vector3 &vMax)
 {
-	// Bounding Box Vertex Buffer 생성
 	if(m_lpVBBox != NULL) { m_lpVBBox->Release(); m_lpVBBox = NULL; }
 	HRESULT rval = m_lpDevRef->CreateVertexBuffer(54 * sizeof(__VertexColor), 0, FVF_CV, D3DPOOL_MANAGED, &m_lpVBBox);
 	if(rval != D3D_OK)
@@ -189,12 +185,12 @@ void CN3Transform::GenerateSelectBox(__Vector3 &vMin, __Vector3 &vMax)
 		}
 	}
 
-	float fW = (vMax.x - vMin.x)/5, fH = (vMax.y - vMin.y)/5, fL = (vMax.z - vMin.z)/5; // 길이 높이 너비 (x y z)
+	float fW = (vMax.x - vMin.x)/5, fH = (vMax.y - vMin.y)/5, fL = (vMax.z - vMin.z)/5;
 
 	__VertexColor* pVC;
 	m_lpVBBox->Lock(0, 0, (void**)&pVC, NULL);
 	
-	pVC[4] =  pVC[2] =  pVC[0] =  __VertexColor(vMin.x, vMax.y, vMin.z, 0xff7f7f7f);  // 정면 - 아래와 같은 선 리스트를 만든다.
+	pVC[4] =  pVC[2] =  pVC[0] =  __VertexColor(vMin.x, vMax.y, vMin.z, 0xff7f7f7f);  // Front - Creates a list of lines like the one below.
 	pVC[10] = pVC[8] =  pVC[6] =  __VertexColor(vMax.x, vMax.y, vMin.z, 0xff7f7f7f);  //  /          /
 	pVC[16] = pVC[14] = pVC[12] = __VertexColor(vMax.x, vMin.y, vMin.z, 0xff7f7f7f);  // +--      --+
 	pVC[22] = pVC[20] = pVC[18] = __VertexColor(vMin.x, vMin.y, vMin.z, 0xff7f7f7f);  // |          |
@@ -216,12 +212,12 @@ void CN3Transform::GenerateSelectBox(__Vector3 &vMin, __Vector3 &vMax)
 	__Vector3 vLength = (vMax - vMin);
 	float fLength = vLength.Magnitude();
 	__Vector3 vCenter = vMin + (vMax - vMin)/2.0f;
-	pVC[48].Set(0, 0, 0, 0xffff0000); pVC[48].x -= vLength.x/2 + fLength/5 + 0.5f;// x 축 빨간색 -> 빨간색
-	pVC[49].Set(0, 0, 0, 0xffff0000); pVC[49].x += vLength.x/2 + fLength/5 + 0.5f;// x 축 빨간색 -> 빨간색
-	pVC[50].Set(0, 0, 0, 0xff00ff00); pVC[50].y -= vLength.y/2 + fLength/5 + 0.5f;// y 축 녹색 -> 녹색
-	pVC[51].Set(0, 0, 0, 0xff00ff00); pVC[51].y += vLength.y/2 + fLength/5 + 0.5f;// y 축 녹색 -> 녹색
-	pVC[52].Set(0, 0, 0, 0xff0000ff); pVC[52].z -= vLength.z/2 + fLength/5 + 0.5f;// z 축 파란색 -> 파란색
-	pVC[53].Set(0, 0, 0, 0xff0000ff); pVC[53].z += vLength.z/2 + fLength/5 + 0.5f;// z 축 파란색 -> 파란색
+	pVC[48].Set(0, 0, 0, 0xffff0000); pVC[48].x -= vLength.x/2 + fLength/5 + 0.5f;
+	pVC[49].Set(0, 0, 0, 0xffff0000); pVC[49].x += vLength.x/2 + fLength/5 + 0.5f;
+	pVC[50].Set(0, 0, 0, 0xff00ff00); pVC[50].y -= vLength.y/2 + fLength/5 + 0.5f;
+	pVC[51].Set(0, 0, 0, 0xff00ff00); pVC[51].y += vLength.y/2 + fLength/5 + 0.5f;
+	pVC[52].Set(0, 0, 0, 0xff0000ff); pVC[52].z -= vLength.z/2 + fLength/5 + 0.5f;
+	pVC[53].Set(0, 0, 0, 0xff0000ff); pVC[53].z += vLength.z/2 + fLength/5 + 0.5f;
 	m_lpVBBox->Unlock();
 }
 #endif

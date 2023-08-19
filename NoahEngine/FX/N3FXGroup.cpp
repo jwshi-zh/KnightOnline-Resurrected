@@ -25,8 +25,6 @@ CN3FXGroup::~CN3FXGroup()
 	FXBList.clear();
 }
 
-///////////////////////////////////////////////////////////////////////
-
 bool CN3FXGroup::Load(HANDLE hFile)
 {
 	DWORD			dwRWC = 0;
@@ -65,10 +63,6 @@ bool CN3FXGroup::Save(HANDLE hFile)
 	return true;
 }
 
-//
-//	decode script file..
-//	스크립트 파일 읽고 해석시킴...
-//
 #ifdef _N3TOOL
 bool CN3FXGroup::DecodeScriptFile(const char* lpPathName)
 {

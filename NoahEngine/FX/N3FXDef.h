@@ -3,12 +3,12 @@
 #include "N3Base.h"
 #include "My_3DStruct.h"
 
-const int MAX_FX_PART = 16;			//한 인스턴스가 동시에 표현할수 있는 갯수..
-const int NUM_VERTEX_PARTICLE = 4;	//파티클 하나에 들어가는 점수..
+const int MAX_FX_PART = 16;			// The number of times an instance can be represented simultaneously.
+const int NUM_VERTEX_PARTICLE = 4;	// The score that goes into one particle..
 const int NUM_VERTEX_BOTTOM = 10;	//
 const int NUM_KEY_COLOR = 100;
 
-enum e_FXPartType	//이펙트 스타일...매쉬를 이용한 건지, 파티클을 이용한 건지..등등..
+enum e_FXPartType
 {
 	FX_PART_TYPE_NONE = 0,
 	FX_PART_TYPE_PARTICLE = 1,		//'particle'
@@ -17,7 +17,7 @@ enum e_FXPartType	//이펙트 스타일...매쉬를 이용한 건지, 파티클�
 	FX_PART_TYPE_BOTTOMBOARD = 4	//'bottomboard'
 };
 
-enum e_FXPartState	//파트의 상태..
+enum e_FXPartState
 {
 	FX_PART_STATE_DEAD = 0,
 	FX_PART_STATE_DYING = 1,
@@ -25,14 +25,14 @@ enum e_FXPartState	//파트의 상태..
 	FX_PART_STATE_READY = 3
 };
 
-enum e_FXBundleState	//번들의 상태..
+enum e_FXBundleState
 {
 	FX_BUNDLE_STATE_DEAD = 0,
 	FX_BUNDLE_STATE_DYING = 1,
 	FX_BUNDLE_STATE_LIVE = 2	
 };
 
-enum e_FXBundleAct	//번들이 어케 동작하는지..
+enum e_FXBundleAct
 {
 	FX_BUNDLE_MOVE_DIR_FIXEDTARGET = 0,
 	FX_BUNDLE_MOVE_DIR_FLEXABLETARGET = 1,
@@ -44,25 +44,12 @@ enum e_FXBundleAct	//번들이 어케 동작하는지..
 };
 
 //
-enum e_FXPartParticleEmitType	// 이펙트 파트가 어떤 모양으로 전개되는지...
+enum e_FXPartParticleEmitType
 {
-	FX_PART_PARTICLE_EMIT_TYPE_NORMAL = 0,	//'normal'
-	FX_PART_PARTICLE_EMIT_TYPE_SPREAD = 1,	//'spread'
-	FX_PART_PARTICLE_EMIT_TYPE_GATHER = 2,	//'gather'	
+	FX_PART_PARTICLE_EMIT_TYPE_NORMAL = 0,
+	FX_PART_PARTICLE_EMIT_TYPE_SPREAD = 1,
+	FX_PART_PARTICLE_EMIT_TYPE_GATHER = 2,
 };
-
-//
-/////////////////////////////////////////////////////////////////
-//structures.....
-
-/*
-typedef struct __TABLE_FX	// FX 리소스 레코드...
-{
-	DWORD		dwID;		// 고유 ID
-	std::string	szFN;		// file name
-	DWORD		dwSoundID;	// 효과에 쓰는 사운드 아디.
-} TABLE_FX;
-*/
 
 typedef struct Point3D
 {
@@ -71,13 +58,13 @@ typedef struct Point3D
 	float z;
 } POINT3D;
 
-typedef union __ParticleEmitCondition	//파티클 분사시 필요정보..
+typedef union __ParticleEmitCondition
 {
-	POINT3D	vGatherPoint;	//EmitType이 gather일때 모아지는 점..
-	float	fEmitAngle;		//EmitType이 spread일때 뿌려지는 각..
+	POINT3D	vGatherPoint;
+	float	fEmitAngle;
 } PARTICLEEMITCONDITION;
 
-typedef struct __FXPartWithStartTime	// 번들에서 파트들 관리할때..
+typedef struct __FXPartWithStartTime
 {
 	class CN3FXPartBase*	pPart;
 	float					fStartTime;

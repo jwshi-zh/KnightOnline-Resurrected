@@ -29,10 +29,6 @@ CN3SndObj2D::~CN3SndObj2D()
 	Release();
 }
 
-
-//
-//	Initialize....
-//
 void CN3SndObj2D::Init()
 {
 	Release();
@@ -54,10 +50,6 @@ void CN3SndObj2D::Init()
 	m_bUse = false;
 }
 
-
-//
-//	Release...
-//
 void CN3SndObj2D::Release()
 {
 	if(m_pDSBuff)
@@ -67,7 +59,6 @@ void CN3SndObj2D::Release()
 		m_pDSBuff = nullptr;
 	}
 }
-
 
 //
 //	SetVolume...
@@ -91,10 +82,6 @@ void CN3SndObj2D::SetVolume(int Vol)
 	}
 }
 
-
-//
-//
-//
 bool CN3SndObj2D::IsPlaying() const
 {
 	if(m_ePlayState != SNDSTATE_STOP) return true;
@@ -106,10 +93,6 @@ bool CN3SndObj2D::IsPlaying() const
 	return false;
 }
 
-
-//
-//
-//
 void CN3SndObj2D::Tick()
 {
 	if(m_ePlayState == SNDSTATE_STOP) return;
@@ -158,7 +141,6 @@ void CN3SndObj2D::Tick()
 		}
 		else
 		{
-			//볼륨 점점 작게....
 			if(this->m_iType!=SNDTYPE_3D)
 			{
 				int vol = 0;
@@ -169,10 +151,6 @@ void CN3SndObj2D::Tick()
 	}
 }
 
-
-//
-//
-//
 void CN3SndObj2D::Play(const D3DVECTOR* pvPos, float delay, float fFadeInTime, bool bImmediately)
 {
 	this->SetPos(pvPos);
@@ -184,10 +162,6 @@ void CN3SndObj2D::Play(const D3DVECTOR* pvPos, float delay, float fFadeInTime, b
 	m_ePlayState = SNDSTATE_DELAY;
 }
 
-
-//
-//
-//
 void CN3SndObj2D::RealPlay()
 {
     if(m_pDSBuff == nullptr) return;
@@ -205,10 +179,6 @@ void CN3SndObj2D::RealPlay()
 	return; 
 }
 
-
-//
-//
-//
 void CN3SndObj2D::Stop(float fFadeOutTime)
 {
 	if( m_pDSBuff == nullptr) return;

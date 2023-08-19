@@ -129,7 +129,7 @@ bool CN3SndEng::LoadSource(LPSOUNDSOURCE pSrc)
 	dsbd.lpwfxFormat     = WaveFile.m_pwfx;
 	dsbd.dwFlags		 = DSBCAPS_CTRLVOLUME | DSBCAPS_STATIC;
 
-	if(pSrc->Type==SNDTYPE_3D)	//3D 음원..
+	if(pSrc->Type==SNDTYPE_3D)
 	{
 		dsbd.dwFlags         = DSBCAPS_CTRL3D | DSBCAPS_MUTE3DATMAXDISTANCE | DSBCAPS_STATIC;
 		dsbd.guid3DAlgorithm = DS3DALG_HRTF_FULL;

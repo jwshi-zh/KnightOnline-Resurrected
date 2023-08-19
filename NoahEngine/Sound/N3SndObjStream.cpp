@@ -176,14 +176,12 @@ void CN3SndObjStream::RealPlay()
 			{
 				if(m_bIsLoop==false)
 				{
-					//tick에 어케 적용할 것인가..
 					m_PastTime = m_PlayTime;
 					Stop();
 					return;
 				}
 				else if(m_bIsLoop==true)
 				{
-					//tick에 어케 적용할 것인가..
 					//Stop();
 					//m_lpDSBuff->Stop();
 					Play();
@@ -226,10 +224,6 @@ void CN3SndObjStream::Release()
 	}
 }
 
-
-//
-//	음악이 플레이되고 있을때 streamming시키기..
-//
 void CN3SndObjStream::Tick()
 {
 	if(m_ePlayState == SNDSTATE_STOP) return;
@@ -277,7 +271,6 @@ void CN3SndObjStream::Tick()
 		}
 		else
 		{
-			//볼륨 점점 작게....
 			int vol = 0;
 			if(m_fFadeOutTime>0.0f)  vol = (((m_fFadeOutTime - m_fTmpSecPerFrm)/m_fFadeOutTime)*(float)m_iMaxVolume);
 			SetVolume(vol);
@@ -287,9 +280,6 @@ void CN3SndObjStream::Tick()
 }
 
 /*
-//
-// 똑같다.
-//
 void CN3SndObjStream::Play(float delay, float fFadeInTime)
 {
 	m_fFadeInTime = fFadeInTime;
@@ -299,10 +289,6 @@ void CN3SndObjStream::Play(float delay, float fFadeInTime)
 	m_ePlayState = SNDSTATE_DELAY;
 }
 
-
-//
-// 똑같다.
-//
 void CN3SndObjStream::Stop(float fFadeOutTime)
 {
 	if( m_lpDSBuff == NULL ) return;

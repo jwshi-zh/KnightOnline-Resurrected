@@ -10,9 +10,9 @@ CN3Scene::CN3Scene()
 
 	m_nCameraActive = 0;
 
-	m_fFrmCur = 0.0f; // Animation Frame;
-	m_fFrmStart = 0.0f; // 전체 프레임.
-	m_fFrmEnd = 1000.0f; // 기본값 프레임.
+	m_fFrmCur = 0.0f;
+	m_fFrmStart = 0.0f;
+	m_fFrmEnd = 1000.0f;
 
 	m_nCameraCount = 0; 
 	m_nLightCount = 0;
@@ -36,9 +36,9 @@ void CN3Scene::Release()
 {
 	m_nCameraActive = 0;
 
-	m_fFrmCur = 0.0f; // Animation Frame;
-	m_fFrmStart = 0.0f; // 전체 프레임.
-	m_fFrmEnd = 1000.0f; // 기본값 프레임.
+	m_fFrmCur = 0.0f;
+	m_fFrmStart = 0.0f;
+	m_fFrmEnd = 1000.0f;
 
 	int i = 0;
 	for(auto i = 0; i < MAX_SCENE_CAMERA; i++) { if(m_pCameras[i]) { delete m_pCameras[i]; m_pCameras[i] = nullptr; } }
@@ -57,15 +57,15 @@ bool CN3Scene::Load(HANDLE hFile)
 	DWORD dwRWC = 0;
 	
 	ReadFile(hFile, &m_nCameraActive, 4, &dwRWC, nullptr);
-	ReadFile(hFile, &m_fFrmCur, 4, &dwRWC, nullptr); // Animation Frame;
-	ReadFile(hFile, &m_fFrmStart, 4, &dwRWC, nullptr); // 전체 프레임.
-	ReadFile(hFile, &m_fFrmEnd, 4, &dwRWC, nullptr); // 전체 프레임.
+	ReadFile(hFile, &m_fFrmCur, 4, &dwRWC, nullptr);
+	ReadFile(hFile, &m_fFrmStart, 4, &dwRWC, nullptr);
+	ReadFile(hFile, &m_fFrmEnd, 4, &dwRWC, nullptr);
 
 	int i = 0, nL = 0;
 	char szName[512] = "";
 
 	int nCC = 0;
-	ReadFile(hFile, &nCC, 4, &dwRWC, nullptr); // 카메라..
+	ReadFile(hFile, &nCC, 4, &dwRWC, nullptr);
 	for(auto i = 0; i < nCC; i++)
 	{
 		ReadFile(hFile, &nL, 4, &dwRWC, nullptr);
@@ -85,7 +85,7 @@ bool CN3Scene::Load(HANDLE hFile)
 	}
 
 	int nLC = 0;
-	ReadFile(hFile, &nLC, 4, &dwRWC, nullptr); // 카메라..
+	ReadFile(hFile, &nLC, 4, &dwRWC, nullptr);
 	for(auto i = 0; i < nLC; i++) 
 	{
 		ReadFile(hFile, &nL, 4, &dwRWC, nullptr);
@@ -105,7 +105,7 @@ bool CN3Scene::Load(HANDLE hFile)
 	}
 
 	int nSC = 0;
-	ReadFile(hFile, &nSC, 4, &dwRWC, nullptr); // Shapes..
+	ReadFile(hFile, &nSC, 4, &dwRWC, nullptr);
 	for(auto i = 0; i < nSC; i++)
 	{
 		ReadFile(hFile, &nL, 4, &dwRWC, nullptr);
@@ -125,7 +125,7 @@ bool CN3Scene::Load(HANDLE hFile)
 	}
 
 	int nChrC = 0;
-	ReadFile(hFile, &nChrC, 4, &dwRWC, nullptr); // 캐릭터
+	ReadFile(hFile, &nChrC, 4, &dwRWC, nullptr);
 	for(auto i = 0; i < nChrC; i++)
 	{
 		ReadFile(hFile, &nL, 4, &dwRWC, nullptr);
@@ -160,13 +160,13 @@ bool CN3Scene::Save(HANDLE hFile)
 	DWORD dwRWC = 0;
 	
 	WriteFile(hFile, &m_nCameraActive, 4, &dwRWC, nullptr);
-	WriteFile(hFile, &m_fFrmCur, 4, &dwRWC, nullptr); // Animation Frame;
-	WriteFile(hFile, &m_fFrmStart, 4, &dwRWC, nullptr); // 전체 프레임.
-	WriteFile(hFile, &m_fFrmEnd, 4, &dwRWC, nullptr); // 전체 프레임.
+	WriteFile(hFile, &m_fFrmCur, 4, &dwRWC, nullptr);
+	WriteFile(hFile, &m_fFrmStart, 4, &dwRWC, nullptr);
+	WriteFile(hFile, &m_fFrmEnd, 4, &dwRWC, nullptr);
 
 	int i = 0, nL = 0;
 	
-	WriteFile(hFile, &m_nCameraCount, 4, &dwRWC, nullptr); // 카메라..
+	WriteFile(hFile, &m_nCameraCount, 4, &dwRWC, nullptr);
 	for(auto i = 0; i < m_nCameraCount; i++)
 	{
 		nL = m_pCameras[i]->FileName().size();
@@ -175,7 +175,7 @@ bool CN3Scene::Save(HANDLE hFile)
 		m_pCameras[i]->SaveToFile();
 	}
 
-	WriteFile(hFile, &m_nLightCount, 4, &dwRWC, nullptr); // 카메라..
+	WriteFile(hFile, &m_nLightCount, 4, &dwRWC, nullptr);
 	for(auto i = 0; i < m_nLightCount; i++) 
 	{
 		nL = m_pLights[i]->FileName().size();
@@ -185,7 +185,7 @@ bool CN3Scene::Save(HANDLE hFile)
 	}
 
 	const int iSC = m_Shapes.size();
-	WriteFile(hFile, &iSC, 4, &dwRWC, nullptr); // Shapes..
+	WriteFile(hFile, &iSC, 4, &dwRWC, nullptr);
 	for(auto i = 0; i < iSC; i++)
 	{
 		nL = m_Shapes[i]->FileName().size();
@@ -197,7 +197,7 @@ bool CN3Scene::Save(HANDLE hFile)
 	}
 
 	const int iCC = m_Chrs.size();
-	WriteFile(hFile, &iCC, 4, &dwRWC, nullptr); // 캐릭터
+	WriteFile(hFile, &iCC, 4, &dwRWC, nullptr);
 	for(auto i = 0; i < iCC; i++)
 	{
 		nL = m_Chrs[i]->FileName().size();
@@ -208,7 +208,7 @@ bool CN3Scene::Save(HANDLE hFile)
 		m_Chrs[i]->SaveToFile();
 	}
 
-	CN3Base::SaveResrc(); // Resource 를 파일로 저장한다..
+	CN3Base::SaveResrc();
 
 	return true;
 }
@@ -246,7 +246,7 @@ void CN3Scene::Tick(float fFrm)
 {
 	if(FRAME_SELFPLAY == fFrm || fFrm <  m_fFrmStart || fFrm > m_fFrmEnd)
 	{
-		m_fFrmCur += 30.0f / CN3Base::s_fFrmPerSec; // 일정하게 움직이도록 시간에 따라 움직이는 양을 조절..
+		m_fFrmCur += 30.0f / CN3Base::s_fFrmPerSec;
 		if(m_fFrmCur > m_fFrmEnd) m_fFrmCur = m_fFrmStart;
 	}
 	else
@@ -265,13 +265,13 @@ void CN3Scene::TickCameras(float fFrm)
 	for(int i = 0; i < m_nCameraCount; i++)
 	{
 		m_pCameras[i]->Tick(m_fFrmCur);
-		if(m_nCameraActive == i) m_pCameras[i]->Apply(); // 카메라 데이터 값을 적용한다..
+		if(m_nCameraActive == i) m_pCameras[i]->Apply();
 	}
 }
 
 void CN3Scene::TickLights(float fFrm)
 {
-	for(int i = 0; i < 8; i++) s_lpD3DDev->LightEnable(i, FALSE); // 일단 라이트 다 끄고..
+	for(int i = 0; i < 8; i++) s_lpD3DDev->LightEnable(i, FALSE);
 	
 	for(auto i = 0; i < m_nLightCount; i++)
 	{
@@ -293,7 +293,6 @@ void CN3Scene::TickLights(float fFrm)
 		s_lpD3DDev->SetLight(7, &lgt);
 	}
 
-	// Ambient Light 바꾸기..
 //	DWORD dwAmbient =	0xff000000 | 
 //						(((DWORD)(m_pLights[i]->m_Data.Diffuse.r * 255 * 0.5f)) << 16) | 
 //						(((DWORD)(m_pLights[i]->m_Data.Diffuse.g * 255 * 0.5f)) << 8) | 
@@ -510,14 +509,14 @@ bool CN3Scene::CheckOverlappedShapesAndReport()
 		{
 			vPos2 = pShapes[j]->Pos();
 			if(	vPos1 == vPos2 ||
-				pShapes[i]->FileName() == pShapes[j]->FileName() ) // 위치나 이름이 같은 오브젝트가 있는지 찾아본다.
+				pShapes[i]->FileName() == pShapes[j]->FileName() )
 			{
 				char szErr[512];
 				__Vector3 vPos = pShapes[j]->Pos();
-				sprintf(szErr, "파일 이름이 같거나 위치가 같은 오브젝트가 있습니다\n첫번째 오브젝트 : \"%s\" - 위치(%f, %f, %f)\n두번째 오브젝트 : \"%s\" - 위치(%f, %f, %f)",
+				sprintf(szErr, "There are objects with the same file name or same location\nFirst object: \"%s\" - location (%f, %f, %f)\nSecond object: \"%s\" - location (%f , %f, %f)",
 					pShapes[i]->FileName().c_str(), vPos1.x, vPos1.y, vPos1.z,
 					pShapes[j]->FileName().c_str(), vPos2.x, vPos2.y, vPos2.z);
-				MessageBox(::GetActiveWindow(), szErr, "Scene 오브젝트 중복 점검", MB_OK);
+				MessageBox(::GetActiveWindow(), szErr, "Scene object duplicate check", MB_OK);
 				bOverlapped = true;
 			}
 		}
@@ -556,7 +555,7 @@ void CN3Scene::DeleteOverlappedShapes()
 		{
 			vPos2 = pShapes[j]->Pos();
 			if(	vPos1 == vPos2 ||
-				pShapes[i]->FileName() == pShapes[j]->FileName() ) // 위치나 이름이 같은 오브젝트가 있는지 찾아본다.
+				pShapes[i]->FileName() == pShapes[j]->FileName() )
 			{
 				bNeedDeletes[j] = true;
 			}

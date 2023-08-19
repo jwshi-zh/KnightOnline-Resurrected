@@ -40,17 +40,17 @@ bool CN3TransformCollision::Load(HANDLE hFile)
 	char szFN[512] = "";
 
 	DWORD dwRWC;
-	ReadFile(hFile, &nL, 4, &dwRWC, nullptr); // Mesh FileName
+	ReadFile(hFile, &nL, 4, &dwRWC, nullptr);
 	if(nL > 0)
 	{
-		ReadFile(hFile, szFN, nL, &dwRWC, nullptr); szFN[nL] = NULL; // 메시 파일 이름..
+		ReadFile(hFile, szFN, nL, &dwRWC, nullptr); szFN[nL] = NULL;
 		m_pMeshCollision = s_MngVMesh.Get(szFN);
 	}
 
-	ReadFile(hFile, &nL, 4, &dwRWC, nullptr); // Mesh FileName
+	ReadFile(hFile, &nL, 4, &dwRWC, nullptr);
 	if(nL > 0)
 	{
-		ReadFile(hFile, szFN, nL, &dwRWC, nullptr); szFN[nL] = NULL; // 메시 파일 이름..
+		ReadFile(hFile, szFN, nL, &dwRWC, nullptr); szFN[nL] = NULL;
 		m_pMeshClimb = s_MngVMesh.Get(szFN);
 	}
 	return true;
@@ -65,10 +65,10 @@ bool CN3TransformCollision::Save(HANDLE hFile)
 
 	int nL = 0;
 	if(m_pMeshCollision) nL = m_pMeshCollision->FileName().size();
-	WriteFile(hFile, &nL, 4, &dwRWC, NULL); // Mesh FileName
+	WriteFile(hFile, &nL, 4, &dwRWC, NULL);
 	if(nL > 0) 
 	{
-		if(m_pMeshCollision->FileName().find("object\\") < 0) // 임시로 경로를 바꾸려고 넣었다.. 나중에 필요없음 지운다..
+		if(m_pMeshCollision->FileName().find("object\\") < 0)
 		{
 			char szFNTmp[256];
 			wsprintf(szFNTmp, "Object\\%s.N3VMesh", m_pMeshCollision->m_szName.c_str());
@@ -76,7 +76,7 @@ bool CN3TransformCollision::Save(HANDLE hFile)
 
 			SetFilePointer(hFile, -4, 0, FILE_CURRENT);
 			nL = m_pMeshCollision->FileName().size();
-			WriteFile(hFile, &nL, 4, &dwRWC, NULL); // Mesh FileName
+			WriteFile(hFile, &nL, 4, &dwRWC, NULL);
 		}
 
 		WriteFile(hFile, m_pMeshCollision->FileName().c_str(), nL, &dwRWC, NULL);
@@ -84,10 +84,10 @@ bool CN3TransformCollision::Save(HANDLE hFile)
 
 	nL = 0;
 	if(m_pMeshClimb) nL = m_pMeshClimb->FileName().size();
-	WriteFile(hFile, &nL, 4, &dwRWC, NULL); // Mesh FileName
+	WriteFile(hFile, &nL, 4, &dwRWC, NULL);
 	if(nL > 0) 
 	{
-		if(-1 == m_pMeshClimb->FileName().find("object\\")) // 임시로 경로를 바꾸려고 넣었다.. 나중에 필요없음 지운다..
+		if(-1 == m_pMeshClimb->FileName().find("object\\"))
 		{
 			char szFNTmp[256];
 			wsprintf(szFNTmp, "Object\\%s.N3VMesh", m_pMeshClimb->m_szName.c_str());
@@ -95,7 +95,7 @@ bool CN3TransformCollision::Save(HANDLE hFile)
 
 			SetFilePointer(hFile, -4, 0, FILE_CURRENT);
 			nL = m_pMeshClimb->FileName().size();
-			WriteFile(hFile, &nL, 4, &dwRWC, NULL); // Mesh FileName
+			WriteFile(hFile, &nL, 4, &dwRWC, NULL);
 		}
 
 		WriteFile(hFile, m_pMeshClimb->FileName().c_str(), nL, &dwRWC, NULL);
@@ -120,7 +120,7 @@ void CN3TransformCollision::ClimbMeshSet(const std::string& szFN)
 
 int CN3TransformCollision::CheckCollisionPrecisely(bool bIgnoreBoxCheck, int ixScreen, int iyScreen, __Vector3* pVCol, __Vector3* pVNormal)
 {
-	__Vector3 vPos, vDir; // 2D 좌표를 3D 좌표로 바꾸고..
+	__Vector3 vPos, vDir;
 	::_Convert2D_To_3DCoordinate(ixScreen, iyScreen, s_CameraData.mtxView, s_CameraData.mtxProjection, s_CameraData.vp, vPos, vDir);
 
 	if(false == m_pMeshCollision->Pick(m_Matrix, vPos, vDir, pVCol, pVNormal)) return -1;
@@ -132,7 +132,7 @@ void CN3TransformCollision::RenderCollisionMesh() const
 	if(nullptr == m_pMeshCollision) return;
 	s_lpD3DDev->SetTransform(D3DTS_WORLD, &m_Matrix);
 
-	m_pMeshCollision->Render(0xffff0000); // 빨간색.
+	m_pMeshCollision->Render(0xffff0000);
 }
 
 void CN3TransformCollision::RenderClimbMesh()
@@ -140,7 +140,7 @@ void CN3TransformCollision::RenderClimbMesh()
 	if(nullptr == m_pMeshClimb) return;
 	s_lpD3DDev->SetTransform(D3DTS_WORLD, &m_Matrix);
 
-	m_pMeshClimb->Render(0xff0000ff); // 파란색..
+	m_pMeshClimb->Render(0xff0000ff);
 }
 
 /*
@@ -263,6 +263,5 @@ void CN3TransformCollision::FindMinMax()
 		if(pVs[i].z > m_vMax.z) m_vMax.z = pVs[i].z;
 	}
 
-	// 최대 최소값을 갖고 반지름 계산한다..
 	m_fRadius  = (m_vMax - m_vMin).Magnitude() * 0.5f;
 }

@@ -10,45 +10,45 @@
 #include "mmsystem.h"
 #include <N3SndMgr.h>
 
-LPDIRECT3DDEVICE9 CN3Base::s_lpD3DDev = nullptr;			// 참조 포인터.. 멋대로 해제하면 안된다..
-DWORD CN3Base::s_dwTextureCaps = 0;			// Texture 호환성..
-float CN3Base::s_fFrmPerSec = 30.0f;		// Frame Per Second
-float CN3Base::s_fSecPerFrm = 1.0f / 30.0f;	// Second per Frame
-HWND CN3Base::s_hWndBase = nullptr;			// Init 할때 쓴 Window Handle
-HWND CN3Base::s_hWndPresent = nullptr;			// 최근에 Present 한 Window Handle
+LPDIRECT3DDEVICE9 CN3Base::s_lpD3DDev = nullptr;
+DWORD CN3Base::s_dwTextureCaps = 0;
+float CN3Base::s_fFrmPerSec = 30.0f;
+float CN3Base::s_fSecPerFrm = 1.0f / 30.0f;
+HWND CN3Base::s_hWndBase = nullptr;
+HWND CN3Base::s_hWndPresent = nullptr;
 
-D3DPRESENT_PARAMETERS CN3Base::s_DevParam;	// Device 생성 Present Parameter
-D3DCAPS9 CN3Base::s_DevCaps;				// Device 호환성...
+D3DPRESENT_PARAMETERS CN3Base::s_DevParam;
+D3DCAPS9 CN3Base::s_DevCaps;
 std::string CN3Base::s_szPath;
 
-__CameraData CN3Base::s_CameraData;			// Camera Data
-__ResrcInfo CN3Base::s_ResrcInfo;			// Rendering Information
-__Options CN3Base::s_Options;	// 각종 옵션등...
+__CameraData CN3Base::s_CameraData;
+__ResrcInfo CN3Base::s_ResrcInfo;
+__Options CN3Base::s_Options;
 #ifdef _DEBUG
-__RenderInfo CN3Base::s_RenderInfo;			// Rendering Information
+__RenderInfo CN3Base::s_RenderInfo;
 #endif
 
-CN3SndMgr CN3Base::s_SndMgr;	//사운드 메니저.
+CN3SndMgr CN3Base::s_SndMgr;
 
 CN3Mng<CN3Texture>		CN3Base::s_MngTex; // Texture Manager
 CN3Mng<CN3Mesh>			CN3Base::s_MngMesh; // Mesh Manager
-CN3Mng<CN3VMesh>		CN3Base::s_MngVMesh; // 단순히 폴리곤만 갖고 있는 메시 - 주로 충돌 체크에 쓴다..
+CN3Mng<CN3VMesh>		CN3Base::s_MngVMesh; // A mesh with only polygons - mainly used for collision checking.
 CN3Mng<CN3PMesh>		CN3Base::s_MngPMesh; // Progressive Mesh Manager
 CN3Mng<CN3Joint>		CN3Base::s_MngJoint; // Joint Manager
 CN3Mng<CN3CPartSkins>	CN3Base::s_MngSkins; // Character Part Skins Manager
 CN3Mng<CN3AnimControl>	CN3Base::s_MngAniCtrl; // Animation Manager
-CN3Mng<CN3FXPMesh>		CN3Base::s_MngFXPMesh; // FX에서 쓰는 PMesh - 파일은 일반 PMesh를 쓰지만 속은 다르다.
-CN3Mng<CN3FXShape>		CN3Base::s_MngFXShape; // FX에서 쓰는 Shape - 파일은 일반 shape를 쓰지만 속은 다르다.	
+CN3Mng<CN3FXPMesh>		CN3Base::s_MngFXPMesh;
+CN3Mng<CN3FXShape>		CN3Base::s_MngFXShape;
 
-CN3AlphaPrimitiveManager	CN3Base::s_AlphaMgr;  // Alpha blend 할 폴리곤들을 관리.. 추가했다가.. 카메라 거리에 上 정렬하고 한꺼번에 그린다..
+CN3AlphaPrimitiveManager	CN3Base::s_AlphaMgr;
 
 #ifdef _N3GAME
-CLogWriter g_Log; // 로그 남기기...
+CLogWriter g_Log;
 #endif
 
 CN3Base::CN3Base()
 {
-    m_dwType = OBJ_BASE; // "MESH", "CAMERA", "SCENE", "???" .... 등등등...
+    m_dwType = OBJ_BASE;
     m_szName = "";
 }
 
@@ -270,7 +270,7 @@ void CN3Base::PathSet(const std::string& szPath)
     s_szPath = szPath;
     if (s_szPath.size() <= 0) return;
 
-    CharLower(&(s_szPath[0])); // 반드시 소문자로 만들어 준다..
+    CharLower(&(s_szPath[0])); // Make sure to lowercase.
     if (s_szPath.size() > 1)
     {
         if (s_szPath[s_szPath.size() - 1] != '\\') s_szPath += '\\';

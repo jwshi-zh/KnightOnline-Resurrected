@@ -7,47 +7,43 @@
 class CN3FXBundle : public CN3BaseFileAccess  
 {
 public:
-	// 기본 정보들...
-	
-	int					m_iVersion;		//번들버전
-	std::string			m_strName;		//번들이름
-	int					m_iMoveType;	//움직이는 형태..
+	int					m_iVersion;
+	std::string			m_strName;
+	int					m_iMoveType;
 	float				m_fVelocity;
-	bool				m_bStatic;		//위치를 고정시킬것인가....
+	bool				m_bStatic;
 
-	float				m_fLife0;		//번들의 수명..
+	float				m_fLife0;
 
 	FXPARTWITHSTARTTIME*	m_pPart[MAX_FX_PART];
 	
-	// 변하는 정보들...
-	float				m_fLife;		//현재 나이..
-	DWORD				m_dwState;		//현재 번들의 상태
+	float				m_fLife;
+	DWORD				m_dwState;
 
-	__Vector3			m_vPos;			//현재 번들의 위치.
-	__Vector3			m_vPrePos;		//로딩 또는 Duplicate 하기전에 임시로 위치 지정
-	__Vector3			m_vDestPos;		//현재 번들의 목표위치. 
-	__Vector3			m_vDir;			//현재 번들의 방향.
+	__Vector3			m_vPos;
+	__Vector3			m_vPrePos;
+	__Vector3			m_vDestPos;
+	__Vector3			m_vDir;
 	
-	int					m_iSourceID;	//이 효과를 쓰는 주체의 아이디..(게임에서..)
-	int					m_iTargetID;	//이 효과를 받는 대상의 아이디..(게임에서..)
-	int					m_iTargetJoint;	//이 효과를 받는 대상의 부위..(게임에서..)
+	int					m_iSourceID;
+	int					m_iTargetID;
+	int					m_iTargetJoint;
 	int					m_iSourceJoint;
 
 	bool				m_bDependScale;
 	//__Vector3			m_vTargetScale;
 	float				m_fTargetScale;
 
-//	int					m_iNumStep;		//몇단계나 존재하는지...^^
-//	int					m_iCurrStep;	//현재 진행중인 시퀀스
+//	int					m_iNumStep;
+//	int					m_iCurrStep;
 	static float		m_fEffectSndDist;
 
 	class CN3SndObj*	m_pSndObj;
 
 protected:
-	bool	CheckAllPartsDead();		//모든 파트들이 죽었는지 검사..
+	bool	CheckAllPartsDead();
 
 public:
-//기본적으로 필요한 함수들...
 	virtual void	Trigger(int iSourceID=0, int iTargetID = 0, int iTargetJoint = 0, int iSndID = -1);
 	virtual bool	Tick();
 	virtual void	Duplicate(CN3FXBundle* pDestBundle);
@@ -58,8 +54,8 @@ public:
 	void	Render() const;
 	DWORD	GetState() const { return m_dwState; }
 
-	virtual bool	Load(HANDLE hFile); // 핸들에서 읽어오기..
-	bool	Save(HANDLE hFile);	// 저장하기..
+	virtual bool	Load(HANDLE hFile);
+	bool	Save(HANDLE hFile);
 
 //	int				GetPartCount() { return m_pPartList.size(); }
 	CN3FXPartBase*	GetPart(int i);
@@ -68,11 +64,10 @@ public:
 	static void		SetEffectSndDistance(float fDist) { m_fEffectSndDist = fDist; }
 	static float	GetEffectSndDistance() { return m_fEffectSndDist; }
 
-//생성자 소멸자..
 	CN3FXBundle();	
 	virtual ~CN3FXBundle();
 
-#ifdef _N3TOOL	//툴에서만 쓰는 함수들...
+#ifdef _N3TOOL
 public:
 	CN3FXPartBase*	SetPart(const char* pFileName);
 	bool	DecodeScriptFile(const char* lpPathName);

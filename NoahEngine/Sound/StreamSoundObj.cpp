@@ -173,14 +173,12 @@ void CStreamSoundObj::RealPlay()
 			{
 				if(m_bIsLoop==false)
 				{
-					//tick에 어케 적용할 것인가..
 					m_PastTime = m_PlayTime;
 					Stop();
 					return;
 				}
 				else if(m_bIsLoop==true)
 				{
-					//tick에 어케 적용할 것인가..
 					//Stop();
 					//m_pDSBuff->Stop();
 					Play();
@@ -223,10 +221,6 @@ void CStreamSoundObj::Release()
 	}
 }
 
-
-//
-//	음악이 플레이되고 있을때 streamming시키기..
-//
 void CStreamSoundObj::Tick()
 {
 	if(m_ePlayState == SNDSTATE_STOP) return;
@@ -284,9 +278,6 @@ void CStreamSoundObj::Tick()
 }
 
 /*
-//
-// 똑같다.
-//
 void CStreamSoundObj::Play(float delay, float fFadeInTime)
 {
 	m_fFadeInTime = fFadeInTime;
@@ -296,10 +287,6 @@ void CStreamSoundObj::Play(float delay, float fFadeInTime)
 	m_ePlayState = SNDSTATE_DELAY;
 }
 
-
-//
-// 똑같다.
-//
 void CStreamSoundObj::Stop(float fFadeOutTime)
 {
 	if( m_pDSBuff == NULL ) return;
@@ -310,4 +297,3 @@ void CStreamSoundObj::Stop(float fFadeOutTime)
 	return;
 }
 */
-// end of StreamSoundObj.cpp

@@ -61,11 +61,6 @@ CN3FXBundle::~CN3FXBundle()
 #endif
 }
 
-
-//
-//	decode script file..
-//	스크립트 파일 읽고 해석시킴...
-//
 #ifdef _N3TOOL
 bool CN3FXBundle::DecodeScriptFile(const char* lpPathName)
 {
@@ -110,7 +105,7 @@ bool CN3FXBundle::DecodeScriptFile(const char* lpPathName)
 
 		if(lstrcmpi(szCommand, "<part>")==0)
 		{
-			char szFullPath[_MAX_PATH];	//full path 만들기..	
+			char szFullPath[_MAX_PATH];
 			sprintf(szFullPath,"%s%s",CN3Base::PathGet().c_str(), szBuf[0]);
 			
 			FXPARTWITHSTARTTIME* pPart = new FXPARTWITHSTARTTIME;
@@ -156,11 +151,6 @@ bool CN3FXBundle::DecodeScriptFile(const char* lpPathName)
 }
 #endif // end of _N3TOOL
 
-
-//
-//	GetPartType...
-//	파트의 파일이름으로 타입을 알아내자..
-//
 #ifdef _N3TOOL
 CN3FXPartBase* CN3FXBundle::SetPart(const char* pFileName)
 {
@@ -197,7 +187,6 @@ CN3FXPartBase* CN3FXBundle::SetPart(const char* pFileName)
 			else if(lstrcmpi(szBuf[0], "board")==0) PartType = FX_PART_TYPE_BOARD;
 			else if(lstrcmpi(szBuf[0], "mesh")==0) PartType = FX_PART_TYPE_MESH;
 			else if(lstrcmpi(szBuf[0], "ground")==0) PartType = FX_PART_TYPE_BOTTOMBOARD;
-			//^^v 더 넣을꺼 있으면 넣어라..
 		}		
 	}
 	fclose(stream);
@@ -239,10 +228,6 @@ CN3FXPartBase* CN3FXBundle::SetPart(const char* pFileName)
 }
 #endif // end of _N3TOOL
 
-
-//
-//	Init..
-//
 void CN3FXBundle::Init()
 {
 	m_fLife = 0.0f;
@@ -260,10 +245,6 @@ void CN3FXBundle::Init()
 	}
 }
 
-
-//
-//
-//
 bool CN3FXBundle::Load(HANDLE hFile)
 {
 	DWORD			dwRWC = 0;
@@ -465,10 +446,6 @@ bool CN3FXBundle::Load(HANDLE hFile)
 	return true;
 }
 
-
-//
-//
-//
 bool CN3FXBundle::Save(HANDLE hFile)
 {
 	DWORD			dwRWC = 0;
@@ -502,10 +479,6 @@ bool CN3FXBundle::Save(HANDLE hFile)
 	return true;
 }
 
-
-//
-//	Tick...
-//
 bool CN3FXBundle::Tick()
 {
 	if(m_dwState==FX_BUNDLE_STATE_DEAD) return false;
@@ -537,9 +510,6 @@ bool CN3FXBundle::Tick()
 	return true;
 }
 
-//
-//	Render...
-//
 void CN3FXBundle::Render() const
 {
 	if(m_dwState==FX_BUNDLE_STATE_DEAD) return;
@@ -555,9 +525,6 @@ void CN3FXBundle::Render() const
 	}
 }
 
-//
-//	Trigger...
-//
 void CN3FXBundle::Trigger(int iSourceID, int iTargetID, int iTargetJoint, int iSndID)
 {
 	m_dwState = FX_BUNDLE_STATE_LIVE;
@@ -590,12 +557,6 @@ void CN3FXBundle::Trigger(int iSourceID, int iTargetID, int iTargetJoint, int iS
 #endif
 }
 
-
-//
-//	Stop...
-//	멈추는 단계를 시작한다..
-//	정말 멈추는 기능은 tick에서 모든 파트가 다 죽었다고 판단될때 tick에서 수행한다.
-//
 void CN3FXBundle::Stop(bool immediately)
 {
 	if(m_dwState == FX_BUNDLE_STATE_DEAD) return;
@@ -618,11 +579,6 @@ void CN3FXBundle::Stop(bool immediately)
 	}
 }
 
-
-//
-//	check all parts are dead..
-//	if dead return true..
-//
 bool CN3FXBundle::CheckAllPartsDead()
 {
 	for(int i=0;i<MAX_FX_PART;i++)

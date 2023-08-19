@@ -5,13 +5,12 @@
 
 CN3EngTool::CN3EngTool()
 {
-	// 십자선 생성..
 	int i = 0;
 	for(i = -10; i < 10; i++)
 	{
-		m_VAxis[ 0 + i + 10].Set(i * 500.0f, 0, 0, 0xffff0000); // X
-		m_VAxis[20 + i + 10].Set(0, i * 500.0f, 0, 0xff00ff00); // Y
-		m_VAxis[40 + i + 10].Set(0, 0, i * 500.0f, 0xff0000ff); // Z
+		m_VAxis[ 0 + i + 10].Set(i * 500.0f, 0, 0, 0xffff0000);
+		m_VAxis[20 + i + 10].Set(0, i * 500.0f, 0, 0xff00ff00);
+		m_VAxis[40 + i + 10].Set(0, 0, i * 500.0f, 0xff0000ff);
 	}
 
 	m_VDir[0].Set(10, 0, 0, 0xffff0000);
@@ -36,7 +35,6 @@ CN3EngTool::~CN3EngTool()
 //	m_lpD3DDevExtra = NULL;
 }
 
-// 월드 축 그리기..
 void CN3EngTool::RenderGrid(const __Matrix44& mtxWorld) const
 {
 	DWORD dwAlpha, dwFog, dwLight;
@@ -63,12 +61,11 @@ void CN3EngTool::RenderGrid(const __Matrix44& mtxWorld) const
 
 	s_lpD3DDev->SetFVF(FVF_CV);
 
-	if(m_pVGrids) // 그리드 그리기..
+	if(m_pVGrids)
 	{
 		s_lpD3DDev->DrawPrimitiveUP(D3DPT_LINELIST, m_nGridLineCount, m_pVGrids, sizeof(__VertexColor)); // X
 	}
 
-	// 축 그리기..
 //	s_lpD3DDev->DrawPrimitiveUP(D3DPT_LINESTRIP, 19, &m_VAxis[0], sizeof(__VertexColor)); // X
 //	s_lpD3DDev->DrawPrimitiveUP(D3DPT_LINESTRIP, 19, &m_VAxis[20], sizeof(__VertexColor)); // Y
 //	s_lpD3DDev->DrawPrimitiveUP(D3DPT_LINESTRIP, 19, &m_VAxis[40], sizeof(__VertexColor)); // Z
@@ -109,7 +106,6 @@ void CN3EngTool::RenderAxis(bool bShowDir)
 
 	s_lpD3DDev->SetFVF(FVF_CV);
 
-	// 축 그리기..
 	s_lpD3DDev->DrawPrimitiveUP(D3DPT_LINESTRIP, 19, &m_VAxis[0], sizeof(__VertexColor)); // X
 	s_lpD3DDev->DrawPrimitiveUP(D3DPT_LINESTRIP, 19, &m_VAxis[20], sizeof(__VertexColor)); // Y
 	s_lpD3DDev->DrawPrimitiveUP(D3DPT_LINESTRIP, 19, &m_VAxis[40], sizeof(__VertexColor)); // Z
@@ -121,10 +117,6 @@ void CN3EngTool::RenderAxis(bool bShowDir)
 	if(dwLight) s_lpD3DDev->SetRenderState(D3DRS_LIGHTING, dwLight);
 }
 
-
-//
-// pTex==NULL일때 검정색을 찍기 위해 수정했음...by lynus 2001. 12. 7.
-//
 void CN3EngTool::RenderTexturePreview(CN3Texture *pTex, HWND hWndDiffuse, RECT* pRCSrc)
 {
 	//if(pTex == NULL) return;
@@ -144,20 +136,20 @@ void CN3EngTool::RenderTexturePreview(CN3Texture *pTex, HWND hWndDiffuse, RECT* 
 		RECT rcTex = rcPreview;
 		const float fRatioDest = (float)nW / (float)nH;
 		
-		if(fRatioDest > 1.0f) // 가로가 긴경우
+		if(fRatioDest > 1.0f)
 		{
 			const int nDec = (nW - nH) / 2;
 			rcTex.left += nDec;
 			rcTex.right -= nDec;
 		}
-		else if(fRatioDest < 1.0f) // 세로가 긴경우
+		else if(fRatioDest < 1.0f)
 		{
 			const int nDec = (nH - nW) / 2;
 			rcTex.top += nDec;
 			rcTex.bottom -= nDec;
 		}
 
-		float fU_Left = 0.0f, fV_Top = 0.0f, fU_Right = 1.0f, fV_Bottom = 1.0f; // 기본 UV 좌표
+		float fU_Left = 0.0f, fV_Top = 0.0f, fU_Right = 1.0f, fV_Bottom = 1.0f;
 	
 		s_lpD3DDev->BeginScene();
 
@@ -186,7 +178,6 @@ void CN3EngTool::RenderTexturePreview(CN3Texture *pTex, HWND hWndDiffuse, RECT* 
 	
 //	if(hWndDiffuse != NULL)
 	{
-		// 텍스처 프리뷰
 		RECT rcPreview;
 		HRESULT hr;
 		::GetClientRect(hWndDiffuse, &rcPreview);
@@ -203,13 +194,13 @@ void CN3EngTool::RenderTexturePreview(CN3Texture *pTex, HWND hWndDiffuse, RECT* 
 			const float fRatioDest = (float)nW / (float)nH;
 			float fRatioSrc = (float)(pTex->Width()) / (float)(pTex->Height());
 
-			if(fRatioDest > 1.0f) // 가로가 긴경우
+			if(fRatioDest > 1.0f)
 			{
 				const int nDec = (nW - nH) / 2;
 				rcTex.left += nDec;
 				rcTex.right -= nDec;
 			}
-			else if(fRatioDest < 1.0f) // 세로가 긴경우
+			else if(fRatioDest < 1.0f)
 			{
 				const int nDec = (nH - nW) / 2;
 				rcTex.top += nDec;
@@ -217,8 +208,7 @@ void CN3EngTool::RenderTexturePreview(CN3Texture *pTex, HWND hWndDiffuse, RECT* 
 			}
 
 
-			float fU_Left = 0.0f, fV_Top = 0.0f, fU_Right = 1.0f, fV_Bottom = 1.0f; // 기본 UV 좌표
-			// 만약 Rect 가 있으면..
+			float fU_Left = 0.0f, fV_Top = 0.0f, fU_Right = 1.0f, fV_Bottom = 1.0f;
 			if(pRCSrc)
 			{
 				const auto fW = (float)(pTex->Width());
@@ -282,7 +272,6 @@ void CN3EngTool::GridCreate(int nWidth, int nHeight)
 	m_nGridLineCount = (nWidth+1) + (nHeight+1);
 	m_pVGrids = new __VertexColor[m_nGridLineCount * 2];
 
-	// 그리드 생성..
 	const D3DCOLOR GridColor = 0xff808080;
 	int xx = nWidth/2, zz = nHeight/2;
 	int nSeq = 0;

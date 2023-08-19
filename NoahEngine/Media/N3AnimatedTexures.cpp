@@ -42,13 +42,13 @@ bool CN3AnimatedTexures::Load(HANDLE hFile)
 	
 	int nL = 0;
 	char szFN[256] = "";
-	m_TexRefs.assign(iTC, nullptr); // Texture Pointer Pointer 할당..
-	for(int i = 0; i < iTC; i++) // Texture Count 만큼 파일 이름 읽어서 텍스처 부르기..
+	m_TexRefs.assign(iTC, nullptr);
+	for(int i = 0; i < iTC; i++)
 	{
 		ReadFile(hFile, &nL, 4, &dwRWC, nullptr);
 		if(nL > 0)
 		{
-			ReadFile(hFile, szFN, nL, &dwRWC, nullptr); szFN[nL] = NULL; // 텍스처 파일 이름..
+			ReadFile(hFile, szFN, nL, &dwRWC, nullptr); szFN[nL] = NULL;
 			m_TexRefs[i] = s_MngTex.Get(szFN);
 		}
 	}
@@ -67,20 +67,20 @@ bool CN3AnimatedTexures::Save(HANDLE hFile)
 	int iTC = m_TexRefs.size();
 	WriteFile(hFile, &iTC, 4, &dwRWC, NULL);
 	
-	for(int i = 0; i < iTC; i++) // Texture Count 만큼 파일 이름 읽어서 텍스처 부르기..
+	for(int i = 0; i < iTC; i++)
 	{
 		nL = 0;
 		if(m_TexRefs[i]) nL = m_TexRefs[i].size();
 		WriteFile(hFile, &nL, 4, &dwRWC, NULL);
 		if(nL > 0)
 		{
-			WriteFile(hFile, m_TexRefs[i]->FileName().c_str(), nL, &dwRWC, NULL); // 텍스처 파일 이름..
+			WriteFile(hFile, m_TexRefs[i]->FileName().c_str(), nL, &dwRWC, NULL);
 		}
 	}
 
 	return true;
 }
-#endif // #ifdef _N3TOOL
+#endif
 
 void CN3AnimatedTexures::Tick()
 {
@@ -88,5 +88,5 @@ void CN3AnimatedTexures::Tick()
 
 	const int iTC = m_TexRefs.size();
 	m_fTexIndex += CN3Base::s_fSecPerFrm * m_fTexFPS;
-	if(m_fTexIndex >= iTC) m_fTexIndex -= (iTC * m_fTexIndex) / iTC; // 정수로 나누면 소숫점만 남기게 된다??(하여튼 비슷해~)
+	if(m_fTexIndex >= iTC) m_fTexIndex -= (iTC * m_fTexIndex) / iTC;
 }

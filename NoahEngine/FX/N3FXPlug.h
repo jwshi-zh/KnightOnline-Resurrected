@@ -17,10 +17,10 @@ public:
 public:
 protected:
 	class CN3FXBundle*	m_pFXB;
-	int					m_nRefIndex;	// referance index (캐릭터 : joint index)
+	int					m_nRefIndex;	// referance index (character joint index)
 
-	__Vector3			m_vOffsetPos;	// Joint와 떨어진 정도
-	__Vector3			m_vOffsetDir;	// Joint와 떨어진 방향
+	__Vector3			m_vOffsetPos;
+	__Vector3			m_vOffsetDir;
 
 // Operations
 public:
@@ -66,12 +66,12 @@ public:
 	virtual void	Release();
 	virtual bool	Load(HANDLE hFile);
 
-	void			StopAll(bool bImmediately = false);	// FX Stop
-	void			TriggerAll();						// FX 시작
+	void			StopAll(bool bImmediately = false);
+	void			TriggerAll();
 
 #ifdef _N3TOOL
 	virtual bool	Save(HANDLE hFile);
-	void			RemoveFXPParts_HaveNoBundle();		// 번들 없는 Part들 제거하기
+	void			RemoveFXPParts_HaveNoBundle();
 
 	CN3FXPlugPart*	FXPPartAdd();
 	void			FXPPartDelete(int nIndex);
