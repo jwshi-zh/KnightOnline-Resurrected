@@ -28,7 +28,7 @@ public:
 	int					m_iBRequiredGoldBackup;
 
 protected:
-	void				SetTooltipTextColor(bool bHaveEnough);
+	void				SetTooltipTextColor(bool bHaveEnough) const;
 
 public:
 	CUIRepairTooltipDlg();

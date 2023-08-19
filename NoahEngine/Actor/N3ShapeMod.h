@@ -73,6 +73,6 @@ public:
 	virtual void	Tick(float fFrm = FRAME_SELFPLAY);
 	virtual bool	Load(HANDLE hFile);
 protected:
-	CN3SPart* GetPartByPMeshFileName(const std::string& szFN);	// 이름으로 PMesh포인터 구하기
+	CN3SPart* GetPartByPMeshFileName(const std::string& szFN) const;	// 이름으로 PMesh포인터 구하기
 
 };

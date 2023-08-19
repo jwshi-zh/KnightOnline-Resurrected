@@ -37,7 +37,7 @@ private:
 
 	// String Cryptograph.. ^^
 	static std::string ReadDecryptString(HANDLE hFile);
-	std::string GetIndoorFolderPath() {	return m_IndoorFolder; }
+	std::string GetIndoorFolderPath() const {	return m_IndoorFolder; }
 
 	CPortalVolume* GetPortalVolPointerByID(int iID);
 

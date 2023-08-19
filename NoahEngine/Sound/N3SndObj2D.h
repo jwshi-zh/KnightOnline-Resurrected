@@ -40,10 +40,10 @@ public:
 
 	void	SetRefMgr(CN3SndMgr* pRefMgr) { m_pRefMgr = pRefMgr; } 
 
-	bool	IsPlaying();
+	bool	IsPlaying() const;
 	
 	void	SetType(int type) { m_iType = type; }
-	int		GetType() { return m_iType; }
+	int		GetType() const { return m_iType; }
 
 	void	Looping(bool loop) { m_bIsLoop = loop; }
 	bool	IsLoop() { return m_bIsLoop; }

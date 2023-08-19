@@ -294,7 +294,7 @@ void CGrassMng::FindGrassIndex(const unsigned char uCGrassMngOrder,int* pnInputG
 	if(uCGrassMngOrder & 0x80)  { pnInputGrass[nGrassTotNum] = 7 , GrassIndex[nGrassTotNum] = 0x80; nGrassTotNum++; }
 }
 
-void CGrassMng::ChkThisZoneUseGrass(int nGrassUseOrder)
+void CGrassMng::ChkThisZoneUseGrass(int nGrassUseOrder) const
 {
 	if(m_usDrawIndex==0) return;
 /*

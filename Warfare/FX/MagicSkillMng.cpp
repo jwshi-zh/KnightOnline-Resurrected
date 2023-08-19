@@ -156,7 +156,7 @@ CMagicSkillMng::~CMagicSkillMng()
 //
 //
 //
-bool CMagicSkillMng::IsCasting()
+bool CMagicSkillMng::IsCasting() const
 {
 	if(s_pPlayer->State() == PSA_SPELLMAGIC ||
 		m_iCurrStep != 0 ||

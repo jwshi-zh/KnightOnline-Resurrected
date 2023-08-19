@@ -410,7 +410,7 @@ void CGameEng::Tick(const D3DCOLOR* crDiffuses,			// Diffuse 라이트 색깔.. 
 }
 
 
-void CGameEng::ApplyCameraAndLight()
+void CGameEng::ApplyCameraAndLight() const
 {
 	if(m_pActiveCam)
 	{

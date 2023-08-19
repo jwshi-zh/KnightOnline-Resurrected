@@ -19,7 +19,7 @@ public:
 	void		Release();
 	void		Tick();
 	void		AddLight(CN3Light* pLgt);
-	CN3Light*	Light(int idx) { return m_pActiveLight[idx]; }
+	CN3Light*	Light(int idx) const { return m_pActiveLight[idx]; }
 
 	void		LoadZoneLight(const char* szFN);
 	

@@ -858,7 +858,7 @@ void CGameProcCharacterSelect::DojobRight()
 	if ( (m_eCurPos != POS_RIGHT) && m_pSnd_Rotate) m_pSnd_Rotate->Play();
 }
 
-void CGameProcCharacterSelect::MsgSend_DeleteChr(const std::string& szKey)
+void CGameProcCharacterSelect::MsgSend_DeleteChr(const std::string& szKey) const
 {
 	if(szKey.empty() || szKey.size() >= 32) return;
 

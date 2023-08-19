@@ -39,7 +39,7 @@ protected:
 
 public:
 	inline float	UVConvert(float uv);
-	int		GetLevel() { return m_iLevel; }
+	int		GetLevel() const { return m_iLevel; }
 	void	SetLevel(int level);
 	void	Release();
 	void	Init();

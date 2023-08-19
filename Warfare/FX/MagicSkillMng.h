@@ -116,7 +116,7 @@ public:
 	D3DCOLOR	TraceColorGet(__TABLE_UPC_SKILL* pSkill); // 스킬의 종류에 따라 검기의 색을 정한다..
 
 	bool	IsPositiveMagic(DWORD dwMagicID);
-	bool	IsCasting();
+	bool	IsCasting() const;
 	DWORD	GetMagicID(int idx);
 		
 	bool	MsgSend_MagicProcess(int iTargetID, __TABLE_UPC_SKILL* pSkill);

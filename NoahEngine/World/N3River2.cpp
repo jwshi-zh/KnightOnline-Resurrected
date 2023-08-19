@@ -104,7 +104,7 @@ bool CN3River2::Load(HANDLE hFile)
 	return true;
 }
 
-void CN3River2::Render()
+void CN3River2::Render() const
 {
 	if (m_iRiverCount == 0) return;
 

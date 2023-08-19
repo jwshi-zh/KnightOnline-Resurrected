@@ -40,7 +40,8 @@ public:
 // Attributes
 public:
 	int			GetRiverCount() const {return m_iRiverCount;}
-	__River*	GetRiver(int iIndex) {if (iIndex>=0 && iIndex<m_iRiverCount) return (m_pRivers+iIndex); return nullptr;}
+	__River*	GetRiver(int iIndex) const
+	{if (iIndex>=0 && iIndex<m_iRiverCount) return (m_pRivers+iIndex); return nullptr;}
 protected:
 	int			m_iRiverCount;
 	__River*	m_pRivers;
@@ -52,7 +53,7 @@ public:
 	virtual bool	Save(HANDLE hFile);
 
 	__River* CreateRiver(int iRiverCount);
-	__River* GetRiverByID(int iRiverID);
+	__River* GetRiverByID(int iRiverID) const;
 
 protected:
 

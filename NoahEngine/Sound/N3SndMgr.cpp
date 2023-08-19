@@ -167,11 +167,10 @@ void CN3SndMgr::Tick()
 		else it++;
 	}
 
-	CN3SndObjStream* pObj2 = nullptr;
 	itl_SndStream it2 = m_SndObjStreams.begin(), itEnd2 = m_SndObjStreams.end();
 	for(; it2 != itEnd2; it2++)
 	{
-		pObj2 = *it2;
+		CN3SndObjStream* pObj2 = *it2;
 		if (pObj2) pObj2->Tick();
 	}
 
@@ -276,11 +275,10 @@ void CN3SndMgr::Release()
 	}
 	m_SndObjs_PlayOnceAndRelease.clear();
 
-	CN3SndObjStream* pObj2 = nullptr;
 	itl_SndStream it3 = m_SndObjStreams.begin(), itEnd3 = m_SndObjStreams.end();
 	for(; it3 != itEnd3; it3++)
 	{
-		pObj2 = *it3;
+		CN3SndObjStream* pObj2 = *it3;
 		if(pObj2) delete pObj2;
 	}
 	m_SndObjStreams.clear();

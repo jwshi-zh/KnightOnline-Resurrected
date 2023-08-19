@@ -13,7 +13,7 @@ CUIMessageBoxManager::~CUIMessageBoxManager()
 	Release();
 }
 
-int CUIMessageBoxManager::GetCount()
+int CUIMessageBoxManager::GetCount() const
 {
 	return m_UBMs.size();
 }

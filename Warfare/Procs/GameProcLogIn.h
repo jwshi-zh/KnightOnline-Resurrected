@@ -15,7 +15,7 @@ public:
 	bool m_bLogIn; // 로그인 중복 방지..
 
 public:
-	void	MsgRecv_GameServerGroupList(DataPack* pDataPack, int& iOffset);
+	void	MsgRecv_GameServerGroupList(DataPack* pDataPack, int& iOffset) const;
 	void	MsgRecv_AccountLogIn(int iCmd, DataPack* pDataPack, int& iOffset);
 	int		MsgRecv_VersionCheck(DataPack* pDataPack, int& iOffset); // virtual
 	int		MsgRecv_GameServerLogIn(DataPack* pDataPack, int& iOffset); // virtual - 국가 번호를 리턴한다.

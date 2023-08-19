@@ -96,12 +96,12 @@ __VertexT1* CN3IMesh::BuildVertexList() const
 		return nullptr;
 	}
 
-	int n = 0, nVI = 0, nUVI = 0;
+	int n = 0, nVI = 0;
 	if(m_nUVC > 0)
 	{
 		for(int i = 0; i < m_nFC; i++)
 		{
-			n = i*3+0; nVI = m_pwVtxIndices[n]; nUVI = m_pwUVsIndices[n];
+			n = i*3+0; nVI = m_pwVtxIndices[n]; int nUVI = m_pwUVsIndices[n];
 //			s_Vertices[n].Set(	m_pVertices[nVI], m_pVertices[nVI].n, m_pfUVs[nUVI*2], m_pfUVs[nUVI*2+1] );
 			s_Vertices[n].Set(	m_pVertices[nVI].x, m_pVertices[nVI].y, m_pVertices[nVI].z,
 								m_pVertices[nVI].n.x, m_pVertices[nVI].n.y, m_pVertices[nVI].n.z, 
@@ -147,12 +147,12 @@ __VertexT2* CN3IMesh::BuildVertexListTwoUV()
 		return nullptr;
 	}
 
-	int n = 0, nVI = 0, nUVI = 0;
+	int n = 0, nVI = 0;
 	if(m_nUVC > 0)
 	{
 		for(int i = 0; i < m_nFC; i++)
 		{
-			n = i*3+0; nVI = m_pwVtxIndices[n]; nUVI = m_pwUVsIndices[n];
+			n = i*3+0; nVI = m_pwVtxIndices[n]; int nUVI = m_pwUVsIndices[n];
 //			s_Vertices[n].Set(	m_pVertices[nVI], m_pVertices[nVI].n, m_pfUVs[nUVI*2], m_pfUVs[nUVI*2+1] );
 			s_Vertices2[n].Set(	m_pVertices[nVI].x, m_pVertices[nVI].y, m_pVertices[nVI].z,
 								m_pVertices[nVI].n.x, m_pVertices[nVI].n.y, m_pVertices[nVI].n.z, 

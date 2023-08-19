@@ -47,13 +47,13 @@ public:
 		__Vector3		m_vCenterPo;	//	연못의 중간지점
 		float			m_fRadius;		//	연못의 지름
 
-		CPongMesh() {m_bTick2Rand=FALSE;m_pVertices= nullptr,m_wpIndex= nullptr;m_pfVelocityArray= nullptr;m_pTexWave=NULL;};
+		CPongMesh() {m_bTick2Rand=FALSE;m_pVertices= nullptr,m_wpIndex= nullptr;m_pfVelocityArray= nullptr;m_pTexWave= nullptr;};
 		virtual ~CPongMesh() 
 		{
 			if(m_pVertices) delete []m_pVertices;m_pVertices= nullptr;
 			if(m_wpIndex) delete []m_wpIndex;m_wpIndex= nullptr;
 			if(m_pfVelocityArray) delete []m_pfVelocityArray;m_pfVelocityArray= nullptr;
-			if(m_pTexWave)	{CN3Base::s_MngTex.Delete(&m_pTexWave); m_pTexWave = NULL;}
+			if(m_pTexWave)	{CN3Base::s_MngTex.Delete(&m_pTexWave); m_pTexWave = nullptr;}
 		};
 	};
 
@@ -70,7 +70,7 @@ public:
 public:
 	void		Release();
 	bool		Load(HANDLE hFile);
-	void		Render();
+	void		Render() const;
 	void		Tick();
 
 private:

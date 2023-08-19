@@ -144,7 +144,7 @@ bool CUIStateBar::LoadMap(const std::string& szMiniMapFN, float fMapSizeX, float
 }
 
 
-void CUIStateBar::UpdateExp(int iExp, int iExpNext, bool bUpdateImmediately)
+void CUIStateBar::UpdateExp(int iExp, int iExpNext, bool bUpdateImmediately) const
 {
 	__ASSERT(iExpNext, "Next Exp is 0");
 	if(iExpNext <= 0) return;

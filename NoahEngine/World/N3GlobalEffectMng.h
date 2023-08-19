@@ -38,7 +38,7 @@ public:
 //	void			SetWeather(int iWeather);	// 날씨 지정하기
 	void			WeatherSetRainy(int iPercent);
 	void			WeatherSetSnow(int iPercent);
-	void			WeatherSetClean();
+	void			WeatherSetClean() const;
 
 protected:
 

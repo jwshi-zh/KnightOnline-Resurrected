@@ -348,7 +348,6 @@ e_ItemType CGameBase::MakeResrcFileNameForUPC(	__TABLE_ITEM_BASIC* pItem,		// �
 	e_ItemType eType	= ITEM_TYPE_UNKNOWN;
 	e_ItemPosition ePos	= (e_ItemPosition)pItem->byAttachPoint;	// 장착위치...
 
-	int iPos = 0;
 	std::string szExt; // 확장자..
 	
 	if(ePos >= ITEM_POS_DUAL && ePos <= ITEM_POS_TWOHANDLEFT)
@@ -370,7 +369,7 @@ e_ItemType CGameBase::MakeResrcFileNameForUPC(	__TABLE_ITEM_BASIC* pItem,		// �
 		
 		eType = ITEM_TYPE_PART;
 		szExt = ".n3cpart";
-		iPos = ePartPosition + 1;
+		int iPos = ePartPosition + 1;
 	}
 	else if(ePos >= ITEM_POS_EAR && ePos <= ITEM_POS_INVENTORY)
 	{

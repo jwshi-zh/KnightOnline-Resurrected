@@ -177,7 +177,7 @@ BOOL CN3UIBase::MoveOffset(int iOffsetX, int iOffsetY)
 }
 
 //	점 (x,y)가 영역안에 있으면 true..
-bool CN3UIBase::IsIn(int x, int y)
+bool CN3UIBase::IsIn(int x, int y) const
 {
 	if(x<m_rcRegion.left || x>m_rcRegion.right || y<m_rcRegion.top || y>m_rcRegion.bottom) return false;
 	return true;

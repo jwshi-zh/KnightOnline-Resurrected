@@ -149,7 +149,7 @@ void CUIRepairTooltipDlg::DisplayTooltipsDisable()
 		SetVisible(FALSE);
 }
 
-void CUIRepairTooltipDlg::SetTooltipTextColor(bool bHaveEnough)
+void CUIRepairTooltipDlg::SetTooltipTextColor(bool bHaveEnough) const
 {
 	if (bHaveEnough)
 		m_pStr[0]->SetColor(m_pStrColor[0]);

@@ -19,7 +19,7 @@ public:
 	void	Trigger(int iSourceID, __Vector3 TargetPos, int iSndID = -1);
 	bool	Tick();
 	
-	void	Duplicate(CN3FXBundleGame* pDestBundle);
+	void	Duplicate(CN3FXBundleGame* pDestBundle) const;
 	bool	Load(HANDLE hFile);
 
 	CN3FXBundleGame();

@@ -67,7 +67,7 @@ __River* CN3RiverPatch::CreateRiver(int iRiverCount)
 	return m_pRivers;
 }
 
-__River* CN3RiverPatch::GetRiverByID(int iRiverID)
+__River* CN3RiverPatch::GetRiverByID(int iRiverID) const
 {
 	int i;
 	for (i=0; i<m_iRiverCount; ++i)

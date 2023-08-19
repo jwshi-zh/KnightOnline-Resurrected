@@ -23,5 +23,5 @@ public:
 	void Open(int iIDTarget = -1);
 	void Close();
 
-	void SetTopLine(int iTopLine);		// 맨 윗줄을 지정해준다.
+	void SetTopLine(int iTopLine) const;		// 맨 윗줄을 지정해준다.
 };

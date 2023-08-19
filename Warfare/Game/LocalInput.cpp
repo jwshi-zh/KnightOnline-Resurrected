@@ -169,7 +169,7 @@ void CLocalInput::MouseSetPos(int x, int y)
 /////////////////////////////////////////////////////////////////////////////////////////////
 // Retrieves the keystate of a given key.
 /////////////////////////////////////////////////////////////////////////////////////////////
-BOOL CLocalInput::KeyboardGetKeyState(int nDIKey)
+BOOL CLocalInput::KeyboardGetKeyState(int nDIKey) const
 {
 	if(nDIKey < 0 || nDIKey >= NUMDIKEYS) return FALSE;
 	return(m_byCurKeys[nDIKey]);

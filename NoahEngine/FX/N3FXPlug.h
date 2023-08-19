@@ -24,7 +24,7 @@ protected:
 
 // Operations
 public:
-	void				Tick(const __Matrix44& mtxParent);
+	void				Tick(const __Matrix44& mtxParent) const;
 	void				Tick(const class CN3Chr* pChr);
 	void				Render();
 	virtual void		Release();

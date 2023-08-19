@@ -25,7 +25,7 @@ void CN3ShapeMod::Release()
 	m_fTimeChanging = 0.0f;
 }
 
-CN3SPart* CN3ShapeMod::GetPartByPMeshFileName(const std::string& szFN)
+CN3SPart* CN3ShapeMod::GetPartByPMeshFileName(const std::string& szFN) const
 {
 	if(szFN.empty()) return nullptr;
 

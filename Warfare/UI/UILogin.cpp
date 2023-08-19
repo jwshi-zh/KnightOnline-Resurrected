@@ -108,7 +108,7 @@ bool CUILogIn::Load(HANDLE hFile)
 	return true;
 }
 
-void CUILogIn::AccountIDGet(std::string& szID)
+void CUILogIn::AccountIDGet(std::string& szID) const
 {
 	if(m_pEdit_id) 
 		szID = m_pEdit_id->GetString();

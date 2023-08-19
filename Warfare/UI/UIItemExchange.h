@@ -26,7 +26,7 @@ private:
 
 protected:
 	e_UIWND_DISTRICT	GetWndDistrict(__IconItemSkill* spItem);
-	int					GetItemiOrder(__IconItemSkill* spItem, e_UIWND_DISTRICT eWndDist);
+	int					GetItemiOrder(__IconItemSkill* spItem, e_UIWND_DISTRICT eWndDist) const;
 	RECT				GetSampleRect();
 
 public:

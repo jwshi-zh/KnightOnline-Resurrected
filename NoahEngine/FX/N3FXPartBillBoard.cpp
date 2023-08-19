@@ -609,7 +609,7 @@ void CN3FXPartBillBoard::Render()
 }
 
 
-float CN3FXPartBillBoard::CameraDist()
+float CN3FXPartBillBoard::CameraDist() const
 {
 	__Vector3 vA = m_pVB[1] - m_pVB[0];
 	__Vector3 vB = m_pVB[3] - m_pVB[0];

@@ -94,7 +94,7 @@ public:
 			szName = buffer.data();
 		}
 	}
-	void Save(HANDLE hFile)
+	void Save(HANDLE hFile) const
 	{
 		if(nullptr == hFile || INVALID_HANDLE_VALUE == hFile) return;
 

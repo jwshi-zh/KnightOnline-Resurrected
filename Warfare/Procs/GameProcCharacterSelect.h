@@ -95,7 +95,7 @@ public:
 public:
 	void	CharacterSelectOrCreate();
 	void	MsgSend_RequestAllCharacterInfo();
-	void	MsgSend_DeleteChr(const std::string& szKey);
+	void	MsgSend_DeleteChr(const std::string& szKey) const;
 	void	MsgSend_CharacterSelect(); // virtual
 
 	int		MsgRecv_VersionCheck(DataPack* pDataPack, int& iOffset); // virtual

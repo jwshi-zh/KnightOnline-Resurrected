@@ -189,7 +189,7 @@ CPlayerOther* CUIPartyOrForce::MemberGetByNearst(const __Vector3& vPosPlayer)
 {
 	if(m_Members.empty()) return nullptr;
 
-	float fDistMin = FLT_MAX, fDistTmp = 0;
+	float fDistMin = FLT_MAX;
 	CPlayerOther* pTarget = nullptr;
 
 	it_PartyOrForce it = m_Members.begin(), itEnd = m_Members.end();
@@ -198,7 +198,7 @@ CPlayerOther* CUIPartyOrForce::MemberGetByNearst(const __Vector3& vPosPlayer)
 		CPlayerOther* pUPC = CGameBase::s_pOPMgr->UPCGetByID(it->iID, false);
 		if(nullptr == pUPC) continue;
 
-		fDistTmp = pUPC->Distance(vPosPlayer);
+		float fDistTmp = pUPC->Distance(vPosPlayer);
 		if(fDistTmp < fDistMin)
 		{
 			pTarget = pUPC;
@@ -265,12 +265,11 @@ void CUIPartyOrForce::MemberDestroy()
 void CUIPartyOrForce::MemberInfoReInit() // 파티원 구성이 변경될때.. 순서 및 각종 정보 업데이트..
 {
 	it_PartyOrForce it = m_Members.begin(), itEnd = m_Members.end();
-	__InfoPartyOrForce* pIP = nullptr;
 	int i;
 
 	for(i = 0; it != itEnd && i < MAX_PARTY_OR_FORCE; it++, i++)
 	{
-		pIP = &(*it); // 디버깅 하기 쉬우라고 이렇게 했다..
+		__InfoPartyOrForce* pIP = &(*it); // 디버깅 하기 쉬우라고 이렇게 했다..
 		if(pIP->iHPMax <= 0)
 		{
 			__ASSERT(0, "Invalid Party memeber HP");
@@ -325,10 +324,9 @@ const __InfoPartyOrForce* CUIPartyOrForce::MemberInfoGetSelected()
 void CUIPartyOrForce::MemberHPChange(int iID, int iHP, int iHPMax)
 {
 	it_PartyOrForce it = m_Members.begin(), itEnd = m_Members.end();
-	__InfoPartyOrForce* pIP = nullptr;
 	for(int i = 0; it != itEnd && i < MAX_PARTY_OR_FORCE; it++, i++)
 	{
-		pIP = &(*it); // 디버깅 하기 쉬우라고 이렇게 했다..
+		__InfoPartyOrForce* pIP = &(*it); // 디버깅 하기 쉬우라고 이렇게 했다..
 		if(pIP->iID == iID)
 		{
 			pIP->iHP = iHP;
@@ -345,10 +343,9 @@ void CUIPartyOrForce::MemberHPChange(int iID, int iHP, int iHPMax)
 void CUIPartyOrForce::MemberStatusChange(int iID, e_PartyStatus ePS, bool bSuffer)
 {
 	it_PartyOrForce it = m_Members.begin(), itEnd = m_Members.end();
-	__InfoPartyOrForce* pIP = nullptr;
 	for(int i = 0; it != itEnd && i < MAX_PARTY_OR_FORCE; it++, i++)
 	{
-		pIP = &(*it); // 디버깅 하기 쉬우라고 이렇게 했다..
+		__InfoPartyOrForce* pIP = &(*it); // 디버깅 하기 쉬우라고 이렇게 했다..
 		if(pIP->iID == iID)
 		{
 			if(PARTY_STATUS_DOWN_HP == ePS)	pIP->bSufferDown_HP = bSuffer;
@@ -361,10 +358,9 @@ void CUIPartyOrForce::MemberStatusChange(int iID, e_PartyStatus ePS, bool bSuffe
 void CUIPartyOrForce::MemberLevelChange(int iID, int iLevel)
 {
 	it_PartyOrForce it = m_Members.begin(), itEnd = m_Members.end();
-	__InfoPartyOrForce* pIP = nullptr;
 	for(int i = 0; it != itEnd && i < MAX_PARTY_OR_FORCE; it++, i++)
 	{
-		pIP = &(*it); // 디버깅 하기 쉬우라고 이렇게 했다..
+		__InfoPartyOrForce* pIP = &(*it); // 디버깅 하기 쉬우라고 이렇게 했다..
 		if(pIP->iID == iID)
 		{
 			pIP->iLevel = iLevel;
@@ -376,10 +372,9 @@ void CUIPartyOrForce::MemberLevelChange(int iID, int iLevel)
 void CUIPartyOrForce::MemberClassChange(int iID, e_Class eClass)
 {
 	it_PartyOrForce it = m_Members.begin(), itEnd = m_Members.end();
-	__InfoPartyOrForce* pIP = nullptr;
 	for(int i = 0; it != itEnd && i < MAX_PARTY_OR_FORCE; it++, i++)
 	{
-		pIP = &(*it); // 디버깅 하기 쉬우라고 이렇게 했다..
+		__InfoPartyOrForce* pIP = &(*it); // 디버깅 하기 쉬우라고 이렇게 했다..
 		if(pIP->iID == iID)
 		{
 			pIP->eClass = eClass;
@@ -401,10 +396,9 @@ void CUIPartyOrForce::Tick()
 	if(dwTime == 1)	bBlink = true;
 
 	it_PartyOrForce it = m_Members.begin(), itEnd = m_Members.end();
-	__InfoPartyOrForce* pIP = nullptr;
 	for(int i = 0; it != itEnd && i < MAX_PARTY_OR_FORCE; it++, i++)
 	{
-		pIP = &(*it); // 디버깅 하기 쉬우라고 이렇게 했다..
+		__InfoPartyOrForce* pIP = &(*it); // 디버깅 하기 쉬우라고 이렇게 했다..
 		if(m_pProgress_HPs[i])
 		{
 			if( pIP->bSufferDown_HP || pIP->bSufferDown_Etc )

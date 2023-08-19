@@ -33,8 +33,8 @@ public:
 	bool Save(HANDLE hFile);
 	void Duplicate(CN3FXSPart* pSrc);
 		
-	int			TexCount() { return m_TexRefs.size(); }
-	CN3Texture* Tex(int iIndex);	
+	int			TexCount() const { return m_TexRefs.size(); }
+	CN3Texture* Tex(int iIndex) const;	
 	void		TexAlloc(int m_nCount);
 	CN3Texture*	TexSet(int iIndex, const std::string& szFN);
 	void		TexSet(int iIndex, CN3Texture* pTex);

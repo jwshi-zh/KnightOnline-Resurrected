@@ -56,7 +56,7 @@ void CN3WorldManager::InitWorld(int iZoneID, const __Vector3& vPosPlayer)
 	m_pActiveWorld->InitWorld(iZoneID, vPosPlayer);
 }
 
-void CN3WorldManager::Tick()
+void CN3WorldManager::Tick() const
 {
 	if (m_pActiveWorld)
 		m_pActiveWorld->Tick();

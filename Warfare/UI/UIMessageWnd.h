@@ -18,7 +18,7 @@ protected:
 	CN3UIString**	m_ppUILines;		// 채팅이 출력되는 UIString 배열포인터(채팅창 사이즈가 변하므로 배열도 변한다.
 
 protected:
-	void			SetTopLine(int iTopLine);		// 맨 윗줄을 지정해준다.
+	void			SetTopLine(int iTopLine) const;		// 맨 윗줄을 지정해준다.
 	void			AddLineBuffer(const std::string& szString, D3DCOLOR color);	// line 버퍼를 만들어준다.(너무 길면 알아서 2줄로 만들어준다.)
 	void			RecalcLineBuffer();		// 채팅창 사이즈가 변했을때 호출해주면 line buffer를 다시 계산해서 넣어준다.
 	void			CreateLines();

@@ -234,7 +234,7 @@ void CN3UIList::UpdateChildRegions()
 	}
 }
 
-int CN3UIList::GetScrollPos()
+int CN3UIList::GetScrollPos() const
 {
 	if(nullptr == m_pScrollBarRef) return 0;
 	

@@ -112,7 +112,7 @@ void CN3SkyMng::Release()
 #endif // #ifdef _N3GAME
 }
 
-void CN3SkyMng::Render()
+void CN3SkyMng::Render() const
 {
     // Disable zbuffer, center view matrix, and set FOV to 72 degrees
     __Matrix44 matView = s_CameraData.mtxView;

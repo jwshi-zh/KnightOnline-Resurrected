@@ -37,7 +37,7 @@ public:
 	int				GetMaxPos() const {return m_iMaxPos;}
 	int				GetMinPos() const {return m_iMinPos;}
 protected:
-	void			UpdateThumbPos();							// m_iCurPos를 계산하여 Thumb위치 다시 계산하여 바꾸기
+	void			UpdateThumbPos() const;							// m_iCurPos를 계산하여 Thumb위치 다시 계산하여 바꾸기
 	void			UpDownThumbPos(int iDiff);					// Thumb위치를 아래 위로 iDiff pixel만큼 움직인 후 m_iCurPos 갱신하기
 
 #ifdef _N3TOOL

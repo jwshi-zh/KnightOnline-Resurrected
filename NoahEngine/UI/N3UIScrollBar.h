@@ -25,7 +25,7 @@ public:
 	virtual void	SetStyle(DWORD dwStyle);
 	virtual bool	ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg); // 메시지를 받는다.. 보낸놈, msg
 
-	void			SetRange(int iMin, int iMax) {if(m_pTrackBarRef) m_pTrackBarRef->SetRange(iMin,iMax);}
+	void			SetRange(int iMin, int iMax) const {if(m_pTrackBarRef) m_pTrackBarRef->SetRange(iMin,iMax);}
 	void			SetRangeMax(int iMax) {if(m_pTrackBarRef) m_pTrackBarRef->SetRangeMax(iMax);}
 	void			SetRangeMin(int iMin) {if(m_pTrackBarRef) m_pTrackBarRef->SetRangeMin(iMin);}
 	int				GetCurrentPos() const {if(m_pTrackBarRef) return m_pTrackBarRef->GetPos(); return 0;}

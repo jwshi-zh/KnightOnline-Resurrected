@@ -68,7 +68,7 @@ bool CN3FXPlugPart::Save(HANDLE hFile)
 }
 #endif
 
-void CN3FXPlugPart::Tick(const __Matrix44& mtxParent)
+void CN3FXPlugPart::Tick(const __Matrix44& mtxParent) const
 {
 	if (m_pFXB)
 	{

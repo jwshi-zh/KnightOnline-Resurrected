@@ -38,7 +38,7 @@ public:
 	CN3UIEdit*		m_pEdit_Name;
 
 public:
-	void			Reset();
+	void			Reset() const;
 	void			UpdateRaceAndClassButtons(e_Race eRace);
 	void			UpdateClassButtons(e_Class eClass);
 

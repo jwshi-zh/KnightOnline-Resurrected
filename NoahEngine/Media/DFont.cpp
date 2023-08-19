@@ -1026,7 +1026,7 @@ HRESULT CDFont::DrawText3D(DWORD dwColor, DWORD dwFlags )
 	return S_OK;
 }
 
-BOOL CDFont::GetTextExtent(const std::string& szString, int iStrLen, SIZE* pSize )
+BOOL CDFont::GetTextExtent(const std::string& szString, int iStrLen, SIZE* pSize ) const
 {
 	if (nullptr == s_hDC) return FALSE;
 

@@ -39,7 +39,7 @@ public:
 	void	Duplicate(CN3FXPartMesh* pSrc);
 		
 public:
-	void	Rotate();
+	void	Rotate() const;
 	void	Move();
 	void	Scaling();
 	void	MoveTexUV();

@@ -51,7 +51,7 @@ public:
 	CN3UIBase*		m_pImg_Str;
 
 public:
-	void	UpdateBonusPointAndButtons(int iBonusPointRemain); // 보너스 포인트 적용이 가능한가??
+	void	UpdateBonusPointAndButtons(int iBonusPointRemain) const; // 보너스 포인트 적용이 가능한가??
 
 	void	UpdateID(const std::string& szID);
 	void	UpdateLevel(int iVal);
@@ -151,7 +151,7 @@ public:
 	virtual ~CUIKnights();
 
 	//쓰지 않음....
-	bool	NeedMemberListRequest() { if(m_MemberList.empty()) return true; else return false; }
+	bool	NeedMemberListRequest() const { if(m_MemberList.empty()) return true; else return false; }
 	
 	void	ChangeUIByDuty(e_KnightsDuty eDuty);
 	//void	VisibleAppointButtons(bool bVisible); // 기사단장 전용 임명 Interface

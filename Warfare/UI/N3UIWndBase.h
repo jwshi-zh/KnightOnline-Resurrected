@@ -152,7 +152,7 @@ public:
 	CN3UIWndBase();
 	virtual ~CN3UIWndBase();
 
-	e_UIWND						GetUIWnd() { return m_eUIWnd; }
+	e_UIWND						GetUIWnd() const { return m_eUIWnd; }
 
 	virtual CN3UIArea*			GetChildAreaByiOrder(eUI_AREA_TYPE eUAT, int iOrder);
 	virtual CN3UIString*		GetChildStringByiOrder(int iOrder);

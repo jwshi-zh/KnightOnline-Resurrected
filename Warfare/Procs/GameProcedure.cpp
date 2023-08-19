@@ -309,8 +309,8 @@ void CGameProcedure::Tick()
 			SetGameCursor(((NATION_ELMORAD == eNation) ? s_hCursorNormal1 : s_hCursorNormal));
 	}
 
-	DWORD dwRet = 0;
-	dwRet = s_pMsgBoxMgr->MouseProcAndTick(dwMouseFlags, s_pLocalInput->MouseGetPos(), s_pLocalInput->MouseGetPosOld());
+	DWORD dwRet = s_pMsgBoxMgr->MouseProcAndTick(dwMouseFlags, s_pLocalInput->MouseGetPos(),
+	                                             s_pLocalInput->MouseGetPosOld());
 
 	if(0 == dwRet)
 	{
@@ -729,11 +729,10 @@ bool CGameProcedure::ProcessPacket(DataPack* pDataPack, int& iOffset)
 		case N3_SERVER_CHANGE:				// 서버 바꾸기 메시지..
 		{
 			// 다른 존 서버로 다시 접속한다.
-			int iLen = 0;
 			std::string szName, szIP;
 //			iLen = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // 서버 이름
 //			CAPISocket::Parse_GetString(pDataPack->m_pData, iOffset, szName, iLen);
-			iLen = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // 서버 IP
+			int iLen = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // 서버 IP
 			CAPISocket::Parse_GetString(pDataPack->m_pData, iOffset, szIP, iLen);
 			DWORD dwPort = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
 			s_pPlayer->m_InfoExt.iZoneInit = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);

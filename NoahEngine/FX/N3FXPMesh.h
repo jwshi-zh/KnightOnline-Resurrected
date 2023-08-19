@@ -11,14 +11,14 @@ private:
 	__VertexXyzColorT1*		m_pColorVertices;
 
 public:
-	void					Render();
+	void					Render() const;
 	void					Release();
 	void					FindMinMax();
 	bool					Load(HANDLE hFile);
 	void					SetColor(DWORD dwColor = 0xffffffff);
 	HRESULT					Create(int iNumVertices, int iNumIndices);
 	void					operator=(const CN3FXPMesh& fxPMesh);
-	__VertexXyzColorT1*		GetColorVertices() { return m_pColorVertices; }
+	__VertexXyzColorT1*		GetColorVertices() const { return m_pColorVertices; }
 
 public:
 	CN3FXPMesh();

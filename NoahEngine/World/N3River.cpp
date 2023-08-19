@@ -124,7 +124,7 @@ bool CN3River::Load(HANDLE hFile)
 	return true;
 }
 
-void CN3River::Render()
+void CN3River::Render() const
 {
 	if (m_iRiverCount <= 0) return;
 	int iTex = (int)m_fTexIndex;

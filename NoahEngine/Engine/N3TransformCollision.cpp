@@ -127,7 +127,7 @@ int CN3TransformCollision::CheckCollisionPrecisely(bool bIgnoreBoxCheck, int ixS
 	else return 0;
 }
 
-void CN3TransformCollision::RenderCollisionMesh()
+void CN3TransformCollision::RenderCollisionMesh() const
 {
 	if(nullptr == m_pMeshCollision) return;
 	s_lpD3DDev->SetTransform(D3DTS_WORLD, &m_Matrix);

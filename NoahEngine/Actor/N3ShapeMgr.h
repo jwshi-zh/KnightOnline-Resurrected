@@ -130,7 +130,8 @@ public:
 	CN3Shape* PickMovable(int iXScreen, int iYScreen, __Vector3* pvPick);
 #endif // end of #ifndef _3DSERVER
 	void SubCell(const __Vector3& vPos, __CellSub** ppSubCell);
-	__CellSub* SubCell(float fX, float fZ) // 해당 위치의 셀 포인터를 돌려준다.
+	__CellSub* SubCell(float fX, float fZ) const
+	// 해당 위치의 셀 포인터를 돌려준다.
 	{
 		int x = (int)(fX / CELL_MAIN_SIZE);
 		int z = (int)(fZ / CELL_MAIN_SIZE);
@@ -146,7 +147,7 @@ public:
 	}
 	float		GetHeightNearstPos(const __Vector3& vPos, float fDist, __Vector3* pvNormal = nullptr);  // 가장 가까운 높이을 돌려준다. 없으면 -FLT_MAX 을 돌려준다.
 	float		GetHeight(float fX, float fZ, __Vector3* pvNormal = nullptr);  // 현재 지점에서 제일 높은 값을 돌려준다. 없으면 -FLT_MAX 을 돌려준다.
-	int			SubCellPathThru(const __Vector3& vFrom, const __Vector3& vAt, int iMaxSubCell, __CellSub** ppSubCells); // 벡터 사이에 걸친 셀포인터 돌려준다..
+	int			SubCellPathThru(const __Vector3& vFrom, const __Vector3& vAt, int iMaxSubCell, __CellSub** ppSubCells) const; // 벡터 사이에 걸친 셀포인터 돌려준다..
 	float		Width() { return m_fMapWidth; } // 맵의 너비. 단위는 미터이다.
 	float		Height() { return m_fMapWidth; } // 맵의 너비. 단위는 미터이다.
 

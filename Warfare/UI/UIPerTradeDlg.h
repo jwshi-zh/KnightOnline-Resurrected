@@ -69,5 +69,5 @@ public:
 	void				ItemCountOK();
 	void				ItemCountCancel();
 
-	void				GoldUpdate();
+	void				GoldUpdate() const;
 };

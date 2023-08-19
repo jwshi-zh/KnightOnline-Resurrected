@@ -457,7 +457,7 @@ bool CN3FXPartMesh::Tick()
 //
 //
 //
-void CN3FXPartMesh::Rotate()
+void CN3FXPartMesh::Rotate() const
 {
 	__Matrix44 mtx;
 	mtx.Identity();

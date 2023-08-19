@@ -12,7 +12,7 @@ public:
 	std::list<__FXBInfo*> FXBList;
 	
 public:
-	int	GetCount() { return FXBList.size(); }
+	int	GetCount() const { return FXBList.size(); }
 	__FXBInfo* GetFXBInfo(int idx);
 
 	virtual bool	Load(HANDLE hFile); // 핸들에서 읽어오기..

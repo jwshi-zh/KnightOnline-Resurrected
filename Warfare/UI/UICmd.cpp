@@ -214,7 +214,7 @@ void CUICmd::SetVisibleOptButtons(bool bVisible)
 }
 */
 
-void CUICmd::UpdatePartyButtons(bool bIAmLeader, bool bIAmMemberOfParty, int iMemberIndex, const CPlayerBase* pTarget)
+void CUICmd::UpdatePartyButtons(bool bIAmLeader, bool bIAmMemberOfParty, int iMemberIndex, const CPlayerBase* pTarget) const
 {
 	bool bInvite = true;
 	if(bIAmLeader) // 내가 리더이면.. 

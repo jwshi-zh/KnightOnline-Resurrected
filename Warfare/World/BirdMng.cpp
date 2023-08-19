@@ -54,7 +54,7 @@ void CBirdMng::LoadFromFile(const std::string& szFN)
 	fclose(stream);
 }
 
-void CBirdMng::Tick()
+void CBirdMng::Tick() const
 {
 	for(int i=0; i<m_iBirdCount; i++)
 	{

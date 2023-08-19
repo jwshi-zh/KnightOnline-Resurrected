@@ -29,7 +29,7 @@ public:
 	void	Release();
 	void	Tick();
 	DWORD	MouseProc(DWORD dwFlags, const POINT& ptCur, const POINT& ptOld);
-	DWORD	GetCurMouseFlags() { return m_dwMouseFlagsCur; }
+	DWORD	GetCurMouseFlags() const { return m_dwMouseFlagsCur; }
 	void	Render();
 	void	ReorderChildList();
 };

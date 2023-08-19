@@ -73,7 +73,7 @@ bool CUIPartyBBS::Load(HANDLE hFile)
 	return true;
 }
 
-bool CUIPartyBBS::SelectedString(CN3UIBase* pSender, int& iID)
+bool CUIPartyBBS::SelectedString(CN3UIBase* pSender, int& iID) const
 {
 	int iIndex = -1;
 	for(int i = 0; i < PARTY_BBS_MAXSTRING ; i++)

@@ -92,7 +92,7 @@ BOOL CN3SndObjStream::LoadWave(LPCSTR pFileName)
 	return TRUE;
 }
 
-BOOL CN3SndObjStream::InitWriteBuffer()
+BOOL CN3SndObjStream::InitWriteBuffer() const
 {	
 	LPVOID	pSoundBlock1 = nullptr;
 	LPVOID	pSoundBlock2 = nullptr;

@@ -64,7 +64,7 @@ public:
 	float		m_fScaleVelY;
 
 protected:
-	void	Rotate();
+	void	Rotate() const;
 	void	Scaling();
 	void	Move();
 

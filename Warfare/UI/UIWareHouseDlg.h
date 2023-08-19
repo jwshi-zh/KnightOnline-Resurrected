@@ -36,7 +36,7 @@ public:
 	CUIImageTooltipDlg*		m_pUITooltipDlg;
 
 protected:
-	int					GetItemiOrder(__IconItemSkill* spItem, e_UIWND_DISTRICT eWndDist);
+	int					GetItemiOrder(__IconItemSkill* spItem, e_UIWND_DISTRICT eWndDist) const;
 	RECT				GetSampleRect();
 
 	e_UIWND_DISTRICT	GetWndDistrict(__IconItemSkill* spItem);

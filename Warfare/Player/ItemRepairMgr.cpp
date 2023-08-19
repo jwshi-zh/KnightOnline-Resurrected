@@ -187,12 +187,11 @@ void CItemRepairMgr::ReceiveResultFromServer(int iResult, int iUserGold)
 void CItemRepairMgr::UpdateUserTotalGold(int iGold)
 {
 	char szGold[32];
-	CN3UIString* pStatic = nullptr;
 
 	// 돈 업데이트..
 	s_pPlayer->m_InfoExt.iGold = iGold;
 	sprintf(szGold, "%d", iGold);
-	pStatic = (CN3UIString* )CGameProcedure::s_pProcMain->m_pUIInventory->GetChildByID("text_gold"); __ASSERT(pStatic, "NULL UI Component!!");
+	CN3UIString* pStatic = (CN3UIString*)CGameProcedure::s_pProcMain->m_pUIInventory->GetChildByID("text_gold"); __ASSERT(pStatic, "NULL UI Component!!");
 	if(pStatic)
 	{
 		pStatic->SetString(szGold);

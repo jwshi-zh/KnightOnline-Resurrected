@@ -251,7 +251,7 @@ bool CN3FXPMeshInstance::SplitOne()
 	return true;
 }
 
-void CN3FXPMeshInstance::Render()
+void CN3FXPMeshInstance::Render() const
 {
 	if (m_pFXPMesh == nullptr) return;
 	s_lpD3DDev->SetFVF(FVF_VNT1);

@@ -166,7 +166,7 @@ void CN3FXPMesh::Release()
 }
 
 
-void CN3FXPMesh::Render()
+void CN3FXPMesh::Render() const
 {
 	s_lpD3DDev->SetFVF(FVF_XYZCOLORT1);
 

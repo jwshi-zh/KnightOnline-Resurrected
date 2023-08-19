@@ -83,7 +83,7 @@ public:
 
 	void				PointPushUpButton(int iValue);
 
-	bool				HasIDSkill(int iID);
+	bool				HasIDSkill(int iID) const;
 	void				ButtonVisibleStateSet();
 
 	void				TooltipRenderEnable(__IconItemSkill* spSkill);

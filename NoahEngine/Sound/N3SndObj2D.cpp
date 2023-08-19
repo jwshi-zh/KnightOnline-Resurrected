@@ -95,7 +95,7 @@ void CN3SndObj2D::SetVolume(int Vol)
 //
 //
 //
-bool CN3SndObj2D::IsPlaying()
+bool CN3SndObj2D::IsPlaying() const
 {
 	if(m_ePlayState != SNDSTATE_STOP) return true;
 

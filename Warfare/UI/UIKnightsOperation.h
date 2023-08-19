@@ -42,7 +42,7 @@ protected:
 	CN3UIEdit*		m_pEdit_KnightsName;
 
 public:
-	void	ChangeUIByDuty(enum e_KnightsDuty eDuty); // 권한에 따라 UI 변경..
+	void	ChangeUIByDuty(enum e_KnightsDuty eDuty) const; // 권한에 따라 UI 변경..
 	void	Open(enum e_KnightsDuty eDuty);
 	void	Close();
 

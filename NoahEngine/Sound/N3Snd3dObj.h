@@ -13,7 +13,7 @@ public:
 	void SetConeOutSizeVolume(LONG vol);
 	void SetMaxDistance(D3DVALUE max);
 	void SetMinDistance(D3DVALUE min);	
-	void SetPos(const D3DVECTOR* pvPos);
+	void SetPos(const D3DVECTOR* pvPos) const;
 	
 	void Init();
 	void Release();

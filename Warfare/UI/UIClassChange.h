@@ -41,7 +41,7 @@ public:
 	void	Open(int iCode);
 	void	Close();
 
-	void	RestorePrevClass();
+	void	RestorePrevClass() const;
 	void	ChangeToWarningState();
 	void	ChangeToNormalState();
 };

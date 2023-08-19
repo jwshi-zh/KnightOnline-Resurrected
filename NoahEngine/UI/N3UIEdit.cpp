@@ -450,7 +450,7 @@ void CN3UIEdit::SetVisible(bool bVisible)
 	}
 }
 
-void CN3UIEdit::KillFocus()
+void CN3UIEdit::KillFocus() const
 {
 	if (HaveFocus())
 	{

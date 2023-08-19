@@ -230,7 +230,7 @@ void CUIWareHouseDlg::InitIconUpdate()
 		}
 }
 
-int CUIWareHouseDlg::GetItemiOrder(__IconItemSkill* spItem, e_UIWND_DISTRICT eWndDist)
+int CUIWareHouseDlg::GetItemiOrder(__IconItemSkill* spItem, e_UIWND_DISTRICT eWndDist) const
 {
 	int iReturn = -1;
 	int i;

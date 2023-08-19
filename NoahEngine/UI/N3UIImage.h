@@ -30,7 +30,7 @@ protected:
 
 //	Operations
 public:
-	D3DCOLOR	GetColor()	{ return m_Color; }
+	D3DCOLOR	GetColor() const { return m_Color; }
 
 	CN3Texture*		GetTex() const { return m_pTexRef; }	// Texture 포인터 얻기
 	void			SetTex(const std::string& szFN);		// Texture 지정

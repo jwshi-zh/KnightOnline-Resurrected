@@ -564,7 +564,7 @@ void CN3Terrain::SetNormals()
 //
 //
 //
-unsigned short CN3Terrain::GetGrassAttr(int x, int z)
+unsigned short CN3Terrain::GetGrassAttr(int x, int z) const
 {
 	unsigned short Attr;
 	if(x<0 || x>=m_ti_MapSize || z<0 || z>=m_ti_MapSize) return 0;

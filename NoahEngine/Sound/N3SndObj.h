@@ -31,7 +31,7 @@ public:
 protected:
 	virtual void RealPlay();
 	bool	FillBufferWithSound(class CWaveFile* pWaveFile);
-	bool	RestoreBuffer();
+	bool	RestoreBuffer() const;
 
 		
 public:
@@ -42,7 +42,7 @@ public:
 	static void SetListenerPos(const D3DVECTOR* pVPos, bool IsDeferred = true);
 	static void SetListenerOrientation(const D3DVECTOR* pVAt, const D3DVECTOR* pVUp, bool IsDeferred = true);
 
-	LPDIRECTSOUNDBUFFER		GetDSBuffer() { return m_lpDSBuff; }
+	LPDIRECTSOUNDBUFFER		GetDSBuffer() const { return m_lpDSBuff; }
 	LPDIRECTSOUND3DBUFFER	GetDS3DBuffer() { return m_lpDS3DBuff; }
 
 	bool		IsPlaying();

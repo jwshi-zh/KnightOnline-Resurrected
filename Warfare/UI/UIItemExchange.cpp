@@ -122,7 +122,7 @@ __IconItemSkill* CUIItemExchange::GetHighlightIconItem(CN3UIIcon* pUIIcon)
 	return nullptr;
 }
 
-int	CUIItemExchange::GetItemiOrder(__IconItemSkill* spItem, e_UIWND_DISTRICT eWndDist)
+int	CUIItemExchange::GetItemiOrder(__IconItemSkill* spItem, e_UIWND_DISTRICT eWndDist) const
 {
 	int i;
 

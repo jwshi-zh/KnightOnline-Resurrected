@@ -39,7 +39,7 @@ void CN3Sky::Tick()
 	}
 }
 
-void CN3Sky::Render()
+void CN3Sky::Render() const
 {
     // Set up a rotation matrix to orient the billboard towards the camera.
 	__Matrix44 matWorld;

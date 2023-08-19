@@ -52,7 +52,7 @@ bool CN3SndEng::Init( HWND  hWnd, DWORD dwCoopLevel, DWORD dwPrimaryChannels, DW
     return true;
 }
 
-bool CN3SndEng::SetPrimaryBufferFormat( DWORD dwPrimaryChannels, DWORD dwPrimaryFreq, DWORD dwPrimaryBitRate )
+bool CN3SndEng::SetPrimaryBufferFormat( DWORD dwPrimaryChannels, DWORD dwPrimaryFreq, DWORD dwPrimaryBitRate ) const
 {
     HRESULT             hr;
     LPDIRECTSOUNDBUFFER pDSBPrimary = nullptr;

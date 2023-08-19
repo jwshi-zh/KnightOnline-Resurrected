@@ -55,8 +55,8 @@ public:
 	void	Init();
 	void	Stop(bool immediately=false);
 	
-	void	Render();
-	DWORD	GetState() { return m_dwState; }
+	void	Render() const;
+	DWORD	GetState() const { return m_dwState; }
 
 	virtual bool	Load(HANDLE hFile); // 핸들에서 읽어오기..
 	bool	Save(HANDLE hFile);	// 저장하기..

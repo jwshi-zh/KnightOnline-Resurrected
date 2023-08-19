@@ -63,7 +63,7 @@ void CUIPointInitDlg::Close()
 	SetVisible(false);
 }
 
-void CUIPointInitDlg::PushOkButton()
+void CUIPointInitDlg::PushOkButton() const
 {
 	BYTE byBuff[32];
 	int iOffset = 0;

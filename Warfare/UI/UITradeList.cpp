@@ -138,7 +138,8 @@ void CUITradeList::Close()
 	SetVisible(false);
 }
 
-void CUITradeList::SetTopLine(int iTopLine)		// 맨 윗줄을 지정해준다.
+void CUITradeList::SetTopLine(int iTopLine) const
+// 맨 윗줄을 지정해준다.
 {
 	// 0 ~ 10 사이값.. 먼저 총 갯수를 센다..
 	int i = 0, iTotalCount, iFirstIndex, iLastIndex;

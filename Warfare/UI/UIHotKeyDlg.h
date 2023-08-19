@@ -73,7 +73,7 @@ public:
 	bool				GetEmptySlotIndex(int &iIndex);
 
 	void				AllFactorClear();
-	void				UpdateDisableCheck();
+	void				UpdateDisableCheck() const;
 
 	bool				ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur);
 };

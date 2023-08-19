@@ -41,7 +41,7 @@ void CN3EffectWave2::Release()
 	}
 
 	m_fTexIndex = 0.0f;
-	m_pTexWave=NULL;
+	m_pTexWave= nullptr;
 }
 
 bool CN3EffectWave2::Load(HANDLE hFile)
@@ -215,7 +215,7 @@ void CN3EffectWave2::Tick()
 	}
 }
 
-void CN3EffectWave2::Render()
+void CN3EffectWave2::Render() const
 {
 	if(m_iPondMeshNum==0) return;
 

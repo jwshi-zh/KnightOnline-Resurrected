@@ -30,7 +30,7 @@ public:
 	void	Init(const std::string* pszFNs);
 //	By : Ecli666 ( On 2002-04-04 오전 10:55:52 )
 //
-	float	GetCurAngle()	{	return D3DXToDegree(m_fCurRadian);	}
+	float	GetCurAngle() const {	return D3DXToDegree(m_fCurRadian);	}
 //	~(By Ecli666 On 2002-04-04 오전 10:55:52 )
 
 	void Release();

@@ -99,5 +99,5 @@ public:
 	// 타이틀 표시..
 	void				ShowTitle(e_NpcTrade eNT);
 
-	void				GoldUpdate();
+	void				GoldUpdate() const;
 };

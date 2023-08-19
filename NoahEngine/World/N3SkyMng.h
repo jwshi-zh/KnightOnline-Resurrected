@@ -78,7 +78,7 @@ struct		__SKY_DAYCHANGE
 		return true;
 	}
 	
-	bool Save(HANDLE hFile)
+	bool Save(HANDLE hFile) const
 	{
 		DWORD dwRWC = 0;
 
@@ -201,7 +201,7 @@ public:
 	D3DCOLOR	GetLightAmbientColor(int iIndex);
 
 	void	Release();
-	void	Render(); // 하늘만 렌더링..
+	void	Render() const; // 하늘만 렌더링..
 	void	RenderWeather(); // 비나 눈등의 날씨 렌더링..
 	void	Tick();
 

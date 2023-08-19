@@ -16,7 +16,7 @@ protected:
 
 protected:
 	HRESULT RestoreBuffer( LPDIRECTSOUNDBUFFER pDSB, BOOL* pbWasRestored );
-	bool SetPrimaryBufferFormat( DWORD dwPrimaryChannels, DWORD dwPrimaryFreq, DWORD dwPrimaryBitRate );
+	bool SetPrimaryBufferFormat( DWORD dwPrimaryChannels, DWORD dwPrimaryFreq, DWORD dwPrimaryBitRate ) const;
 	bool Get3DListenerInterface( LPDIRECTSOUND3DLISTENER* ppDSListener );
 
 	bool FillBufferWithSound( LPSOUNDSOURCE pSrc, CWaveFile* pWaveFile);

@@ -168,7 +168,7 @@ void CN3UITrackBar::SetCurrentPos(int iPos)
 }
 
 // Pos수치로 Thumb의 위치를 조정
-void CN3UITrackBar::UpdateThumbPos()
+void CN3UITrackBar::UpdateThumbPos() const
 {
 	if (nullptr == m_pThumbImageRef) return;
 	float fDiff = m_iMaxPos - m_iMinPos;

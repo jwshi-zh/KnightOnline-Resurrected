@@ -540,7 +540,7 @@ bool CN3FXBundle::Tick()
 //
 //	Render...
 //
-void CN3FXBundle::Render()
+void CN3FXBundle::Render() const
 {
 	if(m_dwState==FX_BUNDLE_STATE_DEAD) return;
 

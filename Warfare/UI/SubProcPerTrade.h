@@ -68,7 +68,7 @@ public:
 	void	LeavePerTradeState(e_PerTradeResultCode ePTRC);		// 아이템 거래 상태가 해제되는 코드..
 	void	ProcessProceed(e_PerTradeProceedCode ePTPC);		// 아이템 거래가 계속되는 상태를 정의..
 
-	void	SecureCodeBegin();									// 보호 코드..
+	void	SecureCodeBegin() const;									// 보호 코드..
 
 	void	PerTradeCoreStart();
 	void	PerTradeCoreInvDisable();

@@ -74,7 +74,7 @@ public:
 			m_byCurKeys[iIndex] = m_byOldKeys[iIndex] = m_bKeyPresses[iIndex] = m_bKeyPresseds[iIndex] = 0;
 		}
 	}
-	BOOL IsNoKeyDown() { return m_bNoKeyDown; }
+	BOOL IsNoKeyDown() const { return m_bNoKeyDown; }
 	BOOL IsKeyDown(int iIndex) { if(iIndex < 0 || iIndex >= NUMDIKEYS) return FALSE; return m_byCurKeys[iIndex]; } // 키보드가 눌려있는지... "DInput.h" 에 정의 되어 있는 DIK_???? 스캔코드를 참조..
 	BOOL IsKeyPress(int iIndex) { if(iIndex < 0 || iIndex >= NUMDIKEYS) return FALSE; return m_bKeyPresses[iIndex]; } // 키보드를 누르는 순간... "DInput.h" 에 정의 되어 있는 DIK_???? 스캔코드를 참조..
 	BOOL IsKeyPressed(int iIndex) { if(iIndex < 0 || iIndex >= NUMDIKEYS) return FALSE; return m_bKeyPresseds[iIndex]; } // 키보드를 누르고나서 떼는 순간... "DInput.h" 에 정의 되어 있는 DIK_???? 스캔코드를 참조..
@@ -88,7 +88,7 @@ public:
 	void SetActiveDevices(BOOL bKeyboard, BOOL bMouse);
 	void MouseSetPos(int x, int y);
 
-	BOOL KeyboardGetKeyState(int nDIKey); // 최근 눌려진 키 검사..
+	BOOL KeyboardGetKeyState(int nDIKey) const; // 최근 눌려진 키 검사..
 
 	const POINT MouseGetPos() { return m_ptCurMouse; }
 	const POINT MouseGetPosOld() { return m_ptOldMouse; }

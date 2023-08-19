@@ -53,7 +53,7 @@ bool CUIMessageBox::Load(HANDLE hFile)
 	return true;
 }
 
-void CUIMessageBox::SetText(const std::string& szMsg)
+void CUIMessageBox::SetText(const std::string& szMsg) const
 {
 	m_pText_Message->SetString(szMsg);
 }

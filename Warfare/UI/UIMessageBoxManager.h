@@ -17,12 +17,12 @@ public:
 
 public:
 	CUIMessageBox*	ReFocusMsgBox();
-	CUIMessageBox*	GetFocusMsgBox(){ return m_pMsgBoxLatestRef; }
+	CUIMessageBox*	GetFocusMsgBox() const { return m_pMsgBoxLatestRef; }
 	void			Release();
 	DWORD			MouseProcAndTick(DWORD& dwFlags, const POINT& ptCur, const POINT& ptOld );
 	void			MessageBoxCloseAll();
 	void			Render();
-	int				GetCount();
+	int				GetCount() const;
 
 	void			MessageBoxClose(const std::string& szMsg);
 	std::string		MessageBoxPost(const std::string& szMsg, const std::string& szTitle, int iStyle, e_Behavior eBehavior = BEHAVIOR_NOTHING);

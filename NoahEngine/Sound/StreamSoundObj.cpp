@@ -89,7 +89,7 @@ BOOL CStreamSoundObj::LoadWave(LPCSTR pFileName)
 	return TRUE;
 }
 
-BOOL CStreamSoundObj::InitWriteBuffer()
+BOOL CStreamSoundObj::InitWriteBuffer() const
 {	
 	LPVOID	pSoundBlock1 = nullptr;
 	LPVOID	pSoundBlock2 = nullptr;

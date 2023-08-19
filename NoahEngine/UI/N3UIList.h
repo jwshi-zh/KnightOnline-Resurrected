@@ -21,7 +21,7 @@ protected:
 	
 public:
 	const std::string&	FontName() { return m_szFontName; }
-	DWORD				FontHeight() { return m_dwFontHeight; }
+	DWORD				FontHeight() const { return m_dwFontHeight; }
 	D3DCOLOR			FontColor() { return m_crFont; }
 	BOOL				FontIsBold() { return m_bFontBold; }
 	BOOL				FontIsItalic() { return m_bFontItalic; }
@@ -42,7 +42,7 @@ public:
 	bool	SetCurSel(int iIndex) { if(iIndex < 0 || iIndex >= m_ListString.size()) m_iCurSel = -1; else m_iCurSel = iIndex; return true; }
 	int		GetCount() { return m_ListString.size(); }
 
-	int		GetScrollPos();
+	int		GetScrollPos() const;
 	bool	SetScrollPos(int iScrollPos);
 	
 	virtual void	Render();

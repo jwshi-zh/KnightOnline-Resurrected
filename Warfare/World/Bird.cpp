@@ -84,7 +84,7 @@ void CBird::Tick()
 	}
 }
 
-void CBird::Render()
+void CBird::Render() const
 {
 	if (m_pShape == nullptr) return;
 	m_pShape->Render();

@@ -27,7 +27,7 @@ public:
 	// v0 + (v1-v0)*u + (v2-v0)*v 를 구하면 만나는 점을 구할 수 있다.
 	// [out] vPos 마우스로 찍은 곳의 3D 좌표
 	// 리턴 값이 FALSE이면 세점이 이루는 삼각형 안에서 만나지 않는다는 뜻, t u v vPos 모두 무효한 값이므로 쓰면 안된다.
-	bool IntersectTriangle(__Vector3& v0, __Vector3& v1, __Vector3& v2, float& t, float& u, float& v, __Vector3* pVPos)
+	bool IntersectTriangle(__Vector3& v0, __Vector3& v1, __Vector3& v2, float& t, float& u, float& v, __Vector3* pVPos) const
 	{
 		return ::_IntersectTriangle( m_vPickRayOrig, m_vPickRayDir, v0, v1, v2, t, u, v, pVPos );
 	}

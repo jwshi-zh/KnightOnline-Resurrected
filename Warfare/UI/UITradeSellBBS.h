@@ -74,7 +74,7 @@ public:
 	void SetContentString();
 	void ResetContent();
 	void Render();
-	void RenderSelectContent();
+	void RenderSelectContent() const;
 	bool OnKeyPress(int iKey);
 	void MsgSend_PerTrade();
 	void OnListExplanation();

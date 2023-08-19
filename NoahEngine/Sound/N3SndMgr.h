@@ -33,7 +33,7 @@ public:
 	bool		PlayOnceAndRelease(int iSndID, const D3DVECTOR* pPos = nullptr);
 		
 	void		SetDuplicated(bool bDuplicate) { m_bSndDuplicated = bDuplicate; }
-	bool		GetDuplicated() { return m_bSndDuplicated; }
+	bool		GetDuplicated() const { return m_bSndDuplicated; }
 	void		SetEnable(bool bEnable) { m_bSndEnable = bEnable; }
 	void		Init(HWND hWnd);
 	void		Release();

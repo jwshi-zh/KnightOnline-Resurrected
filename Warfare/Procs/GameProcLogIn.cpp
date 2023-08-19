@@ -293,14 +293,13 @@ bool CGameProcLogIn::MsgSend_AccountLogIn(e_LogInClassification eLIC)
 	return true;
 }
 
-void CGameProcLogIn::MsgRecv_GameServerGroupList(DataPack* pDataPack, int& iOffset)
+void CGameProcLogIn::MsgRecv_GameServerGroupList(DataPack* pDataPack, int& iOffset) const
 {
 	int iServerCount = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);	// 서버 갯수
 	for(int i = 0; i < iServerCount; i++)
 	{
-		int iLen = 0;
 		__GameServerInfo GSI;
-		iLen = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
+		int iLen = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
 		CAPISocket::Parse_GetString(pDataPack->m_pData, iOffset, GSI.szIP, iLen);
 		iLen = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
 		CAPISocket::Parse_GetString(pDataPack->m_pData, iOffset, GSI.szName, iLen);

@@ -29,5 +29,5 @@ public:
 	bool	ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg);
 	void	Close();
 
-	void	PushOkButton();
+	void	PushOkButton() const;
 };

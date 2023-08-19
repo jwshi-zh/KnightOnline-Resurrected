@@ -52,7 +52,7 @@ public:
 	float			AttackableDistance(CPlayerBase* pTarget);
 	float			DistanceExceptRadius(CPlayerBase* pTarget);
 	bool			IsAttackableTarget(CPlayerBase* pTarget, bool bMesureAngle = true); // 공격 가능한 범위에 있는지..
-	bool			IsRunning() { return m_bRunning; }
+	bool			IsRunning() const { return m_bRunning; }
 	bool			CheckCollision();		// 움직이는 처리와 충돌체크를 한다. 충돌되는게 있으면 움직이지 않는다.
 	//.. 
 	bool			InitChr(__TABLE_PLAYER_LOOKS* pTblUPC);
@@ -62,7 +62,7 @@ public:
 	void			Tick();
 	void			Render(float fSunAngle);
 
-	__Vector3		NextPos(float fTimeAfter);
+	__Vector3		NextPos(float fTimeAfter) const;
 	void			RotAdd(const float fRotRadianPerSec);			// y 축을 기준으로 초당 회전하는 속도를 넣어준다.
 	
 	bool			ToggleAttackContinous();

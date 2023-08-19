@@ -30,11 +30,12 @@ protected:
 
 public:
 	void		SetColor(DWORD dwColor = 0xffffffff);
-	BOOL		IsLOD() { if(nullptr == m_pCollapseUpTo) return FALSE; return TRUE; }
+	BOOL		IsLOD() const
+	{ if(nullptr == m_pCollapseUpTo) return FALSE; return TRUE; }
 	bool		Create(CN3FXPMesh* pN3FXPMesh);
 	bool		Create(const std::string& szFN);
 	void		Release();
-	void		Render();
+	void		Render() const;
 	void		RenderTwoUV();
 	// The value you pass into this could be based on distance from camera, frame rate, etc
 	void		SetLOD(float value); // value = Camera Distance / Camera FOV;

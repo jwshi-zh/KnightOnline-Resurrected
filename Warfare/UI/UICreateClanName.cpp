@@ -57,10 +57,9 @@ bool CUICreateClanName::MakeClan()
 	return true;
 }
 
-void CUICreateClanName::MsgSend_MakeClan()
+void CUICreateClanName::MsgSend_MakeClan() const
 {
-	int iLn = 20;
-	iLn = m_szClanName.size();
+	int iLn = m_szClanName.size();
 	BYTE byBuff[40];									// 패킷 버퍼..
 	int iOffset=0;										// 패킷 오프셋..
 	CAPISocket::MP_AddByte(byBuff, iOffset, N3_KNIGHTS);		

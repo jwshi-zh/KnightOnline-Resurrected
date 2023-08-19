@@ -49,7 +49,7 @@ public:
 	void			SetRange(int iMin, int iMax) {m_iMinValue = iMin; m_iMaxValue = iMax; UpdateFrGndImage();}
 	void			SetFrGndUVFromFrGndImage();	// m_pFrGndImgRef로부터 uv좌표를 얻어와서 m_frcFrGndImgUV를 세팅한다.
 protected:
-	void			UpdateFrGndImage();	//m_FrGndImgRef 의 영역과 uv좌표를 m_fCurValue에 따라 알맞게 바꾼다.
+	void			UpdateFrGndImage() const;	//m_FrGndImgRef 의 영역과 uv좌표를 m_fCurValue에 따라 알맞게 바꾼다.
 
 #ifdef _N3TOOL
 // tool에서 사용하는 함수들

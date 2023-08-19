@@ -13,7 +13,7 @@ protected:
 
 public:
 	virtual void	FindMinMax();
-	__Vector3		Min() { return m_vMin * m_Matrix; } // 월드 상의 최소값
+	__Vector3		Min() const { return m_vMin * m_Matrix; } // 월드 상의 최소값
 	__Vector3		Max() { return m_vMax * m_Matrix; } // 월드 상의 최대값
 	__Vector3		RawMin() { return m_vMin; } // 월드 상의 최소값
 	__Vector3		RawMax() { return m_vMax; } // 월드 상의 최대값
@@ -34,7 +34,7 @@ public:
 	virtual int		CheckCollisionPrecisely(bool bIgnoreBoxCheck, int ixScreen, int iyScreen, __Vector3* pVCol = nullptr, __Vector3* pVNormal = nullptr);
 //	BOOL CheckClimb(int x, int y, __Vector3* pVCol = NULL, __Vector3* pVNormal = NULL, __Vector3* pVPolygon = NULL);
 //	BOOL CheckClimb(__Vector3 &vPos, __Vector3 &vDir, __Vector3* pVCol = NULL, __Vector3* pVNormal = NULL, __Vector3* pVPolygon = NULL);
-	void			RenderCollisionMesh();
+	void			RenderCollisionMesh() const;
 	void			RenderClimbMesh();
 
 	CN3VMesh*		CollisionMesh() { return m_pMeshCollision; }

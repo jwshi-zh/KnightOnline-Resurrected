@@ -24,7 +24,7 @@ protected:
 // Operations
 public:
 	void				Init();
-	void				Render();
+	void				Render() const;
 	virtual				void Release();
 	virtual				void Tick();
 protected:

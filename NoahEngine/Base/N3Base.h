@@ -59,8 +59,8 @@ struct __CameraData
 	float			fFrustum[6][4];
 
 	// fRadius - 물체의 반지름보다 약간 더 여유 있게 잡고 넣으면 그만큼 클리핑을 여유있게 한다..
-	BOOL IsOutOfFrustum(const __Vector3& vPosition, float fRadius)
-		// 미리 계산된 카메라 평면의 도트 프로덕트 값을 기준으로 카메라 사면체 밖에 있으면  참을 돌려준다.
+	BOOL IsOutOfFrustum(const __Vector3& vPosition, float fRadius) const
+	// 미리 계산된 카메라 평면의 도트 프로덕트 값을 기준으로 카메라 사면체 밖에 있으면  참을 돌려준다.
 	{
 		if ((vEye - vPosition).Magnitude() > fFP + fRadius)
 			return TRUE; // Far Plane 거리체크

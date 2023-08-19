@@ -260,7 +260,7 @@ void CServerMesh::AutoConcMesh(D3DCOLOR color, float left, float right, float bo
 
 
 
-void CServerMesh::Render()
+void CServerMesh::Render() const
 {
     __Matrix44 mtxWorld;
 	mtxWorld.Identity();

@@ -99,7 +99,7 @@ protected:
 	
 public:
 	CN3Texture* GetLightMap(int tx, int tz);
-	float	GetWidthByMeter() { return (m_ti_MapSize - 1) * TILE_SIZE; }
+	float	GetWidthByMeter() const { return (m_ti_MapSize - 1) * TILE_SIZE; }
 	int		GetLODLevel() { return m_iLodLevel; }
 	bool	SetLODLevel(int level);
 	float	GetHeight(float x, float z);
@@ -118,7 +118,7 @@ public:	//additional........
 	bool			GetTileTexInfo(float x, float z, TERRAINTILETEXINFO& TexInfo1, TERRAINTILETEXINFO& TexInfo2);
 	CN3Texture*		GetTileTex(int x, int z);
 	MAPDATA			GetMapData(int x, int z);
-	unsigned short	GetGrassAttr(int x, int z);
+	unsigned short	GetGrassAttr(int x, int z) const;
 	bool			LoadColorMap(const std::string& szFN);
 	void			GetNormal(float x, float z, __Vector3& vNormal);
 	bool			IsInTerrain(float x, float z);

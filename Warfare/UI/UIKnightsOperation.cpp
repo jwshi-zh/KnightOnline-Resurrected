@@ -196,7 +196,7 @@ void CUIKnightsOperation::KnightsListClear()
 	if(m_pList_Knights) m_pList_Knights->ResetContent();
 }
 
-void CUIKnightsOperation::ChangeUIByDuty(e_KnightsDuty eDuty)
+void CUIKnightsOperation::ChangeUIByDuty(e_KnightsDuty eDuty) const
 {
 	if(eDuty == KNIGHTS_DUTY_CHIEF) // 기사단장이면 기사단 해체도 가능하다..
 	{

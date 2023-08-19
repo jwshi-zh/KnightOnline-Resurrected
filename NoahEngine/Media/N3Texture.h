@@ -36,7 +36,7 @@ public:
 	bool				CreateFromSurface(LPDIRECT3DSURFACE9 lpSurf, D3DFORMAT Format, BOOL bGenerateMipMap);
 #endif // end of _N3TOOL
 
-	DWORD				Width() { return m_Header.nWidth; }
+	DWORD				Width() const { return m_Header.nWidth; }
 	DWORD				Height() { return m_Header.nHeight; }
 	D3DFORMAT			PixelFormat() { return m_Header.Format; }
 	int					MipMapCount() { if(nullptr == m_lpTexture) return 0; else return m_lpTexture->GetLevelCount(); }

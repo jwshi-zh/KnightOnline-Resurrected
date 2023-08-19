@@ -351,7 +351,7 @@ int CUIDroppedItemDlg::GetInventoryEmptyInviOrder(__IconItemSkill* spItem)
 	return -1;
 }
 
-int	CUIDroppedItemDlg::GetItemiOrder(__IconItemSkill* spItem)
+int	CUIDroppedItemDlg::GetItemiOrder(__IconItemSkill* spItem) const
 {
 	int i;
 

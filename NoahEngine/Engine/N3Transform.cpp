@@ -55,9 +55,7 @@ bool CN3Transform::Load(HANDLE hFile)
 	m_fFrmCur = 0;
 	m_fFrmWhole = 0;
 
-	float fFrmWhole = 0;
-	
-	fFrmWhole = m_KeyPos.Count() * m_KeyPos.SamplingRate() / 30.0f;
+	float fFrmWhole = m_KeyPos.Count() * m_KeyPos.SamplingRate() / 30.0f;
 	if(fFrmWhole > m_fFrmWhole) m_fFrmWhole = fFrmWhole;
 	fFrmWhole = m_KeyRot.Count() * m_KeyRot.SamplingRate() / 30.0f;
 	if(fFrmWhole > m_fFrmWhole) m_fFrmWhole = fFrmWhole;

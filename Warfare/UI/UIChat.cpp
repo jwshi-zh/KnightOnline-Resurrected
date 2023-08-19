@@ -465,7 +465,7 @@ void CUIChat::AddLineBuffer(const std::string& szString, D3DCOLOR color)
 	}
 }
 
-void CUIChat::SetTopLine(int iTopLine)
+void CUIChat::SetTopLine(int iTopLine) const
 {
 	if (m_iChatLineCount<=0) return;
 

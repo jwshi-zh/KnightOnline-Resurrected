@@ -42,7 +42,7 @@ protected:
 	void	CreateVB();
 	bool	IsDead();
 	__Vector3 Rotate2AbsolutePos(__Vector3 vRelativePos);
-	float	CameraDist();
+	float	CameraDist() const;
 
 public:
 	void	Init();				//	각종 변수들을 처음 로딩한 상태로 초기화...

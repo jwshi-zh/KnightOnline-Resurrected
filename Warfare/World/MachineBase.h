@@ -68,7 +68,7 @@ public:
 	virtual void	LoadMachine(FILE* stream);
 
 protected:
-	CN3SPart*		GetPartByPMeshName(const std::string& szName);
+	CN3SPart*		GetPartByPMeshName(const std::string& szName) const;
 	virtual void	ReCalcMatrix4AnimatedPart();
 // 머신 동작 관련
 public:

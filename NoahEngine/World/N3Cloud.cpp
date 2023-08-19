@@ -6,7 +6,7 @@ CN3Cloud::CN3Cloud()
 {
 	for(int i = 0; i < NUM_CLOUD; i++) 
 	{
-		m_pTextures[i] = NULL;
+		m_pTextures[i] = nullptr;
 		m_szTextures[i] = "";
 	}
 

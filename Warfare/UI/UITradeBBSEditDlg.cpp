@@ -19,7 +19,7 @@ CUITradeBBSEditDlg::~CUITradeBBSEditDlg()
 
 }
 
-std::string CUITradeBBSEditDlg::GetTradeTitle()
+std::string CUITradeBBSEditDlg::GetTradeTitle() const
 {
 	if(m_pEditTitle)
 		return m_pEditTitle->GetString();

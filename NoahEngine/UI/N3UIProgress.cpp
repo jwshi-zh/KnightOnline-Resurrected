@@ -75,7 +75,7 @@ void CN3UIProgress::SetStyle(DWORD dwStyle)
 	UpdateFrGndImage();
 }
 
-void CN3UIProgress::UpdateFrGndImage()
+void CN3UIProgress::UpdateFrGndImage() const
 {
 	if (nullptr == m_pFrGndImgRef) return;
 	int iDiff = m_iMaxValue - m_iMinValue;

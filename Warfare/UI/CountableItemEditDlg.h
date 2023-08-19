@@ -47,7 +47,7 @@ public:
 	virtual void		Open(e_UIWND eUW, e_UIWND_DISTRICT eUD, bool bCountGold, bool bWareGold = false);
 	virtual void		Close();
 
-	bool				IsLocked()	{	return m_bLocked;	}
+	bool				IsLocked() const {	return m_bLocked;	}
 
 	e_UIWND				GetCallerWnd()	{	return m_eCallerWnd;	}
 	e_UIWND_DISTRICT	GetCallerWndDistrict()	{	return m_eCallerWndDistrict;	}

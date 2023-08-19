@@ -16,7 +16,7 @@ public:
 
 protected:
 	int			GetInventoryEmptyInviOrder(__IconItemSkill* spItem = nullptr);
-	int			GetItemiOrder(__IconItemSkill* spItem);
+	int			GetItemiOrder(__IconItemSkill* spItem) const;
 
 public:
 	CUIDroppedItemDlg();

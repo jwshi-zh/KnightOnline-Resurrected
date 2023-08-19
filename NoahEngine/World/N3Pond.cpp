@@ -253,7 +253,7 @@ void CN3Pond::Tick()
 	}
 }
 
-void CN3Pond::Render()
+void CN3Pond::Render() const
 {
 	if(m_iPondMeshNum <= 0) return;
 

@@ -140,7 +140,7 @@ CGameProcMain::CGameProcMain()				// r기본 생성자.. 각 변수의 역활은
 
 CGameProcMain::~CGameProcMain()
 {
-	this->Release();
+	CGameProcMain::Release();
 
 	//UI
 	delete m_pUIMsgDlg;
@@ -198,7 +198,7 @@ void CGameProcMain::Release()
 	CGameProcedure::Release();
 }
 
-void CGameProcMain::ReleaseUIs()
+void CGameProcMain::ReleaseUIs() const
 {
 	m_pUIChatDlg->Release();
 	m_pUIMsgDlg->Release();

@@ -107,7 +107,7 @@ void CUIInventory::Release()
 	m_pText_Weight = nullptr;
 }
 
-bool CUIInventory::HasAnyItemInSlot()
+bool CUIInventory::HasAnyItemInSlot() const
 {
 	for(auto i = 0; i < ITEM_SLOT_COUNT; i++ )
 	{

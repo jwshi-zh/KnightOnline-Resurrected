@@ -148,24 +148,22 @@ void CMachineMng::AddMachine(ReplyMsg& RPMsg)
 */
 void CMachineMng::Render()
 {
-	CMachineBase*	pMachine = nullptr;
 	it_Machine it = m_Machines.begin();
 	int iSize = m_Machines.size();
 	for(int i = 0; i < iSize; i++, it++)
 	{
-		pMachine = *it;
+		CMachineBase* pMachine = *it;
 		if (pMachine) pMachine->Render();
 	}
 }
 
 void CMachineMng::Tick()
 {
-	CMachineBase*	pMachine = nullptr;
 	it_Machine it = m_Machines.begin();
 	int iSize = m_Machines.size();
 	for(int i = 0; i < iSize; i++, it++)
 	{
-		pMachine = *it;
+		CMachineBase* pMachine = *it;
 		if(nullptr == pMachine) continue;
 
 		pMachine->Tick(-1);
@@ -184,12 +182,11 @@ CMachineBase* CMachineMng::GetMachine(const std::string& szID)
 {
 	if(szID.empty()) return nullptr;
 
-	CMachineBase*	pMachine = nullptr;
 	it_Machine it = m_Machines.begin();
 	int iSize = m_Machines.size();
 	for(int i = 0; i < iSize; i++, it++)
 	{
-		pMachine = *it;
+		CMachineBase* pMachine = *it;
 		
 		if (pMachine->m_szID == szID) return pMachine;
 	}

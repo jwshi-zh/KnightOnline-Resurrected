@@ -54,7 +54,7 @@ public:
 	void LoadFromFile(int iTexIndex,unsigned char ucTexOrgIndex,__Vector3 vPos);
 
 	void SetBrightInit(float min,float max) {m_fBrightmin = min,m_fBrightmax = max - min;};
-	DWORD SetBrightLevel(float Level);
+	DWORD SetBrightLevel(float Level) const;
 	
 	void SetInfo(__Vector3 vBoardPosion,unsigned short usData);
 //	WORD GetLeft() {return m_vCenterPo.x;}

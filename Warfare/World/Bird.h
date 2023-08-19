@@ -36,7 +36,7 @@ protected:
 public:
 	virtual void Release();
 	void	Tick();
-	void	Render();
+	void	Render() const;
 
 	int		LoadBird(const std::string& szFN);
 protected:

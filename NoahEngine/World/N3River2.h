@@ -70,7 +70,7 @@ protected:
 	void				UpdateWaterPositions();
 public:
 	virtual bool	Load(HANDLE hFile);
-	void			Render();
+	void			Render() const;
 	void			Tick();
 	void			Init(const std::string& TexPath);
 };

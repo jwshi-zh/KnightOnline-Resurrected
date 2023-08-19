@@ -37,7 +37,7 @@ CN3EngTool::~CN3EngTool()
 }
 
 // 월드 축 그리기..
-void CN3EngTool::RenderGrid(const __Matrix44& mtxWorld)
+void CN3EngTool::RenderGrid(const __Matrix44& mtxWorld) const
 {
 	DWORD dwAlpha, dwFog, dwLight;
 	s_lpD3DDev->GetRenderState(D3DRS_FOGENABLE, &dwFog);

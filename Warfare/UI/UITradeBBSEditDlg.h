@@ -18,7 +18,7 @@ public:
 	bool Load(HANDLE hFile);
 	bool ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg);
 
-	std::string GetTradeTitle();
+	std::string GetTradeTitle() const;
 	std::string GetTradeExplanation();
 	int			GetPrice();
 

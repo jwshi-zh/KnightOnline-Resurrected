@@ -442,7 +442,7 @@ void CN3UIString::ChangeFont(const std::string& szFont)
 }
 #endif
 
-int CN3UIString::GetStringRealWidth(int iNum)
+int CN3UIString::GetStringRealWidth(int iNum) const
 {
 	SIZE size;
 	BOOL bFlag = m_pDFont->GetTextExtent("가", lstrlen("가"), &size);

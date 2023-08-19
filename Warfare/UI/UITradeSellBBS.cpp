@@ -648,7 +648,7 @@ bool CUITradeSellBBS::OnKeyPress(int iKey)
 	return CN3UIBase::OnKeyPress(iKey);
 }
 
-void CUITradeSellBBS::RenderSelectContent()
+void CUITradeSellBBS::RenderSelectContent() const
 {
 	if(!IsVisible())	return;
 	if(m_iCurIndex < 0)	return;

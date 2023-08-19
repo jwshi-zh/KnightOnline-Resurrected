@@ -25,7 +25,7 @@ public:
 	void SetBoxStyle(int iStyle);
 	void SetVisibleEditControl(bool bVisible); // Edit Control Visible
 	void SetTitle(const std::string& szTitle);
-	void SetText(const std::string& szMsg);
+	void SetText(const std::string& szMsg) const;
 	bool Load(HANDLE hFile);
 	bool ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg);
 	

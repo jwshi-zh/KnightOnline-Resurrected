@@ -24,7 +24,7 @@ void CUITargetBar::Release()
 	m_fTimeSendPacketLast = 0;
 }
 
-void CUITargetBar::UpdateHP(int iHP, int iHPMax, bool bUpdateImmediately)
+void CUITargetBar::UpdateHP(int iHP, int iHPMax, bool bUpdateImmediately) const
 {
 	__ASSERT(iHPMax > 0, "Invalid Max HP");
 	if(iHP < 0 || iHPMax <= 0) return;

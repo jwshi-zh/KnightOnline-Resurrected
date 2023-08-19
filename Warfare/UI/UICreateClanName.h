@@ -19,7 +19,7 @@ public:
 	void SetVisible(bool bVisible);
 	void Open(int msg = 0);
 	bool MakeClan();
-	void MsgSend_MakeClan();
+	void MsgSend_MakeClan() const;
 
 	bool Load(HANDLE hFile);
 	bool ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg);

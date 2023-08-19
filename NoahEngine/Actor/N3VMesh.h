@@ -22,9 +22,9 @@ public:
 	__Vector3	Max() { return m_vMax; }
 	bool		Pick(const __Matrix44& MtxWorld, const __Vector3& vPos, const __Vector3& vDir, __Vector3* pVCol = nullptr, __Vector3* pVNormal = nullptr);
 	bool		CheckCollision(const __Matrix44& MtxWorld, const __Vector3& v0, const __Vector3& v1, __Vector3* pVCol = nullptr, __Vector3* pVNormal = nullptr); // Local 좌표를 통한 충돌 체크 판정..
-	float		Radius() { return m_fRadius; }
+	float		Radius() const { return m_fRadius; }
 	void		FindMinMax();
-	void		Render(D3DCOLOR crLine);
+	void		Render(D3DCOLOR crLine) const;
 	void		CreateVertices(int nVC);
 	void		CreateIndex(int nIC);
 	void		CreateCube(const __Vector3& vMin, const __Vector3& vMax);

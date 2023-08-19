@@ -37,7 +37,7 @@ public:
     HRESULT Read( BYTE* pBuffer, DWORD dwSizeToRead, DWORD* pdwSizeRead );
     HRESULT Write( UINT nSizeToWrite, BYTE* pbData, UINT* pnSizeWrote );
 
-    DWORD   GetSize();
+    DWORD   GetSize() const;
     HRESULT ResetFile();
-    WAVEFORMATEX* GetFormat() { return m_pwfx; };
+    WAVEFORMATEX* GetFormat() const { return m_pwfx; };
 };

@@ -61,13 +61,13 @@ public:
 	bool Load(HANDLE hFile);
 	bool ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg); // 메시지를 받는다.. 보낸놈, msg
 
-	int		ServerInfoCount() { return m_ListServerInfos.size(); }
+	int		ServerInfoCount() const { return m_ListServerInfos.size(); }
 	bool	ServerInfoAdd(const __GameServerInfo& GSI);
 	bool	ServerInfoGet(int iIndex, __GameServerInfo& GSI);
 	bool	ServerInfoGetCur(__GameServerInfo& GSI);
 	void	ServerInfoUpdate();
 
-	void AccountIDGet(std::string& szID);
+	void AccountIDGet(std::string& szID) const;
 	void AccountPWGet(std::string& szPW);
 
 	void ConnectButtonSetEnable(bool bEnable);

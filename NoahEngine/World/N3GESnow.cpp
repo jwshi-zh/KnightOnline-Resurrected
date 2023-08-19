@@ -4,7 +4,7 @@
 
 CN3GESnow::CN3GESnow()
 {
-	m_pTex = NULL;
+	m_pTex = nullptr;
 	m_pSnowParticle = nullptr;
 	CN3GESnow::Release();
 }

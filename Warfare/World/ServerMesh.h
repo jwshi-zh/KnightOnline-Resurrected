@@ -14,5 +14,5 @@ public:
 	virtual ~CServerMesh();
 
 	void	Tick(CN3Terrain* pTerrain, const __Vector3& vPosPlayer);
-	void	Render();
+	void	Render() const;
 };

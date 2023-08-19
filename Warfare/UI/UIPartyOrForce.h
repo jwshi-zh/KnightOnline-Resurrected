@@ -39,7 +39,7 @@ public:
 	class CPlayerOther*			MemberGetByNearst(const __Vector3& vPosPlayer);
 	bool						MemberRemove(int iID);
 	void						MemberDestroy();
-	int							MemberCount() { return m_Members.size(); }
+	int							MemberCount() const { return m_Members.size(); }
 	void						MemberSelect(int iMemberIndex) { if(iMemberIndex < 0 || iMemberIndex > m_Members.size()) return; m_iIndexSelected = iMemberIndex; }
 
 	bool Load(HANDLE hFile);

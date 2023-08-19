@@ -323,7 +323,7 @@ void CUIPerTradeDlg::EnterPerTradeState()
 	if(m_pStrMyGold)	m_pStrMyGold->SetString(szGold);
 }
 
-void CUIPerTradeDlg::GoldUpdate()
+void CUIPerTradeDlg::GoldUpdate() const
 {
 	char szGold[32];
 	sprintf(szGold, "%d", CGameBase::s_pPlayer->m_InfoExt.iGold);

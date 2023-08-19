@@ -423,7 +423,7 @@ void CUIHotKeyDlg::InitIconUpdate()
 	SetHotKeyPage(0);
 }
 
-void CUIHotKeyDlg::UpdateDisableCheck()
+void CUIHotKeyDlg::UpdateDisableCheck() const
 {
 	int i, j;
 	DWORD bitMask;

@@ -91,7 +91,7 @@ void CPortalVolume::DeleteAllPvsObj()
 	m_pVisiblePvsList.clear();
 }
 
-bool CPortalVolume::IsInVolumn(__Vector3 vec)
+bool CPortalVolume::IsInVolumn(__Vector3 vec) const
 {
 	__Vector3 vec2[8];
 	for(auto i = 0; i < 8; i++)

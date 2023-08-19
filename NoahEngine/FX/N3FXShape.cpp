@@ -60,7 +60,7 @@ void CN3FXSPart::TexAlloc(int nCount)
 	m_TexRefs.assign(nCount, nullptr);
 }
 
-CN3Texture* CN3FXSPart::Tex(int iIndex)
+CN3Texture* CN3FXSPart::Tex(int iIndex) const
 {
 	if(iIndex < 0 || iIndex >= m_TexRefs.size()) return nullptr;
 	return m_TexRefs[iIndex];
@@ -249,9 +249,8 @@ void CN3FXSPart::Duplicate(CN3FXSPart* pSrc)
 	if(pSrc->Mesh()) MeshSet(pSrc->Mesh()->FileName());
 	
 	m_Mtl = pSrc->m_Mtl;
-	
-	int iTC = 0;
-	iTC = pSrc->TexCount();
+
+	int iTC = pSrc->TexCount();
 	m_fTexFPS = m_fTexFPS;
 
 	m_TexRefs.clear();	
@@ -426,8 +425,6 @@ void CN3FXShape::FindMinMax()
 {
 	__Vector3 vMin(FLT_MAX, FLT_MAX, FLT_MAX);
 	__Vector3 vMax(-FLT_MAX, -FLT_MAX, -FLT_MAX);
-	__Vector3 vMinTmp(0,0,0);
-	__Vector3 vMaxTmp(0,0,0);
 
 	// 가장 큰 지점찾기..
 	static __Matrix44 mtxWI;
@@ -436,8 +433,8 @@ void CN3FXShape::FindMinMax()
 	for(int i = 0; i < iPC; i++)
 	{
 		//m_Parts[i]->ReCalcMatrix(m_mtxFinalTransform);
-		vMinTmp = m_Parts[i]->Min() * mtxWI; // 월드 상의 최소값을 로컬 좌표로 바꾸어준다..
-		vMaxTmp = m_Parts[i]->Max() * mtxWI; // 월드 상의 최대값을 로컬 좌표로 바꾸어준다..
+		__Vector3 vMinTmp = m_Parts[i]->Min() * mtxWI; // 월드 상의 최소값을 로컬 좌표로 바꾸어준다..
+		__Vector3 vMaxTmp = m_Parts[i]->Max() * mtxWI; // 월드 상의 최대값을 로컬 좌표로 바꾸어준다..
 
 		if(vMinTmp.x < vMin.x) vMin.x = vMinTmp.x;
 		if(vMinTmp.y < vMin.y) vMin.y = vMinTmp.y;

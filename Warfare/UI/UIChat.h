@@ -67,7 +67,7 @@ protected:
 */
 
 protected:
-	void			SetTopLine(int iTopLine);		// 맨 윗줄을 지정해준다.
+	void			SetTopLine(int iTopLine) const;		// 맨 윗줄을 지정해준다.
 //	void			AddLineBuffer(e_ChatBuffer eCB, const std::string& szString, D3DCOLOR color);	// line 버퍼를 만들어준다.(너무 길면 알아서 2줄로 만들어준다.)
 	void			AddLineBuffer(const std::string& szString, D3DCOLOR color);	// line 버퍼를 만들어준다.(너무 길면 알아서 2줄로 만들어준다.)
 	void			RecalcLineBuffers();		// 채팅창 사이즈가 변했을때 호출해주면 line buffer를 다시 계산해서 넣어준다.
@@ -79,7 +79,7 @@ public:
 	void			ShowContinueMsg();
 	void			DeleteContinueMsg();
 	bool			OnKeyPress(int iKey);
-	bool			GetEnableKillFocus() { return m_bKillFocus; }
+	bool			GetEnableKillFocus() const { return m_bKillFocus; }
 	void			SetEnableKillFocus(bool bKillFocus) { m_bKillFocus = bKillFocus; }
 	void			ChatListenEnable();
 	void			ChangeChattingMode(e_ChatMode eCM);

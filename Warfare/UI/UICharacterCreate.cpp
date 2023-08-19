@@ -425,7 +425,7 @@ bool CUICharacterCreate::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 	return true;
 }
 
-void CUICharacterCreate::Reset()
+void CUICharacterCreate::Reset() const
 {
 	__InfoPlayerBase* pInfoBase = &(CGameBase::s_pPlayer->m_InfoBase);
 	__InfoPlayerMySelf* pInfoExt = &(CGameBase::s_pPlayer->m_InfoExt);

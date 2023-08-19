@@ -30,7 +30,7 @@ void CN3Snd3dObj::Init()
 	m_pDS3DBuff = nullptr;
 }
 
-void CN3Snd3dObj::SetPos(const D3DVECTOR* pvPos)
+void CN3Snd3dObj::SetPos(const D3DVECTOR* pvPos) const
 {
     if( m_pDS3DBuff && pvPos ) 
 		HRESULT hr = m_pDS3DBuff->SetPosition(pvPos->x, pvPos->y, pvPos->z, DS3D_IMMEDIATE );

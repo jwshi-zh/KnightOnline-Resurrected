@@ -151,7 +151,7 @@ void CGrassBoard::LoadFromFile(int iTexIndex,unsigned char ucTexOrgIndex,__Vecto
 //	Init(vPos, m_dwBoardType, 1.0f, 1.0f);
 }
 
-DWORD CGrassBoard::SetBrightLevel(float Level)
+DWORD CGrassBoard::SetBrightLevel(float Level) const
 {
 	static float fLevelbak;	//	카메라와의 거리를 백업하여 같을시 알파계산을 넘김-예전 데이타 간직
 	if(fLevelbak == Level) return 0x00000000;	//	카메라와의 거리가 같다면 계산할 필요가 없다

@@ -73,10 +73,10 @@ BOOL CUIMessageWnd::MoveOffset(int iOffsetX, int iOffsetY)
 	m_rcMovable.right += iOffsetX;		m_rcMovable.bottom += iOffsetY;
 
 	// children 좌표 갱신
-	CN3UIBase* pCUI = nullptr; // Child UI...
+	// Child UI...
 	for(UIListItor itor = m_Children.begin(); m_Children.end() != itor; ++itor)
 	{
-		pCUI = (*itor);
+		CN3UIBase* pCUI = (*itor);
 		__ASSERT(pCUI, "child UI pointer is NULL!");
 		pCUI->MoveOffset(iOffsetX, iOffsetY);
 	}
@@ -295,7 +295,7 @@ void CUIMessageWnd::AddLineBuffer(const std::string& szString, D3DCOLOR color)
 	}
 }
 
-void CUIMessageWnd::SetTopLine(int iTopLine)
+void CUIMessageWnd::SetTopLine(int iTopLine) const
 {
 	if (m_iChatLineCount<=0) return;
 
@@ -308,10 +308,9 @@ void CUIMessageWnd::SetTopLine(int iTopLine)
 	__ChatInfo** ppLineInfos  = new __ChatInfo*[m_iChatLineCount];
 	ZeroMemory(ppLineInfos, sizeof(__ChatInfo*)*m_iChatLineCount);
 
-	int iCurLine = 0;
 	for (i=0; i<m_iChatLineCount; ++i)
 	{
-		iCurLine = iTopLine + i;
+		int iCurLine = iTopLine + i;
 		if (iLineBufferSize <= iCurLine) break;
 		ppLineInfos[i] = m_LineBuffer[iCurLine];
 	}

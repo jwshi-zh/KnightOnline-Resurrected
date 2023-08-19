@@ -17,9 +17,9 @@ public:
 	CN3WorldManager();
 	virtual ~CN3WorldManager();
 
-	void Tick();
+	void Tick() const;
 
-	bool IsIndoor() {	return m_bIndoor;	}
+	bool IsIndoor() const {	return m_bIndoor;	}
 	
 	//..
 	CN3WorldBase* GetActiveWorld() 

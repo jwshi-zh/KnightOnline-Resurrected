@@ -103,7 +103,7 @@ public:
 		m_pBuffer[m_iTailPos++] = data;
 		if (m_iTailPos==m_iBufSize) m_iTailPos = 0;
 	}
-	BYTE&	GetHeadData(){return m_pBuffer[m_iHeadPos];}
+	BYTE&	GetHeadData() const {return m_pBuffer[m_iHeadPos];}
 	//1 Byte Operation;
 	//false : 모든데이터 다빠짐, TRUE: 정상적으로 진행중
 	BOOL	HeadIncrease(int increasement=1)

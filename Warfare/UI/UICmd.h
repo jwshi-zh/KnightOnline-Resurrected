@@ -34,7 +34,7 @@ public:
 
 	bool	Load(HANDLE hFile);
 	bool	ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg);
-	void	UpdatePartyButtons(bool bIAmLeader, bool bIAmMemberOfParty, int iMemberIndex, const class CPlayerBase* pTarget);
+	void	UpdatePartyButtons(bool bIAmLeader, bool bIAmMemberOfParty, int iMemberIndex, const class CPlayerBase* pTarget) const;
 
 	CUICmd();
 	virtual ~CUICmd();

@@ -97,7 +97,7 @@ void CUISkillTreeDlg::Release()
 	}
 }
 
-bool CUISkillTreeDlg::HasIDSkill(int iID)
+bool CUISkillTreeDlg::HasIDSkill(int iID) const
 {
 	int i, j, k;
 

@@ -347,7 +347,7 @@ bool CN3FXBundleGame::Tick()
 	return true;
 }
 
-void CN3FXBundleGame::Duplicate(CN3FXBundleGame* pDestBundle)
+void CN3FXBundleGame::Duplicate(CN3FXBundleGame* pDestBundle) const
 {
 	pDestBundle->FileNameSet(this->FileName());
 

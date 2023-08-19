@@ -28,7 +28,7 @@ protected:
 // Operations
 public:
 	virtual void	Release();
-	void			Tick();
+	void			Tick() const;
 	void			Render();
 	void			LoadFromFile(const std::string& szFN);
 protected:

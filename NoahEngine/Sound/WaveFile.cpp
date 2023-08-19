@@ -210,7 +210,7 @@ HRESULT CWaveFile::ReadMMIO()
     return S_OK;
 }
 
-DWORD CWaveFile::GetSize()
+DWORD CWaveFile::GetSize() const
 {
     return m_dwSize;
 }

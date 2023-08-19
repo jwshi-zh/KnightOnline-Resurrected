@@ -321,7 +321,7 @@ bool CN3SndObj::FillBufferWithSound(CWaveFile* pWaveFile)
     return true;
 }
 
-bool CN3SndObj::RestoreBuffer()
+bool CN3SndObj::RestoreBuffer() const
 {
     if(nullptr == m_lpDSBuff ) return false;
 

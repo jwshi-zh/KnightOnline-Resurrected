@@ -34,7 +34,7 @@ protected:
 	__AlphaPrimitive	m_Buffers[MAX_ALPHAPRIMITIVE_BUFFER]; // 프리미티브 버퍼..
 
 public:
-	int					ToDrawCount() { return m_nToDrawCount; }
+	int					ToDrawCount() const { return m_nToDrawCount; }
 	__AlphaPrimitive*	Add();
 
 	void		Render();

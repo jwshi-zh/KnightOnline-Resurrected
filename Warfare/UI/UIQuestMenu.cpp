@@ -76,8 +76,7 @@ void CUIQuestMenu::Render()
 		CN3UIBase* pChild = (*itor);
 		pChild->Render();
 
-		CN3UIBase* pCUI = nullptr;
-		pCUI = pChild->m_pChildUI;
+		CN3UIBase* pCUI = pChild->m_pChildUI;
 		while(pCUI)
 		{
 			pCUI->Render();
@@ -128,9 +127,8 @@ DWORD CUIQuestMenu::MouseProc(DWORD dwFlags, const POINT &ptCur, const POINT &pt
 	for(UIListItor itor = m_ReSizeChildren.begin(); m_ReSizeChildren.end() != itor; ++itor)
 	{
 		CN3UIBase* pChild = (*itor);
-		DWORD dwChildRet = 0;
 
-		dwChildRet = pChild->MouseProc(dwFlags, ptCur, ptOld);
+		DWORD dwChildRet = pChild->MouseProc(dwFlags, ptCur, ptOld);
 		if( pChild->IsVisible() && UI_TYPE_STRING == pChild->UIType() )
 		{
 			if(pChild->IsIn(ptCur.x, ptCur.y) && (dwFlags & UI_MOUSE_LBCLICKED) )	
@@ -211,10 +209,10 @@ BOOL CUIQuestMenu::MoveOffset(int iOffsetX, int iOffsetY)
 	}
 
 	// children 좌표 갱신
-	CN3UIBase* pCUI = nullptr; // Child UI...
+	// Child UI...
 	for(UIListItor itor = m_ReSizeChildren.begin(); m_ReSizeChildren.end() != itor; ++itor)
 	{
-		pCUI = (*itor);
+		CN3UIBase* pCUI = (*itor);
 		__ASSERT(pCUI, "child UI pointer is NULL!");
 		pCUI->MoveOffset(iOffsetX, iOffsetY);
 	}

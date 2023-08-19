@@ -79,7 +79,7 @@ public:
 	bool			IsVisible()	const { return m_bVisible; }
 	RECT			GetRegion() const { return m_rcRegion; }
 	void			SetMoveRect(const RECT& Rect) { m_rcMovable = Rect; }
-	RECT			GetMoveRect() { return m_rcMovable; }
+	RECT			GetMoveRect() const { return m_rcMovable; }
 	void			SetReserved(DWORD dwReserved) {m_dwReserved = dwReserved;}
 	DWORD			GetReserved() const {return m_dwReserved;}
 	CN3UIBase*		GetParent() const {return m_pParent;}
@@ -90,7 +90,7 @@ public:
 	void			SetUIType(eUI_TYPE eUIType) { m_eType = eUIType; }	// by ecli666 툴에 기능 넣기 귀찮아서.. ^^
 // Operations
 public:	
-	bool			IsIn(int x, int y);
+	bool			IsIn(int x, int y) const;
 	void			AddChild(CN3UIBase* pChild) { m_Children.push_front(pChild); }
 	void			RemoveChild(CN3UIBase* pChild); // 자식 리스트에서 포인터만 없어지고 실제로 delete 되지는 않는다.
 	void			SetParent(CN3UIBase* pParent);	// 부모를 바꾼다.

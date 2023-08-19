@@ -87,14 +87,13 @@ bool CAVIPlayer::PlayCutScene(LPTSTR pszMovie, HINSTANCE hInstance)
 	m_pMediaControl->Run();
 
 	//
-	BOOL bSleep = TRUE;
 	while (1)
     {
         MSG msg;
         long lEventCode, lParam1, lParam2;
 
         // Reset sleep flag
-        bSleep = TRUE;
+        BOOL bSleep = TRUE;
 
 		if (m_bInterrupted)
 		{

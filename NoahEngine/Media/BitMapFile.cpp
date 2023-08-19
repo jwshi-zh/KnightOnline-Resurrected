@@ -68,7 +68,7 @@ bool CBitMapFile::Load(HANDLE hFile)
 	return TRUE;
 }
 
-void* CBitMapFile::Pixels(int x, int y)
+void* CBitMapFile::Pixels(int x, int y) const
 {
 	if(24 != m_bmInfoHeader.biBitCount) return nullptr;
 

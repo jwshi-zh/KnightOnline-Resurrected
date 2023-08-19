@@ -10,7 +10,7 @@
 #include "N3FXMgr.h"
 
 static const __Vector3 s_vLightOffset = __Vector3(10.0f, 40.0f, 30.0f);
-CN3SndObj* CPlayerBase::m_pSnd_MyMove = NULL;
+CN3SndObj* CPlayerBase::m_pSnd_MyMove = nullptr;
 
 CPlayerBase::CPlayerBase()
 {
@@ -19,7 +19,7 @@ CPlayerBase::CPlayerBase()
 	m_Chr.PartAlloc(PART_POS_COUNT); // 기본적으로 파트와 플러그 세팅..
 	m_Chr.PlugAlloc(PLUG_POS_COUNT);
 
-	m_pLooksRef = NULL;				// 기본적인 모습과 기본 정보 참조 테이블
+	m_pLooksRef = nullptr;				// 기본적인 모습과 기본 정보 참조 테이블
 	memset(m_pItemPlugBasics, 0, sizeof(m_pItemPlugBasics)); // 캐릭터에 붙은 무기들..
 	memset(m_pItemPlugExts, 0, sizeof(m_pItemPlugExts));
 	memset(m_pItemPartBasics, 0, sizeof(m_pItemPartBasics)); // 캐릭터에 붙은 갑옷들..
@@ -63,19 +63,19 @@ CPlayerBase::CPlayerBase()
 	m_fScaleToSet = 1.0f;			// 점차 스케일 값변화..
 	m_fScalePrev = 1.0f;
 
-	m_pSnd_Move = NULL;
-	m_pSnd_Attack_0 = NULL;
+	m_pSnd_Move = nullptr;
+	m_pSnd_Attack_0 = nullptr;
 	//	m_pSnd_Attack_1 = NULL;
-	m_pSnd_Struck_0 = NULL;
+	m_pSnd_Struck_0 = nullptr;
 	//	m_pSnd_Struck_1 = NULL;
-	m_pSnd_Breathe_0 = NULL;
+	m_pSnd_Breathe_0 = nullptr;
 	//	m_pSnd_Breathe_1 = NULL;
-	m_pSnd_Blow = NULL;
+	m_pSnd_Blow = nullptr;
 	m_bSoundAllSet = false;
 
 	m_InfoBase.Init();				// 첨엔 종족값을 모른다..
 
-	m_pShapeExtraRef = NULL;					// 이 NPC 가 성문이나 집등 오브젝트의 형태이면 이 포인터를 세팅해서 쓴,다..
+	m_pShapeExtraRef = nullptr;					// 이 NPC 가 성문이나 집등 오브젝트의 형태이면 이 포인터를 세팅해서 쓴,다..
 
 	m_fCastFreezeTime = 0.0f;
 	m_iSkillStep = 0;			// 현재 스킬을 쓰고 있다면 0 이 아닌값이다...
@@ -97,10 +97,10 @@ CPlayerBase::CPlayerBase()
 //	~(By Ecli666 On 2002-03-29 오후 4:23:36 )
 
 	// 폰트 초기화... // 정보 표시용 폰트와 풍선용은 따로 생성한다..
-	m_pIDFont = NULL;
-	m_pClanFont = NULL;
-	m_pInfoFont = NULL;
-	m_pBalloonFont = NULL;
+	m_pIDFont = nullptr;
+	m_pClanFont = nullptr;
+	m_pInfoFont = nullptr;
+	m_pBalloonFont = nullptr;
 	m_fTimeBalloon = 0;
 
 	m_bAnimationChanged = false;	// 큐에 넣은 에니메이션이 변하는 순간만 세팅된다..
@@ -126,10 +126,10 @@ CPlayerBase::~CPlayerBase()
 	//	s_MngTex.Delete(m_pTexShadow);
 
 	//	~(By Ecli666 On 2002-03-29 오후 4:24:14 )
-	delete m_pClanFont; m_pClanFont = NULL;
-	delete m_pIDFont; m_pIDFont = NULL;
-	delete m_pInfoFont; m_pInfoFont = NULL;
-	delete m_pBalloonFont; m_pBalloonFont = NULL;
+	delete m_pClanFont; m_pClanFont = nullptr;
+	delete m_pIDFont; m_pIDFont = nullptr;
+	delete m_pInfoFont; m_pInfoFont = nullptr;
+	delete m_pBalloonFont; m_pBalloonFont = nullptr;
 
 	m_bSoundAllSet = false;
 	CN3Base::s_SndMgr.ReleaseObj(&m_pSnd_Move);
@@ -162,7 +162,7 @@ void CPlayerBase::Release()
 	//	CN3Base::s_SndMgr.ReleaseObj(&m_pSnd_Breathe_1);
 	CN3Base::s_SndMgr.ReleaseObj(&m_pSnd_Blow);
 
-	m_pLooksRef = NULL;				// 기본적인 모습과 기본 정보 참조 테이블
+	m_pLooksRef = nullptr;				// 기본적인 모습과 기본 정보 참조 테이블
 	memset(m_pItemPlugBasics, 0, sizeof(m_pItemPlugBasics)); // 캐릭터에 붙은 무기들..
 	memset(m_pItemPlugExts, 0, sizeof(m_pItemPlugExts));
 	memset(m_pItemPartBasics, 0, sizeof(m_pItemPartBasics)); // 캐릭터에 붙은 갑옷들..
@@ -199,7 +199,7 @@ void CPlayerBase::Release()
 
 	m_InfoBase.Init();				// 첨엔 종족값을 모른다..
 
-	m_pShapeExtraRef = NULL;					// 이 NPC 가 성문이나 집등 오브젝트의 형태이면 이 포인터를 세팅해서 쓴,다..
+	m_pShapeExtraRef = nullptr;					// 이 NPC 가 성문이나 집등 오브젝트의 형태이면 이 포인터를 세팅해서 쓴,다..
 
 	m_fCastFreezeTime = 0.0f;
 	m_iSkillStep = 0;			// 현재 스킬을 쓰고 있다면 0 이 아닌값이다...
@@ -279,10 +279,10 @@ void CPlayerBase::ReleaseSoundAndFont()
 	//	CN3Base::s_SndMgr.ReleaseObj(&m_pSnd_Breathe_1);
 	CN3Base::s_SndMgr.ReleaseObj(&m_pSnd_Blow);
 
-	delete m_pIDFont; m_pIDFont = NULL;
-	delete m_pInfoFont; m_pInfoFont = NULL;
-	delete m_pClanFont; m_pClanFont = NULL;
-	delete m_pBalloonFont; m_pBalloonFont = NULL;
+	delete m_pIDFont; m_pIDFont = nullptr;
+	delete m_pInfoFont; m_pInfoFont = nullptr;
+	delete m_pClanFont; m_pClanFont = nullptr;
+	delete m_pBalloonFont; m_pBalloonFont = nullptr;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -295,12 +295,12 @@ void CPlayerBase::InfoStringSet(const std::string& szInfo, D3DCOLOR crFont)
 {
 	if (szInfo.empty())
 	{
-		delete m_pInfoFont; m_pInfoFont = NULL;
+		delete m_pInfoFont; m_pInfoFont = nullptr;
 		return;
 	}
 	else
 	{
-		if (NULL == m_pInfoFont)
+		if (nullptr == m_pInfoFont)
 		{
 			// 기타 정보를 표시할 폰트..
 			std::string szFontInfo; ::_LoadStringFromResource(IDS_FONT_INFO, szFontInfo);
@@ -317,13 +317,13 @@ void CPlayerBase::BalloonStringSet(const std::string& szBalloon, D3DCOLOR crFont
 {
 	if (szBalloon.empty())
 	{
-		delete m_pBalloonFont; m_pBalloonFont = NULL;
+		delete m_pBalloonFont; m_pBalloonFont = nullptr;
 		m_fTimeBalloon = 0; // 풍선말 표시시간..
 		return;
 	}
 	else
 	{
-		if (NULL == m_pBalloonFont)
+		if (nullptr == m_pBalloonFont)
 		{
 			// 기타 정보를 표시할 폰트..
 			std::string szFontBalloon; ::_LoadStringFromResource(IDS_FONT_BALLOON, szFontBalloon);
@@ -358,9 +358,9 @@ void CPlayerBase::KnightsInfoSet(int iID, const std::string& szName, int iGrade,
 		sprintf(szPlug, "Item\\ClanAddOn_%.3d_%d.n3cplug", m_InfoBase.eRace, iGrade); // 종족과 등급으로 플러그 이름을 만든다..
 	}
 
-	CN3CPlugBase* pPlug = this->PlugSet(PLUG_POS_KNIGHTS_GRADE, szPlug, NULL, NULL);
+	CN3CPlugBase* pPlug = this->PlugSet(PLUG_POS_KNIGHTS_GRADE, szPlug, nullptr, nullptr);
 
-	if (NULL == pPlug) return;
+	if (nullptr == pPlug) return;
 
 	CN3CPlug* pCPlug = (CN3CPlug*)pPlug;
 	__TABLE_FX* pFXClanRank = s_pTbl_FXSource->Find(FXID_CLAN_RANK_1);
@@ -452,7 +452,7 @@ void CPlayerBase::RenderShadow()
 
 void CPlayerBase::RenderChrInRect(CN3Chr* pChr, const RECT& Rect)
 {
-	if (NULL == pChr) return;
+	if (nullptr == pChr) return;
 
 	// 2002년 2월 15일 Dino 재수정..
 	// viewport 영역을 0보다 작은곳에서부터 (즉 front buffer의 영역을 벗어나게) 지정할 수 없기 때문에 계산이 복잡해졌다.
@@ -569,7 +569,7 @@ void CPlayerBase::RotateTo(float fYaw, bool bImmediately)
 
 void CPlayerBase::RotateTo(CPlayerBase* pOther)
 {
-	if (NULL == pOther || pOther == this) return;
+	if (nullptr == pOther || pOther == this) return;
 
 	__Vector3 vDir = pOther->Position() - m_Chr.Pos();
 	vDir.y = 0.0f;
@@ -660,7 +660,7 @@ void CPlayerBase::TickDurationColor()
 		m_fDurationColorTime = 0;
 		m_fDurationColorTimeCur = 0;
 
-		CN3CPart* pPart = NULL;
+		CN3CPart* pPart = nullptr;
 		int iPC = m_Chr.m_Parts.size();
 		for (int i = 0; i < iPC; i++)
 		{
@@ -671,7 +671,7 @@ void CPlayerBase::TickDurationColor()
 	else
 	{
 		float fD = m_fDurationColorTimeCur / m_fDurationColorTime;
-		CN3CPart* pPart = NULL;
+		CN3CPart* pPart = nullptr;
 		int iPC = m_Chr.m_Parts.size();
 		for (int i = 0; i < iPC; i++)
 		{
@@ -1030,7 +1030,7 @@ float CPlayerBase::Radius()
 	}
 }
 
-__Vector3 CPlayerBase::Direction()
+__Vector3 CPlayerBase::Direction() const
 {
 	__Vector3 vDir(0, 0, 1);
 	__Matrix44 mtxRot = m_Chr.Rot();
@@ -1301,7 +1301,7 @@ void CPlayerBase::ActionDying(e_StateDying eSD, const __Vector3& vDir)
 bool CPlayerBase::ProcessAttack(CPlayerBase* pTarget)
 {
 	if (PSA_ATTACK != m_eState && m_iSkillStep == 0) return false; // 공격상태가 아니고 스킬 쓰는 중도 아니면..돌아간다.
-	if (NULL == pTarget)
+	if (nullptr == pTarget)
 		return false;
 
 	bool bAttackSuccess = false;
@@ -1312,7 +1312,7 @@ bool CPlayerBase::ProcessAttack(CPlayerBase* pTarget)
 	{
 		__Vector3 vCol(0, 0, 0);
 		CPlayerBase* pTarget = TargetPointerCheck(false);
-		if (NULL == pTarget) return false;
+		if (nullptr == pTarget) return false;
 
 		if (false == this->CheckCollisionToTargetByPlug(pTarget, 0, &vCol)) // 플러그와 충돌체크를 먼저 해보고..
 		{
@@ -1343,7 +1343,7 @@ bool CPlayerBase::ProcessAttack(CPlayerBase* pTarget)
 				if (pMtxTarget)
 				{
 					v1 = pMtxTarget->Pos() + pTarget->Position();
-					if (false == pTarget->CheckCollisionByBox(v0, v1, &vCol, NULL)) // 직선 하나로 충돌 체크 해보고..
+					if (false == pTarget->CheckCollisionByBox(v0, v1, &vCol, nullptr)) // 직선 하나로 충돌 체크 해보고..
 					{
 						__Vector3 vDir = v0 - v1; vDir.Normalize();
 						vCol = v1 + vDir * (pTarget->Height() / 3.0f); // 안되면 캐릭 사이의 값으로 한다..
@@ -1355,7 +1355,7 @@ bool CPlayerBase::ProcessAttack(CPlayerBase* pTarget)
 					v1 = v0 + (vDir * 256.0f);
 
 					CN3VMesh* pVMesh = pTarget->m_pShapeExtraRef->CollisionMesh();
-					if (NULL == pVMesh || false == pVMesh->CheckCollision(pTarget->m_pShapeExtraRef->m_Matrix, v0, v1, &vCol)) // 충돌 메시랑 충돌하지 않으면..
+					if (nullptr == pVMesh || false == pVMesh->CheckCollision(pTarget->m_pShapeExtraRef->m_Matrix, v0, v1, &vCol)) // 충돌 메시랑 충돌하지 않으면..
 					{
 						v1 = pTarget->m_pShapeExtraRef->Pos(); v1.y += pTarget->Height() / 2.0f;
 						vDir = v1 - v0; vDir.Normalize();
@@ -1705,15 +1705,15 @@ e_Ani CPlayerBase::JudgetAnimationSpellMagic()
 bool CPlayerBase::CheckCollisionByBox(const __Vector3& v0, const __Vector3& v1, __Vector3* pVCol, __Vector3* pVNormal)
 {
 	CN3VMesh* pvMesh = m_Chr.CollisionMesh();
-	if (NULL == pvMesh) return false;
+	if (nullptr == pvMesh) return false;
 	return pvMesh->CheckCollision(m_Chr.m_Matrix, v0, v1, pVCol, pVNormal);
 }
 
 bool CPlayerBase::CheckCollisionToTargetByPlug(CPlayerBase* pTarget, int nPlug, __Vector3* pVCol)
 {
-	if (NULL == pTarget) return false;
+	if (nullptr == pTarget) return false;
 	CN3CPlug* pPlug = m_Chr.Plug(nPlug);
-	if (NULL == pPlug) return false; // 장착한 무기가 없으면 하지 않는다..
+	if (nullptr == pPlug) return false; // 장착한 무기가 없으면 하지 않는다..
 	// berserk
 //	if(pPlug->m_ePlugType == PLUGTYPE_CLOAK)	return false;
 //	CN3CPlug *pPlugNormal = (CN3CPlug*)pPlug;
@@ -1773,7 +1773,7 @@ bool CPlayerBase::CheckCollisionToTargetByPlug(CPlayerBase* pTarget, int nPlug, 
 		}
 	}
 
-	return pTarget->CheckCollisionByBox(v1, v2, pVCol, NULL);			// 캐릭터 충돌 체크 상자와 충돌 체크..
+	return pTarget->CheckCollisionByBox(v1, v2, pVCol, nullptr);			// 캐릭터 충돌 체크 상자와 충돌 체크..
 }
 
 CN3CPlugBase* CPlayerBase::PlugSet(e_PlugPosition ePos, const std::string& szFN, __TABLE_ITEM_BASIC* pItemBasic, __TABLE_ITEM_EXT* pItemExt)
@@ -1781,7 +1781,7 @@ CN3CPlugBase* CPlayerBase::PlugSet(e_PlugPosition ePos, const std::string& szFN,
 	if (ePos < PLUG_POS_RIGHTHAND || ePos >= PLUG_POS_COUNT)
 	{
 		__ASSERT(0, "Invalid Plug Position");
-		return NULL;
+		return nullptr;
 	}
 
 	int iJoint = 0;
@@ -1814,7 +1814,7 @@ CN3CPlugBase* CPlayerBase::PlugSet(e_PlugPosition ePos, const std::string& szFN,
 
 
 	CN3CPlugBase* pPlug = m_Chr.PlugSet(ePos, szFN);
-	if (NULL == pPlug) return NULL;
+	if (nullptr == pPlug) return nullptr;
 
 	if (PLUG_POS_LEFTHAND == ePos || PLUG_POS_RIGHTHAND == ePos)
 	{
@@ -1829,7 +1829,7 @@ CN3CPlugBase* CPlayerBase::PlugSet(e_PlugPosition ePos, const std::string& szFN,
 	//		pPlugCloak->GetCloak()->SetPlayerBase(this);
 	//	}
 
-	if (pPlug && NULL == pItemBasic && NULL == pItemExt) pPlug->TexOverlapSet(""); // 기본 착용이면..
+	if (pPlug && nullptr == pItemBasic && nullptr == pItemExt) pPlug->TexOverlapSet(""); // 기본 착용이면..
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//
@@ -1903,7 +1903,7 @@ CN3CPart* CPlayerBase::PartSet(e_PartPosition ePos, const std::string& szFN, __T
 	if (ePos < PART_POS_UPPER || ePos >= PART_POS_COUNT)
 	{
 		__ASSERT(0, "Invalid Item Position");
-		return NULL;
+		return nullptr;
 	}
 
 	if (PART_POS_UPPER == ePos) // 상체일 경우 특별한 처리가 필요..
@@ -1925,13 +1925,13 @@ CN3CPart* CPlayerBase::PartSet(e_PartPosition ePos, const std::string& szFN, __T
 					e_PartPosition ePartPos2 = PART_POS_UNKNOWN;
 					e_PlugPosition ePlugPos2 = PLUG_POS_UNKNOWN;
 
-					CGameProcedure::MakeResrcFileNameForUPC(m_pItemPartBasics[PART_POS_LOWER], &szFN2, NULL, ePartPos2, ePlugPos2);
+					CGameProcedure::MakeResrcFileNameForUPC(m_pItemPartBasics[PART_POS_LOWER], &szFN2, nullptr, ePartPos2, ePlugPos2);
 					this->PartSet(PART_POS_LOWER, szFN2, m_pItemPartBasics[PART_POS_LOWER], m_pItemPartExts[PART_POS_LOWER]); // 하체에 전의 옷을 입힌다..
 				}
 				else // 하체에 입고 있었던 아이템이 없다면..
 				{
 					__TABLE_PLAYER_LOOKS* pLooks = s_pTbl_UPC_Looks->Find(m_InfoBase.eRace);	// User Player Character Skin 구조체 포인터..
-					this->PartSet(PART_POS_LOWER, pLooks->szPartFNs[PART_POS_LOWER], NULL, NULL); // 하체에 기본옷을 입힌다.
+					this->PartSet(PART_POS_LOWER, pLooks->szPartFNs[PART_POS_LOWER], nullptr, nullptr); // 하체에 기본옷을 입힌다.
 				}
 			}
 		}
@@ -1949,7 +1949,7 @@ CN3CPart* CPlayerBase::PartSet(e_PartPosition ePos, const std::string& szFN, __T
 		}
 	}
 
-	CN3CPart* pPart = NULL;
+	CN3CPart* pPart = nullptr;
 	if (szFN.empty()) // 파일 이름이 없는거면.. 기본 착용..
 	{
 		if (PART_POS_HAIR_HELMET == ePos)
@@ -1980,7 +1980,7 @@ CN3CPart* CPlayerBase::PartSet(e_PartPosition ePos, const std::string& szFN, __T
 	m_pItemPartBasics[ePos] = pItemBasic; // 아이템 적용
 	m_pItemPartExts[ePos] = pItemExt;
 
-	if (pPart && NULL == pItemBasic && NULL == pItemExt) pPart->TexOverlapSet(""); // 기본 착용이면..
+	if (pPart && nullptr == pItemBasic && nullptr == pItemExt) pPart->TexOverlapSet(""); // 기본 착용이면..
 
 	return pPart;
 }
@@ -1993,7 +1993,7 @@ void CPlayerBase::DurabilitySet(e_ItemSlot eSlot, int iDurability)
 	{
 		e_PlugPosition ePos = PLUG_POS_LEFTHAND;
 		if (ITEM_SLOT_HAND_RIGHT == eSlot) ePos = PLUG_POS_RIGHTHAND;
-		if (NULL == m_pItemPlugBasics[ePos] || NULL == m_pItemPlugExts[ePos])
+		if (nullptr == m_pItemPlugBasics[ePos] || nullptr == m_pItemPlugExts[ePos])
 		{
 			if (0 != iDurability)
 			{
@@ -2010,7 +2010,7 @@ void CPlayerBase::DurabilitySet(e_ItemSlot eSlot, int iDurability)
 		}
 
 		CN3CPlug* pPlug = m_Chr.Plug(ePos);
-		if (NULL == pPlug)
+		if (nullptr == pPlug)
 		{
 			__ASSERT(0, "NULL Plug");
 			return;
@@ -2058,7 +2058,7 @@ void CPlayerBase::DurabilitySet(e_ItemSlot eSlot, int iDurability)
 
 bool CPlayerBase::InitChr(__TABLE_PLAYER_LOOKS* pTbl)
 {
-	if (NULL == pTbl) return false;
+	if (nullptr == pTbl) return false;
 
 	m_pLooksRef = pTbl;
 
@@ -2079,7 +2079,7 @@ void CPlayerBase::RegenerateCollisionMesh() // 최대 최소값을 다시 찾고
 {
 	m_Chr.FindMinMax();
 	__Matrix44 mtxInverse;
-	D3DXMatrixInverse(&mtxInverse, 0, &(m_Chr.m_Matrix));
+	D3DXMatrixInverse(&mtxInverse, nullptr, &(m_Chr.m_Matrix));
 	if (m_Chr.CollisionMesh()) m_Chr.CollisionMesh()->CreateCube(m_Chr.Min() * mtxInverse, m_Chr.Max() * mtxInverse);
 }
 
@@ -2134,7 +2134,7 @@ const __Matrix44 CPlayerBase::CalcShadowMtxBasicPlane(__Vector3 vOffs)
 
 void CPlayerBase::RenderShadow(float fAngle)
 {
-	if (NULL == m_Chr.Joint()) return;
+	if (nullptr == m_Chr.Joint()) return;
 	if (m_Chr.m_nLOD < 0 || m_Chr.m_nLOD > MAX_CHR_LOD) return;
 
 	int iLODTemp = m_Chr.m_nLOD; // 그림자는 부하를 적게 줄여 찍는다..
@@ -2251,7 +2251,7 @@ void CPlayerBase::RenderShadow(float fAngle)
 
 	D3DLOCKED_RECT LR;
 	if (!m_N3Tex.Get()) return;
-	HRESULT hr = m_N3Tex.Get()->LockRect(0, &LR, 0, 0);
+	HRESULT hr = m_N3Tex.Get()->LockRect(0, &LR, nullptr, 0);
 	if (hr != D3D_OK)
 		return;
 
@@ -2364,9 +2364,9 @@ void CPlayerBase::RenderShadow(float fAngle)
 
 void CPlayerBase::CalcPart(CN3CPart* pPart, int nLOD, __Vector3 vDir)
 {
-	if (NULL == pPart) return;
+	if (nullptr == pPart) return;
 	if (nLOD < 0 || nLOD > MAX_CHR_LOD) return;
-	if (NULL == pPart->Skins() || NULL == pPart->Skin(nLOD) || pPart->Skin(nLOD)->VertexCount() <= 0) return;
+	if (nullptr == pPart->Skins() || nullptr == pPart->Skin(nLOD) || pPart->Skin(nLOD)->VertexCount() <= 0) return;
 
 	//#ifdef _DEBUG
 	//	CN3Base::s_RenderInfo.nChr_Part++; // Rendering Information Update...
@@ -2416,7 +2416,7 @@ void CPlayerBase::CalcPart(CN3CPart* pPart, int nLOD, __Vector3 vDir)
 
 void CPlayerBase::CalcPlug(CN3CPlugBase* pPlug, const __Matrix44* pmtxJoint, __Matrix44& mtxMV, __Vector3 vDir)
 {
-	if (NULL == pPlug || NULL == pPlug->PMeshInst()) return;
+	if (nullptr == pPlug || nullptr == pPlug->PMeshInst()) return;
 	if (pPlug->PMeshInst()->GetNumVertices() <= 0) return;
 
 	//#ifdef _DEBUG
@@ -2443,7 +2443,7 @@ void CPlayerBase::CalcPlug(CN3CPlugBase* pPlug, const __Matrix44* pmtxJoint, __M
 	if (pBuf)
 		pBuf->Lock(0, 0, (BYTE**)(&pVerT1), 0);
 #else 
-	__VertexT1* pVerT1 = NULL;
+	__VertexT1* pVerT1 = nullptr;
 	pVerT1 = pPlug->PMeshInst()->GetVertices();
 #endif
 

@@ -31,7 +31,7 @@ public:
 	static void	RenderStateSet();
 
 	void	EnableOperationSet(bool bEnable) { m_bEnableOperation = bEnable; } // UI 조작 가능/불가능..
-	bool	EnableOperation() { return m_bEnableOperation; } // UI 조작이 가능한 상태인가?
+	bool	EnableOperation() const { return m_bEnableOperation; } // UI 조작이 가능한 상태인가?
 
 	void		Release();
 	void		Tick();

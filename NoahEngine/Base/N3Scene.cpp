@@ -213,7 +213,7 @@ bool CN3Scene::Save(HANDLE hFile)
 	return true;
 }
 
-void CN3Scene::Render()
+void CN3Scene::Render() const
 {
 	int i = 0;
 //	for(auto i = 0; i < m_nCameraCount; i++)

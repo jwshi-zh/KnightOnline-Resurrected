@@ -50,7 +50,7 @@ public:
 	void			RestoreLighting();
 	void			BackupReleaseLighting();
 	void			Lightning(); // 번개 치며 라이트 조절하기.
-	float			FarPlaneDeltaCur() { return m_fFPDeltaCur; }
+	float			FarPlaneDeltaCur() const { return m_fFPDeltaCur; }
 	float			FarPlaneDeltaToReach() { return m_fFPDeltaToReach; }
 	void			FarPlaneDeltaSet(float fFPDelta, bool bUpdateImmediately);
 
@@ -81,7 +81,7 @@ public:
 						const __Quaternion& qtPlayer,		// 회전 쿼터니언
 						float fHeightPlayer,				// 키를 인수로 넣으면 카메라와 라이트 처리..
 						float fSunRadianZ);					// 해의 Z 각도..
-	void			ApplyCameraAndLight(); // 카메라와 라이트에 세팅된 값 적용. 라이트는 해의 각도에 따라 다르게 한다.
+	void			ApplyCameraAndLight() const; // 카메라와 라이트에 세팅된 값 적용. 라이트는 해의 각도에 따라 다르게 한다.
 
 	CGameEng();
 	virtual ~CGameEng();

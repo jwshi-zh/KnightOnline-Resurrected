@@ -18,7 +18,7 @@ protected:
 	void*	m_pDatas;
 
 public:
-	ANIMATION_KEY_TYPE Type() { return m_eType; } // 키 형태, 벡터워 쿼터니언 형태가 있다..
+	ANIMATION_KEY_TYPE Type() const { return m_eType; } // 키 형태, 벡터워 쿼터니언 형태가 있다..
 	void	Add(CN3AnimKey& AKSrc, int nIndexS, int nIndexE);
 //	void	Translate(int nIndexStart, int nIndexEnd, float fDelta, int nKFlags);
 	bool DataGet(float fFrm, __Vector3& v)
@@ -78,7 +78,7 @@ public:
 	
 	void Duplicate(CN3AnimKey* pSrc);
 	void*	GetDatas() { return m_pDatas; }
-	void MultiplyDataVector(__Vector3 vM);
+	void MultiplyDataVector(__Vector3 vM) const;
 	
 	CN3AnimKey();
 	virtual ~CN3AnimKey();

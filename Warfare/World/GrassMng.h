@@ -37,7 +37,7 @@ protected:
 	void	LoadFromFile(const char* szFileName,__Vector3 CamPo);
 	int		SetFile(int iTexIndex,unsigned char ucTexOrgIndex,__Vector3 CamPo);
 	float	RandomGenf(float max, float min);
-	void	ChkThisZoneUseGrass(int nGrassUseOrder);
+	void	ChkThisZoneUseGrass(int nGrassUseOrder) const;
 
 	void	FindGrassIndex(unsigned char GrassIndex,int& nFineGrass,unsigned char& ucFineIndex);
 	void	FindGrassIndex(const unsigned char uCGrassMngOrder,int* pnInputGrass,unsigned char* GrassIndex,int& nGrassTotNum);

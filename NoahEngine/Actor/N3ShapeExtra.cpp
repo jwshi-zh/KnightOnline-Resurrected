@@ -45,13 +45,12 @@ void CN3ShapeExtra::Tick(float fFrm)
 
 	bool bNeedRemakeCollisionMeshes = false;
 	int iPC = m_Parts.size();
-	float fDir = 0, fRotDelta = 0;
+	float fDir = 0;
 	__Rotation* pRot = nullptr;
 	__Quaternion qRot;
-	CN3SPart* pPart = nullptr;
 	for(int i = 0; i < iPC; i++)
 	{
-		pPart = m_Parts[i];
+		CN3SPart* pPart = m_Parts[i];
 		if(pPart->m_bOutOfCameraRange) continue;
 
 		__Rotation* pRot = &(m_Rotations[i]);
@@ -59,7 +58,7 @@ void CN3ShapeExtra::Tick(float fFrm)
 			pRot->fRadianCur == pRot->fRadianToReach) continue;
 		(pRot->fRadianCur < pRot->fRadianToReach) ? fDir = 1.0f : fDir = -1.0f; // 도는 방향..
 		
-		fRotDelta = pRot->fRadianPerSec * fDir * CN3Base::s_fSecPerFrm;
+		float fRotDelta = pRot->fRadianPerSec * fDir * CN3Base::s_fSecPerFrm;
 		pRot->fRadianCur += fRotDelta;
 		if(T_Abs(pRot->fRadianToReach - pRot->fRadianCur) <= fRotDelta) /// 원하는 곳까지 다 열렸다!!
 		{

@@ -133,7 +133,7 @@ public:
 
 	// Duration Change..
 	void				DurabilityChange(e_ItemSlot eSlot, int iDurability);	
-	e_InvenState		GetInvState()	{ return m_eInvenState; }
+	e_InvenState		GetInvState() const { return m_eInvenState; }
 
 	void				ReceiveResultFromServer(int iResult, int iUserGold);
 
@@ -149,7 +149,7 @@ public:
 	bool				CheckWeightValidate(__IconItemSkill* spItem);
 	void				GoldUpdate();
 
-	bool				HasAnyItemInSlot();
+	bool				HasAnyItemInSlot() const;
 	void				UpdateWeight(std::string str);
 
 	int					  GetIndexInArea(POINT pt);

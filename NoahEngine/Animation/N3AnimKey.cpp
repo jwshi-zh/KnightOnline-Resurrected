@@ -214,7 +214,7 @@ void CN3AnimKey::Duplicate(CN3AnimKey* pSrc)
 	}	
 }
 
-void CN3AnimKey::MultiplyDataVector(__Vector3 vM)
+void CN3AnimKey::MultiplyDataVector(__Vector3 vM) const
 {
 	if(KEY_VECTOR3 != m_eType) return;
 

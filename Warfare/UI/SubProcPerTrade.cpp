@@ -174,7 +174,7 @@ void CSubProcPerTrade::EnterWaitMyDecisionToPerTrade(int iOtherID)			// 내가 �
 
 ///////////////////////////////////////////////////////////////////////
 
-void CSubProcPerTrade::SecureCodeBegin()
+void CSubProcPerTrade::SecureCodeBegin() const
 {
 	// 1.상거래 중이면 개인 거래 신청이 않된다.. -> 해당 부분..	ok
 	// 2.상거래 중에 개인 거래 신청을 받으면 거절.. -> 해당 부분.. ok

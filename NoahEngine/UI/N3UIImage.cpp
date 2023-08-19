@@ -7,7 +7,7 @@ CN3UIImage::CN3UIImage()
 	m_eType = UI_TYPE_IMAGE;
 
 	m_pVB = nullptr;
-	m_pTexRef = NULL;
+	m_pTexRef = nullptr;
 	m_szTexFN = "";
 	m_pAnimImagesRef = nullptr;
 

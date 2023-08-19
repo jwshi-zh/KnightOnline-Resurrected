@@ -51,7 +51,7 @@ public:
 	void RefreshPage();
 	bool Load(HANDLE hFile);
 	bool ReceiveMessage(class CN3UIBase* pSender, DWORD dwMsg);
-	bool SelectedString(CN3UIBase* pSender, int& iID);
+	bool SelectedString(CN3UIBase* pSender, int& iID) const;
 	
 	
 	CUIPartyBBS();

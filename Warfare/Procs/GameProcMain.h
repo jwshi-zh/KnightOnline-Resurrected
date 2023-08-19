@@ -279,7 +279,7 @@ public:
 	
 	void	Init();									// UI 와 UI 리소스등을 읽는다.
 	void	Release();								// Release..	
-	void	ReleaseUIs();
+	void	ReleaseUIs() const;
 	void	ReleaseSound();
 	
 	void	Tick();								// 잡다한 계산..

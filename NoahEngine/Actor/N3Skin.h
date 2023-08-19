@@ -28,7 +28,7 @@ protected:
 	__VertexSkinned*	m_pSkinVertices;
 
 public:
-	__VertexSkinned*	SkinVertices() { return m_pSkinVertices; }
+	__VertexSkinned*	SkinVertices() const { return m_pSkinVertices; }
 	bool				Create(int nFC, int nVC, int nUVC);
 	bool				Load(HANDLE hFile);
 

@@ -608,7 +608,7 @@ bool CN3FXPartParticles::Tick()
 //
 //
 //
-void CN3FXPartParticles::Rotate()
+void CN3FXPartParticles::Rotate() const
 {
 	m_pShape->m_mtxParent.Rotation(m_fCurrLife*m_vRotVelocity);
 }

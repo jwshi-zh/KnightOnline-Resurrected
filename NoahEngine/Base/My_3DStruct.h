@@ -117,7 +117,7 @@ public:
 	void operator = (D3DCOLOR cr) { r = ((cr & 0x00ff0000)>>16)/255.0f; g = ((cr & 0x0000ff00)>>8)/255.0f; b = (cr & 0x000000ff)/255.0f; a = ((cr & 0xff000000) >> 24)/255.0f; }
 	void Set(float r2, float g2, float b2, float a2) { r = r2; g = g2; b = b2; a = a2; }
 
-	D3DCOLOR ToD3DCOLOR() { return	(((DWORD)(a*255.0f))<<24) | (((DWORD)(r*255.0f))<<16) | (((DWORD)(g*255.0f))<<8) | (((DWORD)(b*255.0f))); }
+	D3DCOLOR ToD3DCOLOR() const { return	(((DWORD)(a*255.0f))<<24) | (((DWORD)(r*255.0f))<<16) | (((DWORD)(g*255.0f))<<8) | (((DWORD)(b*255.0f))); }
 
 	__ColorValue() {}
 	__ColorValue(D3DCOLOR cr) { *this = cr; }

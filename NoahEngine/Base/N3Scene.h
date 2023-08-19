@@ -48,12 +48,12 @@ public:
 	void TickLights(float fFrm = FRAME_SELFPLAY);
 	void TickShapes(float fFrm = FRAME_SELFPLAY);
 	void TickChrs(float fFrm = FRAME_SELFPLAY);
-	void Render();
+	void Render() const;
 	
 	int	 CameraAdd(CN3Camera *pCamera);
 	void CameraDelete(CN3Camera* pCamera);
 	void CameraDelete(int iIndex);
-	int	 CameraCount() { return m_nCameraCount; }
+	int	 CameraCount() const { return m_nCameraCount; }
 	CN3Camera* CameraGet(int iIndex) { if(iIndex < 0 || iIndex >= m_nCameraCount) return nullptr; return m_pCameras[iIndex]; }
 	
 	void CameraSetActive(int iIndex);

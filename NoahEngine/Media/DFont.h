@@ -59,7 +59,8 @@ protected:
 
 // Operations
 public:
-	bool	IsSetText() { if(m_pTexture) return true; return false; }
+	bool	IsSetText() const
+	{ if(m_pTexture) return true; return false; }
 	void	AddToAlphaManager(DWORD dwColor, float fDist, __Matrix44& mtxWorld, DWORD dwFlags);
 	HRESULT	SetFontColor(DWORD dwColor);						// 글씨 색을 바꾼다.
 	HRESULT InitDeviceObjects( LPDIRECT3DDEVICE9 pd3dDevice );	// d3d device를 정해주는 초기화 함수 (Init할때 호출)
@@ -72,7 +73,7 @@ public:
 	HRESULT DrawText3D(DWORD dwColor, DWORD dwFlags );		// 버퍼에 저장된 글씨를 그린다.(3d)
 
 	HRESULT	SetFont(const std::string& szFontName, DWORD dwHeight, DWORD dwFlags=0L);	// Font를 바꾸고 싶을때 호출한다. (dwHeight는 point size를 넣는다.)
-	BOOL	GetTextExtent(const std::string& szString, int iStrLen, SIZE* pSize );
+	BOOL	GetTextExtent(const std::string& szString, int iStrLen, SIZE* pSize ) const;
 protected:
 	void Make2DVertex(const int iFontHeight, const std::string& szText);					// 입력 받은 문자를 적절하게 배치된 2d 폴리곤으로 만든다.
 	void Make3DVertex(const int iFontHeight, const std::string& szText, DWORD dwFlags);	// 입력 받은 문자를 적절하게 배치된 3d 폴리곤을 만든다.

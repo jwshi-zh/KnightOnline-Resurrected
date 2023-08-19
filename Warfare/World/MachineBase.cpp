@@ -171,7 +171,7 @@ void CMachineBase::Tick(float fFrm)
 */
 }
 
-CN3SPart* CMachineBase::GetPartByPMeshName(const std::string& szName)
+CN3SPart* CMachineBase::GetPartByPMeshName(const std::string& szName) const
 {
 	if(szName.empty()) return nullptr;
 

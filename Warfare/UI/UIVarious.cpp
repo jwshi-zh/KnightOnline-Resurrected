@@ -162,7 +162,8 @@ bool CUIState::Load(HANDLE hFile)
 	return true;
 }
 
-void CUIState::UpdateBonusPointAndButtons(int iBonusPointRemain) // 보너스 포인트 적용이 가능한가??
+void CUIState::UpdateBonusPointAndButtons(int iBonusPointRemain) const
+// 보너스 포인트 적용이 가능한가??
 {
 	bool bEnable = false;
 	if(iBonusPointRemain > 0) bEnable = true;

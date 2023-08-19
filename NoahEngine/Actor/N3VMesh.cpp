@@ -159,7 +159,7 @@ void CN3VMesh::CreateCube(const __Vector3 &vMin, const __Vector3 &vMax)
 
 
 //#ifdef _DEBUG
-void CN3VMesh::Render(D3DCOLOR crLine)
+void CN3VMesh::Render(D3DCOLOR crLine) const
 {
 	if(m_nVC <= 0) return;
 

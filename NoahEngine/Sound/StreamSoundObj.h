@@ -49,6 +49,6 @@ class CStreamSoundObj : public CN3SndObj
 
 		BOOL LoadWave(LPCSTR pFileName);
 		BOOL WriteBuffer();
-		BOOL InitWriteBuffer();
+		BOOL InitWriteBuffer() const;
 		void Reset();
 };

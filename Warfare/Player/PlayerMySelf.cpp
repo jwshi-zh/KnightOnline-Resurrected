@@ -385,7 +385,7 @@ void CPlayerMySelf::ToggleMoveMode()
 	m_Chr.AniCurSet(nAni); // 통째로 걷고 뒤기, 멈추기 적용
 }
 
-__Vector3 CPlayerMySelf::NextPos(float fTimeAfter)
+__Vector3 CPlayerMySelf::NextPos(float fTimeAfter) const
 {
 	__Matrix44 mtxRot = m_Chr.Rot();
 	__Vector3 vDir(0,0,1);
@@ -771,12 +771,11 @@ bool CPlayerMySelf::CheckCollision()
 
 	//////////////////////////////////
 	// 다른 플레이어와 체크..
-	CPlayerOther* pUPC = nullptr;
 	float fHeightSum, fMag;
 	it_UPC it = s_pOPMgr->m_UPCs.begin(), itEnd = s_pOPMgr->m_UPCs.end();
 	for(; it != itEnd; it++)
 	{
-		pUPC = it->second;
+		CPlayerOther* pUPC = it->second;
 
 		if(pUPC->IsDead()) continue; //죽어 있는 상태의 캐릭터는 충돌체크를 하지 않는다.
 		if(m_InfoBase.eNation == pUPC->m_InfoBase.eNation) continue; // 같은 국가...
@@ -800,11 +799,10 @@ bool CPlayerMySelf::CheckCollision()
 //	if(pZoneInfo && pZoneInfo->bNPCCollisionCheck) //this_zone
 
 	//적국 엔피씨는 충돌 체크를 한다.
-	CPlayerNPC* pNPC = nullptr;
 	it_NPC it_N = s_pOPMgr->m_NPCs.begin(),	it_NEnd	= s_pOPMgr->m_NPCs.end();
 	for(; it_N != it_NEnd; it_N++)
 	{
-		pNPC = it_N->second;
+		CPlayerNPC* pNPC = it_N->second;
 
 		if(pNPC->m_pShapeExtraRef) continue; // 성문등의 형태이면 충돌체크를 하지 않는다..
 		if(m_InfoBase.eNation == pNPC->m_InfoBase.eNation) continue; // 같은 국가...

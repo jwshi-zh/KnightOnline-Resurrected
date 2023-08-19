@@ -50,8 +50,7 @@ bool CUIDead::Load(HANDLE hFile)
 	::_LoadStringFromResource(IDS_DEAD_RETURN_TOWN, szMsg);
 	if(m_pTextTown) m_pTextTown->SetString(szMsg);
 
-	__TABLE_UI_RESRC*	pTblUI	= nullptr;
-	pTblUI = CGameBase::s_pTbl_UI->Find(NATION_ELMORAD);
+	__TABLE_UI_RESRC* pTblUI = CGameBase::s_pTbl_UI->Find(NATION_ELMORAD);
 
 	m_MsgBox.LoadFromFile(pTblUI->szMessageBox);
 
@@ -70,12 +69,12 @@ bool CUIDead::ReceiveMessage(CN3UIBase *pSender, DWORD dwMsg)
 	{
 		if(pSender == m_pTextAlive)
 		{
-			int iItemCnt = 0, iLevel = 0, iNeedItemCnt = 0;
+			int iItemCnt = 0;
 			if(CGameProcedure::s_pProcMain->m_pUIInventory)
 				iItemCnt = CGameProcedure::s_pProcMain->m_pUIInventory->GetIndexItemCount(LIFE_STONE_INDEX);
 
-			iLevel = CGameProcedure::s_pPlayer->m_InfoBase.iLevel;
-			iNeedItemCnt = iLevel * TIMES_LIFE_STONE;
+			int iLevel = CGameProcedure::s_pPlayer->m_InfoBase.iLevel;
+			int iNeedItemCnt = iLevel * TIMES_LIFE_STONE;
 			char szBuf[256] = "";
 			std::string szMsg;
 
@@ -163,9 +162,8 @@ DWORD CUIDead::MouseProc(DWORD dwFlags, const POINT &ptCur, const POINT &ptOld)
 	for(UIListItor itor = m_Children.begin(); m_Children.end() != itor; ++itor)
 	{
 		CN3UIBase* pChild = (*itor);
-		DWORD dwChildRet = 0;
 
-		dwChildRet = pChild->MouseProc(dwFlags, ptCur, ptOld);
+		DWORD dwChildRet = pChild->MouseProc(dwFlags, ptCur, ptOld);
 		if( pChild->IsVisible() && UI_TYPE_STRING == pChild->UIType() )
 		{
 			if(pChild->IsIn(ptCur.x, ptCur.y) && (dwFlags & UI_MOUSE_LBCLICKED) )	

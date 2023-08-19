@@ -149,7 +149,7 @@ void CN3GlobalEffectMng::SetWeather(int iWeather)
 	}
 }
 */
-void CN3GlobalEffectMng::WeatherSetClean()
+void CN3GlobalEffectMng::WeatherSetClean() const
 {
 	if (m_pGESnow) m_pGESnow->FadeSet(3.0f, false);
 	if (m_pGERain) m_pGERain->FadeSet(3.0f, false);
