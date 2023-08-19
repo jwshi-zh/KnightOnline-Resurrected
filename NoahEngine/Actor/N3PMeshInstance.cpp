@@ -122,7 +122,7 @@ bool CN3PMeshInstance::Create(CN3PMesh* pN3PMesh)
 
 bool CN3PMeshInstance::Create(const std::string& szFN)
 {
-	if (m_pPMesh && m_pPMesh->FileName() == szFN) return true;	// 파일 이름이 같으면 새로 만들지 않고 리턴하자
+	if (m_pPMesh && m_pPMesh->FileName() == szFN) return true;	// If the file name is the same, return without creating a new one
 	this->Release();
 
 	CN3PMesh* pN3PMesh = s_MngPMesh.Get(szFN);
@@ -143,7 +143,7 @@ void CN3PMeshInstance::SetLODByNumVertices(int iNumVertices)
 	{
 		while(iNumVertices > m_iNumVertices)
 		{
-			if (m_pCollapseUpTo->NumVerticesToLose + m_iNumVertices > iNumVertices) break;		// 깜박임 방지 코드..
+			if (m_pCollapseUpTo->NumVerticesToLose + m_iNumVertices > iNumVertices) break;		// Anti-flicker code..
 			if (SplitOne() == false) break;
 		}
 	}
@@ -166,11 +166,11 @@ void CN3PMeshInstance::SetLOD(float value)
 {
 #define _USE_LODCONTROL_VALUE
 #ifdef _USE_LODCONTROL_VALUE
-	// value는 distance * FOV이다.
+	// value is distance * FOV.
 	if (m_pPMesh == nullptr) return;
 
 	if (m_pPMesh->m_iLODCtrlValueCount == 0)
-	{	// LODCtrlValue가 없으면 모두 그린다.
+	{	// If there is no LODCtrlValue, all are drawn.
 		SetLODByNumVertices(0x7fffffff);
 		return;
 	}
@@ -180,15 +180,15 @@ void CN3PMeshInstance::SetLOD(float value)
 	CN3PMesh::__LODCtrlValue* pTmpLODCV = m_pPMesh->m_pLODCtrlValues + m_pPMesh->m_iLODCtrlValueCount-1;
 
 	if (value < m_pPMesh->m_pLODCtrlValues[0].fDist)
-	{		// 최소 기준치보다 가까우므로 가장 많은 면으로 그린다.
+	{		// Since it is closer than the minimum standard value, it is drawn with the most faces.
 		SetLODByNumVertices(m_pPMesh->m_pLODCtrlValues[0].iNumVertices);
 	}
 	else if ( pTmpLODCV->fDist < value)
-	{		// 최대 기준치보다 멀리 있으므로 가장 적은 면으로 그린다.
+	{		// Since it is farther than the maximum standard value, it is drawn with the smallest side.
 		SetLODByNumVertices(pTmpLODCV->iNumVertices);
 	}
 	else
-	{		// 중간 값에 맞게 조정된 면 수로 그린다.
+	{		// Draw with the number of sides adjusted for the median value.
 		for (int i=1; i< m_pPMesh->m_iLODCtrlValueCount; ++i)
 		{
 			if (value < m_pPMesh->m_pLODCtrlValues[i].fDist)
@@ -203,7 +203,7 @@ void CN3PMeshInstance::SetLOD(float value)
 		}
 	}
 #else
-	// value는 distance * FOV이다.
+	// value is distance * FOV.
 	if (m_pCollapseUpTo == NULL || m_pPMesh == NULL) return;
 
 	const int iLODCtrlValueCount = 5;
@@ -262,10 +262,10 @@ bool CN3PMeshInstance::CollapseOne()
 
 bool CN3PMeshInstance::SplitOne()
 {
-	if (m_pCollapseUpTo >= m_pPMesh->m_pCollapses + m_pPMesh->m_iNumCollapses) return false; // 이렇게 하면 포인터 하나가 삐져 나오게 된다..
-	// 하지만 이렇게 다시 하는 이유는 아래 코드로 하면 마지막 폴리곤이 절대 그려지지 않는다.
-	// 이렇게 해도 괜찮을 수 있도록 방어코드를 넣었다. m_pPMesh->m_pCollapses 를 할당할때 1개 더 할당하고 마지막 데이터를 초기값으로 넣었다.
-//	if (m_pCollapseUpTo >= m_pPMesh->m_pCollapses + m_pPMesh->m_iNumCollapses - 1) return false; // 이게 정상이다..
+	if (m_pCollapseUpTo >= m_pPMesh->m_pCollapses + m_pPMesh->m_iNumCollapses) return false; // This will cause one pointer to stick out.
+	// But the reason for doing this again is that with the code below, the last polygon is never drawn.
+	// I've put some defense code in there so that it's okay to do this. When allocating m_pPMesh->m_pCollapses, I allocated one more and put the last data as the initial value.
+//	if (m_pCollapseUpTo >= m_pPMesh->m_pCollapses + m_pPMesh->m_iNumCollapses - 1) return false; // this is normal...
 
 	m_iNumIndices  += m_pCollapseUpTo->NumIndicesToLose;
 	m_iNumVertices += m_pCollapseUpTo->NumVerticesToLose;
@@ -348,7 +348,7 @@ void CN3PMeshInstance::RenderTwoUV()
 	if(nullptr == m_pPMesh) return;
 	if(nullptr == m_pPMesh->GetVertices2())
 	{
-		m_pPMesh->GenerateSecondUV(); // 두번째 UV 가 없음 새로 만든다..
+		m_pPMesh->GenerateSecondUV(); // No second UV Create a new one.
 	}
 	if(nullptr == m_pPMesh->GetVertices2()) return;
 	
@@ -407,8 +407,6 @@ __VertexT1*	CN3PMeshInstance::GetVertices() const
 }
 #endif
 
-//	By : Ecli666 ( On 2002-08-06 오후 4:33:04 )
-//
 #ifdef _USE_VERTEXBUFFER
 void CN3PMeshInstance::PartialRender(int iCount, LPDIRECT3DINDEXBUFFER9 pIB)
 {
@@ -509,6 +507,3 @@ __Vector3 CN3PMeshInstance::GetVertexByIndex(int iIndex)
 	return GetMesh()->m_pVertices[iIndex];
 #endif
 }
-
-//	~(By Ecli666 On 2002-08-06 오후 4:33:04 )
-

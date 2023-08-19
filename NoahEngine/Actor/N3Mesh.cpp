@@ -14,8 +14,8 @@ CN3Mesh::CN3Mesh()
 	m_nVC = 0;
 	m_nIC = 0;
 
-	m_pVertices = nullptr; // 점 버퍼
-	m_psnIndices = nullptr; // 인덱스 버퍼
+	m_pVertices = nullptr;
+	m_psnIndices = nullptr;
 }
 
 CN3Mesh::~CN3Mesh()
@@ -54,18 +54,18 @@ bool CN3Mesh::Load(HANDLE hFile)
 
 	DWORD dwRWC = 0;
 
-	ReadFile(hFile, &m_nVC, 4, &dwRWC, nullptr); // 점갯수 읽기..
+	ReadFile(hFile, &m_nVC, 4, &dwRWC, nullptr);
 	if(m_nVC > 0)
 	{
-		this->Create(m_nVC, 0); // Vertex Buffer 생성 및 데이터 채우기
+		this->Create(m_nVC, 0);
 		ReadFile(hFile, m_pVertices, m_nVC * sizeof(__VertexT1), &dwRWC, nullptr);
-		this->FindMinMax(); // 최대, 최소값을 찾는다.
+		this->FindMinMax();
 	}
 	
-	ReadFile(hFile, &m_nIC, 4, &dwRWC, nullptr); // 인덱스 갯수 읽기..
+	ReadFile(hFile, &m_nIC, 4, &dwRWC, nullptr);
 	if(m_nIC > 0)
 	{
-		this->Create(0, m_nIC); // 인덱스 버퍼 생성 및 데이터 채우기
+		this->Create(0, m_nIC);
 		ReadFile(hFile, m_psnIndices, m_nIC * 2, &dwRWC, nullptr);
 	}
 
@@ -77,13 +77,13 @@ bool CN3Mesh::Save(HANDLE hFile)
 {
 	DWORD dwRWC = 0;
 
-	WriteFile(hFile, &m_nVC, 4, &dwRWC, NULL); // 점갯수 읽기..
+	WriteFile(hFile, &m_nVC, 4, &dwRWC, NULL);
 	if(m_nVC > 0) 
 	{
 		WriteFile(hFile, m_pVertices, m_nVC * sizeof(__VertexT1), &dwRWC, NULL);
 	}
 	
-	WriteFile(hFile, &m_nIC, 4, &dwRWC, NULL); // 인덱스 갯수 읽기..
+	WriteFile(hFile, &m_nIC, 4, &dwRWC, NULL);
 	if(m_nIC > 0)
 	{
 		WriteFile(hFile, m_psnIndices, m_nIC * 2, &dwRWC, NULL);
@@ -144,25 +144,25 @@ void CN3Mesh::MakeIndexed()
 
 void CN3Mesh::Create(int nVC, int nIC)
 {
-	if(nVC > 0) // 점이 있으면...
+	if(nVC > 0)
 	{
 #ifdef _N3GAME
 		if(nVC > 32768)
 			CLogWriter::Write("CN3IMesh::Create - Too many vertices. (more than 32768) (%s)", m_szFileName.c_str());
 #endif
 		if(m_pVertices) this->ReleaseVertices();
-		m_pVertices = new __VertexT1[nVC]; memset(m_pVertices, 0, nVC * sizeof(__VertexT1)); // Vertex Buffer 생성
+		m_pVertices = new __VertexT1[nVC]; memset(m_pVertices, 0, nVC * sizeof(__VertexT1));
 		m_nVC = nVC;
 	}
 
-	if(nIC > 0) // Mesh 로딩에 성공하고, 인덱스가 있으면..
+	if(nIC > 0)
 	{
 #ifdef _N3GAME
 		if(nIC > 32768)
 			CLogWriter::Write("CN3IMesh::Create - Too many indices. (more than 32768) (%s)", m_szFileName.c_str());
 #endif
 		if(m_psnIndices) this->ReleaseIndices();
-		m_psnIndices = new WORD[nIC]; memset(m_psnIndices, 0, nIC * 2); // Index Buffer 생성
+		m_psnIndices = new WORD[nIC]; memset(m_psnIndices, 0, nIC * 2);
 		m_nIC = nIC;
 	}
 }
@@ -174,7 +174,6 @@ void CN3Mesh::FindMinMax()
 
 	if(m_nVC <= 0) return;
 
-	// 최소, 최대 점을 찾는다.
 	m_vMin.Set(FLT_MAX, FLT_MAX, FLT_MAX);
 	m_vMax.Set(-FLT_MAX, -FLT_MAX, -FLT_MAX);
 	
@@ -200,37 +199,31 @@ void CN3Mesh::Create_Cube(__Vector3 &vMin, __Vector3 &vMax)
 
 	int i = 0;
 
-	// z 축 음의 면
 	vN.Set(0,0,-1);
 	vPs[0].Set(vMin.x, vMax.y, vMin.z); vPs[1].Set(vMax.x, vMax.y, vMin.z); vPs[2].Set(vMax.x, vMin.y, vMin.z);
 	vPs[3] = vPs[0]; vPs[4] = vPs[2]; vPs[5].Set(vMin.x, vMin.y, vMin.z);
 	for(auto i = 0; i < 6; i++) m_pVertices[0+i].Set(vPs[i], vN, fTUVs[i][0], fTUVs[i][1]);
 
-	// x 축 양의 면
 	vN.Set(1, 0, 0);
 	vPs[0].Set(vMax.x, vMax.y, vMin.z); vPs[1].Set(vMax.x, vMax.y, vMax.z); vPs[2].Set(vMax.x, vMin.y, vMax.z);
 	vPs[3] = vPs[0]; vPs[4] = vPs[2]; vPs[5].Set(vMax.x, vMin.y, vMin.z);
 	for(auto i = 0; i < 6; i++) m_pVertices[6+i].Set(vPs[i], vN, fTUVs[i][0], fTUVs[i][1]);
 
-	// z 축 양의 면
 	vN.Set(0, 0, 1);
 	vPs[0].Set(vMax.x, vMax.y, vMax.z); vPs[1].Set(vMin.x, vMax.y, vMax.z); vPs[2].Set(vMin.x, vMin.y, vMax.z);
 	vPs[3] = vPs[0]; vPs[4] = vPs[2]; vPs[5].Set(vMax.x, vMin.y, vMax.z);
 	for(auto i = 0; i < 6; i++) m_pVertices[12+i].Set(vPs[i], vN, fTUVs[i][0], fTUVs[i][1]);
 
-	// x 축 음의 면
 	vN.Set(-1, 0, 0);
 	vPs[0].Set(vMin.x, vMax.y, vMax.z); vPs[1].Set(vMin.x, vMax.y, vMin.z); vPs[2].Set(vMin.x, vMin.y, vMin.z);
 	vPs[3] = vPs[0]; vPs[4] = vPs[2]; vPs[5].Set(vMin.x, vMin.y, vMax.z);
 	for(auto i = 0; i < 6; i++) m_pVertices[18+i].Set(vPs[i], vN, fTUVs[i][0], fTUVs[i][1]);
 
-	// y 축 양의 면
 	vN.Set(0, 1, 0);
 	vPs[0].Set(vMin.x, vMax.y, vMax.z); vPs[1].Set(vMax.x, vMax.y, vMax.z); vPs[2].Set(vMax.x, vMax.y, vMin.z);
 	vPs[3] = vPs[0]; vPs[4] = vPs[2]; vPs[5].Set(vMin.x, vMax.y, vMin.z);
 	for(auto i = 0; i < 6; i++) m_pVertices[24+i].Set(vPs[i], vN, fTUVs[i][0], fTUVs[i][1]);
 
-	// y 축 음의 면
 	vN.Set(0, -1, 0);
 	vPs[0].Set(vMin.x, vMin.y, vMin.z); vPs[1].Set(vMax.x, vMin.y, vMin.z); vPs[2].Set(vMax.x, vMin.y, vMax.z);
 	vPs[3] = vPs[0]; vPs[4] = vPs[2]; vPs[5].Set(vMin.x, vMin.y, vMax.z);
@@ -246,7 +239,6 @@ void CN3Mesh::Create_Axis(float fLength)
 
 	this->FindMinMax();
 
-	// x 축
 //	m_pVertices[0].Set(-fLength/2.0f, 0, 0, 0, 1, 0, 0, 0);
 //	m_pVertices[1].Set( fLength/2.0f, 0, 0, 0, 1, 0, 0, 0);
 //	m_pVertices[2] = m_pVertices[1];
@@ -263,14 +255,12 @@ void CN3Mesh::Create_Axis(float fLength)
 
 	__Matrix44 mtx;
 	
-	// y 축
 	mtx.RotationZ(D3DX_PI / -2.0f);
 	for(int i = 0; i < 4; i++) 
 	{
 		m_pVertices[4+i].Set(m_pVertices[i] * mtx, m_pVertices[i].n * mtx, 0, 0);
 	}
 
-	// z 축
 	mtx.RotationY(D3DX_PI / -2.0f);
 	for(auto i = 0; i < 4; i++) 
 	{
@@ -284,23 +274,21 @@ bool CN3Mesh::Import(CN3PMesh* pPMesh)
 	if(nullptr == pPMesh) return false;
 	const int iNumIndices = pPMesh->GetMaxNumIndices();
 	if (0 >= iNumIndices) return false;
-	Release();	// 초기화
+	Release();
 
-	// pmesh instance를 만들고 lod를 최고 상태로 조정
+	// Create a pmesh instance and tune lod to peak state
 	CN3PMeshInstance PMeshInstance;
 	PMeshInstance.Create(pPMesh);
 	PMeshInstance.SetLODByNumVertices(pPMesh->GetMaxNumVertices());
 
-	// vertex, index buffer 만들기
 	Create(PMeshInstance.GetNumVertices(), PMeshInstance.GetNumIndices());
 
-	// vertex index buffer 복사
 	const __VertexT1* pVertices = PMeshInstance.GetVertices();
 	const WORD* pIndices = PMeshInstance.GetIndices();
 	memcpy(m_pVertices, pVertices, sizeof(__VertexT1)*m_nVC);
 	memcpy(m_psnIndices, pIndices, sizeof(WORD)*m_nIC);
 
-	m_szName = pPMesh->m_szName; // 이름..
+	m_szName = pPMesh->m_szName;
 	return true;
 }
 
@@ -318,13 +306,13 @@ bool CN3Mesh::Import(CN3IMesh *pIMesh)
 	memcpy(m_pVertices, pvSrc, sizeof(__VertexT1) * nFC * 3);
 
 	__Vector3 v0, v1, v2, vN(0,0,0);
-	for(int i = 0; i < nFC; i++) // Normal 값 다시 세팅..
+	for(int i = 0; i < nFC; i++)
 	{
 		v0 = m_pVertices[i*3+0];
 		v1 = m_pVertices[i*3+1];
 		v2 = m_pVertices[i*3+2];
 
-		vN.Cross(v1 - v0, v2 - v1); // Normal 값을 계산하고...
+		vN.Cross(v1 - v0, v2 - v1);
 		vN.Normalize();
 
 		m_pVertices[i*3+0].n = vN;
@@ -332,7 +320,7 @@ bool CN3Mesh::Import(CN3IMesh *pIMesh)
 		m_pVertices[i*3+2].n = vN;
 	}
 
-	m_szName = pIMesh->m_szName; // 이름..
+	m_szName = pIMesh->m_szName;
 	return true;
 }
 
@@ -371,7 +359,7 @@ void CN3Mesh::ReGenerateSmoothNormal()
 				m_pVertices[i] == v1 ||
 				m_pVertices[i] == v2 )
 			{
-				vN.Cross(v1 - v0, v2 - v1); // Normal 값을 계산하고...
+				vN.Cross(v1 - v0, v2 - v1);
 				vN.Normalize();
 
 				pnNs[i]++;

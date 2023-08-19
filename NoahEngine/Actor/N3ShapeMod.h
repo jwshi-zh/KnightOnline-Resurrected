@@ -20,12 +20,12 @@ protected:
 	};
 	struct __ModPart
 	{
-		CN3SPart*			pPart;				// 움직일 Part
-		bool				bPos;				// Pos 변화가 있는가?
-		bool				bRot;				// Rot 변화가 있는가?
-		bool				bScale;				// Scale 변화가 있는가?
-		__ModPosRotScale*	pStateInfos;		// 움직일 상태 정보들(이동,회전,확대축소 정보 m_iStateCount개)
-		__ModPosRotScale	CurStateInfo;		// 현재 움직인 상태 정보(tick에 따라 변화한다)
+		CN3SPart*			pPart;				// Part to move
+		bool				bPos;				// Is there a Pos change?
+		bool				bRot;				// Is there a Rot change?
+		bool				bScale;				// Is there a scale change?
+		__ModPosRotScale*	pStateInfos;		// State information to move (move, rotate, scale information m_iStateCount pieces)
+		__ModPosRotScale	CurStateInfo;		// Current moving state information (changes according to tick)
 
 		__ModPart() {pPart = nullptr; pStateInfos = nullptr; bPos = false; bRot = false; bScale = false; }
 		~__ModPart() {pPart = nullptr; if (pStateInfos) { delete [] pStateInfos; pStateInfos = nullptr;}}
@@ -35,9 +35,9 @@ protected:
 	{
 		bool				bShapePos;
 		bool				bShapeRot;
-		bool				bShapeScale;		// Shape가 위치, 회전, 스케일 변화가 있는가?
-		__ModPosRotScale*	pShapeStateInfos;	// Shape 전체의 변화 정보
-		__ModPosRotScale	CurShapeStateInfo;	// 현재 움직인 상태 정보(tick에 따라 변화한다)
+		bool				bShapeScale;		// Does the shape have position, rotation, or scale changes?
+		__ModPosRotScale*	pShapeStateInfos;	// Change information of the entire shape
+		__ModPosRotScale	CurShapeStateInfo;	// Current moving state information (changes according to tick)
 		__ModShape() {pShapeStateInfos = nullptr; bShapePos = false; bShapeRot = false; bShapeScale = false;}
 		~__ModShape() {if (pShapeStateInfos) {delete [] pShapeStateInfos; pShapeStateInfos = nullptr;}}
 	};
@@ -46,33 +46,33 @@ protected:
 public:
 protected:
 //	enum	{
-//			N3SHAPEMOD_TYPE_NOT_MOD = 0,		// 아무 정보도 변화하지 않는 것
-//			N3SHAPEMOD_TYPE_ONLY_SHAPE = 1,		// Shape정보만 변화하는 것
-//			N3SHAPEMOD_TYPE_ONLY_PART = 2,		// Part 정보만 변화하는 것
-//			N3SHAPEMOD_TYPE_NORMAL = 4			// 둘 다 변화하는 것
+//			N3SHAPEMOD_TYPE_NOT_MOD = 0,		// no information changes
+//			N3SHAPEMOD_TYPE_ONLY_SHAPE = 1,		// Changing only the shape information
+//			N3SHAPEMOD_TYPE_ONLY_PART = 2,		// Changing only part information
+//			N3SHAPEMOD_TYPE_NORMAL = 4			// both change
 //	};
 //	int		m_iModType;			// type..
-	int		m_iStateCount;		// 상태가 몇개가 있는지 나타낸다.
-	int		m_iCurState;		// 현재 상태
-	int		m_iPrevState;		// 이전 상태(새로운 상태를 설정해주면 Animation되는 동안 이전상태를 저장해둔다.
-	float	m_fTimeChanged;		// 상태가 완전히 바뀌는 시간
-	float	m_fTimeChanging;	// 상태가 바뀌는 시작시간부터 지금까지의 경과 시간
+	int		m_iStateCount;		// Indicates how many states there are. Indicates how many states there are.
+	int		m_iCurState;		// Current Status
+	int		m_iPrevState;		// Previous state (If you set a new state, the previous state is saved during animation.
+	float	m_fTimeChanged;		// Time to completely change state
+	float	m_fTimeChanging;	// Elapsed time from the start time of the state change to now
 
-	__ModShape	m_ModShape;			// shape의 상태 변화 정보
-	int			m_iModPartCount;		// 변화하는 파트의 갯수
-	__ModPart*	m_pModParts;		// 변화하는 파트들 정보
+	__ModShape	m_ModShape;			// State change information of shape
+	int			m_iModPartCount;		// The number of parts that change
+	__ModPart*	m_pModParts;		// Changing parts information
 
-	__ModPart**	m_pMatchPart2ModPart;		// CPart리스트 배열순으로 __ModPart*와 매치시킨 배열 (load시 CPart 갯수만큼 배열로 잡고 정보를 넣는다)
+	__ModPart**	m_pMatchPart2ModPart;		// Array matched with __ModPart* in order of CPart list arrangement
 
 // Operations
 public:
-	BOOL	SetState(int iState, float fSec);	// fSec시간동안 상태를 바꾼다. (fSec이 0일경우 즉시 바뀐다.)
-	BOOL	LoadStateInfo(FILE* stream);	// 상태 정보를 읽어온다.(text로부터)
+	BOOL	SetState(int iState, float fSec);	// Change state during fSec time. (If fSec is 0, it changes immediately.)
+	BOOL	LoadStateInfo(FILE* stream);	// Read state information (from text)
 	virtual void	Release();
 	virtual void	ReCalcMatrix();
 	virtual void	Tick(float fFrm = FRAME_SELFPLAY);
 	virtual bool	Load(HANDLE hFile);
 protected:
-	CN3SPart* GetPartByPMeshFileName(const std::string& szFN) const;	// 이름으로 PMesh포인터 구하기
+	CN3SPart* GetPartByPMeshFileName(const std::string& szFN) const;	// Get PMesh pointer by name
 
 };

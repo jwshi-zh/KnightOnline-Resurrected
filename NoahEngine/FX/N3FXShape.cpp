@@ -132,7 +132,7 @@ void CN3FXSPart::Render()
 		else return;
 	}
 
-	if(m_Mtl.nRenderFlags & RF_ALPHABLENDING) // Alpha 사용
+	if(m_Mtl.nRenderFlags & RF_ALPHABLENDING) // Use Alpha
 	{
 		__AlphaPrimitive* pAP = s_AlphaMgr.Add();
 		if(pAP)

@@ -31,7 +31,7 @@ void CN3PMeshCreate::swap_triangle(WORD *t1, WORD *t2)
 	swap(t1[2], t2[2]);
 }
 
-// 없어질 삼각형의 넓이 계산, 혹은 변의 길이의 합
+// Calculate the area of the triangle to be eliminated, or the sum of the lengths of the sides
 float CN3PMeshCreate::GetTriCollapsesLoss(WORD* pTriIndex, bool bArea) const
 {
 	// These are the corners of the triangle.
@@ -101,8 +101,8 @@ void CN3PMeshCreate::combine_modified(float &sofar, WORD *tri, int which, int wh
 
 	// The angle change weighted by the area of the triangle.
 	float weighted_angle_change = (1.0f - cosangdiff) * (oldarea + newarea);
-	if (weighted_angle_change<0.0f) weighted_angle_change = 0.0f;	// cosangdiff가 1보다 아주 조금 클때가 있어서 weighted_angle_change가 -값이 나올때가 있다.
-	//__ASSERT(weighted_angle_change>=0.0f, "weighted_angle_change > 0 이어야 한다.");
+	if (weighted_angle_change<0.0f) weighted_angle_change = 0.0f;	// There are times when cosangdiff is slightly larger than 1, so there are times when weighted_angle_change has a -value.
+	//__ASSERT(weighted_angle_change>=0.0f, "weighted_angle_change > 0.");
 
 	// These numbers are not in the same "units", one being length^3 and the other length^2
 	// And let's put some arbitrary weighting on these things.
@@ -234,13 +234,12 @@ void CN3PMeshCreate::Collapse(WORD& pt_to, WORD& pt_from, float edge_val)
 
 						// So, this triangle became redundant. Try the next triangle,
 						// but don't increment tri_index.
-						// 이번에 검사한 삼각형은 사라졌다. 리스트 맨뒤로 보냈으니
-						// tri_index는 중가시키지 않는다.
+						// The triangle checked this time has disappeared. Since it is sent to the end of the list, tri_index is not added.
 						goto try_same_triangle_location;
 					}
 				}
 
-				// 여기에 오면 이 삼각형은 사라지는 삼각형은 아니다. 그러나 한 점이 다른점으로 옮겨진다.
+				// When you come here, this triangle is not a disappearing triangle. But one point is moved to another.
 				// This triangle isn't degenerate if we've got here. But it does
 				// have a reference to the collapsing vertex. This is fine - it can
 				// now just refer to the non-collapsing vertex.
@@ -356,7 +355,7 @@ void CN3PMeshCreate::TryEdge(
 			if (tri[1] != pt_b && tri[2] != pt_b)
 			{
 				combine_modified(a_loss, tri, 0, pt_b, m_PMCOption.bUseSumOfLoss);
-				__ASSERT(a_loss>=0.0f, "loss > 0이어야 한다.");
+				__ASSERT(a_loss>=0.0f, "loss > 0.");
 			}
 			else
 			{
@@ -373,7 +372,7 @@ void CN3PMeshCreate::TryEdge(
 					{
 						if (t_loss > a_loss) a_loss = t_loss;
 					}
-					__ASSERT(a_loss>=0.0f && b_loss>=0.0f, "loss > 0이어야 한다.");
+					__ASSERT(a_loss>=0.0f && b_loss>=0.0f, "loss > 0.");
 				}
 				continue;
 			}
@@ -384,7 +383,7 @@ void CN3PMeshCreate::TryEdge(
 			if (tri[2] != pt_b && tri[0] != pt_b)
 			{
 				combine_modified(a_loss, tri, 1, pt_b, m_PMCOption.bUseSumOfLoss);
-				__ASSERT(a_loss>=0.0f, "loss > 0이어야 한다.");
+				__ASSERT(a_loss>=0.0f, "loss > 0.");
 			}
 			else
 			{
@@ -401,7 +400,7 @@ void CN3PMeshCreate::TryEdge(
 					{
 						if (t_loss > a_loss) a_loss = t_loss;
 					}
-					__ASSERT(a_loss>=0.0f && b_loss>=0.0f, "loss > 0이어야 한다.");
+					__ASSERT(a_loss>=0.0f && b_loss>=0.0f, "loss > 0.");
 				}
 				continue;
 			}
@@ -412,7 +411,7 @@ void CN3PMeshCreate::TryEdge(
 			if (tri[0] != pt_b && tri[1] != pt_b)
 			{
 				combine_modified(a_loss, tri, 2, pt_b, m_PMCOption.bUseSumOfLoss);
-				__ASSERT(a_loss>=0.0f, "loss > 0이어야 한다.");
+				__ASSERT(a_loss>=0.0f, "loss > 0.");
 			}
 			else
 			{
@@ -429,7 +428,7 @@ void CN3PMeshCreate::TryEdge(
 					{
 						if (t_loss > a_loss) a_loss = t_loss;
 					}
-					__ASSERT(a_loss>=0.0f && b_loss>=0.0f, "loss > 0이어야 한다.");
+					__ASSERT(a_loss>=0.0f && b_loss>=0.0f, "loss > 0.");
 				}
 				continue;
 			}
@@ -440,28 +439,28 @@ void CN3PMeshCreate::TryEdge(
 			if (tri[0] == pt_b)
 			{
 				combine_modified(b_loss, tri, 0, pt_a, m_PMCOption.bUseSumOfLoss);
-				__ASSERT(b_loss>=0.0f, "loss > 0이어야 한다.");
+				__ASSERT(b_loss>=0.0f, "loss > 0.");
 			}
 			else
 			if (tri[1] == pt_b)
 			{
 				combine_modified(b_loss, tri, 1, pt_a, m_PMCOption.bUseSumOfLoss);
-				__ASSERT(b_loss>=0.0f, "loss > 0이어야 한다.");
+				__ASSERT(b_loss>=0.0f, "loss > 0.");
 			}
 			else
 			if (tri[2] == pt_b)
 			{
 				combine_modified(b_loss, tri, 2, pt_a, m_PMCOption.bUseSumOfLoss);
-				__ASSERT(b_loss>=0.0f, "loss > 0이어야 한다.");
+				__ASSERT(b_loss>=0.0f, "loss > 0.");
 			}
 		}
 	}
-	__ASSERT(a_loss>=0.0f && b_loss>=0.0f, "loss > 0이어야 한다.");
+	__ASSERT(a_loss>=0.0f && b_loss>=0.0f, "loss > 0.");
 
 #ifdef _SAME_VERTEXPOS
 	const float temp_a_loss = GetLossOfSamePosVertex(pt_b, pt_a);
 	const float temp_b_loss = GetLossOfSamePosVertex(pt_a, pt_b);
-	__ASSERT(temp_a_loss>=0.0f && temp_b_loss>=0.0f, "loss > 0이어야 한다.");
+	__ASSERT(temp_a_loss>=0.0f && temp_b_loss>=0.0f, "loss > 0.");
 	if (m_PMCOption.bUseSumOfLoss)
 	{
 		a_loss += temp_a_loss;
@@ -481,7 +480,7 @@ void CN3PMeshCreate::TryEdge(
 	// We want to lose the point that costs the least.
 
 	// Make sure it's point B that is the least cost by swapping if necessary.
-	__ASSERT(a_loss>=0.0f && b_loss>=0.0f, "loss > 0이어야 한다.");
+	__ASSERT(a_loss>=0.0f && b_loss>=0.0f, "loss > 0.");
 	if (b_loss > a_loss)
 	{
 		swap(pt_a, pt_b);

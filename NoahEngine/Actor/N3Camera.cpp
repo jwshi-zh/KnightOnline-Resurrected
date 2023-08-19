@@ -10,7 +10,7 @@ CN3Camera::CN3Camera()
 	m_Data.vAt = m_vAt = __Vector3(0,0,0);
 	m_Data.vUp = m_vScale = __Vector3(0,1,0);
 
-	m_Data.fFOV = D3DXToRadian(55.0f); // 기본값 55 도
+	m_Data.fFOV = D3DXToRadian(55.0f);
 	m_Data.fNP = 0.7f;
 	m_Data.fFP = 512.0f;
 
@@ -35,7 +35,7 @@ void CN3Camera::Release()
 	m_Data.vAt = m_vAt = __Vector3(0,0,0);
 	m_Data.vUp = m_vScale = __Vector3(0,1,0);
 
-	m_Data.fFOV = D3DXToRadian(55.0f); // 기본값 55 도
+	m_Data.fFOV = D3DXToRadian(55.0f);
 	m_Data.fNP = 0.7f;
 	m_Data.fFP = 512.0f;
 
@@ -213,7 +213,7 @@ BOOL CN3Camera::MoveByWindowMessage(MSG* pMsg)
 					return TRUE;
 				}
 			}
-		default:	// 마우스 메세지가 아닐경우 카메라 움직임이 아니다.
+		default:	// If it is not a mouse message, it is not a camera movement.
 			return FALSE;
 		}
 	}
@@ -233,8 +233,8 @@ void CN3Camera::Zoom(float fDelta)
 	__Vector3 vPos = m_vPos + vD * fDelta;
 	float fDist = (vPos - m_Data.vAt).Magnitude();
 #ifndef _N3INDOOR
-	if(fDist < 0.3f) return; // 너무 가까우면 적용하지 않는다..
-	else if(fDist > m_Data.fFP * 2.0f) return; // 너무 멀면 적용하지 않는다.
+	if(fDist < 0.3f) return; // Doesn't apply if too close.
+	else if(fDist > m_Data.fFP * 2.0f) return; // If it's too far away, it doesn't apply.
 #endif
 
 	m_vPos = vPos;
@@ -251,7 +251,7 @@ void CN3Camera::Rotate(float fRadianX, float fRadianY)
 	__Matrix44 mtx;		//by lynus...
 	mtx.RotationY(fRadianY);
 
-	__Vector3 v1 = m_vAt - m_vPos, v2; // Rotation 은 LookAt Position 처럼, Scale 은 UpVector 처럼 쓴다..
+	__Vector3 v1 = m_vAt - m_vPos, v2; // Rotation is used like LookAt Position, and Scale is used like UpVector.
 	v1 *= mtx;
 	m_vScale *= mtx;
 
@@ -271,7 +271,7 @@ void CN3Camera::Rotate(float fRadianX, float fRadianY)
 }
 
 #ifdef _N3TOOL
-void CN3Camera::LookAround(float fRadianX, float fRadianY)		//At Postion을 중심으로 카메라가 돈다..고로 위치가 바뀐다..
+void CN3Camera::LookAround(float fRadianX, float fRadianY)		// The camera rotates around At Position, so the position changes.
 {
 	//static __Matrix44 mtx;
 	//static __Vector3 v1, v2;
@@ -297,7 +297,7 @@ void CN3Camera::LookAround(float fRadianX, float fRadianY)		//At Postion을 중�
 	m_vScale *= mtx;
 #endif
 */
-	m_vPos = m_vAt + v1; // Rotation 은 LookAt Position 처럼, Scale 은 UpVector 처럼 쓴다..
+	m_vPos = m_vAt + v1; // Rotation is used like LookAt Position, and Scale is used like UpVector.
 }
 #endif // end of #ifdef _N3TOOL
 
@@ -325,7 +325,7 @@ void CN3Camera::MoveStraight(float fDistance, bool bSmall)
 #ifdef _N3TOOL
 void CN3Camera::MovePlane(float fX, float fY)
 {
-	__Vector3 vDir = m_vAt - m_vPos; // Rotation 은 LookAt Position 처럼, Scale 은 UpVector 처럼 쓴다..
+	__Vector3 vDir = m_vAt - m_vPos; // Rotation is used like LookAt Position, and Scale is used like UpVector.
 	vDir.Normalize();
 
 	__Vector3 vHoriz;
@@ -340,7 +340,7 @@ void CN3Camera::MovePlane(float fX, float fY)
 	__Vector3 vMove = (vHoriz*fX) + (vDown*fY);
 	
 	m_vPos += vMove;
-	m_vAt += vMove; // Rotation 은 LookAt Position 처럼, Scale 은 UpVector 처럼 쓴다..
+	m_vAt += vMove; // Rotation is used like LookAt Position, and Scale is used like UpVector.
 }
 #endif // end of #ifdef _N3TOOL
 
@@ -368,7 +368,7 @@ void CN3Camera::Apply() const
 	s_lpD3DDev->SetTransform(D3DTS_PROJECTION, &m_Data.mtxProjection); // Projection Matrix Setting
 	memcpy(&(CN3Base::s_CameraData), &m_Data, sizeof(__CameraData)); // Static Data Update...
 
-	// 안개 색깔 맞추기..
+	// match the fog color...
 	s_lpD3DDev->SetRenderState( D3DRS_FOGENABLE, m_bFogUse);
 	s_lpD3DDev->SetRenderState( D3DRS_FOGCOLOR,  m_FogColor);
 //	s_lpD3DDev->SetRenderState( D3DRS_FOGVERTEXMODE,  D3DFOG_EXP2);
@@ -376,15 +376,15 @@ void CN3Camera::Apply() const
 	s_lpD3DDev->SetRenderState( D3DRS_FOGTABLEMODE,   D3DFOG_NONE);
 	s_lpD3DDev->SetRenderState( D3DRS_FOGVERTEXMODE,  D3DFOG_LINEAR);
 	s_lpD3DDev->SetRenderState( D3DRS_RANGEFOGENABLE, TRUE);
-	// Range Fog : 장점 - 거리기반으로 fog가 적용된다. 단점 - poligon단위로 같은 fog값이 적용된다.(큰 폴리곤이 있을경우 어색한 fog가 될 수 있다.)
-	// range fog = FALSE로 했을때는 depth버퍼 기반으로 fog가 계산되어 적용된다.
+	// Range Fog : Advantages - Fog is applied based on distance. Disadvantages - The same fog value is applied per poligon.
+	// When range fog = FALSE, fog is calculated and applied based on the depth buffer.
 
-	// vertex fog 와 pixel fog(table fog)의 차이 - Dino씀..
-	// vertex fog : vertex의 depth값을 기반으로 vertex사이의 보간으로 계산되는 것 같다.
-	//				따라서 카메라를 돌리다보면 vertex주위를 중심으로 fog가 변하는것이 관찰된다.
-	// pixel fog : pixel의 depth값을 기반으로 fog를 계산하는것 같다.
+	// Difference between vertex fog and pixel fog (table fog) - Used by Dino..
+	// vertex fog: It seems to be calculated as an interpolation between vertices based on the depth value of the vertex.
+	// Therefore, when the camera is rotated, it is observed that the fog changes around the vertex.
+	// pixel fog : It seems to calculate the fog based on the depth value of the pixel.
 
-	// 위의 모든 fog의 차이를 보려면 큰판을 하나 그려서 fog를 넣어보면 쉽게 관찰할 수 있다.
+	// To see the difference between all the above fogs, you can easily observe them by drawing a large plate and adding fog.
 
 //	s_lpD3DDev->SetRenderState( D3DRS_FOGSTART,   *(DWORD*)&m_fFogStart);
 //	s_lpD3DDev->SetRenderState( D3DRS_FOGEND,     *(DWORD*)&m_fFogEnd);
@@ -405,22 +405,22 @@ void CN3Camera::Tick(float fFrm)
 	CN3Transform::Tick(fFrm);
 
 	////////////////////////////////////////////////////////////////////////
-	// View Matrix 및 Projection Matrix Setting
+	// View Matrix and Projection Matrix Setting
 	
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// 	__Vector3 m_vEye, m_vUp ->> m_vPos, m_vScale 로 대신한다.. 중요!!
+	// 	__Vector3 m_vEye, m_vUp ->> Replace with m_vPos, m_vScale. Important!!
 	m_Data.vEye = m_vPos;
 	m_Data.vAt  = m_vAt;
-	m_Data.vUp  = m_vScale; // Up Vector 처럼 쓴다.
+	m_Data.vUp  = m_vScale; // Write it like Up Vector.
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //	m_Data.fInverse_SineHalfOfFOV = 1.0f/sinf(m_Data.fFOV*0.5f);
 
-	::D3DXMatrixLookAtLH(&m_Data.mtxView, &m_Data.vEye, &m_Data.vAt, &m_Data.vUp); // Look At 적용
-	::D3DXMatrixInverse(&m_Data.mtxViewInverse, nullptr, &m_Data.mtxView); // View Inverse 행렬 구하기..
-	CN3Base::s_lpD3DDev->GetViewport(&m_Data.vp); // View port 가져오기...
+	::D3DXMatrixLookAtLH(&m_Data.mtxView, &m_Data.vEye, &m_Data.vAt, &m_Data.vUp); // Apply Look At
+	::D3DXMatrixInverse(&m_Data.mtxViewInverse, nullptr, &m_Data.mtxView); // Finding the View Inverse matrix..
+	CN3Base::s_lpD3DDev->GetViewport(&m_Data.vp); // Get View port...
 	
-	m_Data.fAspect = (float)m_Data.vp.Width / (float)m_Data.vp.Height; // 종횡비
+	m_Data.fAspect = (float)m_Data.vp.Width / (float)m_Data.vp.Height; // aspect ratio
 	if(m_bOrtho)
 	{
 		const float fL = (m_Data.vAt - m_Data.vEye).Magnitude() / 2.0f;

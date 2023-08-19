@@ -53,24 +53,24 @@ bool CN3ShapeMod::Load(HANDLE hFile)
 	return ret;
 }
 
-BOOL CN3ShapeMod::LoadStateInfo(FILE* stream)	// 상태 정보를 읽어온다.(text로부터)
+BOOL CN3ShapeMod::LoadStateInfo(FILE* stream)	// Read state information (from text)
 {
 	__ASSERT(m_Parts.size() > 0, "먼저 shape를 load해야 한다.");
 	if (nullptr == stream) return FALSE;
 //	Release();
 
 	int result;
-//	char szSrcName[_MAX_PATH];	// shape source파일 이름
-//	result = fscanf(stream, "Shape_FName=%s\n", szSrcName);	__ASSERT(result != EOF, "잘못된 N3ShapeMod 세팅 파일");
+//	char szSrcName[_MAX_PATH];
+//	result = fscanf(stream, "Shape_FName=%s\n", szSrcName);	__ASSERT(result != EOF, "Invalid N3ShapeMod settings file");
 
-	// shape load하기
+	// shape load
 //	if (!this->Load(szSrcName)) return FALSE;
 
-	// 변화하는 PMesh의 갯수 및 State의 수
-	result = fscanf(stream, "PMesh_Count=%d\n", &m_iModPartCount);	__ASSERT(result != EOF, "잘못된 N3ShapeMod 세팅 파일");
-	result = fscanf(stream, "State_Count=%d\n", &m_iStateCount);		__ASSERT(result != EOF, "잘못된 N3ShapeMod 세팅 파일");
+	// The number of changing PMesh and the number of states
+	result = fscanf(stream, "PMesh_Count=%d\n", &m_iModPartCount);	__ASSERT(result != EOF, "Invalid N3ShapeMod settings file");
+	result = fscanf(stream, "State_Count=%d\n", &m_iStateCount);		__ASSERT(result != EOF, "Invalid N3ShapeMod settings file");
 
-	// Shape 상태 정보 읽어오기
+	// Read Shape State Information
 	int i, j;
 	__Vector3 vPos, vScale;
 	__Vector3 vAxis;	float fDegree;
@@ -78,32 +78,32 @@ BOOL CN3ShapeMod::LoadStateInfo(FILE* stream)	// 상태 정보를 읽어온다.(
 //	m_ModShape.pShapeStateInfos = new __ModPosRotScale[m_iStateCount];
 //	for (i=0; i<m_iStateCount; ++i)
 //	{
-//		result = fscanf(stream, "S_Pos(%f, %f, %f)\n", &vPos.x, &vPos.y, &vPos.z);		__ASSERT(result != EOF, "잘못된 N3ShapeMod 세팅 파일");
-//		result = fscanf(stream, "S_Rot(%f, %f, %f)\n", &vRot.x, &vRot.y, &vRot.z);		__ASSERT(result != EOF, "잘못된 N3ShapeMod 세팅 파일");
-//		result = fscanf(stream, "S_Scale(%f, %f, %f)\n", &vScale.x, &vScale.y, &vScale.z);		__ASSERT(result != EOF, "잘못된 N3ShapeMod 세팅 파일");
+//		result = fscanf(stream, "S_Pos(%f, %f, %f)\n", &vPos.x, &vPos.y, &vPos.z);		__ASSERT(result != EOF, "Invalid N3ShapeMod settings file");
+//		result = fscanf(stream, "S_Rot(%f, %f, %f)\n", &vRot.x, &vRot.y, &vRot.z);		__ASSERT(result != EOF, "Invalid N3ShapeMod settings file");
+//		result = fscanf(stream, "S_Scale(%f, %f, %f)\n", &vScale.x, &vScale.y, &vScale.z);		__ASSERT(result != EOF, "Invalid N3ShapeMod settings file");
 //		m_ModShape.pShapeStateInfos[i].vPos = vPos;
 //		m_ModShape.pShapeStateInfos[i].vRot = vRot;
 //		m_ModShape.pShapeStateInfos[i].vScale = vScale;
 //	}
 
-	// Part 상태 정보 읽어오기
-	__ASSERT(m_iModPartCount > 0, "m_iModPartCount가 1이상이어야 합니다.");
-	__ASSERT(m_iStateCount > 0, "m_iStateCount 1이상이어야 합니다.");
+	// Read Part Status Information
+	__ASSERT(m_iModPartCount > 0, "m_iModPartCount must be greater than or equal to 1.");
+	__ASSERT(m_iStateCount > 0, "m_iStateCount must be greater than or equal to 1.");
 	m_pModParts = new __ModPart[m_iModPartCount];
 
 	char szPMeshName[_MAX_PATH] = "";
 	for (i=0; i<m_iModPartCount; ++i)
 	{
-		result = fscanf(stream, "PMesh_FName=%s\n", szPMeshName);		__ASSERT(result != EOF, "잘못된 N3ShapeMod 세팅 파일");
+		result = fscanf(stream, "PMesh_FName=%s\n", szPMeshName);		__ASSERT(result != EOF, "Invalid N3ShapeMod settings file");
 		m_pModParts[i].pPart = GetPartByPMeshFileName(szPMeshName);
 		m_pModParts[i].pStateInfos = new __ModPosRotScale[m_iStateCount];
 		for (j=0; j<m_iStateCount; ++j)
 		{
-			result = fscanf(stream, "Pos(%f, %f, %f)\n", &vPos.x, &vPos.y, &vPos.z);		__ASSERT(result != EOF, "잘못된 N3ShapeMod 세팅 파일");
-			result = fscanf(stream, "Rot(%f, %f, %f, %f)\n", &vAxis.x, &vAxis.y, &vAxis.z, &fDegree);		__ASSERT(result != EOF, "잘못된 N3ShapeMod 세팅 파일");
+			result = fscanf(stream, "Pos(%f, %f, %f)\n", &vPos.x, &vPos.y, &vPos.z);		__ASSERT(result != EOF, "Invalid N3ShapeMod settings file");
+			result = fscanf(stream, "Rot(%f, %f, %f, %f)\n", &vAxis.x, &vAxis.y, &vAxis.z, &fDegree);		__ASSERT(result != EOF, "Invalid N3ShapeMod settings file");
 			if(vAxis.x ==0.0f && vAxis.y == 0.0f && vAxis.z == 0.0f) qRot.Identity();
 			else qRot.RotationAxis(vAxis, D3DXToRadian(fDegree));
-			result = fscanf(stream, "Scale(%f, %f, %f)\n", &vScale.x, &vScale.y, &vScale.z);		__ASSERT(result != EOF, "잘못된 N3ShapeMod 세팅 파일");
+			result = fscanf(stream, "Scale(%f, %f, %f)\n", &vScale.x, &vScale.y, &vScale.z);		__ASSERT(result != EOF, "Invalid N3ShapeMod settings file");
 			m_pModParts[i].pStateInfos[j].vPos = vPos;
 			m_pModParts[i].pStateInfos[j].qRot = qRot;
 			m_pModParts[i].pStateInfos[j].vScale = vScale;
@@ -119,12 +119,12 @@ BOOL CN3ShapeMod::LoadStateInfo(FILE* stream)	// 상태 정보를 읽어온다.(
 		}
 	}
 
-	// m_pMatchPart2ModPart CN3SPart갯수만큼 생성 및 초기화(매칭시키기)
-	__ASSERT(m_pMatchPart2ModPart == NULL, "Machine에서 메모리 릭 가능성");
+	// m_pMatchPart2ModPart Creates and initializes as many as the number of CN3SParts (matching)
+	__ASSERT(m_pMatchPart2ModPart == NULL, "Possible memory leak in the machine");
 	const int iPartCount = PartCount();
 	if (iPartCount>0) m_pMatchPart2ModPart = new __ModPart*[iPartCount];
 	ZeroMemory(m_pMatchPart2ModPart, sizeof(m_pMatchPart2ModPart[0])*iPartCount);
-	// (매칭시키기)
+	// (matching)
 	for(auto i =0; i<m_iModPartCount; ++i)
 	{
 		auto it = m_Parts.begin();
@@ -144,24 +144,21 @@ BOOL CN3ShapeMod::LoadStateInfo(FILE* stream)	// 상태 정보를 읽어온다.(
 
 void CN3ShapeMod::ReCalcMatrix()
 {
-	// m_Matrix 다시 계산..
-	CN3Transform::ReCalcMatrix(); // Transfomr Matrix 를 계산 해주고..
+	CN3Transform::ReCalcMatrix();
 
-	// 각 파트의 매트릭스를 다시 계산.
 	const int iPC = m_Parts.size();
 	for(int i = 0; i < iPC; i++)
 	{
 		if (m_pMatchPart2ModPart[i])
 		{
 			const __ModPart* pModPart = m_pMatchPart2ModPart[i];
-			// Scale
+			
 			m_Parts[i]->m_Matrix.Scale(pModPart->CurStateInfo.vScale);
-			// 회전
+			
 			static __Matrix44 mtxRot;
 			D3DXMatrixRotationQuaternion(&mtxRot, &(pModPart->CurStateInfo.qRot));
 			m_Parts[i]->m_Matrix *= mtxRot;
 
-			// 위치
 			m_Parts[i]->m_Matrix.PosSet(m_Parts[i]->m_vPivot + pModPart->CurStateInfo.vPos);
 			m_Parts[i]->m_Matrix *= m_Matrix;
 		}

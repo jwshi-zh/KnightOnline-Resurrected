@@ -8,14 +8,14 @@ public:
 	typedef struct __Light : public _D3DLIGHT9
 	{
 	public:
-		BOOL		bOn; // 라이트가 켜져 있는지..
-		int			nNumber; // 0 ~ 8
+		BOOL		bOn;
+		int			nNumber;
 		
 		void		Zero() { memset(this, 0, sizeof(__Light)); }
 		void		InitPoint(int nLgtNumber, D3DXVECTOR3& dvPos, _D3DCOLORVALUE& ltColor, float fRange = 10000.0f, float fAttenuation = 0.5f)
 		{
 			this->Zero();
-			nNumber = nLgtNumber; // 라이트 번호..
+			nNumber = nLgtNumber;
 			Type = D3DLIGHT_POINT;
 			Position = dvPos;
 			//Specular = 
@@ -24,10 +24,10 @@ public:
 			Ambient.g = ltColor.g * 0.7f;
 			Ambient.b = ltColor.b * 0.7f;
 
-			Falloff = 1.0f;		// 효과가 미미하고 부하기 걸리기 때문에 보통 1.0으로 쓴다.
+			Falloff = 1.0f;		// It is usually written as 1.0 because the effect is insignificant and it takes a load.
 			if(fRange < 0.0001f) fRange = 0.0001f;
 			Attenuation0 = 1.0f - fAttenuation;
-			Attenuation1 = fAttenuation/fRange; // 감쇠 범위계산. 범위의 절반이 정확하게 절반의 감쇠가 되도록 한다..
+			Attenuation1 = fAttenuation/fRange; // Attenuation Range Calculation. Make sure that half the range is exactly half the attenuation.
 			Attenuation2 = fAttenuation/(fRange*fRange);
 			Range = fRange * 4.0f;
 			bOn = TRUE;
@@ -36,13 +36,12 @@ public:
 		{
 			this->Zero();
 			
-			nNumber = nLgtNumber; // 라이트 번호..
+			nNumber = nLgtNumber;
 			bOn = TRUE;
 
 			Type = D3DLIGHT_DIRECTIONAL;
 			Direction = dvDir;
 
-			//Specular = 
 			Diffuse = ltColor;
 			Ambient.r = ltColor.r * 0.7f;
 			Ambient.g = ltColor.g * 0.7f;
@@ -51,7 +50,7 @@ public:
 		void		InitSpot(int nLgtNumber, D3DXVECTOR3& dvPos, D3DXVECTOR3& dvDir, _D3DCOLORVALUE& ltColor, float fTheta, float fPhi, float fRange = 10000.0f)
 		{
 			this->Zero();
-			nNumber = nLgtNumber; // 라이트 번호..
+			nNumber = nLgtNumber;
 			Type = D3DLIGHT_SPOT;
 			Position = dvPos;
 			Direction = dvDir;
@@ -63,10 +62,10 @@ public:
 
 			if(fRange < 0.0001f) fRange = 0.0001f;
 			Attenuation0 = 1.0f;
-			Attenuation1 = 1.0f/(fRange/2.0f); // 감쇠 범위계산. 범위의 절반이 정확하게 절반의 감쇠가 되도록 한다..
+			Attenuation1 = 1.0f/(fRange/2.0f); // Attenuation Range Calculation. Make sure that half the range is exactly half the attenuation.
 			Range = fRange;
 
-			Falloff = 1.0f;		// 효과가 미미하고 부하기 걸리기 때문에 보통 1.0으로 쓴다.
+			Falloff = 1.0f;		// It is usually written as 1.0 because the effect is insignificant and it takes a load.
 			Theta = fTheta;
 			Phi = fPhi;
 			bOn = TRUE;
@@ -82,8 +81,8 @@ public:
 	void		PosSet(const __Vector3& vPos) { m_vPos = m_Data.Position = vPos; }
 	void		PosSet(float fx, float fy, float fz) { m_Data.Position.x = fx; m_Data.Position.y = fy; m_Data.Position.z = fz; m_vPos = m_Data.Position; }
 
-	void		Apply() const; // 세팅된 라이트값을 실제 D3DDevice 에 적용
-	void		Tick(float fFrm = FRAME_SELFPLAY); // 라이트값만 세팅한다..
+	void		Apply() const;
+	void		Tick(float fFrm = FRAME_SELFPLAY);
 	
 	bool		Load(HANDLE hFile);
 #ifdef _N3TOOL

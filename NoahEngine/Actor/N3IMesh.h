@@ -10,18 +10,18 @@ protected:
 	static __VertexT1	s_Vertices[MAX_IMESH_BUFFER];
 	static __VertexT2	s_Vertices2[MAX_IMESH_BUFFER];
 
-	int					m_nFC; // 삼각형 갯수
+	int					m_nFC;
 
-	int					m_nVC; // Vertex Count
-	WORD*				m_pwVtxIndices; // 점 인덱스 리스트. 
-	int					m_nUVC; // UV 좌표 Count
-	WORD*				m_pwUVsIndices; // 텍스처 좌표 인덱스 리스트.
+	int					m_nVC;
+	WORD*				m_pwVtxIndices;
+	int					m_nUVC;
+	WORD*				m_pwUVsIndices;
 
-	__VertexXyzNormal*	m_pVertices; // 좌표 Data
-	float*				m_pfUVs; // UV Data - m_nUVC * 2 만큼 할당한다.
+	__VertexXyzNormal*	m_pVertices;
+	float*				m_pfUVs;
 //	LPDIRECT3DVERTEXBUFFER9 m_lpVB;
 
-	__Vector3			m_vMin, m_vMax; // 최소, 최대점.. 변하긴 하지만 대략적으로...
+	__Vector3			m_vMin, m_vMax;
 
 public:
 #ifdef _N3TOOL
@@ -33,8 +33,8 @@ public:
 	__Vector3			Max()	{ return m_vMax; }
 	void				FindMinMax();
 	void				Render(bool bUseTwoUV = false);
-	__VertexT1*			BuildVertexList() const; // Vertex Buffer 에다가 점을 만든다.. 동시에 두번 사용하지 않도록 주의가 필요
-	__VertexT2*			BuildVertexListTwoUV(); // Vertex Buffer 에다가 점을 만든다.. 동시에 두번 사용하지 않도록 주의가 필요
+	__VertexT1*			BuildVertexList() const;
+	__VertexT2*			BuildVertexListTwoUV();
 	
 	int					FaceCount() const { return m_nFC; }
 	int					VertexCount() { return m_nVC; }
@@ -47,7 +47,7 @@ public:
 	void				UVIndexSet(int index, int nUVI) { if(index >= 0 && index < m_nFC*3) m_pwUVsIndices[index] = nUVI; }
 #endif // end of _N3TOOL
 
-	virtual bool		Create(int nFC, int nVC, int nUVC); // 차례대로  Face Count, VertexCount, UV Count
+	virtual bool		Create(int nFC, int nVC, int nUVC);
 	bool				Load(HANDLE hFile);
 #ifdef _N3TOOL
 	bool				Save(HANDLE hFile);
@@ -57,8 +57,6 @@ public:
 	CN3IMesh();
 	virtual ~CN3IMesh();
 
-//	By : Ecli666 ( On 2002-07-23 오후 5:31:41 )
-//
 #ifdef _N3GAME
 	void				TickForShadow(bool bUseTwoUV = false);
 	int					GetVertexCount();
@@ -67,6 +65,4 @@ public:
 private:	
 	__Vector3*			m_pVertexT1;
 #endif
-
-//	~(By Ecli666 On 2002-07-23 오후 5:31:41 )
 };

@@ -534,7 +534,7 @@ void CN3FXPartBillBoard::Render()
 		}
 	}
 
-	if(m_bAlpha) // Alpha 사용
+	if(m_bAlpha) // Use Alpha
 	{
 		__AlphaPrimitive* pAP = s_AlphaMgr.Add();
 		if(pAP)

@@ -36,7 +36,7 @@ void CN3ShapeExtra::Tick(float fFrm)
 	if(false == m_bVisible) 
 	{
 		m_bDontRender = true;
-		return; // 강제로 렌더링 하지 않는다.
+		return;
 	}
 
 	CN3Shape::Tick();
@@ -56,11 +56,11 @@ void CN3ShapeExtra::Tick(float fFrm)
 		__Rotation* pRot = &(m_Rotations[i]);
 		if(	pRot->fRadianPerSec == 0 || 
 			pRot->fRadianCur == pRot->fRadianToReach) continue;
-		(pRot->fRadianCur < pRot->fRadianToReach) ? fDir = 1.0f : fDir = -1.0f; // 도는 방향..
+		(pRot->fRadianCur < pRot->fRadianToReach) ? fDir = 1.0f : fDir = -1.0f;
 
 		const float fRotDelta = pRot->fRadianPerSec * fDir * CN3Base::s_fSecPerFrm;
 		pRot->fRadianCur += fRotDelta;
-		if(T_Abs(pRot->fRadianToReach - pRot->fRadianCur) <= fRotDelta) /// 원하는 곳까지 다 열렸다!!
+		if(T_Abs(pRot->fRadianToReach - pRot->fRadianCur) <= fRotDelta)
 		{
 			bNeedRemakeCollisionMeshes = true;
 			pRot->fRadianPerSec = 0;
@@ -74,7 +74,7 @@ void CN3ShapeExtra::Tick(float fFrm)
 	}
 
 	if(bNeedRemakeCollisionMeshes) 
-		this->MakeCollisionMeshByParts(); // 충돌메시를 다시 만든다..
+		this->MakeCollisionMeshByParts(); // Recreate the collision mesh.
 }
 
 void CN3ShapeExtra::RotateTo(int iPart, const __Vector3& vAxis, float fRadianToReach, float fRadianPerSec, bool bImmediately)
@@ -86,5 +86,5 @@ void CN3ShapeExtra::RotateTo(int iPart, const __Vector3& vAxis, float fRadianToR
 	pRot->fRadianToReach = fRadianToReach;
 	pRot->fRadianPerSec = fRadianPerSec;
 	pRot->vAxis = vAxis;
-	if(bImmediately) pRot->fRadianCur = pRot->fRadianToReach - 0.01f; // 이러면 직빵으로 열린다.. 약간 값을 빼주는 이유는 한번은 틱을 돌게 하기 위해서이다.
+	if(bImmediately) pRot->fRadianCur = pRot->fRadianToReach - 0.01f; // In this way, it opens directly. The reason for slightly subtracting the value is to make the tick run once.
 }

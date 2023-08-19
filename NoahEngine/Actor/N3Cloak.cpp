@@ -427,7 +427,7 @@ void CN3Cloak::TickYaw()
 	/*
 	float fYaw = m_bpPlayerBase->Yaw();	
 	if (fYaw != m_fPrevYaw)
-	{	// 회전이 있었다.
+	{	// There was a turn.
 		if (fYaw - m_fPrevYaw > 0.0f)
 		{
 			if (m_eAnchorPattern == AMP_NONE && m_fAnchorPreserveTime < 0.0f)

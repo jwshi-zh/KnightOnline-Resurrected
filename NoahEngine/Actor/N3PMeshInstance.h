@@ -24,11 +24,11 @@ protected:
 
 	int m_iNumIndices, m_iNumVertices; // number of triangles/vertices to use at this moment.
 
-	CN3PMesh::__EdgeCollapse*	m_pCollapseUpTo;	// 참조 포인터
+	CN3PMesh::__EdgeCollapse*	m_pCollapseUpTo;
 
 	// A pointer to the original mesh. This is where you'll find the vertex data (which
 	// is invariant between PMRInstance's)
-	CN3PMesh*	m_pPMesh;	// 참조 포인터
+	CN3PMesh*	m_pPMesh;
 
 public:
 	BOOL		IsLOD() const

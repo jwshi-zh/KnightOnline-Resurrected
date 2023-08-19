@@ -15,10 +15,10 @@ public:
 public:
 	struct __PMCreateOption
 	{
-		bool	bUseSumOfLoss;		// Loss의 합을 사용할 것인가 아니면 ..
-		bool	bTriangleWeight;	// 사라질 삼각형 가중치 계산 할 것인가?
-		bool	bArea; // false = sum of side 가중치를 넓이로 할 것인가? 세 변의 합으로 할 것인가?
-		float	fWeight; 	// 가중치
+		bool	bUseSumOfLoss;		// Whether to use the sum of Loss or ..
+		bool	bTriangleWeight;	// Calculate the vanishing triangle weights?
+		bool	bArea; // false = sum of side weights to width? Will it be the sum of the three sides?
+		float	fWeight; 	// weight
 	};
 
 protected:
@@ -37,7 +37,7 @@ protected:
 	void combine_modified(float &sofar, WORD *tri, int which, int what_to, bool bSumOfLoss);
 
 public:
-	int ReGenerate(CN3PMesh* pPMesh); // 다시 생성한다..
+	int ReGenerate(CN3PMesh* pPMesh); // create again...
 	// Do the calculation
 	void CreateCollapseList();
 

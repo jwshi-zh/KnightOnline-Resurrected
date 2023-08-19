@@ -21,8 +21,8 @@ CN3Joint::~CN3Joint()
 
 void CN3Joint::Release()
 {
-	m_qOrient.Identity();		// Joint Orient Quaternion
-	m_KeyOrient.Release();		// Joint Orient 키값... NULL 이면 없는거다..
+	m_qOrient.Identity();
+	m_KeyOrient.Release();
 	
 	for(auto it = m_Children.begin(), itEnd = m_Children.end(); it != itEnd; it++)
 	{
@@ -41,7 +41,7 @@ bool CN3Joint::Load(HANDLE hFile)
 	DWORD dwRWC = 0;
 	int nL = 0;
 
-	m_KeyOrient.Load(hFile); // Joint Orient...
+	m_KeyOrient.Load(hFile);
 
 	int nCC = 0;
 	ReadFile(hFile, &nCC, 4, &dwRWC, nullptr);
@@ -63,7 +63,7 @@ bool CN3Joint::Save(HANDLE hFile)
 
 	DWORD dwRWC = 0;
 	
-	m_KeyOrient.Save(hFile); // 
+	m_KeyOrient.Save(hFile);
 
 	int iSize = m_Children.size();
 	WriteFile(hFile, &iSize, 4, &dwRWC, NULL);
@@ -111,7 +111,7 @@ void CN3Joint::Render(const __Matrix44* pMtxParent, float fUnitSize)
 	s_lpD3DDev->SetMaterial(&smtl);
 	s_lpD3DDev->SetTexture(0, NULL);
 
-	if(m_pParent) // 부모 관절과 이어주는 선..
+	if(m_pParent) // A line connecting the parent joint...
 	{
 		static __Vector3 v[2];
 		static __VertexColor vBone[2];
@@ -128,10 +128,9 @@ void CN3Joint::Render(const __Matrix44* pMtxParent, float fUnitSize)
 		vBone[0].Set(v[0], 0xff00ff00);
 		vBone[1].Set(v[1], 0xff0000ff);
 		s_lpD3DDev->SetFVF(FVF_CV);
-		s_lpD3DDev->DrawPrimitiveUP(D3DPT_LINELIST, 1, vBone, sizeof(__VertexColor)); // 선그리기..
+		s_lpD3DDev->DrawPrimitiveUP(D3DPT_LINELIST, 1, vBone, sizeof(__VertexColor));
 	}
 
-	// 박스 그리기..
 	static __VertexColor vBoxes[36];
 	static __VertexColor vAxis[6];
 	static bool bBoxCreated = false;
@@ -166,9 +165,9 @@ void CN3Joint::Render(const __Matrix44* pMtxParent, float fUnitSize)
 
 	s_lpD3DDev->SetFVF(FVF_CV);
 	s_lpD3DDev->SetTransform(D3DTS_WORLD, &mtxBox);
-	s_lpD3DDev->DrawPrimitiveUP(D3DPT_TRIANGLELIST, 12, vBoxes, sizeof(__VertexColor)); // 박스 그리기..
+	s_lpD3DDev->DrawPrimitiveUP(D3DPT_TRIANGLELIST, 12, vBoxes, sizeof(__VertexColor));
 	s_lpD3DDev->SetTransform(D3DTS_WORLD, &mtxAxis);
-	s_lpD3DDev->DrawPrimitiveUP(D3DPT_LINELIST, 3, vAxis, sizeof(__VertexColor)); // 축 그리기..
+	s_lpD3DDev->DrawPrimitiveUP(D3DPT_LINELIST, 3, vAxis, sizeof(__VertexColor));
 
 	if(dwZ) s_lpD3DDev->SetRenderState(D3DRS_ZENABLE, dwZ);
 	if(dwFog) s_lpD3DDev->SetRenderState(D3DRS_FOGENABLE, dwFog);
@@ -248,7 +247,7 @@ void CN3Joint::NodeCount(int &nCount)
 }
 
 #ifdef _N3TOOL
-BOOL CN3Joint::FindPointerByName(const std::string& szName, CN3Joint *&pJoint) // 이름을 넣으면 해당 노드의 포인터를 돌려준다..
+BOOL CN3Joint::FindPointerByName(const std::string& szName, CN3Joint *&pJoint)
 {
 	if(szName.empty())
 	{
@@ -355,43 +354,43 @@ void CN3Joint::ReCalcMatrix()
 {
 	static __Matrix44 mtx;
 	static __Quaternion qt;
-//	원래 행렬 계산 코드...
+//	Original matrix calculation code...
 //	m_Matrix.Identity();
-//	mtx.Rotation(m_vRot.x, m_vRot.y, m_vRot.z); m_Matrix *= mtx; // 부모 축 만큼 회전.
-//	mtx.Scale(m_vScale); m_Matrix *= mtx; // 부모 축 만큼 회전.
-//	mtx.Rotation(m_vOrigin.x, m_vOrigin.y, m_vOrigin.z); m_Matrix *= mtx; // 부모 로컬 축 만큼 회전.
+//	mtx.Rotation(m_vRot.x, m_vRot.y, m_vRot.z); m_Matrix *= mtx; // Rotate by parent axis.
+//	mtx.Scale(m_vScale); m_Matrix *= mtx; // Rotate by parent axis.
+//	mtx.Rotation(m_vOrigin.x, m_vOrigin.y, m_vOrigin.z); m_Matrix *= mtx; // Rotate by parent local axis.
 //	mtx.Identity(); mtx.PosSet(m_vPos); m_Matrix *= mtx; // 이동
 
 //	if(m_RotSeq == ROT_SEQ_XYZ)
 //	{
-//		m_Matrix.Rotation(m_vRot.x, m_vRot.y, m_vRot.z); // 부모 축 만큼 회전. // XYZ 회전일때..
+//		m_Matrix.Rotation(m_vRot.x, m_vRot.y, m_vRot.z); // Rotate by parent axis.. // When it comes to XYZ rotation...
 //	}
 //	else if(ROT_SEQ_YXZ)
 //	{
 //		m_Matrix.Identity();
-//		mtx.RotationY(m_vRot.y); m_Matrix *= mtx; // YXZ 회전일때
+//		mtx.RotationY(m_vRot.y); m_Matrix *= mtx;
 //		mtx.RotationX(m_vRot.x); m_Matrix *= mtx;
 //		mtx.RotationZ(m_vRot.z); m_Matrix *= mtx;
 //	}
 
-	if(m_KeyOrient.Count() > 0) // Orient 키값이 있으면..
+	if(m_KeyOrient.Count() > 0)
 	{
 		qt = m_qRot * m_qOrient;
-		::D3DXMatrixRotationQuaternion(&m_Matrix, &qt); // 회전.. 쿼터니언 계산..
+		::D3DXMatrixRotationQuaternion(&m_Matrix, &qt); // Rotation.. Quaternion calculations..
 	}
 	else
 	{
-		::D3DXMatrixRotationQuaternion(&m_Matrix, &m_qRot); // 회전.. 쿼터니언 계산..
+		::D3DXMatrixRotationQuaternion(&m_Matrix, &m_qRot); // Rotation.. Quaternion calculations..
 	}
 
-	if(1.0f != m_vScale.x || 1.0f != m_vScale.y || 1.0f != m_vScale.z) // 스케일 값이 있으면..
+	if(1.0f != m_vScale.x || 1.0f != m_vScale.y || 1.0f != m_vScale.z) // If there is a scale value...
 	{
-		mtx.Scale(m_vScale); // 스케일
+		mtx.Scale(m_vScale);
 		m_Matrix *= mtx;
 	}
 	m_Matrix.PosSet(m_vPos);
 
-	if(m_pParent) m_Matrix *= m_pParent->m_Matrix; // 부모 행렬
+	if(m_pParent) m_Matrix *= m_pParent->m_Matrix;
 }
 
 void CN3Joint::MatricesGet(__Matrix44 *pMtxs, int &nJointIndex)
@@ -437,7 +436,7 @@ const float fWeight1 = 1.0f - fWeight0;
 	if(bHaveKey1 && bHaveKey2) 
 		m_qOrient.Slerp(qt1, qt2, fWeight1);
 
-	this->ReCalcMatrix(); // Matrix 계산...
+	this->ReCalcMatrix();
 }
 
 #ifdef _N3TOOL
@@ -488,12 +487,11 @@ void CN3Joint::KeyDelete(CN3Joint *pJoint, int nKS, int nKE)
 		}
 	}
 
-	// Child 를 다시 만들어 준다.
 	int nCC = pJoint->ChildCount();
 	for(auto i = 0; i < nCC; i++)
 	{
 		CN3Joint* pChild = pJoint->Child(i);
-		pChild->KeyDelete(pChild, nKS, nKE); // 하위 조인트를 복사..
+		pChild->KeyDelete(pChild, nKS, nKE);
 	}
 }
 #endif // end of _N3TOOL
@@ -515,7 +513,7 @@ void CN3Joint::AddKey(CN3Joint *pJSrc, int nIndexS, int nIndexE)
 		CN3Joint* pChildSrc = *it;
 		CN3Joint* pChildDest = *it2;
 
-		pChildDest->AddKey(pChildSrc, nIndexS, nIndexE); // 재귀호출
+		pChildDest->AddKey(pChildSrc, nIndexS, nIndexE);
 	}
 }
 #endif // end of _N3TOOL
@@ -556,10 +554,10 @@ void CN3Joint::CopyExceptAnimationKey(CN3Joint *pJSrc)
 	for(; it != itEnd; it++)
 	{
 		CN3Joint* pChildDest = new CN3Joint();
-		this->ChildAdd(pChildDest); // 자식 추가..
+		this->ChildAdd(pChildDest);
 
 		CN3Joint* pChildSrc = *it;
-		pChildDest->CopyExceptAnimationKey(pChildSrc); // 재귀호출
+		pChildDest->CopyExceptAnimationKey(pChildSrc);
 	}
 }
 #endif // end of _N3TOOL

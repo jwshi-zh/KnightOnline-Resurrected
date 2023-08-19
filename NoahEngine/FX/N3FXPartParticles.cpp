@@ -655,7 +655,7 @@ void CN3FXPartParticles::Render()
 {
 	if(m_pVBList_Alive.size()==0) return;
 
-	if(m_bAlpha) // Alpha 사용
+	if(m_bAlpha) // Use Alpha
 	{
 		std::list<CN3FXParticle*>::iterator it;
 		it = m_pVBList_Alive.begin();

@@ -9,10 +9,10 @@ const int MAX_JOINT_TRANSFORM = 64;
 
 class CN3Joint : public CN3Transform
 {
-	friend class CN3Joint; // Position, Rotation, Scale 값들을 자유롭게 다룰수 있어야 한다..
+	friend class CN3Joint;
 public:
-	__Quaternion			m_qOrient;		// Joint Orient Quaternion
-	CN3AnimKey				m_KeyOrient;	// Joint Orient 키값... NULL 이면 없는거다..
+	__Quaternion			m_qOrient;
+	CN3AnimKey				m_KeyOrient;
 
 protected:
 	CN3Joint*				m_pParent;
@@ -48,7 +48,7 @@ public:
 	BOOL FindPointerByID(int nID, CN3Joint *&pJoint);
 #ifdef _N3TOOL
 	BOOL FindIndex(const std::string& szName, int &nIndex);
-	BOOL FindPointerByName(const std::string& szName, CN3Joint *&pJoint); // 이름을 넣으면 해당 노드의 포인터를 돌려준다..
+	BOOL FindPointerByName(const std::string& szName, CN3Joint *&pJoint);
 	void RotSet(const __Quaternion& qtRot) { m_qRot = qtRot; this->ReCalcMatrix(); }
 	void RotSet(float x, float y, float z, float w) { m_qRot.x = x; m_qRot.y = y; m_qRot.z = z; m_qRot.w = w; this->ReCalcMatrix(); }
 	void Render(const __Matrix44* pMtxParent = NULL, float fUnitSize = 0.1f);
