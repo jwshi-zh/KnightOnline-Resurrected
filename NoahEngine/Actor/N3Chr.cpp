@@ -163,7 +163,7 @@ bool CN3CPart::Save(HANDLE hFile)
 }
 #endif // end of _N3TOOL
 
-void CN3CPart::Render(int nLOD)
+void CN3CPart::Render(int nLOD) const
 {
 	if(false == m_bVisible) return;
 	if(nLOD < 0 || nLOD > MAX_CHR_LOD) return;

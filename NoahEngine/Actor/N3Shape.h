@@ -37,7 +37,7 @@ public:
 	virtual bool Save(HANDLE hFile);
 #endif // end of _N3TOOL
 	
-	int			TexCount() { return m_TexRefs.size(); }
+	int			TexCount() const { return m_TexRefs.size(); }
 	CN3Texture* Tex(int iIndex)
 	{
 		if(iIndex < 0 || iIndex >= m_TexRefs.size()) return nullptr;
@@ -66,7 +66,7 @@ public:
 	void ReCalcMatrix(const __Matrix44& mtxParent) { m_Matrix.Identity(); m_Matrix.PosSet(m_vPivot); m_Matrix *= mtxParent; }
 
 	void Tick(const __Matrix44& mtxParent, const __Quaternion& qRot, float fScale); // 부모 행렬 즉 Shape 행렬, 회전쿼터니언 을 넣는다.
-	void Render();
+	void Render() const;
 #ifdef _N3TOOL
 	void RenderSelected(bool bWireFrame);
 	void RenderAxis();

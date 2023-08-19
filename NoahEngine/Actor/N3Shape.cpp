@@ -158,7 +158,7 @@ void CN3SPart::Tick(const __Matrix44& mtxParent, const __Quaternion& qRot, float
 	}
 }
 
-void CN3SPart::Render()
+void CN3SPart::Render() const
 {
 	if(m_bOutOfCameraRange || m_PMInst.GetNumVertices() <= 0) return;
 

@@ -20,7 +20,7 @@ public:
 	__Vector3 Max() { return m_vMax; }
 	void	FindMinMax();
 	
-	int			VertexCount() { return m_nVC; }
+	int			VertexCount() const { return m_nVC; }
 	__VertexT1*	Vertices() { return m_pVertices; }
 	int			IndexCount() { return m_nIC; }
 	WORD*		Indices() { return m_psnIndices; } // 인덱스 버퍼

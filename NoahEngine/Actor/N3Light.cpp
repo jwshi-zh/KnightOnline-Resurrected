@@ -48,7 +48,7 @@ void CN3Light::Tick(float fFrm)
 	m_Data.Position = m_vPos;
 }
 
-void CN3Light::Apply()
+void CN3Light::Apply() const
 {
 	__ASSERT(m_Data.nNumber >= 0 && m_Data.nNumber < 8, "Invalid Light Number");
 	s_lpD3DDev->LightEnable(m_Data.nNumber, m_Data.bOn);

@@ -21,7 +21,8 @@ public:
 	__Vector3	EyePos() { return m_vPos; }
 	__Vector3	AtPos() { return m_vAt; }
 	__Vector3	UpVector() { return m_vScale; } // Rotation 은 LookAt Position 처럼, Scale 은 UpVector 처럼 쓴다..
-	__Vector3	Dir() {__Vector3 vDir = m_vAt - m_vPos; vDir.Normalize(); return vDir;} // 방향을 되돌린다.
+	__Vector3	Dir() const
+	{__Vector3 vDir = m_vAt - m_vPos; vDir.Normalize(); return vDir;} // 방향을 되돌린다.
 
 	void		EyePosSet(const __Vector3& v) { m_vPos = v; }
 	void		EyePosSet(float x, float y, float z) { m_vPos.Set(x, y, z); }
@@ -47,5 +48,5 @@ public:
 
 	void		Tick(float fFrm = FRAME_SELFPLAY); // 카메라값만 단순히 세팅하기만 한다..
 	void		Render(float fUnitSize = 1.0f);
-	void		Apply(); // 세팅된 카메라값을 실제 D3DDevice 에 적용
+	void		Apply() const; // 세팅된 카메라값을 실제 D3DDevice 에 적용
 };

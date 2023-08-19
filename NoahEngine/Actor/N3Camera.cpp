@@ -362,7 +362,7 @@ bool CN3Camera::Save(HANDLE hFile)
 }
 #endif // end of #ifdef _N3TOOL
 
-void CN3Camera::Apply()
+void CN3Camera::Apply() const
 {
 	s_lpD3DDev->SetTransform(D3DTS_VIEW, &m_Data.mtxView);
 	s_lpD3DDev->SetTransform(D3DTS_PROJECTION, &m_Data.mtxProjection); // Projection Matrix Setting

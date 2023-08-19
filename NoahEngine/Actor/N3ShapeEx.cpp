@@ -56,7 +56,7 @@ void CN3SPartEx::Release()
 	m_ActionInfo.ActionStateInfos_Rot.clear();
 }
 
-void CN3SPartEx::Interpolate(const __Matrix44& mtxParent, int iCurActionState, int iNextActionState, float fPercentage)
+void CN3SPartEx::Interpolate(const __Matrix44& mtxParent, int iCurActionState, int iNextActionState, float fPercentage) const
 {
 	if (m_bOutOfCameraRange) return;
 	if (0 == m_ActionInfo.dwActionFlag) return;

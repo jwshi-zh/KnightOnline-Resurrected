@@ -33,10 +33,10 @@ public:
 	__Vector3			Max()	{ return m_vMax; }
 	void				FindMinMax();
 	void				Render(bool bUseTwoUV = false);
-	__VertexT1*			BuildVertexList(); // Vertex Buffer 에다가 점을 만든다.. 동시에 두번 사용하지 않도록 주의가 필요
+	__VertexT1*			BuildVertexList() const; // Vertex Buffer 에다가 점을 만든다.. 동시에 두번 사용하지 않도록 주의가 필요
 	__VertexT2*			BuildVertexListTwoUV(); // Vertex Buffer 에다가 점을 만든다.. 동시에 두번 사용하지 않도록 주의가 필요
 	
-	int					FaceCount() { return m_nFC; }
+	int					FaceCount() const { return m_nFC; }
 	int					VertexCount() { return m_nVC; }
 	__VertexXyzNormal*	Vertices() { return m_pVertices; }
 	WORD*				VertexInices() { return m_pwVtxIndices; }

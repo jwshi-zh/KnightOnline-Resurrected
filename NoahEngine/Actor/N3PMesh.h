@@ -92,7 +92,7 @@ public:
 	
 	void FindMinMax();
 
-	float Radius() { return m_fRadius; }
+	float Radius() const { return m_fRadius; }
 	int	GetMinNumVertices() const {return m_iMinNumVertices;};
 	int	GetMaxNumVertices() const {return m_iMaxNumVertices;};
 	int GetMaxNumIndices() const {return m_iMaxNumIndices;};

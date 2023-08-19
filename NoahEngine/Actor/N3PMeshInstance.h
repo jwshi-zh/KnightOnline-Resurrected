@@ -31,11 +31,12 @@ protected:
 	CN3PMesh*	m_pPMesh;	// 참조 포인터
 
 public:
-	BOOL		IsLOD() { if(nullptr == m_pCollapseUpTo) return FALSE; return TRUE; }
+	BOOL		IsLOD() const
+	{ if(nullptr == m_pCollapseUpTo) return FALSE; return TRUE; }
 	bool		Create(CN3PMesh* pN3Mesh);
 	bool		Create(const std::string& szFN);
 	void		Release();
-	void		Render();
+	void		Render() const;
 	void		RenderTwoUV();
 	// The value you pass into this could be based on distance from camera, frame rate, etc
 	void		SetLOD(float value); // value = Camera Distance / Camera FOV;

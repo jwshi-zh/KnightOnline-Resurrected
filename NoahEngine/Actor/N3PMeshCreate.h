@@ -33,7 +33,7 @@ protected:
 	};
 // Helper function
 	void swap_triangle(WORD *t1, WORD *t2);
-	float GetTriCollapsesLoss(WORD* pTriIndex, bool bArea);
+	float GetTriCollapsesLoss(WORD* pTriIndex, bool bArea) const;
 	void combine_modified(float &sofar, WORD *tri, int which, int what_to, bool bSumOfLoss);
 
 public:

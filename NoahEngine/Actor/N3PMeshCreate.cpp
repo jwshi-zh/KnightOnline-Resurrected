@@ -32,7 +32,7 @@ void CN3PMeshCreate::swap_triangle(WORD *t1, WORD *t2)
 }
 
 // 없어질 삼각형의 넓이 계산, 혹은 변의 길이의 합
-float CN3PMeshCreate::GetTriCollapsesLoss(WORD* pTriIndex, bool bArea)
+float CN3PMeshCreate::GetTriCollapsesLoss(WORD* pTriIndex, bool bArea) const
 {
 	// These are the corners of the triangle.
 	D3DXVECTOR3 pts[3] = {

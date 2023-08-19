@@ -36,7 +36,7 @@ public:
 #endif // end of _N3TOOL
 
 protected:
-	void	Interpolate(const __Matrix44& mtxParent, int iCurActionState, int iNextActionState, float fPercentage);
+	void	Interpolate(const __Matrix44& mtxParent, int iCurActionState, int iNextActionState, float fPercentage) const;
 };
 
 class CN3ShapeEx : public CN3Shape  

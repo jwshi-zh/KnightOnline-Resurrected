@@ -82,7 +82,7 @@ public:
 	void		PosSet(const __Vector3& vPos) { m_vPos = m_Data.Position = vPos; }
 	void		PosSet(float fx, float fy, float fz) { m_Data.Position.x = fx; m_Data.Position.y = fy; m_Data.Position.z = fz; m_vPos = m_Data.Position; }
 
-	void		Apply(); // 세팅된 라이트값을 실제 D3DDevice 에 적용
+	void		Apply() const; // 세팅된 라이트값을 실제 D3DDevice 에 적용
 	void		Tick(float fFrm = FRAME_SELFPLAY); // 라이트값만 세팅한다..
 	
 	bool		Load(HANDLE hFile);

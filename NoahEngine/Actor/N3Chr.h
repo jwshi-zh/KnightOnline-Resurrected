@@ -49,9 +49,9 @@ protected:
 	CN3CPartSkins*		m_pSkinsRef;
 public:
 	bool			Load(HANDLE hFile);
-	void			Render(int nLOD);
+	void			Render(int nLOD) const;
 
-	CN3Texture*		Tex() { return m_pTexRef; }
+	CN3Texture*		Tex() const { return m_pTexRef; }
 	CN3Texture*		TexSet(const std::string& szFN) { s_MngTex.Delete(&m_pTexRef); m_pTexRef = s_MngTex.Get(szFN, true, s_Options.iTexLOD_Chr); return m_pTexRef; }
 	void			TexSet(CN3Texture* pTex) { s_MngTex.Delete(&m_pTexRef); m_pTexRef = pTex; }
 	

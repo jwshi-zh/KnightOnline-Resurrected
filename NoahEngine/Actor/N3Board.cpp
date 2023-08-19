@@ -67,7 +67,7 @@ void CN3Board::Tick(float fFrm)
 	}
 }
 
-void CN3Board::Render()
+void CN3Board::Render() const
 {
 	LPDIRECT3DTEXTURE9 lpTex = nullptr;
 	int iTC = m_TexRefs.size();

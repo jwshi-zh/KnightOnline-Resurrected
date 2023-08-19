@@ -74,7 +74,7 @@ protected:
 	D3DXVECTOR3			m_Force;			// 외부에서 가해지는 힘.
 	
 
-	void				UpdateLocalForce();	
+	void				UpdateLocalForce() const;	
 	void				ApplyForce();
 	void				TickYaw();
 	void				TickByPlayerMotion();

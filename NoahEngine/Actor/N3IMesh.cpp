@@ -87,7 +87,7 @@ bool CN3IMesh::Create(int nFC, int nVC, int nUVC)
 }
 
 
-__VertexT1* CN3IMesh::BuildVertexList()
+__VertexT1* CN3IMesh::BuildVertexList() const
 {
 	if(m_nFC <= 0) return nullptr;
 	if(m_nFC >= MAX_IMESH_BUFFER / 3)

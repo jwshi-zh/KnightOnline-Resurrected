@@ -168,7 +168,7 @@ void CN3Cloak::Render(__Matrix44 &mtx)
 
 #define SPRING_TOLERANCE	0.000001f
 #define SPRING_COEFFICIENT		0.3f
-void CN3Cloak::UpdateLocalForce()
+void CN3Cloak::UpdateLocalForce() const
 {
 	float length;
 

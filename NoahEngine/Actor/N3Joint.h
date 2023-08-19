@@ -35,7 +35,7 @@ public:
 	void ReCalcMatrixBlended(float fFrm0, float fFrm1, float fWeight0);
 	void ParentSet(CN3Joint* pParent);
 	void ChildAdd(CN3Joint* pChild);
-	CN3Joint* Parent() { return m_pParent; }
+	CN3Joint* Parent() const { return m_pParent; }
 	int ChildCount() { return m_Children.size(); }
 	CN3Joint* Child(int index)
 	{
