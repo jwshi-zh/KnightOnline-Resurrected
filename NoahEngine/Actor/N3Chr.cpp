@@ -67,9 +67,9 @@ bool CN3CPartSkins::Save(HANDLE hFile)
 CN3CPart::CN3CPart()
 {
 	m_dwType |= OBJ_CHARACTER_PART;
-	m_pTexRef = NULL;
-	m_pTexOverlapRef = NULL;
-	m_pSkinsRef = NULL;
+	m_pTexRef = nullptr;
+	m_pTexOverlapRef = nullptr;
+	m_pSkinsRef = nullptr;
 
 	m_bVisible = true;
 	m_dwReserved = 0;
@@ -93,8 +93,8 @@ void CN3CPart::Release()
 
 	s_MngTex.Delete(&m_pTexRef);
 	s_MngTex.Delete(&m_pTexOverlapRef);
-	m_pTexRef = NULL;
-	m_pTexOverlapRef = NULL;
+	m_pTexRef = nullptr;
+	m_pTexOverlapRef = nullptr;
 	s_MngSkins.Delete(&m_pSkinsRef);
 
 	CN3BaseFileAccess::Release();
@@ -116,21 +116,21 @@ bool CN3CPart::Load(HANDLE hFile)
 	int nL = 0;
 	char szFN[256] = "";
 
-	ReadFile(hFile, &m_dwReserved, 4, &dwRWC, NULL);
-	ReadFile(hFile, &m_MtlOrg, sizeof(__Material), &dwRWC, NULL);
+	ReadFile(hFile, &m_dwReserved, 4, &dwRWC, nullptr);
+	ReadFile(hFile, &m_MtlOrg, sizeof(__Material), &dwRWC, nullptr);
 	m_Mtl = m_MtlOrg;
 
-	ReadFile(hFile, &nL, 4, &dwRWC, NULL);
+	ReadFile(hFile, &nL, 4, &dwRWC, nullptr);
 	if(nL > 0) 
 	{
-		ReadFile(hFile, szFN, nL, &dwRWC, NULL); szFN[nL] = NULL;
+		ReadFile(hFile, szFN, nL, &dwRWC, nullptr); szFN[nL] = NULL;
 		this->TexSet(szFN);
 	}
 
-	ReadFile(hFile, &nL, 4, &dwRWC, NULL);
+	ReadFile(hFile, &nL, 4, &dwRWC, nullptr);
 	if(nL > 0) 
 	{
-		ReadFile(hFile, szFN, nL, &dwRWC, NULL); szFN[nL] = NULL;
+		ReadFile(hFile, szFN, nL, &dwRWC, nullptr); szFN[nL] = NULL;
 		s_MngSkins.Delete(&m_pSkinsRef);
 		m_pSkinsRef = s_MngSkins.Get(szFN);
 	}
@@ -167,7 +167,7 @@ void CN3CPart::Render(int nLOD)
 {
 	if(false == m_bVisible) return;
 	if(nLOD < 0 || nLOD > MAX_CHR_LOD) return;
-	if(NULL == m_pSkinsRef || m_pSkinsRef->m_Skins[nLOD].VertexCount() <= 0) return;
+	if(nullptr == m_pSkinsRef || m_pSkinsRef->m_Skins[nLOD].VertexCount() <= 0) return;
 
 #ifdef _DEBUG
 	CN3Base::s_RenderInfo.nChr_Part++; // Rendering Information Update...
@@ -175,14 +175,14 @@ void CN3CPart::Render(int nLOD)
 #endif
 
 	static DWORD dwAlpha, dwFog, dwCull;
-	if(m_Mtl.nRenderFlags & RF_ALPHABLENDING) // Alpha »ç¿ë
+	if(m_Mtl.nRenderFlags & RF_ALPHABLENDING) // Alpha ì‚¬ìš©
 	{
 		s_lpD3DDev->GetRenderState(D3DRS_ALPHABLENDENABLE, &dwAlpha);
 		if(TRUE != dwAlpha) s_lpD3DDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 		s_lpD3DDev->SetRenderState(D3DRS_SRCBLEND,   m_Mtl.dwSrcBlend);
 		s_lpD3DDev->SetRenderState(D3DRS_DESTBLEND,  m_Mtl.dwDestBlend);
 	}
-	if(m_Mtl.nRenderFlags & RF_NOTUSEFOG) // Fog ¹«½Ã..
+	if(m_Mtl.nRenderFlags & RF_NOTUSEFOG) // Fog ë¬´ì‹œ..
 	{
 		s_lpD3DDev->GetRenderState(D3DRS_FOGENABLE, &dwFog);
 		if(TRUE == dwFog) s_lpD3DDev->SetRenderState(D3DRS_FOGENABLE, FALSE);
@@ -194,7 +194,7 @@ void CN3CPart::Render(int nLOD)
 	}
 
 	s_lpD3DDev->SetMaterial(&m_Mtl);
-	LPDIRECT3DTEXTURE9 lpTex = NULL;
+	LPDIRECT3DTEXTURE9 lpTex = nullptr;
 	bool bUseTwoUV = false;
 	if(m_pTexRef) lpTex = m_pTexRef->Get();
 	if(lpTex)
@@ -221,7 +221,7 @@ void CN3CPart::Render(int nLOD)
 	{
 		s_lpD3DDev->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
 		s_lpD3DDev->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_DIFFUSE);
-		s_lpD3DDev->SetTexture(0, NULL);
+		s_lpD3DDev->SetTexture(0, nullptr);
 	}
 
 	m_pSkinsRef->m_Skins[nLOD].Render(bUseTwoUV);
@@ -229,11 +229,11 @@ void CN3CPart::Render(int nLOD)
 	if(bUseTwoUV)
 	{
 		s_lpD3DDev->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
-		s_lpD3DDev->SetTexture(1, NULL);
+		s_lpD3DDev->SetTexture(1, nullptr);
 	}
 
 	if((m_Mtl.nRenderFlags & RF_ALPHABLENDING) && FALSE == dwAlpha)		s_lpD3DDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-	if((m_Mtl.nRenderFlags & RF_NOTUSEFOG) && TRUE == dwFog) 			s_lpD3DDev->SetRenderState(D3DRS_FOGENABLE, TRUE); // ¾È°³ »ç¿ëÇÏÁö ¾Ê´Â´Ù..
+	if((m_Mtl.nRenderFlags & RF_NOTUSEFOG) && TRUE == dwFog) 			s_lpD3DDev->SetRenderState(D3DRS_FOGENABLE, TRUE); // ì•ˆê°œ ì‚¬ìš©í•˜ì§€ ì•ŠëŠ”ë‹¤..
 	if((m_Mtl.nRenderFlags & RF_DOUBLESIDED) && D3DCULL_NONE != dwCull) s_lpD3DDev->SetRenderState(D3DRS_CULLMODE, dwCull);
 }
 
@@ -273,8 +273,8 @@ CN3CPlugBase::CN3CPlugBase()
 	m_ePlugType = PLUGTYPE_NORMAL;
 	m_nJointIndex = 0;
 
-	m_pTexRef = NULL;
-	m_pTexOverlapRef = NULL;
+	m_pTexRef = nullptr;
+	m_pTexOverlapRef = nullptr;
 
 	m_bVisible = true;
 	m_Mtl.Init();
@@ -317,7 +317,7 @@ void CN3CPlugBase::ReCalcMatrix()
 //	m_Matrix *= m_MtxRot;
 //	m_Matrix.PosSet(m_vPosition);
 //
-//	__Matrix44 mtxScale; // ÀÏºÎ·¯ ½ºÄÉÀÏ °ªÀ» ³ªÁß¿¡ Àû¿ëÇÏµµ·Ï ¹Ù²Ù¾ú´Ù...
+//	__Matrix44 mtxScale; // ì¼ë¶€ëŸ¬ ìŠ¤ì¼€ì¼ ê°’ì„ ë‚˜ì¤‘ì— ì ìš©í•˜ë„ë¡ ë°”ê¾¸ì—ˆë‹¤...
 //	mtxScale.Scale(m_vScale);
 //	m_Matrix *= mtxScale;
 }
@@ -338,14 +338,14 @@ void CN3CPlugBase::Render(const __Matrix44& mtxParent, const __Matrix44& mtxJoin
 #endif
 
 	DWORD dwAlpha = 0, dwFog = 0, dwCull = 0;
-	if(m_Mtl.nRenderFlags & RF_ALPHABLENDING) // Alpha »ç¿ë
+	if(m_Mtl.nRenderFlags & RF_ALPHABLENDING) // Alpha ì‚¬ìš©
 	{
 		s_lpD3DDev->GetRenderState(D3DRS_ALPHABLENDENABLE, &dwAlpha);
 		if(TRUE != dwAlpha) s_lpD3DDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 		s_lpD3DDev->SetRenderState(D3DRS_SRCBLEND,   m_Mtl.dwSrcBlend);
 		s_lpD3DDev->SetRenderState(D3DRS_DESTBLEND,  m_Mtl.dwDestBlend);
 	}
-	if(m_Mtl.nRenderFlags & RF_NOTUSEFOG) // Fog ¹«½Ã..
+	if(m_Mtl.nRenderFlags & RF_NOTUSEFOG) // Fog ë¬´ì‹œ..
 	{
 		s_lpD3DDev->GetRenderState(D3DRS_FOGENABLE, &dwFog);
 		if(TRUE == dwFog) s_lpD3DDev->SetRenderState(D3DRS_FOGENABLE, FALSE);
@@ -363,7 +363,7 @@ void CN3CPlugBase::Render(const __Matrix44& mtxParent, const __Matrix44& mtxJoin
 	s_lpD3DDev->SetTransform(D3DTS_WORLD, &mtx);
 
 	s_lpD3DDev->SetMaterial(&m_Mtl);
-	LPDIRECT3DTEXTURE9 lpTex = NULL;
+	LPDIRECT3DTEXTURE9 lpTex = nullptr;
 	bool bUseTwoUV = false;
 	if(m_pTexRef) lpTex = m_pTexRef->Get();
 	if(lpTex)
@@ -389,20 +389,20 @@ void CN3CPlugBase::Render(const __Matrix44& mtxParent, const __Matrix44& mtxJoin
 	{
 		s_lpD3DDev->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
 		s_lpD3DDev->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_DIFFUSE);
-		s_lpD3DDev->SetTexture(0, NULL);
+		s_lpD3DDev->SetTexture(0, nullptr);
 	}
 
 	if((m_Mtl.nRenderFlags & RF_ALPHABLENDING) && FALSE == dwAlpha)	s_lpD3DDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-	if((m_Mtl.nRenderFlags & RF_NOTUSEFOG) && TRUE == dwFog) 		s_lpD3DDev->SetRenderState(D3DRS_FOGENABLE, TRUE); // ¾È°³ »ç¿ëÇÏÁö ¾Ê´Â´Ù..
+	if((m_Mtl.nRenderFlags & RF_NOTUSEFOG) && TRUE == dwFog) 		s_lpD3DDev->SetRenderState(D3DRS_FOGENABLE, TRUE); // ì•ˆê°œ ì‚¬ìš©í•˜ì§€ ì•ŠëŠ”ë‹¤..
 	if((m_Mtl.nRenderFlags & RF_DOUBLESIDED) && D3DCULL_NONE != dwCull) 		s_lpD3DDev->SetRenderState(D3DRS_CULLMODE, dwCull);
 
 	if(bUseTwoUV) m_PMeshInst.RenderTwoUV();
 	else m_PMeshInst.Render();
 
-	if(bUseTwoUV) // ÅØ½ºÃ³ ½ºÅ×ÀÌÁö µÎ°³·Î ·»´õ¸µÇÑ´Ù...!!
+	if(bUseTwoUV) // í…ìŠ¤ì²˜ ìŠ¤í…Œì´ì§€ ë‘ê°œë¡œ ë Œë”ë§í•œë‹¤...!!
 	{
 		s_lpD3DDev->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
-		s_lpD3DDev->SetTexture(1, NULL);
+		s_lpD3DDev->SetTexture(1, nullptr);
 	}
 }
 
@@ -433,36 +433,36 @@ bool CN3CPlugBase::Load(HANDLE hFile)
 	int nL = 0;
 	char szFN[512] = "";
 
-	ReadFile(hFile, &m_ePlugType, 4, &dwRWC, NULL); // Plug Type
+	ReadFile(hFile, &m_ePlugType, 4, &dwRWC, nullptr); // Plug Type
 //#ifdef _N3TOOL
 	if (m_ePlugType > PLUGTYPE_MAX)
 	{
 		m_ePlugType = PLUGTYPE_NORMAL;
 	}
 //#endif
-	ReadFile(hFile, &m_nJointIndex, 4, &dwRWC, NULL); // Plug Joint Index
+	ReadFile(hFile, &m_nJointIndex, 4, &dwRWC, nullptr); // Plug Joint Index
 
-	ReadFile(hFile, &m_vPosition, sizeof(m_vPosition), &dwRWC, NULL);
-	ReadFile(hFile, &m_MtxRot, sizeof(m_MtxRot), &dwRWC, NULL);
-	ReadFile(hFile, &m_vScale, sizeof(m_vScale), &dwRWC, NULL);
+	ReadFile(hFile, &m_vPosition, sizeof(m_vPosition), &dwRWC, nullptr);
+	ReadFile(hFile, &m_MtxRot, sizeof(m_MtxRot), &dwRWC, nullptr);
+	ReadFile(hFile, &m_vScale, sizeof(m_vScale), &dwRWC, nullptr);
 
-	ReadFile(hFile, &m_Mtl, sizeof(__Material), &dwRWC, NULL); // ÀçÁú
+	ReadFile(hFile, &m_Mtl, sizeof(__Material), &dwRWC, nullptr); // ì¬ì§ˆ
 
-	ReadFile(hFile, &nL, 4, &dwRWC, NULL);
+	ReadFile(hFile, &nL, 4, &dwRWC, nullptr);
 	if(nL > 0)
 	{
-		ReadFile(hFile, szFN, nL, &dwRWC, NULL); szFN[nL] = NULL;
+		ReadFile(hFile, szFN, nL, &dwRWC, nullptr); szFN[nL] = NULL;
 		this->PMeshSet(szFN);
 	}
 
-	ReadFile(hFile, &nL, 4, &dwRWC, NULL);
+	ReadFile(hFile, &nL, 4, &dwRWC, nullptr);
 	if(nL > 0)
 	{
-		ReadFile(hFile, szFN, nL, &dwRWC, NULL); szFN[nL] = NULL;
+		ReadFile(hFile, szFN, nL, &dwRWC, nullptr); szFN[nL] = NULL;
 		this->TexSet(szFN);
 	}	
 
-	this->ReCalcMatrix(); // Çà·Ä °è»ê...
+	this->ReCalcMatrix(); // í–‰ë ¬ ê³„ì‚°...
 
 	return 0;
 }
@@ -482,7 +482,7 @@ bool CN3CPlugBase::Save(HANDLE hFile)
 	WriteFile(hFile, &m_MtxRot, sizeof(m_MtxRot), &dwRWC, NULL);
 	WriteFile(hFile, &m_vScale, sizeof(m_vScale), &dwRWC, NULL);
 
-	WriteFile(hFile, &m_Mtl, sizeof(__Material), &dwRWC, NULL); // ÀçÁú
+	WriteFile(hFile, &m_Mtl, sizeof(__Material), &dwRWC, NULL); // ì¬ì§ˆ
 
 	nL = 0;
 	CN3PMesh* pPMesh = m_PMeshInst.GetMesh();
@@ -503,7 +503,7 @@ e_PlugType CN3CPlugBase::GetPlugTypeByFileName(const std::string& szFN)
 {
 	if(szFN.empty()) return PLUGTYPE_UNDEFINED;
 	// berserk
-	// ÀÏ´Ü È®ÀåÀÚ·Î ±¸ºĞÇÑ´Ù. º°·Î ÁÁÀº ¹æ¹ı °°Áö´Â ¾ÊÁö¸¸.. N3CPlug, N3CPlug_Cloak
+	// ì¼ë‹¨ í™•ì¥ìë¡œ êµ¬ë¶„í•œë‹¤. ë³„ë¡œ ì¢‹ì€ ë°©ë²• ê°™ì§€ëŠ” ì•Šì§€ë§Œ.. N3CPlug, N3CPlug_Cloak
 	int nL = szFN.size();
 	if (szFN[nL-2] == 'u' && szFN[nL-1] == 'g')
 	{	// PLUGTYPE_NORMAL
@@ -525,15 +525,15 @@ CN3CPlug::CN3CPlug()
 	m_ePlugType = PLUGTYPE_NORMAL;
 
 	m_bRenderTrace = false;
-	m_nTraceStep = 0; // ±ËÀû ¼Ò¸ê ½Ã°£..
-	m_crTrace = 0xfffffff; // ±ËÀû »ö±ò.. °ËÀº»öÀÌ¸é ¾ø´Ù..
-	m_fTrace0 = 0; // ±ËÀû À§Ä¡..
-	m_fTrace1 = 0; // ±ËÀû À§Ä¡..
+	m_nTraceStep = 0; // ê¶¤ì  ì†Œë©¸ ì‹œê°„..
+	m_crTrace = 0xfffffff; // ê¶¤ì  ìƒ‰ê¹”.. ê²€ì€ìƒ‰ì´ë©´ ì—†ë‹¤..
+	m_fTrace0 = 0; // ê¶¤ì  ìœ„ì¹˜..
+	m_fTrace1 = 0; // ê¶¤ì  ìœ„ì¹˜..
 
-	m_pFXMainBundle = NULL;
-	m_pFXPart = NULL;
+	m_pFXMainBundle = nullptr;
+	m_pFXPart = nullptr;
 
-	for(int i=0;i<MAX_FXTAIL;i++) m_pFXTailBundle[i] = NULL;
+	for(int i=0;i<MAX_FXTAIL;i++) m_pFXTailBundle[i] = nullptr;
 
 //	m_strFXName[PLUGATTR_FIRE] = "fx//fire_sword0_1.fxb";
 //	m_strFXName[PLUGATTR_ICE] = "fx//ice_sword0_1.fxb";
@@ -543,11 +543,11 @@ CN3CPlug::CN3CPlug()
 
 CN3CPlug::~CN3CPlug()
 {
-	if(m_pFXMainBundle) { delete m_pFXMainBundle; m_pFXMainBundle = NULL; }
+	if(m_pFXMainBundle) { delete m_pFXMainBundle; m_pFXMainBundle = nullptr; }
 
 	for(int i=0;i<MAX_FXTAIL;i++)
 	{
-		if(m_pFXTailBundle[i]) { delete m_pFXTailBundle[i]; m_pFXTailBundle[i] = NULL; }
+		if(m_pFXTailBundle[i]) { delete m_pFXTailBundle[i]; m_pFXTailBundle[i] = nullptr; }
 	}
 }
 
@@ -556,18 +556,18 @@ void CN3CPlug::Release()
 	CN3CPlugBase::Release();
 
 	m_bRenderTrace = false;
-	m_nTraceStep = 0; // ±ËÀû ¼Ò¸ê ½Ã°£..
-	m_crTrace = 0xffffffff; // ±ËÀû »ö±ò.. °ËÀº»öÀÌ¸é ¾ø´Ù..
-	m_fTrace0 = 0; // ±ËÀû À§Ä¡..
-	m_fTrace1 = 0; // ±ËÀû À§Ä¡..
+	m_nTraceStep = 0; // ê¶¤ì  ì†Œë©¸ ì‹œê°„..
+	m_crTrace = 0xffffffff; // ê¶¤ì  ìƒ‰ê¹”.. ê²€ì€ìƒ‰ì´ë©´ ì—†ë‹¤..
+	m_fTrace0 = 0; // ê¶¤ì  ìœ„ì¹˜..
+	m_fTrace1 = 0; // ê¶¤ì  ìœ„ì¹˜..
 
-	m_PMeshInstFX.Release(); // FX ¿¡ ¾µ PMesh Instance
+	m_PMeshInstFX.Release(); // FX ì— ì“¸ PMesh Instance
 
-	if(m_pFXMainBundle) { delete m_pFXMainBundle; m_pFXMainBundle = NULL; }
+	if(m_pFXMainBundle) { delete m_pFXMainBundle; m_pFXMainBundle = nullptr; }
 
 	for(int i=0;i<MAX_FXTAIL;i++)
 	{
-		if(m_pFXTailBundle[i]) { delete m_pFXTailBundle[i]; m_pFXTailBundle[i] = NULL; }
+		if(m_pFXTailBundle[i]) { delete m_pFXTailBundle[i]; m_pFXTailBundle[i] = nullptr; }
 	}
 }
 
@@ -576,17 +576,17 @@ bool CN3CPlug::Load(HANDLE hFile)
 	CN3CPlugBase::Load(hFile);
 	DWORD dwRWC = 0;
 
-	ReadFile(hFile, &m_nTraceStep, 4, &dwRWC, NULL); // ±ËÀû °¹¼ö..
+	ReadFile(hFile, &m_nTraceStep, 4, &dwRWC, nullptr); // ê¶¤ì  ê°¯ìˆ˜..
 	if(m_nTraceStep > 0)
 	{
-		ReadFile(hFile, &m_crTrace, 4, &dwRWC, NULL); // ±ËÀû »ö±ò.. °ËÀº»öÀÌ¸é ¾ø´Ù..
-		ReadFile(hFile, &m_fTrace0, 4, &dwRWC, NULL); // ±ËÀû À§Ä¡..
-		ReadFile(hFile, &m_fTrace1, 4, &dwRWC, NULL); // ±ËÀû À§Ä¡..
+		ReadFile(hFile, &m_crTrace, 4, &dwRWC, nullptr); // ê¶¤ì  ìƒ‰ê¹”.. ê²€ì€ìƒ‰ì´ë©´ ì—†ë‹¤..
+		ReadFile(hFile, &m_fTrace0, 4, &dwRWC, nullptr); // ê¶¤ì  ìœ„ì¹˜..
+		ReadFile(hFile, &m_fTrace1, 4, &dwRWC, nullptr); // ê¶¤ì  ìœ„ì¹˜..
 	}
 	else m_nTraceStep = 0;
 
 	int iUseVMesh = 0;
-	ReadFile(hFile, &iUseVMesh, 4, &dwRWC, NULL); // ¸Ş½Ã¸¦ ¾²´Â°¡??
+	ReadFile(hFile, &iUseVMesh, 4, &dwRWC, nullptr); // ë©”ì‹œë¥¼ ì“°ëŠ”ê°€??
 	if(iUseVMesh)
 	{
 		CN3PMesh* pPMesh = new CN3PMesh();
@@ -595,7 +595,7 @@ bool CN3CPlug::Load(HANDLE hFile)
 		char szFNTmp[256]; sprintf(szFNTmp, "Temp_Plug_%d.N3PMesh", iSN++);
 		pPMesh->FileNameSet(szFNTmp);
 		s_MngPMesh.Add(pPMesh);
-		m_PMeshInstFX.Create(pPMesh); // FX ¿¡ ¾µ PMesh Instance
+		m_PMeshInstFX.Create(pPMesh); // FX ì— ì“¸ PMesh Instance
 	}
 
 	m_strFXMainName = "";
@@ -610,7 +610,7 @@ void CN3CPlug::InitFX(std::string& szFXMain, std::string& szFXTail, D3DCOLOR Tra
 	if(szFXMain.empty())
 	{
 		if(m_pFXMainBundle) delete m_pFXMainBundle;
-		m_pFXMainBundle = NULL;
+		m_pFXMainBundle = nullptr;
 		m_strFXMainName = szFXMain;
 	}
 	else if(!m_pFXMainBundle || szFXMain!=m_pFXMainBundle->FileName())
@@ -621,7 +621,7 @@ void CN3CPlug::InitFX(std::string& szFXMain, std::string& szFXTail, D3DCOLOR Tra
 		if(!m_pFXMainBundle->LoadFromFile(m_strFXMainName.c_str()))
 		{
 			delete m_pFXMainBundle;
-			m_pFXMainBundle = NULL;
+			m_pFXMainBundle = nullptr;
 			m_strFXMainName = "";
 
 			m_crTrace = 0xffffffff;
@@ -642,7 +642,7 @@ void CN3CPlug::InitFX(std::string& szFXMain, std::string& szFXTail, D3DCOLOR Tra
 		for(int i=0;i<MAX_FXTAIL;i++)
 		{
 			if(m_pFXTailBundle[i]) delete m_pFXTailBundle[i];
-			m_pFXTailBundle[i] = NULL;
+			m_pFXTailBundle[i] = nullptr;
 		}
 	}
 	else if(!m_pFXTailBundle[0] || szFXTail!=m_pFXTailBundle[0]->FileName())
@@ -653,7 +653,7 @@ void CN3CPlug::InitFX(std::string& szFXMain, std::string& szFXTail, D3DCOLOR Tra
 		if(!m_pFXTailBundle[0]->LoadFromFile(m_strFXTailName.c_str()))
 		{
 			delete m_pFXTailBundle[0];
-			m_pFXTailBundle[0] = NULL;
+			m_pFXTailBundle[0] = nullptr;
 			m_strFXTailName = "";
 			return;			
 		}
@@ -681,17 +681,17 @@ bool CN3CPlug::Save(HANDLE hFile)
 	CN3CPlugBase::Save(hFile);
 	DWORD dwRWC = 0;
 
-	WriteFile(hFile, &m_nTraceStep, 4, &dwRWC, NULL); // ±ËÀû °¹¼ö..
+	WriteFile(hFile, &m_nTraceStep, 4, &dwRWC, NULL); // ê¶¤ì  ê°¯ìˆ˜..
 	if(m_nTraceStep > 0 && m_nTraceStep <= MAX_PLUG_TRACE_VERTEX/2 - 1)
 	{
-		WriteFile(hFile, &m_crTrace, 4, &dwRWC, NULL); // ±ËÀû »ö±ò.. °ËÀº»öÀÌ¸é ¾ø´Ù..
-		WriteFile(hFile, &m_fTrace0, 4, &dwRWC, NULL); // ±ËÀû À§Ä¡..
-		WriteFile(hFile, &m_fTrace1, 4, &dwRWC, NULL); // ±ËÀû À§Ä¡..
+		WriteFile(hFile, &m_crTrace, 4, &dwRWC, NULL); // ê¶¤ì  ìƒ‰ê¹”.. ê²€ì€ìƒ‰ì´ë©´ ì—†ë‹¤..
+		WriteFile(hFile, &m_fTrace0, 4, &dwRWC, NULL); // ê¶¤ì  ìœ„ì¹˜..
+		WriteFile(hFile, &m_fTrace1, 4, &dwRWC, NULL); // ê¶¤ì  ìœ„ì¹˜..
 	}
 	else m_nTraceStep = 0;
 	
-	int iUseVMesh = (m_PMeshInstFX.GetMesh()) ? true : false; // ¸Ş½¬.. FX¿¡ ¾´´Ù..
-	WriteFile(hFile, &iUseVMesh, 4, &dwRWC, NULL); // À§Ä¡ Á¤º¸ ¸Ş½Ã¸¦ ¾²´Â°¡??
+	int iUseVMesh = (m_PMeshInstFX.GetMesh()) ? true : false; // ë©”ì‰¬.. FXì— ì“´ë‹¤..
+	WriteFile(hFile, &iUseVMesh, 4, &dwRWC, NULL); // ìœ„ì¹˜ ì •ë³´ ë©”ì‹œë¥¼ ì“°ëŠ”ê°€??
 	if(iUseVMesh) m_PMeshInstFX.GetMesh()->Save(hFile);
 
 	return 0;
@@ -708,7 +708,7 @@ void CN3CPlug::ImportPMesh(const std::string& szFileName)
 #endif
 
 #ifdef _N3TOOL
-void CN3CPlug::RenderFXLines(const __Matrix44& mtxParent, const __Matrix44& mtxJoint) // FX µé¾î°¥ °÷¿¡ ¼±À» ±×·ÁÁØ´Ù.
+void CN3CPlug::RenderFXLines(const __Matrix44& mtxParent, const __Matrix44& mtxJoint) // FX ë“¤ì–´ê°ˆ ê³³ì— ì„ ì„ ê·¸ë ¤ì¤€ë‹¤.
 {
 	static __Matrix44 mtx;
 	mtx = m_Matrix;
@@ -784,7 +784,7 @@ void CN3CPlug::RenderFX(const __Matrix44& mtxParent, const __Matrix44& mtxJoint)
 	//main...
 	/////////////////////////////////////////////////////////////////////
 	///
-	if(m_pFXPart->m_dwRenderFlag & RF_ALPHABLENDING) // Alpha »ç¿ë
+	if(m_pFXPart->m_dwRenderFlag & RF_ALPHABLENDING) // Alpha ì‚¬ìš©
 	{
 		int iTexIdx = m_pFXPart->m_iTexIdx;
 		mtx = m_Matrix;
@@ -805,7 +805,7 @@ void CN3CPlug::RenderFX(const __Matrix44& mtxParent, const __Matrix44& mtxJoint)
 			pAP->dwPrimitiveSize	= sizeof(__VertexT1);
 			pAP->fCameraDistance	= fCameraDist + fHeight;
 
-			pAP->lpTex				= NULL;
+			pAP->lpTex				= nullptr;
 			if(m_pFXPart->m_ppRefTex[iTexIdx])
 				pAP->lpTex = m_pFXPart->m_ppRefTex[iTexIdx]->Get();
 			
@@ -839,7 +839,7 @@ void CN3CPlug::RenderFX(const __Matrix44& mtxParent, const __Matrix44& mtxJoint)
 			pAP->dwPrimitiveSize	= sizeof(__VertexT1);
 			pAP->fCameraDistance	= (s_CameraData.vEye - mtx.Pos()).Magnitude() + fHeight;
 
-			pAP->lpTex				= NULL;
+			pAP->lpTex				= nullptr;
 			iTexIdx = (iTexIdx+1) % m_pFXPart->m_iNumTex;
 			if(m_pFXPart->m_ppRefTex[iTexIdx])
 				pAP->lpTex = m_pFXPart->m_ppRefTex[iTexIdx]->Get();
@@ -870,7 +870,7 @@ void CN3CPlug::RenderFX(const __Matrix44& mtxParent, const __Matrix44& mtxJoint)
 			pAP->dwPrimitiveSize	= sizeof(__VertexT1);
 			pAP->fCameraDistance	= (s_CameraData.vEye - mtx.Pos()).Magnitude() + fHeight;
 
-			pAP->lpTex				= NULL;
+			pAP->lpTex				= nullptr;
 			iTexIdx = (iTexIdx+1) % m_pFXPart->m_iNumTex;
 			if(m_pFXPart->m_ppRefTex[iTexIdx])
 				pAP->lpTex = m_pFXPart->m_ppRefTex[iTexIdx]->Get();
@@ -1020,21 +1020,21 @@ void CN3CPlug_Cloak::SetLOD(int nLOD)
 
 // Part, Plug....
 ////////////////////////////////
-int CN3Chr::s_iLODDelta = 0; // LOD °è»ê¿¡ ÇÊ¿äÇÑ ÀÎµ¦½º..
+int CN3Chr::s_iLODDelta = 0; // LOD ê³„ì‚°ì— í•„ìš”í•œ ì¸ë±ìŠ¤..
 
 CN3Chr::CN3Chr()
 {
 	m_dwType |= OBJ_CHARACTER;
 
-	m_pRootJointRef = NULL;
-	m_pRootJointRef = NULL;
+	m_pRootJointRef = nullptr;
+	m_pRootJointRef = nullptr;
 
-	m_pAniCtrlRef = NULL;
-	m_pMeshCollision = NULL;
-	m_pFXPlug = NULL;
+	m_pAniCtrlRef = nullptr;
+	m_pMeshCollision = nullptr;
+	m_pFXPlug = nullptr;
 
 //	m_pSkinCollision = NULL;
-	m_fAniSpeedDelta = 1.0f;			// ¿¡´Ï¸ŞÀÌ¼Ç ¼Óµµ Á¶Á¤ º¯¼ö 1 ÀÌº¸Åë, ´õ Å©¸é »¡¶óÁø´Ù..
+	m_fAniSpeedDelta = 1.0f;			// ì—ë‹ˆë©”ì´ì…˜ ì†ë„ ì¡°ì • ë³€ìˆ˜ 1 ì´ë³´í†µ, ë” í¬ë©´ ë¹¨ë¼ì§„ë‹¤..
 
 	this->Release();
 }
@@ -1057,8 +1057,8 @@ CN3Chr::~CN3Chr()
 	// Animation Control
 	s_MngAniCtrl.Delete(&m_pAniCtrlRef);
 
-	// Ãæµ¹ ¸Ş½Ã´Â Ä³¸¯ÅÍ¿¡¼­´Â Áö¿î´Ù..
-	delete m_pMeshCollision; m_pMeshCollision = NULL;
+	// ì¶©ëŒ ë©”ì‹œëŠ” ìºë¦­í„°ì—ì„œëŠ” ì§€ìš´ë‹¤..
+	delete m_pMeshCollision; m_pMeshCollision = nullptr;
 
 	delete m_pFXPlug;
 }
@@ -1092,26 +1092,26 @@ void CN3Chr::Release()
 
 	for(auto i = 0; i < MAX_CHR_ANI_PART; i++)
 	{
-		m_nJointPartStarts[i] = -1; // Á¶ÀÎÆ®ÀÇ ÀÏºÎºĞÀÌ µû·Î ¿¡´Ï¸ŞÀÌ¼Ç µÇ¾ß ÇÑ´Ù¸é.. Á¶ÀÎÆ® ÀÎµ¦½º ½ÃÀÛ ¹øÈ£
-		m_nJointPartEnds[i] = -1; // Á¶ÀÎÆ®ÀÇ ÀÏºÎºĞÀÌ µû·Î ¿¡´Ï¸ŞÀÌ¼Ç µÇ¾ß ÇÑ´Ù¸é.. Á¶ÀÎÆ® ÀÎµ¦½º ³¡ ¹øÈ£
+		m_nJointPartStarts[i] = -1; // ì¡°ì¸íŠ¸ì˜ ì¼ë¶€ë¶„ì´ ë”°ë¡œ ì—ë‹ˆë©”ì´ì…˜ ë˜ì•¼ í•œë‹¤ë©´.. ì¡°ì¸íŠ¸ ì¸ë±ìŠ¤ ì‹œì‘ ë²ˆí˜¸
+		m_nJointPartEnds[i] = -1; // ì¡°ì¸íŠ¸ì˜ ì¼ë¶€ë¶„ì´ ë”°ë¡œ ì—ë‹ˆë©”ì´ì…˜ ë˜ì•¼ í•œë‹¤ë©´.. ì¡°ì¸íŠ¸ ì¸ë±ìŠ¤ ë ë²ˆí˜¸
 
 		m_FrmCtrl.Init();
 		m_FrmCtrlUpper.Init();
 	}
 
-	m_fAniSpeedDelta = 1.0f;			// ¿¡´Ï¸ŞÀÌ¼Ç ¼Óµµ Á¶Á¤ º¯¼ö 1 ÀÌº¸Åë, ´õ Å©¸é »¡¶óÁø´Ù..
+	m_fAniSpeedDelta = 1.0f;			// ì—ë‹ˆë©”ì´ì…˜ ì†ë„ ì¡°ì • ë³€ìˆ˜ 1 ì´ë³´í†µ, ë” í¬ë©´ ë¹¨ë¼ì§„ë‹¤..
 
-	// Ãæµ¹ ¸Ş½Ã´Â Ä³¸¯ÅÍ¿¡¼­´Â Áö¿î´Ù..
-	delete m_pMeshCollision; m_pMeshCollision = NULL;
+	// ì¶©ëŒ ë©”ì‹œëŠ” ìºë¦­í„°ì—ì„œëŠ” ì§€ìš´ë‹¤..
+	delete m_pMeshCollision; m_pMeshCollision = nullptr;
 
-	if (m_pFXPlug) {delete m_pFXPlug; m_pFXPlug = NULL;}
+	if (m_pFXPlug) {delete m_pFXPlug; m_pFXPlug = nullptr;}
 
 	CN3TransformCollision::Release();
 }
 
 bool CN3Chr::Load(HANDLE hFile)
 {
-	if(m_pRootJointRef != NULL) CN3Chr::Release();
+	if(m_pRootJointRef != nullptr) CN3Chr::Release();
 
 	CN3TransformCollision::Load(hFile);
 
@@ -1120,36 +1120,36 @@ bool CN3Chr::Load(HANDLE hFile)
 	int nL = 0;
 	char szFN[512] = "";
 
-	ReadFile(hFile, &nL, 4, &dwRWC, NULL);
-	ReadFile(hFile, szFN, nL, &dwRWC, NULL); szFN[nL] = NULL;
-	this->JointSet(szFN); // »À´ë ¼¼ÆÃ..
+	ReadFile(hFile, &nL, 4, &dwRWC, nullptr);
+	ReadFile(hFile, szFN, nL, &dwRWC, nullptr); szFN[nL] = NULL;
+	this->JointSet(szFN); // ë¼ˆëŒ€ ì„¸íŒ…..
 
 	// Part Allocation, Loading .. 
 	int iPC = 0;
-	ReadFile(hFile, &iPC, 4, &dwRWC, NULL);
+	ReadFile(hFile, &iPC, 4, &dwRWC, nullptr);
 	this->PartAlloc(iPC);
 	for(int i = 0; i < iPC; i++)
 	{
 		nL = 0;
-		ReadFile(hFile, &nL, 4, &dwRWC, NULL);
+		ReadFile(hFile, &nL, 4, &dwRWC, nullptr);
 		if(nL > 0)
 		{
-			ReadFile(hFile, szFN, nL, &dwRWC, NULL); szFN[nL] = NULL;
+			ReadFile(hFile, szFN, nL, &dwRWC, nullptr); szFN[nL] = NULL;
 			m_Parts[i]->LoadFromFile(szFN);
 		}
 	}
 	
 	// Plug Allocation, Loading .. 
 	m_Plugs.clear();
-	ReadFile(hFile, &iPC, 4, &dwRWC, NULL);
+	ReadFile(hFile, &iPC, 4, &dwRWC, nullptr);
 	this->PlugAlloc(iPC);
 	for(auto i = 0; i < iPC; i++)
 	{
 		nL = 0;
-		ReadFile(hFile, &nL, 4, &dwRWC, NULL);
+		ReadFile(hFile, &nL, 4, &dwRWC, nullptr);
 		if(nL > 0)
 		{
-			ReadFile(hFile, szFN, nL, &dwRWC, NULL); szFN[nL] = NULL;
+			ReadFile(hFile, szFN, nL, &dwRWC, nullptr); szFN[nL] = NULL;
 			m_Plugs[i]->LoadFromFile(szFN);
 
 //			CN3CPlugBase* pPlug = NULL;
@@ -1182,38 +1182,38 @@ bool CN3Chr::Load(HANDLE hFile)
 
 	// Animation Control..
 	nL = 0;
-	ReadFile(hFile, &nL, 4, &dwRWC, NULL);
+	ReadFile(hFile, &nL, 4, &dwRWC, nullptr);
 	if(nL > 0)
 	{
-		ReadFile(hFile, szFN, nL, &dwRWC, NULL); szFN[nL] = NULL;
+		ReadFile(hFile, szFN, nL, &dwRWC, nullptr); szFN[nL] = NULL;
 		this->AniCtrlSet(szFN);
 	}
 
-	ReadFile(hFile, m_nJointPartStarts, sizeof(m_nJointPartStarts), &dwRWC, NULL); // Á¶ÀÎÆ®ÀÇ ÀÏºÎºĞÀÌ µû·Î ¿¡´Ï¸ŞÀÌ¼Ç µÇ¾ß ÇÑ´Ù¸é.. Á¶ÀÎÆ® ÀÎµ¦½º ½ÃÀÛ ¹øÈ£
-	ReadFile(hFile, m_nJointPartEnds, sizeof(m_nJointPartEnds), &dwRWC, NULL); // Á¶ÀÎÆ®ÀÇ ÀÏºÎºĞÀÌ µû·Î ¿¡´Ï¸ŞÀÌ¼Ç µÇ¾ß ÇÑ´Ù¸é.. Á¶ÀÎÆ® ÀÎµ¦½º ³¡ ¹øÈ£
+	ReadFile(hFile, m_nJointPartStarts, sizeof(m_nJointPartStarts), &dwRWC, nullptr); // ì¡°ì¸íŠ¸ì˜ ì¼ë¶€ë¶„ì´ ë”°ë¡œ ì—ë‹ˆë©”ì´ì…˜ ë˜ì•¼ í•œë‹¤ë©´.. ì¡°ì¸íŠ¸ ì¸ë±ìŠ¤ ì‹œì‘ ë²ˆí˜¸
+	ReadFile(hFile, m_nJointPartEnds, sizeof(m_nJointPartEnds), &dwRWC, nullptr); // ì¡°ì¸íŠ¸ì˜ ì¼ë¶€ë¶„ì´ ë”°ë¡œ ì—ë‹ˆë©”ì´ì…˜ ë˜ì•¼ í•œë‹¤ë©´.. ì¡°ì¸íŠ¸ ì¸ë±ìŠ¤ ë ë²ˆí˜¸
 
 //////////////////////////////////////////////////
-//	Coded (By Dino On 2002-10-10 ¿ÀÈÄ 2:33:07 )
+//	Coded (By Dino On 2002-10-10 ì˜¤í›„ 2:33:07 )
 //	FXPlug
 	nL = 0;
-	ReadFile(hFile, &nL, sizeof(nL), &dwRWC, NULL);
+	ReadFile(hFile, &nL, sizeof(nL), &dwRWC, nullptr);
 	if (nL > 0)
 	{
-		ReadFile(hFile, szFN, nL, &dwRWC, NULL); szFN[nL] = NULL;
+		ReadFile(hFile, szFN, nL, &dwRWC, nullptr); szFN[nL] = NULL;
 		FXPlugSet(szFN);
 	}
-//	End Of Code (By Dino On 2002-10-10 ¿ÀÈÄ 2:33:07 )
+//	End Of Code (By Dino On 2002-10-10 ì˜¤í›„ 2:33:07 )
 //////////////////////////////////////////////////
 	
 
-	this->Init(); // ¿¡´Ï¸ŞÀÌ¼Ç, Á¶ÀÎÆ®, ÇÃ·¯±×µî.... ÃÊ±âÈ­ ÀÛ¾÷ ¼öÇà..
+	this->Init(); // ì—ë‹ˆë©”ì´ì…˜, ì¡°ì¸íŠ¸, í”ŒëŸ¬ê·¸ë“±.... ì´ˆê¸°í™” ì‘ì—… ìˆ˜í–‰..
 
 	return 0;
 }
 
 __AnimData* CN3Chr::AniDataCur()
 {
-	if(NULL == m_pAniCtrlRef) return NULL;
+	if(nullptr == m_pAniCtrlRef) return nullptr;
 	return m_pAniCtrlRef->DataGet(m_FrmCtrl.iAni);
 }
 
@@ -1231,12 +1231,12 @@ bool CN3Chr::Save(HANDLE hFile)
 	DWORD dwRWC = 0;
 	int nL = 0;
 
-	// °üÀı ÆÄÀÏ ÀÌ¸§ ½áÁÖ±â..
+	// ê´€ì ˆ íŒŒì¼ ì´ë¦„ ì¨ì£¼ê¸°..
 	if(m_pRootJointRef) nL = m_pRootJointRef->FileName().size();
 	WriteFile(hFile, &nL, 4, &dwRWC, NULL);
 	if(nL > 0) WriteFile(hFile, m_pRootJointRef->FileName().c_str(), nL, &dwRWC, NULL);
 
-	// ³»¿ëÀÌ ¾ø´Â Part Data´Â °É·¯³½´Ù..
+	// ë‚´ìš©ì´ ì—†ëŠ” Part DataëŠ” ê±¸ëŸ¬ë‚¸ë‹¤..
 	std::vector<CN3CPart*> PartsTmp = m_Parts;
 	m_Parts.clear();
 	m_Parts.reserve(64);
@@ -1260,18 +1260,18 @@ bool CN3Chr::Save(HANDLE hFile)
 			}
 		}
 
-		if(bHaveData) // ½ÇÁ¦ µ¥ÀÌÅÍ°¡ ÀÖÀ¸¸é..
+		if(bHaveData) // ì‹¤ì œ ë°ì´í„°ê°€ ìˆìœ¼ë©´..
 		{
 			m_Parts.push_back(pPart);
 		}
-		else // ¾øÀ¸¸é..
+		else // ì—†ìœ¼ë©´..
 		{
-			delete pPart; // Áö¿î´Ù..
+			delete pPart; // ì§€ìš´ë‹¤..
 			*it = NULL;
 		}
 	}
 
-	// ½ÇÁ¦ ÀúÀå..
+	// ì‹¤ì œ ì €ì¥..
 	int iPC = m_Parts.size();
 	WriteFile(hFile, &iPC, 4, &dwRWC, NULL);
 	for(int i = 0; i < iPC; i++)
@@ -1322,11 +1322,11 @@ bool CN3Chr::Save(HANDLE hFile)
 		WriteFile(hFile, m_pAniCtrlRef->FileName().c_str(), nL, &dwRWC, NULL);
 	}
 
-	WriteFile(hFile, m_nJointPartStarts, sizeof(m_nJointPartStarts), &dwRWC, NULL); // Á¶ÀÎÆ®ÀÇ ÀÏºÎºĞÀÌ µû·Î ¿¡´Ï¸ŞÀÌ¼Ç µÇ¾ß ÇÑ´Ù¸é.. Á¶ÀÎÆ® ÀÎµ¦½º ½ÃÀÛ ¹øÈ£
-	WriteFile(hFile, m_nJointPartEnds, sizeof(m_nJointPartEnds), &dwRWC, NULL); // Á¶ÀÎÆ®ÀÇ ÀÏºÎºĞÀÌ µû·Î ¿¡´Ï¸ŞÀÌ¼Ç µÇ¾ß ÇÑ´Ù¸é.. Á¶ÀÎÆ® ÀÎµ¦½º ³¡ ¹øÈ£
+	WriteFile(hFile, m_nJointPartStarts, sizeof(m_nJointPartStarts), &dwRWC, NULL); // ì¡°ì¸íŠ¸ì˜ ì¼ë¶€ë¶„ì´ ë”°ë¡œ ì—ë‹ˆë©”ì´ì…˜ ë˜ì•¼ í•œë‹¤ë©´.. ì¡°ì¸íŠ¸ ì¸ë±ìŠ¤ ì‹œì‘ ë²ˆí˜¸
+	WriteFile(hFile, m_nJointPartEnds, sizeof(m_nJointPartEnds), &dwRWC, NULL); // ì¡°ì¸íŠ¸ì˜ ì¼ë¶€ë¶„ì´ ë”°ë¡œ ì—ë‹ˆë©”ì´ì…˜ ë˜ì•¼ í•œë‹¤ë©´.. ì¡°ì¸íŠ¸ ì¸ë±ìŠ¤ ë ë²ˆí˜¸
 
 //////////////////////////////////////////////////
-//	Coded (By Dino On 2002-10-11 ¿ÀÈÄ 2:19:11 )
+//	Coded (By Dino On 2002-10-11 ì˜¤í›„ 2:19:11 )
 //	FXPlug
 	nL = 0;
 	if (m_pFXPlug) nL = m_pFXPlug->FileName().size();
@@ -1336,7 +1336,7 @@ bool CN3Chr::Save(HANDLE hFile)
 		WriteFile(hFile, m_pFXPlug->FileName().c_str(), nL, &dwRWC, NULL);
 		m_pFXPlug->SaveToFile();
 	}
-//	End Of Code (By Dino On 2002-10-11 ¿ÀÈÄ 2:19:11 )
+//	End Of Code (By Dino On 2002-10-11 ì˜¤í›„ 2:19:11 )
 //////////////////////////////////////////////////
 
 	return true;
@@ -1345,13 +1345,13 @@ bool CN3Chr::Save(HANDLE hFile)
 
 void CN3Chr::Tick(float fFrm)
 {
-	if(NULL == m_pRootJointRef)
+	if(nullptr == m_pRootJointRef)
 	{
 		m_nLOD = -1;
 		return;
 	}
 
-	// Ä«¸Ş¶ó¿Í ¸Ö¸® ¶³¾îÁö¸é Áö³ª°£´Ù..
+	// ì¹´ë©”ë¼ì™€ ë©€ë¦¬ ë–¨ì–´ì§€ë©´ ì§€ë‚˜ê°„ë‹¤..
 	float fDist = (m_vPos - s_CameraData.vEye).Magnitude();
 	if(fDist > s_CameraData.fFP + m_fRadius * 2.0f)
 	{
@@ -1359,38 +1359,38 @@ void CN3Chr::Tick(float fFrm)
 		return;
 	}
 
-	// LOD °áÁ¤...
+	// LOD ê²°ì •...
 	m_nLOD = MAX_CHR_LOD;
-	float fLOD = fDist * s_CameraData.fFOV / (m_fRadius * m_vScale.x); // µ¢Ä¡¿¡ ºñ·ÊÇÏ°Ô ÇÑ´Ù..
+	float fLOD = fDist * s_CameraData.fFOV / (m_fRadius * m_vScale.x); // ë©ì¹˜ì— ë¹„ë¡€í•˜ê²Œ í•œë‹¤..
 	for(int i = 0; i < MAX_CHR_LOD; i++)
 	{
-		if(fLOD < CHR_LOD_CALCULATION_VALUES[0][i]) // ÀÏ´Ü °¡Àå Å«°ªÀ» ±âÁØÀ¸·Î ÇÏ°í LOD °ªÀ» Á¤ÇÑ ´ÙÀ½..... Render ¿¡¼­ º¯°æÇÑ´Ù....
+		if(fLOD < CHR_LOD_CALCULATION_VALUES[0][i]) // ì¼ë‹¨ ê°€ì¥ í°ê°’ì„ ê¸°ì¤€ìœ¼ë¡œ í•˜ê³  LOD ê°’ì„ ì •í•œ ë‹¤ìŒ..... Render ì—ì„œ ë³€ê²½í•œë‹¤....
 		{
 			m_nLOD = i;
 			break;
 		}
 	}
-	if(m_nLOD < 0 && m_nLOD >= MAX_CHR_LOD) return; // LOD ¹ÛÀÌ¸é ³ª°£´Ù.
+	if(m_nLOD < 0 && m_nLOD >= MAX_CHR_LOD) return; // LOD ë°–ì´ë©´ ë‚˜ê°„ë‹¤.
 
 	static __Vector3 vPos2;
 	vPos2 = m_vPos;
 	vPos2.y += 1.8f;
 	float fOffset = m_fRadius * 3.0f + 2.0f;
 	if(	s_CameraData.IsOutOfFrustum(m_vPos, fOffset) &&
-		s_CameraData.IsOutOfFrustum(vPos2, fOffset) ) // Ä«¸Ş¶ó »ç¸éÃ¼ ¹Ù±ùÀÌ¸é Áö³ª°£´Ù.. Çö ÁöÁ¡°ú ¸Ó¸® ³¡Á¡À» Á¶»ç..
+		s_CameraData.IsOutOfFrustum(vPos2, fOffset) ) // ì¹´ë©”ë¼ ì‚¬ë©´ì²´ ë°”ê¹¥ì´ë©´ ì§€ë‚˜ê°„ë‹¤.. í˜„ ì§€ì ê³¼ ë¨¸ë¦¬ ëì ì„ ì¡°ì‚¬..
 	{
 		m_nLOD = -1;
 		return;
 	}
 
-	m_FrmCtrl.fFrmPrev = m_FrmCtrl.fFrmCur; // ¸¶Áö¸· ¿¡´Ï¸ŞÀÌ¼Ç ÇÁ·¹ÀÓÀ» ±â¾ïÇØ ³õ°í..
+	m_FrmCtrl.fFrmPrev = m_FrmCtrl.fFrmCur; // ë§ˆì§€ë§‰ ì—ë‹ˆë©”ì´ì…˜ í”„ë ˆì„ì„ ê¸°ì–µí•´ ë†“ê³ ..
 	m_FrmCtrlUpper.fFrmPrev = m_FrmCtrlUpper.fFrmCur;
 
 	if(fFrm == FRAME_SELFPLAY) this->TickAnimationFrame();
 	else
 	{
 		int iJC = m_JointRefs.size();
-		for(auto i = 0; i < iJC; i++) // °Á ´Ü¼øÈ÷ Á¶ÀÎÆ®¸¸ Tick ÇØÁÖ°í ³ª°£´Ù..
+		for(auto i = 0; i < iJC; i++) // ê± ë‹¨ìˆœíˆ ì¡°ì¸íŠ¸ë§Œ Tick í•´ì£¼ê³  ë‚˜ê°„ë‹¤..
 		{
 			m_JointRefs[i]->TickAnimationKey(fFrm);
 			m_JointRefs[i]->ReCalcMatrix();
@@ -1402,22 +1402,22 @@ void CN3Chr::Tick(float fFrm)
 		m_FrmCtrl.fBlendTime = 0;
 	}
 
-	if(!m_Plugs.empty()) this->TickPlugs(fLOD); // ºÙÀº ¹«±â Tick
+	if(!m_Plugs.empty()) this->TickPlugs(fLOD); // ë¶™ì€ ë¬´ê¸° Tick
 
 //////////////////////////////////////////////////
-//	Coded (By Dino On 2002-10-11 ¿ÀÀü 11:21:21 )
+//	Coded (By Dino On 2002-10-11 ì˜¤ì „ 11:21:21 )
 //	FXPlug
 	if (m_pFXPlug) m_pFXPlug->Tick(this);
-//	End Of Code (By Dino On 2002-10-11 ¿ÀÀü 11:21:21 )
+//	End Of Code (By Dino On 2002-10-11 ì˜¤ì „ 11:21:21 )
 //////////////////////////////////////////////////
 
 }
 
 void CN3Chr::TickAnimationFrame()
 {
-	if(NULL == m_FrmCtrl.pAniData) return; // ¿¡´Ï¸ŞÀÌ¼Ç µ¥ÀÌÅÍ °¡ ¾ø´Ù!!
+	if(nullptr == m_FrmCtrl.pAniData) return; // ì—ë‹ˆë©”ì´ì…˜ ë°ì´í„° ê°€ ì—†ë‹¤!!
 
-	// ·çÇÎÁßÀÌ°í Áö¿¬½Ã°£ÀÌ ÀÖÀ¸¸é..
+	// ë£¨í•‘ì¤‘ì´ê³  ì§€ì—°ì‹œê°„ì´ ìˆìœ¼ë©´..
 	if(	(m_FrmCtrl.pAniData->iBlendFlags & 1) &&
 		m_FrmCtrl.iAniLoop > 0 && 
 		m_FrmCtrl.bProcessingDelayNow && 
@@ -1430,32 +1430,32 @@ void CN3Chr::TickAnimationFrame()
 		m_FrmCtrl.iAniLoop = 0;
 	}
 
-	float fDelta = s_fSecPerFrm * m_fAniSpeedDelta;			// ¿¡´Ï¸ŞÀÌ¼Ç ¼Óµµ Á¶Á¤ º¯¼ö 1 ÀÌº¸Åë, ´õ Å©¸é »¡¶óÁø´Ù..
+	float fDelta = s_fSecPerFrm * m_fAniSpeedDelta;			// ì—ë‹ˆë©”ì´ì…˜ ì†ë„ ì¡°ì • ë³€ìˆ˜ 1 ì´ë³´í†µ, ë” í¬ë©´ ë¹¨ë¼ì§„ë‹¤..
 
-	if(0.0f != m_FrmCtrl.fBlendTime) // Blending ÇÒ ¿¡´Ï¸ŞÀÌ¼ÇÀÌ ÀÖÀ¸¸é..
+	if(0.0f != m_FrmCtrl.fBlendTime) // Blending í•  ì—ë‹ˆë©”ì´ì…˜ì´ ìˆìœ¼ë©´..
 	{
 		m_FrmCtrl.fBlendTimeCur += fDelta;
-		if(m_FrmCtrl.fBlendTimeCur > m_FrmCtrl.fBlendTime) // Blending ÀÌ ³¡³µ´Ù.
+		if(m_FrmCtrl.fBlendTimeCur > m_FrmCtrl.fBlendTime) // Blending ì´ ëë‚¬ë‹¤.
 		{
 			m_FrmCtrl.fBlendTime = 0.0f;
 			m_FrmCtrl.fBlendTimeCur = 0.0f;
-			m_FrmCtrl.bProcessingDelayNow = false; // Áö¿¬Ã³¸® ³¡..
+			m_FrmCtrl.bProcessingDelayNow = false; // ì§€ì—°ì²˜ë¦¬ ë..
 		}
 	}
-	else // ºí·»µù ÇÒ°Ô ¾øÀ¸¸é..
+	else // ë¸”ë Œë”© í• ê²Œ ì—†ìœ¼ë©´..
 	{
 		m_FrmCtrl.fFrmCur += m_FrmCtrl.pAniData->fFrmPerSec * fDelta; // Frame Tick
 		if(m_FrmCtrl.fFrmCur < m_FrmCtrl.pAniData->fFrmStart) m_FrmCtrl.fFrmCur = m_FrmCtrl.pAniData->fFrmStart;
-		if(m_FrmCtrl.fFrmCur > m_FrmCtrl.pAniData->fFrmEnd) // ¿¡´Ï¸ŞÀÌ¼ÇÀÌ ÇÑ¹ø ¼øÈ¯ÇÏ¸é..
+		if(m_FrmCtrl.fFrmCur > m_FrmCtrl.pAniData->fFrmEnd) // ì—ë‹ˆë©”ì´ì…˜ì´ í•œë²ˆ ìˆœí™˜í•˜ë©´..
 		{
-			if(m_FrmCtrl.fFreezeTime > 0) // ¸ØÃç¾ß µÈ´Ù¸é..
+			if(m_FrmCtrl.fFreezeTime > 0) // ë©ˆì¶°ì•¼ ëœë‹¤ë©´..
 			{
-				m_FrmCtrl.fFrmCur = m_FrmCtrl.pAniData->fFrmEnd; // ¿¡´Ï¸ŞÀÌ¼Ç µ¥ÀÌÅÍÀÇ ¸¶Áö¸· ÇÁ·¹ÀÓÀ¸·Î ÇÏ°í..
-				m_FrmCtrl.fFreezeTime -= fDelta; // ¸ØÃâ ½Ã°£..
+				m_FrmCtrl.fFrmCur = m_FrmCtrl.pAniData->fFrmEnd; // ì—ë‹ˆë©”ì´ì…˜ ë°ì´í„°ì˜ ë§ˆì§€ë§‰ í”„ë ˆì„ìœ¼ë¡œ í•˜ê³ ..
+				m_FrmCtrl.fFreezeTime -= fDelta; // ë©ˆì¶œ ì‹œê°„..
 				if(m_FrmCtrl.fFreezeTime < 0)
 				{
-					m_FrmCtrl.fFreezeTime = 0; // ¸ØÃß´Â ½Ã°£ ´Ù½Ã ¼¼ÆÃ..
-					m_FrmCtrl.iAniLoop++; // ¿¡´Ï¸ŞÀÌ¼Ç ÇÑ¹ø Çß´Ù~
+					m_FrmCtrl.fFreezeTime = 0; // ë©ˆì¶”ëŠ” ì‹œê°„ ë‹¤ì‹œ ì„¸íŒ…..
+					m_FrmCtrl.iAniLoop++; // ì—ë‹ˆë©”ì´ì…˜ í•œë²ˆ í–ˆë‹¤~
 				}
 			}
 			else
@@ -1463,11 +1463,11 @@ void CN3Chr::TickAnimationFrame()
 				m_FrmCtrl.fFreezeTime = 0;
 				m_FrmCtrl.iAniLoop++;
 
-				if(m_FrmCtrl.bOnceAndFreeze) m_FrmCtrl.fFrmCur = m_FrmCtrl.pAniData->fFrmEnd; // ÇÑ¹ø ¿¡´Ï¸ŞÀÌ¼Ç ÇÏ°í ¸ØÃç¾ß ÇÑ´Ù¸é.. °Á ¸ØÃç ÀÖ´Â´Ù..
-				else if(m_FrmCtrl.pAniData->iBlendFlags & 1) // ·çÇÎ Áö¿¬½Ã°£ÀÌ ÀÖÀ¸¸é..
+				if(m_FrmCtrl.bOnceAndFreeze) m_FrmCtrl.fFrmCur = m_FrmCtrl.pAniData->fFrmEnd; // í•œë²ˆ ì—ë‹ˆë©”ì´ì…˜ í•˜ê³  ë©ˆì¶°ì•¼ í•œë‹¤ë©´.. ê± ë©ˆì¶° ìˆëŠ”ë‹¤..
+				else if(m_FrmCtrl.pAniData->iBlendFlags & 1) // ë£¨í•‘ ì§€ì—°ì‹œê°„ì´ ìˆìœ¼ë©´..
 				{
 					m_FrmCtrl.fFrmCur = m_FrmCtrl.pAniData->fFrmEnd;
-					m_FrmCtrl.bProcessingDelayNow = true; // Áö¿¬ Ã³¸®.. ½ÃÀÛ..
+					m_FrmCtrl.bProcessingDelayNow = true; // ì§€ì—° ì²˜ë¦¬.. ì‹œì‘..
 				}
 				else
 				{
@@ -1477,49 +1477,49 @@ void CN3Chr::TickAnimationFrame()
 				}
 			}
 		}
-	} // end of else // ºí·»µù ÇÒ°Ô ¾øÀ¸¸é..
+	} // end of else // ë¸”ë Œë”© í• ê²Œ ì—†ìœ¼ë©´..
 
-	if(m_FrmCtrlUpper.pAniData) // »óÇÏÃ¼¸¦ ºĞ¸®ÇØ¾ß ÇÏ¸é.. // µû·Î Ã³¸®ÇØ¾ß ÇÑ´Ù¸é..
+	if(m_FrmCtrlUpper.pAniData) // ìƒí•˜ì²´ë¥¼ ë¶„ë¦¬í•´ì•¼ í•˜ë©´.. // ë”°ë¡œ ì²˜ë¦¬í•´ì•¼ í•œë‹¤ë©´..
 	{
-		if(0.0f != m_FrmCtrlUpper.fBlendTime) // Blending ÇÒ ¿¡´Ï¸ŞÀÌ¼ÇÀÌ ÀÖÀ¸¸é..
+		if(0.0f != m_FrmCtrlUpper.fBlendTime) // Blending í•  ì—ë‹ˆë©”ì´ì…˜ì´ ìˆìœ¼ë©´..
 		{
 			m_FrmCtrlUpper.fBlendTimeCur += fDelta;
-			if(	m_FrmCtrlUpper.fBlendTimeCur > m_FrmCtrlUpper.fBlendTime) // Blending ÀÌ ³¡³µ´Ù.
+			if(	m_FrmCtrlUpper.fBlendTimeCur > m_FrmCtrlUpper.fBlendTime) // Blending ì´ ëë‚¬ë‹¤.
 			{
-				if( m_FrmCtrlUpper.iAniLoop > 0) // ºí·»µù ³¡.. ÀÌÁ¨ ÇÏÃ¼·Î¸¸ ¿¡´Ï¸ŞÀÌ¼Ç ¸ÂÃá´Ù.
-					m_FrmCtrlUpper.Init(); // »óÃ¼ ¿¡´Ï¸ŞÀÌ¼Ç ³¡!!				
+				if( m_FrmCtrlUpper.iAniLoop > 0) // ë¸”ë Œë”© ë.. ì´ì   í•˜ì²´ë¡œë§Œ ì—ë‹ˆë©”ì´ì…˜ ë§ì¶˜ë‹¤.
+					m_FrmCtrlUpper.Init(); // ìƒì²´ ì—ë‹ˆë©”ì´ì…˜ ë!!				
 				else
 					m_FrmCtrlUpper.fBlendTime = 0;
 			}
 		}
-		else // ºí·»µù ÇÒ°Ô ¾øÀ¸¸é..
+		else // ë¸”ë Œë”© í• ê²Œ ì—†ìœ¼ë©´..
 		{
 			m_FrmCtrlUpper.fFrmCur += m_FrmCtrlUpper.pAniData->fFrmPerSec * fDelta; // Frame Tick
 			if(m_FrmCtrlUpper.fFrmCur < m_FrmCtrlUpper.pAniData->fFrmStart) m_FrmCtrlUpper.fFrmCur = m_FrmCtrlUpper.pAniData->fFrmStart;
-			if(m_FrmCtrlUpper.fFrmCur > m_FrmCtrlUpper.pAniData->fFrmEnd) // ¿¡´Ï¸ŞÀÌ¼ÇÀÌ ÇÑ¹ø ¼øÈ¯ÇÏ¸é..
+			if(m_FrmCtrlUpper.fFrmCur > m_FrmCtrlUpper.pAniData->fFrmEnd) // ì—ë‹ˆë©”ì´ì…˜ì´ í•œë²ˆ ìˆœí™˜í•˜ë©´..
 			{
-				if(m_FrmCtrlUpper.fFreezeTime > 0) // ¸ØÃç¾ß µÈ´Ù¸é..
+				if(m_FrmCtrlUpper.fFreezeTime > 0) // ë©ˆì¶°ì•¼ ëœë‹¤ë©´..
 				{
-					m_FrmCtrlUpper.fFrmCur = m_FrmCtrlUpper.pAniData->fFrmEnd; // ¿¡´Ï¸ŞÀÌ¼Ç µ¥ÀÌÅÍÀÇ ¸¶Áö¸· ÇÁ·¹ÀÓÀ¸·Î ÇÏ°í..
+					m_FrmCtrlUpper.fFrmCur = m_FrmCtrlUpper.pAniData->fFrmEnd; // ì—ë‹ˆë©”ì´ì…˜ ë°ì´í„°ì˜ ë§ˆì§€ë§‰ í”„ë ˆì„ìœ¼ë¡œ í•˜ê³ ..
 
-					m_FrmCtrlUpper.fFreezeTime -= fDelta; // ¸ØÃâ ½Ã°£..
+					m_FrmCtrlUpper.fFreezeTime -= fDelta; // ë©ˆì¶œ ì‹œê°„..
 					if(m_FrmCtrlUpper.fFreezeTime < 0) m_FrmCtrlUpper.fFreezeTime = 0;
 				}
-				else // ¸ØÃâ°Å ¾øÀ½.. ÇÏÃ¼ ¿¡´Ï¸ŞÀÌ¼ÇÀ¸·Î ºí·»µùÀ» ÇÑ´Ù.
+				else // ë©ˆì¶œê±° ì—†ìŒ.. í•˜ì²´ ì—ë‹ˆë©”ì´ì…˜ìœ¼ë¡œ ë¸”ë Œë”©ì„ í•œë‹¤.
 				{
-					m_FrmCtrlUpper.iAniLoop++; // ÀÌ·¸°Ô ¿¡´Ï¸ŞÀÌ¼ÇÀÌ ³¡³ª¸é.. ÇÏÃ¼ ¿¡´Ï¸ŞÀÌ¼ÇÀ¸·Î ºí·»µùÀÌ µÈ´Ù.
+					m_FrmCtrlUpper.iAniLoop++; // ì´ë ‡ê²Œ ì—ë‹ˆë©”ì´ì…˜ì´ ëë‚˜ë©´.. í•˜ì²´ ì—ë‹ˆë©”ì´ì…˜ìœ¼ë¡œ ë¸”ë Œë”©ì´ ëœë‹¤.
 					m_FrmCtrlUpper.fBlendFrm = m_FrmCtrlUpper.pAniData->fFrmEnd;
 					m_FrmCtrlUpper.fBlendTime = m_FrmCtrlUpper.pAniData->fTimeBlend;
 					m_FrmCtrlUpper.fBlendTimeCur = 0;
 				}
 			}
-		} // end of else // ºí·»µù ÇÒ°Ô ¾øÀ¸¸é..
+		} // end of else // ë¸”ë Œë”© í• ê²Œ ì—†ìœ¼ë©´..
 	}
 }
 
 void CN3Chr::TickJoints()
 {
-	if(NULL == m_FrmCtrlUpper.pAniData) // »óÇÏÃ¼ ÅëÂ°·Î Ã³¸®..
+	if(nullptr == m_FrmCtrlUpper.pAniData) // ìƒí•˜ì²´ í†µì§¸ë¡œ ì²˜ë¦¬..
 	{
 		int iJC = m_JointRefs.size();
 		for(int i = 0; i < iJC; i++)
@@ -1537,18 +1537,18 @@ void CN3Chr::TickJoints()
 			m_MtxJoints[i] = m_JointRefs[i]->m_Matrix;
 		}
 	}
-	else // »óÇÏÃ¼ µû·Î Ã³¸®ÇØ¾ß ÇÑ´Ù¸é..
+	else // ìƒí•˜ì²´ ë”°ë¡œ ì²˜ë¦¬í•´ì•¼ í•œë‹¤ë©´..
 	{
 		__FrmCtrl* pFrmCtrls[2] = { &m_FrmCtrl, &m_FrmCtrlUpper };
 		for(int i = 0; i < MAX_CHR_ANI_PART; i++)
 		{
-			// ÇÏÃ¼ÀÏ°æ¿ì ·çÆ® Á¶ÀÎÆ® ÀÛµ¿...
+			// í•˜ì²´ì¼ê²½ìš° ë£¨íŠ¸ ì¡°ì¸íŠ¸ ì‘ë™...
 			if(0 == i)
 			{
-				if(pFrmCtrls[i]->fBlendTime > 0) // Motion Blending ÀÌ ÇÊ¿äÇÏ¸é...
+				if(pFrmCtrls[i]->fBlendTime > 0) // Motion Blending ì´ í•„ìš”í•˜ë©´...
 				{
 					float fBlendFactor = pFrmCtrls[i]->fBlendTimeCur / pFrmCtrls[i]->fBlendTime;
-					m_pRootJointRef->ReCalcMatrixBlended(pFrmCtrls[i]->fFrmCur, pFrmCtrls[i]->fBlendFrm, fBlendFactor); // Joint Animation Blending...// ÇÏÃ¼ ÀÏ°æ¿ì
+					m_pRootJointRef->ReCalcMatrixBlended(pFrmCtrls[i]->fFrmCur, pFrmCtrls[i]->fBlendFrm, fBlendFactor); // Joint Animation Blending...// í•˜ì²´ ì¼ê²½ìš°
 				}
 				else
 				{
@@ -1580,12 +1580,12 @@ void CN3Chr::TickJoints()
 
 void CN3Chr::TickPlugs(float fLOD)
 {
-	if(NULL == this->m_pRootJointRef) return;
+	if(nullptr == this->m_pRootJointRef) return;
 
-	CN3CPlug*	pPlug = NULL;
+	CN3CPlug*	pPlug = nullptr;
 	
 	float fFrmCur = m_FrmCtrl.fFrmCur;
-//	if(m_FrmCtrlUpper.pAniData) fFrmCur = m_FrmCtrlUpper.fFrmCur; // »óÃ¼ ¿¡´Ï¸ŞÀÌ¼ÇÀÌ ÀÖÀ¸¸é...
+//	if(m_FrmCtrlUpper.pAniData) fFrmCur = m_FrmCtrlUpper.fFrmCur; // ìƒì²´ ì—ë‹ˆë©”ì´ì…˜ì´ ìˆìœ¼ë©´...
 
 	int iPC = m_Plugs.size();
 	for(int i = 0; i < iPC; i++)
@@ -1595,16 +1595,16 @@ void CN3Chr::TickPlugs(float fLOD)
 		if (pPlug->m_ePlugType== PLUGTYPE_NORMAL)
 		{
 			__AnimData* pAniData = m_FrmCtrlUpper.pAniData;
-			if(NULL == pAniData) pAniData = m_FrmCtrl.pAniData;
-			if(NULL == pAniData) continue;
+			if(nullptr == pAniData) pAniData = m_FrmCtrl.pAniData;
+			if(nullptr == pAniData) continue;
 			if(pPlug->m_nTraceStep <= 0) continue;
 			
 			pPlug->m_bRenderTrace = false;
-			if(!(pAniData->fFrmPlugTraceEnd - pAniData->fFrmPlugTraceStart)) continue; // ±ËÀû ÇÁ·¹ÀÓÀÇ ½ÃÀÛ°ú ³¡ÀÌ Â÷ÀÌ°¡ ¾øÀ¸¸é..
+			if(!(pAniData->fFrmPlugTraceEnd - pAniData->fFrmPlugTraceStart)) continue; // ê¶¤ì  í”„ë ˆì„ì˜ ì‹œì‘ê³¼ ëì´ ì°¨ì´ê°€ ì—†ìœ¼ë©´..
 			
 			if(	pPlug->m_nTraceStep > 0 && 
 				fFrmCur >= pAniData->fFrmPlugTraceStart &&
-				fFrmCur <= pAniData->fFrmPlugTraceEnd) // ±ËÀû ÇÁ·¹ÀÓÀÇ ¾È¿¡ ÀÖÀ¸¸é..
+				fFrmCur <= pAniData->fFrmPlugTraceEnd) // ê¶¤ì  í”„ë ˆì„ì˜ ì•ˆì— ìˆìœ¼ë©´..
 			{
 				pPlug->m_bRenderTrace = true;
 
@@ -1614,7 +1614,7 @@ void CN3Chr::TickPlugs(float fLOD)
 				D3DCOLOR crTraceU = pPlug->m_crTrace;
 				D3DCOLOR crTraceL = pPlug->m_crTrace;
 
-				for(int j = 0, k = pPlug->m_nTraceStep; j < pPlug->m_nTraceStep; j++, k--) // Æú¸®°ïÀ» ¸¸µç´Ù..
+				for(int j = 0, k = pPlug->m_nTraceStep; j < pPlug->m_nTraceStep; j++, k--) // í´ë¦¬ê³¤ì„ ë§Œë“ ë‹¤..
 				{
 					fFrmTmp = fFrmCur - (j*0.2f);
 					iJTmp = 0;
@@ -1659,7 +1659,7 @@ void CN3Chr::RemakePlugTracePolygons()
 	if(m_Plugs.empty()) return;
 
 	int iPC = m_Plugs.size();
-	m_vTraces.assign(iPC, NULL);
+	m_vTraces.assign(iPC, nullptr);
 	for(auto i = 0; i < iPC; i++)
 	{
 		int iTS = m_Plugs[i]->m_nTraceStep;
@@ -1671,7 +1671,7 @@ void CN3Chr::RemakePlugTracePolygons()
 
 void CN3Chr::Render()
 {
-	if(NULL == m_pRootJointRef) return;
+	if(nullptr == m_pRootJointRef) return;
 	if(m_nLOD < 0 || m_nLOD >= MAX_CHR_LOD) return;
 
 
@@ -1681,21 +1681,21 @@ void CN3Chr::Render()
 
 
 
-	// LOD ÃÖÁ¾ °áÁ¤...
+	// LOD ìµœì¢… ê²°ì •...
 	if(s_iLODDelta > 0)
 	{
 		m_nLOD = MAX_CHR_LOD;
 		float fDist = (m_vPos - s_CameraData.vEye).Magnitude();
-		float fLOD = fDist * s_CameraData.fFOV / (m_fRadius * m_vScale.x); // µ¢Ä¡¿¡ ºñ·ÊÇÏ°Ô ÇÑ´Ù..
+		float fLOD = fDist * s_CameraData.fFOV / (m_fRadius * m_vScale.x); // ë©ì¹˜ì— ë¹„ë¡€í•˜ê²Œ í•œë‹¤..
 		for(int i = 0; i < MAX_CHR_LOD; i++)
 		{
-			if(fLOD < CHR_LOD_CALCULATION_VALUES[s_iLODDelta][i]) // ÀÏ´Ü °¡Àå Å«°ªÀ» ±âÁØÀ¸·Î ÇÏ°í LOD °ªÀ» Á¤ÇÑ ´ÙÀ½..... Render ¿¡¼­ º¯°æÇÑ´Ù....
+			if(fLOD < CHR_LOD_CALCULATION_VALUES[s_iLODDelta][i]) // ì¼ë‹¨ ê°€ì¥ í°ê°’ì„ ê¸°ì¤€ìœ¼ë¡œ í•˜ê³  LOD ê°’ì„ ì •í•œ ë‹¤ìŒ..... Render ì—ì„œ ë³€ê²½í•œë‹¤....
 			{
 				m_nLOD = i;
 				break;
 			}
 		}
-		if(m_nLOD >= MAX_CHR_LOD) m_nLOD = MAX_CHR_LOD - 1; // LOD ¹ÛÀÌ¸é ... 
+		if(m_nLOD >= MAX_CHR_LOD) m_nLOD = MAX_CHR_LOD - 1; // LOD ë°–ì´ë©´ ... 
 	}
 
 
@@ -1705,8 +1705,8 @@ void CN3Chr::Render()
 
 
 	s_lpD3DDev->SetTransform(D3DTS_WORLD, &m_Matrix);
-	this->TickJoints(); // Á¶ÀÎÆ® Çà·Äµé °è»ê...
-	this->BuildMesh(); // Çà·Ä¿¡ µû¶ó Á¡À§Ä¡ °è»ê..
+	this->TickJoints(); // ì¡°ì¸íŠ¸ í–‰ë ¬ë“¤ ê³„ì‚°...
+	this->BuildMesh(); // í–‰ë ¬ì— ë”°ë¼ ì ìœ„ì¹˜ ê³„ì‚°..
 
 	int iPC = m_Parts.size();
 	for(int i = 0; i < iPC; i++)
@@ -1714,8 +1714,8 @@ void CN3Chr::Render()
 		m_Parts[i]->Render(m_nLOD);
 	}
 
-	// Plug - ºÙÀÌ´Â ºÎºĞ Rendering
-	CN3CPlug* pPlug = NULL;
+	// Plug - ë¶™ì´ëŠ” ë¶€ë¶„ Rendering
+	CN3CPlug* pPlug = nullptr;
 	iPC = m_Plugs.size();
 	for(auto i = 0; i < iPC; i++)
 	{
@@ -1726,7 +1726,7 @@ void CN3Chr::Render()
 		pPlug->Render(m_Matrix, m_MtxJoints[pPlug->m_nJointIndex]);
 
 		////////////////////////////////////////////////////
-		// °Ë±â ±×¸®±â...
+		// ê²€ê¸° ê·¸ë¦¬ê¸°...
 		if (pPlug->m_ePlugType == PLUGTYPE_NORMAL)
 		{
 			if(pPlug->m_nTraceStep <= 1) continue;
@@ -1745,28 +1745,28 @@ void CN3Chr::Render()
 				pAP->dwFVF				= FVF_CV;
 				pAP->dwPrimitiveSize	= sizeof(__VertexColor);
 				pAP->fCameraDistance	= (s_CameraData.vEye - m_Matrix.Pos()).Magnitude();
-				pAP->lpTex				= NULL;
+				pAP->lpTex				= nullptr;
 				pAP->ePrimitiveType		= D3DPT_TRIANGLESTRIP;
 				pAP->nPrimitiveCount	= (pPlug->m_nTraceStep-1)*2;
 				pAP->nRenderFlags		= RF_DOUBLESIDED | RF_DIFFUSEALPHA | RF_NOTUSELIGHT | RF_NOTZWRITE;
 				pAP->nVertexCount		= (pPlug->m_nTraceStep)*2;
 				pAP->MtxWorld			= m_Matrix;
 				pAP->pVertices			= m_vTraces[i];
-				pAP->pwIndices			= NULL;
+				pAP->pwIndices			= nullptr;
 			}
 		}
 		else if (pPlug->m_ePlugType == PLUGTYPE_CLOAK)
 		{
 		}
-		// °Ë±â ±×¸®±â...
+		// ê²€ê¸° ê·¸ë¦¬ê¸°...
 		////////////////////////////////////////////////////
 	}
 
 //////////////////////////////////////////////////
-//	Coded (By Dino On 2002-10-11 ¿ÀÀü 11:20:19 )
+//	Coded (By Dino On 2002-10-11 ì˜¤ì „ 11:20:19 )
 //	FXPlug
 	if (m_pFXPlug) m_pFXPlug->Render();
-//	End Of Code (By Dino On 2002-10-11 ¿ÀÀü 11:20:19 )
+//	End Of Code (By Dino On 2002-10-11 ì˜¤ì „ 11:20:19 )
 //////////////////////////////////////////////////
 }
 
@@ -1781,8 +1781,8 @@ void CN3Chr::BuildMesh()
 	int nJIndex = 0, nAffect = 0;
 
 	int i = 0, j = 0, k = 0, nVC = 0;
-	CN3IMesh* pIMesh = NULL;
-	CN3Skin* pSkin = NULL;
+	CN3IMesh* pIMesh = nullptr;
+	CN3Skin* pSkin = nullptr;
 
 	__Matrix44* pMtxJs = &(m_MtxJoints[0]);
 	__Matrix44* pMtxJIs = &(m_MtxInverses[0]);
@@ -1791,23 +1791,23 @@ void CN3Chr::BuildMesh()
 	for(auto i = 0; i < iPC; i++)
 	{
 		pSkin = m_Parts[i]->Skin(m_nLOD);
-		if(NULL == pSkin) continue;
+		if(nullptr == pSkin) continue;
 
 		__VertexXyzNormal* pVDest = pSkin->Vertices();
 		__VertexSkinned* pVSrc = pSkin->SkinVertices();
-		if(NULL == pVDest || NULL == pVSrc) continue;
+		if(nullptr == pVDest || nullptr == pVSrc) continue;
 
 		nVC = pSkin->VertexCount();
 		__Vector3 vFinal;
 		int nAffect = 0;
-		float* pfWeights = NULL;
-		for(auto j = 0; j < nVC; j++) // j < m_nBoneVertices ¿Í °°´Ù..
+		float* pfWeights = nullptr;
+		for(auto j = 0; j < nVC; j++) // j < m_nBoneVertices ì™€ ê°™ë‹¤..
 		{
 
 			nAffect = pVSrc[j].nAffect;
 			if(1 == nAffect)
 			{
-				// ´ÜÀÏ »À´ë...
+				// ë‹¨ì¼ ë¼ˆëŒ€...
 				nJIndex = pVSrc[j].pnJoints[0];
 				pVDest[j] = (pVSrc[j].vOrigin * pMtxJIs[nJIndex]) * pMtxJs[nJIndex];
 			}
@@ -1842,12 +1842,12 @@ void CN3Chr::BuildMesh()
 		{
 			int nAffect = 0;
 			float* pfWeights = NULL;
-			for(auto j = 0; j < nVC; j++) // j < m_nBoneVertices ¿Í °°´Ù..
+			for(auto j = 0; j < nVC; j++) // j < m_nBoneVertices ì™€ ê°™ë‹¤..
 			{
 				nAffect = pVSrc[j].nAffect;
 				if(1 == nAffect)
 				{
-					// ´ÜÀÏ »À´ë...
+					// ë‹¨ì¼ ë¼ˆëŒ€...
 					nJIndex = pVSrc[j].pnJoints[0];
 					pVDest[j] = (pVSrc[j].vOrigin * pMtxJIs[nJIndex]) * pMtxJs[nJIndex];
 				}
@@ -1880,8 +1880,8 @@ void CN3Chr::BuildMesh(int nLOD)
 	int nJIndex = 0, nAffect = 0;
 
 	int i = 0, j = 0, k = 0, nVC = 0;
-	CN3IMesh* pIMesh = NULL;
-	CN3Skin* pSkin = NULL;
+	CN3IMesh* pIMesh = nullptr;
+	CN3Skin* pSkin = nullptr;
 
 	__Matrix44* pMtxJs = &(m_MtxJoints[0]);
 	__Matrix44* pMtxJIs = &(m_MtxInverses[0]);
@@ -1890,23 +1890,23 @@ void CN3Chr::BuildMesh(int nLOD)
 	for(auto i = 0; i < iPC; i++)
 	{
 		pSkin = m_Parts[i]->Skin(nLOD);
-		if(NULL == pSkin) continue;
+		if(nullptr == pSkin) continue;
 
 		__VertexXyzNormal* pVDest = pSkin->Vertices();
 		__VertexSkinned* pVSrc = pSkin->SkinVertices();
-		if(NULL == pVDest || NULL == pVSrc) continue;
+		if(nullptr == pVDest || nullptr == pVSrc) continue;
 
 		nVC = pSkin->VertexCount();
 		__Vector3 vFinal;
 		int nAffect = 0;
-		float* pfWeights = NULL;
-		for(auto j = 0; j < nVC; j++) // j < m_nBoneVertices ¿Í °°´Ù..
+		float* pfWeights = nullptr;
+		for(auto j = 0; j < nVC; j++) // j < m_nBoneVertices ì™€ ê°™ë‹¤..
 		{
 
 			nAffect = pVSrc[j].nAffect;
 			if(1 == nAffect)
 			{
-				// ´ÜÀÏ »À´ë...
+				// ë‹¨ì¼ ë¼ˆëŒ€...
 				nJIndex = pVSrc[j].pnJoints[0];
 				pVDest[j] = (pVSrc[j].vOrigin * pMtxJIs[nJIndex]) * pMtxJs[nJIndex];
 			}
@@ -1927,24 +1927,24 @@ void CN3Chr::BuildMesh(int nLOD)
 
 void CN3Chr::Init()
 {
-	if(NULL == m_pRootJointRef) return;
+	if(nullptr == m_pRootJointRef) return;
 
-	// °üÀıÀÌ ¸î°³ ÀÖ´ÂÁö °è»êÇÏ°í.. Æ÷ÀÎÅÍ ÇÒ´ç..
+	// ê´€ì ˆì´ ëª‡ê°œ ìˆëŠ”ì§€ ê³„ì‚°í•˜ê³ .. í¬ì¸í„° í• ë‹¹..
 
 	int iJC = 0;
 	__Matrix44 mtxTmp; mtxTmp.Identity();
 	m_pRootJointRef->NodeCount(iJC);
-	m_JointRefs.assign(iJC, NULL);
+	m_JointRefs.assign(iJC, nullptr);
 	m_MtxJoints.assign(iJC, mtxTmp);
 	m_MtxInverses.assign(iJC, mtxTmp);
 	
 	int nJI = 0;
-	m_pRootJointRef->Tick(0); // ÃÊ±â¿¡ °üÀı À§Ä¡ °è»ê..
-	for(int i = 0; i < iJC; i++) // °üÀı °¹¼ö ¸¸Å­ °¢ °üÀıÀÇ ÂüÁ¶ Æ÷ÀÎÅÍ¿Í ¿ªÇà·ÄÀ» ¾ò¾î³õ´Â´Ù..
+	m_pRootJointRef->Tick(0); // ì´ˆê¸°ì— ê´€ì ˆ ìœ„ì¹˜ ê³„ì‚°..
+	for(int i = 0; i < iJC; i++) // ê´€ì ˆ ê°¯ìˆ˜ ë§Œí¼ ê° ê´€ì ˆì˜ ì°¸ì¡° í¬ì¸í„°ì™€ ì—­í–‰ë ¬ì„ ì–»ì–´ë†“ëŠ”ë‹¤..
 	{
-		m_JointRefs[i] = NULL;
+		m_JointRefs[i] = nullptr;
 		m_pRootJointRef->FindPointerByID(i, m_JointRefs[i]);
-		::D3DXMatrixInverse(&(m_MtxInverses[i]), NULL, &(m_JointRefs[i]->m_Matrix)); // ·ÎÄÃ Ãà¿¡ ´ëÇÑ ¿ªÇà·ÄÀ» ±¸ÇÑ´Ù..
+		::D3DXMatrixInverse(&(m_MtxInverses[i]), nullptr, &(m_JointRefs[i]->m_Matrix)); // ë¡œì»¬ ì¶•ì— ëŒ€í•œ ì—­í–‰ë ¬ì„ êµ¬í•œë‹¤..
 		m_MtxJoints[i] = m_JointRefs[i]->m_Matrix;
 	}
 
@@ -1952,22 +1952,22 @@ void CN3Chr::Init()
 
 	this->FindMinMax();
 	
-	// Ãæµ¹ Ã¼Å©¸¦ À§ÇÑ Æú¸®°ï.. Å©±â¿¡ ¸Â°Ô º¯È¯..
-	if(NULL == m_pMeshCollision) m_pMeshCollision = new CN3VMesh();
+	// ì¶©ëŒ ì²´í¬ë¥¼ ìœ„í•œ í´ë¦¬ê³¤.. í¬ê¸°ì— ë§ê²Œ ë³€í™˜..
+	if(nullptr == m_pMeshCollision) m_pMeshCollision = new CN3VMesh();
 	m_pMeshCollision->CreateCube(m_vMin, m_vMax);
 }
 
 void CN3Chr::JointSet(const std::string& szFN)
 {
 	bool bNeedInit = false;
-	if(NULL == m_pRootJointRef) bNeedInit = true;
-	else if(m_pRootJointRef && m_pRootJointRef->FileName() != szFN) bNeedInit = true;// ÆÄÀÏ ÀÌ¸§ÀÌ ´Ş¶ó¾ß Áö¿ì°í »õ·Î ÇÑ´Ù..
+	if(nullptr == m_pRootJointRef) bNeedInit = true;
+	else if(m_pRootJointRef && m_pRootJointRef->FileName() != szFN) bNeedInit = true;// íŒŒì¼ ì´ë¦„ì´ ë‹¬ë¼ì•¼ ì§€ìš°ê³  ìƒˆë¡œ í•œë‹¤..
 
 	if(bNeedInit)
 	{
 		s_MngJoint.Delete(&m_pRootJointRef);
 		m_pRootJointRef = s_MngJoint.Get(szFN);
-		this->Init(); // ÃÊ±âÈ­...
+		this->Init(); // ì´ˆê¸°í™”...
 	}
 }
 
@@ -1979,7 +1979,7 @@ void CN3Chr::PartAlloc(int iCount)
 		
 	if(iCount > 0) 
 	{
-		m_Parts.assign(iCount, NULL);
+		m_Parts.assign(iCount, nullptr);
 		for(auto i = 0; i < iCount; i++) m_Parts[i] = new CN3CPart();
 	}
 }
@@ -1996,7 +1996,7 @@ void CN3Chr::PartDelete(int iIndex)
 
 CN3CPart* CN3Chr::PartSet(int iIndex, const std::string& szFN)
 {
-	if(iIndex < 0 || iIndex >= m_Parts.size()) return NULL;
+	if(iIndex < 0 || iIndex >= m_Parts.size()) return nullptr;
 	if(m_Parts[iIndex]->FileName() == szFN) return m_Parts[iIndex];
 
 	if(szFN.size() <= 0) m_Parts[iIndex]->Release();
@@ -2018,7 +2018,7 @@ void CN3Chr::PlugDelete(int iIndex)
 
 CN3CPlug* CN3Chr::PlugSet(int iIndex, const std::string& szFN)
 {
-	if(iIndex < 0 || iIndex >= m_Plugs.size()) return NULL;
+	if(iIndex < 0 || iIndex >= m_Plugs.size()) return nullptr;
 		
 	if(m_Plugs[iIndex]->FileName() == szFN) return m_Plugs[iIndex];
 
@@ -2038,7 +2038,7 @@ void CN3Chr::PlugAlloc(int iCount)
 		
 	if(iCount > 0) 
 	{
-		m_Plugs.assign(iCount, NULL);
+		m_Plugs.assign(iCount, nullptr);
 		for(auto i = 0; i < iCount; i++) m_Plugs[i] = new CN3CPlug();
 	}
 }
@@ -2059,64 +2059,64 @@ void CN3Chr::AniCtrlSet(const std::string& szFN)
 	for(int i = 0; i < MAX_CHR_ANI_PART; i++)
 	{
 		m_FrmCtrl.iAni = -1;
-		m_FrmCtrl.bOnceAndFreeze = false;	// ÇÑ¹ø¸¸ ÇÏ°í ¸ØÃç¾ß µÇ´Â°¡??
+		m_FrmCtrl.bOnceAndFreeze = false;	// í•œë²ˆë§Œ í•˜ê³  ë©ˆì¶°ì•¼ ë˜ëŠ”ê°€??
 		m_FrmCtrl.fFrmCur = 0;
-		m_FrmCtrl.fFrmPrev = 0;				// ÃÖ±Ù ÇÁ·¹ÀÓ
+		m_FrmCtrl.fFrmPrev = 0;				// ìµœê·¼ í”„ë ˆì„
 		m_FrmCtrl.iAniLoop = 0;
-		m_FrmCtrl.pAniData = NULL;
+		m_FrmCtrl.pAniData = nullptr;
 	}
 }
 
-int	CN3Chr::AniCurSet(	int iAni,					// Animation ¹øÈ£,
-						bool bOnceAndFreeze,		// ÇÑ¹ø¸¸ µ¹°í ¸ØÃß¾î¾ß ÇÏ´Â°¡??
-						float fBlendTime,			// ºí·»µùÇÏ´Â ½Ã°£(ÃÊ´ÜÀ§), 
-						float fFreezeTime,			// ¸ØÃâ½Ã°£...
-						bool bStopUpperAnimation)	// »óÃ¼ ¿¡´Ï¸ŞÀÌ¼ÇÀÌ ÀÖÀ¸¸é.. ¸ØÃßµµ·Ï
+int	CN3Chr::AniCurSet(	int iAni,					// Animation ë²ˆí˜¸,
+						bool bOnceAndFreeze,		// í•œë²ˆë§Œ ëŒê³  ë©ˆì¶”ì–´ì•¼ í•˜ëŠ”ê°€??
+						float fBlendTime,			// ë¸”ë Œë”©í•˜ëŠ” ì‹œê°„(ì´ˆë‹¨ìœ„), 
+						float fFreezeTime,			// ë©ˆì¶œì‹œê°„...
+						bool bStopUpperAnimation)	// ìƒì²´ ì—ë‹ˆë©”ì´ì…˜ì´ ìˆìœ¼ë©´.. ë©ˆì¶”ë„ë¡
 {
-	if(NULL == m_pAniCtrlRef) return -1;
-	if(iAni == m_FrmCtrl.iAni) return -1; // °°Àº ¿¡´Ï¸ŞÀÌ¼ÇÀÌ¸é µ¹¾Æ°£´Ù.
-//	if(iAni == m_FrmCtrl.iAni) { m_FrmCtrl.iAniLoop = 0; return -1; } // °°Àº ¿¡´Ï¸ŞÀÌ¼ÇÀÌ¸é ·çÇÎ ÂüÁ¶ Ä«¿îÆ®¸¸ ÃÊ±âÈ­ÇÏ°í µ¹¾Æ°£´Ù.
+	if(nullptr == m_pAniCtrlRef) return -1;
+	if(iAni == m_FrmCtrl.iAni) return -1; // ê°™ì€ ì—ë‹ˆë©”ì´ì…˜ì´ë©´ ëŒì•„ê°„ë‹¤.
+//	if(iAni == m_FrmCtrl.iAni) { m_FrmCtrl.iAniLoop = 0; return -1; } // ê°™ì€ ì—ë‹ˆë©”ì´ì…˜ì´ë©´ ë£¨í•‘ ì°¸ì¡° ì¹´ìš´íŠ¸ë§Œ ì´ˆê¸°í™”í•˜ê³  ëŒì•„ê°„ë‹¤.
 	if(iAni < 0 || iAni >= m_pAniCtrlRef->Count()) return -1;
 
-	int iAniPrev = m_FrmCtrl.iAni; // ÀüÀÇ °É ±â¾ïÇÏ°í..
-	float fFrmPrev = m_FrmCtrl.fFrmCur; // ÃÖ±ÙÀÇ ÇÁ·¹ÀÓ..
+	int iAniPrev = m_FrmCtrl.iAni; // ì „ì˜ ê±¸ ê¸°ì–µí•˜ê³ ..
+	float fFrmPrev = m_FrmCtrl.fFrmCur; // ìµœê·¼ì˜ í”„ë ˆì„..
 
 	if(bStopUpperAnimation)
-		m_FrmCtrlUpper.Init(); // »óÃ¼ ¿¡´Ï¸ŞÀÌ¼Ç °­Á¦ Á¾·á !!
+		m_FrmCtrlUpper.Init(); // ìƒì²´ ì—ë‹ˆë©”ì´ì…˜ ê°•ì œ ì¢…ë£Œ !!
 	m_FrmCtrl.Init();
 
 	m_FrmCtrl.iAni = iAni;
-	m_FrmCtrl.bOnceAndFreeze = bOnceAndFreeze; // ÇÑ¹ø¸¸ ÇÏ°í ¸ØÃß¾î¾ß ÇÏ´Â°¡....
+	m_FrmCtrl.bOnceAndFreeze = bOnceAndFreeze; // í•œë²ˆë§Œ í•˜ê³  ë©ˆì¶”ì–´ì•¼ í•˜ëŠ”ê°€....
 	m_FrmCtrl.fFreezeTime = fFreezeTime;
 	m_FrmCtrl.pAniData = m_pAniCtrlRef->DataGet(iAni);
 
-	m_FrmCtrl.fFrmCur = m_FrmCtrl.pAniData->fFrmStart; // ÇÁ·¹ÀÓÀ» Ã³À½À¸·Î ¼¼ÆÃ..
+	m_FrmCtrl.fFrmCur = m_FrmCtrl.pAniData->fFrmStart; // í”„ë ˆì„ì„ ì²˜ìŒìœ¼ë¡œ ì„¸íŒ…..
 	m_FrmCtrl.fFrmPrev = m_FrmCtrl.pAniData->fFrmEnd;
-	if(FLT_MIN != fBlendTime) m_FrmCtrl.fBlendTime = fBlendTime; // ¸ğ¼Ç Blending °ª ¼³Á¤..
+	if(FLT_MIN != fBlendTime) m_FrmCtrl.fBlendTime = fBlendTime; // ëª¨ì…˜ Blending ê°’ ì„¤ì •..
 	else m_FrmCtrl.fBlendTime = m_FrmCtrl.pAniData->fTimeBlend;
-	if(m_FrmCtrl.fBlendTime > 0) m_FrmCtrl.fBlendFrm = fFrmPrev; // Blending ÇÒ ¿¡´Ï¸ŞÀÌ¼Ç Frame..
-	else m_FrmCtrl.fBlendFrm = m_FrmCtrl.fFrmCur; // Blending ÇÒ ¿¡´Ï¸ŞÀÌ¼Ç Àº ¾ø´Ù!!
+	if(m_FrmCtrl.fBlendTime > 0) m_FrmCtrl.fBlendFrm = fFrmPrev; // Blending í•  ì—ë‹ˆë©”ì´ì…˜ Frame..
+	else m_FrmCtrl.fBlendFrm = m_FrmCtrl.fFrmCur; // Blending í•  ì—ë‹ˆë©”ì´ì…˜ ì€ ì—†ë‹¤!!
 
 	return iAniPrev;
 }
 
-void CN3Chr::AniFixToLastFrame( int iAni ) // ¸¶Áö¸· ÇÁ·¹ÀÓÀ¸·Î °íÁ¤ ½ÃÄÑ ¹ö¸°´Ù.
+void CN3Chr::AniFixToLastFrame( int iAni ) // ë§ˆì§€ë§‰ í”„ë ˆì„ìœ¼ë¡œ ê³ ì • ì‹œì¼œ ë²„ë¦°ë‹¤.
 {
-	if(NULL == m_pAniCtrlRef) return;
-	if(iAni == m_FrmCtrl.iAni) return; // °°Àº ¿¡´Ï¸ŞÀÌ¼ÇÀÌ¸é µ¹¾Æ°£´Ù.
+	if(nullptr == m_pAniCtrlRef) return;
+	if(iAni == m_FrmCtrl.iAni) return; // ê°™ì€ ì—ë‹ˆë©”ì´ì…˜ì´ë©´ ëŒì•„ê°„ë‹¤.
 	if(iAni < 0 || iAni >= m_pAniCtrlRef->Count()) return;
 
 	__AnimData* pAniData = m_pAniCtrlRef->DataGet(iAni);
-	if(NULL == pAniData) return;
+	if(nullptr == pAniData) return;
 
 	m_FrmCtrl.Init();
 	m_FrmCtrl.iAni = iAni;
-	m_FrmCtrl.bOnceAndFreeze = true; // ÇÑ¹ø¸¸ ÇÏ°í ¸ØÃß¾î¾ß ÇÏ´Â°¡....
+	m_FrmCtrl.bOnceAndFreeze = true; // í•œë²ˆë§Œ í•˜ê³  ë©ˆì¶”ì–´ì•¼ í•˜ëŠ”ê°€....
 	m_FrmCtrl.pAniData = m_pAniCtrlRef->DataGet(iAni);
-	m_FrmCtrl.fBlendTime = 0; // ¸ğ¼Ç Blending °ª ¼³Á¤..
-	m_FrmCtrl.fBlendFrm = pAniData->fFrmEnd; // Blending ÇÒ ¿¡´Ï¸ŞÀÌ¼Ç Frame..
-	m_FrmCtrl.fFreezeTime = 1000.0f; // ¸ØÃâ ½Ã°£..
-	m_FrmCtrl.fFrmCur = pAniData->fFrmEnd; // ÇÁ·¹ÀÓÀ» Ã³À½À¸·Î ¼¼ÆÃ..
+	m_FrmCtrl.fBlendTime = 0; // ëª¨ì…˜ Blending ê°’ ì„¤ì •..
+	m_FrmCtrl.fBlendFrm = pAniData->fFrmEnd; // Blending í•  ì—ë‹ˆë©”ì´ì…˜ Frame..
+	m_FrmCtrl.fFreezeTime = 1000.0f; // ë©ˆì¶œ ì‹œê°„..
+	m_FrmCtrl.fFrmCur = pAniData->fFrmEnd; // í”„ë ˆì„ì„ ì²˜ìŒìœ¼ë¡œ ì„¸íŒ…..
 	m_FrmCtrl.fFrmPrev = pAniData->fFrmEnd;
 
 	return;
@@ -2124,9 +2124,9 @@ void CN3Chr::AniFixToLastFrame( int iAni ) // ¸¶Áö¸· ÇÁ·¹ÀÓÀ¸·Î °íÁ¤ ½ÃÄÑ ¹ö¸°´Ù
 
 void CN3Chr::AniUpperSet(int iAni, float fFreezeTime)
 {
-	if(NULL == m_pAniCtrlRef) return;
+	if(nullptr == m_pAniCtrlRef) return;
 	if(iAni < 0 || iAni >= m_pAniCtrlRef->Count()) return;
-	if(iAni == m_FrmCtrlUpper.iAni) return; // ÀüÀÇ °Í°ú °°À¸¸é ³Ñ¾î°£´Ù..
+	if(iAni == m_FrmCtrlUpper.iAni) return; // ì „ì˜ ê²ƒê³¼ ê°™ìœ¼ë©´ ë„˜ì–´ê°„ë‹¤..
 
 	m_FrmCtrlUpper.Init();
 
@@ -2134,13 +2134,13 @@ void CN3Chr::AniUpperSet(int iAni, float fFreezeTime)
 	m_FrmCtrlUpper.bOnceAndFreeze = false;
 	m_FrmCtrlUpper.pAniData = m_pAniCtrlRef->DataGet(iAni);
 
-	// ¸ğ¼Ç Blending °ª ¼³Á¤..
+	// ëª¨ì…˜ Blending ê°’ ì„¤ì •..
 	m_FrmCtrlUpper.fBlendTime = m_FrmCtrlUpper.pAniData->fTimeBlend;
 	m_FrmCtrlUpper.fBlendTimeCur = 0;
-	m_FrmCtrlUpper.fBlendFrm = m_FrmCtrl.fFrmCur; // ÇÏÃ¼ ÇÁ·¹ÀÓ°ú Blending ÇÒ ¿¡´Ï¸ŞÀÌ¼Ç Frame..
-	m_FrmCtrlUpper.fFreezeTime = fFreezeTime; // ¸ØÃâ ½Ã°£..
+	m_FrmCtrlUpper.fBlendFrm = m_FrmCtrl.fFrmCur; // í•˜ì²´ í”„ë ˆì„ê³¼ Blending í•  ì—ë‹ˆë©”ì´ì…˜ Frame..
+	m_FrmCtrlUpper.fFreezeTime = fFreezeTime; // ë©ˆì¶œ ì‹œê°„..
 
-	m_FrmCtrlUpper.fFrmCur = m_FrmCtrlUpper.pAniData->fFrmStart; // ÇÁ·¹ÀÓÀ» Ã³À½À¸·Î ¼¼ÆÃ..
+	m_FrmCtrlUpper.fFrmCur = m_FrmCtrlUpper.pAniData->fFrmStart; // í”„ë ˆì„ì„ ì²˜ìŒìœ¼ë¡œ ì„¸íŒ…..
 	m_FrmCtrlUpper.fFrmPrev = m_FrmCtrlUpper.pAniData->fFrmEnd;
 }
 
@@ -2150,7 +2150,7 @@ void CN3Chr::AniDefaultSet()
 	s_MngAniCtrl.Delete(&m_pAniCtrlRef);
 	s_MngAniCtrl.Release();
 
-	// ±âº»ÀûÀÎ Animation Control ¸¸µé±â..
+	// ê¸°ë³¸ì ì¸ Animation Control ë§Œë“¤ê¸°..
 	CN3AnimControl* pAniCtrlDefault = new CN3AnimControl();
 	pAniCtrlDefault->m_szName = "Default";
 	pAniCtrlDefault->FileNameSet("Chr\\Default.N3Anim");
@@ -2189,9 +2189,9 @@ void CN3Chr::FindMinMax()
 	m_vMin.Set(FLT_MAX, FLT_MAX, FLT_MAX);
 	m_vMax.Set(-FLT_MAX, -FLT_MAX, -FLT_MAX);
 
-	for(int i = 0; i < iJC; i++) // °üÀı °¹¼ö ¸¸Å­ °¢ °üÀıÀÇ ÂüÁ¶ Æ÷ÀÎÅÍ¿Í ¿ªÇà·ÄÀ» ¾ò¾î³õ´Â´Ù..
+	for(int i = 0; i < iJC; i++) // ê´€ì ˆ ê°¯ìˆ˜ ë§Œí¼ ê° ê´€ì ˆì˜ ì°¸ì¡° í¬ì¸í„°ì™€ ì—­í–‰ë ¬ì„ ì–»ì–´ë†“ëŠ”ë‹¤..
 	{
-		// °¢ Á¶ÀÎÆ®ÀÇ °üÀı À§Ä¡ °ª¿¡ ´ëÇØ ÃÖ´ë ÃÖ¼Ò°ªÀ» Ã£´Â´Ù.
+		// ê° ì¡°ì¸íŠ¸ì˜ ê´€ì ˆ ìœ„ì¹˜ ê°’ì— ëŒ€í•´ ìµœëŒ€ ìµœì†Œê°’ì„ ì°¾ëŠ”ë‹¤.
 		vTmp = m_JointRefs[i]->m_Matrix.Pos();
 		if(vTmp.x < m_vMin.x) m_vMin.x = vTmp.x;
 		if(vTmp.y < m_vMin.y) m_vMin.y = vTmp.y;
@@ -2201,12 +2201,12 @@ void CN3Chr::FindMinMax()
 		if(vTmp.z > m_vMax.z) m_vMax.z = vTmp.z;
 	}
 
-	// ³Ê¹« ÀÛÀ¸¸é ´Ã·ÁÁØ´Ù..
+	// ë„ˆë¬´ ì‘ìœ¼ë©´ ëŠ˜ë ¤ì¤€ë‹¤..
 	if(m_vMax.x - m_vMin.x < 0.5f) { m_vMax.x += 0.25f; m_vMin.x -= 0.25f; }
 	if(m_vMax.y - m_vMin.y < 0.5f) { m_vMax.y += 0.25f; m_vMin.y -= 0.25f; }
 	if(m_vMax.z - m_vMin.z < 0.5f) { m_vMax.z += 0.25f; m_vMin.z -= 0.25f; }
 
-	// ÃÖ´ë ÃÖ¼Ò°ªÀ» °®°í ¹İÁö¸§ °è»êÇÑ´Ù..
+	// ìµœëŒ€ ìµœì†Œê°’ì„ ê°–ê³  ë°˜ì§€ë¦„ ê³„ì‚°í•œë‹¤..
 	m_fRadius  = (m_vMax - m_vMin).Magnitude() * 0.5f;
 }
 
@@ -2217,23 +2217,23 @@ int CN3Chr::CheckCollisionPrecisely(int ixScreen, int iyScreen, __Vector3* pvPic
 
 
 	static __Matrix44 mtxWI, mtxWIRot;
-	D3DXMatrixInverse(&mtxWI, NULL, &m_Matrix); // World Matrix Inverse
+	D3DXMatrixInverse(&mtxWI, nullptr, &m_Matrix); // World Matrix Inverse
 	mtxWIRot = mtxWI;
 	mtxWIRot.PosSet(0,0,0);
 	__Vector3 vPos2 = vPos * mtxWI;
 	__Vector3 vDir2 = vDir * mtxWIRot;
 
-	CN3VMesh* pvMesh = NULL;
+	CN3VMesh* pvMesh = nullptr;
 	__Matrix44 Mtx = m_Matrix;
 	pvMesh = CollisionMesh();
 
-	if(NULL == pvMesh) 
+	if(nullptr == pvMesh) 
 		return -1;
 
 	if(!pvMesh->Pick(Mtx, vPos, vDir, pvPick))
 		return -1;
 
-	// ¸Ö¸® ÀÖ´Â Ä³¸¯ÅÍ´Â ¹Ú½º·Î¸¸ Ã¼Å©ÇÏ°í °¡±îÀÌ ÀÖ´Â°Ç µğÅ×ÀÏÇÏ°Ô Ãæµ¹Ã¼Å©¸¦ ÇÑ´Ù...
+	// ë©€ë¦¬ ìˆëŠ” ìºë¦­í„°ëŠ” ë°•ìŠ¤ë¡œë§Œ ì²´í¬í•˜ê³  ê°€ê¹Œì´ ìˆëŠ”ê±´ ë””í…Œì¼í•˜ê²Œ ì¶©ëŒì²´í¬ë¥¼ í•œë‹¤...
 	if(m_nLOD >= 3)
 		return 1;
 
@@ -2243,18 +2243,18 @@ int CN3Chr::CheckCollisionPrecisely(int ixScreen, int iyScreen, __Vector3* pvPic
 
 int CN3Chr::CheckCollisionPrecisely(const __Vector3 &vPos, const __Vector3 &vDir, __Vector3* pvPick)
 {
-	this->TickJoints(); // Á¶ÀÎÆ® Çà·Äµé °è»ê...
+	this->TickJoints(); // ì¡°ì¸íŠ¸ í–‰ë ¬ë“¤ ê³„ì‚°...
 	BuildMesh(m_nLOD);
 
 	__Vector3 v0, v1, v2;
 
-	CN3Skin* pSkin = NULL;
+	CN3Skin* pSkin = nullptr;
 	__Vector3 vPos2 = vPos, vDir2 = vDir;
 	int iPC = m_Parts.size();
 	for(int i = 0; i < iPC; i++)
 	{
 		pSkin = m_Parts[i]->Skin(m_nLOD);
-		if(NULL == pSkin) continue;
+		if(nullptr == pSkin) continue;
 
 		if(pSkin->CheckCollisionPrecisely(vPos2, vDir2, pvPick))
 		{
@@ -2267,15 +2267,15 @@ int CN3Chr::CheckCollisionPrecisely(const __Vector3 &vPos, const __Vector3 &vDir
 }
 
 //////////////////////////////////////////////////
-//	Coded (By Dino On 2002-10-10 ¿ÀÈÄ 2:36:28 )
+//	Coded (By Dino On 2002-10-10 ì˜¤í›„ 2:36:28 )
 //	FXPlug
 
-// FXPlugSet : FXPlug ÆÄÀÏÀ» ÁöÁ¤ÇØÁÖ´Â ÇÔ¼ö
+// FXPlugSet : FXPlug íŒŒì¼ì„ ì§€ì •í•´ì£¼ëŠ” í•¨ìˆ˜
 CN3FXPlug* CN3Chr::FXPlugSet(const std::string& strFN)
 {
 	if (m_pFXPlug) m_pFXPlug->Release();
 	else m_pFXPlug = new CN3FXPlug();
-	if (false == m_pFXPlug->LoadFromFile(strFN)) return NULL;
+	if (false == m_pFXPlug->LoadFromFile(strFN)) return nullptr;
 	return m_pFXPlug;
 }
 
@@ -2289,10 +2289,10 @@ CN3FXPlug*	CN3Chr::FXPlugCreate()
 		if (m_szName.size()>0)
 		{
 			char szFN[_MAX_PATH];
-			wsprintf(szFN, "Chr\\%s.N3FXPlug", m_szName.c_str());	// Ä³¸¯ÅÍÀÇ ÀÌ¸§À» ºÙÀÎ´Ù.
+			wsprintf(szFN, "Chr\\%s.N3FXPlug", m_szName.c_str());	// ìºë¦­í„°ì˜ ì´ë¦„ì„ ë¶™ì¸ë‹¤.
 			m_pFXPlug->FileNameSet(szFN);
 		}
-		else m_pFXPlug->FileNameSet("Chr\\Default.N3FXPlug");	// ±×³É defaultÀÌ¸§À» ºÙÀÎ´Ù.
+		else m_pFXPlug->FileNameSet("Chr\\Default.N3FXPlug");	// ê·¸ëƒ¥ defaultì´ë¦„ì„ ë¶™ì¸ë‹¤.
 	}
 	return m_pFXPlug;
 }
@@ -2300,7 +2300,7 @@ CN3FXPlug*	CN3Chr::FXPlugCreate()
 void	CN3Chr::FXPlugDelete()
 {
 	if (m_pFXPlug) delete m_pFXPlug;
-	m_pFXPlug = NULL;
+	m_pFXPlug = nullptr;
 }
-//	End Of Code (By Dino On 2002-10-10 ¿ÀÈÄ 2:36:28 )
+//	End Of Code (By Dino On 2002-10-10 ì˜¤í›„ 2:36:28 )
 //////////////////////////////////////////////////

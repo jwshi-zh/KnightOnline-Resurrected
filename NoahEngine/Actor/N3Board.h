@@ -14,18 +14,18 @@ class CN3Board : public CN3Transform
 protected:
 	__VertexT1 m_vRects[4];
 	float		m_fTexIndex;
-	std::vector<CN3Texture*> m_TexRefs; // ÅØ½ºÃ³ Æ÷ÀÎÅÍ ¸®½ºÆ®..
+	std::vector<CN3Texture*> m_TexRefs; // í…ìŠ¤ì²˜ í¬ì¸í„° ë¦¬ìŠ¤íŠ¸..
 
 public:
 	DWORD		m_dwBoardType; // Board Type
 	float		m_fTexFPS; // Frame Per Second
-	__Material	m_Mtl; // ÀçÁú..
+	__Material	m_Mtl; // ì¬ì§ˆ..
 
 public:
 	void		TexSet(int index, const std::string& szFN);
 	void		TexAlloc(int nCount);
 	int			TexCount() { m_TexRefs.size(); }
-	CN3Texture* Tex(int index) { if(m_TexRefs.empty() || index < 0 || index >= m_TexRefs.size()) return NULL; return m_TexRefs[index]; }
+	CN3Texture* Tex(int index) { if(m_TexRefs.empty() || index < 0 || index >= m_TexRefs.size()) return nullptr; return m_TexRefs[index]; }
 
 	void		Init(__Vector3 vPos, DWORD dwBoardType, float fW, float fH);
 	void		Tick(float fFrm);

@@ -19,24 +19,24 @@ void CLogWriter::Open(const std::string& szFN)
 
 	s_szFileName = szFN;
 
-	HANDLE hFile = CreateFile(s_szFileName.c_str(), GENERIC_WRITE, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+	HANDLE hFile = CreateFile(s_szFileName.c_str(), GENERIC_WRITE, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
 	if(INVALID_HANDLE_VALUE == hFile)
 	{
-		hFile = CreateFile(s_szFileName.c_str(), GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+		hFile = CreateFile(s_szFileName.c_str(), GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
 		if(INVALID_HANDLE_VALUE == hFile) return;
 	}
 
 	DWORD dwSizeHigh = 0;
 	DWORD dwSizeLow = ::GetFileSize(hFile, &dwSizeHigh);
-	if(dwSizeLow > 256000)  // ∆ƒ¿œ ªÁ¿Ã¡Ó∞° ≥ π´ ≈©∏È ¡ˆøÓ¥Ÿ..
+	if(dwSizeLow > 256000)  // ÌååÏùº ÏÇ¨Ïù¥Ï¶àÍ∞Ä ÎÑàÎ¨¥ ÌÅ¨Î©¥ ÏßÄÏö¥Îã§..
 	{
 		CloseHandle(hFile);
 		::DeleteFile(s_szFileName.c_str());
-		hFile = CreateFile(s_szFileName.c_str(), GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+		hFile = CreateFile(s_szFileName.c_str(), GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
 		if(INVALID_HANDLE_VALUE == hFile) return;
 	}
 
-	::SetFilePointer(hFile, 0, NULL, FILE_END); // √ﬂ∞° «œ±‚ ¿ß«ÿº≠ ∆ƒ¿œ¿« ≥°¿∏∑Œ ø≈±‚∞Ì..
+	::SetFilePointer(hFile, 0, nullptr, FILE_END); // Ï∂îÍ∞Ä ÌïòÍ∏∞ ÏúÑÌï¥ÏÑú ÌååÏùºÏùò ÎÅùÏúºÎ°ú ÏòÆÍ∏∞Í≥†..
 
 	char szBuff[1024];
 	SYSTEMTIME time;
@@ -45,27 +45,27 @@ void CLogWriter::Open(const std::string& szFN)
 
 	sprintf(szBuff, "---------------------------------------------------------------------------\r\n", time.wMonth, time.wDay, time.wHour, time.wMinute);
 	int iLength = lstrlen(szBuff);
-	WriteFile(hFile, szBuff, iLength, &dwRWC, NULL);
+	WriteFile(hFile, szBuff, iLength, &dwRWC, nullptr);
 
 	sprintf(szBuff, "// Begin writing log... [%.2d/%.2d %.2d:%.2d]\r\n", time.wMonth, time.wDay, time.wHour, time.wMinute);
 	iLength = lstrlen(szBuff);
-	WriteFile(hFile, szBuff, iLength, &dwRWC, NULL);
+	WriteFile(hFile, szBuff, iLength, &dwRWC, nullptr);
 
 	CloseHandle(hFile);
 }
 
 void CLogWriter::Close()
 {
-	HANDLE hFile = CreateFile(s_szFileName.c_str(), GENERIC_WRITE, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+	HANDLE hFile = CreateFile(s_szFileName.c_str(), GENERIC_WRITE, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
 	if(INVALID_HANDLE_VALUE == hFile)
 	{
-		hFile = CreateFile(s_szFileName.c_str(), GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
-		if(INVALID_HANDLE_VALUE == hFile) hFile = NULL;
+		hFile = CreateFile(s_szFileName.c_str(), GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
+		if(INVALID_HANDLE_VALUE == hFile) hFile = nullptr;
 	}
 
 	if(hFile)
 	{
-		::SetFilePointer(hFile, 0, NULL, FILE_END); // √ﬂ∞° «œ±‚ ¿ß«ÿº≠ ∆ƒ¿œ¿« ≥°¿∏∑Œ ø≈±‚∞Ì..
+		::SetFilePointer(hFile, 0, nullptr, FILE_END); // Ï∂îÍ∞Ä ÌïòÍ∏∞ ÏúÑÌï¥ÏÑú ÌååÏùºÏùò ÎÅùÏúºÎ°ú ÏòÆÍ∏∞Í≥†..
 
 		char szBuff[1024];
 		SYSTEMTIME time;
@@ -74,20 +74,20 @@ void CLogWriter::Close()
 
 		sprintf(szBuff, "// End writing log... [%.2d/%.2d %.2d:%.2d]\r\n", time.wMonth, time.wDay, time.wHour, time.wMinute);
 		int iLength = lstrlen(szBuff);
-		WriteFile(hFile, szBuff, iLength, &dwRWC, NULL);
+		WriteFile(hFile, szBuff, iLength, &dwRWC, nullptr);
 
 		sprintf(szBuff, "---------------------------------------------------------------------------\r\n", time.wMonth, time.wDay, time.wHour, time.wMinute);
 		iLength = lstrlen(szBuff);
-		WriteFile(hFile, szBuff, iLength, &dwRWC, NULL);
+		WriteFile(hFile, szBuff, iLength, &dwRWC, nullptr);
 
 		CloseHandle(hFile);
-		hFile = NULL;
+		hFile = nullptr;
 	}
 }
 
 void CLogWriter::Write(const char *lpszFormat, ...)
 {
-	if(s_szFileName.empty() || NULL == lpszFormat) return;
+	if(s_szFileName.empty() || nullptr == lpszFormat) return;
 
 	static char szFinal[1024];
 	static SYSTEMTIME time;
@@ -108,19 +108,19 @@ void CLogWriter::Write(const char *lpszFormat, ...)
 	lstrcat(szFinal, "\r\n");
 	int iLength = lstrlen(szFinal);
 
-	HANDLE hFile = CreateFile(s_szFileName.c_str(), GENERIC_WRITE, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+	HANDLE hFile = CreateFile(s_szFileName.c_str(), GENERIC_WRITE, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
 	if(INVALID_HANDLE_VALUE == hFile)
 	{
-		hFile = CreateFile(s_szFileName.c_str(), GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
-		if(INVALID_HANDLE_VALUE == hFile) hFile = NULL;
+		hFile = CreateFile(s_szFileName.c_str(), GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
+		if(INVALID_HANDLE_VALUE == hFile) hFile = nullptr;
 	}
 
 
 	if(hFile)
 	{
-		::SetFilePointer(hFile, 0, NULL, FILE_END); // √ﬂ∞° «œ±‚ ¿ß«ÿº≠ ∆ƒ¿œ¿« ≥°¿∏∑Œ ø≈±‚∞Ì..
+		::SetFilePointer(hFile, 0, nullptr, FILE_END); // Ï∂îÍ∞Ä ÌïòÍ∏∞ ÏúÑÌï¥ÏÑú ÌååÏùºÏùò ÎÅùÏúºÎ°ú ÏòÆÍ∏∞Í≥†..
 
-		WriteFile(hFile, szFinal, iLength, &dwRWC, NULL);
+		WriteFile(hFile, szFinal, iLength, &dwRWC, nullptr);
 		CloseHandle(hFile);
 	}
 }

@@ -17,14 +17,14 @@ CCountableItemEditDlg::CCountableItemEditDlg()
 {
 	m_eCallerWnd = UIWND_UNKNOWN;
 	m_eCallerWndDistrict = UIWND_DISTRICT_UNKNOWN;
-	m_pArea = NULL;
-	m_pImageOfIcon = NULL;
+	m_pArea = nullptr;
+	m_pImageOfIcon = nullptr;
 	m_bLocked = false;
-	m_pEdit	= NULL;
+	m_pEdit	= nullptr;
 	m_bWareGold = false;
 
-	m_pBtnOk	 = NULL;
-	m_pBtnCancel = NULL;
+	m_pBtnOk	 = nullptr;
+	m_pBtnCancel = nullptr;
 }
 
 CCountableItemEditDlg::~CCountableItemEditDlg()
@@ -40,7 +40,7 @@ void CCountableItemEditDlg::Release()
 
 bool CCountableItemEditDlg::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 {
-	if(NULL == pSender) return false;
+	if(nullptr == pSender) return false;
 	if(IsVisible() == false) return false;
 	if(m_eCallerWnd == UIWND_UNKNOWN) return false;
 	if(m_eCallerWndDistrict == UIWND_DISTRICT_UNKNOWN) return false;
@@ -143,7 +143,7 @@ void CCountableItemEditDlg::Open(e_UIWND eUW, e_UIWND_DISTRICT eUD, bool bCountG
 	else
 		::_LoadStringFromResource(IDS_EDIT_BOX_COUNT, szMsg);
 
-	CN3UIString* pString = NULL;
+	CN3UIString* pString = nullptr;
 	pString = (CN3UIString*)this->GetChildByID("String_PersonTradeEdit_Msg");
 	__ASSERT(pString, "NULL UI Component!!");
 	if (pString)
@@ -192,14 +192,14 @@ void CCountableItemEditDlg::Open(e_UIWND eUW, e_UIWND_DISTRICT eUD, bool bCountG
 void CCountableItemEditDlg::Close()
 {
 	m_bLocked = false;
-//	SetVisible(false);	//ÀÌ°Å ¾²Áö ¸»°í SetVisibleWithNoSound ÇÔ¼ö ½áÁÖ¼¼¿ä...
+//	SetVisible(false);	//ì´ê±° ì“°ì§€ ë§ê³  SetVisibleWithNoSound í•¨ìˆ˜ ì¨ì£¼ì„¸ìš”...
 	SetVisibleWithNoSound(false);
 
 	CN3UIEdit* pEdit = GetFocusedEdit();
 	if (pEdit) pEdit->KillFocus();
 }
 
-int	CCountableItemEditDlg::GetQuantity() // "edit_trade" Edit Control ¿¡¼­ Á¤¼ö°ªÀ» ¾ò¿À¿Â´Ù..
+int	CCountableItemEditDlg::GetQuantity() // "edit_trade" Edit Control ì—ì„œ ì •ìˆ˜ê°’ì„ ì–»ì˜¤ì˜¨ë‹¤..
 {
 	CN3UIEdit* pEdit = (CN3UIEdit*)this->GetChildByID("edit_trade");
 	__ASSERT(pEdit, "NULL UI Component!!");
@@ -207,7 +207,7 @@ int	CCountableItemEditDlg::GetQuantity() // "edit_trade" Edit Control ¿¡¼­ Á¤¼ö°
 	return atoi(pEdit->GetString().c_str());
 }
 
-void CCountableItemEditDlg::SetQuantity(int iQuantity) // "edit_trade" Edit Control ¿¡¼­ Á¤¼ö°ªÀ» ¹®ÀÚ¿­·Î ¼¼ÆÃÇÑ´Ù..
+void CCountableItemEditDlg::SetQuantity(int iQuantity) // "edit_trade" Edit Control ì—ì„œ ì •ìˆ˜ê°’ì„ ë¬¸ìì—´ë¡œ ì„¸íŒ…í•œë‹¤..
 {
 	CN3UIEdit* pEdit = (CN3UIEdit*)this->GetChildByID("edit_trade");
 	__ASSERT(pEdit, "NULL UI Component!!");
@@ -232,7 +232,7 @@ void CCountableItemEditDlg::SetVisible(bool bVisible)
 void CCountableItemEditDlg::SetVisibleWithNoSound(bool bVisible, bool bWork, bool bReFocus)
 {
 	if(bWork)
-	{//¿©±â¼­´Â ReceiveMessage¿¡¼­ À¯¾ÆÀÌ°¡ º¸ÀÌ´ÂÁö¸¦ Ã¼Å©¸¦ ÇØ¼­ ÀÏ´Ü ¾ÕÂÊ¿¡ µĞ´Ù.
+	{//ì—¬ê¸°ì„œëŠ” ReceiveMessageì—ì„œ ìœ ì•„ì´ê°€ ë³´ì´ëŠ”ì§€ë¥¼ ì²´í¬ë¥¼ í•´ì„œ ì¼ë‹¨ ì•ìª½ì— ë‘”ë‹¤.
 		ReceiveMessage(m_pBtnCancel, UIMSG_BUTTON_CLICK);
 	}
 	

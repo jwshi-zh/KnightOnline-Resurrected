@@ -9,7 +9,7 @@
 
 CUITradeList::CUITradeList()
 {
-	m_pScrollbar = NULL;
+	m_pScrollbar = nullptr;
 }
 
 CUITradeList::~CUITradeList()
@@ -21,7 +21,7 @@ void CUITradeList::Release()
 {
 	CN3UIBase::Release();
 
-	m_pScrollbar = NULL;
+	m_pScrollbar = nullptr;
 }
 
 bool CUITradeList::Load(HANDLE hFile)
@@ -53,7 +53,7 @@ bool CUITradeList::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 
 	else if (dwMsg == UIMSG_SCROLLBAR_POS)
 	{
-		// ½ºÅ©·Ñ¹Ù¿¡ ¸Â´Â Ã¤ÆÃ Line ¼³Á¤
+		// ìŠ¤í¬ë¡¤ë°”ì— ë§ëŠ” ì±„íŒ… Line ì„¤ì •
 		int iCurLinePos = m_pScrollbar->GetCurrentPos();
 		SetTopLine(iCurLinePos);
 	}
@@ -67,17 +67,17 @@ void CUITradeList::Open(int iIDTarget)
 
 	if (iIDTarget == -1) return;
 
-	__TABLE_EXCHANGE_QUEST* pQuest = NULL;
-	__TABLE_PLAYER_LOOKS* pPlayer = NULL;
-	__TABLE_ITEM_BASIC* pItem = NULL;
+	__TABLE_EXCHANGE_QUEST* pQuest = nullptr;
+	__TABLE_PLAYER_LOOKS* pPlayer = nullptr;
+	__TABLE_ITEM_BASIC* pItem = nullptr;
 
-	// ¾ÆÀÌµğ = Á÷¾÷ ÄÚµå*1000 + 001ºÎÅÍ.. (Á÷¾÷ ÄÚµå+1)*100 + 001±îÁö..
+	// ì•„ì´ë”” = ì§ì—… ì½”ë“œ*1000 + 001ë¶€í„°.. (ì§ì—… ì½”ë“œ+1)*100 + 001ê¹Œì§€..
 	int i, iIDFirst, iIDIndexFirst, iIDIndexLast, iDivide, iTotalCount;
 	iIDFirst = iIDTarget*1000+1;
 	iIDIndexFirst = CGameBase::s_pTbl_Exchange_Quest->IDToIndex(iIDFirst);
 
 	if ( iIDIndexFirst == -1 ) 
-		return;		// ¾Æ¹«·± ¸®½ºÆ®µµ °¡Áö°í ÀÖÁö ¾Ê´Ù..
+		return;		// ì•„ë¬´ëŸ° ë¦¬ìŠ¤íŠ¸ë„ ê°€ì§€ê³  ìˆì§€ ì•Šë‹¤..
 
 	iTotalCount = CGameBase::s_pTbl_Exchange_Quest->GetSize();
 	iIDIndexLast = 0;
@@ -101,7 +101,7 @@ void CUITradeList::Open(int iIDTarget)
 	
 	if (!iIDIndexLast) iIDIndexLast = iTotalCount;
 
-	// ¸Ş½ÃÁö ¹Ú½º ÅØ½ºÆ® Ç¥½Ã..
+	// ë©”ì‹œì§€ ë°•ìŠ¤ í…ìŠ¤íŠ¸ í‘œì‹œ..
 	char pszID[32];
 	for(auto i = iIDIndexFirst; i < iIDIndexFirst + 40; i++ )
 	{
@@ -111,17 +111,17 @@ void CUITradeList::Open(int iIDTarget)
 			iDivide						= pQuest->dwID / 1000;
 			pPlayer						= CGameBase::s_pTbl_NPC_Looks->Find(iDivide);
 			m_sStr[i-iIDIndexFirst]		= pPlayer->szName;
-			m_sStr[i-iIDIndexFirst]		+= "¿¡°Ô ";
+			m_sStr[i-iIDIndexFirst]		+= "ì—ê²Œ ";
 			
 			pItem						= CGameBase::s_pTbl_Items_Basic->Find(pQuest->iCondition0);
 			if(pItem) m_sStr[i-iIDIndexFirst] += pItem->szName;
 			else m_sStr[i-iIDIndexFirst] += "NULL Item";
-			m_sStr[i-iIDIndexFirst]		+= "°ú ";	
+			m_sStr[i-iIDIndexFirst]		+= "ê³¼ ";	
 			
 			pItem						= CGameBase::s_pTbl_Items_Basic->Find(pQuest->iCondition1);
 			if(pItem) m_sStr[i-iIDIndexFirst] += pItem->szName;
 			else m_sStr[i-iIDIndexFirst] += "NULL Item";
-			m_sStr[i-iIDIndexFirst]		+= "¸¦ ";	
+			m_sStr[i-iIDIndexFirst]		+= "ë¥¼ ";	
 			sprintf(pszID, "%d",i);
 			m_sStr[i-iIDIndexFirst]		+= pszID;
 			m_sStr[i-iIDIndexFirst]		+= "\n";
@@ -138,9 +138,9 @@ void CUITradeList::Close()
 	SetVisible(false);
 }
 
-void CUITradeList::SetTopLine(int iTopLine)		// ¸Ç À­ÁÙÀ» ÁöÁ¤ÇØÁØ´Ù.
+void CUITradeList::SetTopLine(int iTopLine)		// ë§¨ ìœ—ì¤„ì„ ì§€ì •í•´ì¤€ë‹¤.
 {
-	// 0 ~ 10 »çÀÌ°ª.. ¸ÕÀú ÃÑ °¹¼ö¸¦ ¼¾´Ù..
+	// 0 ~ 10 ì‚¬ì´ê°’.. ë¨¼ì € ì´ ê°¯ìˆ˜ë¥¼ ì„¼ë‹¤..
 	int i = 0, iTotalCount, iFirstIndex, iLastIndex;
 	for(; i < 40; i++)
 	{
@@ -164,7 +164,7 @@ void CUITradeList::SetTopLine(int iTopLine)		// ¸Ç À­ÁÙÀ» ÁöÁ¤ÇØÁØ´Ù.
 
 	for (auto i = 0; i < 9; i++)
 	{
-		if(NULL == m_pStr_List[i]) continue;
+		if(nullptr == m_pStr_List[i]) continue;
 		m_pStr_List[i]->SetString(m_sStr[iFirstIndex+i]);
 	}
 

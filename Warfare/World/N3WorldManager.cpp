@@ -18,7 +18,7 @@
 
 CN3WorldManager::CN3WorldManager()
 {
-	m_pActiveWorld = NULL;
+	m_pActiveWorld = nullptr;
 	m_bIndoor = true;
 }
 
@@ -26,7 +26,7 @@ CN3WorldManager::~CN3WorldManager()
 {
 	if (m_pActiveWorld)
 		delete m_pActiveWorld;
-	m_pActiveWorld = NULL;
+	m_pActiveWorld = nullptr;
 }
 
 void CN3WorldManager::InitWorld(int iZoneID, const __Vector3& vPosPlayer)
@@ -36,7 +36,7 @@ void CN3WorldManager::InitWorld(int iZoneID, const __Vector3& vPosPlayer)
 	if (m_pActiveWorld)
 		delete m_pActiveWorld;
 
-	// Zone ¼±ÅÃ..
+	// Zone ì„ íƒ..
 	if (iZoneID != 51)	// N3Terrain..
 	{
 		CLogWriter::Write("CN3WorldManager::InitWorld Pre new Terrain ZoneID(%d)", iZoneID); // TmpLog_11_22
@@ -52,7 +52,7 @@ void CN3WorldManager::InitWorld(int iZoneID, const __Vector3& vPosPlayer)
 		m_bIndoor = true;
 	}
 
-	// Zone ÃÊ±âÈ­..
+	// Zone ì´ˆê¸°í™”..
 	m_pActiveWorld->InitWorld(iZoneID, vPosPlayer);
 }
 

@@ -12,7 +12,7 @@ CN3FXPartBillBoard::CN3FXPartBillBoard()
 	m_iTexIdx = 0;
 	m_dwCurrColor = 0xffffffff;
 	
-	m_pVB = NULL;
+	m_pVB = nullptr;
 	m_fRadius = 0.0f;
 
 	m_bTexLoop = false;
@@ -34,7 +34,7 @@ CN3FXPartBillBoard::~CN3FXPartBillBoard()
 	if(m_pVB)
 	{
 		delete[] m_pVB;
-		m_pVB = NULL;
+		m_pVB = nullptr;
 	}
 }
 
@@ -52,7 +52,7 @@ bool CN3FXPartBillBoard::ParseScript(char* szCommand, char* szBuff0, char* szBuf
 {
 	if(CN3FXPartBase::ParseScript(szCommand, szBuff0, szBuff1, szBuff2, szBuff3)) return true;
 
-	//	∫∏µÂ ∞πºˆ.
+	//	Î≥¥Îìú Í∞ØÏàò.
 	if(lstrcmpi(szCommand, "<billboard_count>")==0)
 	{
 		m_iNum = atoi(szBuff0);
@@ -60,7 +60,7 @@ bool CN3FXPartBillBoard::ParseScript(char* szCommand, char* szBuff0, char* szBuf
 		return true;
 	}
 
-	//	∫∏µÂ ≈©±‚.
+	//	Î≥¥Îìú ÌÅ¨Í∏∞.
 	if(lstrcmpi(szCommand, "<billboard_size>")==0)
 	{
 		m_fSizeX = atof(szBuff0);
@@ -178,24 +178,24 @@ bool CN3FXPartBillBoard::Load(HANDLE hFile)
 	if(!CN3FXPartBase::Load(hFile)) return false;
 
 	DWORD			dwRWC = 0;
-	ReadFile(hFile, &m_iNum, sizeof(int), &dwRWC, NULL);
-	ReadFile(hFile, &m_fSizeX, sizeof(float), &dwRWC, NULL);
-	ReadFile(hFile, &m_fSizeY, sizeof(float), &dwRWC, NULL);
+	ReadFile(hFile, &m_iNum, sizeof(int), &dwRWC, nullptr);
+	ReadFile(hFile, &m_fSizeX, sizeof(float), &dwRWC, nullptr);
+	ReadFile(hFile, &m_fSizeY, sizeof(float), &dwRWC, nullptr);
 
-	ReadFile(hFile, &m_bTexLoop, sizeof(bool), &dwRWC, NULL);
-	ReadFile(hFile, &m_fRadius, sizeof(float), &dwRWC, NULL);
+	ReadFile(hFile, &m_bTexLoop, sizeof(bool), &dwRWC, nullptr);
+	ReadFile(hFile, &m_fRadius, sizeof(float), &dwRWC, nullptr);
 
-	if(m_iVersion>=3) ReadFile(hFile, &m_bRoateOnlyY, sizeof(bool), &dwRWC, NULL);	
+	if(m_iVersion>=3) ReadFile(hFile, &m_bRoateOnlyY, sizeof(bool), &dwRWC, nullptr);	
 
 	if(m_iVersion>=4)
 	{
-		ReadFile(hFile, &m_fScaleVelX, sizeof(float), &dwRWC, NULL);
-		ReadFile(hFile, &m_fScaleVelY, sizeof(float), &dwRWC, NULL);
-		ReadFile(hFile, &m_fScaleAccelX, sizeof(float), &dwRWC, NULL);
-		ReadFile(hFile, &m_fScaleAccelY, sizeof(float), &dwRWC, NULL);
+		ReadFile(hFile, &m_fScaleVelX, sizeof(float), &dwRWC, nullptr);
+		ReadFile(hFile, &m_fScaleVelY, sizeof(float), &dwRWC, nullptr);
+		ReadFile(hFile, &m_fScaleAccelX, sizeof(float), &dwRWC, nullptr);
+		ReadFile(hFile, &m_fScaleAccelY, sizeof(float), &dwRWC, nullptr);
 	}
 
-	if(m_iVersion>=5) ReadFile(hFile, &m_mtxRot, sizeof(m_mtxRot), &dwRWC, NULL);
+	if(m_iVersion>=5) ReadFile(hFile, &m_mtxRot, sizeof(m_mtxRot), &dwRWC, nullptr);
 
 	CreateVB();
 	Init();
@@ -212,21 +212,21 @@ bool CN3FXPartBillBoard::Save(HANDLE hFile)
 	if(!CN3FXPartBase::Save(hFile)) return false;
 
 	DWORD			dwRWC = 0;
-	WriteFile(hFile, &m_iNum, sizeof(int), &dwRWC, NULL);
-	WriteFile(hFile, &m_fSizeX, sizeof(float), &dwRWC, NULL);
-	WriteFile(hFile, &m_fSizeY, sizeof(float), &dwRWC, NULL);
+	WriteFile(hFile, &m_iNum, sizeof(int), &dwRWC, nullptr);
+	WriteFile(hFile, &m_fSizeX, sizeof(float), &dwRWC, nullptr);
+	WriteFile(hFile, &m_fSizeY, sizeof(float), &dwRWC, nullptr);
 
-	WriteFile(hFile, &m_bTexLoop, sizeof(bool), &dwRWC, NULL);
-	WriteFile(hFile, &m_fRadius, sizeof(float), &dwRWC, NULL);
+	WriteFile(hFile, &m_bTexLoop, sizeof(bool), &dwRWC, nullptr);
+	WriteFile(hFile, &m_fRadius, sizeof(float), &dwRWC, nullptr);
 
-	if(m_iVersion>=3) WriteFile(hFile, &m_bRoateOnlyY, sizeof(bool), &dwRWC, NULL);
+	if(m_iVersion>=3) WriteFile(hFile, &m_bRoateOnlyY, sizeof(bool), &dwRWC, nullptr);
 	
-	WriteFile(hFile, &m_fScaleVelX, sizeof(float), &dwRWC, NULL);
-	WriteFile(hFile, &m_fScaleVelY, sizeof(float), &dwRWC, NULL);
-	WriteFile(hFile, &m_fScaleAccelX, sizeof(float), &dwRWC, NULL);
-	WriteFile(hFile, &m_fScaleAccelY, sizeof(float), &dwRWC, NULL);
+	WriteFile(hFile, &m_fScaleVelX, sizeof(float), &dwRWC, nullptr);
+	WriteFile(hFile, &m_fScaleVelY, sizeof(float), &dwRWC, nullptr);
+	WriteFile(hFile, &m_fScaleAccelX, sizeof(float), &dwRWC, nullptr);
+	WriteFile(hFile, &m_fScaleAccelY, sizeof(float), &dwRWC, nullptr);
 
-	if(m_iVersion>=5) WriteFile(hFile, &m_mtxRot, sizeof(m_mtxRot), &dwRWC, NULL);
+	if(m_iVersion>=5) WriteFile(hFile, &m_mtxRot, sizeof(m_mtxRot), &dwRWC, nullptr);
 
 	return true;
 }
@@ -282,7 +282,7 @@ bool CN3FXPartBillBoard::Tick()
 		}
 	}
 
-	//¿ßƒ°ø° ∞¸«— ∆Ω∆Ω...m_vCurrPos
+	//ÏúÑÏπòÏóê Í¥ÄÌïú Ìã±Ìã±...m_vCurrPos
 	m_vCurrVelocity += m_vAcceleration*CN3Base::s_fSecPerFrm;
 	m_vCurrPos += m_vCurrVelocity*CN3Base::s_fSecPerFrm;
 
@@ -334,21 +334,21 @@ bool CN3FXPartBillBoard::IsDead()
 
 //
 //	render...
-//	¿œ¥‹¿∫ ∆ƒ∆º≈¨ «œ≥™æø ±◊∏Æ∞Ì....
-//	≥™¡ﬂø°¥¬ ∞∞¿∫ ≈ÿΩ∫√ƒ æ≤¥¬ ∞ÕµÈ≥¢∏Æ π≠æÓº≠ ±◊∏Æ¿⁄...
+//	ÏùºÎã®ÏùÄ ÌååÌã∞ÌÅ¥ ÌïòÎÇòÏî© Í∑∏Î¶¨Í≥†....
+//	ÎÇòÏ§ëÏóêÎäî Í∞ôÏùÄ ÌÖçÏä§Ï≥ê Ïì∞Îäî Í≤ÉÎì§ÎÅºÎ¶¨ Î¨∂Ïñ¥ÏÑú Í∑∏Î¶¨Ïûê...
 //
 void CN3FXPartBillBoard::Render()
 {
 	if(m_iTexIdx >= m_iNumTex) return;
 
-	//»∏¿¸...
+	//ÌöåÏ†Ñ...
 	__Matrix44 mtxRotZ;
 	mtxRotZ.Identity();
 	mtxRotZ.RotationZ(m_fCurrLife*m_vRotVelocity.x);
 
 	if(!m_bRoateOnlyY)
 	{
-		//¿ßƒ°¡ˆ¡§ & ≥™∏¶ πŸ∂Û∫∏∞‘ º¬∆√..
+		//ÏúÑÏπòÏßÄÏ†ï & ÎÇòÎ•º Î∞îÎùºÎ≥¥Í≤å ÏÖãÌåÖ..
 		__Matrix44 mtxVI;
 		mtxVI = s_CameraData.mtxViewInverse;
 		__Vector3 vpp;
@@ -439,7 +439,7 @@ void CN3FXPartBillBoard::Render()
 	}
 	else
 	{
-		//¿ßƒ°¡ˆ¡§ & ≥™∏¶ πŸ∂Û∫∏∞‘ º¬∆√..
+		//ÏúÑÏπòÏßÄÏ†ï & ÎÇòÎ•º Î∞îÎùºÎ≥¥Í≤å ÏÖãÌåÖ..
 		__Vector3 AbsoluteCurrPos = Rotate2AbsolutePos(m_vCurrPos);
 		__Vector3 vRadiusPos = s_CameraData.vEye - (AbsoluteCurrPos + m_pRefBundle->m_vPos);
 
@@ -534,7 +534,7 @@ void CN3FXPartBillBoard::Render()
 		}
 	}
 
-	if(m_bAlpha) // Alpha ªÁøÎ
+	if(m_bAlpha) // Alpha ÏÇ¨Ïö©
 	{
 		__AlphaPrimitive* pAP = s_AlphaMgr.Add();
 		if(pAP)
@@ -548,7 +548,7 @@ void CN3FXPartBillBoard::Render()
 
 			if(m_ppRefTex[m_iTexIdx]) 
 				pAP->lpTex = m_ppRefTex[m_iTexIdx]->Get();
-			else pAP->lpTex = NULL;
+			else pAP->lpTex = nullptr;
 
 			__Matrix44 mtxWorld;
 			mtxWorld.Identity();
@@ -558,10 +558,10 @@ void CN3FXPartBillBoard::Render()
 			pAP->nPrimitiveCount	= m_iNum*2;
 			pAP->nVertexCount		= m_iNum*4;
 			pAP->pVertices			= &(m_pVB[0]);
-			pAP->pwIndices			= NULL;
+			pAP->pwIndices			= nullptr;
 		}
 
-		return; // ∑ª¥ı∏µ æ»«œ¡ˆ∑’.
+		return; // Î†åÎçîÎßÅ ÏïàÌïòÏßÄÎ°±.
 	}
 	else 
 	{
@@ -569,7 +569,7 @@ void CN3FXPartBillBoard::Render()
 
 		if(m_ppRefTex[m_iTexIdx]) 
 			CN3Base::s_lpD3DDev->SetTexture(0, m_ppRefTex[m_iTexIdx]->Get());
-		else CN3Base::s_lpD3DDev->SetTexture(0, NULL);
+		else CN3Base::s_lpD3DDev->SetTexture(0, nullptr);
 
 		s_lpD3DDev->SetTextureStageState( 0, D3DTSS_COLOROP,   D3DTOP_MODULATE );
 		s_lpD3DDev->SetTextureStageState( 0, D3DTSS_COLORARG1, D3DTA_TEXTURE );		

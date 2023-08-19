@@ -54,7 +54,7 @@ void CN3FXMgr::TriggerBundle(int SourceID, int SourceJoint, int FXID, int Target
 	
 	stlMAP_BUNDLEORIGIN_IT itOrigin = m_OriginBundle.find(strTmp);
 	
-	if(itOrigin != m_OriginBundle.end())	//°°Àº È¿°ú°¡ ÀÖ´Ù..
+	if(itOrigin != m_OriginBundle.end())	//ê°™ì€ íš¨ê³¼ê°€ ìˆë‹¤..
 	{
 		LPFXBUNDLEORIGIN pSrc = itOrigin->second;
 		
@@ -72,7 +72,7 @@ void CN3FXMgr::TriggerBundle(int SourceID, int SourceJoint, int FXID, int Target
 		m_ListBundle.push_back(pBundle);
 		pSrc->iNum++;
 	}
-	else	//°°Àº È¿°ú°¡ ¾ø´Ù..
+	else	//ê°™ì€ íš¨ê³¼ê°€ ì—†ë‹¤..
 	{
 		LPFXBUNDLEORIGIN pSrc = new FXBUNDLEORIGIN;
 		pSrc->pBundle = new CN3FXBundleGame;
@@ -112,7 +112,7 @@ void CN3FXMgr::TriggerBundle(int SourceID, int SourceJoint, int FXID, __Vector3 
 
 	stlMAP_BUNDLEORIGIN_IT itOrigin = m_OriginBundle.find(strTmp);
 
-	if(itOrigin != m_OriginBundle.end())	//°°Àº È¿°ú°¡ ÀÖ´Ù..
+	if(itOrigin != m_OriginBundle.end())	//ê°™ì€ íš¨ê³¼ê°€ ìˆë‹¤..
 	{
 		LPFXBUNDLEORIGIN pSrc = itOrigin->second;		
 		CN3FXBundleGame* pBundle = new CN3FXBundleGame;
@@ -128,7 +128,7 @@ void CN3FXMgr::TriggerBundle(int SourceID, int SourceJoint, int FXID, __Vector3 
 		m_ListBundle.push_back(pBundle);
 		pSrc->iNum++;
 	}
-	else	//°°Àº È¿°ú°¡ ¾ø´Ù..
+	else	//ê°™ì€ íš¨ê³¼ê°€ ì—†ë‹¤..
 	{
 		LPFXBUNDLEORIGIN pSrc = new FXBUNDLEORIGIN;
 		pSrc->pBundle = new CN3FXBundleGame;
@@ -264,7 +264,7 @@ void CN3FXMgr::Tick()
 		itOrigin++;
 	}
 //	TRACE("Origin Bundle Count : %d \n", m_OriginBundle.size());
-//	TRACE("ÇöÀç¾²°í ÀÖ´Â È¿°úÀÇ ¼ö : %d \n", m_ListBundle.size());
+//	TRACE("í˜„ì¬ì“°ê³  ìˆëŠ” íš¨ê³¼ì˜ ìˆ˜ : %d \n", m_ListBundle.size());
 
 	stlLIST_BUNDLEGAME_IT it = m_ListBundle.begin();
 	//std::list<CN3FXBundleGame*>::iterator it = m_ListBundle.begin();
@@ -279,7 +279,7 @@ void CN3FXMgr::Tick()
 		if(pBundle->m_dwState==FX_BUNDLE_STATE_DEAD)
 		{
 			stlMAP_BUNDLEORIGIN_IT itOrigin = m_OriginBundle.find(pBundle->FileName());
-			if(itOrigin!=m_OriginBundle.end())	//°°Àº È¿°ú°¡ ÀÖ´Ù..
+			if(itOrigin!=m_OriginBundle.end())	//ê°™ì€ íš¨ê³¼ê°€ ìˆë‹¤..
 			{
 				LPFXBUNDLEORIGIN pSrc = itOrigin->second;
 				pSrc->iNum--;
@@ -294,11 +294,11 @@ void CN3FXMgr::Tick()
 			continue;
 		}		
 		
-		//³»°¡ ½ğ °ÍÀÌ°í..
-		//pBundle->m_iMoveType°ú »ì¾ÆÀÖ´ÂÁö¸¦ Ã¼Å©ÇÑ ´ÙÀ½
-		//½Ã¾ß±Ç °Ë»ç´Â º¸·ù....¸¸¾à ÇÑ´Ù¸é...view frustumÀ¸·Î ÇÏ´Â°Ô ¾Æ´Ï¶ó...
-		//player¿Í objÀÇ °Å¸®¸¦ ±¸ÇØ¼­ ÀÏÁ¤°Å¸® ÀÌ»óÀÌ¸é ¾ø¾Ö´Â °É·ÎÇØ¶ó..
-		//Ãæµ¹°Ë»ç
+		//ë‚´ê°€ ìœ ê²ƒì´ê³ ..
+		//pBundle->m_iMoveTypeê³¼ ì‚´ì•„ìˆëŠ”ì§€ë¥¼ ì²´í¬í•œ ë‹¤ìŒ
+		//ì‹œì•¼ê¶Œ ê²€ì‚¬ëŠ” ë³´ë¥˜....ë§Œì•½ í•œë‹¤ë©´...view frustumìœ¼ë¡œ í•˜ëŠ”ê²Œ ì•„ë‹ˆë¼...
+		//playerì™€ objì˜ ê±°ë¦¬ë¥¼ êµ¬í•´ì„œ ì¼ì •ê±°ë¦¬ ì´ìƒì´ë©´ ì—†ì• ëŠ” ê±¸ë¡œí•´ë¼..
+		//ì¶©ëŒê²€ì‚¬
 /*	
 		if(pBundle->m_iMoveType != FX_BUNDLE_MOVE_NONE &&
 			pBundle->m_dwState==FX_BUNDLE_STATE_LIVE &&
@@ -308,33 +308,33 @@ void CN3FXMgr::Tick()
 */
 		if(pBundle->m_iMoveType != FX_BUNDLE_MOVE_NONE && pBundle->m_dwState==FX_BUNDLE_STATE_LIVE)
 		{
-			if(s_pOPMgr->UPCGetByID(pBundle->m_iSourceID, true)==NULL &&
-				s_pOPMgr->NPCGetByID(pBundle->m_iSourceID, true)==NULL &&
+			if(s_pOPMgr->UPCGetByID(pBundle->m_iSourceID, true)== nullptr &&
+				s_pOPMgr->NPCGetByID(pBundle->m_iSourceID, true)== nullptr &&
 				s_pPlayer->IDNumber()!=pBundle->m_iSourceID	)
 			{
 				pBundle->Stop();
 			}
 
-			DWORD dwToMe = 0; //dwToMe==1ÀÌ¸é ³»°¡ ½ğ°Å.. dwToMe==2ÀÌ¸é ³»°¡ Å¸°Ù..
+			DWORD dwToMe = 0; //dwToMe==1ì´ë©´ ë‚´ê°€ ìœê±°.. dwToMe==2ì´ë©´ ë‚´ê°€ íƒ€ê²Ÿ..
 			if(s_pPlayer->IDNumber()==pBundle->m_iSourceID) dwToMe = 1;
 			else if( s_pPlayer->IDNumber()==pBundle->m_iTargetID &&
-					s_pOPMgr->UPCGetByID(pBundle->m_iSourceID, true)==NULL) dwToMe = 2;
+					s_pOPMgr->UPCGetByID(pBundle->m_iSourceID, true)== nullptr) dwToMe = 2;
 			
 			if(dwToMe == 1 || dwToMe == 2)
 			{
 				__Vector3 vCol;
 				float fHeight = 0.5f;
 
-				// npc or player¿Í Ãæµ¹Ã¼Å©..
+				// npc or playerì™€ ì¶©ëŒì²´í¬..
 				bool bCol = false;
 				it_UPC it = s_pOPMgr->m_UPCs.begin();
 				it_UPC itEnd = s_pOPMgr->m_UPCs.end();
-				CPlayerOther* pUPC = NULL;
+				CPlayerOther* pUPC = nullptr;
 
 				if( dwToMe==2 && ((pBundle->m_vPos - s_pPlayer->Position()).Magnitude()<16.0f) )
 				{
 					__Vector3 vCp = s_pPlayer->Center();
-					if( true == s_pPlayer->CheckCollisionByBox(pBundle->m_vPos, pBundle->m_vPos + pBundle->m_vDir*pBundle->m_fVelocity*CN3Base::s_fSecPerFrm, &vCol, NULL) )
+					if( true == s_pPlayer->CheckCollisionByBox(pBundle->m_vPos, pBundle->m_vPos + pBundle->m_vDir*pBundle->m_fVelocity*CN3Base::s_fSecPerFrm, &vCol, nullptr) )
 					//if( true == CheckCollisionSphere(pBundle->m_vPos, pBundle->m_vPos + pBundle->m_vDir*pBundle->m_fVelocity*CN3Base::s_fSecPerFrm, vCp, s_pPlayer->Radius(), &vCol) )
 					{
 						bCol = true;
@@ -358,7 +358,7 @@ void CN3FXMgr::Tick()
 						CAPISocket::MP_AddShort(byBuff, iOffset, 0);
 						CAPISocket::MP_AddShort(byBuff, iOffset, 0);
 						
-						CGameProcedure::s_pSocket->Send(byBuff, iOffset); // º¸³½´Ù..	
+						CGameProcedure::s_pSocket->Send(byBuff, iOffset); // ë³´ë‚¸ë‹¤..	
 
 						iOffset=0;
 						CAPISocket::MP_AddByte(byBuff, iOffset, (BYTE)N3_MAGIC);
@@ -375,7 +375,7 @@ void CN3FXMgr::Tick()
 						CAPISocket::MP_AddShort(byBuff, iOffset, pBundle->m_iIdx);
 						CAPISocket::MP_AddShort(byBuff, iOffset, 0);					
 						
-						CGameProcedure::s_pSocket->Send(byBuff, iOffset); // º¸³½´Ù..
+						CGameProcedure::s_pSocket->Send(byBuff, iOffset); // ë³´ë‚¸ë‹¤..
 
 						break;
 					}
@@ -386,11 +386,11 @@ void CN3FXMgr::Tick()
 					pUPC = it->second;
 					if(dwToMe == 1 && pUPC->m_InfoBase.eNation==s_pPlayer->m_InfoBase.eNation) continue;
 					
-					if((pBundle->m_vPos - pUPC->Position()).Magnitude() > 16.0f) continue; // 16 ¹ÌÅÍ ÀÌ»ó ¶³¾îÁ® ÀÖÀ½ Áö³ª°£´Ù..
+					if((pBundle->m_vPos - pUPC->Position()).Magnitude() > 16.0f) continue; // 16 ë¯¸í„° ì´ìƒ ë–¨ì–´ì ¸ ìˆìŒ ì§€ë‚˜ê°„ë‹¤..
 
 					__Vector3 vCp = pUPC->Center();
 					//if( true == CheckCollisionSphere(pBundle->m_vPos, pBundle->m_vPos + pBundle->m_vDir*pBundle->m_fVelocity*CN3Base::s_fSecPerFrm, vCp, pUPC->Radius(), &vCol) )
-					if ( true == pUPC->CheckCollisionByBox(pBundle->m_vPos, pBundle->m_vPos + pBundle->m_vDir*pBundle->m_fVelocity*CN3Base::s_fSecPerFrm, &vCol, NULL) )
+					if ( true == pUPC->CheckCollisionByBox(pBundle->m_vPos, pBundle->m_vPos + pBundle->m_vDir*pBundle->m_fVelocity*CN3Base::s_fSecPerFrm, &vCol, nullptr) )
 					{
 						bCol = true;
 						pBundle->m_vPos = vCol;
@@ -413,7 +413,7 @@ void CN3FXMgr::Tick()
 						CAPISocket::MP_AddShort(byBuff, iOffset, 0);
 						CAPISocket::MP_AddShort(byBuff, iOffset, 0);
 						
-						CGameProcedure::s_pSocket->Send(byBuff, iOffset); // º¸³½´Ù..	
+						CGameProcedure::s_pSocket->Send(byBuff, iOffset); // ë³´ë‚¸ë‹¤..	
 
 						iOffset=0;
 						CAPISocket::MP_AddByte(byBuff, iOffset, (BYTE)N3_MAGIC);
@@ -430,7 +430,7 @@ void CN3FXMgr::Tick()
 						CAPISocket::MP_AddShort(byBuff, iOffset, pBundle->m_iIdx);
 						CAPISocket::MP_AddShort(byBuff, iOffset, 0);					
 						
-						CGameProcedure::s_pSocket->Send(byBuff, iOffset); // º¸³½´Ù..
+						CGameProcedure::s_pSocket->Send(byBuff, iOffset); // ë³´ë‚¸ë‹¤..
 
 						break;
 					}
@@ -443,7 +443,7 @@ void CN3FXMgr::Tick()
 					it_NPC it2 = s_pOPMgr->m_NPCs.begin();
 					it_NPC itEnd2 = s_pOPMgr->m_NPCs.end();
 					CPlayerNPC* pSNPC = s_pOPMgr->NPCGetByID(pBundle->m_iSourceID, FALSE);
-					CPlayerNPC* pNPC = NULL;
+					CPlayerNPC* pNPC = nullptr;
 					for(; it2 != itEnd2; it2++)
 					{
 						pNPC = (*it2).second;
@@ -451,7 +451,7 @@ void CN3FXMgr::Tick()
 						if(dwToMe == 1 && pNPC->m_InfoBase.eNation==s_pPlayer->m_InfoBase.eNation) continue;
 						else if(pSNPC && dwToMe == 2 && pSNPC->m_InfoBase.eNation == pNPC->m_InfoBase.eNation) continue;
 
-						if((pBundle->m_vPos - pNPC->Position()).Magnitude() > 16.0f) continue; // 16 ¹ÌÅÍ ÀÌ»ó ¶³¾îÁ® ÀÖÀ½ Áö³ª°£´Ù..
+						if((pBundle->m_vPos - pNPC->Position()).Magnitude() > 16.0f) continue; // 16 ë¯¸í„° ì´ìƒ ë–¨ì–´ì ¸ ìˆìŒ ì§€ë‚˜ê°„ë‹¤..
 
 						if(pNPC->IDNumber()==pBundle->m_iTargetID && pNPC->m_pShapeExtraRef)
 						{
@@ -483,7 +483,7 @@ void CN3FXMgr::Tick()
 								CAPISocket::MP_AddShort(byBuff, iOffset, 0);
 								CAPISocket::MP_AddShort(byBuff, iOffset, 0);
 								
-								CGameProcedure::s_pSocket->Send(byBuff, iOffset); // º¸³½´Ù..
+								CGameProcedure::s_pSocket->Send(byBuff, iOffset); // ë³´ë‚¸ë‹¤..
 								
 								iOffset=0;
 								CAPISocket::MP_AddByte(byBuff, iOffset, (BYTE)N3_MAGIC);
@@ -500,7 +500,7 @@ void CN3FXMgr::Tick()
 								CAPISocket::MP_AddShort(byBuff, iOffset, pBundle->m_iIdx);
 								CAPISocket::MP_AddShort(byBuff, iOffset, 0);					
 								
-								CGameProcedure::s_pSocket->Send(byBuff, iOffset); // º¸³½´Ù..
+								CGameProcedure::s_pSocket->Send(byBuff, iOffset); // ë³´ë‚¸ë‹¤..
 
 								break;
 							}
@@ -508,7 +508,7 @@ void CN3FXMgr::Tick()
 
 						__Vector3 vCp = pNPC->Center();
 						//if( true == CheckCollisionSphere(pBundle->m_vPos, vNext, vCp, pNPC->Radius(), &vCol) )
-						if ( true == pNPC->CheckCollisionByBox(pBundle->m_vPos, vNext, &vCol, NULL) )
+						if ( true == pNPC->CheckCollisionByBox(pBundle->m_vPos, vNext, &vCol, nullptr) )
 						{
 							bCol = true;
 							pBundle->m_vPos = vCol;
@@ -531,7 +531,7 @@ void CN3FXMgr::Tick()
 							CAPISocket::MP_AddShort(byBuff, iOffset, 0);
 							CAPISocket::MP_AddShort(byBuff, iOffset, 0);
 							
-							CGameProcedure::s_pSocket->Send(byBuff, iOffset); // º¸³½´Ù..
+							CGameProcedure::s_pSocket->Send(byBuff, iOffset); // ë³´ë‚¸ë‹¤..
 							
 							iOffset=0;
 							CAPISocket::MP_AddByte(byBuff, iOffset, (BYTE)N3_MAGIC);
@@ -548,14 +548,14 @@ void CN3FXMgr::Tick()
 							CAPISocket::MP_AddShort(byBuff, iOffset, pBundle->m_iIdx);
 							CAPISocket::MP_AddShort(byBuff, iOffset, 0);					
 							
-							CGameProcedure::s_pSocket->Send(byBuff, iOffset); // º¸³½´Ù..
+							CGameProcedure::s_pSocket->Send(byBuff, iOffset); // ë³´ë‚¸ë‹¤..
 
 							break;						
 						}
 					}
 				}
 				
-				// Object ¿Í Ãæµ¹ Ã¼Å©..
+				// Object ì™€ ì¶©ëŒ ì²´í¬..
 				if(bCol == false &&
 					true == ACT_WORLD->CheckCollisionWithShape(pBundle->m_vPos, pBundle->m_vDir, pBundle->m_fVelocity * CN3Base::s_fSecPerFrm, &vCol))
 				{
@@ -582,7 +582,7 @@ void CN3FXMgr::Tick()
 					CAPISocket::MP_AddShort(byBuff, iOffset, 0);
 					CAPISocket::MP_AddShort(byBuff, iOffset, 0);
 
-					CGameProcedure::s_pSocket->Send(byBuff, iOffset); // º¸³½´Ù..
+					CGameProcedure::s_pSocket->Send(byBuff, iOffset); // ë³´ë‚¸ë‹¤..
 
 					iOffset=0;
 					CAPISocket::MP_AddByte(byBuff, iOffset, (BYTE)N3_MAGIC);
@@ -599,14 +599,14 @@ void CN3FXMgr::Tick()
 					CAPISocket::MP_AddShort(byBuff, iOffset, pBundle->m_iIdx);
 					CAPISocket::MP_AddShort(byBuff, iOffset, 0);	
 					
-					CGameProcedure::s_pSocket->Send(byBuff, iOffset); // º¸³½´Ù..			
+					CGameProcedure::s_pSocket->Send(byBuff, iOffset); // ë³´ë‚¸ë‹¤..			
 				}
-				// ÁöÇü°ú Ãæµ¹Ã¼Å©..
+				// ì§€í˜•ê³¼ ì¶©ëŒì²´í¬..
 				if(bCol == false &&
 					ACT_WORLD->CheckCollisionWithTerrain(pBundle->m_vPos, pBundle->m_vDir, pBundle->m_fVelocity, &vCol))
 				{
-					//Ãæµ¹...
-					//¿©±â¼­ ÆĞÅ¶ ³¯·Á¾ß °Ú±¸¸¸...
+					//ì¶©ëŒ...
+					//ì—¬ê¸°ì„œ íŒ¨í‚· ë‚ ë ¤ì•¼ ê² êµ¬ë§Œ...
 					bCol = true;
 					pBundle->m_vPos = vCol;
 					pBundle->Stop();
@@ -629,7 +629,7 @@ void CN3FXMgr::Tick()
 					CAPISocket::MP_AddShort(byBuff, iOffset, 0);
 					CAPISocket::MP_AddShort(byBuff, iOffset, 0);
 
-					CGameProcedure::s_pSocket->Send(byBuff, iOffset); // º¸³½´Ù..
+					CGameProcedure::s_pSocket->Send(byBuff, iOffset); // ë³´ë‚¸ë‹¤..
 
 					iOffset=0;
 					CAPISocket::MP_AddByte(byBuff, iOffset, (BYTE)N3_MAGIC);
@@ -646,7 +646,7 @@ void CN3FXMgr::Tick()
 					CAPISocket::MP_AddShort(byBuff, iOffset, pBundle->m_iIdx);
 					CAPISocket::MP_AddShort(byBuff, iOffset, 0);
 								
-					CGameProcedure::s_pSocket->Send(byBuff, iOffset); // º¸³½´Ù..
+					CGameProcedure::s_pSocket->Send(byBuff, iOffset); // ë³´ë‚¸ë‹¤..
 				}
 			}
 		}			
@@ -661,7 +661,7 @@ void CN3FXMgr::Tick()
 //
 void CN3FXMgr::Render()
 {
-	//¿Â°® renderstate¼³Á¤...	
+	//ì˜¨ê°– renderstateì„¤ì •...	
 	DWORD dwLgt, dwAlpha, dwZEnable; 
 	DWORD dwSrcBlend, dwDestBlend;
 

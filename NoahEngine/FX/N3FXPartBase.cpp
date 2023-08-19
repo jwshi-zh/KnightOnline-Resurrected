@@ -7,8 +7,8 @@ CN3FXPartBase::CN3FXPartBase()
 	m_iVersion = 0;
 	m_iBaseVersion = 2;
 
-	m_pRefBundle = NULL;
-	m_pRefPrevPart = NULL;
+	m_pRefBundle = nullptr;
+	m_pRefPrevPart = nullptr;
 
 	m_iType = FX_PART_TYPE_NONE;
 
@@ -25,7 +25,7 @@ CN3FXPartBase::CN3FXPartBase()
 	m_vPos.Set(0,0,0);
 	m_vCurrPos = m_vPos;
 
-	m_ppRefTex = NULL;
+	m_ppRefTex = nullptr;
 	m_iNumTex = 0;
 	m_fTexFPS = 30.0f;
 
@@ -49,16 +49,16 @@ CN3FXPartBase::CN3FXPartBase()
 /*
 const DWORD RF_NOTHING			= 0x0;
 const DWORD RF_ALPHABLENDING	= 0x1;		// Alpha blending
-const DWORD RF_NOTUSEFOG		= 0x2;		// æ»∞≥ π´Ω√
-const DWORD RF_DOUBLESIDED		= 0x4;		// æÁ∏È - D3DCULL_NONE
-const DWORD RF_BOARD_Y			= 0x8;		// Y √‡¿∏∑Œ «ÿº≠.. ƒ´∏ﬁ∂Û∏¶ ∫ª¥Ÿ.
-const DWORD RF_POINTSAMPLING	= 0x10;		// MipMap ø°º≠.. PointSampling ¿∏∑Œ «—¥Ÿ..
-const DWORD RF_WINDY			= 0x20;		// πŸ∂˜ø° ≥Ø∏∞¥Ÿ.. πŸ∂˜¿« ∞™¿∫ CN3Base::s_vWindFactor ∏¶ ¬¸¡∂ «—¥Ÿ..
+const DWORD RF_NOTUSEFOG		= 0x2;		// ÏïàÍ∞ú Î¨¥Ïãú
+const DWORD RF_DOUBLESIDED		= 0x4;		// ÏñëÎ©¥ - D3DCULL_NONE
+const DWORD RF_BOARD_Y			= 0x8;		// Y Ï∂ïÏúºÎ°ú Ìï¥ÏÑú.. Ïπ¥Î©îÎùºÎ•º Î≥∏Îã§.
+const DWORD RF_POINTSAMPLING	= 0x10;		// MipMap ÏóêÏÑú.. PointSampling ÏúºÎ°ú ÌïúÎã§..
+const DWORD RF_WINDY			= 0x20;		// Î∞îÎûåÏóê ÎÇ†Î¶∞Îã§.. Î∞îÎûåÏùò Í∞íÏùÄ CN3Base::s_vWindFactor Î•º Ï∞∏Ï°∞ ÌïúÎã§..
 const DWORD RF_NOTUSELIGHT		= 0x40;		// Light Off
-const DWORD RF_DIFFUSEALPHA		= 0x80;		// Diffuse ∞™¿ª ∞Æ∞Ì ≈ı∏Ì«œ∞‘ Alpha blending
-const DWORD RF_NOTZWRITE		= 0x100;	// ZBuffer ø° æ»æ¥¥Ÿ.
-const DWORD RF_UV_CLAMP			= 0x200;	// texture UV¿˚øÎ¿ª Clamp∑Œ «—¥Ÿ..default¥¬ wrap¿Ã¥Ÿ..
-const DWORD RF_NOTZBUFFER		= 0x400;	// ZBuffer π´Ω√.
+const DWORD RF_DIFFUSEALPHA		= 0x80;		// Diffuse Í∞íÏùÑ Í∞ñÍ≥† Ìà¨Î™ÖÌïòÍ≤å Alpha blending
+const DWORD RF_NOTZWRITE		= 0x100;	// ZBuffer Ïóê ÏïàÏì¥Îã§.
+const DWORD RF_UV_CLAMP			= 0x200;	// texture UVÏ†ÅÏö©ÏùÑ ClampÎ°ú ÌïúÎã§..defaultÎäî wrapÏù¥Îã§..
+const DWORD RF_NOTZBUFFER		= 0x400;	// ZBuffer Î¨¥Ïãú.
 */
 }
 
@@ -68,44 +68,44 @@ CN3FXPartBase::~CN3FXPartBase()
 	{
 		for(int i=0; i<m_iNumTex;i++) CN3Base::s_MngTex.Delete(&m_ppRefTex[i]);
 		delete[] m_ppRefTex;
-		m_ppRefTex = NULL;
+		m_ppRefTex = nullptr;
 	}
 }
 
 
 //
 //	parse script...
-//	Ω∫≈©∏≥∆Æ «ÿº≠ & º¬∆√.
+//	Ïä§ÌÅ¨Î¶ΩÌä∏ Ìï¥ÏÑú & ÏÖãÌåÖ.
 //
 #ifdef _N3TOOL
 bool CN3FXPartBase::ParseScript(char* szCommand, char* szBuff0, char* szBuff1, char* szBuff2, char* szBuff3)
 {
-	//	¿Ã∏ß.
+	//	Ïù¥Î¶Ñ.
 	if(lstrcmpi(szCommand, "<name>")==0)
 	{
 		m_strName = szBuff0;
 		return true;
 	}
 
-	//	≈∏¿‘..
+	//	ÌÉÄÏûÖ..
 	if(lstrcmpi(szCommand, "<type>")==0)
 	{
 		if(lstrcmpi(szBuff0, "particle")==0) m_iType = FX_PART_TYPE_PARTICLE;
 		if(lstrcmpi(szBuff0, "board")==0) m_iType = FX_PART_TYPE_BOARD;
 		if(lstrcmpi(szBuff0, "mesh")==0) m_iType = FX_PART_TYPE_MESH;
 		if(lstrcmpi(szBuff0, "ground")==0) m_iType = FX_PART_TYPE_BOTTOMBOARD;
-		//^^v ¥ı ≥÷¿ª≤® ¿÷¿∏∏È ≥÷æÓ∂Û..
+		//^^v Îçî ÎÑ£ÏùÑÍ∫º ÏûàÏúºÎ©¥ ÎÑ£Ïñ¥Îùº..
 		return true;
 	}
 
-	//	¡ˆº”Ω√∞£.(0¿Ã∏È π´«—¥Î...)
+	//	ÏßÄÏÜçÏãúÍ∞Ñ.(0Ïù¥Î©¥ Î¨¥ÌïúÎåÄ...)
 	if(lstrcmpi(szCommand, "<life>")==0)
 	{
 		m_fLife = atof(szBuff0);
 		return true;
 	}
 
-	//	texture ¿Ã∏ß∞˙ ∞≥ºˆ ¿–±‚.
+	//	texture Ïù¥Î¶ÑÍ≥º Í∞úÏàò ÏùΩÍ∏∞.
 	if(lstrcmpi(szCommand, "<texture>")==0)
 	{
 		m_iNumTex = atoi(szBuff1);
@@ -133,14 +133,14 @@ bool CN3FXPartBase::ParseScript(char* szCommand, char* szBuff0, char* szBuff1, c
 		return true;
 	}
 
-	//	texture animation speed º≥¡§..
+	//	texture animation speed ÏÑ§Ï†ï..
 	if(lstrcmpi(szCommand, "<texture_animation_speed>")==0)
 	{
 		m_fTexFPS = atof(szBuff0);
 		return true;
 	}
 
-	//	ªÛ¥Î¿ßƒ°...
+	//	ÏÉÅÎåÄÏúÑÏπò...
 	if(lstrcmpi(szCommand, "<position0>")==0)
 	{
 		m_vPos.x = atof(szBuff0);
@@ -149,7 +149,7 @@ bool CN3FXPartBase::ParseScript(char* szCommand, char* szBuff0, char* szBuff1, c
 		return true;
 	}
 
-	//	º”µµ..
+	//	ÏÜçÎèÑ..
 	if(lstrcmpi(szCommand, "<velocity>")==0)
 	{
 		__Vector3 v;
@@ -159,7 +159,7 @@ bool CN3FXPartBase::ParseScript(char* szCommand, char* szBuff0, char* szBuff1, c
 		return true;
 	}
 
-	//	∞°º”µµ..
+	//	Í∞ÄÏÜçÎèÑ..
 	if(lstrcmpi(szCommand, "<acceleration>")==0)
 	{
 		__Vector3 v;
@@ -169,7 +169,7 @@ bool CN3FXPartBase::ParseScript(char* szCommand, char* szBuff0, char* szBuff1, c
 		return true;
 	}
 
-	//	»∏¿¸ ∞¢º”µµ..
+	//	ÌöåÏ†Ñ Í∞ÅÏÜçÎèÑ..
 	if(lstrcmpi(szCommand, "<rot_velocity>")==0)
 	{
 		__Vector3 v;
@@ -289,7 +289,7 @@ bool CN3FXPartBase::ParseScript(char* szCommand, char* szBuff0, char* szBuff1, c
 
 //
 //	Decode Script File
-//	Ω∫≈©∏≥∆Æ ∆ƒ¿œ ¿–∞Ì «ÿºÆ.(call parse script..)
+//	Ïä§ÌÅ¨Î¶ΩÌä∏ ÌååÏùº ÏùΩÍ≥† Ìï¥ÏÑù.(call parse script..)
 //
 #ifdef _N3TOOL
 bool CN3FXPartBase::DecodeScriptFile(const char* lpPathName)
@@ -336,7 +336,7 @@ bool CN3FXPartBase::DecodeScriptFile(const char* lpPathName)
 
 
 //
-//	init...∫Øºˆ √ ±‚»≠..
+//	init...Î≥ÄÏàò Ï¥àÍ∏∞Ìôî..
 //
 void CN3FXPartBase::Init()
 {
@@ -347,7 +347,7 @@ void CN3FXPartBase::Init()
 
 
 //
-//	start...∆ƒ∆Æ ±∏µø Ω√¿€...	
+//	start...ÌååÌä∏ Íµ¨Îèô ÏãúÏûë...	
 //
 void CN3FXPartBase::Start()
 {
@@ -357,9 +357,9 @@ void CN3FXPartBase::Start()
 
 //
 //	stop..
-//	∆ƒ∆Æ ∏ÿ√„Ω√µµ...
-//	¿Ã«‘ºˆ »£√‚«—¥Ÿ∞Ì ∆ƒ∆Æ∞° πŸ∑Œ ≥°≥™¥¬∞« æ∆¥œ¥Ÿ..≥°≥ª¥¬ ∞˙¡§¿ª Ω√¿€«œ¥¬ ∞≈¥Ÿ..
-//	Ω«¡˙¿˚¿Œ ≥°∏Œ¿Ω¿∫ tickø°º≠ «“≤¨...^^
+//	ÌååÌä∏ Î©àÏ∂§ÏãúÎèÑ...
+//	Ïù¥Ìï®Ïàò Ìò∏Ï∂úÌïúÎã§Í≥† ÌååÌä∏Í∞Ä Î∞îÎ°ú ÎÅùÎÇòÎäîÍ±¥ ÏïÑÎãàÎã§..ÎÅùÎÇ¥Îäî Í≥ºÏ†ïÏùÑ ÏãúÏûëÌïòÎäî Í±∞Îã§..
+//	Ïã§ÏßàÏ†ÅÏù∏ ÎÅùÎß∫ÏùåÏùÄ tickÏóêÏÑú Ìï†ÍªÑ...^^
 //
 void CN3FXPartBase::Stop()
 {
@@ -418,48 +418,48 @@ bool CN3FXPartBase::Load(HANDLE hFile)
 	unsigned char	cTmp;
 	DWORD			dwRWC = 0;
 	
-	ReadFile(hFile, &cTmp, sizeof(unsigned char), &dwRWC, NULL);
+	ReadFile(hFile, &cTmp, sizeof(unsigned char), &dwRWC, nullptr);
 	m_iVersion = (int)cTmp;
 
-	ReadFile(hFile, &cTmp, sizeof(unsigned char), &dwRWC, NULL);
+	ReadFile(hFile, &cTmp, sizeof(unsigned char), &dwRWC, nullptr);
 	m_iBaseVersion = (int)cTmp;
 
-	ReadFile(hFile, &m_fLife, sizeof(float), &dwRWC, NULL);
+	ReadFile(hFile, &m_fLife, sizeof(float), &dwRWC, nullptr);
 	if(m_fLife > 10.0f) m_fLife = 10.0f;
 
-	ReadFile(hFile, &cTmp, sizeof(unsigned char), &dwRWC, NULL);
+	ReadFile(hFile, &cTmp, sizeof(unsigned char), &dwRWC, nullptr);
 	m_iType = (int)cTmp;
 
-	ReadFile(hFile, &m_vVelocity, sizeof(__Vector3), &dwRWC, NULL);
-	ReadFile(hFile, &m_vAcceleration, sizeof(__Vector3), &dwRWC, NULL);
-	ReadFile(hFile, &m_vRotVelocity, sizeof(__Vector3), &dwRWC, NULL);
+	ReadFile(hFile, &m_vVelocity, sizeof(__Vector3), &dwRWC, nullptr);
+	ReadFile(hFile, &m_vAcceleration, sizeof(__Vector3), &dwRWC, nullptr);
+	ReadFile(hFile, &m_vRotVelocity, sizeof(__Vector3), &dwRWC, nullptr);
 
-	ReadFile(hFile, &m_bOnGround, sizeof(bool), &dwRWC, NULL);
+	ReadFile(hFile, &m_bOnGround, sizeof(bool), &dwRWC, nullptr);
 
-	ReadFile(hFile, &m_vPos, sizeof(__Vector3), &dwRWC, NULL);
+	ReadFile(hFile, &m_vPos, sizeof(__Vector3), &dwRWC, nullptr);
 
-	ReadFile(hFile, &m_iNumTex, sizeof(int), &dwRWC, NULL);
-	ReadFile(hFile, &m_fTexFPS, sizeof(float), &dwRWC, NULL);
-	ReadFile(hFile, &m_pTexName, MAX_PATH, &dwRWC, NULL);
+	ReadFile(hFile, &m_iNumTex, sizeof(int), &dwRWC, nullptr);
+	ReadFile(hFile, &m_fTexFPS, sizeof(float), &dwRWC, nullptr);
+	ReadFile(hFile, &m_pTexName, MAX_PATH, &dwRWC, nullptr);
 
 	if(m_iBaseVersion<2)
 	{
-		ReadFile(hFile, &m_bAlpha, sizeof(BOOL), &dwRWC, NULL);
-		ReadFile(hFile, &m_dwSrcBlend, sizeof(DWORD), &dwRWC, NULL);
-		ReadFile(hFile, &m_dwDestBlend, sizeof(DWORD), &dwRWC, NULL);
+		ReadFile(hFile, &m_bAlpha, sizeof(BOOL), &dwRWC, nullptr);
+		ReadFile(hFile, &m_dwSrcBlend, sizeof(DWORD), &dwRWC, nullptr);
+		ReadFile(hFile, &m_dwDestBlend, sizeof(DWORD), &dwRWC, nullptr);
 
-		ReadFile(hFile, &m_fFadeOut, sizeof(float), &dwRWC, NULL);	
-		ReadFile(hFile, &m_fFadeIn, sizeof(float), &dwRWC, NULL);
+		ReadFile(hFile, &m_fFadeOut, sizeof(float), &dwRWC, nullptr);	
+		ReadFile(hFile, &m_fFadeIn, sizeof(float), &dwRWC, nullptr);
 	}
 	if(m_iBaseVersion>=2)
 	{
-		ReadFile(hFile, &m_dwSrcBlend, sizeof(DWORD), &dwRWC, NULL);
-		ReadFile(hFile, &m_dwDestBlend, sizeof(DWORD), &dwRWC, NULL);
+		ReadFile(hFile, &m_dwSrcBlend, sizeof(DWORD), &dwRWC, nullptr);
+		ReadFile(hFile, &m_dwDestBlend, sizeof(DWORD), &dwRWC, nullptr);
 
-		ReadFile(hFile, &m_fFadeOut, sizeof(float), &dwRWC, NULL);	
-		ReadFile(hFile, &m_fFadeIn, sizeof(float), &dwRWC, NULL);
+		ReadFile(hFile, &m_fFadeOut, sizeof(float), &dwRWC, nullptr);	
+		ReadFile(hFile, &m_fFadeIn, sizeof(float), &dwRWC, nullptr);
 
-		ReadFile(hFile, &m_dwRenderFlag, sizeof(DWORD), &dwRWC, NULL);
+		ReadFile(hFile, &m_dwRenderFlag, sizeof(DWORD), &dwRWC, nullptr);
 		
 		if(m_dwRenderFlag & RF_NOTZBUFFER) m_dwZEnable = D3DZB_FALSE;
 		else m_dwZEnable = D3DZB_TRUE;
@@ -500,29 +500,29 @@ bool CN3FXPartBase::Save(HANDLE hFile)
 	DWORD			dwRWC = 0;
 	
 	cTmp = (unsigned char)m_iVersion;
-	WriteFile(hFile, &cTmp, sizeof(unsigned char), &dwRWC, NULL);
+	WriteFile(hFile, &cTmp, sizeof(unsigned char), &dwRWC, nullptr);
 
 	cTmp = (unsigned char)m_iBaseVersion;
-	WriteFile(hFile, &cTmp, sizeof(unsigned char), &dwRWC, NULL);
+	WriteFile(hFile, &cTmp, sizeof(unsigned char), &dwRWC, nullptr);
 
-	WriteFile(hFile, &m_fLife, sizeof(float), &dwRWC, NULL);
+	WriteFile(hFile, &m_fLife, sizeof(float), &dwRWC, nullptr);
 
 	cTmp = (unsigned char)m_iType;
-	WriteFile(hFile, &cTmp, sizeof(unsigned char), &dwRWC, NULL);
+	WriteFile(hFile, &cTmp, sizeof(unsigned char), &dwRWC, nullptr);
 
-	WriteFile(hFile, &m_vVelocity, sizeof(__Vector3), &dwRWC, NULL);
-	WriteFile(hFile, &m_vAcceleration, sizeof(__Vector3), &dwRWC, NULL);
-	WriteFile(hFile, &m_vRotVelocity, sizeof(__Vector3), &dwRWC, NULL);
+	WriteFile(hFile, &m_vVelocity, sizeof(__Vector3), &dwRWC, nullptr);
+	WriteFile(hFile, &m_vAcceleration, sizeof(__Vector3), &dwRWC, nullptr);
+	WriteFile(hFile, &m_vRotVelocity, sizeof(__Vector3), &dwRWC, nullptr);
 
-	WriteFile(hFile, &m_bOnGround, sizeof(bool), &dwRWC, NULL);
+	WriteFile(hFile, &m_bOnGround, sizeof(bool), &dwRWC, nullptr);
 
-	WriteFile(hFile, &m_vPos, sizeof(__Vector3), &dwRWC, NULL);
+	WriteFile(hFile, &m_vPos, sizeof(__Vector3), &dwRWC, nullptr);
 
-	WriteFile(hFile, &m_iNumTex, sizeof(int), &dwRWC, NULL);
+	WriteFile(hFile, &m_iNumTex, sizeof(int), &dwRWC, nullptr);
 
-	WriteFile(hFile, &m_fTexFPS, sizeof(float), &dwRWC, NULL);
+	WriteFile(hFile, &m_fTexFPS, sizeof(float), &dwRWC, nullptr);
 
-	WriteFile(hFile, &m_pTexName, MAX_PATH, &dwRWC, NULL);
+	WriteFile(hFile, &m_pTexName, MAX_PATH, &dwRWC, nullptr);
 
 	/* 
 	if(m_iBaseVersion<2)
@@ -538,11 +538,11 @@ bool CN3FXPartBase::Save(HANDLE hFile)
 
 	// m_iBaseVersion >= 2 
 	//
-	WriteFile(hFile, &m_dwSrcBlend, sizeof(DWORD), &dwRWC, NULL);
-	WriteFile(hFile, &m_dwDestBlend, sizeof(DWORD), &dwRWC, NULL);
+	WriteFile(hFile, &m_dwSrcBlend, sizeof(DWORD), &dwRWC, nullptr);
+	WriteFile(hFile, &m_dwDestBlend, sizeof(DWORD), &dwRWC, nullptr);
 
-	WriteFile(hFile, &m_fFadeOut, sizeof(float), &dwRWC, NULL);
-	WriteFile(hFile, &m_fFadeIn, sizeof(float), &dwRWC, NULL);
+	WriteFile(hFile, &m_fFadeOut, sizeof(float), &dwRWC, nullptr);
+	WriteFile(hFile, &m_fFadeIn, sizeof(float), &dwRWC, nullptr);
 	
 	m_dwRenderFlag = RF_ALPHABLENDING | RF_NOTUSEFOG | RF_DIFFUSEALPHA | RF_NOTUSELIGHT | RF_DOUBLESIDED | RF_NOTZWRITE | RF_NOTZBUFFER; 
 	if(m_dwZEnable == D3DZB_TRUE) m_dwRenderFlag ^= RF_NOTZBUFFER;
@@ -551,7 +551,7 @@ bool CN3FXPartBase::Save(HANDLE hFile)
 	if(m_dwLight == TRUE) m_dwRenderFlag ^= RF_NOTUSELIGHT;
 	if(m_bAlpha != TRUE) m_dwRenderFlag ^= RF_ALPHABLENDING;
 	
-	WriteFile(hFile, &m_dwRenderFlag, sizeof(DWORD), &dwRWC, NULL);
+	WriteFile(hFile, &m_dwRenderFlag, sizeof(DWORD), &dwRWC, nullptr);
 
 	return true;
 }

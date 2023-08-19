@@ -36,7 +36,7 @@ bool CN3AnimControl::Load(HANDLE hFile)
 
 	DWORD dwRWC = 0;
 	int nCount = 0;
-	ReadFile(hFile, &nCount, 4, &dwRWC, NULL);
+	ReadFile(hFile, &nCount, 4, &dwRWC, nullptr);
 
 	m_Datas.clear(); // animation Data List
 	for(int i = 0; i < nCount; i++)

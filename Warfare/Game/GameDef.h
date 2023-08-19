@@ -10,63 +10,69 @@ const float PACKET_INTERVAL_ROTATE = 4.0f;
 const float PACKET_INTERVAL_REQUEST_TARGET_HP = 2.0f;
 
 // ´ÜÃàÅ° ÁöÁ¤ÇØ ³õÀº ºÎºÐ..
-enum eKeyMap {	KM_HOTKEY1 = DIK_1, 
-				KM_HOTKEY2 = DIK_2, 
-				KM_HOTKEY3 = DIK_3, 
-				KM_HOTKEY4 = DIK_4, 
-				KM_HOTKEY5 = DIK_5, 
-				KM_HOTKEY6 = DIK_6, 
-				KM_HOTKEY7 = DIK_7, 
-				KM_HOTKEY8 = DIK_8, 
-				KM_TOGGLE_RUN = DIK_T, 
-				KM_TOGGLE_MOVE_CONTINOUS = DIK_E, 
-				KM_TOGGLE_ATTACK = DIK_R, 
-				KM_TOGGLE_SITDOWN = DIK_C, 
-				KM_TOGGLE_INVENTORY = DIK_I, 
-				KM_TOGGLE_SKILL = DIK_K, 
-				KM_TOGGLE_STATE = DIK_U, 
-				KM_TOGGLE_MINIMAP = DIK_M, 
-				KM_TOGGLE_HELP = DIK_F1, 
-				KM_CAMERA_CHANGE = DIK_F9, 
-				KM_DROPPED_ITEM_OPEN = DIK_F, 
-				KM_MOVE_FOWARD = DIK_W, 
-				KM_MOVE_BACKWARD = DIK_S, 
-				KM_ROTATE_LEFT = DIK_A, 
-				KM_ROTATE_RIGHT = DIK_D, 
-				KM_TARGET_NEARST_ENEMY = DIK_Z, 
-				KM_TARGET_NEARST_PARTY = DIK_X, 
-				KM_TARGET_NEARST_FRIEND = DIK_V, 
-				KM_TARGET_PARTY1 = DIK_F1, 
-				KM_TARGET_PARTY2 = DIK_F2, 
-				KM_TARGET_PARTY3 = DIK_F3, 
-				KM_TARGET_PARTY4 = DIK_F4, 
-				KM_TARGET_PARTY5 = DIK_F5, 
-				KM_TARGET_PARTY6 = DIK_F6, 
-				KM_TARGET_PARTY7 = DIK_F7, 
-				KM_TARGET_PARTY8 = DIK_F8 };
+enum eKeyMap {
+	KM_HOTKEY1 = DIK_1,
+	KM_HOTKEY2 = DIK_2,
+	KM_HOTKEY3 = DIK_3,
+	KM_HOTKEY4 = DIK_4,
+	KM_HOTKEY5 = DIK_5,
+	KM_HOTKEY6 = DIK_6,
+	KM_HOTKEY7 = DIK_7,
+	KM_HOTKEY8 = DIK_8,
+	KM_TOGGLE_RUN = DIK_T,
+	KM_TOGGLE_MOVE_CONTINOUS = DIK_E,
+	KM_TOGGLE_ATTACK = DIK_R,
+	KM_TOGGLE_SITDOWN = DIK_C,
+	KM_TOGGLE_INVENTORY = DIK_I,
+	KM_TOGGLE_SKILL = DIK_K,
+	KM_TOGGLE_STATE = DIK_U,
+	KM_TOGGLE_MINIMAP = DIK_M,
+	KM_TOGGLE_HELP = DIK_F1,
+	KM_CAMERA_CHANGE = DIK_F9,
+	KM_DROPPED_ITEM_OPEN = DIK_F,
+	KM_MOVE_FOWARD = DIK_W,
+	KM_MOVE_BACKWARD = DIK_S,
+	KM_ROTATE_LEFT = DIK_A,
+	KM_ROTATE_RIGHT = DIK_D,
+	KM_TARGET_NEARST_ENEMY = DIK_Z,
+	KM_TARGET_NEARST_PARTY = DIK_X,
+	KM_TARGET_NEARST_FRIEND = DIK_V,
+	KM_TARGET_PARTY1 = DIK_F1,
+	KM_TARGET_PARTY2 = DIK_F2,
+	KM_TARGET_PARTY3 = DIK_F3,
+	KM_TARGET_PARTY4 = DIK_F4,
+	KM_TARGET_PARTY5 = DIK_F5,
+	KM_TARGET_PARTY6 = DIK_F6,
+	KM_TARGET_PARTY7 = DIK_F7,
+	KM_TARGET_PARTY8 = DIK_F8
+};
 
 enum e_PlayerType { PLAYER_BASE = 0, PLAYER_NPC = 1, PLAYER_OTHER = 2, PLAYER_MYSELF = 3 };
 
-enum e_Race {	RACE_ALL = 0,
-				RACE_KA_ARKTUAREK = 1, RACE_KA_TUAREK = 2, RACE_KA_WRINKLETUAREK = 3, RACE_KA_PURITUAREK = 4, 
-				RACE_EL_BABARIAN = 11, RACE_EL_MAN = 12, RACE_EL_WOMEN = 13,
-				//RACE_KA_NORMAL = 11, RACE_KA_WARRIOR = 12, RACE_KA_ROGUE = 13, RACE_KA_MAGE = 14,
-				RACE_NPC = 100,
-				RACE_UNKNOWN = 0xffffffff };
+enum e_Race {
+	RACE_ALL = 0,
+	RACE_KA_ARKTUAREK = 1, RACE_KA_TUAREK = 2, RACE_KA_WRINKLETUAREK = 3, RACE_KA_PURITUAREK = 4,
+	RACE_EL_BABARIAN = 11, RACE_EL_MAN = 12, RACE_EL_WOMEN = 13,
+	//RACE_KA_NORMAL = 11, RACE_KA_WARRIOR = 12, RACE_KA_ROGUE = 13, RACE_KA_MAGE = 14,
+	RACE_NPC = 100,
+	RACE_UNKNOWN = 0xffffffff
+};
 
-enum e_Class {	CLASS_KINDOF_WARRIOR = 1, CLASS_KINDOF_ROGUE, CLASS_KINDOF_WIZARD, CLASS_KINDOF_PRIEST,
-				CLASS_KINDOF_ATTACK_WARRIOR, CLASS_KINDOF_DEFEND_WARRIOR, CLASS_KINDOF_ARCHER, CLASS_KINDOF_ASSASSIN, 
-				CLASS_KINDOF_ATTACK_WIZARD, CLASS_KINDOF_PET_WIZARD, CLASS_KINDOF_HEAL_PRIEST, CLASS_KINDOF_CURSE_PRIEST,
+enum e_Class {
+	CLASS_KINDOF_WARRIOR = 1, CLASS_KINDOF_ROGUE, CLASS_KINDOF_WIZARD, CLASS_KINDOF_PRIEST,
+	CLASS_KINDOF_ATTACK_WARRIOR, CLASS_KINDOF_DEFEND_WARRIOR, CLASS_KINDOF_ARCHER, CLASS_KINDOF_ASSASSIN,
+	CLASS_KINDOF_ATTACK_WIZARD, CLASS_KINDOF_PET_WIZARD, CLASS_KINDOF_HEAL_PRIEST, CLASS_KINDOF_CURSE_PRIEST,
 
-				CLASS_KA_WARRIOR = 101, CLASS_KA_ROGUE, CLASS_KA_WIZARD, CLASS_KA_PRIEST, // ¿©±â±îÁö ±âº» Á÷¾÷
-				CLASS_KA_BERSERKER = 105, CLASS_KA_GUARDIAN, CLASS_KA_HUNTER = 107, CLASS_KA_PENETRATOR, 
-				CLASS_KA_SORCERER = 109, CLASS_KA_NECROMANCER, CLASS_KA_SHAMAN = 111, CLASS_KA_DARKPRIEST, 
-				
-				CLASS_EL_WARRIOR = 201, CLASS_EL_ROGUE, CLASS_EL_WIZARD, CLASS_EL_PRIEST, // ¿©±â±îÁö ±âº» Á÷¾÷ 
-				CLASS_EL_BLADE = 205, CLASS_EL_PROTECTOR, CLASS_EL_RANGER = 207, CLASS_EL_ASSASIN, 
-				CLASS_EL_MAGE = 209, CLASS_EL_ENCHANTER, CLASS_EL_CLERIC = 211, CLASS_EL_DRUID,
-				
-				CLASS_UNKNOWN = 0xffffffff };
+	CLASS_KA_WARRIOR = 101, CLASS_KA_ROGUE, CLASS_KA_WIZARD, CLASS_KA_PRIEST, // ¿©±â±îÁö ±âº» Á÷¾÷
+	CLASS_KA_BERSERKER = 105, CLASS_KA_GUARDIAN, CLASS_KA_HUNTER = 107, CLASS_KA_PENETRATOR,
+	CLASS_KA_SORCERER = 109, CLASS_KA_NECROMANCER, CLASS_KA_SHAMAN = 111, CLASS_KA_DARKPRIEST,
+
+	CLASS_EL_WARRIOR = 201, CLASS_EL_ROGUE, CLASS_EL_WIZARD, CLASS_EL_PRIEST, // ¿©±â±îÁö ±âº» Á÷¾÷ 
+	CLASS_EL_BLADE = 205, CLASS_EL_PROTECTOR, CLASS_EL_RANGER = 207, CLASS_EL_ASSASIN,
+	CLASS_EL_MAGE = 209, CLASS_EL_ENCHANTER, CLASS_EL_CLERIC = 211, CLASS_EL_DRUID,
+
+	CLASS_UNKNOWN = 0xffffffff
+};
 
 enum e_Class_Represent { CLASS_REPRESENT_WARRIOR = 0, CLASS_REPRESENT_ROGUE, CLASS_REPRESENT_WIZARD, CLASS_REPRESENT_PRIEST, CLASS_REPRESENT_UNKNOWN = 0xffffffff };
 
@@ -74,76 +80,78 @@ const float WEAPON_WEIGHT_STAND_SWORD = 5.0f; // ¹«±âÀÇ ¹«°Ô ±âÁØ.
 const float WEAPON_WEIGHT_STAND_AXE = 5.0f; // ¹«±âÀÇ ¹«°Ô ±âÁØ...µµ³¢
 const float WEAPON_WEIGHT_STAND_BLUNT = 8.0f; // ¹«±âÀÇ ¹«°Ô ±âÁØ...¸ùµÕÀÌ Á¾·ù
 
-enum e_Ani {	ANI_BREATH = 0, ANI_WALK, ANI_RUN, ANI_WALK_BACKWARD, ANI_STRUCK0, ANI_STRUCK1, ANI_STRUCK2, ANI_GUARD,
-				ANI_DEAD_NEATLY = 8, ANI_DEAD_KNOCKDOWN, ANI_DEAD_ROLL, ANI_SITDOWN, ANI_SITDOWN_BREATH, ANI_STANDUP,
-				ANI_ATTACK_WITH_WEAPON_WHEN_MOVE = 14, ANI_ATTACK_WITH_NAKED_WHEN_MOVE, 
+enum e_Ani {
+	ANI_BREATH = 0, ANI_WALK, ANI_RUN, ANI_WALK_BACKWARD, ANI_STRUCK0, ANI_STRUCK1, ANI_STRUCK2, ANI_GUARD,
+	ANI_DEAD_NEATLY = 8, ANI_DEAD_KNOCKDOWN, ANI_DEAD_ROLL, ANI_SITDOWN, ANI_SITDOWN_BREATH, ANI_STANDUP,
+	ANI_ATTACK_WITH_WEAPON_WHEN_MOVE = 14, ANI_ATTACK_WITH_NAKED_WHEN_MOVE,
 
-				ANI_SPELLMAGIC0_A = 16, ANI_SPELLMAGIC0_B, 
-				ANI_SPELLMAGIC1_A = 18, ANI_SPELLMAGIC1_B, 
-				ANI_SPELLMAGIC2_A = 20, ANI_SPELLMAGIC2_B, 
-				ANI_SPELLMAGIC3_A = 22, ANI_SPELLMAGIC3_B, 
-				ANI_SPELLMAGIC4_A = 24, ANI_SPELLMAGIC4_B, 
-				
-				ANI_SHOOT_ARROW_A = 26, ANI_SHOOT_ARROW_B, 
-				ANI_SHOOT_QUARREL_A = 28, ANI_SHOOT_QUARREL_B, 
-				ANI_SHOOT_JAVELIN_A = 30, ANI_SHOOT_JAVELIN_B, 
-				
-				ANI_SWORD_BREATH_A = 32,	ANI_SWORD_ATTACK_A0, ANI_SWORD_ATTACK_A1,
-				ANI_SWORD_BREATH_B,			ANI_SWORD_ATTACK_B0, ANI_SWORD_ATTACK_B1,		// ÇÑ¼Õ°Ë
-				
-				ANI_DAGGER_BREATH_A = 38,	ANI_DAGGER_ATTACK_A0, ANI_DAGGER_ATTACK_A1,
-				ANI_DAGGER_BREATH_B,		ANI_DAGGER_ATTACK_B0, ANI_DAGGER_ATTACK_B1,		// ´Üµµ
-				
-				ANI_DUAL_BREATH_A = 44,		ANI_DUAL_ATTACK_A0, ANI_DUAL_ATTACK_A1, 
-				ANI_DUAL_BREATH_B,			ANI_DUAL_ATTACK_B0, ANI_DUAL_ATTACK_B1,			// ÀÌµµ·ù
-				
-				ANI_SWORD2H_BREATH_A = 50,	ANI_SWORD2H_ATTACK_A0, ANI_SWORD2H_ATTACK_A1, 
-				ANI_SWORD2H_BREATH_B,		ANI_SWORD2H_ATTACK_B0, ANI_SWORD2H_ATTACK_B1,	// ¾ç¼Õ°Ë
-				
-				ANI_BLUNT_BREATH_A = 56,	ANI_BLUNT_ATTACK_A0, ANI_BLUNT_ATTACK_A1, 
-				ANI_BLUNT_BREATH_B,			ANI_BLUNT_ATTACK_B0, ANI_BLUNT_ATTACK_B1,		// µÐ±â - ¸ùµÕÀÌ ?
-				
-				ANI_BLUNT2H_BREATH_A = 62,	ANI_BLUNT2H_ATTACK_A0, ANI_BLUNT2H_ATTACK_A1, 
-				ANI_BLUNT2H_BREATH_B,		ANI_BLUNT2H_ATTACK_B0, ANI_BLUNT2H_ATTACK_B1,	// ¾ç¼ÕÀ¸·Î Àâ´Â µÐ±â. - ¾ç¼Õ µµ³¢¿Í °°´Ù.
-				
-				ANI_AXE_BREATH_A = 68,		ANI_AXE_ATTACK_A0, ANI_AXE_ATTACK_A1, 
-				ANI_AXE_BREATH_B,			ANI_AXE_ATTACK_B0, ANI_AXE_ATTACK_B1,			// ÇÑ¼Õ µµ³¢ 
-				
-				ANI_SPEAR_BREATH_A = 74,	ANI_SPEAR_ATTACK_A0, ANI_SPEAR_ATTACK_A1, 
-				ANI_SPEAR_BREATH_B,			ANI_SPEAR_ATTACK_B0, ANI_SPEAR_ATTACK_B1,		// Ã¢ - º£´Â ³¯ÀÌ ¾ø´Â ±×³É Ã¢ÀÌ´Ù.
-				
-				ANI_POLEARM_BREATH_A = 80,	ANI_POLEARM_ATTACK_A0, ANI_POLEARM_ATTACK_A1, 
-				ANI_POLEARM_BREATH_B,		ANI_POLEARM_ATTACK_B0, ANI_POLEARM_ATTACK_B1,	// ¾ç¼ÕÀ¸·Î Àâ´Â ³¯ÀÖ´Â Ã¢ - Ã»·æµµ ??
-				
-				ANI_NAKED_BREATH_A = 86,	ANI_NAKED_ATTACK_A0, ANI_NAKED_ATTACK_A1, 
-				ANI_NAKED_BREATH_B,			ANI_NAKED_ATTACK_B0, ANI_NAKED_ATTACK_B1,		// ¸Ç¸öÀ¸·Î ??
-				
-				ANI_BOW_BREATH = 92,		ANI_CROSS_BOW_BREATH, ANI_LAUNCHER_BREATH, 
-				ANI_BOW_BREATH_B,			ANI_BOW_ATTACK_B0, ANI_BOW_ATTACK_B1,			// È° °ø°Ý
-				
-				ANI_SHIELD_BREATH_A = 98,	ANI_SHIELD_ATTACK_A0, ANI_SHIELD_ATTACK_A1, 
-				ANI_SHIELD_BREATH_B,		ANI_SHIELD_ATTACK_B0, ANI_SHIELD_ATTACK_B1,		// ¹æÆÐ °ø°Ý
+	ANI_SPELLMAGIC0_A = 16, ANI_SPELLMAGIC0_B,
+	ANI_SPELLMAGIC1_A = 18, ANI_SPELLMAGIC1_B,
+	ANI_SPELLMAGIC2_A = 20, ANI_SPELLMAGIC2_B,
+	ANI_SPELLMAGIC3_A = 22, ANI_SPELLMAGIC3_B,
+	ANI_SPELLMAGIC4_A = 24, ANI_SPELLMAGIC4_B,
 
-				ANI_GREETING0 = 104, ANI_GREETING1, ANI_GREETING2, 
-				ANI_WAR_CRY0 = 107, ANI_WAR_CRY1, ANI_WAR_CRY2, ANI_WAR_CRY3, ANI_WAR_CRY4, 
+	ANI_SHOOT_ARROW_A = 26, ANI_SHOOT_ARROW_B,
+	ANI_SHOOT_QUARREL_A = 28, ANI_SHOOT_QUARREL_B,
+	ANI_SHOOT_JAVELIN_A = 30, ANI_SHOOT_JAVELIN_B,
 
-				ANI_SKILL_AXE0 = 112, ANI_SKILL_AXE1, ANI_SKILL_AXE2, ANI_SKILL_AXE3, 
-				ANI_SKILL_DAGGER0 = 116, ANI_SKILL_DAGGER1,
-				ANI_SKILL_DUAL0 = 118, ANI_SKILL_DUAL1,
-				ANI_SKILL_BLUNT0 = 120, ANI_SKILL_BLUNT1, ANI_SKILL_BLUNT2, ANI_SKILL_BLUNT3, 
-				ANI_SKILL_POLEARM0 = 124, ANI_SKILL_POLEARM1,
-				ANI_SKILL_SPEAR0 = 126, ANI_SKILL_SPEAR1,
-				ANI_SKILL_SWORD0 = 128, ANI_SKILL_SWORD1, ANI_SKILL_SWORD2, ANI_SKILL_SWORD3, 
-				ANI_SKILL_AXE2H0 = 132, ANI_SKILL_AXE2H1,
-				ANI_SKILL_SWORD2H0 = 134, ANI_SKILL_SWORD2H1,
+	ANI_SWORD_BREATH_A = 32, ANI_SWORD_ATTACK_A0, ANI_SWORD_ATTACK_A1,
+	ANI_SWORD_BREATH_B, ANI_SWORD_ATTACK_B0, ANI_SWORD_ATTACK_B1,		// ÇÑ¼Õ°Ë
 
-				// ¿©±âºÎÅÍ´Â NPC Animation
-				ANI_NPC_BREATH = 0, ANI_NPC_WALK, ANI_NPC_RUN, ANI_NPC_WALK_BACKWARD,
-				ANI_NPC_ATTACK0 = 4, ANI_NPC_ATTACK1, ANI_NPC_STRUCK0, ANI_NPC_STRUCK1, ANI_NPC_STRUCK2, ANI_NPC_GUARD, 
-				ANI_NPC_DEAD0 = 10, ANI_NPC_DEAD1, ANI_NPC_TALK0, ANI_NPC_TALK1, ANI_NPC_TALK2, ANI_NPC_TALK3, 
-				ANI_NPC_SPELLMAGIC0 = 16, ANI_NPC_SPELLMAGIC1, 
+	ANI_DAGGER_BREATH_A = 38, ANI_DAGGER_ATTACK_A0, ANI_DAGGER_ATTACK_A1,
+	ANI_DAGGER_BREATH_B, ANI_DAGGER_ATTACK_B0, ANI_DAGGER_ATTACK_B1,		// ´Üµµ
 
-				ANI_UNKNOWN = 0xffffffff };
+	ANI_DUAL_BREATH_A = 44, ANI_DUAL_ATTACK_A0, ANI_DUAL_ATTACK_A1,
+	ANI_DUAL_BREATH_B, ANI_DUAL_ATTACK_B0, ANI_DUAL_ATTACK_B1,			// ÀÌµµ·ù
+
+	ANI_SWORD2H_BREATH_A = 50, ANI_SWORD2H_ATTACK_A0, ANI_SWORD2H_ATTACK_A1,
+	ANI_SWORD2H_BREATH_B, ANI_SWORD2H_ATTACK_B0, ANI_SWORD2H_ATTACK_B1,	// ¾ç¼Õ°Ë
+
+	ANI_BLUNT_BREATH_A = 56, ANI_BLUNT_ATTACK_A0, ANI_BLUNT_ATTACK_A1,
+	ANI_BLUNT_BREATH_B, ANI_BLUNT_ATTACK_B0, ANI_BLUNT_ATTACK_B1,		// µÐ±â - ¸ùµÕÀÌ ?
+
+	ANI_BLUNT2H_BREATH_A = 62, ANI_BLUNT2H_ATTACK_A0, ANI_BLUNT2H_ATTACK_A1,
+	ANI_BLUNT2H_BREATH_B, ANI_BLUNT2H_ATTACK_B0, ANI_BLUNT2H_ATTACK_B1,	// ¾ç¼ÕÀ¸·Î Àâ´Â µÐ±â. - ¾ç¼Õ µµ³¢¿Í °°´Ù.
+
+	ANI_AXE_BREATH_A = 68, ANI_AXE_ATTACK_A0, ANI_AXE_ATTACK_A1,
+	ANI_AXE_BREATH_B, ANI_AXE_ATTACK_B0, ANI_AXE_ATTACK_B1,			// ÇÑ¼Õ µµ³¢ 
+
+	ANI_SPEAR_BREATH_A = 74, ANI_SPEAR_ATTACK_A0, ANI_SPEAR_ATTACK_A1,
+	ANI_SPEAR_BREATH_B, ANI_SPEAR_ATTACK_B0, ANI_SPEAR_ATTACK_B1,		// Ã¢ - º£´Â ³¯ÀÌ ¾ø´Â ±×³É Ã¢ÀÌ´Ù.
+
+	ANI_POLEARM_BREATH_A = 80, ANI_POLEARM_ATTACK_A0, ANI_POLEARM_ATTACK_A1,
+	ANI_POLEARM_BREATH_B, ANI_POLEARM_ATTACK_B0, ANI_POLEARM_ATTACK_B1,	// ¾ç¼ÕÀ¸·Î Àâ´Â ³¯ÀÖ´Â Ã¢ - Ã»·æµµ ??
+
+	ANI_NAKED_BREATH_A = 86, ANI_NAKED_ATTACK_A0, ANI_NAKED_ATTACK_A1,
+	ANI_NAKED_BREATH_B, ANI_NAKED_ATTACK_B0, ANI_NAKED_ATTACK_B1,		// ¸Ç¸öÀ¸·Î ??
+
+	ANI_BOW_BREATH = 92, ANI_CROSS_BOW_BREATH, ANI_LAUNCHER_BREATH,
+	ANI_BOW_BREATH_B, ANI_BOW_ATTACK_B0, ANI_BOW_ATTACK_B1,			// È° °ø°Ý
+
+	ANI_SHIELD_BREATH_A = 98, ANI_SHIELD_ATTACK_A0, ANI_SHIELD_ATTACK_A1,
+	ANI_SHIELD_BREATH_B, ANI_SHIELD_ATTACK_B0, ANI_SHIELD_ATTACK_B1,		// ¹æÆÐ °ø°Ý
+
+	ANI_GREETING0 = 104, ANI_GREETING1, ANI_GREETING2,
+	ANI_WAR_CRY0 = 107, ANI_WAR_CRY1, ANI_WAR_CRY2, ANI_WAR_CRY3, ANI_WAR_CRY4,
+
+	ANI_SKILL_AXE0 = 112, ANI_SKILL_AXE1, ANI_SKILL_AXE2, ANI_SKILL_AXE3,
+	ANI_SKILL_DAGGER0 = 116, ANI_SKILL_DAGGER1,
+	ANI_SKILL_DUAL0 = 118, ANI_SKILL_DUAL1,
+	ANI_SKILL_BLUNT0 = 120, ANI_SKILL_BLUNT1, ANI_SKILL_BLUNT2, ANI_SKILL_BLUNT3,
+	ANI_SKILL_POLEARM0 = 124, ANI_SKILL_POLEARM1,
+	ANI_SKILL_SPEAR0 = 126, ANI_SKILL_SPEAR1,
+	ANI_SKILL_SWORD0 = 128, ANI_SKILL_SWORD1, ANI_SKILL_SWORD2, ANI_SKILL_SWORD3,
+	ANI_SKILL_AXE2H0 = 132, ANI_SKILL_AXE2H1,
+	ANI_SKILL_SWORD2H0 = 134, ANI_SKILL_SWORD2H1,
+
+	// ¿©±âºÎÅÍ´Â NPC Animation
+	ANI_NPC_BREATH = 0, ANI_NPC_WALK, ANI_NPC_RUN, ANI_NPC_WALK_BACKWARD,
+	ANI_NPC_ATTACK0 = 4, ANI_NPC_ATTACK1, ANI_NPC_STRUCK0, ANI_NPC_STRUCK1, ANI_NPC_STRUCK2, ANI_NPC_GUARD,
+	ANI_NPC_DEAD0 = 10, ANI_NPC_DEAD1, ANI_NPC_TALK0, ANI_NPC_TALK1, ANI_NPC_TALK2, ANI_NPC_TALK3,
+	ANI_NPC_SPELLMAGIC0 = 16, ANI_NPC_SPELLMAGIC1,
+
+	ANI_UNKNOWN = 0xffffffff
+};
 
 
 //MAX_INCLINE_CLIMB = sqrt( 1 - sin(90-ÃÖ´ë°æ»ç°¢)^2 )
@@ -160,51 +168,63 @@ const float MOVE_DELTA_WHEN_RUNNING = 3.0f; // ¶Û¶§ °öÇØÁö´Â º¯¼�
 const float MOVE_SPEED_WHEN_WALK = 1.5f; // Player µéÀÌ °ÉÀ»¶§ Ç¥ÁØ¼Óµµ
 
 // ÇöÀç »óÅÂ...
-enum e_StateMove {	PSM_STOP = 0,
-					PSM_WALK,
-					PSM_RUN,
-					PSM_WALK_BACKWARD,
-					PSM_COUNT };
+enum e_StateMove {
+	PSM_STOP = 0,
+	PSM_WALK,
+	PSM_RUN,
+	PSM_WALK_BACKWARD,
+	PSM_COUNT
+};
 
-enum e_StateAction {	PSA_BASIC = 0,		// ¾Æ¹«Áþµµ ¾ÈÇÏ°í ÀÖÀ½...
-						PSA_ATTACK,			// °ø°Ý »óÅÂ.. 
-						PSA_GUARD,			// ¹æ¾î¼º°ø - ¸·À½..
-						PSA_STRUCK,			// ¾ò¾îÅÍÁü.
-						PSA_DYING,			// Á×°í ÀÖ´ÂÁß(¾²·¯Áö´ÂÁß)
-						PSA_DEATH,			// Á×¾î¼­ »¸À½..
-						PSA_SPELLMAGIC,		// ¸¶¹ý ÁÖ¹® ¿Ü¿ì´Â Áß..
-						PSA_SITDOWN, 		// ¾É¾Æ ÀÖ´ÂÁß...
-						PSA_COUNT }; 
+enum e_StateAction {
+	PSA_BASIC = 0,		// ¾Æ¹«Áþµµ ¾ÈÇÏ°í ÀÖÀ½...
+	PSA_ATTACK,			// °ø°Ý »óÅÂ.. 
+	PSA_GUARD,			// ¹æ¾î¼º°ø - ¸·À½..
+	PSA_STRUCK,			// ¾ò¾îÅÍÁü.
+	PSA_DYING,			// Á×°í ÀÖ´ÂÁß(¾²·¯Áö´ÂÁß)
+	PSA_DEATH,			// Á×¾î¼­ »¸À½..
+	PSA_SPELLMAGIC,		// ¸¶¹ý ÁÖ¹® ¿Ü¿ì´Â Áß..
+	PSA_SITDOWN, 		// ¾É¾Æ ÀÖ´ÂÁß...
+	PSA_COUNT
+};
 
-enum e_StateDying {		PSD_DISJOINT = 0,	// ºÐÇØµÇ¾î Á×´Â´Ù.. 
-						PSD_KNOCK_DOWN,		// ³¯¾Æ°¡°Å³ª µÚ·Î ¹Ð¸®¸é¼­ Á×´Â´Ù.
-						PSD_KEEP_POSITION,	// Á¦ ÀÚ¸®¿¡¼­ ÆûÀâ°í Á×´Â´Ù..
-						PSD_COUNT,
+enum e_StateDying {
+	PSD_DISJOINT = 0,	// ºÐÇØµÇ¾î Á×´Â´Ù.. 
+	PSD_KNOCK_DOWN,		// ³¯¾Æ°¡°Å³ª µÚ·Î ¹Ð¸®¸é¼­ Á×´Â´Ù.
+	PSD_KEEP_POSITION,	// Á¦ ÀÚ¸®¿¡¼­ ÆûÀâ°í Á×´Â´Ù..
+	PSD_COUNT,
 
-						PSD_UNKNOWN = 0xffffffff };
+	PSD_UNKNOWN = 0xffffffff
+};
 
-enum e_StateParty {	PSP_NORMAL = 0,
-					PSP_POISONING = 1,
-					PSP_CURSED = 2,
-					PSP_MAGIC_TAKEN = 4,
-					PSP_BLESSED = 8,
-					PSP_UNKNOWN = 0xffffffff };
+enum e_StateParty {
+	PSP_NORMAL = 0,
+	PSP_POISONING = 1,
+	PSP_CURSED = 2,
+	PSP_MAGIC_TAKEN = 4,
+	PSP_BLESSED = 8,
+	PSP_UNKNOWN = 0xffffffff
+};
 
-enum e_PartPosition	{	PART_POS_UPPER = 0,
-						PART_POS_LOWER,
-						PART_POS_FACE,
-						PART_POS_HANDS,
-						PART_POS_FEET, 
-						PART_POS_HAIR_HELMET,
-						PART_POS_COUNT,
-						PART_POS_UNKNOWN = 0xffffffff };
+enum e_PartPosition {
+	PART_POS_UPPER = 0,
+	PART_POS_LOWER,
+	PART_POS_FACE,
+	PART_POS_HANDS,
+	PART_POS_FEET,
+	PART_POS_HAIR_HELMET,
+	PART_POS_COUNT,
+	PART_POS_UNKNOWN = 0xffffffff
+};
 
-enum e_PlugPosition {	PLUG_POS_RIGHTHAND = 0,
-						PLUG_POS_LEFTHAND, 
-						PLUG_POS_BACK, 
-						PLUG_POS_KNIGHTS_GRADE, 
-						PLUG_POS_COUNT,
-						PLUG_POS_UNKNOWN = 0xffffffff };
+enum e_PlugPosition {
+	PLUG_POS_RIGHTHAND = 0,
+	PLUG_POS_LEFTHAND,
+	PLUG_POS_BACK,
+	PLUG_POS_KNIGHTS_GRADE,
+	PLUG_POS_COUNT,
+	PLUG_POS_UNKNOWN = 0xffffffff
+};
 
 /*
 enum e_ItemClass	{	ITEM_CLASS_DAGGER = 1, // ´Ü°Ë(dagger)
@@ -216,23 +236,23 @@ enum e_ItemClass	{	ITEM_CLASS_DAGGER = 1, // ´Ü°Ë(dagger)
 						ITEM_CLASS_MACE_2H, // 7 : µÎ¼ÕÅ¸°Ý¹«±â(twohandmace)
 						ITEM_CLASS_SPEAR, // 8 : Ã¢(spear)
 						ITEM_CLASS_POLEARM, // 9 : Æú¾Ï(polearm)
-						
+
 						ITEM_CLASS_SHIELD_SMALL = 11, // 11 : ½º¸ô½¯µå(smallshield)
 						ITEM_CLASS_SHIELD_LARGE, // 12 : ¶ó¾ÆÁö½¯µå(largeshield)
 						ITEM_CLASS_SHIELD_KITE, // 13 : Ä«ÀÌÆ®½¯µå(kiteshield)
 						ITEM_CLASS_SHIELD_LARGETKITE, // 14 : ¶ó¾ÆÁöÄ«ÀÌÆ®(largekite)
 						ITEM_CLASS_SHIELD_PLATE, // 15 : ÇÃ·¹ÀÌÆ®½¯µå(plateshield)
-						
+
 						ITEM_CLASS_BOW_SHORT = 21, // 21 : ¼îÆ®º¸¿ì(Shortbow)
 						ITEM_CLASS_BOW_WRAPT, // 22 : ·¦Æ®º¸¿ì(wraptbow)
 						ITEM_CLASS_BOW_COMPOSITE, // 23 : ÄÞÆ÷ÁöÆ®º¸¿ì(compositebow)
 						ITEM_CLASS_BOW_IRON, // 24 : ¾ÆÀÌ¾ðº¸¿ì(ironbow)
 						ITEM_CLASS_BOW_LONG, // 25 : ·Õº¸¿ì(longbow)
 						ITEM_CLASS_BOW_CROSS, // 28 : Å©·Î½ºº¸¿ì(crossbow)
-						
+
 						ITEM_CLASS_STAFF = 31, // 31 : ÁöÆÎÀÌ(staff)
 						ITEM_CLASS_ETC, // 32 : ±âÅ¸ ¸¶¹ý ¹°Ç°
-						
+
 						ITEM_CLASS_ARMOR_COTTON = 41, // 41 : Ãµ¹æ¾î±¸(cotton)
 						ITEM_CLASS_ARMOR_FUR, // 42 : ÅÐ°¡Á×(Fur)
 						ITEM_CLASS_ARMOR_LEATHER, // 43 : °¡Á×¹æ¾î±¸(leather)
@@ -242,59 +262,62 @@ enum e_ItemClass	{	ITEM_CLASS_DAGGER = 1, // ´Ü°Ë(dagger)
 						ITEM_CLASS_ARMOR_HALFPLATE, // 47 : ÇÏÇÁ ÇÃ·¹ÀÌÆ® ¹æ¾î±¸
 						ITEM_CLASS_ARMOR_FULLPLATE, // 48 : Ã¶ÆÇ¹æ¾î±¸(platemail)
 						ITEM_CLASS_ROBE, // 49 : ¸¶¹ý»ç·Îºê(robe)
-						
+
 						ITEM_CLASS_ARROW = 101,
-						
-						ITEM_CLASS_UNKNOWN = 0xffffffff }; // 101: È­»ì(arrow) 
+
+						ITEM_CLASS_UNKNOWN = 0xffffffff }; // 101: È­»ì(arrow)
 */
-enum e_ItemAttrib	{
-						ITEM_ATTRIB_GENERAL = 0,
-						ITEM_ATTRIB_MAGIC	= 1,
-						ITEM_ATTRIB_LAIR	= 2,
-						ITEM_ATTRIB_CRAFT	= 3,
-						ITEM_ATTRIB_UNIQUE	= 4,
-						ITEM_ATTRIB_UPGRADE	= 5,		
-						ITEM_ATTRIB_UNKNOWN = 0xffffffff };	
+enum e_ItemAttrib {
+	ITEM_ATTRIB_GENERAL = 0,
+	ITEM_ATTRIB_MAGIC = 1,
+	ITEM_ATTRIB_LAIR = 2,
+	ITEM_ATTRIB_CRAFT = 3,
+	ITEM_ATTRIB_UNIQUE = 4,
+	ITEM_ATTRIB_UPGRADE = 5,
+	ITEM_ATTRIB_UNKNOWN = 0xffffffff
+};
 
-enum e_ItemClass	{	ITEM_CLASS_DAGGER = 11, // ´Ü°Ë(dagger)
-						ITEM_CLASS_SWORD = 21, // ÇÑ¼Õ°Ë(onehandsword)
-						ITEM_CLASS_SWORD_2H = 22, // 3 : ¾ç¼Õ°Ë(twohandsword)
-						ITEM_CLASS_AXE = 31, // ÇÑ¼Õµµ³¢(onehandaxe)
-						ITEM_CLASS_AXE_2H = 32, // µÎ¼Õµµ³¢(twohandaxe)
-						ITEM_CLASS_MACE = 41, // ÇÑ¼ÕÅ¸°Ý¹«±â(mace)
-						ITEM_CLASS_MACE_2H = 42, // µÎ¼ÕÅ¸°Ý¹«±â(twohandmace)
-						ITEM_CLASS_SPEAR = 51, // Ã¢(spear)
-						ITEM_CLASS_POLEARM = 52, // Æú¾Ï(polearm)
-						
-						ITEM_CLASS_SHIELD = 60, // ½¯µå(shield)
+enum e_ItemClass {
+	ITEM_CLASS_DAGGER = 11, // ´Ü°Ë(dagger)
+	ITEM_CLASS_SWORD = 21, // ÇÑ¼Õ°Ë(onehandsword)
+	ITEM_CLASS_SWORD_2H = 22, // 3 : ¾ç¼Õ°Ë(twohandsword)
+	ITEM_CLASS_AXE = 31, // ÇÑ¼Õµµ³¢(onehandaxe)
+	ITEM_CLASS_AXE_2H = 32, // µÎ¼Õµµ³¢(twohandaxe)
+	ITEM_CLASS_MACE = 41, // ÇÑ¼ÕÅ¸°Ý¹«±â(mace)
+	ITEM_CLASS_MACE_2H = 42, // µÎ¼ÕÅ¸°Ý¹«±â(twohandmace)
+	ITEM_CLASS_SPEAR = 51, // Ã¢(spear)
+	ITEM_CLASS_POLEARM = 52, // Æú¾Ï(polearm)
 
-						ITEM_CLASS_BOW = 70, //  ¼îÆ®º¸¿ì(Shortbow)
-						ITEM_CLASS_BOW_CROSS = 71, // Å©·Î½ºº¸¿ì(crossbow)
-						ITEM_CLASS_BOW_LONG = 80, // ·Õº¸¿ì(longbow)
+	ITEM_CLASS_SHIELD = 60, // ½¯µå(shield)
 
-						ITEM_CLASS_EARRING = 91, // ±Í°ÉÀÌ
-						ITEM_CLASS_AMULET = 92, // ¸ñ°ÉÀÌ
-						ITEM_CLASS_RING = 93, // ¹ÝÁö
-						ITEM_CLASS_BELT = 94, // Çã¸®¶ì
-						ITEM_CLASS_CHARM = 95, //ÀÎº¥Åä¸®¿¡ Áö´Ï°í ÀÖ´Â ¾ÆÀÌÅÛ
-						ITEM_CLASS_JEWEL = 96, //º¸¼®Á¾·ù
-						ITEM_CLASS_POTION = 97, // ¹°¾à
-						ITEM_CLASS_SCROLL = 98, // ½ºÅ©·Ñ
+	ITEM_CLASS_BOW = 70, //  ¼îÆ®º¸¿ì(Shortbow)
+	ITEM_CLASS_BOW_CROSS = 71, // Å©·Î½ºº¸¿ì(crossbow)
+	ITEM_CLASS_BOW_LONG = 80, // ·Õº¸¿ì(longbow)
 
-						ITEM_CLASS_LAUNCHER = 100, // Ã¢´øÁú¶§ ¾²´Â ¾ÆÀÌÅÛ..
-						
-						ITEM_CLASS_STAFF = 110, // ÁöÆÎÀÌ(staff)
-						ITEM_CLASS_ARROW = 120, // È­»ì(Arrow)
-						ITEM_CLASS_JAVELIN = 130, // ÅõÃ¢
-						
-						ITEM_CLASS_ARMOR_WARRIOR = 210, // Àü»ç ¹æ¾î±¸
-						ITEM_CLASS_ARMOR_ROGUE = 220, // ·Î±× ¹æ¾î±¸
-						ITEM_CLASS_ARMOR_MAGE = 230, // ¸¶¹ý»ç ¹æ¾î±¸
-						ITEM_CLASS_ARMOR_PRIEST = 240, // »çÁ¦ ¹æ¾î±¸
+	ITEM_CLASS_EARRING = 91, // ±Í°ÉÀÌ
+	ITEM_CLASS_AMULET = 92, // ¸ñ°ÉÀÌ
+	ITEM_CLASS_RING = 93, // ¹ÝÁö
+	ITEM_CLASS_BELT = 94, // Çã¸®¶ì
+	ITEM_CLASS_CHARM = 95, //ÀÎº¥Åä¸®¿¡ Áö´Ï°í ÀÖ´Â ¾ÆÀÌÅÛ
+	ITEM_CLASS_JEWEL = 96, //º¸¼®Á¾·ù
+	ITEM_CLASS_POTION = 97, // ¹°¾à
+	ITEM_CLASS_SCROLL = 98, // ½ºÅ©·Ñ
 
-						ITEM_CLASS_ETC = 251, // ±âÅ¸
+	ITEM_CLASS_LAUNCHER = 100, // Ã¢´øÁú¶§ ¾²´Â ¾ÆÀÌÅÛ..
 
-						ITEM_CLASS_UNKNOWN = 0xffffffff }; // 
+	ITEM_CLASS_STAFF = 110, // ÁöÆÎÀÌ(staff)
+	ITEM_CLASS_ARROW = 120, // È­»ì(Arrow)
+	ITEM_CLASS_JAVELIN = 130, // ÅõÃ¢
+
+	ITEM_CLASS_ARMOR_WARRIOR = 210, // Àü»ç ¹æ¾î±¸
+	ITEM_CLASS_ARMOR_ROGUE = 220, // ·Î±× ¹æ¾î±¸
+	ITEM_CLASS_ARMOR_MAGE = 230, // ¸¶¹ý»ç ¹æ¾î±¸
+	ITEM_CLASS_ARMOR_PRIEST = 240, // »çÁ¦ ¹æ¾î±¸
+
+	ITEM_CLASS_ETC = 251, // ±âÅ¸
+
+	ITEM_CLASS_UNKNOWN = 0xffffffff
+}; // 
 
 enum e_Nation { NATION_NOTSELECTED = 0, NATION_KARUS, NATION_ELMORAD, NATION_UNKNOWN = 0xffffffff };
 
@@ -313,8 +336,8 @@ struct __InfoPlayerBase
 	e_Nation	eNation;		// ¼Ò¼Ó ±¹°¡..
 	e_Class		eClass;			// Á÷¾÷
 	int			iLevel;			// ·¹º§
-	int			iHPMax;	
-	int			iHP; 
+	int			iHPMax;
+	int			iHP;
 	int			iAuthority;		// ±ÇÇÑ - 0 °ü¸®ÀÚ, 1 - ÀÏ¹ÝÀ¯Àú, 255 - ºí·°´çÇÑ À¯Àú...
 
 	bool		bRenderID;		// È­¸é¿¡ ID ¸¦ Âï´ÂÁö..
@@ -328,8 +351,8 @@ struct __InfoPlayerBase
 		eNation = NATION_UNKNOWN;	// ¼Ò¼Ó ±¹°¡..
 		eClass = CLASS_UNKNOWN;		// Á÷¾÷
 		iLevel = 0;					// ·¹º§
-		iHPMax = 0;	
-		iHP = 0; 
+		iHPMax = 0;
+		iHP = 0;
 		iAuthority = 1;				// ±ÇÇÑ - 0 °ü¸®ÀÚ, 1 - ÀÏ¹ÝÀ¯Àú, 255 - ºí·°´çÇÑ À¯Àú...
 		bRenderID = true;
 	}
@@ -363,14 +386,15 @@ struct __InfoPlayerOther
 };
 
 // ±â»ç´Ü Á÷À§..
-enum e_KnightsDuty {	KNIGHTS_DUTY_UNKNOWN = 0,		// ????? ÂÑ°Ü³²??
-						KNIGHTS_DUTY_CHIEF = 1,			// ´ÜÀå
-						KNIGHTS_DUTY_VICECHIEF = 2,		// ºÎ´ÜÀå 
-						KNIGHTS_DUTY_PUNISH = 3,		// Â¡°èÁß.
-						KNIGHTS_DUTY_TRAINEE = 4,		// °ß½À±â»ç
-						KNIGHTS_DUTY_KNIGHT = 5,		// ÀÏ¹Ý±â»ç
-						KNIGHTS_DUTY_OFFICER = 6		// Àå±³
-					};
+enum e_KnightsDuty {
+	KNIGHTS_DUTY_UNKNOWN = 0,		// ????? ÂÑ°Ü³²??
+	KNIGHTS_DUTY_CHIEF = 1,			// ´ÜÀå
+	KNIGHTS_DUTY_VICECHIEF = 2,		// ºÎ´ÜÀå 
+	KNIGHTS_DUTY_PUNISH = 3,		// Â¡°èÁß.
+	KNIGHTS_DUTY_TRAINEE = 4,		// °ß½À±â»ç
+	KNIGHTS_DUTY_KNIGHT = 5,		// ÀÏ¹Ý±â»ç
+	KNIGHTS_DUTY_OFFICER = 6		// Àå±³
+};
 
 #define VICTORY_ABSENCE		0
 #define VICTORY_KARUS		1
@@ -381,13 +405,13 @@ struct __InfoPlayerMySelf : public __InfoPlayerOther
 	int					iBonusPointRemain; // ³²´Â º¸³Ê½º Æ÷ÀÎÆ®...
 	int					iLevelPrev; // Á÷ÀüÀÇ ·¹º§...
 
-	int					iMSPMax; 
-	int					iMSP; 
-			
+	int					iMSPMax;
+	int					iMSP;
+
 	int					iTargetHPPercent;
 	int					iGold;
 	int					iExpNext;
-	int					iExp; 
+	int					iExp;
 	int					iRealmPoint;		// ±¹°¡ ±â¿©µµ
 	e_KnightsDuty		eKnightsDuty;		// ±â»ç´Ü ±ÇÇÑ
 	int					iWeightMax;			// ¾ÆÀÌÅÛÀÇ ÃÑ¹«°Ô
@@ -402,7 +426,7 @@ struct __InfoPlayerMySelf : public __InfoPlayerOther
 	int					iIntelligence_Delta; // ¾ÆÀÌÅÛÀÌ³ª ¸¶¹ý¿¡ ÀÇÇØ °¡°¨µÈ°ª.
 	int 				iMagicAttak;		// ¸¶·Â
 	int 				iMagicAttak_Delta;	// ¾ÆÀÌÅÛÀÌ³ª ¸¶¹ý¿¡ ÀÇÇØ °¡°¨µÈ°ª.
-	
+
 	int 				iAttack;		// °ø°Ý·Â
 	int 				iAttack_Delta;	// ¸¶¹ý¿¡ ÀÇÇØ °¡°¨µÈ °ª..
 	int 				iGuard;			// ¹æ¾î·Â
@@ -432,13 +456,13 @@ struct __InfoPlayerMySelf : public __InfoPlayerOther
 		iBonusPointRemain = 0; // ³²´Â º¸³Ê½º Æ÷ÀÎÆ®...
 		iLevelPrev = 0; // Á÷ÀüÀÇ ·¹º§...
 
-		iMSPMax = 0; 
-		iMSP = 0; 
-		
+		iMSPMax = 0;
+		iMSP = 0;
+
 		iTargetHPPercent = 0;
 		iGold = 0;
 		iExpNext = 0;
-		iExp = 0; 
+		iExp = 0;
 		iRealmPoint = 0;		// ±¹°¡ ±â¿©µµ
 		eKnightsDuty = KNIGHTS_DUTY_UNKNOWN;		// ±â»ç´Ü ±ÇÇÑ
 		iWeightMax = 0;			// ¾ÆÀÌÅÛÀÇ ÃÑ¹«°Ô
@@ -453,7 +477,7 @@ struct __InfoPlayerMySelf : public __InfoPlayerOther
 		iIntelligence_Delta = 0; // ¾ÆÀÌÅÛÀÌ³ª ¸¶¹ý¿¡ ÀÇÇØ °¡°¨µÈ°ª.
 		iMagicAttak = 0;		// ¸¶·Â
 		iMagicAttak_Delta = 0;	// ¾ÆÀÌÅÛÀÌ³ª ¸¶¹ý¿¡ ÀÇÇØ °¡°¨µÈ°ª.
-		
+
 		iAttack = 0;		// °ø°Ý·Â
 		iAttack_Delta = 0;	// ¸¶¹ý¿¡ ÀÇÇØ °¡°¨µÈ °ª..
 		iGuard = 0;			// ¹æ¾î·Â
@@ -535,8 +559,10 @@ struct __InfoPartyBBS // ÆÄÆ¼ Áö¿ø °Ô½ÃÆÇ ±¸Á¶Ã¼..
 	}
 };
 
-enum {	RESRC_UI_LOGIN = 0, RESRC_UI_CHARACTERSELECT, RESRC_UI_CHARACTERCREATE, RESRC_UI_INVENTORY, RESRC_UI_CHAT,
-		RESRC_UI_MYINFORMATION, RESRC_UI_TARGET, RESRC_UI_HOTKEY, RESRC_UI_FUNCTION };
+enum {
+	RESRC_UI_LOGIN = 0, RESRC_UI_CHARACTERSELECT, RESRC_UI_CHARACTERCREATE, RESRC_UI_INVENTORY, RESRC_UI_CHAT,
+	RESRC_UI_MYINFORMATION, RESRC_UI_TARGET, RESRC_UI_HOTKEY, RESRC_UI_FUNCTION
+};
 
 typedef struct __TABLE_ZONE
 {
@@ -790,14 +816,14 @@ typedef struct __TABLE_ITEM_EXT // ÀåÂø ¾ÆÀÌÅÛ¿¡ °üÇÑ ¸®¼Ò½
 	short	siMaxDurability;		// 08 ³»±¸·Â
 	short	siPriceMultiply;		// 09 ¸Å¼ö°¡ ¹èÀ²
 	short	siDefense;				// 10 ¹æ¾î·Â
-	
+
 	short	siDefenseRateDagger;	// 11 ´Ü°Ë¹æ¾î	- ÆÛ¼¾Æ®
 	short	siDefenseRateSword;		// 12 °Ë¹æ¾î	- ÆÛ¼¾Æ®
 	short	siDefenseRateBlow;		// 13 Å¸°Ý¹æ¾î	- ÆÛ¼¾Æ®
 	short	siDefenseRateAxe;		// 14 µµ³¢¹æ¾î	- ÆÛ¼¾Æ®
 	short	siDefenseRateSpear;		// 15 Ã¢¹æ¾î	- ÆÛ¼¾Æ®
 	short	siDefenseRateArrow;		// 16 È­»ì¹æ¾î	- ÆÛ¼¾Æ®
-	
+
 	BYTE	byDamageFire;			// 17 Ãß°¡µ¥¹ÌÁö - ºÒ
 	BYTE	byDamageIce;			// 18 Ãß°¡µ¥¹ÌÁö - ¾óÀ½
 	BYTE	byDamageThuner;			// 19 Ãß°¡µ¥¹ÌÁö - Àü°Ý
@@ -809,7 +835,7 @@ typedef struct __TABLE_ITEM_EXT // ÀåÂø ¾ÆÀÌÅÛ¿¡ °üÇÑ ¸®¼Ò½
 	BYTE	byReturnPhysicalDamage;	// 24 ¹°¸®Å¸°Ý ¹Ý»ç
 
 	BYTE	bySoulBind;				// 25¼Ò¿ï ¹ÙÀÎµå - ÀÏ´ëÀÏ½Ã ¾ÆÀÌÅÛÀ» ¶³±¸´Â Á¤µµ - ÆÛ¼¾Æ® - ÇöÀç´Â ¾È¾´´Ù.
-	
+
 	short	siBonusStr;				// 26 Èû º¸³Ê½º
 	short	siBonusSta;				// 27 Ã¼·Â º¸³Ê½º
 	short	siBonusDex;				// 28 ¹ÎÃ¸¼º º¸³Ê½º
@@ -824,7 +850,7 @@ typedef struct __TABLE_ITEM_EXT // ÀåÂø ¾ÆÀÌÅÛ¿¡ °üÇÑ ¸®¼Ò½
 	short	siRegistMagic;			// 36 ¸¶¹ý ÀúÇ×
 	short	siRegistPoison;			// 37 µ¶ ÀúÇ×
 	short	siRegistCurse;			// 38 ÀúÁÖ ÀúÇ×
-	
+
 	DWORD	dwEffectID1;		// 39 ¸¶¹ý È¿°ú ID1
 	DWORD	dwEffectID2;		// 40 ¸¶¹ý È¿°ú ID2
 
@@ -848,18 +874,22 @@ typedef struct __TABLE_NPC_SHOP
 
 enum e_ItemType { ITEM_TYPE_PLUG = 1, ITEM_TYPE_PART, ITEM_TYPE_ICONONLY, ITEM_TYPE_GOLD = 9, ITEM_TYPE_SONGPYUN = 10, ITEM_TYPE_UNKNOWN = 0xffffffff };
 
-enum e_ItemPosition {	ITEM_POS_DUAL = 0,	ITEM_POS_RIGHTHAND, ITEM_POS_LEFTHAND,	ITEM_POS_TWOHANDRIGHT,	ITEM_POS_TWOHANDLEFT,
-						ITEM_POS_UPPER = 5, ITEM_POS_LOWER,		ITEM_POS_HEAD,		ITEM_POS_GLOVES,		ITEM_POS_SHOES,
-						ITEM_POS_EAR = 10,	ITEM_POS_NECK,		ITEM_POS_FINGER,	ITEM_POS_SHOULDER,		ITEM_POS_BELT,
-						ITEM_POS_INVENTORY = 15, ITEM_POS_GOLD = 16, ITEM_POS_SONGPYUN = 17,
-						ITEM_POS_UNKNOWN = 0xffffffff };
-					
-enum e_ItemSlot {	ITEM_SLOT_EAR_RIGHT = 0,	ITEM_SLOT_HEAD	= 1,	ITEM_SLOT_EAR_LEFT	= 2,
-					ITEM_SLOT_NECK = 3,			ITEM_SLOT_UPPER	= 4,	ITEM_SLOT_SHOULDER	= 5,
-					ITEM_SLOT_HAND_RIGHT = 6,	ITEM_SLOT_BELT	= 7,	ITEM_SLOT_HAND_LEFT = 8,
-					ITEM_SLOT_RING_RIGHT = 9,	ITEM_SLOT_LOWER = 10,	ITEM_SLOT_RING_LEFT = 11,
-					ITEM_SLOT_GLOVES = 12,		ITEM_SLOT_SHOES = 13, 
-					ITEM_SLOT_COUNT = 14, ITEM_SLOT_UNKNOWN = 0xffffffff };
+enum e_ItemPosition {
+	ITEM_POS_DUAL = 0, ITEM_POS_RIGHTHAND, ITEM_POS_LEFTHAND, ITEM_POS_TWOHANDRIGHT, ITEM_POS_TWOHANDLEFT,
+	ITEM_POS_UPPER = 5, ITEM_POS_LOWER, ITEM_POS_HEAD, ITEM_POS_GLOVES, ITEM_POS_SHOES,
+	ITEM_POS_EAR = 10, ITEM_POS_NECK, ITEM_POS_FINGER, ITEM_POS_SHOULDER, ITEM_POS_BELT,
+	ITEM_POS_INVENTORY = 15, ITEM_POS_GOLD = 16, ITEM_POS_SONGPYUN = 17,
+	ITEM_POS_UNKNOWN = 0xffffffff
+};
+
+enum e_ItemSlot {
+	ITEM_SLOT_EAR_RIGHT = 0, ITEM_SLOT_HEAD = 1, ITEM_SLOT_EAR_LEFT = 2,
+	ITEM_SLOT_NECK = 3, ITEM_SLOT_UPPER = 4, ITEM_SLOT_SHOULDER = 5,
+	ITEM_SLOT_HAND_RIGHT = 6, ITEM_SLOT_BELT = 7, ITEM_SLOT_HAND_LEFT = 8,
+	ITEM_SLOT_RING_RIGHT = 9, ITEM_SLOT_LOWER = 10, ITEM_SLOT_RING_LEFT = 11,
+	ITEM_SLOT_GLOVES = 12, ITEM_SLOT_SHOES = 13,
+	ITEM_SLOT_COUNT = 14, ITEM_SLOT_UNKNOWN = 0xffffffff
+};
 
 
 typedef struct __TABLE_PLAYER_LOOKS // NPC, Mob ¸ð½À °üÇÑ ¸®¼Ò½º ·¹ÄÚµå...
@@ -878,7 +908,7 @@ typedef struct __TABLE_PLAYER_LOOKS // NPC, Mob ¸ð½À °üÇÑ ¸®¼Ò½º �
 	int			iJointLH;			// ¿Þ¼Õ ³¡ °üÀý¹øÈ£
 	int			iJointLH2;			// ¿Þ¼Õ ÆÈ¶Ò °üÀý¹øÈ£
 	int			iJointCloak;		// ¸ÁÅä ºÙÀ» °üÀý ¹øÈ£
-	
+
 	int			iSndID_Move;
 	int			iSndID_Attack0;
 	int			iSndID_Attack1;
@@ -960,7 +990,7 @@ typedef struct __TABLE_UPC_SKILL
 	DWORD		dw2ndTableType;		// µÎ¹øÂ° Å¸ÀÔ.
 	int			iValidDist;			// À¯È¿°Å¸®
 	int   iUnkown1;        // TODO: implement 
-	
+
 } TABLE_UPC_ATTACK_B;
 
 typedef struct __TABLE_UPC_SKILL_TYPE_1
@@ -1161,76 +1191,78 @@ const int MAX_SKILL_PAGE_NUM = 3;			// ½ºÅ³ ÇÑ°³°¡ °¡Áö´Â ÃÖ´
 
 const int MAX_SKILL_HOTKEY_PAGE = 8;		// Hot KeyÀÇ ÃÑ ÆäÀÌÁö ¼ö.. 				
 const int MAX_SKILL_IN_HOTKEY = 8;			// Hot KeyÀÇ Çö ÆäÀÌÁö³»ÀÇ °¹¼ö..			
-		
+
 const int MAX_AVAILABLE_CHARACTER = 3;		// ÇÑ ¼­¹ö´ç ¼±ÅÃÇÒ¼ö ÀÖ´Â ÃÖ´ë Ä³¸¯ÅÍ ¼ö..	
 
 // ½Î¿îµµ.... By ecli666
-const int ID_SOUND_ITEM_ETC_IN_INVENTORY	= 2000;
-const int ID_SOUND_ITEM_IN_REPAIR			= 2001;
+const int ID_SOUND_ITEM_ETC_IN_INVENTORY = 2000;
+const int ID_SOUND_ITEM_IN_REPAIR = 2001;
 const int ID_SOUND_ITEM_WEAPON_IN_INVENTORY = 2002;
-const int ID_SOUND_ITEM_ARMOR_IN_INVENTORY	= 2003;
-const int ID_SOUND_GOLD_IN_INVENTORY		= 3000;
-const int ID_SOUND_SKILL_THROW_ARROW		= 5500;
-const int ID_SOUND_BGM_TOWN					= 20000;
-const int ID_SOUND_BGM_KA_BATTLE			= 20002;
-const int ID_SOUND_BGM_EL_BATTLE			= 20003;
-const int ID_SOUND_CHR_SELECT_ROTATE		= 2501;
+const int ID_SOUND_ITEM_ARMOR_IN_INVENTORY = 2003;
+const int ID_SOUND_GOLD_IN_INVENTORY = 3000;
+const int ID_SOUND_SKILL_THROW_ARROW = 5500;
+const int ID_SOUND_BGM_TOWN = 20000;
+const int ID_SOUND_BGM_KA_BATTLE = 20002;
+const int ID_SOUND_BGM_EL_BATTLE = 20003;
+const int ID_SOUND_CHR_SELECT_ROTATE = 2501;
 
 const float SOUND_RANGE_TO_SET = 10.0f;
 const float SOUND_RANGE_TO_RELEASE = 20.0f;
 
 const float STUN_TIME = 3.0f;
 
-enum e_Behavior {	BEHAVIOR_NOTHING = 0,
-					BEHAVIOR_EXIT,			// ÇÁ·Î±×·¥ ³¡³»±â..
-					BEHAVIOR_RESTART_GAME,	// °ÔÀÓ ´Ù½Ã ½ÃÀÛÇÏ±â(Ä³¸¯ÅÍ ¼±ÅÃ)
-					BEHAVIOR_REGENERATION,	// ºÎÈ°
-					BEHAVIOR_CANCEL,		// Ãë¼Ò.. ÇöÀç´Â ¾ÆÀÌÅÛ °Å·¡ ½ÅÃ»½Ã À¯Àú°¡ Ãë¼Ò¸¦ ´­·¶À»¶§..
+enum e_Behavior {
+	BEHAVIOR_NOTHING = 0,
+	BEHAVIOR_EXIT,			// ÇÁ·Î±×·¥ ³¡³»±â..
+	BEHAVIOR_RESTART_GAME,	// °ÔÀÓ ´Ù½Ã ½ÃÀÛÇÏ±â(Ä³¸¯ÅÍ ¼±ÅÃ)
+	BEHAVIOR_REGENERATION,	// ºÎÈ°
+	BEHAVIOR_CANCEL,		// Ãë¼Ò.. ÇöÀç´Â ¾ÆÀÌÅÛ °Å·¡ ½ÅÃ»½Ã À¯Àú°¡ Ãë¼Ò¸¦ ´­·¶À»¶§..
 
-					BEHAVIOR_PARTY_PERMIT,	// »ó´ë¹æÀÌ ÆÄÆ¼°¡ÀÔ ¿äÃ»½Ã µé¾î°¡´Â°ÍÀ» Çã¶ô.
-					BEHAVIOR_PARTY_DISBAND, // ÆÄÆ¼ Å»Åð..
-					BEHAVIOR_FORCE_PERMIT,	// »ó´ë¹æÀÌ ºÎ´ë°¡ÀÔ ¿äÃ»½Ã µé¾î°¡´Â°ÍÀ» Çã¶ô.
-					BEHAVIOR_FORCE_DISBAND, // ºÎ´ë Å»Åð..
+	BEHAVIOR_PARTY_PERMIT,	// »ó´ë¹æÀÌ ÆÄÆ¼°¡ÀÔ ¿äÃ»½Ã µé¾î°¡´Â°ÍÀ» Çã¶ô.
+	BEHAVIOR_PARTY_DISBAND, // ÆÄÆ¼ Å»Åð..
+	BEHAVIOR_FORCE_PERMIT,	// »ó´ë¹æÀÌ ºÎ´ë°¡ÀÔ ¿äÃ»½Ã µé¾î°¡´Â°ÍÀ» Çã¶ô.
+	BEHAVIOR_FORCE_DISBAND, // ºÎ´ë Å»Åð..
 
-					BEHAVIOR_REQUEST_BINDPOINT, // ¹ÙÀÎµù Æ÷ÀÎÆ®·Î ... 
+	BEHAVIOR_REQUEST_BINDPOINT, // ¹ÙÀÎµù Æ÷ÀÎÆ®·Î ... 
 
-					BEHAVIOR_DELETE_CHR,
+	BEHAVIOR_DELETE_CHR,
 
-					BEHAVIOR_KNIGHTS_CREATE,
-					BEHAVIOR_KNIGHTS_DESTROY, // ±â»ç´Ü ÇØÃ¼..
-					BEHAVIOR_KNIGHTS_WITHDRAW, // ±â»ç´Ü ÇØÃ¼..
+	BEHAVIOR_KNIGHTS_CREATE,
+	BEHAVIOR_KNIGHTS_DESTROY, // ±â»ç´Ü ÇØÃ¼..
+	BEHAVIOR_KNIGHTS_WITHDRAW, // ±â»ç´Ü ÇØÃ¼..
 
-					BEHAVIOR_PERSONAL_TRADE_FMT_WAIT,	// °³ÀÎ°Å·¡.. ³»°¡ ½ÅÃ»ÇÑ °æ¿ì..
-					BEHAVIOR_PERSONAL_TRADE_PERMIT,		// °³ÀÎ°Å·¡.. ³»°¡ ½ÅÃ»¹ÞÀº °æ¿ì..
+	BEHAVIOR_PERSONAL_TRADE_FMT_WAIT,	// °³ÀÎ°Å·¡.. ³»°¡ ½ÅÃ»ÇÑ °æ¿ì..
+	BEHAVIOR_PERSONAL_TRADE_PERMIT,		// °³ÀÎ°Å·¡.. ³»°¡ ½ÅÃ»¹ÞÀº °æ¿ì..
 
-					BEHAVIOR_MGAME_LOGIN,
-					
-					BEHAVIOR_CLAN_JOIN,
-					BEHAVIOR_PARTY_BBS_REGISTER,		// ÆÄÆ¼ °Ô½ÃÆÇ¿¡ µî·Ï 
-					BEHAVIOR_PARTY_BBS_REGISTER_CANCEL, // ÆÄÆ¼ °Ô½ÃÆÇ¿¡ µî·Ï ÇØÁ¦
+	BEHAVIOR_MGAME_LOGIN,
 
-					BEHAVIOR_EXECUTE_OPTION,			// °ÔÀÓ Á¾·áÇÏ°í ¿É¼Ç ½ÇÇà..
-				
-					BEHAVIOR_UNKNOWN = 0xffffffff
-				};
+	BEHAVIOR_CLAN_JOIN,
+	BEHAVIOR_PARTY_BBS_REGISTER,		// ÆÄÆ¼ °Ô½ÃÆÇ¿¡ µî·Ï 
+	BEHAVIOR_PARTY_BBS_REGISTER_CANCEL, // ÆÄÆ¼ °Ô½ÃÆÇ¿¡ µî·Ï ÇØÁ¦
 
-enum e_SkillMagicTaget	{	SKILLMAGIC_TARGET_SELF = 1,				// ³ª ÀÚ½Å..
-							SKILLMAGIC_TARGET_FRIEND_WITHME = 2,	// ³ª¸¦ Æ÷ÇÔÇÑ ¿ì¸®Æí(±¹°¡) Áß ÇÏ³ª ..
-							SKILLMAGIC_TARGET_FRIEND_ONLY = 3,		// ³ª¸¦ »« ¿ì¸®Æí Áß ÇÏ³ª 
-							SKILLMAGIC_TARGET_PARTY = 4,			// ³ª¸¦ Æ÷ÇÔÇÑ ¿ì¸®ÆÄÆ¼ Áß ÇÏ³ª..
-							SKILLMAGIC_TARGET_NPC_ONLY = 5,			// NPCÁß ÇÏ³ª.
-							SKILLMAGIC_TARGET_PARTY_ALL = 6,		// ³ª¸¦ È£ÇÔÇÑ ¿ì¸®ÆÄÆ¼ ¸ðµÎ..
-							SKILLMAGIC_TARGET_ENEMY_ONLY = 7,		// ¿ïÆíÀ» Á¦¿ÜÇÑ ¸ðµç ÀûÁß ÇÏ³ª(NPCÆ÷ÇÔ)
-							SKILLMAGIC_TARGET_ALL = 8,				// °×»ó¿¡ Á¸ÀçÇÏ´Â ¸ðµç °ÍÁß ÇÏ³ª.
-							
-							SKILLMAGIC_TARGET_AREA_ENEMY = 10,		// ±× Áö¿ª¿¡ ÀÖ´Â Àûµé...
-							SKILLMAGIC_TARGET_AREA_FRIEND = 11,		// ±× Áö¿ª¿¡ ÀÖ´Â ¿ïÆí.
-							SKILLMAGIC_TARGET_AREA_ALL = 12,		// ±× Áö¿ª¿¡ ÀÖ´Â ¸ðµÎµé.
-							SKILLMAGIC_TARGET_AREA = 13,			// ³ª¸¦ Áß½ÉÀ¸·Î ÇÑ Áö¿ª
-							SKILLMAGIC_TARGET_DEAD_FRIEND_ONLY = 25,	//Á×Àº »ç¶÷Áß ³ª¸¦ »« ¿ì¸®Æí Áß ÇÏ³ª.
-							
-							SKILLMAGIC_TARGET_UNKNOWN = 0xffffffff
-						};
+	BEHAVIOR_EXECUTE_OPTION,			// °ÔÀÓ Á¾·áÇÏ°í ¿É¼Ç ½ÇÇà..
+
+	BEHAVIOR_UNKNOWN = 0xffffffff
+};
+
+enum e_SkillMagicTaget {
+	SKILLMAGIC_TARGET_SELF = 1,				// ³ª ÀÚ½Å..
+	SKILLMAGIC_TARGET_FRIEND_WITHME = 2,	// ³ª¸¦ Æ÷ÇÔÇÑ ¿ì¸®Æí(±¹°¡) Áß ÇÏ³ª ..
+	SKILLMAGIC_TARGET_FRIEND_ONLY = 3,		// ³ª¸¦ »« ¿ì¸®Æí Áß ÇÏ³ª 
+	SKILLMAGIC_TARGET_PARTY = 4,			// ³ª¸¦ Æ÷ÇÔÇÑ ¿ì¸®ÆÄÆ¼ Áß ÇÏ³ª..
+	SKILLMAGIC_TARGET_NPC_ONLY = 5,			// NPCÁß ÇÏ³ª.
+	SKILLMAGIC_TARGET_PARTY_ALL = 6,		// ³ª¸¦ È£ÇÔÇÑ ¿ì¸®ÆÄÆ¼ ¸ðµÎ..
+	SKILLMAGIC_TARGET_ENEMY_ONLY = 7,		// ¿ïÆíÀ» Á¦¿ÜÇÑ ¸ðµç ÀûÁß ÇÏ³ª(NPCÆ÷ÇÔ)
+	SKILLMAGIC_TARGET_ALL = 8,				// °×»ó¿¡ Á¸ÀçÇÏ´Â ¸ðµç °ÍÁß ÇÏ³ª.
+
+	SKILLMAGIC_TARGET_AREA_ENEMY = 10,		// ±× Áö¿ª¿¡ ÀÖ´Â Àûµé...
+	SKILLMAGIC_TARGET_AREA_FRIEND = 11,		// ±× Áö¿ª¿¡ ÀÖ´Â ¿ïÆí.
+	SKILLMAGIC_TARGET_AREA_ALL = 12,		// ±× Áö¿ª¿¡ ÀÖ´Â ¸ðµÎµé.
+	SKILLMAGIC_TARGET_AREA = 13,			// ³ª¸¦ Áß½ÉÀ¸·Î ÇÑ Áö¿ª
+	SKILLMAGIC_TARGET_DEAD_FRIEND_ONLY = 25,	//Á×Àº »ç¶÷Áß ³ª¸¦ »« ¿ì¸®Æí Áß ÇÏ³ª.
+
+	SKILLMAGIC_TARGET_UNKNOWN = 0xffffffff
+};
 
 
 //define fx...
@@ -1246,83 +1278,88 @@ typedef struct __TABLE_FX	// FX ¸®¼Ò½º ·¹ÄÚµå...
 const int	MAX_COMBO = 3;
 
 const int	FXID_BLOOD = 10002;
-const int	FXID_LEVELUP_KARUS			= 10012;
-const int	FXID_LEVELUP_ELMORAD		= 10018;
-const int	FXID_REGEN_ELMORAD			= 10019;
-const int	FXID_REGEN_KARUS			= 10020;
-const int	FXID_SWORD_FIRE_MAIN		= 10021;
-const int	FXID_SWORD_FIRE_TAIL		= 10022;
-const int	FXID_SWORD_FIRE_TARGET		= 10031;
-const int	FXID_SWORD_ICE_MAIN			= 10023;
-const int	FXID_SWORD_ICE_TAIL			= 10024;
-const int	FXID_SWORD_ICE_TARGET		= 10032;
-const int	FXID_SWORD_LIGHTNING_MAIN	= 10025;
-const int	FXID_SWORD_LIGHTNING_TAIL	= 10026;
+const int	FXID_LEVELUP_KARUS = 10012;
+const int	FXID_LEVELUP_ELMORAD = 10018;
+const int	FXID_REGEN_ELMORAD = 10019;
+const int	FXID_REGEN_KARUS = 10020;
+const int	FXID_SWORD_FIRE_MAIN = 10021;
+const int	FXID_SWORD_FIRE_TAIL = 10022;
+const int	FXID_SWORD_FIRE_TARGET = 10031;
+const int	FXID_SWORD_ICE_MAIN = 10023;
+const int	FXID_SWORD_ICE_TAIL = 10024;
+const int	FXID_SWORD_ICE_TARGET = 10032;
+const int	FXID_SWORD_LIGHTNING_MAIN = 10025;
+const int	FXID_SWORD_LIGHTNING_TAIL = 10026;
 const int	FXID_SWORD_LIGHTNING_TARGET = 10033;
-const int	FXID_SWORD_POISON_MAIN		= 10027;
-const int	FXID_SWORD_POISON_TAIL		= 10028;
-const int	FXID_SWORD_POISON_TARGET	= 10034;
+const int	FXID_SWORD_POISON_MAIN = 10027;
+const int	FXID_SWORD_POISON_TAIL = 10028;
+const int	FXID_SWORD_POISON_TARGET = 10034;
 //const int	FXID_GROUND_TARGET = 10035;
-const int	FXID_REGION_TARGET_EL_ROGUE		= 10035;
-const int	FXID_REGION_TARGET_EL_WIZARD	= 10036;
-const int	FXID_REGION_TARGET_EL_PRIEST	= 10037;
-const int	FXID_REGION_TARGET_KA_ROGUE		= 10038;
-const int	FXID_REGION_TARGET_KA_WIZARD	= 10039;
-const int	FXID_REGION_TARGET_KA_PRIEST	= 10040;
-const int	FXID_CLAN_RANK_1				= 10041;
-const int	FXID_REGION_POISON				= 10100;
+const int	FXID_REGION_TARGET_EL_ROGUE = 10035;
+const int	FXID_REGION_TARGET_EL_WIZARD = 10036;
+const int	FXID_REGION_TARGET_EL_PRIEST = 10037;
+const int	FXID_REGION_TARGET_KA_ROGUE = 10038;
+const int	FXID_REGION_TARGET_KA_WIZARD = 10039;
+const int	FXID_REGION_TARGET_KA_PRIEST = 10040;
+const int	FXID_CLAN_RANK_1 = 10041;
+const int	FXID_REGION_POISON = 10100;
 
 //define skillmagic_type4_bufftype
-enum e_SkillMagicType4	{	BUFFTYPE_MAXHP = 1,				//MaxHPº¯È­..
-							BUFFTYPE_AC = 2,				//ACº¯È­..
-							BUFFTYPE_RESIZE = 3,			//Ä³¸¯ÅÍ Å©±â Á¶Á¤..
-							BUFFTYPE_ATTACK = 4,			//°ø°Ý·Â..
-							BUFFTYPE_ATTACKSPEED = 5,		//°ø°Ý½ºÇÇµå..
-							BUFFTYPE_SPEED = 6,				//ÀÌµ¿¼Óµµ..
-							BUFFTYPE_ABILITY = 7,			//´Ù¼¸°¡Áö ´É·Â(str, sta, cha, dex int)
-							BUFFTYPE_RESIST = 8,			//´Ù¼¸°¡Áö ÀúÇ×·Â..
-							BUFFTYPE_HITRATE_AVOIDRATE = 9,	//hitrate n avoidrate
-							BUFFTYPE_TRANS = 10,			//º¯½Å, Åõ¸í..
-							BUFFTYPE_SLEEP = 11,			//ÀáÀç¿ì±â..
-							BUFFTYPE_EYE = 12				//½Ã·Â°ü·Ã...							
+enum e_SkillMagicType4 {
+	BUFFTYPE_MAXHP = 1,				//MaxHPº¯È­..
+	BUFFTYPE_AC = 2,				//ACº¯È­..
+	BUFFTYPE_RESIZE = 3,			//Ä³¸¯ÅÍ Å©±â Á¶Á¤..
+	BUFFTYPE_ATTACK = 4,			//°ø°Ý·Â..
+	BUFFTYPE_ATTACKSPEED = 5,		//°ø°Ý½ºÇÇµå..
+	BUFFTYPE_SPEED = 6,				//ÀÌµ¿¼Óµµ..
+	BUFFTYPE_ABILITY = 7,			//´Ù¼¸°¡Áö ´É·Â(str, sta, cha, dex int)
+	BUFFTYPE_RESIST = 8,			//´Ù¼¸°¡Áö ÀúÇ×·Â..
+	BUFFTYPE_HITRATE_AVOIDRATE = 9,	//hitrate n avoidrate
+	BUFFTYPE_TRANS = 10,			//º¯½Å, Åõ¸í..
+	BUFFTYPE_SLEEP = 11,			//ÀáÀç¿ì±â..
+	BUFFTYPE_EYE = 12				//½Ã·Â°ü·Ã...							
 };
 
-enum e_SkillMagicType3	{	DDTYPE_TYPE3_DUR_OUR = 100,
-							DDTYPE_TYPE3_DUR_ENEMY = 200
+enum e_SkillMagicType3 {
+	DDTYPE_TYPE3_DUR_OUR = 100,
+	DDTYPE_TYPE3_DUR_ENEMY = 200
 };
 
 
 
-enum e_SkillMagicFailMsg {	SKILLMAGIC_FAIL_CASTING	= -100,		//Ä³½ºÆÃ ½ÇÆÐ..
-							SKILLMAGIC_FAIL_KILLFLYING = -101,	//Flying°´Ã¼ Á×¿©..
-							SKILLMAGIC_FAIL_ENDCOMBO = -102,	//combo µ¿ÀÛ ³¡³µ´Ù.
-							SKILLMAGIC_FAIL_NOEFFECT = -103,	//Effecting ¹«»ê...
-							SKILLMAGIC_FAIL_ATTACKZERO = -104,	//Å¸°ÝÄ¡ 0...(mp´Â ¼Ò¸ðÇÏ°í Å¸°Ý½ÇÆÐ..)
+enum e_SkillMagicFailMsg {
+	SKILLMAGIC_FAIL_CASTING = -100,		//Ä³½ºÆÃ ½ÇÆÐ..
+	SKILLMAGIC_FAIL_KILLFLYING = -101,	//Flying°´Ã¼ Á×¿©..
+	SKILLMAGIC_FAIL_ENDCOMBO = -102,	//combo µ¿ÀÛ ³¡³µ´Ù.
+	SKILLMAGIC_FAIL_NOEFFECT = -103,	//Effecting ¹«»ê...
+	SKILLMAGIC_FAIL_ATTACKZERO = -104,	//Å¸°ÝÄ¡ 0...(mp´Â ¼Ò¸ðÇÏ°í Å¸°Ý½ÇÆÐ..)
 
-							SKILLMAGIC_FAIL_UNKNOWN = 0xffffffff
+	SKILLMAGIC_FAIL_UNKNOWN = 0xffffffff
 };
 
-enum e_ObjectType	{	OBJECT_TYPE_BINDPOINT,
-						OBJECT_TYPE_DOOR_LEFTRIGHT,
-						OBJECT_TYPE_DOOR_TOPDOWN,
-						OBJECT_TYPE_LEVER_TOPDOWN,
-						OBJECT_TYPE_FLAG,
-						OBJECT_TYPE_WARP_POINT,
-						OBJECT_TYPE_UNKNOWN = 0xffffffff
-					};
+enum e_ObjectType {
+	OBJECT_TYPE_BINDPOINT,
+	OBJECT_TYPE_DOOR_LEFTRIGHT,
+	OBJECT_TYPE_DOOR_TOPDOWN,
+	OBJECT_TYPE_LEVER_TOPDOWN,
+	OBJECT_TYPE_FLAG,
+	OBJECT_TYPE_WARP_POINT,
+	OBJECT_TYPE_UNKNOWN = 0xffffffff
+};
 
 //definitions related clan....
-const int	CLAN_LEVEL_LIMIT	= 20;
-const int	CLAN_COST			= 500000;
-const DWORD KNIGHTS_FONT_COLOR	= 0xffff0000; // ±â»ç´Ü(Å¬·£)ÀÌ¸§ ÆùÆ® ÄÃ·¯..
+const int	CLAN_LEVEL_LIMIT = 20;
+const int	CLAN_COST = 500000;
+const DWORD KNIGHTS_FONT_COLOR = 0xffff0000; // ±â»ç´Ü(Å¬·£)ÀÌ¸§ ÆùÆ® ÄÃ·¯..
 
-enum e_Cursor		{	CURSOR_ATTACK,
-						CURSOR_EL_NORMAL,
-						CURSOR_EL_CLICK,
-						CURSOR_KA_NORMAL,
-						CURSOR_KA_CLICK,
-						CURSOR_PRE_REPAIR,
-						CURSOR_NOW_REPAIR,
-						CURSOR_COUNT,
-						CURSOR_UNKNOWN = 0xffffffff
-					};
+enum e_Cursor {
+	CURSOR_ATTACK,
+	CURSOR_EL_NORMAL,
+	CURSOR_EL_CLICK,
+	CURSOR_KA_NORMAL,
+	CURSOR_KA_CLICK,
+	CURSOR_PRE_REPAIR,
+	CURSOR_NOW_REPAIR,
+	CURSOR_COUNT,
+	CURSOR_UNKNOWN = 0xffffffff
+};

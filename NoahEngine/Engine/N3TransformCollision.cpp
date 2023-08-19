@@ -10,8 +10,8 @@ CN3TransformCollision::CN3TransformCollision()
 	m_vMin.Set(0,0,0);
 	m_vMax.Set(0,0,0);
 
-	m_pMeshCollision = NULL;
-	m_pMeshClimb = NULL;
+	m_pMeshCollision = nullptr;
+	m_pMeshClimb = nullptr;
 }
 
 CN3TransformCollision::~CN3TransformCollision()
@@ -40,17 +40,17 @@ bool CN3TransformCollision::Load(HANDLE hFile)
 	char szFN[512] = "";
 
 	DWORD dwRWC;
-	ReadFile(hFile, &nL, 4, &dwRWC, NULL); // Mesh FileName
+	ReadFile(hFile, &nL, 4, &dwRWC, nullptr); // Mesh FileName
 	if(nL > 0)
 	{
-		ReadFile(hFile, szFN, nL, &dwRWC, NULL); szFN[nL] = NULL; // ¸Ş½Ã ÆÄÀÏ ÀÌ¸§..
+		ReadFile(hFile, szFN, nL, &dwRWC, nullptr); szFN[nL] = NULL; // ë©”ì‹œ íŒŒì¼ ì´ë¦„..
 		m_pMeshCollision = s_MngVMesh.Get(szFN);
 	}
 
-	ReadFile(hFile, &nL, 4, &dwRWC, NULL); // Mesh FileName
+	ReadFile(hFile, &nL, 4, &dwRWC, nullptr); // Mesh FileName
 	if(nL > 0)
 	{
-		ReadFile(hFile, szFN, nL, &dwRWC, NULL); szFN[nL] = NULL; // ¸Ş½Ã ÆÄÀÏ ÀÌ¸§..
+		ReadFile(hFile, szFN, nL, &dwRWC, nullptr); szFN[nL] = NULL; // ë©”ì‹œ íŒŒì¼ ì´ë¦„..
 		m_pMeshClimb = s_MngVMesh.Get(szFN);
 	}
 	return true;
@@ -68,7 +68,7 @@ bool CN3TransformCollision::Save(HANDLE hFile)
 	WriteFile(hFile, &nL, 4, &dwRWC, NULL); // Mesh FileName
 	if(nL > 0) 
 	{
-		if(m_pMeshCollision->FileName().find("object\\") < 0) // ÀÓ½Ã·Î °æ·Î¸¦ ¹Ù²Ù·Á°í ³Ö¾ú´Ù.. ³ªÁß¿¡ ÇÊ¿ä¾øÀ½ Áö¿î´Ù..
+		if(m_pMeshCollision->FileName().find("object\\") < 0) // ì„ì‹œë¡œ ê²½ë¡œë¥¼ ë°”ê¾¸ë ¤ê³  ë„£ì—ˆë‹¤.. ë‚˜ì¤‘ì— í•„ìš”ì—†ìŒ ì§€ìš´ë‹¤..
 		{
 			char szFNTmp[256];
 			wsprintf(szFNTmp, "Object\\%s.N3VMesh", m_pMeshCollision->m_szName.c_str());
@@ -87,7 +87,7 @@ bool CN3TransformCollision::Save(HANDLE hFile)
 	WriteFile(hFile, &nL, 4, &dwRWC, NULL); // Mesh FileName
 	if(nL > 0) 
 	{
-		if(-1 == m_pMeshClimb->FileName().find("object\\")) // ÀÓ½Ã·Î °æ·Î¸¦ ¹Ù²Ù·Á°í ³Ö¾ú´Ù.. ³ªÁß¿¡ ÇÊ¿ä¾øÀ½ Áö¿î´Ù..
+		if(-1 == m_pMeshClimb->FileName().find("object\\")) // ì„ì‹œë¡œ ê²½ë¡œë¥¼ ë°”ê¾¸ë ¤ê³  ë„£ì—ˆë‹¤.. ë‚˜ì¤‘ì— í•„ìš”ì—†ìŒ ì§€ìš´ë‹¤..
 		{
 			char szFNTmp[256];
 			wsprintf(szFNTmp, "Object\\%s.N3VMesh", m_pMeshClimb->m_szName.c_str());
@@ -120,7 +120,7 @@ void CN3TransformCollision::ClimbMeshSet(const std::string& szFN)
 
 int CN3TransformCollision::CheckCollisionPrecisely(bool bIgnoreBoxCheck, int ixScreen, int iyScreen, __Vector3* pVCol, __Vector3* pVNormal)
 {
-	__Vector3 vPos, vDir; // 2D ÁÂÇ¥¸¦ 3D ÁÂÇ¥·Î ¹Ù²Ù°í..
+	__Vector3 vPos, vDir; // 2D ì¢Œí‘œë¥¼ 3D ì¢Œí‘œë¡œ ë°”ê¾¸ê³ ..
 	::_Convert2D_To_3DCoordinate(ixScreen, iyScreen, s_CameraData.mtxView, s_CameraData.mtxProjection, s_CameraData.vp, vPos, vDir);
 
 	if(false == m_pMeshCollision->Pick(m_Matrix, vPos, vDir, pVCol, pVNormal)) return -1;
@@ -129,18 +129,18 @@ int CN3TransformCollision::CheckCollisionPrecisely(bool bIgnoreBoxCheck, int ixS
 
 void CN3TransformCollision::RenderCollisionMesh()
 {
-	if(NULL == m_pMeshCollision) return;
+	if(nullptr == m_pMeshCollision) return;
 	s_lpD3DDev->SetTransform(D3DTS_WORLD, &m_Matrix);
 
-	m_pMeshCollision->Render(0xffff0000); // »¡°£»ö.
+	m_pMeshCollision->Render(0xffff0000); // ë¹¨ê°„ìƒ‰.
 }
 
 void CN3TransformCollision::RenderClimbMesh()
 {
-	if(NULL == m_pMeshClimb) return;
+	if(nullptr == m_pMeshClimb) return;
 	s_lpD3DDev->SetTransform(D3DTS_WORLD, &m_Matrix);
 
-	m_pMeshClimb->Render(0xff0000ff); // ÆÄ¶õ»ö..
+	m_pMeshClimb->Render(0xff0000ff); // íŒŒë€ìƒ‰..
 }
 
 /*
@@ -246,7 +246,7 @@ void CN3TransformCollision::FindMinMax()
 	m_vMax.Set(0,0,0);
 	m_fRadius = 0.0f;
 
-	if(NULL == m_pMeshCollision || m_pMeshCollision->VertexCount() <= 0) return;
+	if(nullptr == m_pMeshCollision || m_pMeshCollision->VertexCount() <= 0) return;
 
 	m_vMin.Set(FLT_MAX, FLT_MAX, FLT_MAX);
 	m_vMax.Set(-FLT_MAX, -FLT_MAX, -FLT_MAX);
@@ -263,6 +263,6 @@ void CN3TransformCollision::FindMinMax()
 		if(pVs[i].z > m_vMax.z) m_vMax.z = pVs[i].z;
 	}
 
-	// ÃÖ´ë ÃÖ¼Ò°ªÀ» °®°í ¹İÁö¸§ °è»êÇÑ´Ù..
+	// ìµœëŒ€ ìµœì†Œê°’ì„ ê°–ê³  ë°˜ì§€ë¦„ ê³„ì‚°í•œë‹¤..
 	m_fRadius  = (m_vMax - m_vMin).Magnitude() * 0.5f;
 }

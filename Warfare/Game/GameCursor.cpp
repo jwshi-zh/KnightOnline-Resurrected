@@ -11,11 +11,11 @@ CGameCursor::CGameCursor()
 	m_bCursorLocked		= false;
 	m_eCurGameCursor	= CURSOR_EL_NORMAL;
 	m_ePrevGameCursor	= CURSOR_EL_NORMAL;
-	m_hCursor			= NULL;
+	m_hCursor			= nullptr;
 
 	for(int i = 0 ; i < CURSOR_COUNT; i++)
 	{
-		m_pImageCursor[i] = NULL;
+		m_pImageCursor[i] = nullptr;
 	}
 }
 
@@ -29,7 +29,7 @@ bool CGameCursor::Load(HANDLE hFile)
 	if(CN3UIBase::Load(hFile)==false) return false;
 
 	m_hCursor = ::GetCursor();
-	::SetCursor(NULL);
+	::SetCursor(nullptr);
 
 	char szBuf[128];
 	for(int i = 0 ; i < CURSOR_COUNT; i++)
@@ -86,7 +86,7 @@ void CGameCursor::Render()
 void CGameCursor::Tick()
 {
 	HCURSOR hCursor = ::GetCursor();
-	if(hCursor)	::SetCursor(NULL);
+	if(hCursor)	::SetCursor(nullptr);
 
 	POINT ptCur = CGameProcedure::s_pLocalInput->MouseGetPos();
 	for(int i = 0 ; i < CURSOR_COUNT; i++)

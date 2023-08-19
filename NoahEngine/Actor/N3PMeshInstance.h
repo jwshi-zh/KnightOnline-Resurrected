@@ -24,14 +24,14 @@ protected:
 
 	int m_iNumIndices, m_iNumVertices; // number of triangles/vertices to use at this moment.
 
-	CN3PMesh::__EdgeCollapse*	m_pCollapseUpTo;	// ÂüÁ¶ Æ÷ÀÎÅÍ
+	CN3PMesh::__EdgeCollapse*	m_pCollapseUpTo;	// ì°¸ì¡° í¬ì¸í„°
 
 	// A pointer to the original mesh. This is where you'll find the vertex data (which
 	// is invariant between PMRInstance's)
-	CN3PMesh*	m_pPMesh;	// ÂüÁ¶ Æ÷ÀÎÅÍ
+	CN3PMesh*	m_pPMesh;	// ì°¸ì¡° í¬ì¸í„°
 
 public:
-	BOOL		IsLOD() { if(NULL == m_pCollapseUpTo) return FALSE; return TRUE; }
+	BOOL		IsLOD() { if(nullptr == m_pCollapseUpTo) return FALSE; return TRUE; }
 	bool		Create(CN3PMesh* pN3Mesh);
 	bool		Create(const std::string& szFN);
 	void		Release();
@@ -58,7 +58,7 @@ public:
 	WORD*		GetIndices() const { return m_pIndices;};
 #endif
 
-//	By : Ecli666 ( On 2002-08-06 ¿ÀÈÄ 4:33:04 )
+//	By : Ecli666 ( On 2002-08-06 ì˜¤í›„ 4:33:04 )
 //
 #ifdef _USE_VERTEXBUFFER
 	void			PartialRender(int iCount, LPDIRECT3DINDEXBUFFER9 pIB);
@@ -67,5 +67,5 @@ public:
 #endif
 	int				 GetIndexByiOrder(int iOrder);
 __Vector3		GetVertexByIndex(int iIndex); 
-//	~(By Ecli666 On 2002-08-06 ¿ÀÈÄ 4:33:04 )
+//	~(By Ecli666 On 2002-08-06 ì˜¤í›„ 4:33:04 )
 };

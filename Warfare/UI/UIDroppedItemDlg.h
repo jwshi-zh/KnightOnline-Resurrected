@@ -15,7 +15,7 @@ public:
 	int					m_iBackupiOrder;
 
 protected:
-	int			GetInventoryEmptyInviOrder(__IconItemSkill* spItem = NULL);
+	int			GetInventoryEmptyInviOrder(__IconItemSkill* spItem = nullptr);
 	int			GetItemiOrder(__IconItemSkill* spItem);
 
 public:

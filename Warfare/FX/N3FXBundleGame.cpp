@@ -246,7 +246,7 @@ bool CN3FXBundleGame::Tick()
 					m_vPos += m_vDir*CN3Base::s_fSecPerFrm*m_fVelocity;
 					
 					float fTerrainY = s_pTerrain->GetHeight(m_vPos.x, m_vPos.z);
-					if(m_vPos.y <= fTerrainY) m_vPos.y = fTerrainY + 0.3f;	//¶¥À» Å¸°í ³¯¶ó°¡¶ó..
+					if(m_vPos.y <= fTerrainY) m_vPos.y = fTerrainY + 0.3f;	//ë•…ì„ íƒ€ê³  ë‚ ë¼ê°€ë¼..
 					break;
 					*/
 				}
@@ -284,7 +284,7 @@ bool CN3FXBundleGame::Tick()
 				m_vPos += m_vDir*CN3Base::s_fSecPerFrm*m_fVelocity;
 
 				//float fTerrainY = s_pTerrain->GetHeight(m_vPos.x, m_vPos.z);
-				//if(m_vPos.y <= fTerrainY) m_vPos.y = fTerrainY + 0.3f;	//¶¥À» Å¸°í ³¯¶ó°¡¶ó..
+				//if(m_vPos.y <= fTerrainY) m_vPos.y = fTerrainY + 0.3f;	//ë•…ì„ íƒ€ê³  ë‚ ë¼ê°€ë¼..
 				break;
 			}
 
@@ -308,7 +308,7 @@ bool CN3FXBundleGame::Tick()
 			}
 		case FX_BUNDLE_REGION_POISON:
 			{
-				CN3Camera* pCamera = CGameProcedure::s_pEng->CameraGetActive();		// È°¼ºÈ­µÈ Ä«¸Þ¶ó ¾ò±â..
+				CN3Camera* pCamera = CGameProcedure::s_pEng->CameraGetActive();		// í™œì„±í™”ëœ ì¹´ë©”ë¼ ì–»ê¸°..
 
 				__Vector3 vEyePos = pCamera->EyePos();
 				__Vector3 vEyeAt  = pCamera->AtPos();
@@ -372,7 +372,7 @@ void CN3FXBundleGame::Duplicate(CN3FXBundleGame* pDestBundle)
 				CN3FXPartParticles* pPart = (CN3FXPartParticles*)pDestBundle->m_pPart[i]->pPart;
 
 				pPart->m_pRefBundle = pDestBundle;
-				pPart->m_pRefPrevPart = NULL;
+				pPart->m_pRefPrevPart = nullptr;
 				pPart->m_iType = FX_PART_TYPE_PARTICLE;
 
 				pPart->Duplicate((CN3FXPartParticles*)m_pPart[i]->pPart);
@@ -387,7 +387,7 @@ void CN3FXBundleGame::Duplicate(CN3FXBundleGame* pDestBundle)
 				CN3FXPartBillBoardGame* pPart = (CN3FXPartBillBoardGame*)pDestBundle->m_pPart[i]->pPart;
 
 				pPart->m_pRefBundle = pDestBundle;
-				pPart->m_pRefPrevPart = NULL;
+				pPart->m_pRefPrevPart = nullptr;
 				pPart->m_iType = FX_PART_TYPE_BOARD;
 
 				pPart->Duplicate((CN3FXPartBillBoardGame*)m_pPart[i]->pPart);
@@ -402,7 +402,7 @@ void CN3FXBundleGame::Duplicate(CN3FXBundleGame* pDestBundle)
 				CN3FXPartMesh* pPart = (CN3FXPartMesh*)pDestBundle->m_pPart[i]->pPart;
 				
 				pPart->m_pRefBundle = pDestBundle;
-				pPart->m_pRefPrevPart = NULL;
+				pPart->m_pRefPrevPart = nullptr;
 				pPart->m_iType = FX_PART_TYPE_MESH;
 
 				pPart->Duplicate((CN3FXPartMesh*)m_pPart[i]->pPart);
@@ -418,7 +418,7 @@ void CN3FXBundleGame::Duplicate(CN3FXBundleGame* pDestBundle)
 				CN3FXPartBottomBoardGame* pPart = (CN3FXPartBottomBoardGame*)pDestBundle->m_pPart[i]->pPart;
 				
 				pPart->m_pRefBundle = pDestBundle;
-				pPart->m_pRefPrevPart = NULL;
+				pPart->m_pRefPrevPart = nullptr;
 				pPart->m_iType = FX_PART_TYPE_BOTTOMBOARD;
 
 				pPart->Duplicate((CN3FXPartBottomBoardGame*)m_pPart[i]->pPart);
@@ -435,13 +435,13 @@ bool CN3FXBundleGame::Load(HANDLE hFile)
 {
 	DWORD			dwRWC = 0;
 
-	ReadFile(hFile, &m_iVersion, sizeof(int), &dwRWC, NULL);
+	ReadFile(hFile, &m_iVersion, sizeof(int), &dwRWC, nullptr);
 	
-	ReadFile(hFile, &m_fLife0, sizeof(float), &dwRWC, NULL);
+	ReadFile(hFile, &m_fLife0, sizeof(float), &dwRWC, nullptr);
 	if(m_fLife0 > 10.0f) m_fLife0 = 10.0f; 
-	ReadFile(hFile, &m_fVelocity, sizeof(float), &dwRWC, NULL);
+	ReadFile(hFile, &m_fVelocity, sizeof(float), &dwRWC, nullptr);
 
-	ReadFile(hFile, &m_bDependScale, sizeof(bool), &dwRWC, NULL);
+	ReadFile(hFile, &m_bDependScale, sizeof(bool), &dwRWC, nullptr);
 
 	if(m_iVersion==0)
 	{
@@ -449,7 +449,7 @@ bool CN3FXBundleGame::Load(HANDLE hFile)
 		{
 			int iType;
 
-			ReadFile(hFile, &iType, sizeof(int), &dwRWC, NULL);
+			ReadFile(hFile, &iType, sizeof(int), &dwRWC, nullptr);
 
 			if(iType == FX_PART_TYPE_NONE) continue;
 
@@ -461,13 +461,13 @@ bool CN3FXBundleGame::Load(HANDLE hFile)
 				float fStartTime;
 				//ReadFile(hFile, FName, 80, &dwRWC, NULL);
 
-				ReadFile(hFile, &(fStartTime), sizeof(float), &dwRWC, NULL);
+				ReadFile(hFile, &(fStartTime), sizeof(float), &dwRWC, nullptr);
 
 				m_pPart[i]->fStartTime = fStartTime;
 
 				m_pPart[i]->pPart = new CN3FXPartParticles;
 				m_pPart[i]->pPart->m_pRefBundle = this;
-				m_pPart[i]->pPart->m_pRefPrevPart = NULL;
+				m_pPart[i]->pPart->m_pRefPrevPart = nullptr;
 				m_pPart[i]->pPart->m_iType = FX_PART_TYPE_PARTICLE;
 				//m_pPart[i]->pPart->LoadFromFile(FName);
 				m_pPart[i]->pPart->Load(hFile);
@@ -481,13 +481,13 @@ bool CN3FXBundleGame::Load(HANDLE hFile)
 				float fStartTime;
 				//ReadFile(hFile, FName, 80, &dwRWC, NULL);
 				
-				ReadFile(hFile, &(fStartTime), sizeof(float), &dwRWC, NULL);
+				ReadFile(hFile, &(fStartTime), sizeof(float), &dwRWC, nullptr);
 
 				m_pPart[i]->fStartTime = fStartTime;
 
 				m_pPart[i]->pPart = new CN3FXPartBillBoardGame;
 				m_pPart[i]->pPart->m_pRefBundle = this;
-				m_pPart[i]->pPart->m_pRefPrevPart = NULL;
+				m_pPart[i]->pPart->m_pRefPrevPart = nullptr;
 				m_pPart[i]->pPart->m_iType = FX_PART_TYPE_BOARD;
 				//m_pPart[i]->pPart->LoadFromFile(FName);
 				m_pPart[i]->pPart->Load(hFile);
@@ -501,13 +501,13 @@ bool CN3FXBundleGame::Load(HANDLE hFile)
 				float fStartTime;
 				//ReadFile(hFile, FName, 80, &dwRWC, NULL);
 				
-				ReadFile(hFile, &(fStartTime), sizeof(float), &dwRWC, NULL);
+				ReadFile(hFile, &(fStartTime), sizeof(float), &dwRWC, nullptr);
 
 				m_pPart[i]->fStartTime = fStartTime;
 
 				m_pPart[i]->pPart = new CN3FXPartMesh;
 				m_pPart[i]->pPart->m_pRefBundle = this;
-				m_pPart[i]->pPart->m_pRefPrevPart = NULL;
+				m_pPart[i]->pPart->m_pRefPrevPart = nullptr;
 				m_pPart[i]->pPart->m_iType = FX_PART_TYPE_MESH;
 				//m_pPart[i]->pPart->LoadFromFile(FName);
 				m_pPart[i]->pPart->Load(hFile);
@@ -520,13 +520,13 @@ bool CN3FXBundleGame::Load(HANDLE hFile)
 				float fStartTime;
 				//ReadFile(hFile, FName, 80, &dwRWC, NULL);
 				
-				ReadFile(hFile, &(fStartTime), sizeof(float), &dwRWC, NULL);
+				ReadFile(hFile, &(fStartTime), sizeof(float), &dwRWC, nullptr);
 
 				m_pPart[i]->fStartTime = fStartTime;
 
 				m_pPart[i]->pPart = new CN3FXPartBottomBoardGame;
 				m_pPart[i]->pPart->m_pRefBundle = this;
-				m_pPart[i]->pPart->m_pRefPrevPart = NULL;
+				m_pPart[i]->pPart->m_pRefPrevPart = nullptr;
 				m_pPart[i]->pPart->m_iType = FX_PART_TYPE_BOTTOMBOARD;
 				//m_pPart[i]->pPart->LoadFromFile(FName);
 				m_pPart[i]->pPart->Load(hFile);
@@ -539,7 +539,7 @@ bool CN3FXBundleGame::Load(HANDLE hFile)
 		{
 			int iType;
 
-			ReadFile(hFile, &iType, sizeof(int), &dwRWC, NULL);
+			ReadFile(hFile, &iType, sizeof(int), &dwRWC, nullptr);
 
 			if(iType == FX_PART_TYPE_NONE) continue;
 
@@ -551,13 +551,13 @@ bool CN3FXBundleGame::Load(HANDLE hFile)
 				float fStartTime;
 				//ReadFile(hFile, FName, 80, &dwRWC, NULL);
 
-				ReadFile(hFile, &(fStartTime), sizeof(float), &dwRWC, NULL);
+				ReadFile(hFile, &(fStartTime), sizeof(float), &dwRWC, nullptr);
 
 				m_pPart[i]->fStartTime = fStartTime;
 
 				m_pPart[i]->pPart = new CN3FXPartParticles;
 				m_pPart[i]->pPart->m_pRefBundle = this;
-				m_pPart[i]->pPart->m_pRefPrevPart = NULL;
+				m_pPart[i]->pPart->m_pRefPrevPart = nullptr;
 				m_pPart[i]->pPart->m_iType = FX_PART_TYPE_PARTICLE;
 				//m_pPart[i]->pPart->LoadFromFile(FName);
 				m_pPart[i]->pPart->Load(hFile);
@@ -571,13 +571,13 @@ bool CN3FXBundleGame::Load(HANDLE hFile)
 				float fStartTime;
 				//ReadFile(hFile, FName, 80, &dwRWC, NULL);
 				
-				ReadFile(hFile, &(fStartTime), sizeof(float), &dwRWC, NULL);
+				ReadFile(hFile, &(fStartTime), sizeof(float), &dwRWC, nullptr);
 
 				m_pPart[i]->fStartTime = fStartTime;
 
 				m_pPart[i]->pPart = new CN3FXPartBillBoardGame;
 				m_pPart[i]->pPart->m_pRefBundle = this;
-				m_pPart[i]->pPart->m_pRefPrevPart = NULL;
+				m_pPart[i]->pPart->m_pRefPrevPart = nullptr;
 				m_pPart[i]->pPart->m_iType = FX_PART_TYPE_BOARD;
 				//m_pPart[i]->pPart->LoadFromFile(FName);
 				m_pPart[i]->pPart->Load(hFile);
@@ -591,13 +591,13 @@ bool CN3FXBundleGame::Load(HANDLE hFile)
 				float fStartTime;
 				//ReadFile(hFile, FName, 80, &dwRWC, NULL);
 				
-				ReadFile(hFile, &(fStartTime), sizeof(float), &dwRWC, NULL);
+				ReadFile(hFile, &(fStartTime), sizeof(float), &dwRWC, nullptr);
 
 				m_pPart[i]->fStartTime = fStartTime;
 
 				m_pPart[i]->pPart = new CN3FXPartMesh;
 				m_pPart[i]->pPart->m_pRefBundle = this;
-				m_pPart[i]->pPart->m_pRefPrevPart = NULL;
+				m_pPart[i]->pPart->m_pRefPrevPart = nullptr;
 				m_pPart[i]->pPart->m_iType = FX_PART_TYPE_MESH;
 				//m_pPart[i]->pPart->LoadFromFile(FName);
 				m_pPart[i]->pPart->Load(hFile);
@@ -610,13 +610,13 @@ bool CN3FXBundleGame::Load(HANDLE hFile)
 				float fStartTime;
 				//ReadFile(hFile, FName, 80, &dwRWC, NULL);
 				
-				ReadFile(hFile, &(fStartTime), sizeof(float), &dwRWC, NULL);
+				ReadFile(hFile, &(fStartTime), sizeof(float), &dwRWC, nullptr);
 
 				m_pPart[i]->fStartTime = fStartTime;
 
 				m_pPart[i]->pPart = new CN3FXPartBottomBoardGame;
 				m_pPart[i]->pPart->m_pRefBundle = this;
-				m_pPart[i]->pPart->m_pRefPrevPart = NULL;
+				m_pPart[i]->pPart->m_pRefPrevPart = nullptr;
 				m_pPart[i]->pPart->m_iType = FX_PART_TYPE_BOTTOMBOARD;
 				//m_pPart[i]->pPart->LoadFromFile(FName);
 				m_pPart[i]->pPart->Load(hFile);
@@ -626,7 +626,7 @@ bool CN3FXBundleGame::Load(HANDLE hFile)
 
 	if(m_iVersion>=2)
 	{
-		ReadFile(hFile, &m_bStatic, sizeof(bool), &dwRWC, NULL);
+		ReadFile(hFile, &m_bStatic, sizeof(bool), &dwRWC, nullptr);
 	}
 
 	return true;

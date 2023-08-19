@@ -9,17 +9,17 @@ class CStreamSoundObj : public CN3SndObj
 	private:
 		LPDIRECTSOUNDBUFFER		m_pDSBuff;
 
-		int					m_PlayTime;		//waveÆÄÀÏÀÇ ÀüÃ¼ ÇÃ·¹ÀÌ Å¸ÀÓ.
+		int					m_PlayTime;		//waveíŒŒì¼ì˜ ì „ì²´ í”Œë ˆì´ íƒ€ì„.
 		int					m_FinalByte;
 				
 		DSBUFFERDESC		m_dsbd;
 		DWORD				m_BufferSize;
-		DWORD				m_BlockSize;	//buffer¸¦ ÃÊ´ÜÀ§·Î ³ª´« °Í.
+		DWORD				m_BlockSize;	//bufferë¥¼ ì´ˆë‹¨ìœ„ë¡œ ë‚˜ëˆˆ ê²ƒ.
 		
-		int					m_CurrState;	//ÇöÀç ¾î´À ºí·°¿¡ ÀÖ´ÂÁö..
-		int					m_PrevState;	//Áö±İ ¹Ù·Î Àü¿¡ ¾î´À ºí·°¿¡ ÀÖ¾ú´ÂÁö..
-		DWORD				m_CurrPos;		//ÇöÀç ¹öÆÛ¿¡¼­ÀÇ À§Ä¡ 
-		int					m_PastTime;		//ÀüÃ¼ ÇÃ·¹ÀÌ Å¸ÀÓ¿¡¼­ ³²Àº ½Ã°£
+		int					m_CurrState;	//í˜„ì¬ ì–´ëŠ ë¸”ëŸ­ì— ìˆëŠ”ì§€..
+		int					m_PrevState;	//ì§€ê¸ˆ ë°”ë¡œ ì „ì— ì–´ëŠ ë¸”ëŸ­ì— ìˆì—ˆëŠ”ì§€..
+		DWORD				m_CurrPos;		//í˜„ì¬ ë²„í¼ì—ì„œì˜ ìœ„ì¹˜ 
+		int					m_PastTime;		//ì „ì²´ í”Œë ˆì´ íƒ€ì„ì—ì„œ ë‚¨ì€ ì‹œê°„
 
 		//related wave data
 		WAVEFORMATEX		m_WaveFormat;

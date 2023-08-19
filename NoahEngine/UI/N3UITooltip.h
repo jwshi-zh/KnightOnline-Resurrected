@@ -11,9 +11,9 @@ public:
 // Attributes
 public:
 protected:
-	float			m_fHoverTime;	// ¸¶¿ì½º°¡ ÇÑ°÷¿¡¼­ Á¤ÁöÇÏ¿© ÀÖ´Â ½Ã°£(´©Àû)
-	bool			m_bSetText;		// ÀÌ¹Ì text°¡ ¼³Á¤µÇ¾ú´Â°¡?
-	POINT			m_ptCursor;		// Ä¿¼­ÀÇ À§Ä¡
+	float			m_fHoverTime;	// ë§ˆìš°ìŠ¤ê°€ í•œê³³ì—ì„œ ì •ì§€í•˜ì—¬ ìˆëŠ” ì‹œê°„(ëˆ„ì )
+	bool			m_bSetText;		// ì´ë¯¸ textê°€ ì„¤ì •ë˜ì—ˆëŠ”ê°€?
+	POINT			m_ptCursor;		// ì»¤ì„œì˜ ìœ„ì¹˜
 
 // Operations
 public:

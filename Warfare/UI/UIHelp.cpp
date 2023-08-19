@@ -5,10 +5,10 @@
 
 CUIHelp::CUIHelp()
 {
-	m_pBtn_Close = NULL;
-	m_pBtn_Prev = NULL;
-	m_pBtn_Next = NULL;
-	for(int i = 0; i < MAX_HELP_PAGE; i++) m_pPages[i] = NULL;
+	m_pBtn_Close = nullptr;
+	m_pBtn_Prev = nullptr;
+	m_pBtn_Next = nullptr;
+	for(int i = 0; i < MAX_HELP_PAGE; i++) m_pPages[i] = nullptr;
 }
 
 CUIHelp::~CUIHelp()
@@ -70,7 +70,7 @@ bool CUIHelp::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 		{
 			for(auto i = 0; i < MAX_HELP_PAGE; i++)
 			{
-				if(NULL == m_pPages[i]) continue;
+				if(nullptr == m_pPages[i]) continue;
 
 				m_pPages[i]->SetVisible(false);
 				if(i == iPage) m_pPages[i]->SetVisible(true);
@@ -85,10 +85,10 @@ void CUIHelp::Release()
 {
 	CN3UIBase::Release();
 
-	m_pBtn_Close = NULL;
-	m_pBtn_Prev = NULL;
-	m_pBtn_Next = NULL;
-	for(int i = 0; i < MAX_HELP_PAGE; i++) m_pPages[i] = NULL;
+	m_pBtn_Close = nullptr;
+	m_pBtn_Prev = nullptr;
+	m_pBtn_Next = nullptr;
+	for(int i = 0; i < MAX_HELP_PAGE; i++) m_pPages[i] = nullptr;
 }
 
 bool CUIHelp::OnKeyPress(int iKey)

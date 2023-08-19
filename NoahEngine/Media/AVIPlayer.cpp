@@ -7,11 +7,11 @@ bool	CAVIPlayer::m_bInterrupted = false;
 
 CAVIPlayer::CAVIPlayer()
 {
-	m_pGraphBuilder = NULL;
-	m_pMediaControl = NULL;
-	m_pVideoWindow = NULL;
-	m_pMediaEvent = NULL;
-	m_hWndMain = NULL;
+	m_pGraphBuilder = nullptr;
+	m_pMediaControl = nullptr;
+	m_pVideoWindow = nullptr;
+	m_pMediaEvent = nullptr;
+	m_hWndMain = nullptr;
 }
 
 CAVIPlayer::~CAVIPlayer()
@@ -20,12 +20,12 @@ CAVIPlayer::~CAVIPlayer()
 
 void CAVIPlayer::Release()
 {
-	if (m_pGraphBuilder)	m_pGraphBuilder->Release(), m_pGraphBuilder = NULL;
-	if (m_pMediaControl)	m_pMediaControl->Release(), m_pMediaControl = NULL;
-	if (m_pVideoWindow)		m_pVideoWindow->Release(), m_pVideoWindow = NULL;
-	if (m_pMediaEvent)		m_pMediaEvent->Release(), m_pMediaEvent = NULL;
+	if (m_pGraphBuilder)	m_pGraphBuilder->Release(), m_pGraphBuilder = nullptr;
+	if (m_pMediaControl)	m_pMediaControl->Release(), m_pMediaControl = nullptr;
+	if (m_pVideoWindow)		m_pVideoWindow->Release(), m_pVideoWindow = nullptr;
+	if (m_pMediaEvent)		m_pMediaEvent->Release(), m_pMediaEvent = nullptr;
 
-	DestroyWindow(m_hWndMain);	m_hWndMain = NULL;
+	DestroyWindow(m_hWndMain);	m_hWndMain = nullptr;
 }
 
 bool CAVIPlayer::InitInterfaces()
@@ -66,14 +66,14 @@ bool CAVIPlayer::PlayCutScene(LPTSTR pszMovie, HINSTANCE hInstance)
 	USES_CONVERSION;
 	WCHAR wFileName[MAX_PATH];
 	wcscpy(wFileName, T2W(pszMovie));
-	if (S_OK != m_pGraphBuilder->RenderFile(wFileName, NULL))
+	if (S_OK != m_pGraphBuilder->RenderFile(wFileName, nullptr))
 		return false;
 	m_pVideoWindow->put_MessageDrain((OAHWND)m_hWndMain);
 
 	// Set Full screen mode
 	LONG	lMode;
 	m_pVideoWindow->get_FullScreenMode(&lMode);
-	static HWND hDrain = 0;
+	static HWND hDrain = nullptr;
 	if (lMode == 0) 
 	{
 		m_pVideoWindow->get_MessageDrain((OAHWND*)&hDrain);
@@ -188,8 +188,8 @@ BOOL CAVIPlayer::CreateHiddenWindow( HINSTANCE hInstance, LPTSTR szFile )
         0, "AVI", szTitle,
         0,            // not visible
         0, 0, 0, 0,
-        NULL, NULL, hInstance, NULL );
+        nullptr, nullptr, hInstance, nullptr);
 
-    return (m_hWndMain != NULL);
+    return (m_hWndMain != nullptr);
 }
 

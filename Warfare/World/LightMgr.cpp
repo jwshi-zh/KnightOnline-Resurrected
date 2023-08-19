@@ -4,7 +4,7 @@
 CLightMgr::CLightMgr()
 {
 	m_Lights.clear();
-	for(int i=0;i<LGT_MAX;i++) m_pActiveLight[i] = NULL;
+	for(int i=0;i<LGT_MAX;i++) m_pActiveLight[i] = nullptr;
 }
 
 CLightMgr::~CLightMgr()
@@ -36,41 +36,41 @@ void CLightMgr::Release()
 	for(int i=0;i<LGT_MAX;i++)
 	{
 		if(m_pActiveLight[i]) delete m_pActiveLight[i];
-		m_pActiveLight[i] = NULL;
+		m_pActiveLight[i] = nullptr;
 	}
 	//	Release..
 	/////////////////////////////////////////////
 		
 	///////////////////////////////////////////////////////////////
-	// ±‚∫ª ∂Û¿Ã∆Æ ºº∆√
+	// Í∏∞Î≥∏ ÎùºÏù¥Ìä∏ ÏÑ∏ÌåÖ
 	D3DCOLORVALUE crLgt;
 
 	crLgt.a = 0.0f, crLgt.r = crLgt.g = crLgt.b = 0.8f;
-	CN3Light* pLightGlobal = new CN3Light(); // ¿¸√º∏¶ ∫Ò√‚ ∂Û¿Ã∆Æ..
+	CN3Light* pLightGlobal = new CN3Light(); // Ï†ÑÏ≤¥Î•º ÎπÑÏ∂ú ÎùºÏù¥Ìä∏..
 	auto vGlobalDirection = __Vector3(0, -1, 0);
 	pLightGlobal->m_Data.InitDirection(LGT_DEFAULT0, vGlobalDirection, crLgt);
 	m_pActiveLight[LGT_DEFAULT0] = pLightGlobal;
 
 
 	crLgt.a = 0.0f, crLgt.r = crLgt.g = crLgt.b = 0.5f;
-	CN3Light* pLightGlobal2 = new CN3Light(); // π›¥Î ∆Ìø°º≠ ¿¸√º∏¶ ∫Ò√‚ ∂Û¿Ã∆Æ..
+	CN3Light* pLightGlobal2 = new CN3Light(); // Î∞òÎåÄ Ìé∏ÏóêÏÑú Ï†ÑÏ≤¥Î•º ÎπÑÏ∂ú ÎùºÏù¥Ìä∏..
 	auto vGlobal2Direction = __Vector3(0, 1, 0);
 	pLightGlobal2->m_Data.InitDirection(LGT_DEFAULT1, vGlobal2Direction, crLgt);
 	m_pActiveLight[LGT_DEFAULT1] = pLightGlobal2;
 
 	crLgt.a = 0.0f, crLgt.r = crLgt.g = crLgt.b = 0.3f;
-	CN3Light* pLight = new CN3Light(); // ƒ´∏ﬁ∂ÛøÕ ∫ŸæÓ ¥Ÿ¥—¥Ÿ...
+	CN3Light* pLight = new CN3Light(); // Ïπ¥Î©îÎùºÏôÄ Î∂ôÏñ¥ Îã§ÎãåÎã§...
 	auto vDirection = __Vector3(0, 0, 0);
 	pLight->m_Data.InitPoint(LGT_DEFAULT2, vDirection, crLgt, 32.0f);
 	m_pActiveLight[LGT_DEFAULT2] = pLight;
-	// ±‚∫ª ∂Û¿Ã∆Æ ºº∆√
+	// Í∏∞Î≥∏ ÎùºÏù¥Ìä∏ ÏÑ∏ÌåÖ
 	///////////////////////////////////////////////////////////////	
 }
 
 void CLightMgr::Tick()
 {
 	int i;
-	//∞≈∏Æø° µ˚∂Û √ﬂ∑¡≥ª∞Ì...
+	//Í±∞Î¶¨Ïóê Îî∞Îùº Ï∂îÎ†§ÎÇ¥Í≥†...
 	int NumSlotEmpty = 0;
 	float LimitLeft, LimitRight, LimitUp, LimitDown;
 	LimitLeft = CN3Base::s_CameraData.vEye.x - LIGHT_VALIDRANGE;
@@ -94,7 +94,7 @@ void CLightMgr::Tick()
 			m_pActiveLight[i]->Apply();
 
 			AddLight(m_pActiveLight[i]);
-			m_pActiveLight[i] = NULL;
+			m_pActiveLight[i] = nullptr;
 			NumSlotEmpty++;
 
 			continue;
@@ -124,7 +124,7 @@ void CLightMgr::Tick()
 		else it++;
 	}
 
-	//tickµπ∑¡∂Û..
+	//tickÎèåÎ†§Îùº..
 	for(auto i =0;i<LGT_MAX;i++)
 	{
 		if(m_pActiveLight[i])
@@ -146,14 +146,14 @@ void CLightMgr::LoadZoneLight(const char* szFN)
 	if(!szFN) return;
 	
 	DWORD dwRWC;
-	HANDLE hFile = CreateFile(szFN, GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+	HANDLE hFile = CreateFile(szFN, GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
 	if(INVALID_HANDLE_VALUE == hFile) return;
 
 	int iVersion;
-	ReadFile(hFile, &iVersion, sizeof(int), &dwRWC, NULL);
+	ReadFile(hFile, &iVersion, sizeof(int), &dwRWC, nullptr);
 
 	int cnt;
-	ReadFile(hFile, &cnt, sizeof(int), &dwRWC, NULL);
+	ReadFile(hFile, &cnt, sizeof(int), &dwRWC, nullptr);
 	for(int i=0;i<cnt;i++)
 	{
 		CN3Light* pLgt = new CN3Light;

@@ -20,9 +20,9 @@ typedef struct __SoundSource
 	__SoundSource()
 	{
 		iID = 0;
-		ppObjs = NULL;
+		ppObjs = nullptr;
 		szFN = "";
-		pDSBuff = NULL;
+		pDSBuff = nullptr;
 		Size = 0;
 		Type = 0;
 		Count = 0;
@@ -30,14 +30,14 @@ typedef struct __SoundSource
 	}	
 } SOUNDSOURCE, *LPSOUNDSOURCE;
 
-typedef struct __TABLE_SOUND // Sound ¸®¼Ò½º ·¹ÄÚµå...
+typedef struct __TABLE_SOUND // Sound ë¦¬ì†ŒìŠ¤ ë ˆì½”ë“œ...
 {
-	DWORD		dwID;		// °íÀ¯ ID
+	DWORD		dwID;		// ê³ ìœ  ID
 	std::string	szFN;		// wave file name
-	int			iType;		// »ç¿îµå Å¸ÀÔ...
-	int			iNumInst;	// ÃÖ´ë »ç¿ëÇÒ ¼ö ÀÖ´Â ÀÎ½ºÅÏ½ºÀÇ °¹¼ö..
+	int			iType;		// ì‚¬ìš´ë“œ íƒ€ì…...
+	int			iNumInst;	// ìµœëŒ€ ì‚¬ìš©í•  ìˆ˜ ìˆëŠ” ì¸ìŠ¤í„´ìŠ¤ì˜ ê°¯ìˆ˜..
 } TABLE_SOUND;
 
-// »ç¿îµå ¿ÀºêÁ§Æ® Å¸ÀÔ Á¤ÀÇ..
+// ì‚¬ìš´ë“œ ì˜¤ë¸Œì íŠ¸ íƒ€ì… ì •ì˜..
 enum e_SndType { SNDTYPE_2D=0, SNDTYPE_3D, SNDTYPE_STREAM };
 enum e_SndState { SNDSTATE_STOP=0, SNDSTATE_DELAY, SNDSTATE_FADEIN, SNDSTATE_PLAY, SNDSTATE_FADEOUT };

@@ -6,8 +6,8 @@
 
 CUITargetBar::CUITargetBar()
 {
-	m_pProgressHP = NULL;
-	m_pStringID = NULL;
+	m_pProgressHP = nullptr;
+	m_pStringID = nullptr;
 	m_fTimeSendPacketLast = 0;
 }
 
@@ -19,8 +19,8 @@ void CUITargetBar::Release()
 {
 	CN3UIBase::Release();
 
-	m_pProgressHP = NULL;
-	m_pStringID = NULL;
+	m_pProgressHP = nullptr;
+	m_pStringID = nullptr;
 	m_fTimeSendPacketLast = 0;
 }
 
@@ -28,12 +28,12 @@ void CUITargetBar::UpdateHP(int iHP, int iHPMax, bool bUpdateImmediately)
 {
 	__ASSERT(iHPMax > 0, "Invalid Max HP");
 	if(iHP < 0 || iHPMax <= 0) return;
-	if(NULL == m_pProgressHP) return;
+	if(nullptr == m_pProgressHP) return;
 
 	int iPercentage = iHP * 100 / iHPMax;
 
 	if(bUpdateImmediately) m_pProgressHP->SetCurValue(iPercentage);
-	else m_pProgressHP->SetCurValue(iPercentage, 0.5f, 50.0f);				// 1ÃÊµÚ¿¡ ÃÊ´ç 50 ÀÇ ¼Óµµ·Î º¯ÇÏ°Ô ÇÑ´Ù.
+	else m_pProgressHP->SetCurValue(iPercentage, 0.5f, 50.0f);				// 1ì´ˆë’¤ì— ì´ˆë‹¹ 50 ì˜ ì†ë„ë¡œ ë³€í•˜ê²Œ í•œë‹¤.
 	return;
 }
 
@@ -52,7 +52,7 @@ bool CUITargetBar::Load(HANDLE hFile)
 	m_pStringID = (CN3UIString*)GetChildByID("text_target");	__ASSERT(m_pStringID, "NULL UI Component!!");
 	
 	if(m_pProgressHP) m_pProgressHP->SetRange(0, 100);
-	if(m_pStringID) // ÆùÆ®¸¦ ¹Ù²Û´Ù.
+	if(m_pStringID) // í°íŠ¸ë¥¼ ë°”ê¾¼ë‹¤.
 	{
 		std::string szFontID; ::_LoadStringFromResource(IDS_FONT_ID, szFontID);
 		

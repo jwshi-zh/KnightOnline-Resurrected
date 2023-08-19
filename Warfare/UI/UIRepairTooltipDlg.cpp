@@ -5,12 +5,12 @@ CUIRepairTooltipDlg::CUIRepairTooltipDlg()
 {
 	m_iPosXBack = 0;
 	m_iPosYBack = 0;
-	m_spItemBack = NULL;
+	m_spItemBack = nullptr;
 
 	m_bBRender = false;
 	m_iBxpos = -1;
 	m_iBypos = -1;
-	m_pBspItem = NULL;
+	m_pBspItem = nullptr;
 	m_iBRequiredGold = 0;
 	m_bBHaveEnough = true;
 
@@ -29,16 +29,16 @@ void CUIRepairTooltipDlg::Release()
 
 void CUIRepairTooltipDlg::InitPos()
 {
-	m_pStr[0] = (CN3UIString* )GetChildByID("string_repairgold");				//ÀÌ¸§ 
+	m_pStr[0] = (CN3UIString* )GetChildByID("string_repairgold");				//ì´ë¦„ 
 	__ASSERT(m_pStr[0], "NULL UI Component!!");
 	m_pStr[0]->SetString("0");	
-	m_pStr[1] = (CN3UIString* )GetChildByID("string_dur_max");					//ÀÌ¸§ 
+	m_pStr[1] = (CN3UIString* )GetChildByID("string_dur_max");					//ì´ë¦„ 
 	__ASSERT(m_pStr[1], "NULL UI Component!!");
 	m_pStr[1]->SetString("0");	
-	m_pStr[2] = (CN3UIString* )GetChildByID("string_dur_current");				//ÀÌ¸§ 
+	m_pStr[2] = (CN3UIString* )GetChildByID("string_dur_current");				//ì´ë¦„ 
 	__ASSERT(m_pStr[2], "NULL UI Component!!");
 	m_pStr[2]->SetString("0");	
-	m_pStr[3] = (CN3UIString* )GetChildByID("string_title");					//ÀÌ¸§ 
+	m_pStr[3] = (CN3UIString* )GetChildByID("string_title");					//ì´ë¦„ 
 	__ASSERT(m_pStr[3], "NULL UI Component!!");
 	m_pStr[3]->SetString("0");	
 	BackupStrColor();
@@ -144,7 +144,7 @@ void CUIRepairTooltipDlg::DisplayTooltipsEnable(int xpos, int ypos, __IconItemSk
 
 void CUIRepairTooltipDlg::DisplayTooltipsDisable()
 {
-	m_spItemBack = NULL;
+	m_spItemBack = nullptr;
 	if ( IsVisible() )
 		SetVisible(FALSE);
 }

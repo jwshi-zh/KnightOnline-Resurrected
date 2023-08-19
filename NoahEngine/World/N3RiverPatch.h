@@ -4,20 +4,20 @@
 
 struct __VertexRiver : public __VertexXyzT2
 {
-	WORD			index;			// Á¡ÀÇ Index
+	WORD			index;			// ì ì˜ Index
 };
 
-struct __River		// °­ÀÇ Á¡Á¤º¸(Á¤·ÄÀ» À§ÇÑ..)
+struct __River		// ê°•ì˜ ì ì •ë³´(ì •ë ¬ì„ ìœ„í•œ..)
 {
 	short			iRiverID;
 	int				iVertexCount;
 	__VertexRiver*	pVertices;
 
-	__River() {pVertices = NULL;}
-	~__River() {if (pVertices) {delete [] pVertices; pVertices = NULL;}}
+	__River() {pVertices = nullptr;}
+	~__River() {if (pVertices) {delete [] pVertices; pVertices = nullptr;}}
 };
 
-struct __RiverEx	// °­ÀÇ Á¡Á¤º¸(vertex buffer¸¦ À§ÇÑ..)
+struct __RiverEx	// ê°•ì˜ ì ì •ë³´(vertex bufferë¥¼ ìœ„í•œ..)
 {
 	short			iRiverID;
 	int				iVertexCount;
@@ -26,12 +26,12 @@ struct __RiverEx	// °­ÀÇ Á¡Á¤º¸(vertex buffer¸¦ À§ÇÑ..)
 	int				iIndexCount;
 	WORD*			pIndices;
 
-	__RiverEx() {pVertices = NULL; pIndices = NULL;}
-	~__RiverEx() { if (pVertices) {delete [] pVertices; pVertices = NULL;}
-		if (pIndices) {delete [] pIndices; pIndices = NULL;}}
+	__RiverEx() {pVertices = nullptr; pIndices = nullptr;}
+	~__RiverEx() { if (pVertices) {delete [] pVertices; pVertices = nullptr;}
+		if (pIndices) {delete [] pIndices; pIndices = nullptr;}}
 };
 
-class CN3RiverPatch : public CN3Base  // °¢ patch¿¡ ¼ÓÇÑ °­µéÀÇ Á¤º¸.
+class CN3RiverPatch : public CN3Base  // ê° patchì— ì†í•œ ê°•ë“¤ì˜ ì •ë³´.
 {
 public:
 	CN3RiverPatch();
@@ -40,7 +40,7 @@ public:
 // Attributes
 public:
 	int			GetRiverCount() const {return m_iRiverCount;}
-	__River*	GetRiver(int iIndex) {if (iIndex>=0 && iIndex<m_iRiverCount) return (m_pRivers+iIndex); return NULL;}
+	__River*	GetRiver(int iIndex) {if (iIndex>=0 && iIndex<m_iRiverCount) return (m_pRivers+iIndex); return nullptr;}
 protected:
 	int			m_iRiverCount;
 	__River*	m_pRivers;

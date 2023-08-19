@@ -18,7 +18,7 @@ void CN3AlphaPrimitiveManager::Render()
 	
 	static __AlphaPrimitive* pBuffs[MAX_ALPHAPRIMITIVE_BUFFER];
 	for(int i = 0; i < m_nToDrawCount; i++) pBuffs[i] = &(m_Buffers[i]);
-	qsort(pBuffs, m_nToDrawCount, 4, SortByCameraDistance); // ¹öÆÛ¿¡ ½×ÀÎ ÇÁ¸®¹ÌÆ¼ºê´ë·Î Á¤·ÄÇÏ°í..
+	qsort(pBuffs, m_nToDrawCount, 4, SortByCameraDistance); // ë²„í¼ì— ìŒ“ì¸ í”„ë¦¬ë¯¸í‹°ë¸ŒëŒ€ë¡œ ì •ë ¬í•˜ê³ ..
 
 	struct __RenderState
 	{
@@ -27,8 +27,8 @@ void CN3AlphaPrimitiveManager::Render()
 		DWORD dwSrcBlend, dwDestBlend;
 		DWORD dwZEnable;
 	};
-	__RenderState RS_old;		// ÀÌÀü render state (³ªÁß¿¡ µÇµ¹·Á³õ±â À§ÇØ)
-	__RenderState RS_current;	// ÇöÀç render state (ÇöÀç ¾î¶² »óÅÂÀÎ°¡ ÆÇ´ÜÇÏ±â À§ÇØ)
+	__RenderState RS_old;		// ì´ì „ render state (ë‚˜ì¤‘ì— ë˜ëŒë ¤ë†“ê¸° ìœ„í•´)
+	__RenderState RS_current;	// í˜„ìž¬ render state (í˜„ìž¬ ì–´ë–¤ ìƒíƒœì¸ê°€ íŒë‹¨í•˜ê¸° ìœ„í•´)
 
 	CN3Base::s_lpD3DDev->GetRenderState(D3DRS_ALPHABLENDENABLE, &RS_old.dwAlpha);
 	CN3Base::s_lpD3DDev->GetRenderState(D3DRS_FOGENABLE, &RS_old.dwFog);
@@ -115,7 +115,7 @@ void CN3AlphaPrimitiveManager::Render()
 
 		CN3Base::s_lpD3DDev->SetFVF(pBuffs[i]->dwFVF);
 		CN3Base::s_lpD3DDev->SetTexture(0, pBuffs[i]->lpTex);
-		CN3Base::s_lpD3DDev->SetTransform(D3DTS_WORLD, &(pBuffs[i]->MtxWorld)); // ¿ùµå Çà·Ä Àû¿ë
+		CN3Base::s_lpD3DDev->SetTransform(D3DTS_WORLD, &(pBuffs[i]->MtxWorld)); // ì›”ë“œ í–‰ë ¬ ì ìš©
 
 		if(pBuffs[i]->lpTex)
 		{
@@ -129,7 +129,7 @@ void CN3AlphaPrimitiveManager::Render()
 			CN3Base::s_lpD3DDev->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_DIFFUSE);
 		}
 	
-		if(pBuffs[i]->pwIndices && pBuffs[i]->nPrimitiveCount > 0) // Index °¡ ÀÖÀ¸¸é..
+		if(pBuffs[i]->pwIndices && pBuffs[i]->nPrimitiveCount > 0) // Index ê°€ ìžˆìœ¼ë©´..
 		{
 			if (pBuffs[i]->bUseVB)
 			{
@@ -177,7 +177,7 @@ void CN3AlphaPrimitiveManager::Render()
 #endif
 	}
 		
-	m_nToDrawCount = 0; // ´Ù ±×·È´Ù...
+	m_nToDrawCount = 0; // ë‹¤ ê·¸ë ¸ë‹¤...
 
 	// restore
 	CN3Base::s_lpD3DDev->SetRenderState(D3DRS_ALPHABLENDENABLE, RS_old.dwAlpha);
@@ -231,15 +231,15 @@ void CN3AlphaPrimitiveManager::Render()
 	
 	static __AlphaPrimitive* pBuffs[MAX_ALPHAPRIMITIVE_BUFFER];
 	for(int i = 0; i < m_nToDrawCount; i++) pBuffs[i] = &(m_Buffers[i]);
-	qsort(pBuffs, m_nToDrawCount, 4, SortByCameraDistance); // ¹öÆÛ¿¡ ½×ÀÎ ÇÁ¸®¹ÌÆ¼ºê´ë·Î Á¤·ÄÇÏ°í..
+	qsort(pBuffs, m_nToDrawCount, 4, SortByCameraDistance); // ë²„í¼ì— ìŒ“ì¸ í”„ë¦¬ë¯¸í‹°ë¸ŒëŒ€ë¡œ ì •ë ¬í•˜ê³ ..
 
 	struct __RenderState
 	{
 		DWORD dwAlpha, dwFog, dwCull, dwLgt, dwZWrite, dwAO, dwAA1, dwAA2, dwCO, dwCA1, dwCA2, dwPointSampling;
 		DWORD dwSrcBlend, dwDestBlend;
 	};
-	__RenderState RS_old;		// ÀÌÀü render state (³ªÁß¿¡ µÇµ¹·Á³õ±â À§ÇØ)
-	__RenderState RS_current;	// ÇöÀç render state (ÇöÀç ¾î¶² »óÅÂÀÎ°¡ ÆÇ´ÜÇÏ±â À§ÇØ)
+	__RenderState RS_old;		// ì´ì „ render state (ë‚˜ì¤‘ì— ë˜ëŒë ¤ë†“ê¸° ìœ„í•´)
+	__RenderState RS_current;	// í˜„ìž¬ render state (í˜„ìž¬ ì–´ë–¤ ìƒíƒœì¸ê°€ íŒë‹¨í•˜ê¸° ìœ„í•´)
 
 	CN3Base::s_lpD3DDev->GetRenderState(D3DRS_ALPHABLENDENABLE, &RS_old.dwAlpha);
 	CN3Base::s_lpD3DDev->GetRenderState(D3DRS_FOGENABLE, &RS_old.dwFog);
@@ -267,7 +267,7 @@ void CN3AlphaPrimitiveManager::Render()
 		if(pBuffs[i]->nRenderFlags & RF_NOTUSEFOG)
 		{
 			if (FALSE != RS_current.dwFog) { RS_current.dwFog = FALSE;	CN3Base::s_lpD3DDev->SetRenderState(D3DRS_FOGENABLE, FALSE);}
-		} // Fog ¹«½Ã..
+		} // Fog ë¬´ì‹œ..
 		else
 		{
 			if (TRUE != RS_current.dwFog) {	RS_current.dwFog = TRUE;	CN3Base::s_lpD3DDev->SetRenderState(D3DRS_FOGENABLE, TRUE);	}
@@ -328,7 +328,7 @@ void CN3AlphaPrimitiveManager::Render()
 
 		CN3Base::s_lpD3DDev->SetFVF(pBuffs[i]->dwFVF);
 		CN3Base::s_lpD3DDev->SetTexture(0, pBuffs[i]->lpTex);
-		CN3Base::s_lpD3DDev->SetTransform(D3DTS_WORLD, &(pBuffs[i]->MtxWorld)); // ¿ùµå Çà·Ä Àû¿ë
+		CN3Base::s_lpD3DDev->SetTransform(D3DTS_WORLD, &(pBuffs[i]->MtxWorld)); // ì›”ë“œ í–‰ë ¬ ì ìš©
 
 		if(pBuffs[i]->lpTex)
 		{
@@ -342,7 +342,7 @@ void CN3AlphaPrimitiveManager::Render()
 			if (D3DTA_DIFFUSE != RS_current.dwCA1) { RS_current.dwCA1 = D3DTA_DIFFUSE;	CN3Base::s_lpD3DDev->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_DIFFUSE);}
 		}
 	
-		if(pBuffs[i]->pwIndices && pBuffs[i]->nPrimitiveCount > 0) // Index °¡ ÀÖÀ¸¸é..
+		if(pBuffs[i]->pwIndices && pBuffs[i]->nPrimitiveCount > 0) // Index ê°€ ìžˆìœ¼ë©´..
 		{
 			if (pBuffs[i]->bUseVB)
 			{
@@ -389,7 +389,7 @@ void CN3AlphaPrimitiveManager::Render()
 #endif
 	}
 		
-	m_nToDrawCount = 0; // ´Ù ±×·È´Ù...
+	m_nToDrawCount = 0; // ë‹¤ ê·¸ë ¸ë‹¤...
 
 	// restore
 	if(RS_old.dwAlpha != RS_current.dwAlpha) CN3Base::s_lpD3DDev->SetRenderState(D3DRS_ALPHABLENDENABLE, RS_old.dwAlpha);
@@ -414,7 +414,7 @@ void CN3AlphaPrimitiveManager::Render()
 __AlphaPrimitive* CN3AlphaPrimitiveManager::Add()
 {
 //	__ASSERT(m_nToDrawCount < MAX_ALPHAPRIMITIVE_BUFFER, "Alpha Primitive Manager : Overflow Buffer.");
-	if(m_nToDrawCount >= MAX_ALPHAPRIMITIVE_BUFFER) return NULL;
+	if(m_nToDrawCount >= MAX_ALPHAPRIMITIVE_BUFFER) return nullptr;
 	m_nToDrawCount++;
 	return &(m_Buffers[m_nToDrawCount-1]);
 }
@@ -436,7 +436,7 @@ __AlphaPrimitive* CN3AlphaPrimitiveManager::Add(	__Vector3& vCamera,
 													const __Matrix44& MtxWorld )
 {
 	__ASSERT(m_nToDrawCount < MAX_ALPHAPRIMITIVE_BUFFER, "Alpha primnitive buffer is full");
-	// ¸ÞÀÎ·»´õ¸µ½Ã ¹Ýµå½Ã ÀÌ Å¬·¡½ºÀÇ Render() ¸¦ ÇÑ¹ø È£ÃâÇØÁÖ¾î¾ß ¹öÆÛ¸¦ ºñ¿öÁØ´Ù..
+	// ë©”ì¸ë Œë”ë§ì‹œ ë°˜ë“œì‹œ ì´ í´ëž˜ìŠ¤ì˜ Render() ë¥¼ í•œë²ˆ í˜¸ì¶œí•´ì£¼ì–´ì•¼ ë²„í¼ë¥¼ ë¹„ì›Œì¤€ë‹¤..
 
 	__Vector3 vPos = *((__Vector3*)pVertices);
 
@@ -465,7 +465,7 @@ int CN3AlphaPrimitiveManager::SortByCameraDistance(const void *pArg1, const void
 	__AlphaPrimitive *pObj1 = *((__AlphaPrimitive**)pArg1);
 	__AlphaPrimitive *pObj2 = *((__AlphaPrimitive**)pArg2);
 
-	if(pObj1->fCameraDistance > pObj2->fCameraDistance) return -1; // °Å¸®°¡ ¸Õ°ÍºÎÅÍ ¼ÒÆÃ..
+	if(pObj1->fCameraDistance > pObj2->fCameraDistance) return -1; // ê±°ë¦¬ê°€ ë¨¼ê²ƒë¶€í„° ì†ŒíŒ…..
 	else if(pObj1->fCameraDistance < pObj2->fCameraDistance) return 1;
 	else return 0;
 }

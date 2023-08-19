@@ -14,10 +14,10 @@
 
 CUIPointInitDlg::CUIPointInitDlg()
 {
-	m_pBtn_Ok			= NULL;
-	m_pBtn_Cancel		= NULL;
+	m_pBtn_Ok			= nullptr;
+	m_pBtn_Cancel		= nullptr;
 
-	m_pText_NeedGold	= NULL;
+	m_pText_NeedGold	= nullptr;
 }
 
 CUIPointInitDlg::~CUIPointInitDlg()

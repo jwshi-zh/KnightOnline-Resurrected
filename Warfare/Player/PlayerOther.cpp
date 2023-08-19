@@ -20,27 +20,27 @@ CPlayerOther::~CPlayerOther()
 void CPlayerOther::Tick()
 {
 	if( m_bSit )
-		CPlayerBase::Tick();  // È¸Àü, ÁöÁ¤µÈ ¿¡´Ï¸ÞÀÌ¼Ç Tick ¹× »ö±ò ÁöÁ¤ Ã³¸®.. µîµî..
+		CPlayerBase::Tick();  // íšŒì „, ì§€ì •ëœ ì—ë‹ˆë©”ì´ì…˜ Tick ë° ìƒ‰ê¹” ì§€ì • ì²˜ë¦¬.. ë“±ë“±..
 	else
 		CPlayerNPC::Tick();
 }
 
 bool CPlayerOther::Init(e_Race eRace, int iFace, int iHair, DWORD* pdwItemIDs, int* piItenDurabilities)
 {
-	if(NULL == pdwItemIDs || NULL == piItenDurabilities) return false;
+	if(nullptr == pdwItemIDs || nullptr == piItenDurabilities) return false;
 
 	m_InfoBase.eRace = eRace;
 	m_InfoExt.iFace = iFace;
 	m_InfoExt.iHair = iHair;
 
-	// ÀÌÁ¦ ÆÐÅ¶¿¡ µû¶ó Ä³¸¯ÅÍ¸¦ Ä¡Àå..(?) ½ÃÄÑÁØ´Ù.. ¾ÆÀÌÅÛÀåÂø, ¹«±â ÀåÂøµî...
-	__TABLE_PLAYER_LOOKS* pLooks = s_pTbl_UPC_Looks->Find(eRace);	// Å×ÀÌºí¿¡¼­ ±âº» ½ºÅ² ..
-	if(NULL == pLooks) 
+	// ì´ì œ íŒ¨í‚·ì— ë”°ë¼ ìºë¦­í„°ë¥¼ ì¹˜ìž¥..(?) ì‹œì¼œì¤€ë‹¤.. ì•„ì´í…œìž¥ì°©, ë¬´ê¸° ìž¥ì°©ë“±...
+	__TABLE_PLAYER_LOOKS* pLooks = s_pTbl_UPC_Looks->Find(eRace);	// í…Œì´ë¸”ì—ì„œ ê¸°ë³¸ ìŠ¤í‚¨ ..
+	if(nullptr == pLooks) 
 	{
 		CLogWriter::Write("CPlayerOther::Init() Basic Resource Pointer is NULL Race(%d)", eRace);
 		return false;
 	}
-	this->InitChr(pLooks); // °üÀý ¼¼ÆÃ..
+	this->InitChr(pLooks); // ê´€ì ˆ ì„¸íŒ…..
 
 	for(int i = 0; i < MAX_ITEM_SLOT_OPC; i++)
 	{
@@ -48,8 +48,8 @@ bool CPlayerOther::Init(e_Race eRace, int iFace, int iHair, DWORD* pdwItemIDs, i
 		e_PartPosition ePart = PART_POS_UNKNOWN;
 		e_PlugPosition ePlug = PLUG_POS_UNKNOWN;
 		e_ItemSlot eSlot = ITEM_SLOT_UNKNOWN;
-		__TABLE_ITEM_BASIC* pItem = NULL;
-		__TABLE_ITEM_EXT* pItemExt = NULL;
+		__TABLE_ITEM_BASIC* pItem = nullptr;
+		__TABLE_ITEM_EXT* pItemExt = nullptr;
 
 		if(0 == pdwItemIDs[i]) 
 		{
@@ -58,30 +58,30 @@ bool CPlayerOther::Init(e_Race eRace, int iFace, int iHair, DWORD* pdwItemIDs, i
 //			else if(2 == i) { ePart = PART_POS_HAIR_HELMET; szFN = pLooks->szPartFNs[5]; }
 			else if(3 == i) { ePart = PART_POS_HANDS;		szFN = pLooks->szPartFNs[3]; }
 			else if(4 == i) { ePart = PART_POS_FEET;		szFN = pLooks->szPartFNs[4]; }
-			else if(5 == i) { } // ¸ÁÅä
+			else if(5 == i) { } // ë§í† 
 //			else if(6 == i) { ePlug = PLUG_POS_RIGHTHAND; }
 //			else if(7 == i) { ePlug = PLUG_POS_LEFTHAND; }
 		}
 		else
 		{
-			pItem = s_pTbl_Items_Basic->Find(pdwItemIDs[i]/1000*1000);	// À¯Àú ÇÃ·¹ÀÌ¾î ¾ÆÀÌÅÛ ¾ò±â..
+			pItem = s_pTbl_Items_Basic->Find(pdwItemIDs[i]/1000*1000);	// ìœ ì € í”Œë ˆì´ì–´ ì•„ì´í…œ ì–»ê¸°..
 			if(pItem && pItem->byExtIndex >= 0 && pItem->byExtIndex < MAX_ITEM_EXTENSION)
 				pItemExt = s_pTbl_Items_Exts[pItem->byExtIndex]->Find(pdwItemIDs[i]%1000);
-			if(NULL == pItem || NULL == pItemExt)
+			if(nullptr == pItem || nullptr == pItemExt)
 			{
 				__ASSERT(0, "NULL Item!!!");
 				continue;
 			}
 
 
-			e_ItemType eType = CGameProcedure::MakeResrcFileNameForUPC(pItem, &szFN, NULL, ePart, ePlug); // ¸®¼Ò½º ÆÄÀÏ ÀÌ¸§À» ¸¸µé°í..
+			e_ItemType eType = CGameProcedure::MakeResrcFileNameForUPC(pItem, &szFN, nullptr, ePart, ePlug); // ë¦¬ì†ŒìŠ¤ íŒŒì¼ ì´ë¦„ì„ ë§Œë“¤ê³ ..
 
 			if(0 == i) { ePart = PART_POS_UPPER;			eSlot = ITEM_SLOT_UPPER; }
 			else if(1 == i) { ePart = PART_POS_LOWER;		eSlot = ITEM_SLOT_LOWER; }
 			else if(2 == i) { ePart = PART_POS_HAIR_HELMET; eSlot = ITEM_SLOT_HEAD; }
 			else if(3 == i) { ePart = PART_POS_HANDS;		eSlot = ITEM_SLOT_GLOVES; }
 			else if(4 == i) { ePart = PART_POS_FEET;		eSlot = ITEM_SLOT_SHOES; }
-			else if(5 == i) { } // ¸ÁÅä
+			else if(5 == i) { } // ë§í† 
 			else if(6 == i) { ePlug = PLUG_POS_RIGHTHAND;	eSlot = ITEM_SLOT_HAND_RIGHT; }
 			else if(7 == i) { ePlug = PLUG_POS_LEFTHAND;	eSlot = ITEM_SLOT_HAND_LEFT; }
 		}
@@ -90,7 +90,7 @@ bool CPlayerOther::Init(e_Race eRace, int iFace, int iHair, DWORD* pdwItemIDs, i
 		{
 			this->PartSet(ePart, szFN, pItem, pItemExt);
 		}
-		else if(PART_POS_HAIR_HELMET == ePart) // ¸Ó¸®Ä«¶ô È¤Àº Çï¸äÀÌ¸é..
+		else if(PART_POS_HAIR_HELMET == ePart) // ë¨¸ë¦¬ì¹´ë½ í˜¹ì€ í—¬ë©§ì´ë©´..
 		{
 			this->PartSet(ePart, szFN, pItem, pItemExt);
 		}
@@ -106,10 +106,10 @@ bool CPlayerOther::Init(e_Race eRace, int iFace, int iHair, DWORD* pdwItemIDs, i
 			this->DurabilitySet(eSlot, piItenDurabilities[i]);
 	}
 
-	// ¾ó±¼Àº µû·ÎÇÏÀÚ..
+	// ì–¼êµ´ì€ ë”°ë¡œí•˜ìž..
 	this->InitFace();
 	CN3CPart* pPartHairHelmet = this->Part(PART_POS_HAIR_HELMET);
-	if(pPartHairHelmet->FileName().empty()) // Çï¸ä¿¡ ÇØ´çµÇ´Â°Ô ¾øÀ¸¸é.. ¸Ó¸®Ä«¶ô ºÙÀÌ±â..
+	if(pPartHairHelmet->FileName().empty()) // í—¬ë©§ì— í•´ë‹¹ë˜ëŠ”ê²Œ ì—†ìœ¼ë©´.. ë¨¸ë¦¬ì¹´ë½ ë¶™ì´ê¸°..
 		this->InitHair();
 
 	return true;
@@ -118,24 +118,24 @@ bool CPlayerOther::Init(e_Race eRace, int iFace, int iHair, DWORD* pdwItemIDs, i
 void CPlayerOther::InitFace()
 {
 	__TABLE_PLAYER_LOOKS* pItem = s_pTbl_UPC_Looks->Find(m_InfoBase.eRace);
-	if(pItem && !pItem->szPartFNs[PART_POS_FACE].empty()) // ¾ÆÀÌÅÛÀÌ ÀÖ°í ¾ó±¼ ÀÌ¸§ÀÌ ÀÖÀ¸¸é..
+	if(pItem && !pItem->szPartFNs[PART_POS_FACE].empty()) // ì•„ì´í…œì´ ìžˆê³  ì–¼êµ´ ì´ë¦„ì´ ìžˆìœ¼ë©´..
 	{
 		char szBuff[256] = "", szDir[128] = "", szFName[128] = "", szExt[16] = "";
-		::_splitpath(pItem->szPartFNs[PART_POS_FACE].c_str(), NULL, szDir, szFName, szExt);
+		::_splitpath(pItem->szPartFNs[PART_POS_FACE].c_str(), nullptr, szDir, szFName, szExt);
 		sprintf(szBuff, "%s%s%.2d%s", szDir, szFName, m_InfoExt.iFace, szExt);
-		this->PartSet(PART_POS_FACE, szBuff, NULL, NULL);
+		this->PartSet(PART_POS_FACE, szBuff, nullptr, nullptr);
 	}
 }
 
 void CPlayerOther::InitHair()
 {
 	__TABLE_PLAYER_LOOKS* pItem = s_pTbl_UPC_Looks->Find(m_InfoBase.eRace);
-	if(pItem && !pItem->szPartFNs[PART_POS_HAIR_HELMET].empty()) // ¾ÆÀÌÅÛÀÌ ÀÖ°í ¾ó±¼ ÀÌ¸§ÀÌ ÀÖÀ¸¸é..
+	if(pItem && !pItem->szPartFNs[PART_POS_HAIR_HELMET].empty()) // ì•„ì´í…œì´ ìžˆê³  ì–¼êµ´ ì´ë¦„ì´ ìžˆìœ¼ë©´..
 	{
 		char szBuff[256] = "", szDir[128] = "", szFName[128] = "", szExt[16] = "";
-		::_splitpath(pItem->szPartFNs[PART_POS_HAIR_HELMET].c_str(), NULL, szDir, szFName, szExt);
+		::_splitpath(pItem->szPartFNs[PART_POS_HAIR_HELMET].c_str(), nullptr, szDir, szFName, szExt);
 		sprintf(szBuff, "%s%s%.2d%s", szDir, szFName, m_InfoExt.iHair, szExt);
-		this->PartSet(PART_POS_HAIR_HELMET, szBuff, NULL, NULL);
+		this->PartSet(PART_POS_HAIR_HELMET, szBuff, nullptr, nullptr);
 	}
 	else
 	{
@@ -154,7 +154,7 @@ void CPlayerOther::KnightsInfoSet(int iID, const std::string& szName, int iGrade
 
 	if(m_InfoExt.szKnights.empty())
 	{
-		if(m_pClanFont) delete m_pClanFont; m_pClanFont = NULL; 
+		if(m_pClanFont) delete m_pClanFont; m_pClanFont = nullptr; 
 	}
 
 	float fDist = Distance(CGameProcedure::s_pPlayer->Position());
@@ -168,7 +168,7 @@ void CPlayerOther::KnightsInfoSet(int iID, const std::string& szName, int iGrade
 			m_pClanFont->RestoreDeviceObjects();
 		}
 
-		m_pClanFont->SetText(m_InfoExt.szKnights.c_str(), D3DFONT_BOLD); // ÆùÆ®¿¡ ÅØ½ºÆ® ÁöÁ¤.
+		m_pClanFont->SetText(m_InfoExt.szKnights.c_str(), D3DFONT_BOLD); // í°íŠ¸ì— í…ìŠ¤íŠ¸ ì§€ì •.
 		m_pClanFont->SetFontColor(KNIGHTS_FONT_COLOR);
 	}
 }
@@ -177,18 +177,18 @@ void CPlayerOther::SetSoundAndInitFont()
 {
 	CPlayerBase::SetSoundAndInitFont();
 
-	if(m_InfoExt.szKnights.empty()) { delete m_pClanFont; m_pClanFont = NULL; }
+	if(m_InfoExt.szKnights.empty()) { delete m_pClanFont; m_pClanFont = nullptr; }
 	else
 	{
 		if(!m_pClanFont)
 		{
 			std::string szFontID; ::_LoadStringFromResource(IDS_FONT_ID, szFontID);
-			m_pClanFont = new CDFont(szFontID, 12); // Á» ÀÛ°Ô ¸¸µç´Ù..
+			m_pClanFont = new CDFont(szFontID, 12); // ì¢€ ìž‘ê²Œ ë§Œë“ ë‹¤..
 			m_pClanFont->InitDeviceObjects( s_lpD3DDev );
 			m_pClanFont->RestoreDeviceObjects();
 		}
 
-		m_pClanFont->SetText(m_InfoExt.szKnights.c_str(), D3DFONT_BOLD); // ÆùÆ®¿¡ ÅØ½ºÆ® ÁöÁ¤.
+		m_pClanFont->SetText(m_InfoExt.szKnights.c_str(), D3DFONT_BOLD); // í°íŠ¸ì— í…ìŠ¤íŠ¸ ì§€ì •.
 		m_pClanFont->SetFontColor(KNIGHTS_FONT_COLOR);
 	}
 }

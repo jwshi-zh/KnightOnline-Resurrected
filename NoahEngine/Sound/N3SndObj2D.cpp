@@ -6,12 +6,12 @@
 
 CN3SndObj2D::CN3SndObj2D()
 {
-	m_pDSBuff = NULL;
+	m_pDSBuff = nullptr;
 	m_bIsLoop = false;
 	m_iVol = -1;
 	m_iType = SNDTYPE_2D;
 	m_szFileName = "";
-	m_pRefMgr = NULL;
+	m_pRefMgr = nullptr;
 
 	m_fFadeInTime = 0;
 	m_fFadeOutTime = 0;
@@ -40,7 +40,7 @@ void CN3SndObj2D::Init()
 	m_bIsLoop = false;
 	m_iVol = -1;
 	m_iType = SNDTYPE_2D;
-	m_pRefMgr = NULL;
+	m_pRefMgr = nullptr;
 	m_szFileName = "";
 
 	m_fStartDelayTime = 0;
@@ -64,7 +64,7 @@ void CN3SndObj2D::Release()
 	{
 		m_pDSBuff->Stop();
 		m_pDSBuff->Release();
-		m_pDSBuff = NULL;
+		m_pDSBuff = nullptr;
 	}
 }
 
@@ -86,7 +86,7 @@ void CN3SndObj2D::SetVolume(int Vol)
 
 		float fVol = (float)(Vol) / 100.0f;
 		
-		long dwVol = (long)(log10(fVol) * 3000);	//µ¥½Ãº§ °ü·Ã ¼Ò¸®Á¶Àý½Ä..
+		long dwVol = (long)(log10(fVol) * 3000);	//ë°ì‹œë²¨ ê´€ë ¨ ì†Œë¦¬ì¡°ì ˆì‹..
 		m_pDSBuff->SetVolume(dwVol);
 	}
 }
@@ -158,7 +158,7 @@ void CN3SndObj2D::Tick()
 		}
 		else
 		{
-			//º¼·ý Á¡Á¡ ÀÛ°Ô....
+			//ë³¼ë¥¨ ì ì  ìž‘ê²Œ....
 			if(this->m_iType!=SNDTYPE_3D)
 			{
 				int vol = 0;
@@ -190,7 +190,7 @@ void CN3SndObj2D::Play(const D3DVECTOR* pvPos, float delay, float fFadeInTime, b
 //
 void CN3SndObj2D::RealPlay()
 {
-    if(m_pDSBuff == NULL) return;
+    if(m_pDSBuff == nullptr) return;
 
 	DWORD dwStatus = 0;
 	m_pDSBuff->GetStatus( &dwStatus );
@@ -211,7 +211,7 @@ void CN3SndObj2D::RealPlay()
 //
 void CN3SndObj2D::Stop(float fFadeOutTime)
 {
-	if( m_pDSBuff == NULL ) return;
+	if( m_pDSBuff == nullptr) return;
 	if( m_ePlayState == SNDSTATE_FADEOUT || m_ePlayState == SNDSTATE_STOP) return; 
 
 	if(fFadeOutTime==0.0f)

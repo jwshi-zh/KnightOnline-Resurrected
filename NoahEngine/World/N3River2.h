@@ -42,19 +42,19 @@ public:
 		_RIVER_DIFF			*pDiff;
 
 		BOOL				m_bTick2Rand;
-		__Vector3			m_vCenterPo;	//	∞≠¿« ¡ﬂ∞£¡ˆ¡°
-		float				m_fRadius;		//	∞≠¿« ¡ˆ∏ß
+		__Vector3			m_vCenterPo;	//	Í∞ïÏùò Ï§ëÍ∞ÑÏßÄÏ†ê
+		float				m_fRadius;		//	Í∞ïÏùò ÏßÄÎ¶Ñ
 
 		_RIVER_INFO() {
-			pVertices = NULL; pwIndex = NULL; pDiff = NULL;
+			pVertices = nullptr; pwIndex = nullptr; pDiff = nullptr;
 		}
 		~_RIVER_INFO() {
 			if (pVertices)
-				delete[] pVertices, pVertices = NULL;
+				delete[] pVertices, pVertices = nullptr;
 			if (pwIndex)
-				delete[] pwIndex, pwIndex = NULL;
+				delete[] pwIndex, pwIndex = nullptr;
 			if (pDiff)
-				delete[] pDiff, pDiff = NULL;
+				delete[] pDiff, pDiff = nullptr;
 		}
 	};
 

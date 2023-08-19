@@ -17,15 +17,15 @@ CUICharacterCreate::CUICharacterCreate()
 	memset(m_pImg_Disable_Classes, 0, sizeof(m_pImg_Disable_Classes));
 	memset(m_pStr_Stats, 0, sizeof(m_pStr_Stats));
 	memset(m_pArea_Stats, 0, sizeof(m_pArea_Stats));
-	m_pStr_Desc = NULL;
-	m_pStr_Bonus = NULL;
+	m_pStr_Desc = nullptr;
+	m_pStr_Bonus = nullptr;
 
-	m_pBtn_Face_Left = NULL;
-	m_pBtn_Face_Right = NULL;
-	m_pBtn_Hair_Left = NULL;
-	m_pBtn_Hair_Right = NULL;
+	m_pBtn_Face_Left = nullptr;
+	m_pBtn_Face_Right = nullptr;
+	m_pBtn_Hair_Left = nullptr;
+	m_pBtn_Hair_Right = nullptr;
 
-	m_pArea_Character = NULL;
+	m_pArea_Character = nullptr;
 
 	m_iBonusPoint = m_iMaxBonusPoint = 0;
 }
@@ -44,15 +44,15 @@ void CUICharacterCreate::Release()
 	memset(m_pStr_Stats, 0, sizeof(m_pStr_Stats));
 	memset(m_pArea_Stats, 0, sizeof(m_pArea_Stats));
 
-	m_pStr_Desc = NULL;
-	m_pStr_Bonus = NULL;
+	m_pStr_Desc = nullptr;
+	m_pStr_Bonus = nullptr;
 
-	m_pBtn_Face_Left = NULL;
-	m_pBtn_Face_Right = NULL;
-	m_pBtn_Hair_Left = NULL;
-	m_pBtn_Hair_Right = NULL;
+	m_pBtn_Face_Left = nullptr;
+	m_pBtn_Face_Right = nullptr;
+	m_pBtn_Hair_Left = nullptr;
+	m_pBtn_Hair_Right = nullptr;
 
-	m_pArea_Character = NULL;
+	m_pArea_Character = nullptr;
 
 	m_iBonusPoint = m_iMaxBonusPoint = 0;
 }
@@ -61,7 +61,7 @@ bool CUICharacterCreate::Load(HANDLE hFile)
 {
 	CN3UIBase::Load(hFile);
 
-	// ƒ≥∏Ø≈Õ √ ±‚»≠..
+	// Ï∫êÎ¶≠ÌÑ∞ Ï¥àÍ∏∞Ìôî..
 	__InfoPlayerBase* pInfoBase = &(CGameBase::s_pPlayer->m_InfoBase);
 	__InfoPlayerMySelf* pInfoExt = &(CGameBase::s_pPlayer->m_InfoExt);
 
@@ -184,7 +184,7 @@ bool CUICharacterCreate::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 		__InfoPlayerBase* pInfoBase = &(CGameBase::s_pPlayer->m_InfoBase);
 		__InfoPlayerMySelf* pInfoExt = &(CGameBase::s_pPlayer->m_InfoExt);
 
-		//¡æ¡∑ ∞Ì∏£±‚..
+		//Ï¢ÖÏ°± Í≥†Î•¥Í∏∞..
 		e_Nation eNation = pInfoBase->eNation;
 		e_Race eRacePrev = pInfoBase->eRace;
 		bool bNeedUpdateRaceButtons = false;
@@ -230,10 +230,10 @@ bool CUICharacterCreate::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 			}
 		}
 
-		if(	bNeedUpdateRaceButtons ) // ∏Û∞° πŸ≤Óæ˙¿∏∏È..
+		if(	bNeedUpdateRaceButtons ) // Î™¨Í∞Ä Î∞îÎÄåÏóàÏúºÎ©¥..
 		{
-			if(eRacePrev != pInfoBase->eRace) // ¡æ¡∑¿ª πŸ≤Â¿ª∂ß∏∏..
-				CGameProcedure::s_pProcCharacterCreate->SetChr(); // ƒ≥∏Ø≈Õ ºº∆√..
+			if(eRacePrev != pInfoBase->eRace) // Ï¢ÖÏ°±ÏùÑ Î∞îÍø®ÏùÑÎïåÎßå..
+				CGameProcedure::s_pProcCharacterCreate->SetChr(); // Ï∫êÎ¶≠ÌÑ∞ ÏÑ∏ÌåÖ..
 			this->UpdateRaceAndClassButtons(pInfoBase->eRace);
 		}
 
@@ -242,15 +242,15 @@ bool CUICharacterCreate::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 
 		if ( pSender->m_szID == "btn_cancel" )
 		{
-			CGameProcedure::ProcActiveSet((CGameProcedure*)CGameProcedure::s_pProcCharacterSelect); // ƒ≥∏Ø≈Õ º±≈√ «¡∑ŒΩ√¿˙∑Œ «—¥Ÿ..
+			CGameProcedure::ProcActiveSet((CGameProcedure*)CGameProcedure::s_pProcCharacterSelect); // Ï∫êÎ¶≠ÌÑ∞ ÏÑ†ÌÉù ÌîÑÎ°úÏãúÏ†ÄÎ°ú ÌïúÎã§..
 			return true;
 		}
 		else if ( pSender->m_szID == "btn_create" && m_pEdit_Name)
 		{
-			CGameBase::s_pPlayer->IDSet(0, m_pEdit_Name->GetString(), 0); // ¿Ã∏ß¿ª ≥÷æÓ¡÷∞Ì...
-			return CGameProcedure::s_pProcCharacterCreate->MsgSendCharacterCreate(); // ƒ≥∏Ø≈Õ ∏∏µÈ±‚ ∏ﬁΩ√¡ˆ ∫∏≥ª±‚...
+			CGameBase::s_pPlayer->IDSet(0, m_pEdit_Name->GetString(), 0); // Ïù¥Î¶ÑÏùÑ ÎÑ£Ïñ¥Ï£ºÍ≥†...
+			return CGameProcedure::s_pProcCharacterCreate->MsgSendCharacterCreate(); // Ï∫êÎ¶≠ÌÑ∞ ÎßåÎì§Í∏∞ Î©îÏãúÏßÄ Î≥¥ÎÇ¥Í∏∞...
 		}
-		else if ( pSender == m_pBtn_Face_Left ) // æÛ±º
+		else if ( pSender == m_pBtn_Face_Left ) // ÏñºÍµ¥
 		{
 			pInfoExt->iFace--;
 			if(pInfoExt->iFace < 0) pInfoExt->iFace = 0;
@@ -260,7 +260,7 @@ bool CUICharacterCreate::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 			pInfoExt->iFace++;
 			if(pInfoExt->iFace > 3) pInfoExt->iFace = 3;
 		}
-		else if ( pSender == m_pBtn_Hair_Left ) // ∏”∏Æƒ´∂Ù..
+		else if ( pSender == m_pBtn_Hair_Left ) // Î®∏Î¶¨Ïπ¥ÎùΩ..
 		{
 			pInfoExt->iHair--;
 			if(pInfoExt->iHair < 0) pInfoExt->iHair = 0;
@@ -271,30 +271,30 @@ bool CUICharacterCreate::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 			if(pInfoExt->iHair > 2) pInfoExt->iHair = 2;
 		}
 
-		if(	iFacePrev != pInfoExt->iFace ) CGameBase::s_pPlayer->InitFace(); // æÛ±º¿Ã πŸ≤Ó∏È..
-		if(	iHairPrev != pInfoExt->iHair ) CGameBase::s_pPlayer->InitHair(); // ∏”∏Æƒ´∂Ù¿Ã πŸ≤Ó∏È..
+		if(	iFacePrev != pInfoExt->iFace ) CGameBase::s_pPlayer->InitFace(); // ÏñºÍµ¥Ïù¥ Î∞îÎÄåÎ©¥..
+		if(	iHairPrev != pInfoExt->iHair ) CGameBase::s_pPlayer->InitHair(); // Î®∏Î¶¨Ïπ¥ÎùΩÏù¥ Î∞îÎÄåÎ©¥..
 
-		//¡˜æ˜ ∞Ì∏£±‚..
+		//ÏßÅÏóÖ Í≥†Î•¥Í∏∞..
 		bool bNeedUpdateClassButton = false;
-		if ( pSender == m_pBtn_Classes[0] ) // ¿¸ªÁ
+		if ( pSender == m_pBtn_Classes[0] ) // Ï†ÑÏÇ¨
 		{
 			if(	NATION_KARUS == eNation ) pInfoBase->eClass = CLASS_KA_WARRIOR;
 			else if(NATION_ELMORAD == eNation) pInfoBase->eClass = CLASS_EL_WARRIOR;
 			bNeedUpdateClassButton = true;
 		}
-		else if ( pSender == m_pBtn_Classes[1] ) // ∑Œ±◊
+		else if ( pSender == m_pBtn_Classes[1] ) // Î°úÍ∑∏
 		{
 			if(	NATION_KARUS == eNation ) pInfoBase->eClass = CLASS_KA_ROGUE;
 			else if(NATION_ELMORAD == eNation) pInfoBase->eClass = CLASS_EL_ROGUE;
 			bNeedUpdateClassButton = true;
 		}
-		else if ( pSender == m_pBtn_Classes[2] ) // ∏∂π˝ªÁ
+		else if ( pSender == m_pBtn_Classes[2] ) // ÎßàÎ≤ïÏÇ¨
 		{
 			if(	NATION_KARUS == eNation ) pInfoBase->eClass = CLASS_KA_WIZARD;
 			else if(NATION_ELMORAD == eNation) pInfoBase->eClass = CLASS_EL_WIZARD;
 			bNeedUpdateClassButton = true;
 		}
-		else if ( pSender == m_pBtn_Classes[3] ) // ªÁ¡¶
+		else if ( pSender == m_pBtn_Classes[3] ) // ÏÇ¨Ï†ú
 		{
 			if(	NATION_KARUS == eNation ) pInfoBase->eClass = CLASS_KA_PRIEST;
 			else if(NATION_ELMORAD == eNation) pInfoBase->eClass = CLASS_EL_PRIEST;
@@ -304,8 +304,8 @@ bool CUICharacterCreate::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 		if(bNeedUpdateClassButton)
 			this->UpdateClassButtons(pInfoBase->eClass);
 
-		//ºˆƒ° ø√∏Æ±‚..
-		if ( pSender->m_szID == "btn_str_right" ) // »˚
+		//ÏàòÏπò Ïò¨Î¶¨Í∏∞..
+		if ( pSender->m_szID == "btn_str_right" ) // Ìûò
 		{
 			if(m_iBonusPoint>0)
 			{
@@ -316,7 +316,7 @@ bool CUICharacterCreate::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 				if(m_pStr_Bonus) m_pStr_Bonus->SetStringAsInt(m_iBonusPoint);
 			}
 		}
-		else if ( pSender->m_szID == "btn_sta_right" ) // √º∑¬
+		else if ( pSender->m_szID == "btn_sta_right" ) // Ï≤¥Î†•
 		{
 			if(m_iBonusPoint>0)
 			{
@@ -327,7 +327,7 @@ bool CUICharacterCreate::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 				if(m_pStr_Bonus) m_pStr_Bonus->SetStringAsInt(m_iBonusPoint);
 			}
 		}
-		else if ( pSender->m_szID == "btn_dex_right" ) // πŒ√∏
+		else if ( pSender->m_szID == "btn_dex_right" ) // ÎØºÏ≤©
 		{
 			if(m_iBonusPoint>0)
 			{
@@ -338,7 +338,7 @@ bool CUICharacterCreate::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 				if(m_pStr_Bonus) m_pStr_Bonus->SetStringAsInt(m_iBonusPoint);				
 			}
 		}
-		else if ( pSender->m_szID == "btn_int_right" ) // ¡ˆ¥…
+		else if ( pSender->m_szID == "btn_int_right" ) // ÏßÄÎä•
 		{
 			if(m_iBonusPoint>0)
 			{
@@ -349,7 +349,7 @@ bool CUICharacterCreate::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 				if(m_pStr_Bonus) m_pStr_Bonus->SetStringAsInt(m_iBonusPoint);
 			}
 		}
-		else if ( pSender->m_szID == "btn_map_right" ) // ∏∂∑¬
+		else if ( pSender->m_szID == "btn_map_right" ) // ÎßàÎ†•
 		{
 			if(m_iBonusPoint>0)
 			{
@@ -364,8 +364,8 @@ bool CUICharacterCreate::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 		__TABLE_NEW_CHR* pTbl = CGameProcedure::s_pProcCharacterCreate->m_Tbl_InitValue.Find(pInfoBase->eRace);
 		if(pTbl)
 		{
-			//ºˆƒ° ≥ª∏Æ±‚..
-			if ( pSender->m_szID == "btn_str_left" ) // »˚
+			//ÏàòÏπò ÎÇ¥Î¶¨Í∏∞..
+			if ( pSender->m_szID == "btn_str_left" ) // Ìûò
 			{
 				if( m_iBonusPoint < m_iMaxBonusPoint && pInfoExt->iStrength > pTbl->iStr )
 				{
@@ -376,7 +376,7 @@ bool CUICharacterCreate::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 					if(m_pStr_Bonus) m_pStr_Bonus->SetStringAsInt(m_iBonusPoint);
 				}
 			}
-			else if ( pSender->m_szID == "btn_sta_left" ) // √º∑¬
+			else if ( pSender->m_szID == "btn_sta_left" ) // Ï≤¥Î†•
 			{
 				if( m_iBonusPoint < m_iMaxBonusPoint && pInfoExt->iStamina > pTbl->iSta )
 				{
@@ -387,7 +387,7 @@ bool CUICharacterCreate::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 					if(m_pStr_Bonus) m_pStr_Bonus->SetStringAsInt(m_iBonusPoint);
 				}
 			}
-			else if ( pSender->m_szID == "btn_dex_left" ) // πŒ√∏
+			else if ( pSender->m_szID == "btn_dex_left" ) // ÎØºÏ≤©
 			{
 				if( m_iBonusPoint < m_iMaxBonusPoint && pInfoExt->iDexterity > pTbl->iDex )
 				{
@@ -398,7 +398,7 @@ bool CUICharacterCreate::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 					if(m_pStr_Bonus) m_pStr_Bonus->SetStringAsInt(m_iBonusPoint);
 				}
 			}
-			else if ( pSender->m_szID == "btn_int_left" ) // ¡ˆ¥…
+			else if ( pSender->m_szID == "btn_int_left" ) // ÏßÄÎä•
 			{
 				if( m_iBonusPoint < m_iMaxBonusPoint && pInfoExt->iIntelligence > pTbl->iInt )
 				{
@@ -409,7 +409,7 @@ bool CUICharacterCreate::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 					if(m_pStr_Bonus) m_pStr_Bonus->SetStringAsInt(m_iBonusPoint);
 				}
 			}
-			else if ( pSender->m_szID == "btn_map_left" ) // ∏∂∑¬
+			else if ( pSender->m_szID == "btn_map_left" ) // ÎßàÎ†•
 			{
 				if( m_iBonusPoint < m_iMaxBonusPoint && pInfoExt->iMagicAttak > pTbl->iMAP )
 				{
@@ -485,32 +485,32 @@ DWORD CUICharacterCreate::MouseProc(DWORD dwFlags, const POINT& ptCur, const POI
 	return CN3UIBase::MouseProc(dwFlags, ptCur, ptOld);
 }
 
-void CUICharacterCreate::UpdateRaceAndClassButtons(e_Race eRace) // ¡æ¡∑ø° µ˚∂Û ¡˜æ˜ πˆ∆∞ ¥ŸΩ√ º≥¡§..
+void CUICharacterCreate::UpdateRaceAndClassButtons(e_Race eRace) // Ï¢ÖÏ°±Ïóê Îî∞Îùº ÏßÅÏóÖ Î≤ÑÌäº Îã§Ïãú ÏÑ§Ï†ï..
 {
-	eUI_STATE eUIStateRaces[4] = {	UI_STATE_BUTTON_NORMAL, // ¡æ¡∑ 0
+	eUI_STATE eUIStateRaces[4] = {	UI_STATE_BUTTON_NORMAL, // Ï¢ÖÏ°± 0
 									UI_STATE_BUTTON_NORMAL,
 									UI_STATE_BUTTON_NORMAL,
 									UI_STATE_BUTTON_NORMAL };
 
-	eUI_STATE eUIStateClasses[4] = {	UI_STATE_BUTTON_DISABLE, // ¡˜æ˜ 0
+	eUI_STATE eUIStateClasses[4] = {	UI_STATE_BUTTON_DISABLE, // ÏßÅÏóÖ 0
 										UI_STATE_BUTTON_DISABLE,
 										UI_STATE_BUTTON_DISABLE,
 										UI_STATE_BUTTON_DISABLE  };
 
 	switch(eRace)
 	{
-		case RACE_EL_BABARIAN: // ¿¸ªÁ∏∏ ∞°¥…
+		case RACE_EL_BABARIAN: // Ï†ÑÏÇ¨Îßå Í∞ÄÎä•
 			eUIStateRaces[0] = UI_STATE_BUTTON_DOWN;
 			eUIStateClasses[0] = UI_STATE_BUTTON_NORMAL;
 			break;
-		case RACE_EL_MAN: // ∏µÁ ¡˜æ˜ ∞°¥…
+		case RACE_EL_MAN: // Î™®Îì† ÏßÅÏóÖ Í∞ÄÎä•
 			eUIStateRaces[1] = UI_STATE_BUTTON_DOWN;
 			eUIStateClasses[0] = UI_STATE_BUTTON_NORMAL;
 			eUIStateClasses[1] = UI_STATE_BUTTON_NORMAL;
 			eUIStateClasses[2] = UI_STATE_BUTTON_NORMAL;
 			eUIStateClasses[3] = UI_STATE_BUTTON_NORMAL;
 			break;
-		case RACE_EL_WOMEN: // ∏µÁ ¡˜æ˜ ∞°¥…
+		case RACE_EL_WOMEN: // Î™®Îì† ÏßÅÏóÖ Í∞ÄÎä•
 			eUIStateRaces[2] = UI_STATE_BUTTON_DOWN;
 			eUIStateClasses[0] = UI_STATE_BUTTON_NORMAL;
 			eUIStateClasses[1] = UI_STATE_BUTTON_NORMAL;
@@ -518,20 +518,20 @@ void CUICharacterCreate::UpdateRaceAndClassButtons(e_Race eRace) // ¡æ¡∑ø° µ˚∂Û 
 			eUIStateClasses[3] = UI_STATE_BUTTON_NORMAL;
 			break;
 		
-		case RACE_KA_ARKTUAREK: // ¿¸ªÁ∏∏ ∞°¥…
+		case RACE_KA_ARKTUAREK: // Ï†ÑÏÇ¨Îßå Í∞ÄÎä•
 			eUIStateRaces[0] = UI_STATE_BUTTON_DOWN;
 			eUIStateClasses[0] = UI_STATE_BUTTON_NORMAL;
 			break;
-		case RACE_KA_TUAREK: // ∑Œ±◊, ªÁ¡¶ ∞°¥…
+		case RACE_KA_TUAREK: // Î°úÍ∑∏, ÏÇ¨Ï†ú Í∞ÄÎä•
 			eUIStateRaces[1] = UI_STATE_BUTTON_DOWN;
 			eUIStateClasses[1] = UI_STATE_BUTTON_NORMAL;
 			eUIStateClasses[3] = UI_STATE_BUTTON_NORMAL;
 			break;
-		case RACE_KA_WRINKLETUAREK: // ∏∂π˝ªÁ∏∏ ∞°¥…..
+		case RACE_KA_WRINKLETUAREK: // ÎßàÎ≤ïÏÇ¨Îßå Í∞ÄÎä•..
 			eUIStateRaces[2] = UI_STATE_BUTTON_DOWN;
 			eUIStateClasses[2] = UI_STATE_BUTTON_NORMAL;
 			break;
-		case RACE_KA_PURITUAREK: // ªÁ¡¶∏∏ ∞°¥…..
+		case RACE_KA_PURITUAREK: // ÏÇ¨Ï†úÎßå Í∞ÄÎä•..
 			eUIStateRaces[3] = UI_STATE_BUTTON_DOWN;
 			eUIStateClasses[3] = UI_STATE_BUTTON_NORMAL;
 			break;
@@ -540,7 +540,7 @@ void CUICharacterCreate::UpdateRaceAndClassButtons(e_Race eRace) // ¡æ¡∑ø° µ˚∂Û 
 			break;
 	}
 
-	// ±‚∫ª ø‰∞«µÈ √ ±‚»≠..
+	// Í∏∞Î≥∏ ÏöîÍ±¥Îì§ Ï¥àÍ∏∞Ìôî..
 	__InfoPlayerBase*	pInfoBase = &(CGameBase::s_pPlayer->m_InfoBase);	
 	pInfoBase->eRace = eRace;
 	pInfoBase->eClass = CLASS_UNKNOWN;
@@ -560,7 +560,7 @@ void CUICharacterCreate::UpdateRaceAndClassButtons(e_Race eRace) // ¡æ¡∑ø° µ˚∂Û 
 
 void CUICharacterCreate::UpdateClassButtons(e_Class eClass)
 {
-	eUI_STATE eUIStates[MAX_CLASS_SELECT] = {	UI_STATE_BUTTON_NORMAL, // ¡˜æ˜ 0
+	eUI_STATE eUIStates[MAX_CLASS_SELECT] = {	UI_STATE_BUTTON_NORMAL, // ÏßÅÏóÖ 0
 								UI_STATE_BUTTON_NORMAL,
 								UI_STATE_BUTTON_NORMAL,
 								UI_STATE_BUTTON_NORMAL  };
@@ -572,26 +572,26 @@ void CUICharacterCreate::UpdateClassButtons(e_Class eClass)
 	case CLASS_EL_WARRIOR:
 	case CLASS_KA_WARRIOR:
 		eUIStates[0] = UI_STATE_BUTTON_DOWN;
-		bVisibles[0] = true; // »˚
-		bVisibles[1] = true; // √º∑¬
+		bVisibles[0] = true; // Ìûò
+		bVisibles[1] = true; // Ï≤¥Î†•
 		break;
 	case CLASS_EL_ROGUE:
 	case CLASS_KA_ROGUE:
 		eUIStates[1] = UI_STATE_BUTTON_DOWN;
-		bVisibles[0] = true; // »˚
-		bVisibles[2] = true; // πŒ√∏
+		bVisibles[0] = true; // Ìûò
+		bVisibles[2] = true; // ÎØºÏ≤©
 		break;
 	case CLASS_EL_WIZARD:
 	case CLASS_KA_WIZARD:
 		eUIStates[2] = UI_STATE_BUTTON_DOWN;
-		bVisibles[3] = true; // ¡ˆ¥…
-		bVisibles[4] = true; // ∏∂∑¬
+		bVisibles[3] = true; // ÏßÄÎä•
+		bVisibles[4] = true; // ÎßàÎ†•
 		break;
 	case CLASS_EL_PRIEST:
 	case CLASS_KA_PRIEST:
 		eUIStates[3] = UI_STATE_BUTTON_DOWN;
-		bVisibles[0] = true; // »˚
-		bVisibles[3] = true; // ¡ˆ¥…
+		bVisibles[0] = true; // Ìûò
+		bVisibles[3] = true; // ÏßÄÎä•
 		break;
 	}
 	

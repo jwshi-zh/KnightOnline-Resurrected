@@ -6,7 +6,7 @@ CN3BaseFileAccess::CN3BaseFileAccess()
 {
 	m_dwType |= OBJ_BASE_FILEACCESS;
 	m_szFileName = "";
-	m_iLOD = 0; // ·ÎµùÇÒ¶§ ¾µ LOD
+	m_iLOD = 0; // ë¡œë”©í• ë•Œ ì“¸ LOD
 }
 
 CN3BaseFileAccess::~CN3BaseFileAccess()
@@ -16,7 +16,7 @@ CN3BaseFileAccess::~CN3BaseFileAccess()
 void CN3BaseFileAccess::Release()
 {
 	m_szFileName = "";
-	m_iLOD = 0; // ·ÎµùÇÒ¶§ ¾µ LOD
+	m_iLOD = 0; // ë¡œë”©í• ë•Œ ì“¸ LOD
 	CN3Base::Release();
 }
 
@@ -24,9 +24,9 @@ void CN3BaseFileAccess::FileNameSet(const std::string& szFileName)
 {
 	std::string szTmpFN = szFileName;
 
-	if(!szTmpFN.empty()) CharLower(&(szTmpFN[0])); // ¸ðµÎ ¼Ò¹®ÀÚ·Î ¸¸µç´Ù..
- 	int iPos = szTmpFN.find(s_szPath); // ¹®ÀÚ¿­¿¡ Base Path ¿Í ÀÏÄ¡ÇÏ´Â ÀÌ¸§ÀÌ ÀÖ´ÂÁö º»´Ù.
-	if(iPos >= 0) m_szFileName = szTmpFN.substr(s_szPath.size()); // °æ·Î°¡ ÀÏÄ¡ÇÏ¸é.. ±ä°æ·Î´Â Â©¶óÁØ´Ù..
+	if(!szTmpFN.empty()) CharLower(&(szTmpFN[0])); // ëª¨ë‘ ì†Œë¬¸ìžë¡œ ë§Œë“ ë‹¤..
+ 	int iPos = szTmpFN.find(s_szPath); // ë¬¸ìžì—´ì— Base Path ì™€ ì¼ì¹˜í•˜ëŠ” ì´ë¦„ì´ ìžˆëŠ”ì§€ ë³¸ë‹¤.
+	if(iPos >= 0) m_szFileName = szTmpFN.substr(s_szPath.size()); // ê²½ë¡œê°€ ì¼ì¹˜í•˜ë©´.. ê¸´ê²½ë¡œëŠ” ì§¤ë¼ì¤€ë‹¤..
 	else m_szFileName = szTmpFN;
 }
 
@@ -36,11 +36,11 @@ bool CN3BaseFileAccess::Load(HANDLE hFile)
 
 	DWORD dwRWC = 0;
 	int nL = 0;
-	ReadFile(hFile, &nL, 4, &dwRWC, NULL);
+	ReadFile(hFile, &nL, 4, &dwRWC, nullptr);
 	if(nL > 0) 
 	{
 		std::vector<char> buffer(nL+1, NULL);
-		ReadFile(hFile, buffer.data(), nL, &dwRWC, NULL);
+		ReadFile(hFile, buffer.data(), nL, &dwRWC, nullptr);
 		m_szName = buffer.data();
 	}
 
@@ -58,7 +58,7 @@ bool CN3BaseFileAccess::LoadFromFile()
 	}
 
 	std::string szFullPath;
-	if(-1 != m_szFileName.find(':') || -1 != m_szFileName.find("\\\\") || -1 != m_szFileName.find("//")) // ¹®ÀÚ¿­¿¡ ':', '\\', '//' ÀÌ µé¾î ÀÖÀ¸¸é ÀüÃ¼ °æ·ÎÀÌ´Ù..
+	if(-1 != m_szFileName.find(':') || -1 != m_szFileName.find("\\\\") || -1 != m_szFileName.find("//")) // ë¬¸ìžì—´ì— ':', '\\', '//' ì´ ë“¤ì–´ ìžˆìœ¼ë©´ ì „ì²´ ê²½ë¡œì´ë‹¤..
 	{
 		szFullPath = m_szFileName;
 	}
@@ -69,7 +69,7 @@ bool CN3BaseFileAccess::LoadFromFile()
 	}
 
 	DWORD dwRWC = 0;
-	HANDLE hFile = ::CreateFile(szFullPath.c_str(), GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+	HANDLE hFile = ::CreateFile(szFullPath.c_str(), GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
 
 	if(INVALID_HANDLE_VALUE == hFile)
 	{
@@ -106,7 +106,7 @@ bool CN3BaseFileAccess::SaveToFile()
 	}
 
 	std::string szFullPath;
-	if(-1 != m_szFileName.find(':') || -1 != m_szFileName.find("\\\\") || -1 != m_szFileName.find("//")) // ¹®ÀÚ¿­¿¡ ':', '\\', '//' ÀÌ µé¾î ÀÖÀ¸¸é ÀüÃ¼ °æ·ÎÀÌ´Ù..
+	if(-1 != m_szFileName.find(':') || -1 != m_szFileName.find("\\\\") || -1 != m_szFileName.find("//")) // ë¬¸ìžì—´ì— ':', '\\', '//' ì´ ë“¤ì–´ ìžˆìœ¼ë©´ ì „ì²´ ê²½ë¡œì´ë‹¤..
 	{
 		szFullPath = m_szFileName;
 	}
@@ -117,7 +117,7 @@ bool CN3BaseFileAccess::SaveToFile()
 	}
 
 	DWORD dwRWC = 0;
-	HANDLE hFile = ::CreateFile(szFullPath.c_str(), GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+	HANDLE hFile = ::CreateFile(szFullPath.c_str(), GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
 
 	if(hFile == INVALID_HANDLE_VALUE)
 	{
@@ -143,8 +143,8 @@ bool CN3BaseFileAccess::Save(HANDLE hFile)
 	DWORD dwRWC = 0;
 
 	int nL = m_szName.size();
-	WriteFile(hFile, &nL, 4, &dwRWC, NULL);
-	if(nL > 0) WriteFile(hFile, m_szName.c_str(), nL, &dwRWC, NULL);
+	WriteFile(hFile, &nL, 4, &dwRWC, nullptr);
+	if(nL > 0) WriteFile(hFile, m_szName.c_str(), nL, &dwRWC, nullptr);
 
 	return true;
 }

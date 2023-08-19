@@ -8,8 +8,8 @@ CN3FXPartMesh::CN3FXPartMesh()
 {
 	m_iVersion = 5;
 
-	m_pShape = NULL;
-	m_pRefShape = NULL;
+	m_pShape = nullptr;
+	m_pRefShape = nullptr;
 
 	m_dwCurrColor = 0xffffffff;
 
@@ -34,7 +34,7 @@ CN3FXPartMesh::~CN3FXPartMesh()
 	{
 		m_pShape->Release();
 		delete m_pShape;
-		m_pShape = NULL;
+		m_pShape = nullptr;
 	}
 }
 
@@ -187,7 +187,7 @@ bool CN3FXPartMesh::Load(HANDLE hFile)
 	DWORD			dwRWC = 0;
 
 	char szShapeFileName[_MAX_PATH];
-	ReadFile(hFile, szShapeFileName, _MAX_PATH, &dwRWC, NULL);
+	ReadFile(hFile, szShapeFileName, _MAX_PATH, &dwRWC, nullptr);
 
 	if(m_pShape) delete m_pShape;
 	m_pShape = new CN3FXShape;
@@ -200,16 +200,16 @@ bool CN3FXPartMesh::Load(HANDLE hFile)
 	if(m_pShape->m_KeyScale.DataGet(0, vScale)) m_vUnitScale = vScale;
 	else m_vUnitScale = m_pShape->Scale();
 
-	ReadFile(hFile, &m_cTextureMoveDir, sizeof(char), &dwRWC, NULL);
-	ReadFile(hFile, &m_fu, sizeof(float), &dwRWC, NULL);
-	ReadFile(hFile, &m_fv, sizeof(float), &dwRWC, NULL);
-	ReadFile(hFile, &m_vScaleVel, sizeof(__Vector3), &dwRWC, NULL);
+	ReadFile(hFile, &m_cTextureMoveDir, sizeof(char), &dwRWC, nullptr);
+	ReadFile(hFile, &m_fu, sizeof(float), &dwRWC, nullptr);
+	ReadFile(hFile, &m_fv, sizeof(float), &dwRWC, nullptr);
+	ReadFile(hFile, &m_vScaleVel, sizeof(__Vector3), &dwRWC, nullptr);
 	m_vCurrScaleVel = m_vScaleVel;
 
-	if(m_iVersion>=2) ReadFile(hFile, &m_bTexLoop, sizeof(bool), &dwRWC, NULL);
-	if(m_iVersion>=3) ReadFile(hFile, &m_vScaleAccel, sizeof(__Vector3), &dwRWC, NULL);
-	if(m_iVersion>=4) ReadFile(hFile, &m_fMeshFPS, sizeof(float), &dwRWC, NULL);
-	if(m_iVersion>=5) ReadFile(hFile, &m_vUnitScale, sizeof(__Vector3), &dwRWC, NULL);
+	if(m_iVersion>=2) ReadFile(hFile, &m_bTexLoop, sizeof(bool), &dwRWC, nullptr);
+	if(m_iVersion>=3) ReadFile(hFile, &m_vScaleAccel, sizeof(__Vector3), &dwRWC, nullptr);
+	if(m_iVersion>=4) ReadFile(hFile, &m_fMeshFPS, sizeof(float), &dwRWC, nullptr);
+	if(m_iVersion>=5) ReadFile(hFile, &m_vUnitScale, sizeof(__Vector3), &dwRWC, nullptr);
 		
 	if(m_pShape)
 	{
@@ -238,18 +238,18 @@ bool CN3FXPartMesh::Save(HANDLE hFile)
 	char szShapeFileName[_MAX_PATH];
 	sprintf(szShapeFileName, m_pShape->FileName().c_str());
 
-	WriteFile(hFile, szShapeFileName, _MAX_PATH, &dwRWC, NULL);
+	WriteFile(hFile, szShapeFileName, _MAX_PATH, &dwRWC, nullptr);
 
-	WriteFile(hFile, &m_cTextureMoveDir, sizeof(char), &dwRWC, NULL);
-	WriteFile(hFile, &m_fu, sizeof(float), &dwRWC, NULL);
-	WriteFile(hFile, &m_fv, sizeof(float), &dwRWC, NULL);
+	WriteFile(hFile, &m_cTextureMoveDir, sizeof(char), &dwRWC, nullptr);
+	WriteFile(hFile, &m_fu, sizeof(float), &dwRWC, nullptr);
+	WriteFile(hFile, &m_fv, sizeof(float), &dwRWC, nullptr);
 
-	WriteFile(hFile, &m_vScaleVel, sizeof(__Vector3), &dwRWC, NULL);
+	WriteFile(hFile, &m_vScaleVel, sizeof(__Vector3), &dwRWC, nullptr);
 
-	if(m_iVersion>=2) WriteFile(hFile, &m_bTexLoop, sizeof(bool), &dwRWC, NULL);
-	if(m_iVersion>=3) WriteFile(hFile, &m_vScaleAccel, sizeof(__Vector3), &dwRWC, NULL);
-	if(m_iVersion>=4) WriteFile(hFile, &m_fMeshFPS, sizeof(float), &dwRWC, NULL);
-	if(m_iVersion>=5) WriteFile(hFile, &m_vUnitScale, sizeof(__Vector3), &dwRWC, NULL);
+	if(m_iVersion>=2) WriteFile(hFile, &m_bTexLoop, sizeof(bool), &dwRWC, nullptr);
+	if(m_iVersion>=3) WriteFile(hFile, &m_vScaleAccel, sizeof(__Vector3), &dwRWC, nullptr);
+	if(m_iVersion>=4) WriteFile(hFile, &m_fMeshFPS, sizeof(float), &dwRWC, nullptr);
+	if(m_iVersion>=5) WriteFile(hFile, &m_vUnitScale, sizeof(__Vector3), &dwRWC, nullptr);
 	
 	return true;
 }
@@ -375,13 +375,13 @@ bool CN3FXPartMesh::Tick()
 	return true;
 
 /*	
-	//È¸Àü°ú ÀÌµ¿..
+	//íšŒì „ê³¼ ì´ë™..
 	__Matrix44 mtx;
 	mtx.Identity();]
 	mtx.Rotation(m_fCurrLife*m_vRotVelocity);
 	__Quaternion qtLocalRot(mtx);
 	
-	//mesh¹æÇâ°ú bundle¹æÇâÀ» ¸ÂÃç¶ó...
+	//meshë°©í–¥ê³¼ bundleë°©í–¥ì„ ë§ì¶°ë¼...
 	__Quaternion qtBundle;
 	__Vector3 vDirAxis;
 	float fDirAng;
@@ -426,7 +426,7 @@ bool CN3FXPartMesh::Tick()
 	//m_pShape->ScaleSet(m_vUnitScale.x+vScale.x, m_vUnitScale.y+vScale.y, m_vUnitScale.z+vScale.z);
 	m_pShape->ScaleSet(vScale.x, vScale.y, vScale.z);
 
-	//ÅØ½ºÃÄ ÀÌµ¿..
+	//í…ìŠ¤ì³ ì´ë™..
 	if(m_cTextureMoveDir>0)
 	{
 		int cnt = m_pShape->PartCount();
@@ -466,7 +466,7 @@ void CN3FXPartMesh::Rotate()
 
 	m_pShape->m_mtxParent.Rotation(m_fCurrLife*m_vRotVelocity);
 		
-	//mesh¹æÇâ°ú bundle¹æÇâÀ» ¸ÂÃç¶ó...
+	//meshë°©í–¥ê³¼ bundleë°©í–¥ì„ ë§ì¶°ë¼...
 	__Quaternion qtBundle;
 	__Vector3 vDirAxis;
 	float fDirAng;
@@ -600,8 +600,8 @@ int CN3FXPartMesh::NumVertices(int Part)
 //
 LPDIRECT3DVERTEXBUFFER9 CN3FXPartMesh::GetVB(int Part)
 {
-	if(!m_pShape) return NULL;
-	return NULL;
+	if(!m_pShape) return nullptr;
+	return nullptr;
 //	return m_pShape->Part(Part)->Mesh()->GetVertexBuffer();	//this_fx
 }
 
@@ -619,12 +619,12 @@ bool CN3FXPartMesh::IsDead()
 
 //
 //	render...
-//	ÀÏ´ÜÀº ÆÄÆ¼Å¬ ÇÏ³ª¾¿ ±×¸®°í....
-//	³ªÁß¿¡´Â °°Àº ÅØ½ºÃÄ ¾²´Â °Íµé³¢¸® ¹­¾î¼­ ±×¸®ÀÚ...
+//	ì¼ë‹¨ì€ íŒŒí‹°í´ í•˜ë‚˜ì”© ê·¸ë¦¬ê³ ....
+//	ë‚˜ì¤‘ì—ëŠ” ê°™ì€ í…ìŠ¤ì³ ì“°ëŠ” ê²ƒë“¤ë¼ë¦¬ ë¬¶ì–´ì„œ ê·¸ë¦¬ì...
 //
 void CN3FXPartMesh::Render()
 {
-	// render state ¼¼ÆÃ
+	// render state ì„¸íŒ…
 	if(!m_pShape) return;
 
 	DWORD dwAlpha;
@@ -652,7 +652,7 @@ void CN3FXPartMesh::Duplicate(CN3FXPartMesh* pSrc)
 	if(m_pShape) 
 	{
 		delete m_pShape;
-		m_pShape = NULL;
+		m_pShape = nullptr;
 	}
 
 	m_pShape = new CN3FXShape;

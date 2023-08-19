@@ -12,9 +12,9 @@ CStreamSoundObj::CStreamSoundObj()
 	m_CurrPos = 0;
 	m_PrevState = 0;
 
-	hMMIO = NULL;
-	m_hWaveMem = NULL;
-	m_pWaveMem = NULL;
+	hMMIO = nullptr;
+	m_hWaveMem = nullptr;
+	m_pWaveMem = nullptr;
 }
 
 CStreamSoundObj::~CStreamSoundObj()
@@ -46,7 +46,7 @@ BOOL CStreamSoundObj::Create(CN3SndEng* pEng)
 	if(m_pDSBuff) m_pDSBuff->Release();
 
 	HRESULT	hResult;
-	hResult = (*(pEng->GetDS()))->CreateSoundBuffer(&m_dsbd, &m_pDSBuff,NULL);
+	hResult = (*(pEng->GetDS()))->CreateSoundBuffer(&m_dsbd, &m_pDSBuff, nullptr);
 	if(FAILED(hResult)) return FALSE;
 
 	m_hWaveMem = ::GlobalAlloc(GHND, m_BlockSize);
@@ -61,13 +61,13 @@ BOOL CStreamSoundObj::Create(CN3SndEng* pEng)
 
 BOOL CStreamSoundObj::LoadWave(LPCSTR pFileName)
 {
-	hMMIO = mmioOpen((LPSTR)pFileName,NULL,MMIO_READ|MMIO_ALLOCBUF);
-	if(hMMIO==NULL) return FALSE;
+	hMMIO = mmioOpen((LPSTR)pFileName, nullptr,MMIO_READ|MMIO_ALLOCBUF);
+	if(hMMIO== nullptr) return FALSE;
 
 	mmCkInfoRIFF.fccType = mmioFOURCC('W','A','V','E');
 
 	MMRESULT mmResult;
-	mmResult = mmioDescend(hMMIO, &mmCkInfoRIFF, NULL, MMIO_FINDRIFF);
+	mmResult = mmioDescend(hMMIO, &mmCkInfoRIFF, nullptr, MMIO_FINDRIFF);
 	if(mmResult != MMSYSERR_NOERROR) return FALSE;
 
 	mmCkInfoChunk.ckid = mmioFOURCC('f','m','t',' ');
@@ -91,8 +91,8 @@ BOOL CStreamSoundObj::LoadWave(LPCSTR pFileName)
 
 BOOL CStreamSoundObj::InitWriteBuffer()
 {	
-	LPVOID	pSoundBlock1 = NULL;
-	LPVOID	pSoundBlock2 = NULL;
+	LPVOID	pSoundBlock1 = nullptr;
+	LPVOID	pSoundBlock2 = nullptr;
 	DWORD	byteSoundBlock1 = 0;
 	DWORD	byteSoundBlock2 = 0;
 	DWORD	Offset = 0;
@@ -113,8 +113,8 @@ BOOL CStreamSoundObj::InitWriteBuffer()
 
 BOOL CStreamSoundObj::WriteBuffer()
 {	
-	LPVOID	pSoundBlock1 = NULL;
-	LPVOID	pSoundBlock2 = NULL;
+	LPVOID	pSoundBlock1 = nullptr;
+	LPVOID	pSoundBlock2 = nullptr;
 	DWORD	byteSoundBlock1 = 0;
 	DWORD	byteSoundBlock2 = 0;
 	DWORD	Offset;
@@ -163,7 +163,7 @@ void CStreamSoundObj::RealPlay()
 			m_pDSBuff->Play(0,0,DSBPLAY_LOOPING);			
 		}
 
-		m_pDSBuff->GetCurrentPosition(&m_CurrPos,NULL);
+		m_pDSBuff->GetCurrentPosition(&m_CurrPos, nullptr);
 		m_PrevState = m_CurrState;
 		m_CurrState = m_CurrPos/m_BlockSize;
 		if(m_CurrState != m_PrevState)
@@ -173,14 +173,14 @@ void CStreamSoundObj::RealPlay()
 			{
 				if(m_bIsLoop==false)
 				{
-					//tick¿¡ ¾îÄÉ Àû¿ëÇÒ °ÍÀÎ°¡..
+					//tickì— ì–´ì¼€ ì ìš©í•  ê²ƒì¸ê°€..
 					m_PastTime = m_PlayTime;
 					Stop();
 					return;
 				}
 				else if(m_bIsLoop==true)
 				{
-					//tick¿¡ ¾îÄÉ Àû¿ëÇÒ °ÍÀÎ°¡..
+					//tickì— ì–´ì¼€ ì ìš©í•  ê²ƒì¸ê°€..
 					//Stop();
 					//m_pDSBuff->Stop();
 					Play();
@@ -214,18 +214,18 @@ void CStreamSoundObj::Release()
 	if(hMMIO) 
 	{
 		mmioClose(hMMIO,0);
-		hMMIO = NULL;
+		hMMIO = nullptr;
 	}
 	if(m_hWaveMem)
 	{
 		::GlobalFree(m_hWaveMem);
-		m_hWaveMem = NULL;
+		m_hWaveMem = nullptr;
 	}
 }
 
 
 //
-//	À½¾ÇÀÌ ÇÃ·¹ÀÌµÇ°í ÀÖÀ»¶§ streamming½ÃÅ°±â..
+//	ìŒì•…ì´ í”Œë ˆì´ë˜ê³  ìžˆì„ë•Œ streammingì‹œí‚¤ê¸°..
 //
 void CStreamSoundObj::Tick()
 {
@@ -274,7 +274,7 @@ void CStreamSoundObj::Tick()
 		}
 		else
 		{
-			//º¼·ý Á¡Á¡ ÀÛ°Ô....
+			//ë³¼ë¥¨ ì ì  ìž‘ê²Œ....
 			int vol = 0;
 			if(m_fFadeOutTime>0.0f)  vol = (((m_fFadeOutTime - m_fTmpSecPerFrm)/m_fFadeOutTime)*(float)m_iMaxVolume);
 			SetVolume(vol);
@@ -285,7 +285,7 @@ void CStreamSoundObj::Tick()
 
 /*
 //
-// ¶È°°´Ù.
+// ë˜‘ê°™ë‹¤.
 //
 void CStreamSoundObj::Play(float delay, float fFadeInTime)
 {
@@ -298,7 +298,7 @@ void CStreamSoundObj::Play(float delay, float fFadeInTime)
 
 
 //
-// ¶È°°´Ù.
+// ë˜‘ê°™ë‹¤.
 //
 void CStreamSoundObj::Stop(float fFadeOutTime)
 {

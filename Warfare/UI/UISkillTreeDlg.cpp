@@ -21,9 +21,9 @@
 
 CUISkillTreeDlg::CUISkillTreeDlg()
 {
-	m_bOpenningNow = false; // ¿­¸®°í ÀÖ´Ù..
-	m_bClosingNow = false;	// ´İÈ÷°í ÀÖ´Ù..
-	m_fMoveDelta = 0.0f; // ºÎµå·´°Ô ¿­¸®°í ´İÈ÷°Ô ¸¸µé±â À§ÇØ¼­ ÇöÀçÀ§Ä¡ °è»ê¿¡ ºÎµ¿¼Ò¼öÁ¡À» ¾´´Ù..
+	m_bOpenningNow = false; // ì—´ë¦¬ê³  ìˆë‹¤..
+	m_bClosingNow = false;	// ë‹«íˆê³  ìˆë‹¤..
+	m_fMoveDelta = 0.0f; // ë¶€ë“œëŸ½ê²Œ ì—´ë¦¬ê³  ë‹«íˆê²Œ ë§Œë“¤ê¸° ìœ„í•´ì„œ í˜„ì¬ìœ„ì¹˜ ê³„ì‚°ì— ë¶€ë™ì†Œìˆ˜ì ì„ ì“´ë‹¤..
 
 	m_iRBtnDownOffs = -1;
 
@@ -38,10 +38,10 @@ CUISkillTreeDlg::CUISkillTreeDlg()
 	for(auto i = 0; i < MAX_SKILL_KIND_OF; i++ )
 		for( j = 0; j < MAX_SKILL_PAGE_NUM; j++ )
 			for( k = 0; k < MAX_SKILL_IN_PAGE; k++ )
-				m_pMySkillTree[i][j][k] = NULL;	
+				m_pMySkillTree[i][j][k] = nullptr;	
 			
 	CN3UIWndBase::m_sSkillSelectInfo.UIWnd = UIWND_HOTKEY;
-	CN3UIWndBase::m_sSkillSelectInfo.pSkillDoneInfo = NULL;
+	CN3UIWndBase::m_sSkillSelectInfo.pSkillDoneInfo = nullptr;
 }
 
 CUISkillTreeDlg::~CUISkillTreeDlg()
@@ -69,9 +69,9 @@ void CUISkillTreeDlg::Release()
 {
 	CN3UIBase::Release();
 
-	m_bOpenningNow = false; // ¿­¸®°í ÀÖ´Ù..
-	m_bClosingNow = false;	// ´İÈ÷°í ÀÖ´Ù..
-	m_fMoveDelta = 0.0f; // ºÎµå·´°Ô ¿­¸®°í ´İÈ÷°Ô ¸¸µé±â À§ÇØ¼­ ÇöÀçÀ§Ä¡ °è»ê¿¡ ºÎµ¿¼Ò¼öÁ¡À» ¾´´Ù..
+	m_bOpenningNow = false; // ì—´ë¦¬ê³  ìˆë‹¤..
+	m_bClosingNow = false;	// ë‹«íˆê³  ìˆë‹¤..
+	m_fMoveDelta = 0.0f; // ë¶€ë“œëŸ½ê²Œ ì—´ë¦¬ê³  ë‹«íˆê²Œ ë§Œë“¤ê¸° ìœ„í•´ì„œ í˜„ì¬ìœ„ì¹˜ ê³„ì‚°ì— ë¶€ë™ì†Œìˆ˜ì ì„ ì“´ë‹¤..
 
 	int i, j, k;
 
@@ -81,19 +81,19 @@ void CUISkillTreeDlg::Release()
 		{
 			for( k = 0; k < MAX_SKILL_IN_PAGE; k++ )
 			{
-				if ( m_pMySkillTree[i][j][k] != NULL )
+				if ( m_pMySkillTree[i][j][k] != nullptr)
 				{
 					delete m_pMySkillTree[i][j][k];
-					m_pMySkillTree[i][j][k] = NULL;
+					m_pMySkillTree[i][j][k] = nullptr;
 				}
 			}
 		}
 	}
 
-	if ( (CN3UIWndBase::m_sSkillSelectInfo.pSkillDoneInfo != NULL) && (CN3UIWndBase::m_sSkillSelectInfo.UIWnd == UIWND_SKILL_TREE) )
+	if ( (CN3UIWndBase::m_sSkillSelectInfo.pSkillDoneInfo != nullptr) && (CN3UIWndBase::m_sSkillSelectInfo.UIWnd == UIWND_SKILL_TREE) )
 	{
 		delete CN3UIWndBase::m_sSkillSelectInfo.pSkillDoneInfo;
-		CN3UIWndBase::m_sSkillSelectInfo.pSkillDoneInfo = NULL;
+		CN3UIWndBase::m_sSkillSelectInfo.pSkillDoneInfo = nullptr;
 	}
 }
 
@@ -104,7 +104,7 @@ bool CUISkillTreeDlg::HasIDSkill(int iID)
 	for(auto i = 0; i < MAX_SKILL_KIND_OF; i++ )
 		for( j = 0; j < MAX_SKILL_PAGE_NUM; j++ )
 			for( k = 0; k < MAX_SKILL_IN_PAGE; k++ )
-				if ( m_pMySkillTree[i][j][k] != NULL )
+				if ( m_pMySkillTree[i][j][k] != nullptr)
 				{
 					if ( m_pMySkillTree[i][j][k]->pSkill->dwID == iID )
 						return true;
@@ -121,7 +121,7 @@ void CUISkillTreeDlg::UpdateDisableCheck()
 	for(auto i = 0; i < MAX_SKILL_KIND_OF; i++ )
 		for( j = 0; j < MAX_SKILL_PAGE_NUM; j++ )
 			for( k = 0; k < MAX_SKILL_IN_PAGE; k++ )
-				if ( m_pMySkillTree[i][j][k] != NULL )
+				if ( m_pMySkillTree[i][j][k] != nullptr)
 				{
 					bitMask = UISTYLE_ICON_SKILL;
 					if (!CGameProcedure::s_pProcMain->m_pMagicSkillMng->CheckValidSkillMagic(m_pMySkillTree[i][j][k]->pSkill))
@@ -132,7 +132,7 @@ void CUISkillTreeDlg::UpdateDisableCheck()
 
 void CUISkillTreeDlg::Tick()
 {
-	if(m_bOpenningNow) // ¿À¸¥ÂÊ¿¡¼­ ¿ŞÂÊÀ¸·Î ½º¸£¸¤...¿­·Á¾ß ÇÑ´Ù¸é..
+	if(m_bOpenningNow) // ì˜¤ë¥¸ìª½ì—ì„œ ì™¼ìª½ìœ¼ë¡œ ìŠ¤ë¥´ë¥µ...ì—´ë ¤ì•¼ í•œë‹¤ë©´..
 	{
 		POINT ptCur = this->GetPos();
 		RECT rc = this->GetRegion();
@@ -145,7 +145,7 @@ void CUISkillTreeDlg::Tick()
 
 		int iXLimit = CN3Base::s_CameraData.vp.Width - (int)fWidth;
 		ptCur.x = CN3Base::s_CameraData.vp.Width - (int)m_fMoveDelta;
-		if(ptCur.x <= iXLimit) // ´Ù¿­·È´Ù!!
+		if(ptCur.x <= iXLimit) // ë‹¤ì—´ë ¸ë‹¤!!
 		{
 			ptCur.x = iXLimit;
 			m_bOpenningNow = false;
@@ -153,7 +153,7 @@ void CUISkillTreeDlg::Tick()
 
 		this->SetPos(ptCur.x, ptCur.y);
 	}
-	else if(m_bClosingNow) // ¿À¸¥ÂÊ¿¡¼­ ¿ŞÂÊÀ¸·Î ½º¸£¸¤...¿­·Á¾ß ÇÑ´Ù¸é..
+	else if(m_bClosingNow) // ì˜¤ë¥¸ìª½ì—ì„œ ì™¼ìª½ìœ¼ë¡œ ìŠ¤ë¥´ë¥µ...ì—´ë ¤ì•¼ í•œë‹¤ë©´..
 	{
 		POINT ptCur = this->GetPos();
 		RECT rc = this->GetRegion();
@@ -166,12 +166,12 @@ void CUISkillTreeDlg::Tick()
 
 		int iXLimit = CN3Base::s_CameraData.vp.Width;
 		ptCur.x = CN3Base::s_CameraData.vp.Width - (int)(fWidth - m_fMoveDelta);
-		if(ptCur.x >= iXLimit) // ´Ù ´İÇû´Ù..!!
+		if(ptCur.x >= iXLimit) // ë‹¤ ë‹«í˜”ë‹¤..!!
 		{
 			ptCur.x = iXLimit;
 			m_bClosingNow = false;
 
-			this->SetVisibleWithNoSound(false, false, true); // ´Ù ´İÇûÀ¸´Ï ´«¿¡¼­ ¾Èº¸ÀÌ°Ô ÇÑ´Ù.
+			this->SetVisibleWithNoSound(false, false, true); // ë‹¤ ë‹«í˜”ìœ¼ë‹ˆ ëˆˆì—ì„œ ì•ˆë³´ì´ê²Œ í•œë‹¤.
 		}
 
 		this->SetPos(ptCur.x, ptCur.y);
@@ -184,10 +184,10 @@ DWORD CUISkillTreeDlg::MouseProc(DWORD dwFlags, const POINT& ptCur, const POINT&
 {
 	DWORD dwRet = UI_MOUSEPROC_NONE;
 	if ( !IsVisible() ) { dwRet |= CN3UIBase::MouseProc(dwFlags, ptCur, ptOld);  return dwRet; }
-	// ½ÇÁ¦·Î ¾²Áø ¾Ê´Â´Ù..
+	// ì‹¤ì œë¡œ ì“°ì§„ ì•ŠëŠ”ë‹¤..
 	if (CN3UIWndBase::m_sRecoveryJobInfo.m_bWaitFromServer) { dwRet |= CN3UIBase::MouseProc(dwFlags, ptCur, ptOld);  return dwRet; }
 
-	// µå·¡±× µÇ´Â ¾ÆÀÌÄÜ °»½Å..
+	// ë“œë˜ê·¸ ë˜ëŠ” ì•„ì´ì½˜ ê°±ì‹ ..
 	if ( GetState() == UI_STATE_ICON_MOVING ) 
 	{
 		if(CN3UIWndBase::m_sSkillSelectInfo.pSkillDoneInfo)
@@ -219,7 +219,7 @@ int CUISkillTreeDlg::GetIndexInArea(POINT pt)
 
 bool CUISkillTreeDlg::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 {
-	if(NULL == pSender) return false;
+	if(nullptr == pSender) return false;
 
 	if (dwMsg == UIMSG_BUTTON_CLICK)					
 	{
@@ -294,7 +294,7 @@ bool CUISkillTreeDlg::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 				int iRBtn = GetIndexInArea(ptCur);
 				if (iRBtn != -1 && m_iRBtnDownOffs != -1 && m_iRBtnDownOffs == iRBtn)
 				{
-					// µé¾î°¥ ÀÚ¸®°¡ ÀÖ´ÂÁö °Ë»ç..
+					// ë“¤ì–´ê°ˆ ìë¦¬ê°€ ìˆëŠ”ì§€ ê²€ì‚¬..
 					CUIHotKeyDlg* pDlg = CGameProcedure::s_pProcMain->m_pUIHotKeyDlg;
 					int iIndex;
 					if (pDlg->GetEmptySlotIndex(iIndex))
@@ -306,7 +306,7 @@ bool CUISkillTreeDlg::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 						spSkillCopy->pSkill = spSkill->pSkill;
 						spSkillCopy->szIconFN = spSkill->szIconFN;
 
-						// ¾ÆÀÌÄÜ ·ÎµåÇÏ±â.. ^^
+						// ì•„ì´ì½˜ ë¡œë“œí•˜ê¸°.. ^^
 						spSkillCopy->pUIIcon = new CN3UIIcon;
 						spSkillCopy->pUIIcon->Init(this);
 						spSkillCopy->pUIIcon->SetTex(spSkill->szIconFN);
@@ -324,7 +324,7 @@ bool CUISkillTreeDlg::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 
 						pDlg->SetReceiveSelectedSkill(iIndex);
 
-						CN3UIWndBase::m_sSkillSelectInfo.pSkillDoneInfo = NULL;
+						CN3UIWndBase::m_sSkillSelectInfo.pSkillDoneInfo = nullptr;
 						pDlg->CloseIconRegistry();
 					}
 				}
@@ -335,12 +335,12 @@ bool CUISkillTreeDlg::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 			// Get Item..
 			spSkill = GetHighlightIconItem((CN3UIIcon* )pSender);
 
-			// º¹»çº»À» ¸¸µç´Ù.. 
+			// ë³µì‚¬ë³¸ì„ ë§Œë“ ë‹¤.. 
 			spSkillCopy = new __IconItemSkill();
 			spSkillCopy->pSkill = spSkill->pSkill;
 			spSkillCopy->szIconFN = spSkill->szIconFN;
 
-			// ¾ÆÀÌÄÜ ·ÎµåÇÏ±â.. ^^
+			// ì•„ì´ì½˜ ë¡œë“œí•˜ê¸°.. ^^
 			spSkillCopy->pUIIcon = new CN3UIIcon;
 			spSkillCopy->pUIIcon->Init(this);
 			spSkillCopy->pUIIcon->SetTex(spSkill->szIconFN);
@@ -372,48 +372,48 @@ bool CUISkillTreeDlg::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 			break;
 
 		case UIMSG_ICON_UP:
-			// Hot Key À©µµ¿ì¸¦ µ¹¾Æ ´Ù´Ï¸é¼­ °Ë»ç..
+			// Hot Key ìœˆë„ìš°ë¥¼ ëŒì•„ ë‹¤ë‹ˆë©´ì„œ ê²€ì‚¬..
 			{
 				CUIHotKeyDlg* pDlg = CGameProcedure::s_pProcMain->m_pUIHotKeyDlg;
 				if ( !IsIn(ptCur.x, ptCur.y) && pDlg->IsIn(ptCur.x, ptCur.y) )
 				{
 					if (!pDlg->IsSelectedSkillInRealIconArea())
 					{
-						// ¸®¼Ò½º Free..
+						// ë¦¬ì†ŒìŠ¤ Free..
 						spSkill = CN3UIWndBase::m_sSkillSelectInfo.pSkillDoneInfo;
 						if (spSkill)
 						{
-							// ¸Å´ÏÀú¿¡¼­ Á¦°Å..
+							// ë§¤ë‹ˆì €ì—ì„œ ì œê±°..
 							RemoveChild(spSkill->pUIIcon);
 
-							// ¸®¼Ò½º Á¦°Å..
+							// ë¦¬ì†ŒìŠ¤ ì œê±°..
 							spSkill->pUIIcon->Release();
 							delete spSkill->pUIIcon;
-							spSkill->pUIIcon = NULL;
+							spSkill->pUIIcon = nullptr;
 							delete spSkill;
-							spSkill = NULL;
+							spSkill = nullptr;
 						}
 					}
 				}
 				else
 				{
-					// ¸®¼Ò½º Free..
+					// ë¦¬ì†ŒìŠ¤ Free..
 					spSkill = CN3UIWndBase::m_sSkillSelectInfo.pSkillDoneInfo;
 					if (spSkill)
 					{
-						// ¸Å´ÏÀú¿¡¼­ Á¦°Å..
+						// ë§¤ë‹ˆì €ì—ì„œ ì œê±°..
 						RemoveChild(spSkill->pUIIcon);
 
-						// ¸®¼Ò½º Á¦°Å..
+						// ë¦¬ì†ŒìŠ¤ ì œê±°..
 						spSkill->pUIIcon->Release();
 						delete spSkill->pUIIcon;
-						spSkill->pUIIcon = NULL;
+						spSkill->pUIIcon = nullptr;
 						delete spSkill;
-						spSkill = NULL;
+						spSkill = nullptr;
 					}
 				}
 
-				CN3UIWndBase::m_sSkillSelectInfo.pSkillDoneInfo = NULL;
+				CN3UIWndBase::m_sSkillSelectInfo.pSkillDoneInfo = nullptr;
 				SetState(UI_STATE_COMMON_NONE);
 				pDlg->CloseIconRegistry();
 			}
@@ -449,7 +449,7 @@ void CUISkillTreeDlg::PointPushUpButton(int iValue)
 	iCurKindOfBackup	= m_iCurKindOf;
 	iCurSkillPageBackup	= m_iCurSkillPage;
 
-	int iSkillExtra;			// ½ºÅ³Ã¢ÀÇ °ª..
+	int iSkillExtra;			// ìŠ¤í‚¬ì°½ì˜ ê°’..
 	int iSkillPoint;
 	std::string str;
 	CN3UIString* pStrName, *pStrName2;
@@ -473,14 +473,14 @@ void CUISkillTreeDlg::PointPushUpButton(int iValue)
 		return;
 	}
 
-	// ÀüÁ÷ÇÏÁö ¾ÊÀº »óÅÂ¸é.. Àü¹®½ºÅ³Àº ¿Ã¸±¼ö ¾ø´Ù..
+	// ì „ì§í•˜ì§€ ì•Šì€ ìƒíƒœë©´.. ì „ë¬¸ìŠ¤í‚¬ì€ ì˜¬ë¦´ìˆ˜ ì—†ë‹¤..
 	switch (iValue)
 	{
 		case 5:	case 6:	case 7: case 8:
 			{
 				switch ( CGameBase::s_pPlayer->m_InfoBase.eNation )
 				{
-					case NATION_KARUS:			// Ä«·ç½º..
+					case NATION_KARUS:			// ì¹´ë£¨ìŠ¤..
 						switch ( CGameBase::s_pPlayer->m_InfoBase.eClass )
 						{
 							case CLASS_KA_WARRIOR:
@@ -497,7 +497,7 @@ void CUISkillTreeDlg::PointPushUpButton(int iValue)
 						}
 						break;
 				
-					case NATION_ELMORAD:		// ¿¤¸ğ¶óµµ..
+					case NATION_ELMORAD:		// ì—˜ëª¨ë¼ë„..
 						switch ( CGameBase::s_pPlayer->m_InfoBase.eClass )
 						{
 							case CLASS_EL_WARRIOR:
@@ -522,7 +522,7 @@ void CUISkillTreeDlg::PointPushUpButton(int iValue)
 	{
 		switch ( CGameBase::s_pPlayer->m_InfoBase.eNation )
 		{
-			case NATION_KARUS:			// Ä«·ç½º..
+			case NATION_KARUS:			// ì¹´ë£¨ìŠ¤..
 				switch ( CGameBase::s_pPlayer->m_InfoBase.eClass )
 				{
 					case CLASS_KA_SORCERER:
@@ -538,7 +538,7 @@ void CUISkillTreeDlg::PointPushUpButton(int iValue)
 				}
 				break;
 
-			case NATION_ELMORAD:		// ¿¤¸ğ¶óµµ..
+			case NATION_ELMORAD:		// ì—˜ëª¨ë¼ë„..
 				switch ( CGameBase::s_pPlayer->m_InfoBase.eClass )
 				{
 					case CLASS_EL_MAGE:
@@ -560,7 +560,7 @@ void CUISkillTreeDlg::PointPushUpButton(int iValue)
 	{
 		switch ( CGameBase::s_pPlayer->m_InfoBase.eNation )
 		{
-			case NATION_KARUS:			// Ä«·ç½º..
+			case NATION_KARUS:			// ì¹´ë£¨ìŠ¤..
 				switch ( CGameBase::s_pPlayer->m_InfoBase.eClass )
 				{
 					case CLASS_KA_BERSERKER:
@@ -574,7 +574,7 @@ void CUISkillTreeDlg::PointPushUpButton(int iValue)
 				}
 				break;
 
-			case NATION_ELMORAD:		// ¿¤¸ğ¶óµµ..
+			case NATION_ELMORAD:		// ì—˜ëª¨ë¼ë„..
 				switch ( CGameBase::s_pPlayer->m_InfoBase.eClass )
 				{
 					case CLASS_EL_BLADE:
@@ -594,7 +594,7 @@ void CUISkillTreeDlg::PointPushUpButton(int iValue)
 	{
 		switch ( CGameBase::s_pPlayer->m_InfoBase.eNation )
 		{
-			case NATION_KARUS:			// Ä«·ç½º..
+			case NATION_KARUS:			// ì¹´ë£¨ìŠ¤..
 				switch ( CGameBase::s_pPlayer->m_InfoBase.eClass )
 				{
 					case CLASS_KA_HUNTER:
@@ -608,7 +608,7 @@ void CUISkillTreeDlg::PointPushUpButton(int iValue)
 				}
 				break;
 
-			case NATION_ELMORAD:		// ¿¤¸ğ¶óµµ..
+			case NATION_ELMORAD:		// ì—˜ëª¨ë¼ë„..
 				switch ( CGameBase::s_pPlayer->m_InfoBase.eClass )
 				{
 					case CLASS_EL_RANGER:
@@ -663,7 +663,7 @@ void CUISkillTreeDlg::PointPushUpButton(int iValue)
 	str = pStrName2->GetString();
 	iSkillPoint = atoi(str.c_str());
 
-	// ÀÚ±â ÀÚ½Å ·¹º§º¸´Ù ³ôÀÏ¼ö ¾ø´Ù..
+	// ìê¸° ìì‹  ë ˆë²¨ë³´ë‹¤ ë†’ì¼ìˆ˜ ì—†ë‹¤..
 	if ( iSkillPoint >= CGameBase::s_pPlayer->m_InfoBase.iLevel )
 	{
 		std::string szMsg;
@@ -672,14 +672,14 @@ void CUISkillTreeDlg::PointPushUpButton(int iValue)
 		return;
 	}
 
-	// ½á¹ö¿¡°Ô º¸³»°í.. ¼ıÀÚ ¾÷µ¥ÀÌÆ®..	
+	// ì¨ë²„ì—ê²Œ ë³´ë‚´ê³ .. ìˆ«ì ì—…ë°ì´íŠ¸..	
 	BYTE byBuff[4];
 	int iOffset = 0;
 	CAPISocket::MP_AddByte(byBuff, iOffset, N3_SKILL_CHANGE);
 	CAPISocket::MP_AddByte(byBuff, iOffset, (BYTE)iValue);
 	CGameProcedure::s_pSocket->Send(byBuff, iOffset);
 
-	// ½ºÅ³ Æ÷ÀÎÆ® ¾÷µ¥ÀÌÆ®..
+	// ìŠ¤í‚¬ í¬ì¸íŠ¸ ì—…ë°ì´íŠ¸..
 	iSkillExtra--;
 	pStrName->SetStringAsInt(iSkillExtra);
 	m_iSkillInfo[0] = iSkillExtra;
@@ -716,7 +716,7 @@ void CUISkillTreeDlg::PointPushUpButton(int iValue)
 			break;
 	}
 
-	switch(iValue)		// ½ºÅ³ ¾ÆÀÌÄÜ ¾÷µ¥ÀÌÆ®..
+	switch(iValue)		// ìŠ¤í‚¬ ì•„ì´ì½˜ ì—…ë°ì´íŠ¸..
 	{
 		case 5:
 		case 6:
@@ -731,8 +731,8 @@ void CUISkillTreeDlg::PointPushUpButton(int iValue)
 
 void CUISkillTreeDlg::Render()
 {
-	if (!m_bVisible) return;	// º¸ÀÌÁö ¾ÊÀ¸¸é ÀÚ½ÄµéÀ» renderÇÏÁö ¾Ê´Â´Ù.
-	__IconItemSkill* spSkill = NULL;
+	if (!m_bVisible) return;	// ë³´ì´ì§€ ì•Šìœ¼ë©´ ìì‹ë“¤ì„ renderí•˜ì§€ ì•ŠëŠ”ë‹¤.
+	__IconItemSkill* spSkill = nullptr;
 
 	TooltipRenderDisable();
 
@@ -915,7 +915,7 @@ void CUISkillTreeDlg::ButtonTooltipRender(int iIndex)
 
 void CUISkillTreeDlg::TooltipRenderEnable(__IconItemSkill* spSkill)
 {
-	if(NULL == spSkill || NULL == spSkill->pSkill) return;
+	if(nullptr == spSkill || nullptr == spSkill->pSkill) return;
 
 	std::string szStr;
 	bool bFound = false;
@@ -992,7 +992,7 @@ void CUISkillTreeDlg::TooltipRenderEnable(__IconItemSkill* spSkill)
 	}
 	else
 	{
-		__TABLE_ITEM_BASIC*	pItem = NULL;
+		__TABLE_ITEM_BASIC*	pItem = nullptr;
 		pItem = CGameBase::s_pTbl_Items_Basic->Find(spSkill->pSkill->dwExhaustItem);
 		if(pItem)
 		{
@@ -1033,30 +1033,30 @@ void CUISkillTreeDlg::InitIconWnd(e_UIWND eWnd)
 void CUISkillTreeDlg::InitIconUpdate()
 {
 	int i, j, k, iDivide;
-	__TABLE_UPC_SKILL* pUSkill = NULL;
+	__TABLE_UPC_SKILL* pUSkill = nullptr;
 
-	// ±âÁ¸ ¾ÆÀÌÄÜ ¸ğµÎ Å¬¸®¾î..
+	// ê¸°ì¡´ ì•„ì´ì½˜ ëª¨ë‘ í´ë¦¬ì–´..
 	for(auto i = 0; i < MAX_SKILL_KIND_OF; i++ )
 		for( j = 0; j < MAX_SKILL_PAGE_NUM; j++ )
 			for( k = 0; k < MAX_SKILL_IN_PAGE; k++ )
-				if ( m_pMySkillTree[i][j][k] != NULL )
+				if ( m_pMySkillTree[i][j][k] != nullptr)
 				{
 					__IconItemSkill* spSkill = m_pMySkillTree[i][j][k];
 
-					// ¸Å´ÏÀú¿¡¼­ Á¦°Å..
+					// ë§¤ë‹ˆì €ì—ì„œ ì œê±°..
 					RemoveChild(spSkill->pUIIcon);
 
-					// ¸®¼Ò½º Á¦°Å..
+					// ë¦¬ì†ŒìŠ¤ ì œê±°..
 					spSkill->pUIIcon->Release();
 					delete spSkill->pUIIcon;
-					spSkill->pUIIcon = NULL;
+					spSkill->pUIIcon = nullptr;
 					delete spSkill;
-					spSkill = NULL;
-					m_pMySkillTree[i][j][k] = NULL;
+					spSkill = nullptr;
+					m_pMySkillTree[i][j][k] = nullptr;
 				}
 
 
-	// ¾ÆÀÌµğ = Á÷¾÷ ÄÚµå*1000 + 001ºÎÅÍ.. (Á÷¾÷ ÄÚµå+1)*100 + 001±îÁö..
+	// ì•„ì´ë”” = ì§ì—… ì½”ë“œ*1000 + 001ë¶€í„°.. (ì§ì—… ì½”ë“œ+1)*100 + 001ê¹Œì§€..
 	int iSkillIDFirst, iSkillIndexFirst, iSkillIndexLast, iModulo;
 	iSkillIDFirst = CGameBase::s_pPlayer->m_InfoBase.eClass*1000+1;
 	iSkillIndexFirst = CGameBase::s_pTbl_Skill->IDToIndex(iSkillIDFirst);
@@ -1065,7 +1065,7 @@ void CUISkillTreeDlg::InitIconUpdate()
 	if ( iSkillIndexFirst == -1 ) 
 	{
 		PageButtonInitialize();
-		return;		// Ã¹¹øÂ° ½ºÅ³ÀÌ ¾øÀ¸¸é.. ¾ÈµÈ´Ù..
+		return;		// ì²«ë²ˆì§¸ ìŠ¤í‚¬ì´ ì—†ìœ¼ë©´.. ì•ˆëœë‹¤..
 	}
 
 	if ( CGameBase::s_pPlayer->m_InfoBase.eClass != CLASS_EL_DRUID )
@@ -1085,34 +1085,34 @@ void CUISkillTreeDlg::InitIconUpdate()
 	for(auto i = iSkillIndexFirst; i < iSkillIndexLast; i++ )
 	{
 		__TABLE_UPC_SKILL* pUSkill = CGameBase::s_pTbl_Skill->GetIndexedData(i);
-		if ( pUSkill == NULL ) continue;
+		if ( pUSkill == nullptr) continue;
 		if ( pUSkill->dwID >= UIITEM_TYPE_SONGPYUN_ID_MIN) continue;
 
-		// Á¶°ÇÀÌ ÃæÁ· µÇ´ÂÁö È®ÀÎÇÑ´Ù..
+		// ì¡°ê±´ì´ ì¶©ì¡± ë˜ëŠ”ì§€ í™•ì¸í•œë‹¤..
 		iModulo = pUSkill->iNeedSkill % 10;
 		switch ( iModulo )
 		{
-			case 0:																				// Base Skill.. ·¹º§ Á¡º¸¸¸À¸·Î ÆÇ´ÜÇÑ´Ù..
-				if ( pUSkill->iNeedLevel <= CGameBase::s_pPlayer->m_InfoBase.iLevel )		// ³» ·¹º§º¸´Ù °°°Å³ª ÀÛÀ¸¸é..
+			case 0:																				// Base Skill.. ë ˆë²¨ ì ë³´ë§Œìœ¼ë¡œ íŒë‹¨í•œë‹¤..
+				if ( pUSkill->iNeedLevel <= CGameBase::s_pPlayer->m_InfoBase.iLevel )		// ë‚´ ë ˆë²¨ë³´ë‹¤ ê°™ê±°ë‚˜ ì‘ìœ¼ë©´..
 					AddSkillToPage(pUSkill);
 				break;
 
-			case 5:																				// Àü¹® Skill.. Á÷¾÷¸¶´Ù ´Ù¸£´Ù..
+			case 5:																				// ì „ë¬¸ Skill.. ì§ì—…ë§ˆë‹¤ ë‹¤ë¥´ë‹¤..
 				if ( pUSkill->iNeedLevel <= m_iSkillInfo[5] )
 					AddSkillToPage(pUSkill, 1);
 				break;
 
-			case 6:																				// Àü¹® Skill.. Á÷¾÷¸¶´Ù ´Ù¸£´Ù..
+			case 6:																				// ì „ë¬¸ Skill.. ì§ì—…ë§ˆë‹¤ ë‹¤ë¥´ë‹¤..
 				if ( pUSkill->iNeedLevel <= m_iSkillInfo[6] )
 					AddSkillToPage(pUSkill, 2);
 				break;
 
-			case 7:																				// Àü¹® Skill.. Á÷¾÷¸¶´Ù ´Ù¸£´Ù..
+			case 7:																				// ì „ë¬¸ Skill.. ì§ì—…ë§ˆë‹¤ ë‹¤ë¥´ë‹¤..
 				if ( pUSkill->iNeedLevel <= m_iSkillInfo[7] )
 					AddSkillToPage(pUSkill, 3);
 				break;
 
-			case 8:																				// Àü¹® Skill.. Á÷¾÷¸¶´Ù ´Ù¸£´Ù..
+			case 8:																				// ì „ë¬¸ Skill.. ì§ì—…ë§ˆë‹¤ ë‹¤ë¥´ë‹¤..
 				if ( pUSkill->iNeedLevel <= m_iSkillInfo[8] )
 					AddSkillToPage(pUSkill, 4);
 				break;
@@ -1127,7 +1127,7 @@ void CUISkillTreeDlg::PageButtonInitialize()
 	SetPageInIconRegion(0, 0);		
 	SetPageInCharRegion();		
 	
-	// ¼­¹ö¿¡°Ô ¹ŞÀº °ªÀ¸·Î ¼¼ÆÃ.. m_iSkillInfo[MAX_SKILL_FROM_SERVER];										// ¼­¹ö·Î ¹Ş´Â ½½·Ô Á¤º¸..	
+	// ì„œë²„ì—ê²Œ ë°›ì€ ê°’ìœ¼ë¡œ ì„¸íŒ….. m_iSkillInfo[MAX_SKILL_FROM_SERVER];										// ì„œë²„ë¡œ ë°›ëŠ” ìŠ¬ë¡¯ ì •ë³´..	
 	CN3UIString* pStrName = (CN3UIString* )GetChildByID("string_skillpoint"); __ASSERT(pStrName, "NULL UI Component!!");
 	pStrName->SetStringAsInt(m_iSkillInfo[0]);
 	pStrName = (CN3UIString* )GetChildByID("string_0"); __ASSERT(pStrName, "NULL UI Component!!");
@@ -1289,22 +1289,22 @@ void CUISkillTreeDlg::AddSkillToPage(__TABLE_UPC_SKILL* pUSkill, int iOffset)
 	int i, j;
 	bool bFound = false;
 
-	// m_pMySkillTree[iOffset]¿¡ °°Àº ¾ÆÀÌµğ°¡ ÀÖ´ÂÁö »ìÆìº»´Ù..
+	// m_pMySkillTree[iOffset]ì— ê°™ì€ ì•„ì´ë””ê°€ ìˆëŠ”ì§€ ì‚´í´ë³¸ë‹¤..
 	for(i = 0; i < MAX_SKILL_PAGE_NUM; i++ )
 		for(j = 0; j < MAX_SKILL_IN_PAGE; j++ )
 		{
-			if ( m_pMySkillTree[iOffset][i][j] != NULL )
+			if ( m_pMySkillTree[iOffset][i][j] != nullptr)
 			{
 				if ( m_pMySkillTree[iOffset][i][j]->pSkill->dwID == pUSkill->dwID )
 					goto stop;
 			}
 		}
 
-	// m_pMySkillTree[iOffset]¿¡ µé¾î°¥ ¼ö ÀÖ´ÂÁö »ìÆìº»´Ù..
+	// m_pMySkillTree[iOffset]ì— ë“¤ì–´ê°ˆ ìˆ˜ ìˆëŠ”ì§€ ì‚´í´ë³¸ë‹¤..
 	for(i = 0; i < MAX_SKILL_PAGE_NUM; i++ )
 		for(j = 0; j < MAX_SKILL_IN_PAGE; j++ )
 		{
-			if ( m_pMySkillTree[iOffset][i][j] == NULL )
+			if ( m_pMySkillTree[iOffset][i][j] == nullptr)
 			{
 				bFound = true;
 				goto stop;
@@ -1317,12 +1317,12 @@ stop:
 	__IconItemSkill* spSkill = new __IconItemSkill();
 	spSkill->pSkill = pUSkill;
 
-	// ¾ÆÀÌÄÜ ÀÌ¸§ ¸¸µé±â.. ^^
+	// ì•„ì´ì½˜ ì´ë¦„ ë§Œë“¤ê¸°.. ^^
 	std::vector<char> buffer(256, NULL);
 	sprintf(buffer.data(),	"UI\\skillicon_%.2d_%d.dxt", pUSkill->dwID%100, pUSkill->dwID/100);
 	spSkill->szIconFN = buffer.data();
 
-	// ¾ÆÀÌÄÜ ·ÎµåÇÏ±â.. ^^
+	// ì•„ì´ì½˜ ë¡œë“œí•˜ê¸°.. ^^
 	spSkill->pUIIcon = new CN3UIIcon;
 	spSkill->pUIIcon->Init(this);
 	spSkill->pUIIcon->SetTex(spSkill->szIconFN);
@@ -1330,7 +1330,7 @@ stop:
 	spSkill->pUIIcon->SetUIType(UI_TYPE_ICON);
 	spSkill->pUIIcon->SetStyle(UISTYLE_ICON_SKILL);
 
-	CN3UIArea* pArea = NULL;
+	CN3UIArea* pArea = nullptr;
 	pArea = CN3UIWndBase::GetChildAreaByiOrder(UI_AREA_TYPE_SKILL_TREE, j);
 	if ( pArea )
 	{
@@ -1338,13 +1338,13 @@ stop:
 		spSkill->pUIIcon->SetMoveRect(pArea->GetRegion());
 	}
 
-	// ¾ÆÀÌÄÜ Á¤º¸ ÀúÀå..
+	// ì•„ì´ì½˜ ì •ë³´ ì €ì¥..
 	m_pMySkillTree[iOffset][i][j] = spSkill;
 }
 
 void CUISkillTreeDlg::Open()
 {
-	// ½º¸£¸¤ ¿­¸°´Ù!!
+	// ìŠ¤ë¥´ë¥µ ì—´ë¦°ë‹¤!!
 	SetVisible(true);
 	this->SetPos(CN3Base::s_CameraData.vp.Width, 10);
 	m_fMoveDelta = 0;
@@ -1356,34 +1356,34 @@ void CUISkillTreeDlg::Open()
 
 void CUISkillTreeDlg::Close()
 {
-	// ¸®¼Ò½º Free..
-	__IconItemSkill* spSkill = NULL;
+	// ë¦¬ì†ŒìŠ¤ Free..
+	__IconItemSkill* spSkill = nullptr;
 	spSkill = CN3UIWndBase::m_sSkillSelectInfo.pSkillDoneInfo;
 	if (spSkill)
 	{
-		// ¸Å´ÏÀú¿¡¼­ Á¦°Å..
+		// ë§¤ë‹ˆì €ì—ì„œ ì œê±°..
 		RemoveChild(spSkill->pUIIcon);
 
-		// ¸®¼Ò½º Á¦°Å..
+		// ë¦¬ì†ŒìŠ¤ ì œê±°..
 		spSkill->pUIIcon->Release();
 		delete spSkill->pUIIcon;
-		spSkill->pUIIcon = NULL;
+		spSkill->pUIIcon = nullptr;
 		delete spSkill;
-		spSkill = NULL;
+		spSkill = nullptr;
 	}
-	CN3UIWndBase::m_sSkillSelectInfo.pSkillDoneInfo = NULL;
+	CN3UIWndBase::m_sSkillSelectInfo.pSkillDoneInfo = nullptr;
 	SetState(UI_STATE_COMMON_NONE);
 	CN3UIWndBase::AllHighLightIconFree();
 
-	// ½º¸£¸¤ ´İÈù´Ù..!!
-//	SetVisible(false); // ´Ù ´İÈ÷°í ³ª¼­ ÇØÁØ´Ù..
+	// ìŠ¤ë¥´ë¥µ ë‹«íŒë‹¤..!!
+//	SetVisible(false); // ë‹¤ ë‹«íˆê³  ë‚˜ì„œ í•´ì¤€ë‹¤..
 	RECT rc = this->GetRegion();
 	this->SetPos(CN3Base::s_CameraData.vp.Width - (rc.right - rc.left), 10);
 	m_fMoveDelta = 0;
 	m_bOpenningNow = false;
 	m_bClosingNow = true;
 
-	if(m_pSnd_CloseUI) m_pSnd_CloseUI->Play(); // ´İ´Â ¼Ò¸®..
+	if(m_pSnd_CloseUI) m_pSnd_CloseUI->Play(); // ë‹«ëŠ” ì†Œë¦¬..
 
 	m_iRBtnDownOffs = -1;
 }
@@ -1392,12 +1392,12 @@ __IconItemSkill* CUISkillTreeDlg::GetHighlightIconItem(CN3UIIcon* pUIIcon)
 {
 	for(auto k = 0; k < MAX_SKILL_IN_PAGE; k++ )
 	{
-		if ( (m_pMySkillTree[m_iCurKindOf][m_iCurSkillPage][k] != NULL) && 
+		if ( (m_pMySkillTree[m_iCurKindOf][m_iCurSkillPage][k] != nullptr) && 
 			(m_pMySkillTree[m_iCurKindOf][m_iCurSkillPage][k]->pUIIcon == pUIIcon) )
 			return m_pMySkillTree[m_iCurKindOf][m_iCurSkillPage][k];
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 int CUISkillTreeDlg::GetSkilliOrder(__IconItemSkill* spSkill)
@@ -1426,7 +1426,7 @@ RECT CUISkillTreeDlg::GetSampleRect()
 	return rect;
 }
 
-void CUISkillTreeDlg::SetPageInIconRegion(int iKindOf, int iPageNum)		// ¾ÆÀÌÄÜ ¿ª¿ª¿¡¼­ ÇöÀç ÆäÀÌÁö ¼³Á¤..
+void CUISkillTreeDlg::SetPageInIconRegion(int iKindOf, int iPageNum)		// ì•„ì´ì½˜ ì—­ì—­ì—ì„œ í˜„ì¬ í˜ì´ì§€ ì„¤ì •..
 {
 	if ( (iKindOf >= MAX_SKILL_KIND_OF) || (iPageNum >= MAX_SKILL_PAGE_NUM) )
 		return;
@@ -1443,7 +1443,7 @@ void CUISkillTreeDlg::SetPageInIconRegion(int iKindOf, int iPageNum)		// ¾ÆÀÌÄÜ 
 			for( j = 0; j < MAX_SKILL_PAGE_NUM; j++ )
 				for( k = 0; k < MAX_SKILL_IN_PAGE; k++ )
 				{
-					if ( m_pMySkillTree[i][j][k] != NULL )
+					if ( m_pMySkillTree[i][j][k] != nullptr)
 						m_pMySkillTree[i][j][k]->pUIIcon->SetVisible(false);
 				}
 		}
@@ -1455,7 +1455,7 @@ void CUISkillTreeDlg::SetPageInIconRegion(int iKindOf, int iPageNum)		// ¾ÆÀÌÄÜ 
 				{
 					for( k = 0; k < MAX_SKILL_IN_PAGE; k++ )
 					{
-						if ( m_pMySkillTree[i][j][k] != NULL )
+						if ( m_pMySkillTree[i][j][k] != nullptr)
 							m_pMySkillTree[i][j][k]->pUIIcon->SetVisible(false);
 					}
 				}
@@ -1463,7 +1463,7 @@ void CUISkillTreeDlg::SetPageInIconRegion(int iKindOf, int iPageNum)		// ¾ÆÀÌÄÜ 
 				{
 					for( k = 0; k < MAX_SKILL_IN_PAGE; k++ )
 					{
-						if ( m_pMySkillTree[i][j][k] != NULL )
+						if ( m_pMySkillTree[i][j][k] != nullptr)
 							m_pMySkillTree[i][j][k]->pUIIcon->SetVisible(true);
 					}
 				}
@@ -1471,14 +1471,14 @@ void CUISkillTreeDlg::SetPageInIconRegion(int iKindOf, int iPageNum)		// ¾ÆÀÌÄÜ 
 		}
 	}
 
-	// ¾ÆÀÌÄÜ ¼³¸í ¹®ÀÚ¿­ ¾÷µ¥ÀÌÆ®.. ÇöÀç ½ºÅ³ Á¾·ù¿Í ÇöÀç ½ºÅ³ ÆäÀÌÁöÁß ¾ÆÀÌÄÜÀÌ º¸ÀÌ¸é Stringº¸ÀÌ°Ô.. ¾Æ´Ï¸é ¾Èº¸ÀÌ°Ô..
+	// ì•„ì´ì½˜ ì„¤ëª… ë¬¸ìì—´ ì—…ë°ì´íŠ¸.. í˜„ì¬ ìŠ¤í‚¬ ì¢…ë¥˜ì™€ í˜„ì¬ ìŠ¤í‚¬ í˜ì´ì§€ì¤‘ ì•„ì´ì½˜ì´ ë³´ì´ë©´ Stringë³´ì´ê²Œ.. ì•„ë‹ˆë©´ ì•ˆë³´ì´ê²Œ..
 	CN3UIString* pStrName;
 	std::string str; 
 	char	cstr[4];
 
 	for( k = 0; k < MAX_SKILL_IN_PAGE; k++ )
 	{
-		if ( m_pMySkillTree[m_iCurKindOf][m_iCurSkillPage][k] != NULL )
+		if ( m_pMySkillTree[m_iCurKindOf][m_iCurSkillPage][k] != nullptr)
 		{
 			str = "string_list_";
 			sprintf(cstr, "%d", k);	str += cstr;
@@ -1530,19 +1530,19 @@ void CUISkillTreeDlg::AllClearImageByName(const std::string& szFN, bool bTrueOrN
 	}
 }
 
-void CUISkillTreeDlg::SetPageInCharRegion()						// ¹®ÀÚ ¿ª¿ª¿¡¼­ ÇöÀç ÆäÀÌÁö ¼³Á¤..
+void CUISkillTreeDlg::SetPageInCharRegion()						// ë¬¸ì ì—­ì—­ì—ì„œ í˜„ì¬ í˜ì´ì§€ ì„¤ì •..
 {
 	AllClearImageByName("public", false);
 
 	switch ( CGameBase::s_pPlayer->m_InfoBase.eNation )
 	{
-		case NATION_KARUS:			// Ä«·ç½º..
+		case NATION_KARUS:			// ì¹´ë£¨ìŠ¤..
 			AllClearImageByName("hunter", false);
 			AllClearImageByName("berserker", false);
 			AllClearImageByName("sorcerer", false);
 			AllClearImageByName("shaman", false);
 
-			// Á÷¾÷.. 
+			// ì§ì—….. 
 			switch ( CGameBase::s_pPlayer->m_InfoBase.eClass )
 			{
 				case CLASS_KA_WARRIOR:
@@ -1570,13 +1570,13 @@ void CUISkillTreeDlg::SetPageInCharRegion()						// ¹®ÀÚ ¿ª¿ª¿¡¼­ ÇöÀç ÆäÀÌÁö ¼³
 			}
 			break;
 
-		case NATION_ELMORAD:		// ¿¤¸ğ¶óµµ..
+		case NATION_ELMORAD:		// ì—˜ëª¨ë¼ë„..
 			AllClearImageByName("ranger", false);
 			AllClearImageByName("blade", false);
 			AllClearImageByName("mage", false);
 			AllClearImageByName("cleric", false);
 
-			// Á÷¾÷.. 
+			// ì§ì—….. 
 			switch ( CGameBase::s_pPlayer->m_InfoBase.eClass )
 			{
 				case CLASS_EL_WARRIOR:
@@ -1615,7 +1615,7 @@ CN3UIImage*	CUISkillTreeDlg::GetChildImageByName(const std::string& szFN)
 			return (CN3UIImage*)pChild;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 CN3UIBase* CUISkillTreeDlg::GetChildBaseByName(const std::string &szFN)
@@ -1627,7 +1627,7 @@ CN3UIBase* CUISkillTreeDlg::GetChildBaseByName(const std::string &szFN)
 			return pChild;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 CN3UIButton* CUISkillTreeDlg::GetChildButtonByName(const std::string& szFN)
@@ -1639,7 +1639,7 @@ CN3UIButton* CUISkillTreeDlg::GetChildButtonByName(const std::string& szFN)
 			return (CN3UIButton*)pChild;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //this_ui_add_start

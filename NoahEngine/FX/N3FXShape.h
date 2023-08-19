@@ -13,9 +13,9 @@ friend class CN3FXShape;
 
 public:
 	__Material	m_Mtl;					// Material
-	__Vector3	m_vPivot;				// Local Ãà
-	__Matrix44	m_WorldMtx;				// World Matrix.. Shape Loading ¶§ ¹Ì¸® °è»êÇØ¾ß ÁÁ´Ù..		
-	BOOL		m_bOutOfCameraRange;	// Camera ¹üÀ§ ¹Ù±ù¿¡ ÀÖÀ½...
+	__Vector3	m_vPivot;				// Local ì¶•
+	__Matrix44	m_WorldMtx;				// World Matrix.. Shape Loading ë•Œ ë¯¸ë¦¬ ê³„ì‚°í•´ì•¼ ì¢‹ë‹¤..		
+	BOOL		m_bOutOfCameraRange;	// Camera ë²”ìœ„ ë°”ê¹¥ì— ìˆìŒ...
 
 	float		m_fTexFPS;				// Texture Animation Interval;
 	bool		m_bTexLoop;
@@ -26,7 +26,7 @@ protected:
 	std::vector<CN3Texture*>	m_TexRefs;		// Texture Reference Pointers
 	CN3FXPMeshInstance			m_FXPMInst;		// Progressive Mesh Instance
 
-	float						m_fTexIndex;	// Current Texture Index.. Animation ½ÃÅ³¶§ ÇÊ¿äÇÑ ÀÎµ¦½ºÀÌ´Ù.. float ·Î ÇØ¼­ ÅØ½ºÃ³ ¿¡´Ï¸ŞÀÌ¼Ç Á¦¾îÇÑ´Ù.
+	float						m_fTexIndex;	// Current Texture Index.. Animation ì‹œí‚¬ë•Œ í•„ìš”í•œ ì¸ë±ìŠ¤ì´ë‹¤.. float ë¡œ í•´ì„œ í…ìŠ¤ì²˜ ì—ë‹ˆë©”ì´ì…˜ ì œì–´í•œë‹¤.
 
 public:
 	bool Load(HANDLE hFile);
@@ -39,8 +39,8 @@ public:
 	CN3Texture*	TexSet(int iIndex, const std::string& szFN);
 	void		TexSet(int iIndex, CN3Texture* pTex);
 
-	__Vector3 Min() { if(m_FXPMInst.GetMesh()) return m_FXPMInst.GetMesh()->Min() * m_WorldMtx; else return __Vector3(0,0,0); } // ¿ùµå »óÀÇ ÃÖ¼Ò°ª
-	__Vector3 Max() { if(m_FXPMInst.GetMesh()) return m_FXPMInst.GetMesh()->Max() * m_WorldMtx; else return __Vector3(0,0,0); } // ¿ùµå »óÀÇ ÃÖ´ë°ª
+	__Vector3 Min() { if(m_FXPMInst.GetMesh()) return m_FXPMInst.GetMesh()->Min() * m_WorldMtx; else return __Vector3(0,0,0); } // ì›”ë“œ ìƒì˜ ìµœì†Œê°’
+	__Vector3 Max() { if(m_FXPMInst.GetMesh()) return m_FXPMInst.GetMesh()->Max() * m_WorldMtx; else return __Vector3(0,0,0); } // ì›”ë“œ ìƒì˜ ìµœëŒ€ê°’
 	float	Radius() { if(m_FXPMInst.GetMesh()) return m_FXPMInst.GetMesh()->Radius(); else return 0.0f; }
 
 
@@ -83,7 +83,7 @@ public:
 
 	void			FindMinMax();
 
-	CN3FXSPart*		Part(int iIndex) { if(iIndex < 0 || iIndex >= m_Parts.size()) return NULL; return m_Parts[iIndex]; }
+	CN3FXSPart*		Part(int iIndex) { if(iIndex < 0 || iIndex >= m_Parts.size()) return nullptr; return m_Parts[iIndex]; }
 	CN3FXSPart*		PartAdd() { CN3FXSPart* pPart = new CN3FXSPart(); m_Parts.push_back(pPart); return pPart; }
 	int				PartCount() { return m_Parts.size(); }
 	void			PartDelete(int iIndex);

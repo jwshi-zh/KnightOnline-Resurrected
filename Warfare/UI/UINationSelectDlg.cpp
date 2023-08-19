@@ -4,13 +4,13 @@
 
 CUINationSelectDlg::CUINationSelectDlg()
 {
-	m_pProcNationSelectRef = NULL;
+	m_pProcNationSelectRef = nullptr;
 }
 
 CUINationSelectDlg::~CUINationSelectDlg()
 {
-	m_pBtnKarus = NULL;
-	m_pBtnElmorad = NULL;
+	m_pBtnKarus = nullptr;
+	m_pBtnElmorad = nullptr;
 }
 
 bool CUINationSelectDlg::Load(HANDLE hFile)
@@ -30,7 +30,7 @@ bool CUINationSelectDlg::Load(HANDLE hFile)
 
 bool CUINationSelectDlg::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 {
-	if(NULL == pSender) return false;
+	if(nullptr == pSender) return false;
 
 	if( dwMsg == UIMSG_BUTTON_CLICK )
 	{

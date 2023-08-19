@@ -16,9 +16,9 @@
 
 CUITradeEditDlg::CUITradeEditDlg()
 {
-	m_pSubProcPerTrade = NULL;
-	m_pArea = NULL;
-	m_pImageOfIcon = NULL;
+	m_pSubProcPerTrade = nullptr;
+	m_pArea = nullptr;
+	m_pImageOfIcon = nullptr;
 }
 
 CUITradeEditDlg::~CUITradeEditDlg()
@@ -33,7 +33,7 @@ void CUITradeEditDlg::Release()
 	CN3UIBase::Release();
 }
 
-int	CUITradeEditDlg::GetQuantity() // "edit_trade" Edit Control ¿¡¼­ Á¤¼ö°ªÀ» ¾ò¿À¿Â´Ù..
+int	CUITradeEditDlg::GetQuantity() // "edit_trade" Edit Control ì—ì„œ ì •ìˆ˜ê°’ì„ ì–»ì˜¤ì˜¨ë‹¤..
 {
 	CN3UIEdit* pEdit = (CN3UIEdit*)this->GetChildByID("edit_trade");
 	__ASSERT(pEdit, "NULL UI Component!!");
@@ -41,7 +41,7 @@ int	CUITradeEditDlg::GetQuantity() // "edit_trade" Edit Control ¿¡¼­ Á¤¼ö°ªÀ» ¾ò
 	return atoi(pEdit->GetString().c_str());
 }
 
-void CUITradeEditDlg::SetQuantity(int iQuantity) // "edit_trade" Edit Control ¿¡¼­ Á¤¼ö°ªÀ» ¹®ÀÚ¿­·Î ¼¼ÆÃÇÑ´Ù..
+void CUITradeEditDlg::SetQuantity(int iQuantity) // "edit_trade" Edit Control ì—ì„œ ì •ìˆ˜ê°’ì„ ë¬¸ìžì—´ë¡œ ì„¸íŒ…í•œë‹¤..
 {
 	CN3UIEdit* pEdit = (CN3UIEdit*)this->GetChildByID("edit_trade");
 	__ASSERT(pEdit, "NULL UI Component!!");
@@ -53,7 +53,7 @@ void CUITradeEditDlg::SetQuantity(int iQuantity) // "edit_trade" Edit Control ¿¡
 
 bool CUITradeEditDlg::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 {
-	if(NULL == pSender) return false;
+	if(nullptr == pSender) return false;
 
 	if (dwMsg == UIMSG_BUTTON_CLICK)					
 	{
@@ -75,7 +75,7 @@ void CUITradeEditDlg::Open(bool bCountGold)
 	else
 		::_LoadStringFromResource(IDS_EDIT_BOX_COUNT, szMsg);
 
-	CN3UIString* pString = NULL;
+	CN3UIString* pString = nullptr;
 	pString = (CN3UIString*)this->GetChildByID("String_PersonTradeEdit_Msg");
 	__ASSERT(pString, "NULL UI Component!!");
 	if (pString)

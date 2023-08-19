@@ -3,8 +3,8 @@
 
 CN3ShapeMod::CN3ShapeMod()
 {
-	m_pModParts = NULL;
-	m_pMatchPart2ModPart = NULL;
+	m_pModParts = nullptr;
+	m_pMatchPart2ModPart = nullptr;
 	Release();
 }
 
@@ -15,11 +15,11 @@ CN3ShapeMod::~CN3ShapeMod()
 
 void CN3ShapeMod::Release()
 {
-	if (m_pModParts) {delete [] m_pModParts; m_pModParts = NULL;}
+	if (m_pModParts) {delete [] m_pModParts; m_pModParts = nullptr;}
 	m_iStateCount = 0;
 	m_iCurState = 0;	m_iPrevState = 0;
 	m_iModPartCount = 0;
-	if (m_pMatchPart2ModPart) {delete [] m_pMatchPart2ModPart; m_pMatchPart2ModPart = NULL;}
+	if (m_pMatchPart2ModPart) {delete [] m_pMatchPart2ModPart; m_pMatchPart2ModPart = nullptr;}
 //	m_iModType = 0;
 	m_fTimeChanged = 0.0f;
 	m_fTimeChanging = 0.0f;
@@ -27,14 +27,14 @@ void CN3ShapeMod::Release()
 
 CN3SPart* CN3ShapeMod::GetPartByPMeshFileName(const std::string& szFN)
 {
-	if(szFN.empty()) return NULL;
+	if(szFN.empty()) return nullptr;
 
 	int iPC = m_Parts.size();
 	for(int i = 0; i < iPC; i++)
 	{
 		if (m_Parts[i]->Mesh() && m_Parts[i]->Mesh()->FileName() == szFN) return m_Parts[i];
 	}
-	return NULL;
+	return nullptr;
 }
 
 bool CN3ShapeMod::Load(HANDLE hFile)
@@ -44,8 +44,8 @@ bool CN3ShapeMod::Load(HANDLE hFile)
 	char szPathName[_MAX_PATH];
 	char szDir[_MAX_DIR];
 	char szFName[_MAX_FNAME];
-	_splitpath(m_szFileName.c_str(), NULL, szDir, szFName, NULL);
-	_makepath(szPathName, NULL, szDir, szFName, "txt");
+	_splitpath(m_szFileName.c_str(), nullptr, szDir, szFName, nullptr);
+	_makepath(szPathName, nullptr, szDir, szFName, "txt");
 	FILE* stream = fopen(szPathName, "r");
 	LoadStateInfo(stream);
 	fclose(stream);
@@ -53,24 +53,24 @@ bool CN3ShapeMod::Load(HANDLE hFile)
 	return ret;
 }
 
-BOOL CN3ShapeMod::LoadStateInfo(FILE* stream)	// »óÅÂ Á¤º¸¸¦ ÀĞ¾î¿Â´Ù.(text·ÎºÎÅÍ)
+BOOL CN3ShapeMod::LoadStateInfo(FILE* stream)	// ìƒíƒœ ì •ë³´ë¥¼ ì½ì–´ì˜¨ë‹¤.(textë¡œë¶€í„°)
 {
-	__ASSERT(m_Parts.size() > 0, "¸ÕÀú shape¸¦ loadÇØ¾ß ÇÑ´Ù.");
-	if (NULL == stream) return FALSE;
+	__ASSERT(m_Parts.size() > 0, "ë¨¼ì € shapeë¥¼ loadí•´ì•¼ í•œë‹¤.");
+	if (nullptr == stream) return FALSE;
 //	Release();
 
 	int result;
-//	char szSrcName[_MAX_PATH];	// shape sourceÆÄÀÏ ÀÌ¸§
-//	result = fscanf(stream, "Shape_FName=%s\n", szSrcName);	__ASSERT(result != EOF, "Àß¸øµÈ N3ShapeMod ¼¼ÆÃ ÆÄÀÏ");
+//	char szSrcName[_MAX_PATH];	// shape sourceíŒŒì¼ ì´ë¦„
+//	result = fscanf(stream, "Shape_FName=%s\n", szSrcName);	__ASSERT(result != EOF, "ì˜ëª»ëœ N3ShapeMod ì„¸íŒ… íŒŒì¼");
 
-	// shape loadÇÏ±â
+	// shape loadí•˜ê¸°
 //	if (!this->Load(szSrcName)) return FALSE;
 
-	// º¯È­ÇÏ´Â PMeshÀÇ °¹¼ö ¹× StateÀÇ ¼ö
-	result = fscanf(stream, "PMesh_Count=%d\n", &m_iModPartCount);	__ASSERT(result != EOF, "Àß¸øµÈ N3ShapeMod ¼¼ÆÃ ÆÄÀÏ");
-	result = fscanf(stream, "State_Count=%d\n", &m_iStateCount);		__ASSERT(result != EOF, "Àß¸øµÈ N3ShapeMod ¼¼ÆÃ ÆÄÀÏ");
+	// ë³€í™”í•˜ëŠ” PMeshì˜ ê°¯ìˆ˜ ë° Stateì˜ ìˆ˜
+	result = fscanf(stream, "PMesh_Count=%d\n", &m_iModPartCount);	__ASSERT(result != EOF, "ì˜ëª»ëœ N3ShapeMod ì„¸íŒ… íŒŒì¼");
+	result = fscanf(stream, "State_Count=%d\n", &m_iStateCount);		__ASSERT(result != EOF, "ì˜ëª»ëœ N3ShapeMod ì„¸íŒ… íŒŒì¼");
 
-	// Shape »óÅÂ Á¤º¸ ÀĞ¾î¿À±â
+	// Shape ìƒíƒœ ì •ë³´ ì½ì–´ì˜¤ê¸°
 	int i, j;
 	__Vector3 vPos, vScale;
 	__Vector3 vAxis;	float fDegree;
@@ -78,32 +78,32 @@ BOOL CN3ShapeMod::LoadStateInfo(FILE* stream)	// »óÅÂ Á¤º¸¸¦ ÀĞ¾î¿Â´Ù.(text·ÎºÎÅ
 //	m_ModShape.pShapeStateInfos = new __ModPosRotScale[m_iStateCount];
 //	for (i=0; i<m_iStateCount; ++i)
 //	{
-//		result = fscanf(stream, "S_Pos(%f, %f, %f)\n", &vPos.x, &vPos.y, &vPos.z);		__ASSERT(result != EOF, "Àß¸øµÈ N3ShapeMod ¼¼ÆÃ ÆÄÀÏ");
-//		result = fscanf(stream, "S_Rot(%f, %f, %f)\n", &vRot.x, &vRot.y, &vRot.z);		__ASSERT(result != EOF, "Àß¸øµÈ N3ShapeMod ¼¼ÆÃ ÆÄÀÏ");
-//		result = fscanf(stream, "S_Scale(%f, %f, %f)\n", &vScale.x, &vScale.y, &vScale.z);		__ASSERT(result != EOF, "Àß¸øµÈ N3ShapeMod ¼¼ÆÃ ÆÄÀÏ");
+//		result = fscanf(stream, "S_Pos(%f, %f, %f)\n", &vPos.x, &vPos.y, &vPos.z);		__ASSERT(result != EOF, "ì˜ëª»ëœ N3ShapeMod ì„¸íŒ… íŒŒì¼");
+//		result = fscanf(stream, "S_Rot(%f, %f, %f)\n", &vRot.x, &vRot.y, &vRot.z);		__ASSERT(result != EOF, "ì˜ëª»ëœ N3ShapeMod ì„¸íŒ… íŒŒì¼");
+//		result = fscanf(stream, "S_Scale(%f, %f, %f)\n", &vScale.x, &vScale.y, &vScale.z);		__ASSERT(result != EOF, "ì˜ëª»ëœ N3ShapeMod ì„¸íŒ… íŒŒì¼");
 //		m_ModShape.pShapeStateInfos[i].vPos = vPos;
 //		m_ModShape.pShapeStateInfos[i].vRot = vRot;
 //		m_ModShape.pShapeStateInfos[i].vScale = vScale;
 //	}
 
-	// Part »óÅÂ Á¤º¸ ÀĞ¾î¿À±â
-	__ASSERT(m_iModPartCount > 0, "m_iModPartCount°¡ 1ÀÌ»óÀÌ¾î¾ß ÇÕ´Ï´Ù.");
-	__ASSERT(m_iStateCount > 0, "m_iStateCount 1ÀÌ»óÀÌ¾î¾ß ÇÕ´Ï´Ù.");
+	// Part ìƒíƒœ ì •ë³´ ì½ì–´ì˜¤ê¸°
+	__ASSERT(m_iModPartCount > 0, "m_iModPartCountê°€ 1ì´ìƒì´ì–´ì•¼ í•©ë‹ˆë‹¤.");
+	__ASSERT(m_iStateCount > 0, "m_iStateCount 1ì´ìƒì´ì–´ì•¼ í•©ë‹ˆë‹¤.");
 	m_pModParts = new __ModPart[m_iModPartCount];
 
 	char szPMeshName[_MAX_PATH] = "";
 	for (i=0; i<m_iModPartCount; ++i)
 	{
-		result = fscanf(stream, "PMesh_FName=%s\n", szPMeshName);		__ASSERT(result != EOF, "Àß¸øµÈ N3ShapeMod ¼¼ÆÃ ÆÄÀÏ");
+		result = fscanf(stream, "PMesh_FName=%s\n", szPMeshName);		__ASSERT(result != EOF, "ì˜ëª»ëœ N3ShapeMod ì„¸íŒ… íŒŒì¼");
 		m_pModParts[i].pPart = GetPartByPMeshFileName(szPMeshName);
 		m_pModParts[i].pStateInfos = new __ModPosRotScale[m_iStateCount];
 		for (j=0; j<m_iStateCount; ++j)
 		{
-			result = fscanf(stream, "Pos(%f, %f, %f)\n", &vPos.x, &vPos.y, &vPos.z);		__ASSERT(result != EOF, "Àß¸øµÈ N3ShapeMod ¼¼ÆÃ ÆÄÀÏ");
-			result = fscanf(stream, "Rot(%f, %f, %f, %f)\n", &vAxis.x, &vAxis.y, &vAxis.z, &fDegree);		__ASSERT(result != EOF, "Àß¸øµÈ N3ShapeMod ¼¼ÆÃ ÆÄÀÏ");
+			result = fscanf(stream, "Pos(%f, %f, %f)\n", &vPos.x, &vPos.y, &vPos.z);		__ASSERT(result != EOF, "ì˜ëª»ëœ N3ShapeMod ì„¸íŒ… íŒŒì¼");
+			result = fscanf(stream, "Rot(%f, %f, %f, %f)\n", &vAxis.x, &vAxis.y, &vAxis.z, &fDegree);		__ASSERT(result != EOF, "ì˜ëª»ëœ N3ShapeMod ì„¸íŒ… íŒŒì¼");
 			if(vAxis.x ==0.0f && vAxis.y == 0.0f && vAxis.z == 0.0f) qRot.Identity();
 			else qRot.RotationAxis(vAxis, D3DXToRadian(fDegree));
-			result = fscanf(stream, "Scale(%f, %f, %f)\n", &vScale.x, &vScale.y, &vScale.z);		__ASSERT(result != EOF, "Àß¸øµÈ N3ShapeMod ¼¼ÆÃ ÆÄÀÏ");
+			result = fscanf(stream, "Scale(%f, %f, %f)\n", &vScale.x, &vScale.y, &vScale.z);		__ASSERT(result != EOF, "ì˜ëª»ëœ N3ShapeMod ì„¸íŒ… íŒŒì¼");
 			m_pModParts[i].pStateInfos[j].vPos = vPos;
 			m_pModParts[i].pStateInfos[j].qRot = qRot;
 			m_pModParts[i].pStateInfos[j].vScale = vScale;
@@ -119,12 +119,12 @@ BOOL CN3ShapeMod::LoadStateInfo(FILE* stream)	// »óÅÂ Á¤º¸¸¦ ÀĞ¾î¿Â´Ù.(text·ÎºÎÅ
 		}
 	}
 
-	// m_pMatchPart2ModPart CN3SPart°¹¼ö¸¸Å­ »ı¼º ¹× ÃÊ±âÈ­(¸ÅÄª½ÃÅ°±â)
-	__ASSERT(m_pMatchPart2ModPart == NULL, "Machine¿¡¼­ ¸Ş¸ğ¸® ¸¯ °¡´É¼º");
+	// m_pMatchPart2ModPart CN3SPartê°¯ìˆ˜ë§Œí¼ ìƒì„± ë° ì´ˆê¸°í™”(ë§¤ì¹­ì‹œí‚¤ê¸°)
+	__ASSERT(m_pMatchPart2ModPart == NULL, "Machineì—ì„œ ë©”ëª¨ë¦¬ ë¦­ ê°€ëŠ¥ì„±");
 	int iPartCount = PartCount();
 	if (iPartCount>0) m_pMatchPart2ModPart = new __ModPart*[iPartCount];
 	ZeroMemory(m_pMatchPart2ModPart, sizeof(m_pMatchPart2ModPart[0])*iPartCount);
-	// (¸ÅÄª½ÃÅ°±â)
+	// (ë§¤ì¹­ì‹œí‚¤ê¸°)
 	for(auto i =0; i<m_iModPartCount; ++i)
 	{
 		it_SPart it = m_Parts.begin();
@@ -144,10 +144,10 @@ BOOL CN3ShapeMod::LoadStateInfo(FILE* stream)	// »óÅÂ Á¤º¸¸¦ ÀĞ¾î¿Â´Ù.(text·ÎºÎÅ
 
 void CN3ShapeMod::ReCalcMatrix()
 {
-	// m_Matrix ´Ù½Ã °è»ê..
-	CN3Transform::ReCalcMatrix(); // Transfomr Matrix ¸¦ °è»ê ÇØÁÖ°í..
+	// m_Matrix ë‹¤ì‹œ ê³„ì‚°..
+	CN3Transform::ReCalcMatrix(); // Transfomr Matrix ë¥¼ ê³„ì‚° í•´ì£¼ê³ ..
 
-	// °¢ ÆÄÆ®ÀÇ ¸ÅÆ®¸¯½º¸¦ ´Ù½Ã °è»ê.
+	// ê° íŒŒíŠ¸ì˜ ë§¤íŠ¸ë¦­ìŠ¤ë¥¼ ë‹¤ì‹œ ê³„ì‚°.
 	int iPC = m_Parts.size();
 	for(int i = 0; i < iPC; i++)
 	{
@@ -156,12 +156,12 @@ void CN3ShapeMod::ReCalcMatrix()
 			__ModPart* pModPart = m_pMatchPart2ModPart[i];
 			// Scale
 			m_Parts[i]->m_Matrix.Scale(pModPart->CurStateInfo.vScale);
-			// È¸Àü
+			// íšŒì „
 			static __Matrix44 mtxRot;
 			D3DXMatrixRotationQuaternion(&mtxRot, &(pModPart->CurStateInfo.qRot));
 			m_Parts[i]->m_Matrix *= mtxRot;
 
-			// À§Ä¡
+			// ìœ„ì¹˜
 			m_Parts[i]->m_Matrix.PosSet(m_Parts[i]->m_vPivot + pModPart->CurStateInfo.vPos);
 			m_Parts[i]->m_Matrix *= m_Matrix;
 		}
@@ -194,7 +194,7 @@ void CN3ShapeMod::Tick(float fFrm)
 		}
 		else
 		{
-			__ModPart* pMP = NULL;
+			__ModPart* pMP = nullptr;
 			for (i=0; i<m_iModPartCount; ++i)
 			{
 				pMP = m_pModParts + i;

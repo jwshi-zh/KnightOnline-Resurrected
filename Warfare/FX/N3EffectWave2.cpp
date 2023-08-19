@@ -4,12 +4,12 @@
 
 #define ATISQRT	4.94974747f
 
-// ª˝º∫¿⁄.. ∫Øºˆ µ∆˙∆Æ∞™ «“¥Á..
+// ÏÉùÏÑ±Ïûê.. Î≥ÄÏàò ÎîîÌè¥Ìä∏Í∞í Ìï†Îãπ..
 CN3EffectWave2::CN3EffectWave2()
 {
 	m_iPondMeshNum = 0;
-	m_pCPondMesh=NULL;
-	m_pfMaxVtx=NULL;
+	m_pCPondMesh= nullptr;
+	m_pfMaxVtx= nullptr;
 	Release();
 }
 
@@ -22,10 +22,10 @@ void CN3EffectWave2::Release()
 {
 	if(m_iPondMeshNum>0)
 	{
-		if(m_pCPondMesh!=NULL)
+		if(m_pCPondMesh!= nullptr)
 		{
 			delete []m_pCPondMesh;
-			m_pCPondMesh=NULL;
+			m_pCPondMesh= nullptr;
 		}
 		m_iPondMeshNum=0;
 	}
@@ -35,7 +35,7 @@ void CN3EffectWave2::Release()
 		if(m_pfMaxVtx)
 		{
 			delete [] m_pfMaxVtx;
-			m_pfMaxVtx = NULL;
+			m_pfMaxVtx = nullptr;
 		}
 		m_iMaxVtxNum=0;
 	}
@@ -50,7 +50,7 @@ bool CN3EffectWave2::Load(HANDLE hFile)
 
 	DWORD dwNum;
 
-	ReadFile(hFile, &m_iPondMeshNum, sizeof(int), &dwNum, NULL);	///
+	ReadFile(hFile, &m_iPondMeshNum, sizeof(int), &dwNum, nullptr);	///
 	if(m_iPondMeshNum<=0) {m_iPondMeshNum=0;return 1;}
 
 	m_pCPondMesh = new CPongMesh [m_iPondMeshNum];	///
@@ -61,46 +61,46 @@ bool CN3EffectWave2::Load(HANDLE hFile)
 		ptmpPondMesh = &m_pCPondMesh[i];
 
 		int iVC;
-		ReadFile(hFile, &iVC, sizeof(iVC), &dwNum, NULL);				// ¡° ∞πºˆ
+		ReadFile(hFile, &iVC, sizeof(iVC), &dwNum, nullptr);				// Ï†ê Í∞ØÏàò
 		ptmpPondMesh->m_iVC = iVC;	///
 		ptmpPondMesh->m_bTick2Rand = FALSE;		///
 		if(iVC<=0) 
 		{
-			ptmpPondMesh->m_pVertices=NULL;
+			ptmpPondMesh->m_pVertices= nullptr;
 			continue;
 		}
 
 		int iWidthVertex;
-		ReadFile(hFile, &iWidthVertex, sizeof(iWidthVertex), &dwNum, NULL);				// «— ∂Û¿Œ¥Á ¡° ∞πºˆ
+		ReadFile(hFile, &iWidthVertex, sizeof(iWidthVertex), &dwNum, nullptr);				// Ìïú ÎùºÏù∏Îãπ Ï†ê Í∞ØÏàò
 		ptmpPondMesh->m_iWidthVtx = iWidthVertex;		///
 		ptmpPondMesh->m_iHeightVtx = iVC/iWidthVertex;	///
 
 		float fWaterScaleX,fWaterScaleZ;
-		ReadFile(hFile, &fWaterScaleX, sizeof(fWaterScaleX), &dwNum, NULL);
-		ReadFile(hFile, &fWaterScaleZ, sizeof(fWaterScaleZ), &dwNum, NULL);
+		ReadFile(hFile, &fWaterScaleX, sizeof(fWaterScaleX), &dwNum, nullptr);
+		ReadFile(hFile, &fWaterScaleZ, sizeof(fWaterScaleZ), &dwNum, nullptr);
 		ptmpPondMesh->m_fWaterScaleX = fWaterScaleX;	///
 		ptmpPondMesh->m_fWaterScaleZ = fWaterScaleZ;	///
 
 		// XyxT2 -> XyzColorT2 Converting.
 		ptmpPondMesh->m_pVertices = new __VertexPond[iVC];	///
-		ReadFile(hFile,ptmpPondMesh->m_pVertices,iVC*sizeof(__VertexPond),&dwNum,NULL);
-		ptmpPondMesh->m_pVertices[0].y += 0.2f;				//	ºˆƒ°∞° ≥Ù¿∏∏È π∞∞·¿Ã ≈©∞‘ ø‰µøƒ£¥Ÿ
-		ptmpPondMesh->m_pVertices[iWidthVertex].y += 0.2f;	//	ºˆƒ°∞° ≥Ù¿∏∏È π∞∞·¿Ã ≈©∞‘ ø‰µøƒ£¥Ÿ
-		ptmpPondMesh->m_pfMaxHeight = ptmpPondMesh->m_pVertices[0].y -= 0.3f;		//	π∞∞·¿« √÷¥Îƒ°
+		ReadFile(hFile,ptmpPondMesh->m_pVertices,iVC*sizeof(__VertexPond),&dwNum, nullptr);
+		ptmpPondMesh->m_pVertices[0].y += 0.2f;				//	ÏàòÏπòÍ∞Ä ÎÜíÏúºÎ©¥ Î¨ºÍ≤∞Ïù¥ ÌÅ¨Í≤å ÏöîÎèôÏπúÎã§
+		ptmpPondMesh->m_pVertices[iWidthVertex].y += 0.2f;	//	ÏàòÏπòÍ∞Ä ÎÜíÏúºÎ©¥ Î¨ºÍ≤∞Ïù¥ ÌÅ¨Í≤å ÏöîÎèôÏπúÎã§
+		ptmpPondMesh->m_pfMaxHeight = ptmpPondMesh->m_pVertices[0].y -= 0.3f;		//	Î¨ºÍ≤∞Ïùò ÏµúÎåÄÏπò
 
 		ptmpPondMesh->m_pfVelocityArray = new float[iVC];	///
 		memset(ptmpPondMesh->m_pfVelocityArray,0,sizeof(float)*iVC);
 
 		
 		int iIC;
-		ReadFile(hFile, &iIC, sizeof(iIC), &dwNum, NULL);				// IndexBuffer Count.
+		ReadFile(hFile, &iIC, sizeof(iIC), &dwNum, nullptr);				// IndexBuffer Count.
 		ptmpPondMesh->m_iIC = iIC;		///
 		ptmpPondMesh->m_wpIndex = new WORD [iVC*6];		///
 
 		int j,k;
 		int iWidth = iWidthVertex,iHeight = iVC/iWidthVertex;
 		int x=0,y=iWidth;
-		WORD* indexPtr = ptmpPondMesh->m_wpIndex;	//	ªÔ∞¢«¸¿ª ∫Œ∏¶ ¿ßƒ° º≥¡§
+		WORD* indexPtr = ptmpPondMesh->m_wpIndex;	//	ÏÇºÍ∞ÅÌòïÏùÑ Î∂ÄÎ•º ÏúÑÏπò ÏÑ§Ï†ï
 		iWidth--;
 
 		__VertexPond* ptVtx = ptmpPondMesh->m_pVertices;
@@ -111,7 +111,7 @@ bool CN3EffectWave2::Load(HANDLE hFile)
 		{
 			for (k=0; k<iWidth; k++)
 			{
-				//	ªÔ∞¢«¸¿ª ∫Œ∏¶ ¿ßƒ° º≥¡§
+				//	ÏÇºÍ∞ÅÌòïÏùÑ Î∂ÄÎ•º ÏúÑÏπò ÏÑ§Ï†ï
 				indexPtr[0] = x;
 				indexPtr[1] = x+1;
 				indexPtr[2] = y;
@@ -123,7 +123,7 @@ bool CN3EffectWave2::Load(HANDLE hFile)
 				x++;
 				y++;
 
-				//	ø¨∏¯¿« √÷º“√÷¥Î ¿ßƒ° ±∏«‘
+				//	Ïó∞Î™ªÏùò ÏµúÏÜåÏµúÎåÄ ÏúÑÏπò Íµ¨Ìï®
 				if(StX>ptVtx->x) StX = ptVtx->x;
 				if(EnX<ptVtx->x) EnX = ptVtx->x;
 				if(StZ>ptVtx->z) StZ = ptVtx->z;
@@ -144,7 +144,7 @@ bool CN3EffectWave2::Load(HANDLE hFile)
 
 		ptmpPondMesh->m_bTick2Rand = TRUE;		///
 
-		if(m_iMaxVtxNum<iVC) m_iMaxVtxNum=iVC;	//	∞°¿Â≈´ ∞ËªÍπ¸¿ß ±∏«‘
+		if(m_iMaxVtxNum<iVC) m_iMaxVtxNum=iVC;	//	Í∞ÄÏû•ÌÅ∞ Í≥ÑÏÇ∞Î≤îÏúÑ Íµ¨Ìï®
 	}	
 
 	m_pfMaxVtx = new float [m_iMaxVtxNum];
@@ -182,10 +182,10 @@ void CN3EffectWave2::Tick()
 		m_fTexIndex -= 32.0f;
 	}
 
-	// «¡∑π¿”¿Ã ¿”∞Ë∞™∫∏¥Ÿ ¿€¿∏∏È πˆ∏∞¥Ÿ..
+	// ÌîÑÎ†àÏûÑÏù¥ ÏûÑÍ≥ÑÍ∞íÎ≥¥Îã§ ÏûëÏúºÎ©¥ Î≤ÑÎ¶∞Îã§..
 	if ( CN3Base::s_fFrmPerSec < 30 ) return;
 	
-	// Desire Frame Rate∫∏¥Ÿ Frame¿Ã ¿ﬂ ≥™ø¿¥¬ ∞ÊøÏ..
+	// Desire Frame RateÎ≥¥Îã§ FrameÏù¥ Ïûò ÎÇòÏò§Îäî Í≤ΩÏö∞..
 	if ( 30.0f <= CN3Base::s_fFrmPerSec )
 	{
 		static float ftemp = 0.0f;
@@ -197,7 +197,7 @@ void CN3EffectWave2::Tick()
 			ftemp -= 1.0f;
 		}
 	}
-	// Desire Frame∫∏¥Ÿ Frame¿Ã ¿ﬂ æ»≥™ø¿¥¬ ∞ÊøÏ..
+	// Desire FrameÎ≥¥Îã§ FrameÏù¥ Ïûò ÏïàÎÇòÏò§Îäî Í≤ΩÏö∞..
 	else 
 	{
 		static float ftemp = 0.0f;
@@ -241,10 +241,10 @@ void CN3EffectWave2::Render()
 	// Set
 	s_lpD3DDev->SetTransform(D3DTS_WORLD, &matWorld);
 
-	// texture state ºº∆√ (alpha)
+	// texture state ÏÑ∏ÌåÖ (alpha)
 	s_lpD3DDev->SetTexture(0,m_pTexPond[(int)m_fTexIndex]->Get());
 	s_lpD3DDev->SetTexture(1, m_pTexWave->Get());
-	s_lpD3DDev->SetTexture(2, NULL);
+	s_lpD3DDev->SetTexture(2, nullptr);
 
 	s_lpD3DDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
     s_lpD3DDev->SetRenderState( D3DRS_SRCBLEND,   D3DBLEND_SRCALPHA );
@@ -296,21 +296,21 @@ void CN3EffectWave2::UpdateWaterPositions()
 {
 	CPongMesh* pPondMesh;
 
-	//	±‚√  µ•¿Ã≈∏
+	//	Í∏∞Ï¥à Îç∞Ïù¥ÌÉÄ
 	int	x, y,n,m;
 	float d;
 	float tempX,tempZ;
 	__VertexPond* pVtx,*ptmpVtx,*ptmpVtxSub,*ptmpVtxPlus;
 	float* pForceArray,*ptmpForceArray,*ptmpFArrSub,*ptmpFArrPlus;
 
-	//	∞ËªÍ ∫Øºˆ
+	//	Í≥ÑÏÇ∞ Î≥ÄÏàò
 	float max,min,mincal,maxcal;
 
 	for(int i=0;i<m_iPondMeshNum;i++)
 	{
 		pPondMesh = &m_pCPondMesh[i];
 
-		//	¿Ãπ¯ø° æ≤¿Ã¡ˆ æ ¿ª ∞ÊøÏ ≥—æÓ∞®
+		//	Ïù¥Î≤àÏóê Ïì∞Ïù¥ÏßÄ ÏïäÏùÑ Í≤ΩÏö∞ ÎÑòÏñ¥Í∞ê
 		if(CN3Base::s_CameraData.IsOutOfFrustum(pPondMesh->m_vCenterPo,pPondMesh->m_fRadius)==TRUE)
 		{
 			pPondMesh->m_bTick2Rand = FALSE;
@@ -319,7 +319,7 @@ void CN3EffectWave2::UpdateWaterPositions()
 		else pPondMesh->m_bTick2Rand = TRUE;
 
 //		TRACE("Pond Is Chk  ---------- %d \n",i);
-		//	±‚√ µ•¿Ã≈∏ ¿€º∫
+		//	Í∏∞Ï¥àÎç∞Ïù¥ÌÉÄ ÏûëÏÑ±
 		m = pPondMesh->m_iWidthVtx;
 		n = pPondMesh->m_iHeightVtx;
 //		max = 0.16f*pPondMesh->m_fWaterScaleX;
@@ -334,7 +334,7 @@ void CN3EffectWave2::UpdateWaterPositions()
 		pVtx = pPondMesh->m_pVertices;
 		pForceArray = m_pfMaxVtx;
 		
-		//	∞ËªÍ 
+		//	Í≥ÑÏÇ∞ 
 		for (x=1; x<n-1; x++)
 		{
 			ptmpFArrSub = pForceArray;
@@ -407,7 +407,7 @@ void CN3EffectWave2::UpdateWaterPositions()
 		tempX = pPondMesh->m_fWaterScaleX*32.0f;
 		tempZ = pPondMesh->m_fWaterScaleZ*32.0f;
 
-		ptmpForceArray = pPondMesh->m_pfVelocityArray;	//	∞∞¿∫«¸¿Ã∂Û ∫Ù∑¡æ∏
+		ptmpForceArray = pPondMesh->m_pfVelocityArray;	//	Í∞ôÏùÄÌòïÏù¥Îùº ÎπåÎ†§ÏîÄ
 		pForceArray = m_pfMaxVtx;
 		pVtx = pPondMesh->m_pVertices;
 		for (x=0; x<pPondMesh->m_iVC; x++)

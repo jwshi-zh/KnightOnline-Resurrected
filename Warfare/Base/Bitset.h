@@ -6,7 +6,7 @@ class CBitset
 public:
 
 	// Initialize all the data members
-    CBitset() : m_bits(0), m_size(0) {}
+    CBitset() : m_bits(nullptr), m_size(0) {}
 
 	// This is our deconstructor
 	~CBitset() 
@@ -15,7 +15,7 @@ public:
 		if(m_bits) 
 		{
 			delete m_bits;
-			m_bits = NULL;
+			m_bits = nullptr;
 		}
 	}
 
@@ -29,7 +29,7 @@ public:
         if(m_bits) 
 		{
 			delete m_bits;
-			m_bits = 0;
+			m_bits = nullptr;
 		}
 
 		// Allocate the bits and initialize them

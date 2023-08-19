@@ -9,14 +9,14 @@
 CN3River2::CN3River2()
 {
 	m_fTexIndex = 0.0f;
-	m_pRiverInfo = NULL;
+	m_pRiverInfo = nullptr;
 	m_iRiverCount = NULL;
 }
 
 CN3River2::~CN3River2()
 {
 	if (m_pRiverInfo)
-		delete[] m_pRiverInfo, m_pRiverInfo = NULL;
+		delete[] m_pRiverInfo, m_pRiverInfo = nullptr;
 }
 
 bool CN3River2::Load(HANDLE hFile)
@@ -24,22 +24,22 @@ bool CN3River2::Load(HANDLE hFile)
 	DWORD dwNum;
 	WORD wIndex[18] = {4,0,1,4,1,5,5,1,2,5,2,6,6,2,3,6,3,7};
 
-	ReadFile(hFile, &m_iRiverCount, sizeof(m_iRiverCount), &dwNum, NULL);
+	ReadFile(hFile, &m_iRiverCount, sizeof(m_iRiverCount), &dwNum, nullptr);
 	if (m_iRiverCount == 0)	return true;
 	
 	m_pRiverInfo = new _RIVER_INFO[m_iRiverCount];
 
-	_RIVER_INFO	*pInfo = NULL;
+	_RIVER_INFO	*pInfo = nullptr;
 	for (int i=0;i<m_iRiverCount;i++)
 	{
 		pInfo = m_pRiverInfo+i;
-		ReadFile(hFile, &pInfo->iVC, sizeof(int), &dwNum, NULL);
+		ReadFile(hFile, &pInfo->iVC, sizeof(int), &dwNum, nullptr);
 		__ASSERT(pInfo->iVC, "CN3River2 : nVertexCount is zero!!");
 		__ASSERT(pInfo->iVC%4==0, "RiverVertex is a multiple of 4");
 
 		pInfo->pVertices = new __VertexRiver[pInfo->iVC];
-		ReadFile(hFile, pInfo->pVertices, pInfo->iVC*sizeof(__VertexRiver), &dwNum, NULL);
-		ReadFile(hFile, &pInfo->iIC, sizeof(int), &dwNum, NULL);
+		ReadFile(hFile, pInfo->pVertices, pInfo->iVC*sizeof(__VertexRiver), &dwNum, nullptr);
+		ReadFile(hFile, &pInfo->iIC, sizeof(int), &dwNum, nullptr);
 		__ASSERT(pInfo->iIC%18==0, "River-Vertex-Index is a multiple of 18");
 
 		pInfo->pwIndex = new WORD[pInfo->iIC];		
@@ -132,7 +132,7 @@ void CN3River2::Render()
 	__ASSERT((int)m_fTexIndex < MAX_RIVER_TEX, "River Texture index overflow..");
 	s_lpD3DDev->SetTexture(0, m_pTexRiver[(int)m_fTexIndex]->Get());
 	s_lpD3DDev->SetTexture(1, m_pTexWave->Get());
-	s_lpD3DDev->SetTexture(2, NULL);
+	s_lpD3DDev->SetTexture(2, nullptr);
 	
 	s_lpD3DDev->SetRenderState( D3DRS_ALPHABLENDENABLE, TRUE);
     s_lpD3DDev->SetRenderState( D3DRS_SRCBLEND,   D3DBLEND_SRCALPHA );
@@ -156,7 +156,7 @@ void CN3River2::Render()
     s_lpD3DDev->SetSamplerState(1, D3DSAMP_MIPFILTER, D3DTEXF_NONE );
 
 	s_lpD3DDev->SetFVF(D3DFVF_XYZ|D3DFVF_NORMAL|D3DFVF_DIFFUSE|D3DFVF_TEX2);
-	_RIVER_INFO		*pInfo = NULL;
+	_RIVER_INFO		*pInfo = nullptr;
 	for (int i=0;i<m_iRiverCount;i++)
 	{
 		pInfo = m_pRiverInfo + i;
@@ -235,7 +235,7 @@ void CN3River2::Tick()
 	}
 */
 
-	_RIVER_INFO	*pInfo=NULL;
+	_RIVER_INFO	*pInfo= nullptr;
 	for (int i=0;i<m_iRiverCount;i++)
 	{
 		pInfo = m_pRiverInfo+i;
@@ -296,8 +296,8 @@ void CN3River2::UpdateWaterPositions()
 {
 	if(m_iRiverCount == 0)return;
 
-	_RIVER_INFO		*pInfo = NULL;
-	_RIVER_DIFF		*pDiff = NULL;
+	_RIVER_INFO		*pInfo = nullptr;
+	_RIVER_DIFF		*pDiff = nullptr;
 	__VertexRiver	*pVertex;
 	int tmp;
 

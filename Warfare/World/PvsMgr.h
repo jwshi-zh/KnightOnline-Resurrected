@@ -16,7 +16,7 @@ class CPvsMgr : public CN3BaseFileAccess
 	friend class CPortalVolume;
 
 	const std::string m_IndoorFolder;
-	const float m_fVolumeOffs;		// Volume Ã¼Å© ³ôÀÌ..
+	const float m_fVolumeOffs;		// Volume ì²´í¬ ë†’ì´..
 
 	std::list<CPortalVolume*> m_pPvsList;
 
@@ -45,18 +45,18 @@ private:
 	bool CheckCollisionCameraWithTerrain(__Vector3& vEyeResult, const __Vector3& vAt, float fNP);
 	bool CheckCollisionCameraWithShape(__Vector3& vEyeResult, const __Vector3& vAt, float fNP);
 	float GetHeightWithTerrain(float x, float z, bool bWarp = false );
-	float GetHeightNearstPosWithShape(const __Vector3& vPos, float fDist, __Vector3* pvNormal = NULL); 
+	float GetHeightNearstPosWithShape(const __Vector3& vPos, float fDist, __Vector3* pvNormal = nullptr); 
 	bool IsInTerrainWithTerrain(float x, float z, __Vector3 vPosBefore = __Vector3());
-	float GetHeightWithShape(float fX, float fZ, __Vector3* pvNormal = NULL); 
+	float GetHeightWithShape(float fX, float fZ, __Vector3* pvNormal = nullptr); 
 	BOOL PickWideWithTerrain(int x, int y, __Vector3& vPick);
-	CN3Shape* PickWithShape(int iXScreen, int iYScreen, bool bMustHaveEvent, __Vector3* pvPick = NULL);
+	CN3Shape* PickWithShape(int iXScreen, int iYScreen, bool bMustHaveEvent, __Vector3* pvPick = nullptr);
 	CN3Shape* ShapeGetByIDWithShape(int iID);
-	bool CheckCollisionWithShape(	const __Vector3& vPos,				 // Ãæµ¹ À§Ä¡
-														const __Vector3& vDir,				   // ¹æÇâ º¤ÅÍ
-														float fSpeedPerSec,					    // ÃÊ´ç ¿òÁ÷ÀÌ´Â ¼Óµµ
-														__Vector3* pvCol,						 // Ãæµ¹ ÁöÁ¡
-														__Vector3* pvNormal,				  // Ãæµ¹ÇÑ¸éÀÇ ¹ı¼±º¤ÅÍ
-														__Vector3* pVec);						// Ãæµ¹ÇÑ ¸é ÀÇ Æú¸®°ï __Vector3[3]
+	bool CheckCollisionWithShape(	const __Vector3& vPos,				 // ì¶©ëŒ ìœ„ì¹˜
+														const __Vector3& vDir,				   // ë°©í–¥ ë²¡í„°
+														float fSpeedPerSec,					    // ì´ˆë‹¹ ì›€ì§ì´ëŠ” ì†ë„
+														__Vector3* pvCol,						 // ì¶©ëŒ ì§€ì 
+														__Vector3* pvNormal,				  // ì¶©ëŒí•œë©´ì˜ ë²•ì„ ë²¡í„°
+														__Vector3* pVec);						// ì¶©ëŒí•œ ë©´ ì˜ í´ë¦¬ê³¤ __Vector3[3]
 
 public:
 	CPvsMgr();

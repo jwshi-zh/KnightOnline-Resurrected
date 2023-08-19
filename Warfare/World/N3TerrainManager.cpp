@@ -32,19 +32,19 @@ CN3TerrainManager::CN3TerrainManager()
 CN3TerrainManager::~CN3TerrainManager()
 {
 	// N3Terrain..
-	delete m_pTerrain;  m_pTerrain = NULL;
+	delete m_pTerrain;  m_pTerrain = nullptr;
 
 	// Shape..
 	CLogWriter::Write("CN3TerrainManager::~CN3TerrainManager -> Pre delete m_pShape"); // TmpLog1122
-	delete m_pShapes; m_pShapes = NULL;
+	delete m_pShapes; m_pShapes = nullptr;
 
 	// Sky..
 	CLogWriter::Write("CN3TerrainManager::~CN3TerrainManager -> Pre delete m_pSky"); // TmpLog1122
-	delete m_pSky;		m_pSky = NULL;
+	delete m_pSky;		m_pSky = nullptr;
 
 	// Bird..
 	CLogWriter::Write("CN3TerrainManager::~CN3TerrainManager -> Pre delete m_pBirdMng"); // TmpLog1122
-	delete m_pBirdMng; m_pBirdMng = NULL;
+	delete m_pBirdMng; m_pBirdMng = nullptr;
 
 	// Grass..
 //	CLogWriter::Write("CN3TerrainManager::~CN3TerrainManager -> Pre delete m_pGrasses"); // TmpLog1122
@@ -58,31 +58,31 @@ CN3TerrainManager::~CN3TerrainManager()
 void CN3TerrainManager::InitWorld(int iZoneID, const __Vector3& vPosPlayer)
 {
 	__TABLE_ZONE* pZone = s_pTbl_Zones->Find(s_pPlayer->m_InfoExt.iZoneCur);
-	if(NULL == pZone) { CLogWriter::Write("Null Zone Data : %d", iZoneID); return; }
+	if(nullptr == pZone) { CLogWriter::Write("Null Zone Data : %d", iZoneID); return; }
 
 	CLogWriter::Write("CN3TerrainManager::InitWorld Pre Load\t%d", m_pTerrain); // TmpLog_11_22
-	m_pTerrain->LoadFromFile(pZone->szTerrainFN);		// ÁöÇü..·Îµå..
+	m_pTerrain->LoadFromFile(pZone->szTerrainFN);		// ì§€í˜•..ë¡œë“œ..
 	CLogWriter::Write("CN3TerrainManager::InitWorld Pre Load ColorMap"); // TmpLog_11_22
-	m_pTerrain->LoadColorMap(pZone->szColorMapFN);		// ÄÃ·¯¸Ê ·Îµå..
+	m_pTerrain->LoadColorMap(pZone->szColorMapFN);		// ì»¬ëŸ¬ë§µ ë¡œë“œ..
 	CLogWriter::Write("CN3TerrainManager::InitWorld Pre Release Shapes\t%d", m_pShapes); // TmpLog_11_22
 	m_pShapes->Release();
 	CLogWriter::Write("CN3TerrainManager::InitWorld Pre Load Shapes"); // TmpLog_11_22
-	m_pShapes->LoadFromFile(pZone->szObjectPostDataFN);	// ¿ÀºêÁ§Æ® µ¥ÀÌÅÍ ·Îµå..
+	m_pShapes->LoadFromFile(pZone->szObjectPostDataFN);	// ì˜¤ë¸Œì íŠ¸ ë°ì´í„° ë¡œë“œ..
 	
 	char szFName[_MAX_PATH];
-	_splitpath(pZone->szTerrainFN.c_str(), NULL, NULL, szFName, NULL);
+	_splitpath(pZone->szTerrainFN.c_str(), nullptr, nullptr, szFName, nullptr);
 	char szFName2[_MAX_PATH];
 	char szFullPathName[_MAX_PATH];
 	sprintf(szFName2,"%s_Bird",szFName);
-	_makepath(szFullPathName, NULL, "misc\\bird", szFName2, "lst");
+	_makepath(szFullPathName, nullptr, "misc\\bird", szFName2, "lst");
 	CLogWriter::Write("CN3TerrainManager::InitWorld Pre Load Birds\t%d", m_pBirdMng); // TmpLog_11_22
 	m_pBirdMng->LoadFromFile(szFullPathName);
 
 //	CLogWriter::Write("CN3TerrainManager::InitWorld Pre Load Grasses\t%d", m_pGrasses); // TmpLog_11_22
 //	m_pGrasses->Init(vPosPlayer);
 	CLogWriter::Write("CN3TerrainManager::InitWorld Pre Load Sky\t%d", m_pSky); // TmpLog_11_22
-	m_pSky->LoadFromFile(pZone->szSkySetting); // ÇÏ´Ã, ±¸¸§, ÅÂ¾ç, ³¯¾¾ º¯È­µî Á¤º¸ ¹× ÅØ½ºÃ³ ·Îµù..
-	m_pSky->SunAndMoonDirectionFixByHour(pZone->iFixedSundDirection); // ÇØ, ´Þ ¹æÇâÀ» °íÁ¤ÇÏµç°¡ È¤Àº 0 ÀÌ¸é °íÁ¤ÇÏÁö ¾Ê´Â´Ù.
+	m_pSky->LoadFromFile(pZone->szSkySetting); // í•˜ëŠ˜, êµ¬ë¦„, íƒœì–‘, ë‚ ì”¨ ë³€í™”ë“± ì •ë³´ ë° í…ìŠ¤ì²˜ ë¡œë”©..
+	m_pSky->SunAndMoonDirectionFixByHour(pZone->iFixedSundDirection); // í•´, ë‹¬ ë°©í–¥ì„ ê³ ì •í•˜ë“ ê°€ í˜¹ì€ 0 ì´ë©´ ê³ ì •í•˜ì§€ ì•ŠëŠ”ë‹¤.
 }
 
 void CN3TerrainManager::Tick()
@@ -236,7 +236,7 @@ CN3Shape* CN3TerrainManager::ShapeGetByIDWithShape(int iID)
 	if (m_pShapes) 
 		return m_pShapes->ShapeGetByID(iID);
 	else
-		return NULL;
+		return nullptr;
 }
 
 CN3Shape* CN3TerrainManager::PickWithShape(int iXScreen, int iYScreen, bool bMustHaveEvent, __Vector3* pvPick)
@@ -244,15 +244,15 @@ CN3Shape* CN3TerrainManager::PickWithShape(int iXScreen, int iYScreen, bool bMus
 	if (m_pShapes) 
 		return m_pShapes->Pick(iXScreen, iYScreen, bMustHaveEvent, pvPick);
 	else
-		return NULL;
+		return nullptr;
 }
 
-bool CN3TerrainManager::CheckCollisionWithShape(	  const __Vector3& vPos,				 // Ãæµ¹ À§Ä¡
-																						const __Vector3& vDir,				   // ¹æÇâ º¤ÅÍ
-																						float fSpeedPerSec,					    // ÃÊ´ç ¿òÁ÷ÀÌ´Â ¼Óµµ
-																						__Vector3* pvCol,						 // Ãæµ¹ ÁöÁ¡
-																						__Vector3* pvNormal,				  // Ãæµ¹ÇÑ¸éÀÇ ¹ý¼±º¤ÅÍ
-																						__Vector3* pVec)						// Ãæµ¹ÇÑ ¸é ÀÇ Æú¸®°ï __Vector3[3]
+bool CN3TerrainManager::CheckCollisionWithShape(	  const __Vector3& vPos,				 // ì¶©ëŒ ìœ„ì¹˜
+																						const __Vector3& vDir,				   // ë°©í–¥ ë²¡í„°
+																						float fSpeedPerSec,					    // ì´ˆë‹¹ ì›€ì§ì´ëŠ” ì†ë„
+																						__Vector3* pvCol,						 // ì¶©ëŒ ì§€ì 
+																						__Vector3* pvNormal,				  // ì¶©ëŒí•œë©´ì˜ ë²•ì„ ë²¡í„°
+																						__Vector3* pVec)						// ì¶©ëŒí•œ ë©´ ì˜ í´ë¦¬ê³¤ __Vector3[3]
 {
 	if (m_pShapes) 
 		return m_pShapes->CheckCollision( vPos, vDir, fSpeedPerSec, pvCol, pvNormal, pVec);
@@ -321,7 +321,7 @@ CN3Sun*	CN3TerrainManager::GetSunPointerWithSky()
 	if (m_pSky)
 		return m_pSky->GetSunPointer();
 	else
-		return NULL;
+		return nullptr;
 }
 
 // Grass..

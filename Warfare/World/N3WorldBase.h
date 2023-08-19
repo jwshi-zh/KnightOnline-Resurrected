@@ -34,19 +34,19 @@ public:
 
 	// Shapes..
 	virtual bool CheckCollisionCameraWithShape(__Vector3& vEyeResult, const __Vector3& vAt, float fNP) = 0;
-	virtual float GetHeightNearstPosWithShape(const __Vector3& vPos, float fDist, __Vector3* pvNormal = NULL) = 0; 
+	virtual float GetHeightNearstPosWithShape(const __Vector3& vPos, float fDist, __Vector3* pvNormal = nullptr) = 0; 
 #ifdef _DEBUG
 	virtual void RenderCollisionWithShape(__Vector3 &vPos) = 0;
 #endif	
-	virtual float GetHeightWithShape(float fX, float fZ, __Vector3* pvNormal = NULL) = 0; 
+	virtual float GetHeightWithShape(float fX, float fZ, __Vector3* pvNormal = nullptr) = 0; 
 	virtual CN3Shape* ShapeGetByIDWithShape(int iID) = 0;
-	virtual CN3Shape* PickWithShape(int iXScreen, int iYScreen, bool bMustHaveEvent, __Vector3* pvPick = NULL) = 0;
-	virtual bool CheckCollisionWithShape(	const __Vector3& vPos,			// Ãæµ¹ À§Ä¡
-														const __Vector3& vDir,					    // ¹æÇâ º¤ÅÍ
-														float fSpeedPerSec,							 // ÃÊ´ç ¿òÁ÷ÀÌ´Â ¼Óµµ
-														__Vector3* pvCol = NULL,				  // Ãæµ¹ ÁöÁ¡
-														__Vector3* pvNormal = NULL,				// Ãæµ¹ÇÑ¸éÀÇ ¹ı¼±º¤ÅÍ
-														__Vector3* pVec = NULL) = 0;			// Ãæµ¹ÇÑ ¸é ÀÇ Æú¸®°ï __Vector3[3]
+	virtual CN3Shape* PickWithShape(int iXScreen, int iYScreen, bool bMustHaveEvent, __Vector3* pvPick = nullptr) = 0;
+	virtual bool CheckCollisionWithShape(	const __Vector3& vPos,			// ì¶©ëŒ ìœ„ì¹˜
+														const __Vector3& vDir,					    // ë°©í–¥ ë²¡í„°
+														float fSpeedPerSec,							 // ì´ˆë‹¹ ì›€ì§ì´ëŠ” ì†ë„
+														__Vector3* pvCol = nullptr,				  // ì¶©ëŒ ì§€ì 
+														__Vector3* pvNormal = nullptr,				// ì¶©ëŒí•œë©´ì˜ ë²•ì„ ë²¡í„°
+														__Vector3* pVec = nullptr) = 0;			// ì¶©ëŒí•œ ë©´ ì˜ í´ë¦¬ê³¤ __Vector3[3]
 
 	// Sky..
 	virtual D3DCOLOR GetSkyColorWithSky()	{	return 0x00000000;	}
@@ -57,7 +57,7 @@ public:
 	virtual D3DCOLOR GetLightDiffuseColorWithSky(int iIndex)	{	return 0xffffffff;	}
 	virtual D3DCOLOR GetLightAmbientColorWithSky(int iIndex)	{	return 0xffffffff;	}
 	virtual D3DCOLOR GetFogColorWithSky()	{	return 0xffffffff;	}
-	virtual CN3Sun*	GetSunPointerWithSky()	{	return NULL;	}
+	virtual CN3Sun*	GetSunPointerWithSky()	{	return nullptr;	}
 
 	// Bird..
 

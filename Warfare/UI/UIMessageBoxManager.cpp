@@ -5,7 +5,7 @@
 
 CUIMessageBoxManager::CUIMessageBoxManager()
 {
-	m_pMsgBoxLatestRef = NULL;
+	m_pMsgBoxLatestRef = nullptr;
 }
 
 CUIMessageBoxManager::~CUIMessageBoxManager()
@@ -20,8 +20,8 @@ int CUIMessageBoxManager::GetCount()
 
 std::string CUIMessageBoxManager::MessageBoxPost(const std::string& szMsg, const std::string& szTitle, int iStyle, e_Behavior eBehavior)
 {
-	CUIMessageBox*		pMB		= NULL;
-	__TABLE_UI_RESRC*	pTblUI	= NULL;
+	CUIMessageBox*		pMB		= nullptr;
+	__TABLE_UI_RESRC*	pTblUI	= nullptr;
 
 	it_UBM it, it_e;
 
@@ -31,7 +31,7 @@ std::string CUIMessageBoxManager::MessageBoxPost(const std::string& szMsg, const
 	if( it == it_e )
 	{
 		pMB = new CUIMessageBox();
-		if( pMB == NULL )
+		if( pMB == nullptr)
 			return szMsg;
 
 		pTblUI = CGameBase::s_pTbl_UI->Find(NATION_ELMORAD);
@@ -62,7 +62,7 @@ std::string CUIMessageBoxManager::MessageBoxPost(const std::string& szMsg, const
 	pMB->SetPos(pt.x, pt.y);
 	pMB->SetVisible(true);
 
-	m_pMsgBoxLatestRef = pMB; // ¸¶Áö¸·¿¡ ¶ç¿î ´ëÈ­»óÀÚ.. Z Á¤·ÄÀ» À§ÇØ¼­ ÀÌ Æ÷ÀÎÅÍ¸¦ ¼¼ÆÃÇØÁØ´Ù..
+	m_pMsgBoxLatestRef = pMB; // ë§ˆì§€ë§‰ì— ë„ìš´ ëŒ€í™”ìƒìž.. Z ì •ë ¬ì„ ìœ„í•´ì„œ ì´ í¬ì¸í„°ë¥¼ ì„¸íŒ…í•´ì¤€ë‹¤..
 
 	it		= m_UBMs.begin();
 	it_e	= m_UBMs.end();
@@ -90,7 +90,7 @@ void CUIMessageBoxManager::MessageBoxClose(const std::string& szMsg)
 	if(it_f != it_e)
 	{
 		if(m_pMsgBoxLatestRef == it_f->second)
-			m_pMsgBoxLatestRef = NULL;
+			m_pMsgBoxLatestRef = nullptr;
 
 		CUIMessageBox* pMB = it_f->second;
 		if(pMB) pMB->SetVisible(false);
@@ -103,17 +103,17 @@ void CUIMessageBoxManager::Render()
 	for(; it != it_e; it++)
 	{
 		CUIMessageBox* pMB = it->second;
-		if(pMB == NULL || pMB == m_pMsgBoxLatestRef) continue;
+		if(pMB == nullptr || pMB == m_pMsgBoxLatestRef) continue;
 		if(!pMB->IsVisible()) continue;
 		CUIManager::RenderStateSet();
-		pMB->Render(); // ¸Þ½ÃÁö ¹Ú½º ·»´õ¸µ..
+		pMB->Render(); // ë©”ì‹œì§€ ë°•ìŠ¤ ë Œë”ë§..
 		CUIManager::RenderStateRestore();
 	}
 
 	if(m_pMsgBoxLatestRef && m_pMsgBoxLatestRef->IsVisible())
 	{
 		CUIManager::RenderStateSet();
-		m_pMsgBoxLatestRef->Render(); // ¸Þ½ÃÁö ¹Ú½º ·»´õ¸µ..
+		m_pMsgBoxLatestRef->Render(); // ë©”ì‹œì§€ ë°•ìŠ¤ ë Œë”ë§..
 		CUIManager::RenderStateRestore();
 	}
 }
@@ -127,7 +127,7 @@ void CUIMessageBoxManager::MessageBoxCloseAll()
 		if(pMB) pMB->SetVisible(false);
 	}
 
-	m_pMsgBoxLatestRef = NULL;
+	m_pMsgBoxLatestRef = nullptr;
 }
 
 DWORD CUIMessageBoxManager::MouseProcAndTick(DWORD &dwFlags, const POINT &ptCur, const POINT &ptOld)
@@ -166,7 +166,7 @@ void CUIMessageBoxManager::Release()
 	}
 	m_UBMs.clear();
 
-	m_pMsgBoxLatestRef = NULL;
+	m_pMsgBoxLatestRef = nullptr;
 }
 
 CUIMessageBox* CUIMessageBoxManager::ReFocusMsgBox()
@@ -181,6 +181,6 @@ CUIMessageBox* CUIMessageBoxManager::ReFocusMsgBox()
 		}
 	}
 
-	m_pMsgBoxLatestRef = NULL;
-	return NULL;
+	m_pMsgBoxLatestRef = nullptr;
+	return nullptr;
 }

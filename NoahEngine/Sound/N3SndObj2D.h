@@ -28,7 +28,7 @@ protected:
 public:
 	int						m_iID;
 	bool					m_bUse;
-	std::string				m_szFileName;	//ÆÄÀÏÀÌ¸§...(ID ´ë¿ë).
+	std::string				m_szFileName;	//íŒŒì¼ì´ë¦„...(ID ëŒ€ìš©).
 	
 
 protected:
@@ -56,7 +56,7 @@ public:
 
 	virtual void Init();
 	virtual void Release();
-	virtual void Play(const D3DVECTOR* pvPos = NULL, float delay = 0.0f, float fFadeInTime = 0.0f, bool bImmediately = true);
+	virtual void Play(const D3DVECTOR* pvPos = nullptr, float delay = 0.0f, float fFadeInTime = 0.0f, bool bImmediately = true);
 	virtual void Stop(float fFadeOutTime = 0.0f);
 	virtual void Tick();
 

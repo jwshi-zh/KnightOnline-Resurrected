@@ -3,7 +3,7 @@
 
 CN3Snd3dObj::CN3Snd3dObj()
 {
-	m_pDS3DBuff = NULL;
+	m_pDS3DBuff = nullptr;
 }
 
 CN3Snd3dObj::~CN3Snd3dObj()
@@ -18,7 +18,7 @@ void CN3Snd3dObj::Release()
 	if(m_pDS3DBuff)
 	{
 		m_pDS3DBuff->Release();
-		m_pDS3DBuff = NULL;
+		m_pDS3DBuff = nullptr;
 	}	
 }
 
@@ -27,7 +27,7 @@ void CN3Snd3dObj::Init()
 	Release();
 	CN3SndObj::Init();
 	
-	m_pDS3DBuff = NULL;
+	m_pDS3DBuff = nullptr;
 }
 
 void CN3Snd3dObj::SetPos(const D3DVECTOR* pvPos)

@@ -7,7 +7,7 @@
 
 CWarMessage::CWarMessage()
 {
-	m_pMessageFont	= NULL;
+	m_pMessageFont	= nullptr;
 	m_fTime			= 0.0f;
 }
 
@@ -41,14 +41,14 @@ void CWarMessage::InitFont()
 
 void CWarMessage::Release()
 {
-	if(m_pMessageFont) delete m_pMessageFont; m_pMessageFont = NULL;
+	if(m_pMessageFont) delete m_pMessageFont; m_pMessageFont = nullptr;
 }
 
 void CWarMessage::SetMessage(const std::string& szText, DWORD dwFlags, DWORD dwColor)
 {
 	if(m_pMessageFont) 
 	{
-		m_pMessageFont->SetText(szText, dwFlags); // ÆùÆ®¿¡ ÅØ½ºÆ® ÁöÁ¤.
+		m_pMessageFont->SetText(szText, dwFlags); // í°íŠ¸ì— í…ìŠ¤íŠ¸ ì§€ì •.
 		m_pMessageFont->SetFontColor(dwColor);
 		m_fTime = WAR_MESSAGE_SHOW_TIME;
 	}

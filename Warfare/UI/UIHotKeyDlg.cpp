@@ -18,12 +18,12 @@ CUIHotKeyDlg::CUIHotKeyDlg()
 
 	for(auto i = 0; i < MAX_SKILL_HOTKEY_PAGE; i++ )
 		for(auto j = 0; j < MAX_SKILL_IN_HOTKEY; j++ )
-			m_pMyHotkey[i][j] = NULL;
+			m_pMyHotkey[i][j] = nullptr;
 
 	for(auto j = 0; j < MAX_SKILL_IN_HOTKEY; j++ )
 	{
-		m_pCountStr[j] = NULL;
-		m_pTooltipStr[j] = NULL;
+		m_pCountStr[j] = nullptr;
+		m_pTooltipStr[j] = nullptr;
 	}
 }
 
@@ -38,18 +38,18 @@ void CUIHotKeyDlg::Release()
 	{
 		for(auto j = 0; j < MAX_SKILL_IN_HOTKEY; j++ )
 		{
-			if ( m_pMyHotkey[i][j] != NULL )
+			if ( m_pMyHotkey[i][j] != nullptr)
 			{
 				delete m_pMyHotkey[i][j];
-				m_pMyHotkey[i][j] = NULL;
+				m_pMyHotkey[i][j] = nullptr;
 			}
 		}
 	}
 
 	for(auto j = 0; j < MAX_SKILL_IN_HOTKEY; j++ )
 	{
-		m_pCountStr[j] = NULL;
-		m_pTooltipStr[j] = NULL;
+		m_pCountStr[j] = nullptr;
+		m_pTooltipStr[j] = nullptr;
 	}
 
 	m_iCurPage		= 0;
@@ -65,18 +65,18 @@ void CUIHotKeyDlg::ReleaseItem()
 	{
 		for(auto j = 0; j < MAX_SKILL_IN_HOTKEY; j++ )
 		{
-			if ( m_pMyHotkey[i][j] != NULL )
+			if ( m_pMyHotkey[i][j] != nullptr)
 			{
 				if ( m_pMyHotkey[i][j]->pUIIcon )
 				{
 					RemoveChild(m_pMyHotkey[i][j]->pUIIcon);
 					m_pMyHotkey[i][j]->pUIIcon->Release();
 					delete m_pMyHotkey[i][j]->pUIIcon;
-					m_pMyHotkey[i][j]->pUIIcon = NULL;
+					m_pMyHotkey[i][j]->pUIIcon = nullptr;
 				}
 
 				delete m_pMyHotkey[i][j];
-				m_pMyHotkey[i][j] = NULL;
+				m_pMyHotkey[i][j] = nullptr;
 			}
 		}
 	}
@@ -88,10 +88,10 @@ DWORD CUIHotKeyDlg::MouseProc(DWORD dwFlags, const POINT& ptCur, const POINT& pt
 {
 	DWORD dwRet = UI_MOUSEPROC_NONE;
 	if ( !IsVisible() ) { dwRet |= CN3UIBase::MouseProc(dwFlags, ptCur, ptOld);  return dwRet; }
-	// Ω«¡¶∑Œ æ≤¡¯ æ ¥¬¥Ÿ..
+	// Ïã§Ï†úÎ°ú Ïì∞ÏßÑ ÏïäÎäîÎã§..
 	if (CN3UIWndBase::m_sRecoveryJobInfo.m_bWaitFromServer) { dwRet |= CN3UIBase::MouseProc(dwFlags, ptCur, ptOld);  return dwRet; }
 
-	// µÂ∑°±◊ µ«¥¬ æ∆¿Ãƒ‹ ∞ªΩ≈..
+	// ÎìúÎûòÍ∑∏ ÎêòÎäî ÏïÑÏù¥ÏΩò Í∞±Ïã†..
 	if ( GetState() == UI_STATE_ICON_MOVING ) 
 	{
 		if(CN3UIWndBase::m_sSkillSelectInfo.pSkillDoneInfo)
@@ -142,7 +142,7 @@ bool CUIHotKeyDlg::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 			break;
 
 		case UIMSG_ICON_RUP:
-			// Hot Key ¿©µµøÏ∏¶ µπæ∆ ¥Ÿ¥œ∏Èº≠ ∞ÀªÁ..
+			// Hot Key ÏúàÎèÑÏö∞Î•º ÎèåÏïÑ Îã§ÎãàÎ©¥ÏÑú Í≤ÄÏÇ¨..
 			if ( IsIn(ptCur.x, ptCur.y) )
 			{
 				int iOrder = GetAreaiOrder();
@@ -156,11 +156,11 @@ bool CUIHotKeyDlg::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 			break;
 
 		case UIMSG_ICON_UP:
-			// Hot Key ¿©µµøÏ∏¶ µπæ∆ ¥Ÿ¥œ∏Èº≠ ∞ÀªÁ..
+			// Hot Key ÏúàÎèÑÏö∞Î•º ÎèåÏïÑ Îã§ÎãàÎ©¥ÏÑú Í≤ÄÏÇ¨..
 			if ( IsIn(ptCur.x, ptCur.y) )
 			{
 				int iOrder = GetAreaiOrder();
-				if ( CN3UIWndBase::m_sSkillSelectInfo.iOrder == iOrder )	// Ω««‡..
+				if ( CN3UIWndBase::m_sSkillSelectInfo.iOrder == iOrder )	// Ïã§Ìñâ..
 				{
 					CN3UIArea* pArea;
 					pArea = CN3UIWndBase::GetChildAreaByiOrder(UI_AREA_TYPE_SKILL_HOTKEY, iOrder);
@@ -176,19 +176,19 @@ bool CUIHotKeyDlg::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 				{
 					if ( iOrder == -1 )
 					{
-						// ∏Æº“Ω∫ Free..
+						// Î¶¨ÏÜåÏä§ Free..
 						spSkill = CN3UIWndBase::m_sSkillSelectInfo.pSkillDoneInfo;
 
-						// ∏≈¥œ¿˙ø°º≠ ¡¶∞≈..
+						// Îß§ÎãàÏ†ÄÏóêÏÑú Ï†úÍ±∞..
 						RemoveChild(spSkill->pUIIcon);
 
-						// ∏Æº“Ω∫ ¡¶∞≈..
+						// Î¶¨ÏÜåÏä§ Ï†úÍ±∞..
 						spSkill->pUIIcon->Release();
 						delete spSkill->pUIIcon;
-						spSkill->pUIIcon = NULL;
+						spSkill->pUIIcon = nullptr;
 						delete spSkill;
-						spSkill = NULL;
-						m_pMyHotkey[m_iCurPage][CN3UIWndBase::m_sSkillSelectInfo.iOrder] = NULL;
+						spSkill = nullptr;
+						m_pMyHotkey[m_iCurPage][CN3UIWndBase::m_sSkillSelectInfo.iOrder] = nullptr;
 						if(m_iCurPage == m_iSelectPage && CN3UIWndBase::m_sSkillSelectInfo.iOrder == m_iSelectIndex)
 						{
 							m_iSelectPage	= -1;
@@ -197,29 +197,29 @@ bool CUIHotKeyDlg::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 
 						CloseIconRegistry();
 					}
-					else	// ø≈±‚±‚..
+					else	// ÏòÆÍ∏∞Í∏∞..
 					{
-						// ±‚¡∏ æ∆¿Ãƒ‹¿Ã ¿÷¥Ÿ∏È..
+						// Í∏∞Ï°¥ ÏïÑÏù¥ÏΩòÏù¥ ÏûàÎã§Î©¥..
 						if ( m_pMyHotkey[m_iCurPage][iOrder] )
 						{
-							// ±‚¡∏ æ∆¿Ãƒ‹¿ª ªË¡¶«—¥Ÿ..
+							// Í∏∞Ï°¥ ÏïÑÏù¥ÏΩòÏùÑ ÏÇ≠Ï†úÌïúÎã§..
 							spSkill = m_pMyHotkey[m_iCurPage][iOrder];
 
-							// ∏≈¥œ¿˙ø°º≠ ¡¶∞≈..
+							// Îß§ÎãàÏ†ÄÏóêÏÑú Ï†úÍ±∞..
 							RemoveChild(spSkill->pUIIcon);
 
-							// ∏Æº“Ω∫ ¡¶∞≈..
+							// Î¶¨ÏÜåÏä§ Ï†úÍ±∞..
 							spSkill->pUIIcon->Release();
 							delete spSkill->pUIIcon;
-							spSkill->pUIIcon = NULL;
+							spSkill->pUIIcon = nullptr;
 							delete spSkill;
-							spSkill = NULL;
-							m_pMyHotkey[m_iCurPage][iOrder] = NULL;
+							spSkill = nullptr;
+							m_pMyHotkey[m_iCurPage][iOrder] = nullptr;
 						}
 
 						spSkill = m_pMyHotkey[m_iCurPage][CN3UIWndBase::m_sSkillSelectInfo.iOrder];
 						m_pMyHotkey[m_iCurPage][iOrder] = spSkill;
-						m_pMyHotkey[m_iCurPage][CN3UIWndBase::m_sSkillSelectInfo.iOrder] = NULL;
+						m_pMyHotkey[m_iCurPage][CN3UIWndBase::m_sSkillSelectInfo.iOrder] = nullptr;
 
 						if(m_iCurPage == m_iSelectPage && CN3UIWndBase::m_sSkillSelectInfo.iOrder == m_iSelectIndex)
 						{
@@ -239,21 +239,21 @@ bool CUIHotKeyDlg::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 					}
 				}
 			}
-			else		// ªË¡¶..
+			else		// ÏÇ≠Ï†ú..
 			{
-				// ∏Æº“Ω∫ Free..
+				// Î¶¨ÏÜåÏä§ Free..
 				spSkill = CN3UIWndBase::m_sSkillSelectInfo.pSkillDoneInfo;
 
-				// ∏≈¥œ¿˙ø°º≠ ¡¶∞≈..
+				// Îß§ÎãàÏ†ÄÏóêÏÑú Ï†úÍ±∞..
 				RemoveChild(spSkill->pUIIcon);
 
-				// ∏Æº“Ω∫ ¡¶∞≈..
+				// Î¶¨ÏÜåÏä§ Ï†úÍ±∞..
 				spSkill->pUIIcon->Release();
 				delete spSkill->pUIIcon;
-				spSkill->pUIIcon = NULL;
+				spSkill->pUIIcon = nullptr;
 				delete spSkill;
-				spSkill = NULL;
-				m_pMyHotkey[m_iCurPage][CN3UIWndBase::m_sSkillSelectInfo.iOrder] = NULL;
+				spSkill = nullptr;
+				m_pMyHotkey[m_iCurPage][CN3UIWndBase::m_sSkillSelectInfo.iOrder] = nullptr;
 
 				if(m_iCurPage == m_iSelectPage && CN3UIWndBase::m_sSkillSelectInfo.iOrder == m_iSelectIndex)
 				{
@@ -263,7 +263,7 @@ bool CUIHotKeyDlg::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 
 				CloseIconRegistry();
 			}
-			CN3UIWndBase::m_sSkillSelectInfo.pSkillDoneInfo = NULL;
+			CN3UIWndBase::m_sSkillSelectInfo.pSkillDoneInfo = nullptr;
 			SetState(UI_STATE_COMMON_NONE);
 			break;
 
@@ -277,9 +277,9 @@ bool CUIHotKeyDlg::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 void CUIHotKeyDlg::Render()
 {
 	bool bTooltipRender = false;
-	__IconItemSkill* pSkill = NULL;
+	__IconItemSkill* pSkill = nullptr;
 
-	if (!m_bVisible) return;	// ∫∏¿Ã¡ˆ æ ¿∏∏È ¿⁄ΩƒµÈ¿ª render«œ¡ˆ æ ¥¬¥Ÿ.
+	if (!m_bVisible) return;	// Î≥¥Ïù¥ÏßÄ ÏïäÏúºÎ©¥ ÏûêÏãùÎì§ÏùÑ renderÌïòÏßÄ ÏïäÎäîÎã§.
 	DisableTooltipDisplay();
 	DisableCountStrDisplay();
 
@@ -301,7 +301,7 @@ void CUIHotKeyDlg::Render()
 			RenderSelectIcon(pUIIcon);
 	}
 
-	// «ˆ¿Á ∆‰¿Ã¡ˆø°º≠ 
+	// ÌòÑÏû¨ ÌéòÏù¥ÏßÄÏóêÏÑú 
 	CN3UIArea* pArea;
 	POINT ptCur = CGameProcedure::s_pLocalInput->MouseGetPos();
 
@@ -309,15 +309,15 @@ void CUIHotKeyDlg::Render()
 
 	for( k = 0; k < MAX_SKILL_IN_HOTKEY; k++ )
 	{
-		if (m_pMyHotkey[m_iCurPage][k] != NULL) 
+		if (m_pMyHotkey[m_iCurPage][k] != nullptr) 
 			DisplayCountStr(m_pMyHotkey[m_iCurPage][k]);
 	}
 
 	for( k = 0; k < MAX_SKILL_IN_HOTKEY; k++ )
 	{
-		if (m_pMyHotkey[m_iCurPage][k] != NULL) 
+		if (m_pMyHotkey[m_iCurPage][k] != nullptr) 
 		{
-			pArea = NULL;
+			pArea = nullptr;
 			pArea = CN3UIWndBase::GetChildAreaByiOrder(UI_AREA_TYPE_SKILL_HOTKEY, k);
 			if (pArea && pArea->IsIn(ptCur.x, ptCur.y)) 
 			{
@@ -380,9 +380,9 @@ void CUIHotKeyDlg::InitIconUpdate()
 		str += szSkill;				
 		if( CGameProcedure::RegGetSetting(str.c_str(), &HD, sizeof(CHotkeyData)) )
 		{
-			__TABLE_UPC_SKILL* pUSkill = NULL;
+			__TABLE_UPC_SKILL* pUSkill = nullptr;
 
-			// Skill Tree Window∞° æ∆¿Ãµ∏¶ ∞Æ∞Ì ¿÷¡ˆ æ ¿∏∏È continue.. 
+			// Skill Tree WindowÍ∞Ä ÏïÑÏù¥ÎîîÎ•º Í∞ñÍ≥† ÏûàÏßÄ ÏïäÏúºÎ©¥ continue.. 
 			if ( (HD.iID < UIITEM_TYPE_SONGPYUN_ID_MIN) &&  (!CGameProcedure::s_pProcMain->m_pUISkillTreeDlg->HasIDSkill(HD.iID)) )
 				continue;
 
@@ -393,12 +393,12 @@ void CUIHotKeyDlg::InitIconUpdate()
 			__IconItemSkill* spSkill = new __IconItemSkill();
 			spSkill->pSkill = pUSkill;
 
-			// æ∆¿Ãƒ‹ ¿Ã∏ß ∏∏µÈ±‚.. ^^
+			// ÏïÑÏù¥ÏΩò Ïù¥Î¶Ñ ÎßåÎì§Í∏∞.. ^^
 			std::vector<char> buffer(256, NULL);
 			sprintf(buffer.data(),	"UI\\skillicon_%.2d_%d.dxt", HD.iID%100, HD.iID/100);
 			spSkill->szIconFN = buffer.data();
 
-			// æ∆¿Ãƒ‹ ∑ŒµÂ«œ±‚.. ^^
+			// ÏïÑÏù¥ÏΩò Î°úÎìúÌïòÍ∏∞.. ^^
 			spSkill->pUIIcon = new CN3UIIcon;
 			spSkill->pUIIcon->Init(this);
 			spSkill->pUIIcon->SetTex(spSkill->szIconFN);
@@ -406,7 +406,7 @@ void CUIHotKeyDlg::InitIconUpdate()
 			spSkill->pUIIcon->SetUIType(UI_TYPE_ICON);
 			spSkill->pUIIcon->SetStyle(UISTYLE_ICON_SKILL);
 
-			CN3UIArea* pArea = NULL;
+			CN3UIArea* pArea = nullptr;
 			pArea = CN3UIWndBase::GetChildAreaByiOrder(UI_AREA_TYPE_SKILL_HOTKEY, HD.column);
 			if ( pArea )
 			{
@@ -414,7 +414,7 @@ void CUIHotKeyDlg::InitIconUpdate()
 				spSkill->pUIIcon->SetMoveRect(pArea->GetRegion());
 			}
 
-			// æ∆¿Ãƒ‹ ¡§∫∏ ¿˙¿Â..
+			// ÏïÑÏù¥ÏΩò Ï†ïÎ≥¥ Ï†ÄÏû•..
 			m_pMyHotkey[HD.row][HD.column] = spSkill;
 		}
 		iSkillCount++;
@@ -432,7 +432,7 @@ void CUIHotKeyDlg::UpdateDisableCheck()
 	{
 		for( j = 0; j < MAX_SKILL_IN_HOTKEY; j++ )
 		{
-			if ( m_pMyHotkey[i][j] != NULL )
+			if ( m_pMyHotkey[i][j] != nullptr)
 			{
 				bitMask = UISTYLE_ICON_SKILL;
 				if (!CGameProcedure::s_pProcMain->m_pMagicSkillMng->CheckValidSkillMagic(m_pMyHotkey[i][j]->pSkill))
@@ -455,7 +455,7 @@ void CUIHotKeyDlg::CloseIconRegistry()
 	{
 		for( j = 0; j < MAX_SKILL_IN_HOTKEY; j++ )
 		{
-			if ( m_pMyHotkey[i][j] != NULL )
+			if ( m_pMyHotkey[i][j] != nullptr)
 				iHCount++;
 		}
 	}
@@ -469,7 +469,7 @@ void CUIHotKeyDlg::CloseIconRegistry()
 	{
 		for( j = 0; j < MAX_SKILL_IN_HOTKEY; j++ )
 		{
-			if ( m_pMyHotkey[i][j] != NULL )
+			if ( m_pMyHotkey[i][j] != nullptr)
 			{
 				std::string str = "Data";
 				sprintf(szSkill, "%d", iSkillCount);
@@ -487,37 +487,37 @@ __IconItemSkill* CUIHotKeyDlg::GetHighlightIconItem(CN3UIIcon* pUIIcon)
 {
 	for(auto k = 0; k < MAX_SKILL_IN_HOTKEY; k++ )
 	{
-		if ( (m_pMyHotkey[m_iCurPage][k] != NULL) && 
+		if ( (m_pMyHotkey[m_iCurPage][k] != nullptr) && 
 			(m_pMyHotkey[m_iCurPage][k]->pUIIcon == pUIIcon) )
 			return m_pMyHotkey[m_iCurPage][k];
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 void CUIHotKeyDlg::AllFactorClear()
 {
-	__IconItemSkill *spSkill = NULL;
+	__IconItemSkill *spSkill = nullptr;
 
 	for(auto i = 0; i < MAX_SKILL_HOTKEY_PAGE; i++ )
 	{
 		for(auto j = 0; j < MAX_SKILL_IN_HOTKEY; j++ )
 		{
-			if ( m_pMyHotkey[i][j] != NULL )
+			if ( m_pMyHotkey[i][j] != nullptr)
 			{
-				// ∏Æº“Ω∫ Free..
+				// Î¶¨ÏÜåÏä§ Free..
 				spSkill = m_pMyHotkey[i][j];
 
-				// ∏≈¥œ¿˙ø°º≠ ¡¶∞≈..
+				// Îß§ÎãàÏ†ÄÏóêÏÑú Ï†úÍ±∞..
 				RemoveChild(spSkill->pUIIcon);
 
-				// ∏Æº“Ω∫ ¡¶∞≈..
+				// Î¶¨ÏÜåÏä§ Ï†úÍ±∞..
 				spSkill->pUIIcon->Release();
 				delete spSkill->pUIIcon;
-				spSkill->pUIIcon = NULL;
+				spSkill->pUIIcon = nullptr;
 				delete spSkill;
-				spSkill = NULL;
-				m_pMyHotkey[i][j] = NULL;
+				spSkill = nullptr;
+				m_pMyHotkey[i][j] = nullptr;
 			}
 		}
 	}
@@ -527,7 +527,7 @@ void CUIHotKeyDlg::AllFactorClear()
 
 int	CUIHotKeyDlg::GetAreaiOrder()
 {
-	// ∏’¿˙ Area∏¶ ∞Àªˆ«—¥Ÿ..
+	// Î®ºÏ†Ä AreaÎ•º Í≤ÄÏÉâÌïúÎã§..
 	CN3UIArea* pArea;
 	POINT ptCur = CGameProcedure::s_pLocalInput->MouseGetPos();
 
@@ -543,7 +543,7 @@ int	CUIHotKeyDlg::GetAreaiOrder()
 
 bool CUIHotKeyDlg::IsSelectedSkillInRealIconArea()
 {
-	// ∏’¿˙ Area∏¶ ∞Àªˆ«—¥Ÿ..
+	// Î®ºÏ†Ä AreaÎ•º Í≤ÄÏÉâÌïúÎã§..
 	CN3UIArea* pArea;
 	bool bFound = false;
 	POINT ptCur = CGameProcedure::s_pLocalInput->MouseGetPos();
@@ -569,7 +569,7 @@ bool CUIHotKeyDlg::IsSelectedSkillInRealIconArea()
 
 bool CUIHotKeyDlg::GetEmptySlotIndex(int &iIndex)
 {
-	__IconItemSkill *spSkill = NULL;
+	__IconItemSkill *spSkill = nullptr;
 
 	for(auto i = 0; i < MAX_SKILL_IN_HOTKEY; i++ )
 	{
@@ -585,29 +585,29 @@ bool CUIHotKeyDlg::GetEmptySlotIndex(int &iIndex)
 
 void CUIHotKeyDlg::SetReceiveSelectedSkill(int iIndex)
 {
-	__IconItemSkill *spSkill = NULL;
+	__IconItemSkill *spSkill = nullptr;
 
-	if (m_pMyHotkey[m_iCurPage][iIndex] != NULL)
+	if (m_pMyHotkey[m_iCurPage][iIndex] != nullptr)
 	{
-		// ∏Æº“Ω∫ Free..
+		// Î¶¨ÏÜåÏä§ Free..
 		spSkill = m_pMyHotkey[m_iCurPage][iIndex];
 
-		// ∏≈¥œ¿˙ø°º≠ ¡¶∞≈..
+		// Îß§ÎãàÏ†ÄÏóêÏÑú Ï†úÍ±∞..
 		RemoveChild(spSkill->pUIIcon);
 
-		// ∏Æº“Ω∫ ¡¶∞≈..
+		// Î¶¨ÏÜåÏä§ Ï†úÍ±∞..
 		spSkill->pUIIcon->Release();
 		delete spSkill->pUIIcon;
-		spSkill->pUIIcon = NULL;
+		spSkill->pUIIcon = nullptr;
 		delete spSkill;
-		spSkill = NULL;
-		m_pMyHotkey[m_iCurPage][iIndex] = NULL;
+		spSkill = nullptr;
+		m_pMyHotkey[m_iCurPage][iIndex] = nullptr;
 	}
 
 	CN3UIArea* pArea;
 	pArea = CN3UIWndBase::GetChildAreaByiOrder(UI_AREA_TYPE_SKILL_HOTKEY, iIndex);
 
-	// ±◊ ¥Ÿ¿Ωø°.. ±◊ ¿⁄∏Æø° 
+	// Í∑∏ Îã§ÏùåÏóê.. Í∑∏ ÏûêÎ¶¨Ïóê 
 	m_pMyHotkey[m_iCurPage][iIndex] = CN3UIWndBase::m_sSkillSelectInfo.pSkillDoneInfo;
 	m_pMyHotkey[m_iCurPage][iIndex]->szIconFN = CN3UIWndBase::m_sSkillSelectInfo.pSkillDoneInfo->szIconFN;
 	m_pMyHotkey[m_iCurPage][iIndex]->pUIIcon->SetRegion(pArea->GetRegion());
@@ -654,13 +654,13 @@ void CUIHotKeyDlg::SetHotKeyPage(int iPageNum)
 		if ( i != iPageNum )
 		{
 			for( j = 0; j < MAX_SKILL_IN_HOTKEY; j++ )
-				if ( m_pMyHotkey[i][j] != NULL )
+				if ( m_pMyHotkey[i][j] != nullptr)
 					m_pMyHotkey[i][j]->pUIIcon->SetVisible(false);
 		}
 		else
 		{
 			for( j = 0; j < MAX_SKILL_IN_HOTKEY; j++ )
-				if ( m_pMyHotkey[i][j] != NULL )
+				if ( m_pMyHotkey[i][j] != nullptr)
 					m_pMyHotkey[i][j]->pUIIcon->SetVisible(true);
 		}
 	}
@@ -697,8 +697,8 @@ void CUIHotKeyDlg::DoOperate(__IconItemSkill*	pSkill)
 	if(!pSkill) return;
 
 	//char szBuf[512];
-	// ∏ﬁΩ√¡ˆ π⁄Ω∫ √‚∑¬..	
-	//wsprintf(szBuf, "%s Ω∫≈≥¿Ã ªÁøÎµ«æ˙Ω¿¥œ¥Ÿ.", pSkill->pSkill->szName.c_str() );
+	// Î©îÏãúÏßÄ Î∞ïÏä§ Ï∂úÎ†•..	
+	//wsprintf(szBuf, "%s Ïä§ÌÇ¨Ïù¥ ÏÇ¨Ïö©ÎêòÏóàÏäµÎãàÎã§.", pSkill->pSkill->szName.c_str() );
 	//CGameProcedure::s_pProcMain->MsgOutput(szBuf, 0xffffff00);
 
 	PlayRepairSound();					
@@ -715,21 +715,21 @@ void CUIHotKeyDlg::ClassChangeHotkeyFlush()
 	{
 		for(auto j = 0; j < MAX_SKILL_IN_HOTKEY; j++ )
 		{
-			if ( m_pMyHotkey[i][j] != NULL )
+			if ( m_pMyHotkey[i][j] != nullptr)
 			{
-				// ∏Æº“Ω∫ Free..
+				// Î¶¨ÏÜåÏä§ Free..
 				spSkill = m_pMyHotkey[i][j];
 
-				// ∏≈¥œ¿˙ø°º≠ ¡¶∞≈..
+				// Îß§ÎãàÏ†ÄÏóêÏÑú Ï†úÍ±∞..
 				RemoveChild(spSkill->pUIIcon);
 
-				// ∏Æº“Ω∫ ¡¶∞≈..
+				// Î¶¨ÏÜåÏä§ Ï†úÍ±∞..
 				spSkill->pUIIcon->Release();
 				delete spSkill->pUIIcon;
-				spSkill->pUIIcon = NULL;
+				spSkill->pUIIcon = nullptr;
 				delete spSkill;
-				spSkill = NULL;
-				m_pMyHotkey[i][j] = NULL;
+				spSkill = nullptr;
+				m_pMyHotkey[i][j] = nullptr;
 			}
 		}
 	}
@@ -737,7 +737,7 @@ void CUIHotKeyDlg::ClassChangeHotkeyFlush()
 
 CN3UIString* CUIHotKeyDlg::GetTooltipStrControl(int iIndex)
 {
-	CN3UIString* pStr = NULL;
+	CN3UIString* pStr = nullptr;
 	std::string str = "";
 	char	cstr[4];
 	sprintf(cstr, "%d", iIndex+10);	str += cstr;
@@ -747,7 +747,7 @@ CN3UIString* CUIHotKeyDlg::GetTooltipStrControl(int iIndex)
 
 CN3UIString* CUIHotKeyDlg::GetCountStrControl(int iIndex)
 {
-	CN3UIString* pStr = NULL;
+	CN3UIString* pStr = nullptr;
 	std::string str = "";
 	char	cstr[4];
 	sprintf(cstr, "%d", iIndex);	str += cstr;
@@ -807,7 +807,7 @@ int CUIHotKeyDlg::GetTooltipCurPageIndex(__IconItemSkill* pSkill)
 {
 	for(auto k = 0; k < MAX_SKILL_IN_HOTKEY; k++ )
 	{
-		if ( (m_pMyHotkey[m_iCurPage][k] != NULL) && 
+		if ( (m_pMyHotkey[m_iCurPage][k] != nullptr) && 
 			(m_pMyHotkey[m_iCurPage][k] == pSkill) )
 			return k;
 	}
@@ -826,12 +826,12 @@ int CUIHotKeyDlg::GetCountCurPageIndex(__IconItemSkill* spSkill)
 bool CUIHotKeyDlg::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 {
 	bool bFound = false;
-	// ≥ª∞° ∞°¡≥¥¯ æ∆¿Ãƒ‹¿Ã æ∆¥œ∏È..
+	// ÎÇ¥Í∞Ä Í∞ÄÏ°åÎçò ÏïÑÏù¥ÏΩòÏù¥ ÏïÑÎãàÎ©¥..
 	if ( CN3UIWndBase::m_sSelectedIconInfo.UIWndSelect.UIWnd != UIWND_INVENTORY )
 		return false;
 	else
 	{
-		CN3UIArea* pArea = NULL;
+		CN3UIArea* pArea = nullptr;
 
 		int iOrder;
 		for(auto i = 0; i < ITEM_SLOT_COUNT; i++ )
@@ -849,39 +849,39 @@ bool CUIHotKeyDlg::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 
 		__IconItemSkill* spSkill, *spItem;
 
-		// ±‚¡∏ æ∆¿Ãƒ‹¿Ã ¿÷¥Ÿ∏È..
+		// Í∏∞Ï°¥ ÏïÑÏù¥ÏΩòÏù¥ ÏûàÎã§Î©¥..
 		if ( m_pMyHotkey[m_iCurPage][iOrder] )
 		{
-			// ±‚¡∏ æ∆¿Ãƒ‹¿ª ªË¡¶«—¥Ÿ..
+			// Í∏∞Ï°¥ ÏïÑÏù¥ÏΩòÏùÑ ÏÇ≠Ï†úÌïúÎã§..
 			spSkill = m_pMyHotkey[m_iCurPage][iOrder];
 
-			// ∏≈¥œ¿˙ø°º≠ ¡¶∞≈..
+			// Îß§ÎãàÏ†ÄÏóêÏÑú Ï†úÍ±∞..
 			RemoveChild(spSkill->pUIIcon);
 
-			// ∏Æº“Ω∫ ¡¶∞≈..
+			// Î¶¨ÏÜåÏä§ Ï†úÍ±∞..
 			spSkill->pUIIcon->Release();
 			delete spSkill->pUIIcon;
-			spSkill->pUIIcon = NULL;
+			spSkill->pUIIcon = nullptr;
 			delete spSkill;
-			spSkill = NULL;
-			m_pMyHotkey[m_iCurPage][iOrder] = NULL;
+			spSkill = nullptr;
+			m_pMyHotkey[m_iCurPage][iOrder] = nullptr;
 		}
 
 		spItem = CN3UIWndBase::m_sSelectedIconInfo.pItemSelect;
 
 		__TABLE_UPC_SKILL* pUSkill = CGameBase::s_pTbl_Skill->Find(spItem->pItemBasic->dwEffectID1);
-		if ( pUSkill == NULL ) return false;
+		if ( pUSkill == nullptr) return false;
 		if ( pUSkill->dwID < UIITEM_TYPE_SONGPYUN_ID_MIN) return false;
 
 		spSkill = new __IconItemSkill();
 		spSkill->pSkill = pUSkill;
 
-		// æ∆¿Ãƒ‹ ¿Ã∏ß ∏∏µÈ±‚.. ^^
+		// ÏïÑÏù¥ÏΩò Ïù¥Î¶Ñ ÎßåÎì§Í∏∞.. ^^
 		std::vector<char> buffer(256, NULL);
 		sprintf(buffer.data(),	"UI\\skillicon_%.2d_%d.dxt", spItem->pItemBasic->dwEffectID1%100, spItem->pItemBasic->dwEffectID1/100);
 		spSkill->szIconFN = buffer.data();
 
-		// æ∆¿Ãƒ‹ ∑ŒµÂ«œ±‚.. ^^
+		// ÏïÑÏù¥ÏΩò Î°úÎìúÌïòÍ∏∞.. ^^
 		spSkill->pUIIcon = new CN3UIIcon;
 		spSkill->pUIIcon->Init(this);
 		spSkill->pUIIcon->SetTex(spSkill->szIconFN);
@@ -926,7 +926,7 @@ void CUIHotKeyDlg::RenderSelectIcon(CN3UIIcon* pUIIcon)
 {
 	if(!pUIIcon) return;
 
-	RECT rc = pUIIcon->GetRegion(); // º±≈√ «•Ω√
+	RECT rc = pUIIcon->GetRegion(); // ÏÑ†ÌÉù ÌëúÏãú
 
 	__VertexTransformedColor vLines[5];
 	vLines[0].Set(rc.left, rc.top, UI_DEFAULT_Z, UI_DEFAULT_RHW, 0xff00ff00);
@@ -978,8 +978,8 @@ bool CUIHotKeyDlg::OnKeyPress(int iKey)
 	switch(iKey)
 	{
 	case DIK_ESCAPE:
-		{	//hotkey∞° ∆˜ƒøΩ∫ ¿‚«Ù¿÷¿ª∂ß¥¬ ¥Ÿ∏• ui∏¶ ¥›¿ªºˆ æ¯¿∏π«∑Œ DIK_ESCAPE∞° µÈæÓø¿∏È ∆˜ƒøΩ∫∏¶ ¥ŸΩ√¿‚∞Ì
-			//ø≠∑¡¿÷¥¬ ¥Ÿ∏• ¿Øæ∆¿Ã∏¶ ¥›æ∆¡ÿ¥Ÿ.
+		{	//hotkeyÍ∞Ä Ìè¨Ïª§Ïä§ Ïû°ÌòÄÏûàÏùÑÎïåÎäî Îã§Î•∏ uiÎ•º Îã´ÏùÑÏàò ÏóÜÏúºÎØÄÎ°ú DIK_ESCAPEÍ∞Ä Îì§Ïñ¥Ïò§Î©¥ Ìè¨Ïª§Ïä§Î•º Îã§ÏãúÏû°Í≥†
+			//Ïó¥Î†§ÏûàÎäî Îã§Î•∏ Ïú†ÏïÑÏù¥Î•º Îã´ÏïÑÏ§ÄÎã§.
 			CGameProcedure::s_pUIMgr->ReFocusUI();//this_ui
 			CN3UIBase* pFocus = CGameProcedure::s_pUIMgr->GetFocusedUI();
 			if(pFocus && pFocus != this) pFocus->OnKeyPress(iKey);

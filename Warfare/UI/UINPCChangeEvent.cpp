@@ -15,17 +15,17 @@
 
 CUINPCChangeEvent::CUINPCChangeEvent()
 {
-	m_pBtn_Change		= NULL; 
-	m_pBtn_Repoint0		= NULL;
-	m_pBtn_Repoint1		= NULL;
-	m_pBtn_Close		= NULL;
+	m_pBtn_Change		= nullptr; 
+	m_pBtn_Repoint0		= nullptr;
+	m_pBtn_Repoint1		= nullptr;
+	m_pBtn_Close		= nullptr;
 
-	m_pDlg				= NULL;
+	m_pDlg				= nullptr;
 }
 
 CUINPCChangeEvent::~CUINPCChangeEvent()
 {
-	if (m_pDlg)	delete m_pDlg; m_pDlg = NULL;
+	if (m_pDlg)	delete m_pDlg; m_pDlg = nullptr;
 }
 
 void CUINPCChangeEvent::Release()
@@ -34,7 +34,7 @@ void CUINPCChangeEvent::Release()
 	{
 		m_pDlg->Release();
 		delete m_pDlg;
-		m_pDlg = NULL;
+		m_pDlg = nullptr;
 	}
 
 	CN3UIBase::Release();
@@ -53,13 +53,13 @@ bool CUINPCChangeEvent::Load(HANDLE hFile)
 	m_pBtn_Close		= (CN3UIButton*)GetChildByID("Btn_close");		__ASSERT(m_pBtn_Close,	"NULL UI Component!!");
 
 	// UIPointInitDlg.. ^^
-	e_Nation eNation = CGameProcedure::s_pPlayer->m_InfoBase.eNation; // ±¹°¡....
+	e_Nation eNation = CGameProcedure::s_pPlayer->m_InfoBase.eNation; // êµ­ê°€....
 	__TABLE_UI_RESRC* pTbl = CGameProcedure::s_pTbl_UI->Find(eNation);
 
 	m_pDlg = new CUIPointInitDlg();
 	m_pDlg->LoadFromFile(pTbl->szChangeInitBill);
 
-	// À§Ä¡ °è»ê ..
+	// ìœ„ì¹˜ ê³„ì‚° ..
 	int iXPos, iYPos;
 	iXPos = (iW/2) - (m_pDlg->GetRegion().right - m_pDlg->GetRegion().left)/2;
 	iYPos = (iH/2) - (m_pDlg->GetRegion().bottom - m_pDlg->GetRegion().top)/2;

@@ -7,13 +7,13 @@
 CN3Cloak::CN3Cloak()
 {
 //	m_pPMesh = NULL;
-	m_pTex = NULL;
-	m_pParticle = NULL;
-	m_bpPlayerBase = NULL;
+	m_pTex = nullptr;
+	m_pParticle = nullptr;
+	m_bpPlayerBase = nullptr;
 	m_nLOD = -1;
-	m_pPMesh = NULL;
-	m_pIndex = NULL;
-	m_pVertex = NULL;
+	m_pPMesh = nullptr;
+	m_pIndex = nullptr;
+	m_pVertex = nullptr;
 	m_fOffsetRecoveryTime = 0.0f;
 	m_fPrevYaw = 0.0f;
 	m_eAnchorPattern = AMP_NONE;
@@ -28,11 +28,11 @@ CN3Cloak::~CN3Cloak()
 void CN3Cloak::Release()
 {
 	if (m_pParticle)
-		delete[] m_pParticle, m_pParticle = NULL;
+		delete[] m_pParticle, m_pParticle = nullptr;
 	if (m_pIndex)
-		delete[] m_pIndex, m_pIndex = NULL;
+		delete[] m_pIndex, m_pIndex = nullptr;
 	if (m_pVertex)
-		delete[] m_pVertex, m_pVertex = NULL;
+		delete[] m_pVertex, m_pVertex = nullptr;
 }
 
 void CN3Cloak::Init(CN3CPlug_Cloak *pPlugCloak)
@@ -105,7 +105,7 @@ void CN3Cloak::Render(__Matrix44 &mtx)
 		s_lpD3DDev->SetRenderState( D3DRS_CULLMODE, D3DCULL_NONE);
 
 	s_lpD3DDev->SetTexture(0, m_pTex->Get());
-	s_lpD3DDev->SetTexture(1, NULL);
+	s_lpD3DDev->SetTexture(1, nullptr);
 	
 	s_lpD3DDev->SetTextureStageState(0, D3DTSS_COLOROP,   D3DTOP_MODULATE);
 	s_lpD3DDev->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_DIFFUSE);
@@ -297,7 +297,7 @@ void CN3Cloak::SetLOD(int nLevel)
 	if (nLevel == m_nLOD)	return;
 
 	if (m_pIndex)
-		delete[] m_pIndex, m_pIndex = NULL;
+		delete[] m_pIndex, m_pIndex = nullptr;
 
 	memset(m_vOffset, 0, sizeof(D3DXVECTOR3)*CLOAK_MAX_WIDTH);
 
@@ -401,7 +401,7 @@ void CN3Cloak::ApplyOffset(D3DXVECTOR3	&vDif)
 		m_fOffsetRecoveryTime = 1.4f;
 	}
 	else
-	{	// offset ÀÌ Àû¿ëµÇ¾î ÀÖ´Â »óÅÂ.
+	{	// offset ì´ ì ìš©ë˜ì–´ ìˆëŠ” ìƒíƒœ.
 		m_fOffsetRecoveryTime -= s_fSecPerFrm;
 		if (m_fOffsetRecoveryTime < 0.0f)
 		{	// Recovery process
@@ -427,7 +427,7 @@ void CN3Cloak::TickYaw()
 	/*
 	float fYaw = m_bpPlayerBase->Yaw();	
 	if (fYaw != m_fPrevYaw)
-	{	// È¸ÀüÀÌ ÀÖ¾ú´Ù.
+	{	// íšŒì „ì´ ìˆì—ˆë‹¤.
 		if (fYaw - m_fPrevYaw > 0.0f)
 		{
 			if (m_eAnchorPattern == AMP_NONE && m_fAnchorPreserveTime < 0.0f)

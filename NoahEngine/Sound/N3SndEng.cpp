@@ -8,9 +8,9 @@
 
 CN3SndEng::CN3SndEng()
 {
-	m_pDS = NULL;
+	m_pDS = nullptr;
 
-	m_pDSListener = NULL;			// 3D listener object
+	m_pDSListener = nullptr;			// 3D listener object
 	m_Tick = false;
 }
 
@@ -22,12 +22,12 @@ CN3SndEng::~CN3SndEng()
 bool CN3SndEng::Init( HWND  hWnd, DWORD dwCoopLevel, DWORD dwPrimaryChannels, DWORD dwPrimaryFreq, DWORD dwPrimaryBitRate )
 {
     HRESULT hr;
-    LPDIRECTSOUNDBUFFER pDSBPrimary = NULL;
+    LPDIRECTSOUNDBUFFER pDSBPrimary = nullptr;
 
 	if(m_pDS)
 	{
 		m_pDS->Release();
-		m_pDS = NULL;
+		m_pDS = nullptr;
 	}
 
     // Create IDirectSound using the primary sound device
@@ -55,9 +55,9 @@ bool CN3SndEng::Init( HWND  hWnd, DWORD dwCoopLevel, DWORD dwPrimaryChannels, DW
 bool CN3SndEng::SetPrimaryBufferFormat( DWORD dwPrimaryChannels, DWORD dwPrimaryFreq, DWORD dwPrimaryBitRate )
 {
     HRESULT             hr;
-    LPDIRECTSOUNDBUFFER pDSBPrimary = NULL;
+    LPDIRECTSOUNDBUFFER pDSBPrimary = nullptr;
 
-    if( m_pDS == NULL )
+    if( m_pDS == nullptr)
         return false;
 
     // Get the primary buffer 
@@ -66,7 +66,7 @@ bool CN3SndEng::SetPrimaryBufferFormat( DWORD dwPrimaryChannels, DWORD dwPrimary
     dsbd.dwSize        = sizeof(DSBUFFERDESC);
     dsbd.dwFlags       = DSBCAPS_PRIMARYBUFFER | DSBCAPS_CTRL3D | DSBCAPS_MUTE3DATMAXDISTANCE;
     dsbd.dwBufferBytes = 0;
-    dsbd.lpwfxFormat   = NULL;
+    dsbd.lpwfxFormat   = nullptr;
        
     if( FAILED( hr = m_pDS->CreateSoundBuffer( &dsbd, &pDSBPrimary, NULL ) ) ) return false;
 
@@ -86,7 +86,7 @@ bool CN3SndEng::SetPrimaryBufferFormat( DWORD dwPrimaryChannels, DWORD dwPrimary
 	if(pDSBPrimary)
 	{
 		pDSBPrimary->Release();
-		pDSBPrimary = NULL;
+		pDSBPrimary = nullptr;
 	}
 
     return true;
@@ -97,12 +97,12 @@ void CN3SndEng::Release()
 	if(m_pDSListener)
 	{
 		m_pDSListener->Release();
-		m_pDSListener = NULL;
+		m_pDSListener = nullptr;
 	}
 	if(m_pDS)
 	{
 		m_pDS->Release();
-		m_pDS = NULL;
+		m_pDS = nullptr;
 	}
 }
 
@@ -111,7 +111,7 @@ bool CN3SndEng::LoadSource(LPSOUNDSOURCE pSrc)
 	if(pSrc->Type==SNDTYPE_STREAM) return true;
 	
 	CWaveFile	WaveFile;
-	HRESULT hr = WaveFile.Open(pSrc->szFN.c_str(), NULL, 1);	//#define WAVEFILE_READ   1
+	HRESULT hr = WaveFile.Open(pSrc->szFN.c_str(), nullptr, 1);	//#define WAVEFILE_READ   1
 	if(FAILED(hr))
 	{
 #ifdef _N3GAME
@@ -129,13 +129,13 @@ bool CN3SndEng::LoadSource(LPSOUNDSOURCE pSrc)
 	dsbd.lpwfxFormat     = WaveFile.m_pwfx;
 	dsbd.dwFlags		 = DSBCAPS_CTRLVOLUME | DSBCAPS_STATIC;
 
-	if(pSrc->Type==SNDTYPE_3D)	//3D À½¿ø..
+	if(pSrc->Type==SNDTYPE_3D)	//3D ìŒì›..
 	{
 		dsbd.dwFlags         = DSBCAPS_CTRL3D | DSBCAPS_MUTE3DATMAXDISTANCE | DSBCAPS_STATIC;
 		dsbd.guid3DAlgorithm = DS3DALG_HRTF_FULL;
 	}
 	
-	hr = m_pDS->CreateSoundBuffer( &dsbd, &(pSrc->pDSBuff), NULL );
+	hr = m_pDS->CreateSoundBuffer( &dsbd, &(pSrc->pDSBuff), nullptr);
 	if(FAILED(hr))
 	{
 #ifdef _N3GAME
@@ -160,11 +160,11 @@ bool CN3SndEng::LoadSource(LPSOUNDSOURCE pSrc)
 bool CN3SndEng::FillBufferWithSound(LPSOUNDSOURCE pSrc, CWaveFile* pWaveFile)
 {
     HRESULT hr; 
-    VOID*   pDSLockedBuffer      = NULL; // Pointer to locked buffer memory
+    VOID*   pDSLockedBuffer      = nullptr; // Pointer to locked buffer memory
     DWORD   dwDSLockedBufferSize = 0;    // Size of the locked DirectSound buffer
     DWORD   dwWavDataRead        = 0;    // Amount of data read from the wav file 
 
-    if( pSrc->pDSBuff == NULL ) return false;
+    if( pSrc->pDSBuff == nullptr) return false;
 
     if( FAILED( hr = RestoreBuffer( pSrc->pDSBuff, NULL ) ) ) 
         return false;
@@ -192,7 +192,7 @@ bool CN3SndEng::FillBufferWithSound(LPSOUNDSOURCE pSrc, CWaveFile* pWaveFile)
     }
 
     // Unlock the buffer, we don't need it anymore.
-    pSrc->pDSBuff->Unlock( pDSLockedBuffer, dwDSLockedBufferSize, NULL, 0 );
+    pSrc->pDSBuff->Unlock( pDSLockedBuffer, dwDSLockedBufferSize, nullptr, 0 );
 
     return true;
 }
@@ -201,7 +201,7 @@ HRESULT CN3SndEng::RestoreBuffer( LPDIRECTSOUNDBUFFER pDSB, BOOL* pbWasRestored 
 {
     HRESULT hr;
 
-    if( pDSB == NULL )
+    if( pDSB == nullptr)
         return CO_E_NOTINITIALIZED;
     if( pbWasRestored )
         *pbWasRestored = FALSE;
@@ -224,7 +224,7 @@ HRESULT CN3SndEng::RestoreBuffer( LPDIRECTSOUNDBUFFER pDSB, BOOL* pbWasRestored 
         }
         while( hr = pDSB->Restore() );
 
-        if( pbWasRestored != NULL )
+        if( pbWasRestored != nullptr)
             *pbWasRestored = TRUE;
 
         return S_OK;
@@ -239,14 +239,14 @@ bool CN3SndEng::Get3DListenerInterface( LPDIRECTSOUND3DLISTENER* ppDSListener )
 {
     HRESULT             hr;
     DSBUFFERDESC        dsbdesc;
-    LPDIRECTSOUNDBUFFER pDSBPrimary = NULL;
+    LPDIRECTSOUNDBUFFER pDSBPrimary = nullptr;
 
-    if( ppDSListener == NULL )
+    if( ppDSListener == nullptr)
         return false;
-    if( m_pDS == NULL )
+    if( m_pDS == nullptr)
         return false;
 
-    *ppDSListener = NULL;
+    *ppDSListener = nullptr;
 
     // Obtain primary buffer, asking it for 3D control
     ZeroMemory( &dsbdesc, sizeof(DSBUFFERDESC) );
@@ -261,7 +261,7 @@ bool CN3SndEng::Get3DListenerInterface( LPDIRECTSOUND3DLISTENER* ppDSListener )
        if(pDSBPrimary)
 	   {
 		   pDSBPrimary->Release();
-		   pDSBPrimary = NULL;
+		   pDSBPrimary = nullptr;
 	   }		   
 	   return false;
     }
@@ -269,7 +269,7 @@ bool CN3SndEng::Get3DListenerInterface( LPDIRECTSOUND3DLISTENER* ppDSListener )
     if(pDSBPrimary)
 	{
 		pDSBPrimary->Release();
-		pDSBPrimary = NULL;
+		pDSBPrimary = nullptr;
 	}
 
     return true;

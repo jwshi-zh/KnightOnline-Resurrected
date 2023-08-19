@@ -19,12 +19,12 @@ typedef std::vector<class CN3Chr*>::iterator	it_Chr;
 class CN3Scene : public CN3BaseFileAccess
 {
 public:
-	float			m_fFrmCur, m_fFrmStart, m_fFrmEnd; // ÇöÀç, ½ÃÀÛ, ³¡ ÇÁ·¹ÀÓ..
-	bool			m_bDisableDefaultLight; // ÂüÀÌ¸é ±âº»¶óÀÌÆ®¸¦ ²ö´Ù..
+	float			m_fFrmCur, m_fFrmStart, m_fFrmEnd; // í˜„ì¬, ì‹œì‘, ë í”„ë ˆì„..
+	bool			m_bDisableDefaultLight; // ì°¸ì´ë©´ ê¸°ë³¸ë¼ì´íŠ¸ë¥¼ ëˆë‹¤..
 	D3DCOLOR		m_AmbientLightColor;
 
 protected:
-	int				m_nCameraActive; // ÇöÀç ¼±ÅÃµÈ Ä«¸Ş¶ó..
+	int				m_nCameraActive; // í˜„ì¬ ì„ íƒëœ ì¹´ë©”ë¼..
 	int				m_nCameraCount;
 	int				m_nLightCount;
 
@@ -54,17 +54,17 @@ public:
 	void CameraDelete(CN3Camera* pCamera);
 	void CameraDelete(int iIndex);
 	int	 CameraCount() { return m_nCameraCount; }
-	CN3Camera* CameraGet(int iIndex) { if(iIndex < 0 || iIndex >= m_nCameraCount) return NULL; return m_pCameras[iIndex]; }
+	CN3Camera* CameraGet(int iIndex) { if(iIndex < 0 || iIndex >= m_nCameraCount) return nullptr; return m_pCameras[iIndex]; }
 	
 	void CameraSetActive(int iIndex);
 	int	 CameraGetActiveNumber() { return m_nCameraActive; };
-	CN3Camera* CameraGetActive() { if(m_nCameraActive < 0 || m_nCameraActive >= m_nCameraCount) return NULL; return m_pCameras[m_nCameraActive]; }
+	CN3Camera* CameraGetActive() { if(m_nCameraActive < 0 || m_nCameraActive >= m_nCameraCount) return nullptr; return m_pCameras[m_nCameraActive]; }
 
 	int	 LightAdd(CN3Light* pLight);
 	void LightDelete(CN3Light* pLight);
 	void LightDelete(int iIndex);
 	int	 LightCount() { return m_nLightCount; }
-	CN3Light* LightGet(int iIndex) { if(iIndex < 0 || iIndex >= m_nLightCount) return NULL; return m_pLights[iIndex]; }
+	CN3Light* LightGet(int iIndex) { if(iIndex < 0 || iIndex >= m_nLightCount) return nullptr; return m_pLights[iIndex]; }
 
 	int	 ShapeAdd(CN3Shape* pShape);
 	void ShapeDelete(CN3Shape* pShape);
@@ -72,19 +72,19 @@ public:
 	int	 ShapeCount() { return m_Shapes.size(); }
 	CN3Shape* ShapeGet(int iIndex)
 	{
-		if(m_Shapes.empty() || iIndex < 0 || iIndex >= m_Shapes.size()) return NULL;
+		if(m_Shapes.empty() || iIndex < 0 || iIndex >= m_Shapes.size()) return nullptr;
 		return m_Shapes[iIndex];
 	}
 	CN3Shape* ShapeGetByFileName(std::string& str)
 	{
-		if(m_Shapes.empty()) return NULL;
+		if(m_Shapes.empty()) return nullptr;
 		int iSize = m_Shapes.size();
 		for(auto i = 0; i < iSize; i++)
 		{
 			if (str == m_Shapes[i]->FileName())
 				return m_Shapes[i];
 		}
-		return NULL;
+		return nullptr;
 	}
 
 	void ShapeRelease();
@@ -95,7 +95,7 @@ public:
 	int	 ChrCount() { return m_Chrs.size(); }
 	CN3Chr* ChrGet(int iIndex)
 	{
-		if(iIndex < 0 || iIndex >= m_Chrs.size()) return NULL;
+		if(iIndex < 0 || iIndex >= m_Chrs.size()) return nullptr;
 		return m_Chrs[iIndex];
 	}
 

@@ -7,7 +7,7 @@ CN3Joint::CN3Joint()
 	m_dwType |= OBJ_JOINT;
 	
 	m_qOrient.Identity();		// Joint Orient Quaternion
-	m_pParent = NULL;
+	m_pParent = nullptr;
 }
 
 CN3Joint::~CN3Joint()
@@ -22,14 +22,14 @@ CN3Joint::~CN3Joint()
 void CN3Joint::Release()
 {
 	m_qOrient.Identity();		// Joint Orient Quaternion
-	m_KeyOrient.Release();		// Joint Orient ≈∞∞™... NULL ¿Ã∏È æ¯¥¬∞≈¥Ÿ..
+	m_KeyOrient.Release();		// Joint Orient ÌÇ§Í∞í... NULL Ïù¥Î©¥ ÏóÜÎäîÍ±∞Îã§..
 	
 	for(it_Joint it = m_Children.begin(), itEnd = m_Children.end(); it != itEnd; it++)
 	{
 		delete *it;
 	}
 	m_Children.clear();
-	m_pParent = NULL;
+	m_pParent = nullptr;
 
 	CN3Transform::Release();
 }
@@ -44,7 +44,7 @@ bool CN3Joint::Load(HANDLE hFile)
 	m_KeyOrient.Load(hFile); // Joint Orient...
 
 	int nCC = 0;
-	ReadFile(hFile, &nCC, 4, &dwRWC, NULL);
+	ReadFile(hFile, &nCC, 4, &dwRWC, nullptr);
 	for(int i = 0; i < nCC; i++)
 	{
 		CN3Joint* pChild = new CN3Joint();
@@ -111,7 +111,7 @@ void CN3Joint::Render(const __Matrix44* pMtxParent, float fUnitSize)
 	s_lpD3DDev->SetMaterial(&smtl);
 	s_lpD3DDev->SetTexture(0, NULL);
 
-	if(m_pParent) // ∫Œ∏ ∞¸¿˝∞˙ ¿ÃæÓ¡÷¥¬ º±..
+	if(m_pParent) // Î∂ÄÎ™® Í¥ÄÏ†àÍ≥º Ïù¥Ïñ¥Ï£ºÎäî ÏÑ†..
 	{
 		static __Vector3 v[2];
 		static __VertexColor vBone[2];
@@ -128,10 +128,10 @@ void CN3Joint::Render(const __Matrix44* pMtxParent, float fUnitSize)
 		vBone[0].Set(v[0], 0xff00ff00);
 		vBone[1].Set(v[1], 0xff0000ff);
 		s_lpD3DDev->SetFVF(FVF_CV);
-		s_lpD3DDev->DrawPrimitiveUP(D3DPT_LINELIST, 1, vBone, sizeof(__VertexColor)); // º±±◊∏Æ±‚..
+		s_lpD3DDev->DrawPrimitiveUP(D3DPT_LINELIST, 1, vBone, sizeof(__VertexColor)); // ÏÑ†Í∑∏Î¶¨Í∏∞..
 	}
 
-	// π⁄Ω∫ ±◊∏Æ±‚..
+	// Î∞ïÏä§ Í∑∏Î¶¨Í∏∞..
 	static __VertexColor vBoxes[36];
 	static __VertexColor vAxis[6];
 	static bool bBoxCreated = false;
@@ -166,9 +166,9 @@ void CN3Joint::Render(const __Matrix44* pMtxParent, float fUnitSize)
 
 	s_lpD3DDev->SetFVF(FVF_CV);
 	s_lpD3DDev->SetTransform(D3DTS_WORLD, &mtxBox);
-	s_lpD3DDev->DrawPrimitiveUP(D3DPT_TRIANGLELIST, 12, vBoxes, sizeof(__VertexColor)); // π⁄Ω∫ ±◊∏Æ±‚..
+	s_lpD3DDev->DrawPrimitiveUP(D3DPT_TRIANGLELIST, 12, vBoxes, sizeof(__VertexColor)); // Î∞ïÏä§ Í∑∏Î¶¨Í∏∞..
 	s_lpD3DDev->SetTransform(D3DTS_WORLD, &mtxAxis);
-	s_lpD3DDev->DrawPrimitiveUP(D3DPT_LINELIST, 3, vAxis, sizeof(__VertexColor)); // √‡ ±◊∏Æ±‚..
+	s_lpD3DDev->DrawPrimitiveUP(D3DPT_LINELIST, 3, vAxis, sizeof(__VertexColor)); // Ï∂ï Í∑∏Î¶¨Í∏∞..
 
 	if(dwZ) s_lpD3DDev->SetRenderState(D3DRS_ZENABLE, dwZ);
 	if(dwFog) s_lpD3DDev->SetRenderState(D3DRS_FOGENABLE, dwFog);
@@ -192,7 +192,7 @@ void CN3Joint::ChildAdd(CN3Joint *pChild)
 {
 	__ASSERT(pChild, "Child joint pointer is NULL!");
 
-	CN3Joint* pChild2 = NULL;
+	CN3Joint* pChild2 = nullptr;
 	it_Joint it = m_Children.begin();
 	int iSize = m_Children.size();
 	for(int i = 0; i < iSize; i++, it++)
@@ -207,7 +207,7 @@ void CN3Joint::ChildAdd(CN3Joint *pChild)
 
 void CN3Joint::ChildDelete(CN3Joint *pChild)
 {
-	if(NULL == pChild) return;
+	if(nullptr == pChild) return;
 	it_Joint it = m_Children.begin(), itEnd = m_Children.end();
 	int iSize = m_Children.size();
 	for(; it != itEnd; )
@@ -215,7 +215,7 @@ void CN3Joint::ChildDelete(CN3Joint *pChild)
 		if(*it == pChild) 
 		{
 			it = m_Children.erase(it);
-			pChild->ParentSet(NULL);
+			pChild->ParentSet(nullptr);
 			break;
 		}
 		else
@@ -237,7 +237,7 @@ void CN3Joint::NodeCount(int &nCount)
 {
 	nCount++;
 	
-	CN3Joint* pChild = NULL;
+	CN3Joint* pChild = nullptr;
 	it_Joint it = m_Children.begin();
 	int iSize = m_Children.size();
 	for(int i = 0; i < iSize; i++, it++)
@@ -250,7 +250,7 @@ void CN3Joint::NodeCount(int &nCount)
 }
 
 #ifdef _N3TOOL
-BOOL CN3Joint::FindPointerByName(const std::string& szName, CN3Joint *&pJoint) // ¿Ã∏ß¿ª ≥÷¿∏∏È «ÿ¥Á ≥ÎµÂ¿« ∆˜¿Œ≈Õ∏¶ µπ∑¡¡ÿ¥Ÿ..
+BOOL CN3Joint::FindPointerByName(const std::string& szName, CN3Joint *&pJoint) // Ïù¥Î¶ÑÏùÑ ÎÑ£ÏúºÎ©¥ Ìï¥Îãπ ÎÖ∏ÎìúÏùò Ìè¨Ïù∏ÌÑ∞Î•º ÎèåÎ†§Ï§ÄÎã§..
 {
 	if(szName.empty())
 	{
@@ -279,13 +279,13 @@ BOOL CN3Joint::FindPointerByName(const std::string& szName, CN3Joint *&pJoint) /
 BOOL CN3Joint::FindPointerByID(int nID, CN3Joint *&pJoint)
 {
 	static int stnID = 0;
-	if(pJoint == NULL) stnID = 0;
+	if(pJoint == nullptr) stnID = 0;
 
 	pJoint = this;
 	if(nID == stnID) return TRUE;
 	stnID++;
 
-	CN3Joint* pChild = NULL;
+	CN3Joint* pChild = nullptr;
 	it_Joint it = m_Children.begin();
 	int iSize = m_Children.size();
 	for(int i = 0; i < iSize; i++, it++)
@@ -335,7 +335,7 @@ void CN3Joint::Tick(float fFrm)
 
 	CN3Joint::ReCalcMatrix();
 
-	CN3Joint* pChild = NULL;
+	CN3Joint* pChild = nullptr;
 	it_Joint it = m_Children.begin();
 	int iSize = m_Children.size();
 	for(int i = 0; i < iSize; i++, it++)
@@ -359,43 +359,43 @@ void CN3Joint::ReCalcMatrix()
 {
 	static __Matrix44 mtx;
 	static __Quaternion qt;
-//	ø¯∑° «‡∑ƒ ∞ËªÍ ƒ⁄µÂ...
+//	ÏõêÎûò ÌñâÎ†¨ Í≥ÑÏÇ∞ ÏΩîÎìú...
 //	m_Matrix.Identity();
-//	mtx.Rotation(m_vRot.x, m_vRot.y, m_vRot.z); m_Matrix *= mtx; // ∫Œ∏ √‡ ∏∏≈≠ »∏¿¸.
-//	mtx.Scale(m_vScale); m_Matrix *= mtx; // ∫Œ∏ √‡ ∏∏≈≠ »∏¿¸.
-//	mtx.Rotation(m_vOrigin.x, m_vOrigin.y, m_vOrigin.z); m_Matrix *= mtx; // ∫Œ∏ ∑Œƒ√ √‡ ∏∏≈≠ »∏¿¸.
-//	mtx.Identity(); mtx.PosSet(m_vPos); m_Matrix *= mtx; // ¿Ãµø
+//	mtx.Rotation(m_vRot.x, m_vRot.y, m_vRot.z); m_Matrix *= mtx; // Î∂ÄÎ™® Ï∂ï ÎßåÌÅº ÌöåÏ†Ñ.
+//	mtx.Scale(m_vScale); m_Matrix *= mtx; // Î∂ÄÎ™® Ï∂ï ÎßåÌÅº ÌöåÏ†Ñ.
+//	mtx.Rotation(m_vOrigin.x, m_vOrigin.y, m_vOrigin.z); m_Matrix *= mtx; // Î∂ÄÎ™® Î°úÏª¨ Ï∂ï ÎßåÌÅº ÌöåÏ†Ñ.
+//	mtx.Identity(); mtx.PosSet(m_vPos); m_Matrix *= mtx; // Ïù¥Îèô
 
 //	if(m_RotSeq == ROT_SEQ_XYZ)
 //	{
-//		m_Matrix.Rotation(m_vRot.x, m_vRot.y, m_vRot.z); // ∫Œ∏ √‡ ∏∏≈≠ »∏¿¸. // XYZ »∏¿¸¿œ∂ß..
+//		m_Matrix.Rotation(m_vRot.x, m_vRot.y, m_vRot.z); // Î∂ÄÎ™® Ï∂ï ÎßåÌÅº ÌöåÏ†Ñ. // XYZ ÌöåÏ†ÑÏùºÎïå..
 //	}
 //	else if(ROT_SEQ_YXZ)
 //	{
 //		m_Matrix.Identity();
-//		mtx.RotationY(m_vRot.y); m_Matrix *= mtx; // YXZ »∏¿¸¿œ∂ß
+//		mtx.RotationY(m_vRot.y); m_Matrix *= mtx; // YXZ ÌöåÏ†ÑÏùºÎïå
 //		mtx.RotationX(m_vRot.x); m_Matrix *= mtx;
 //		mtx.RotationZ(m_vRot.z); m_Matrix *= mtx;
 //	}
 
-	if(m_KeyOrient.Count() > 0) // Orient ≈∞∞™¿Ã ¿÷¿∏∏È..
+	if(m_KeyOrient.Count() > 0) // Orient ÌÇ§Í∞íÏù¥ ÏûàÏúºÎ©¥..
 	{
 		qt = m_qRot * m_qOrient;
-		::D3DXMatrixRotationQuaternion(&m_Matrix, &qt); // »∏¿¸.. ƒı≈Õ¥œæ ∞ËªÍ..
+		::D3DXMatrixRotationQuaternion(&m_Matrix, &qt); // ÌöåÏ†Ñ.. ÏøºÌÑ∞ÎãàÏñ∏ Í≥ÑÏÇ∞..
 	}
 	else
 	{
-		::D3DXMatrixRotationQuaternion(&m_Matrix, &m_qRot); // »∏¿¸.. ƒı≈Õ¥œæ ∞ËªÍ..
+		::D3DXMatrixRotationQuaternion(&m_Matrix, &m_qRot); // ÌöåÏ†Ñ.. ÏøºÌÑ∞ÎãàÏñ∏ Í≥ÑÏÇ∞..
 	}
 
-	if(1.0f != m_vScale.x || 1.0f != m_vScale.y || 1.0f != m_vScale.z) // Ω∫ƒ…¿œ ∞™¿Ã ¿÷¿∏∏È..
+	if(1.0f != m_vScale.x || 1.0f != m_vScale.y || 1.0f != m_vScale.z) // Ïä§ÏºÄÏùº Í∞íÏù¥ ÏûàÏúºÎ©¥..
 	{
-		mtx.Scale(m_vScale); // Ω∫ƒ…¿œ
+		mtx.Scale(m_vScale); // Ïä§ÏºÄÏùº
 		m_Matrix *= mtx;
 	}
 	m_Matrix.PosSet(m_vPos);
 
-	if(m_pParent) m_Matrix *= m_pParent->m_Matrix; // ∫Œ∏ «‡∑ƒ
+	if(m_pParent) m_Matrix *= m_pParent->m_Matrix; // Î∂ÄÎ™® ÌñâÎ†¨
 }
 
 void CN3Joint::MatricesGet(__Matrix44 *pMtxs, int &nJointIndex)
@@ -403,7 +403,7 @@ void CN3Joint::MatricesGet(__Matrix44 *pMtxs, int &nJointIndex)
 	memcpy(&(pMtxs[nJointIndex]), &m_Matrix, sizeof(__Matrix44));
 	nJointIndex++;
 
-	CN3Joint* pChild = NULL;
+	CN3Joint* pChild = nullptr;
 	it_Joint it = m_Children.begin();
 	int iSize = m_Children.size();
 	for(int i = 0; i < iSize; i++, it++)
@@ -442,7 +442,7 @@ void CN3Joint::ReCalcMatrixBlended(float fFrm0, float fFrm1, float fWeight0)
 	if(bHaveKey1 && bHaveKey2) 
 		m_qOrient.Slerp(qt1, qt2, fWeight1);
 
-	this->ReCalcMatrix(); // Matrix ∞ËªÍ...
+	this->ReCalcMatrix(); // Matrix Í≥ÑÏÇ∞...
 }
 
 #ifdef _N3TOOL
@@ -493,12 +493,12 @@ void CN3Joint::KeyDelete(CN3Joint *pJoint, int nKS, int nKE)
 		}
 	}
 
-	// Child ∏¶ ¥ŸΩ√ ∏∏µÈæÓ ¡ÿ¥Ÿ.
+	// Child Î•º Îã§Ïãú ÎßåÎì§Ïñ¥ Ï§ÄÎã§.
 	int nCC = pJoint->ChildCount();
 	for(auto i = 0; i < nCC; i++)
 	{
 		CN3Joint* pChild = pJoint->Child(i);
-		pChild->KeyDelete(pChild, nKS, nKE); // «œ¿ß ¡∂¿Œ∆Æ∏¶ ∫πªÁ..
+		pChild->KeyDelete(pChild, nKS, nKE); // ÌïòÏúÑ Ï°∞Ïù∏Ìä∏Î•º Î≥µÏÇ¨..
 	}
 }
 #endif // end of _N3TOOL
@@ -520,12 +520,12 @@ void CN3Joint::AddKey(CN3Joint *pJSrc, int nIndexS, int nIndexE)
 		CN3Joint* pChildSrc = *it;
 		CN3Joint* pChildDest = *it2;
 
-		pChildDest->AddKey(pChildSrc, nIndexS, nIndexE); // ¿Á±Õ»£√‚
+		pChildDest->AddKey(pChildSrc, nIndexS, nIndexE); // Ïû¨Í∑ÄÌò∏Ï∂ú
 	}
 }
 #endif // end of _N3TOOL
 
-// »∏¿¸∞™µÓ¿ª
+// ÌöåÏ†ÑÍ∞íÎì±ÏùÑ
 #ifdef _N3TOOL
 void CN3Joint::CopyExceptAnimationKey(CN3Joint *pJSrc)
 {
@@ -561,10 +561,10 @@ void CN3Joint::CopyExceptAnimationKey(CN3Joint *pJSrc)
 	for(; it != itEnd; it++)
 	{
 		CN3Joint* pChildDest = new CN3Joint();
-		this->ChildAdd(pChildDest); // ¿⁄Ωƒ √ﬂ∞°..
+		this->ChildAdd(pChildDest); // ÏûêÏãù Ï∂îÍ∞Ä..
 
 		CN3Joint* pChildSrc = *it;
-		pChildDest->CopyExceptAnimationKey(pChildSrc); // ¿Á±Õ»£√‚
+		pChildDest->CopyExceptAnimationKey(pChildSrc); // Ïû¨Í∑ÄÌò∏Ï∂ú
 	}
 }
 #endif // end of _N3TOOL

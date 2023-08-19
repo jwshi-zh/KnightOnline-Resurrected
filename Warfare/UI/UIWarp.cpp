@@ -11,11 +11,11 @@
 
 CUIWarp::CUIWarp()
 {
-	m_pBtn_Ok = NULL;
-	m_pBtn_Cancel = NULL;
+	m_pBtn_Ok = nullptr;
+	m_pBtn_Cancel = nullptr;
 	
-	m_pList_Infos = NULL;
-	m_pText_Agreement = NULL; // µ¿ÀÇ »çÇ×..
+	m_pList_Infos = nullptr;
+	m_pText_Agreement = nullptr; // ë™ì˜ ì‚¬í•­..
 }
 
 CUIWarp::~CUIWarp()
@@ -52,7 +52,7 @@ bool CUIWarp::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 	{
 		if(pSender == m_pList_Infos)
 		{
-			this->UpdateAgreement(); // µ¿ÀÇ¹® ¾÷µ¥ÀÌÆ®..
+			this->UpdateAgreement(); // ë™ì˜ë¬¸ ì—…ë°ì´íŠ¸..
 		}
 	}
 
@@ -66,7 +66,7 @@ void CUIWarp::InfoAdd(const __WarpInfo& WI)
 
 int CUIWarp::InfoGetCur(__WarpInfo& WI)
 {
-	if(NULL == m_pList_Infos) return -1;
+	if(nullptr == m_pList_Infos) return -1;
 	
 	int iSel = m_pList_Infos->GetCurSel();
 	if(iSel < 0 || iSel >= m_ListInfos.size()) return -1;
@@ -80,7 +80,7 @@ int CUIWarp::InfoGetCur(__WarpInfo& WI)
 
 void CUIWarp::UpdateList()
 {
-	if(NULL == m_pList_Infos) return;
+	if(nullptr == m_pList_Infos) return;
 
 	m_pList_Infos->ResetContent();
 	it_WI it = m_ListInfos.begin(), itEnd = m_ListInfos.end();
@@ -95,7 +95,7 @@ void CUIWarp::UpdateList()
 
 void CUIWarp::UpdateAgreement()
 {
-	if(NULL == m_pList_Infos || NULL == m_pText_Agreement) return;
+	if(nullptr == m_pList_Infos || nullptr == m_pText_Agreement) return;
 	int iSel = m_pList_Infos->GetCurSel();
 	if(iSel < 0 || iSel >= m_ListInfos.size()) return;
 

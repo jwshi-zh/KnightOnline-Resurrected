@@ -12,8 +12,8 @@ CN3FXPartBottomBoard::CN3FXPartBottomBoard()
 
 	m_bTexLoop = false;
 
-	m_pVB = NULL;
-	m_vUnit = NULL;
+	m_pVB = nullptr;
+	m_vUnit = nullptr;
 
 	m_fScaleVelX = 0.0f;
 	m_fScaleVelZ = 0.0f;
@@ -29,13 +29,13 @@ CN3FXPartBottomBoard::~CN3FXPartBottomBoard()
 	if(m_pVB)
 	{
 		delete[] m_pVB;
-		m_pVB = NULL;
+		m_pVB = nullptr;
 	}
 
 	if(m_vUnit)
 	{
 		delete[] m_vUnit;
-		m_vUnit = NULL;
+		m_vUnit = nullptr;
 	}
 }
 
@@ -53,7 +53,7 @@ bool CN3FXPartBottomBoard::ParseScript(char* szCommand, char* szBuff0, char* szB
 {
 	if(CN3FXPartBase::ParseScript(szCommand, szBuff0, szBuff1, szBuff2, szBuff3)) return true;
 
-	//	∫∏µÂ ≈©±‚.
+	//	Î≥¥Îìú ÌÅ¨Í∏∞.
 	if(lstrcmpi(szCommand, "<ground_size>")==0)
 	{
 		m_fCurrSizeX = m_fSizeX = atof(szBuff0);
@@ -103,7 +103,7 @@ void CN3FXPartBottomBoard::CreateVB()
 	if(m_vUnit)
 	{
 		delete[] m_vUnit;
-		m_vUnit = NULL;
+		m_vUnit = nullptr;
 	}
 	m_vUnit = new __Vector3[NUM_VERTEX_BOTTOM];
 
@@ -121,7 +121,7 @@ void CN3FXPartBottomBoard::CreateVB()
 	if(m_pVB)
 	{
 		delete[] m_pVB;
-		m_pVB = NULL;
+		m_pVB = nullptr;
 	}
 	m_pVB = new	__VertexXyzColorT1[NUM_VERTEX_BOTTOM];
 	
@@ -173,17 +173,17 @@ bool CN3FXPartBottomBoard::Load(HANDLE hFile)
 
 	DWORD			dwRWC = 0;
 
-	ReadFile(hFile, &m_fSizeX, sizeof(float), &dwRWC, NULL);
-	ReadFile(hFile, &m_fSizeZ, sizeof(float), &dwRWC, NULL);
+	ReadFile(hFile, &m_fSizeX, sizeof(float), &dwRWC, nullptr);
+	ReadFile(hFile, &m_fSizeZ, sizeof(float), &dwRWC, nullptr);
 
-	ReadFile(hFile, &m_fScaleVelX, sizeof(float), &dwRWC, NULL);
-	ReadFile(hFile, &m_fScaleVelZ, sizeof(float), &dwRWC, NULL);
+	ReadFile(hFile, &m_fScaleVelX, sizeof(float), &dwRWC, nullptr);
+	ReadFile(hFile, &m_fScaleVelZ, sizeof(float), &dwRWC, nullptr);
 
-	ReadFile(hFile, &m_bTexLoop, sizeof(bool), &dwRWC, NULL);
+	ReadFile(hFile, &m_bTexLoop, sizeof(bool), &dwRWC, nullptr);
 
 	if(m_iVersion>=1)
 	{
-		ReadFile(hFile, &m_fGap, sizeof(float), &dwRWC, NULL);
+		ReadFile(hFile, &m_fGap, sizeof(float), &dwRWC, nullptr);
 	}
 
 	CreateVB();
@@ -202,16 +202,16 @@ bool CN3FXPartBottomBoard::Save(HANDLE hFile)
 
 	DWORD			dwRWC = 0;
 
-	WriteFile(hFile, &m_fSizeX, sizeof(float), &dwRWC, NULL);
-	WriteFile(hFile, &m_fSizeZ, sizeof(float), &dwRWC, NULL);
+	WriteFile(hFile, &m_fSizeX, sizeof(float), &dwRWC, nullptr);
+	WriteFile(hFile, &m_fSizeZ, sizeof(float), &dwRWC, nullptr);
 
-	WriteFile(hFile, &m_fScaleVelX, sizeof(float), &dwRWC, NULL);
-	WriteFile(hFile, &m_fScaleVelZ, sizeof(float), &dwRWC, NULL);
+	WriteFile(hFile, &m_fScaleVelX, sizeof(float), &dwRWC, nullptr);
+	WriteFile(hFile, &m_fScaleVelZ, sizeof(float), &dwRWC, nullptr);
 
-	WriteFile(hFile, &m_bTexLoop, sizeof(bool), &dwRWC, NULL);	
+	WriteFile(hFile, &m_bTexLoop, sizeof(bool), &dwRWC, nullptr);	
 	
 	//version 1....
-	WriteFile(hFile, &m_fGap, sizeof(float), &dwRWC, NULL);	
+	WriteFile(hFile, &m_fGap, sizeof(float), &dwRWC, nullptr);	
 	return true;
 }
 
@@ -265,16 +265,16 @@ bool CN3FXPartBottomBoard::Tick()
 		}
 	}
 
-	//¿ßƒ°¿Ãµø..
+	//ÏúÑÏπòÏù¥Îèô..
 	m_vCurrVelocity += m_vAcceleration*CN3Base::s_fSecPerFrm;
 	m_vCurrPos += m_vCurrVelocity*CN3Base::s_fSecPerFrm;
 
-	//»∏¿¸...
+	//ÌöåÏ†Ñ...
 	__Matrix44 mtxRot;
 	mtxRot.Identity();
 	mtxRot.RotationY(m_fCurrLife*m_vRotVelocity.y);
 
-	//Ω∫ƒ…¿œ∫Ø»Ø..
+	//Ïä§ÏºÄÏùºÎ≥ÄÌôò..
 	m_fCurrScaleVelX += m_fScaleAccelX*CN3Base::s_fSecPerFrm;
 	m_fCurrScaleVelZ += m_fScaleAccelZ*CN3Base::s_fSecPerFrm;
 	m_fCurrSizeX += m_fCurrScaleVelX*CN3Base::s_fSecPerFrm;
@@ -335,14 +335,14 @@ bool CN3FXPartBottomBoard::IsDead()
 
 //
 //	render...
-//	¿œ¥‹¿∫ ∆ƒ∆º≈¨ «œ≥™æø ±◊∏Æ∞Ì....
-//	≥™¡ﬂø°¥¬ ∞∞¿∫ ≈ÿΩ∫√ƒ æ≤¥¬ ∞ÕµÈ≥¢∏Æ π≠æÓº≠ ±◊∏Æ¿⁄...
+//	ÏùºÎã®ÏùÄ ÌååÌã∞ÌÅ¥ ÌïòÎÇòÏî© Í∑∏Î¶¨Í≥†....
+//	ÎÇòÏ§ëÏóêÎäî Í∞ôÏùÄ ÌÖçÏä§Ï≥ê Ïì∞Îäî Í≤ÉÎì§ÎÅºÎ¶¨ Î¨∂Ïñ¥ÏÑú Í∑∏Î¶¨Ïûê...
 //
 void CN3FXPartBottomBoard::Render()
 {
 	if(m_iTexIdx >= m_iNumTex) return;
 
-	if(m_bAlpha) // Alpha ªÁøÎ
+	if(m_bAlpha) // Alpha ÏÇ¨Ïö©
 	{
 		__AlphaPrimitive* pAP = s_AlphaMgr.Add();
 		if(pAP)
@@ -355,7 +355,7 @@ void CN3FXPartBottomBoard::Render()
 			pAP->fCameraDistance	= (m_pVB[0] - s_CameraData.vEye).Magnitude();
 			
 			if(m_ppRefTex[m_iTexIdx]) pAP->lpTex = m_ppRefTex[m_iTexIdx]->Get();
-			else pAP->lpTex = NULL;
+			else pAP->lpTex = nullptr;
 
 			__Matrix44 mtxWorld;
 			mtxWorld.Identity();
@@ -365,10 +365,10 @@ void CN3FXPartBottomBoard::Render()
 			pAP->nPrimitiveCount	= 8;
 			pAP->nVertexCount		= NUM_VERTEX_BOTTOM;
 			pAP->pVertices			= &(m_pVB[0]);
-			pAP->pwIndices			= NULL;
+			pAP->pwIndices			= nullptr;
 		}
 
-		return; // ∑ª¥ı∏µ æ»«œ¡ˆ∑’.
+		return; // Î†åÎçîÎßÅ ÏïàÌïòÏßÄÎ°±.
 	}
 	else 
 	{
@@ -376,7 +376,7 @@ void CN3FXPartBottomBoard::Render()
 
 		if(m_ppRefTex[m_iTexIdx]) 
 			CN3Base::s_lpD3DDev->SetTexture(0, m_ppRefTex[m_iTexIdx]->Get());
-		else CN3Base::s_lpD3DDev->SetTexture(0, NULL);
+		else CN3Base::s_lpD3DDev->SetTexture(0, nullptr);
 
 		s_lpD3DDev->SetTextureStageState( 0, D3DTSS_COLOROP,   D3DTOP_MODULATE );
 		s_lpD3DDev->SetTextureStageState( 0, D3DTSS_COLORARG1, D3DTA_TEXTURE );		

@@ -12,9 +12,9 @@
 const float CARET_FLICKERING_TIME = 0.4f;
 
 //HWND CN3UIEdit::s_hWndParent = NULL;
-HWND CN3UIEdit::s_hWndEdit = NULL;
-HWND CN3UIEdit::s_hWndParent = NULL;
-WNDPROC	CN3UIEdit::s_lpfnEditProc = NULL;
+HWND CN3UIEdit::s_hWndEdit = nullptr;
+HWND CN3UIEdit::s_hWndParent = nullptr;
+WNDPROC	CN3UIEdit::s_lpfnEditProc = nullptr;
 char CN3UIEdit::s_szBuffTmp[512] = "";
 
 CN3UIEdit::CN3Caret::CN3Caret()
@@ -22,7 +22,7 @@ CN3UIEdit::CN3Caret::CN3Caret()
 	m_pVB[0].Set(0,0,UI_DEFAULT_Z, UI_DEFAULT_RHW, 0xffff0000);
 	m_pVB[1].Set(0,10,UI_DEFAULT_Z, UI_DEFAULT_RHW, 0xffff0000);
 	m_bVisible = FALSE;
-	m_fFlickerTimePrev = CN3Base::TimeGet();	// ±ô¹ÚÀÌ±â À§ÇÑ ½Ã°£..
+	m_fFlickerTimePrev = CN3Base::TimeGet();	// ê¹œë°•ì´ê¸° ìœ„í•œ ì‹œê°„..
 	m_bFlickerStatus = true;
 
 }
@@ -55,7 +55,7 @@ void CN3UIEdit::CN3Caret::Render(LPDIRECT3DDEVICE9	lpD3DDev)
 {
 	if (FALSE == m_bVisible) return;
 
-	// ±ô¹ÚÀÓ Ã³¸®..
+	// ê¹œë°•ì„ ì²˜ë¦¬..
 	float fTime = CN3Base::TimeGet();
 	if(fTime - m_fFlickerTimePrev > CARET_FLICKERING_TIME)
 	{
@@ -65,7 +65,7 @@ void CN3UIEdit::CN3Caret::Render(LPDIRECT3DDEVICE9	lpD3DDev)
 	if(!m_bFlickerStatus) return;
 
 	__ASSERT(lpD3DDev, "DIRECT3DDEVICE8 is null");
-	lpD3DDev->SetTexture(0, NULL);
+	lpD3DDev->SetTexture(0, nullptr);
 //	lpD3DDev->SetTextureStageState( 0, D3DTSS_COLOROP,    D3DTOP_SELECTARG1 );
 //	lpD3DDev->SetTextureStageState( 0, D3DTSS_COLORARG1,  D3DTA_DIFFUSE );
 	lpD3DDev->SetFVF(FVF_TRANSFORMEDCOLOR);
@@ -73,7 +73,7 @@ void CN3UIEdit::CN3Caret::Render(LPDIRECT3DDEVICE9	lpD3DDev)
 }
 void CN3UIEdit::CN3Caret::InitFlckering()
 {
-	m_fFlickerTimePrev = CN3Base::TimeGet();	// ±ô¹ÚÀÌ±â À§ÇÑ ½Ã°£..
+	m_fFlickerTimePrev = CN3Base::TimeGet();	// ê¹œë°•ì´ê¸° ìœ„í•œ ì‹œê°„..
 	m_bFlickerStatus = true;
 }
 
@@ -83,7 +83,7 @@ void CN3UIEdit::CN3Caret::InitFlckering()
 
 BOOL CN3UIEdit::CreateEditWindow(HWND hParent, RECT rect)
 {
-	if(NULL == hParent) return FALSE;
+	if(nullptr == hParent) return FALSE;
 	if(s_hWndEdit) return FALSE;
 
 	s_hWndParent = hParent;
@@ -98,7 +98,7 @@ BOOL CN3UIEdit::CreateEditWindow(HWND hParent, RECT rect)
 	::SendMessage(s_hWndEdit, WM_SETFONT, (WPARAM)hFont, MAKELPARAM(TRUE, 0));
 	::SendMessage(s_hWndEdit, WM_SETFONT, (WPARAM)hFont, MAKELPARAM(TRUE, 0));
 
-	// ¹è°æ Áö¿ì±â...??
+	// ë°°ê²½ ì§€ìš°ê¸°...??
 	HDC hDC = GetDC(s_hWndEdit);
 	SetBkMode(hDC, TRANSPARENT);
 	SetROP2(hDC, R2_XORPEN);
@@ -409,7 +409,7 @@ CN3UIEdit::CN3UIEdit()
 	m_iCompLength = 0;
 	m_iMaxStrLen = 0x7fffffff;
 	KillFocus();
-	m_pSnd_Typing = NULL;
+	m_pSnd_Typing = nullptr;
 }
 
 CN3UIEdit::~CN3UIEdit()
@@ -436,7 +436,7 @@ void CN3UIEdit::Render()
 	CN3UIStatic::Render();
 	if (HaveFocus())
 	{
-		s_Caret.Render(s_lpD3DDev);	// Æ÷Ä¿½º°¡ ÀÖÀ¸¸é Ä³·µ ±×¸®±â
+		s_Caret.Render(s_lpD3DDev);	// í¬ì»¤ìŠ¤ê°€ ìˆìœ¼ë©´ ìºëŸ¿ ê·¸ë¦¬ê¸°
 	}
 }
 
@@ -444,7 +444,7 @@ void CN3UIEdit::SetVisible(bool bVisible)
 {
 	CN3UIBase::SetVisible(bVisible);
 
-	if (false == bVisible && true == m_bVisible)	// º¸ÀÌÁö ¾Ê°Ô ÇÒ¶§
+	if (false == bVisible && true == m_bVisible)	// ë³´ì´ì§€ ì•Šê²Œ í• ë•Œ
 	{
 		KillFocus();
 	}
@@ -454,7 +454,7 @@ void CN3UIEdit::KillFocus()
 {
 	if (HaveFocus())
 	{
-		s_pFocusedEdit = NULL;
+		s_pFocusedEdit = nullptr;
 		s_Caret.m_bVisible = FALSE;
 
 		if(s_hWndEdit)
@@ -467,12 +467,12 @@ void CN3UIEdit::KillFocus()
 
 bool CN3UIEdit::SetFocus()
 {
-//	if (HaveFocus()) return true;		// ÀÌ¹Ì ³»°¡ Æ÷Ä¿½º¸¦ °¡Áö°í ÀÖÀ¸¸é return true;
-	if (NULL != s_pFocusedEdit) s_pFocusedEdit->KillFocus();	// ´Ù¸¥ edit °¡ °¡Áö°í ÀÖÀ¸¸é killfocusÈ£Ãâ
-	s_pFocusedEdit = this;				// Æ÷Ä¿½º¸¦ °¡Áö°í ÀÖ´Â edit¸¦ ³ª·Î ¼³Á¤
+//	if (HaveFocus()) return true;		// ì´ë¯¸ ë‚´ê°€ í¬ì»¤ìŠ¤ë¥¼ ê°€ì§€ê³  ìˆìœ¼ë©´ return true;
+	if (nullptr != s_pFocusedEdit) s_pFocusedEdit->KillFocus();	// ë‹¤ë¥¸ edit ê°€ ê°€ì§€ê³  ìˆìœ¼ë©´ killfocusí˜¸ì¶œ
+	s_pFocusedEdit = this;				// í¬ì»¤ìŠ¤ë¥¼ ê°€ì§€ê³  ìˆëŠ” editë¥¼ ë‚˜ë¡œ ì„¤ì •
 
 	SIZE size;
-	if (m_pBuffOutRef && m_pBuffOutRef->GetTextExtent("°¡",2,&size))
+	if (m_pBuffOutRef && m_pBuffOutRef->GetTextExtent("ê°€",2,&size))
 	{
 		s_Caret.SetSize(size.cy);
 		s_Caret.SetColor(m_pBuffOutRef->GetFontColor());
@@ -480,7 +480,7 @@ bool CN3UIEdit::SetFocus()
 
 	s_Caret.m_bVisible = TRUE;
 	s_Caret.InitFlckering();
-	CN3UIEdit::UpdateCaretPosFromEditCtrl(); // Ä³·µ Æ÷Áö¼Ç ¼³Á¤
+	CN3UIEdit::UpdateCaretPosFromEditCtrl(); // ìºëŸ¿ í¬ì§€ì…˜ ì„¤ì •
 
 	if(s_hWndEdit)
 	{
@@ -511,9 +511,9 @@ DWORD CN3UIEdit::MouseProc(DWORD dwFlags, const POINT& ptCur, const POINT& ptOld
 {
 	DWORD dwRet = UI_MOUSEPROC_NONE;
 	if (!m_bVisible) return dwRet;
-	if(dwFlags & UI_MOUSE_LBCLICK &&IsIn(ptCur.x, ptCur.y))	// ¿µ¿ª ¾È¿¡¼­ ¿ŞÂÊ ¹öÆ°ÀÌ ´­·ÈÀ¸¸é
+	if(dwFlags & UI_MOUSE_LBCLICK &&IsIn(ptCur.x, ptCur.y))	// ì˜ì—­ ì•ˆì—ì„œ ì™¼ìª½ ë²„íŠ¼ì´ ëˆŒë ¸ìœ¼ë©´
 	{
-		SetFocus();	// ³ª¿¡°Ô Æ÷Ä¿½º¸¦ ÁØ´Ù.
+		SetFocus();	// ë‚˜ì—ê²Œ í¬ì»¤ìŠ¤ë¥¼ ì¤€ë‹¤.
 		dwRet |= (UI_MOUSEPROC_DONESOMETHING|UI_MOUSEPROC_INREGION);
 		return dwRet;
 	}
@@ -523,11 +523,11 @@ DWORD CN3UIEdit::MouseProc(DWORD dwFlags, const POINT& ptCur, const POINT& ptOld
 
 void CN3UIEdit::SetCaretPos(UINT nPos)
 {
-	if (nPos > m_iMaxStrLen) nPos = m_iMaxStrLen;	// ÃÖ´ë ±æÀÌº¸´Ù ±æ°æ¿ì ÀÛ°Ô ¼¼ÆÃ
+	if (nPos > m_iMaxStrLen) nPos = m_iMaxStrLen;	// ìµœëŒ€ ê¸¸ì´ë³´ë‹¤ ê¸¸ê²½ìš° ì‘ê²Œ ì„¸íŒ…
 	m_nCaretPos = nPos;
 
 	const std::string& szBuff = m_pBuffOutRef->GetString();
-	__ASSERT(szBuff.empty() || -1 == szBuff.find('\n'), "multiline edit");	// Áö±İÀº multilineÀº Áö¿øÇÏÁö ¾Ê´Â´Ù.
+	__ASSERT(szBuff.empty() || -1 == szBuff.find('\n'), "multiline edit");	// ì§€ê¸ˆì€ multilineì€ ì§€ì›í•˜ì§€ ì•ŠëŠ”ë‹¤.
 	SIZE size = {0,0};
 	if (!szBuff.empty() && m_pBuffOutRef ) m_pBuffOutRef->GetTextExtent(szBuff, m_nCaretPos, &size) ;
 
@@ -536,29 +536,29 @@ void CN3UIEdit::SetCaretPos(UINT nPos)
 	s_Caret.SetPos(m_pBuffOutRef->m_ptDrawPos.x + size.cx, m_pBuffOutRef->m_ptDrawPos.y);
 }
 
-void CN3UIEdit::SetMaxString(int iMax)		// ÃÖ´ë ±Û¾¾ ¼ö¸¦ Á¤ÇØÁØ´Ù
+void CN3UIEdit::SetMaxString(int iMax)		// ìµœëŒ€ ê¸€ì”¨ ìˆ˜ë¥¼ ì •í•´ì¤€ë‹¤
 {
-	if (iMax <= 0) {__ASSERT(0, "ÃÖ´ë ±Û¾¾ ¼ö¸¦ 0º¸´Ù Å©°Ô Á¤ÇØÁÖ¼¼¿ä"); return;}
+	if (iMax <= 0) {__ASSERT(0, "ìµœëŒ€ ê¸€ì”¨ ìˆ˜ë¥¼ 0ë³´ë‹¤ í¬ê²Œ ì •í•´ì£¼ì„¸ìš”"); return;}
 	m_iMaxStrLen = iMax;
 
-	if (NULL == m_pBuffOutRef) return;
+	if (nullptr == m_pBuffOutRef) return;
 
 	const std::string szBuff = GetString();
 	if ( m_iMaxStrLen >= szBuff.size()) return;
 
-	// ¿©±â±îÁö ¿À´Â °æ¿ì´Â ÇöÀç ±Û¾¾±æÀÌ°¡ iMaxº¸´Ù Å« °æ¿ìÀÌ¹Ç·Î Á¦ÇÑ±ÛÀÚ¿¡ ¸ÂÃç Àß¶óÁÖ°Ô ´Ù½Ã ¼³Á¤ÇÑ´Ù.
+	// ì—¬ê¸°ê¹Œì§€ ì˜¤ëŠ” ê²½ìš°ëŠ” í˜„ì¬ ê¸€ì”¨ê¸¸ì´ê°€ iMaxë³´ë‹¤ í° ê²½ìš°ì´ë¯€ë¡œ ì œí•œê¸€ìì— ë§ì¶° ì˜ë¼ì£¼ê²Œ ë‹¤ì‹œ ì„¤ì •í•œë‹¤.
 	SetString(szBuff);
 }
 
 /////////////////////////////////////////////////////////////////////
 //
-// Æ¯Á¤ À§Ä¡°¡ ÇÑ±ÛÀÇ 2byteÁß¿¡ µÎ¹øÂ° ¹ÙÀÌÆ®ÀÎÁö °Ë»çÇÏ´Â ºÎºĞÀÌ´Ù.
-// IsDBCSLeadByte¶ó´Â ÇÔ¼ö°¡ ÀÖÁö¸¸ Á¶ÇÕÇüÀÏ °æ¿ì´Â
-// ½ÃÀÛByte¿Í ³¡byteÀÇ ¹üÀ§°¡ °°À¸·Î ÀÌ ÇÔ¼ö·Î °Ë»ç ÇÒ ¼ö ¾ø´Ù.
-// µû¶ó¼­ Ã³À½ºÎÅÍ °Ë»ç¸¦ ÇÏ´Â ¹æ¹ı ¿Ü¿¡´Â ´Ù¸¥ ¹æ¹ıÀÌ ¾ø´Ù.
+// íŠ¹ì • ìœ„ì¹˜ê°€ í•œê¸€ì˜ 2byteì¤‘ì— ë‘ë²ˆì§¸ ë°”ì´íŠ¸ì¸ì§€ ê²€ì‚¬í•˜ëŠ” ë¶€ë¶„ì´ë‹¤.
+// IsDBCSLeadByteë¼ëŠ” í•¨ìˆ˜ê°€ ìˆì§€ë§Œ ì¡°í•©í˜•ì¼ ê²½ìš°ëŠ”
+// ì‹œì‘Byteì™€ ëbyteì˜ ë²”ìœ„ê°€ ê°™ìœ¼ë¡œ ì´ í•¨ìˆ˜ë¡œ ê²€ì‚¬ í•  ìˆ˜ ì—†ë‹¤.
+// ë”°ë¼ì„œ ì²˜ìŒë¶€í„° ê²€ì‚¬ë¥¼ í•˜ëŠ” ë°©ë²• ì™¸ì—ëŠ” ë‹¤ë¥¸ ë°©ë²•ì´ ì—†ë‹¤.
 //
-// NTÀÇ Unicode¿¡¼­´Â ¾î¶»°Ô ÀÛ¿ëÇÏ´ÂÁö °Ë»çÇØ º¸Áö ¾Ê¾ÒÁö¸¸
-// º° ´Ù¸¥ ¹®Á¦ ¾øÀÌ »ç¿ëÇÒ ¼ö ÀÖ´Ù°í »ı°¢ÇÑ´Ù.
+// NTì˜ Unicodeì—ì„œëŠ” ì–´ë–»ê²Œ ì‘ìš©í•˜ëŠ”ì§€ ê²€ì‚¬í•´ ë³´ì§€ ì•Šì•˜ì§€ë§Œ
+// ë³„ ë‹¤ë¥¸ ë¬¸ì œ ì—†ì´ ì‚¬ìš©í•  ìˆ˜ ìˆë‹¤ê³  ìƒê°í•œë‹¤.
 //
 /////////////////////////////////////////////////////////////////////
 BOOL CN3UIEdit::IsHangulMiddleByte( const char* lpszStr, int iPos )
@@ -588,34 +588,34 @@ const std::string& CN3UIEdit::GetString()
 
 void CN3UIEdit::SetString(const std::string& szString)
 {
-	if (NULL == m_pBuffOutRef) return;
+	if (nullptr == m_pBuffOutRef) return;
 	if (szString.size() > m_iMaxStrLen)
 	{
 		std::string szNewBuff(m_iMaxStrLen, '?');
 
 		if (IsHangulMiddleByte(szString.c_str(), m_iMaxStrLen))
 		{
-			szNewBuff = szString.substr(0, m_iMaxStrLen-1);	// -1Àº ÇÑ±ÛÀÌ¹Ç·Î ÇÏ³ª ´ú Ä«ÇÇÇÏ±â À§ÇØ +1Àº ¸Ç ¸¶Áö¸·¿¡ NULL ³Ö±â À§ÇØ
+			szNewBuff = szString.substr(0, m_iMaxStrLen-1);	// -1ì€ í•œê¸€ì´ë¯€ë¡œ í•˜ë‚˜ ëœ ì¹´í”¼í•˜ê¸° ìœ„í•´ +1ì€ ë§¨ ë§ˆì§€ë§‰ì— NULL ë„£ê¸° ìœ„í•´
 			if (UISTYLE_EDIT_PASSWORD & m_dwStyle)
 			{
 				int iNewBuffLen = szNewBuff.size();
 				m_szPassword = szNewBuff;
 
 				szNewBuff.assign(m_iMaxStrLen-1, '*');
-				__ASSERT(NULL == szNewBuff[m_iMaxStrLen-1],"±ÛÀÚ¼ö°¡ ´Ù¸£´Ù.");
+				__ASSERT(NULL == szNewBuff[m_iMaxStrLen-1],"ê¸€ììˆ˜ê°€ ë‹¤ë¥´ë‹¤.");
 			}
 			m_pBuffOutRef->SetString(szNewBuff);
 		}
 		else
 		{
-			szNewBuff = szString.substr(0, m_iMaxStrLen);	// +1Àº ¸Ç ¸¶Áö¸·¿¡ NULL ³Ö±â À§ÇØ
+			szNewBuff = szString.substr(0, m_iMaxStrLen);	// +1ì€ ë§¨ ë§ˆì§€ë§‰ì— NULL ë„£ê¸° ìœ„í•´
 			if (UISTYLE_EDIT_PASSWORD & m_dwStyle)
 			{
 				int iNewBuffLen = szNewBuff.size();
 				m_szPassword = szNewBuff;
 
 				szNewBuff.assign(m_iMaxStrLen, '*');
-				__ASSERT(NULL == szNewBuff[m_iMaxStrLen],"±ÛÀÚ¼ö°¡ ´Ù¸£´Ù.");
+				__ASSERT(NULL == szNewBuff[m_iMaxStrLen],"ê¸€ììˆ˜ê°€ ë‹¤ë¥´ë‹¤.");
 			}
 			m_pBuffOutRef->SetString(szNewBuff);
 		}
@@ -643,7 +643,7 @@ void CN3UIEdit::SetString(const std::string& szString)
 	if (m_nCaretPos > iStrLen) SetCaretPos(iStrLen);
 }
 
-BOOL CN3UIEdit::MoveOffset(int iOffsetX, int iOffsetY)		// À§Ä¡ ÁöÁ¤(chilrenÀÇ À§Ä¡µµ °°ÀÌ ¹Ù²Ù¾îÁØ´Ù. caretÀ§Ä¡µµ °°ÀÌ ¹Ù²Ù¾îÁÜ.)
+BOOL CN3UIEdit::MoveOffset(int iOffsetX, int iOffsetY)		// ìœ„ì¹˜ ì§€ì •(chilrenì˜ ìœ„ì¹˜ë„ ê°™ì´ ë°”ê¾¸ì–´ì¤€ë‹¤. caretìœ„ì¹˜ë„ ê°™ì´ ë°”ê¾¸ì–´ì¤Œ.)
 {
 	if (FALSE == CN3UIBase::MoveOffset(iOffsetX, iOffsetY)) return FALSE;
 /*
@@ -663,15 +663,15 @@ bool CN3UIEdit::Load(HANDLE hFile)
 {
 	if (false == CN3UIStatic::Load(hFile)) return false;
 
-	// ÀÌÀü uifÆÄÀÏÀ» ÄÁ¹öÆÃ ÇÏ·Á¸é »ç¿îµå ·Îµå ÇÏ´Â ºÎºĞ ¸·±â
+	// ì´ì „ uifíŒŒì¼ì„ ì»¨ë²„íŒ… í•˜ë ¤ë©´ ì‚¬ìš´ë“œ ë¡œë“œ í•˜ëŠ” ë¶€ë¶„ ë§‰ê¸°
 	int iSndFNLen = 0;
 	DWORD dwNum;
 
-	ReadFile(hFile, &iSndFNLen, sizeof(iSndFNLen), &dwNum, NULL);		//	»ç¿îµå ÆÄÀÏ ¹®ÀÚ¿­ ±æÀÌ
+	ReadFile(hFile, &iSndFNLen, sizeof(iSndFNLen), &dwNum, nullptr);		//	ì‚¬ìš´ë“œ íŒŒì¼ ë¬¸ìì—´ ê¸¸ì´
 	if (iSndFNLen>0)
 	{
 		std::vector<char> buffer(iSndFNLen+1, NULL);
-		ReadFile(hFile, buffer.data(), iSndFNLen, &dwNum, NULL);
+		ReadFile(hFile, buffer.data(), iSndFNLen, &dwNum, nullptr);
 
 		__ASSERT(NULL == m_pSnd_Typing, "memory leak");
 		m_pSnd_Typing = s_SndMgr.CreateObj(buffer.data(), SNDTYPE_2D);
@@ -695,7 +695,7 @@ bool CN3UIEdit::Save(HANDLE hFile)
 
 	int iSndFNLen = 0;
 	if (m_pSnd_Typing) iSndFNLen = m_pSnd_Typing->m_szFileName.size();
-	WriteFile(hFile, &iSndFNLen, sizeof(iSndFNLen), &dwNum, NULL);		//	»ç¿îµå ÆÄÀÏ ¹®ÀÚ¿­ ±æÀÌ
+	WriteFile(hFile, &iSndFNLen, sizeof(iSndFNLen), &dwNum, NULL);		//	ì‚¬ìš´ë“œ íŒŒì¼ ë¬¸ìì—´ ê¸¸ì´
 	if (iSndFNLen>0) WriteFile(hFile, m_pSnd_Typing->m_szFileName.c_str(), iSndFNLen, &dwNum, NULL);
 
 	return true;
@@ -707,7 +707,7 @@ void CN3UIEdit::SetSndTyping(const std::string& strFileName)
 	if (0 == strFileName.size()) return;
 
 	CN3BaseFileAccess tmpBase;
-	tmpBase.FileNameSet(strFileName);	// Base°æ·Î¿¡ ´ëÇØ¼­ »ó´ëÀû °æ·Î¸¦ ³Ñ°ÜÁØ´Ù.
+	tmpBase.FileNameSet(strFileName);	// Baseê²½ë¡œì— ëŒ€í•´ì„œ ìƒëŒ€ì  ê²½ë¡œë¥¼ ë„˜ê²¨ì¤€ë‹¤.
 
 	SetCurrentDirectory(tmpBase.PathGet().c_str());
 	m_pSnd_Typing = s_SndMgr.CreateObj(tmpBase.FileName(), SNDTYPE_2D);
@@ -722,7 +722,7 @@ std::string CN3UIEdit::GetSndFName_Typing() const
 
 void CN3UIEdit::UpdateTextFromEditCtrl()
 {
-	if(NULL == s_pFocusedEdit || NULL == s_hWndEdit) return;
+	if(nullptr == s_pFocusedEdit || nullptr == s_hWndEdit) return;
 
 	::GetWindowText(s_hWndEdit, s_szBuffTmp, 512);
 	s_pFocusedEdit->SetString(s_szBuffTmp);
@@ -730,7 +730,7 @@ void CN3UIEdit::UpdateTextFromEditCtrl()
 
 void CN3UIEdit::UpdateCaretPosFromEditCtrl()
 {
-	if(NULL == s_pFocusedEdit || NULL == s_hWndEdit) return;
+	if(nullptr == s_pFocusedEdit || nullptr == s_hWndEdit) return;
 
 /*	int iCaret = 0;
 	int iLen = GetWindowTextLength(s_hWndEdit);
@@ -774,7 +774,7 @@ void CN3UIEdit::SetImeStatus(POINT ptPos, bool bOpen)
 
 /*
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
-//	IME °ü·ÃÇØ¼­
+//	IME ê´€ë ¨í•´ì„œ
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -792,12 +792,12 @@ bool CN3UIEdit::AddEdit(CN3UIEdit* pEdit)
 	}
 
 	it_Edit it = s_Edits.find(pEdit->m_hWndEdit);
-	if(it == s_Edits.end()) // Áßº¹µÈ°Ô ¾øÀ¸¸é..
+	if(it == s_Edits.end()) // ì¤‘ë³µëœê²Œ ì—†ìœ¼ë©´..
 	{
 		s_Edits.insert(val_Edit(pEdit->m_hWndEdit, pEdit));
 		return true;
 	}
-	else // Áßº¹µÇ¾úÀ¸¸é..
+	else // ì¤‘ë³µë˜ì—ˆìœ¼ë©´..
 	{
 		__ASSERT(0, "Edit Handle Duplicate");
 		return false;

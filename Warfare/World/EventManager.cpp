@@ -20,8 +20,8 @@ CEventCell::~CEventCell()
 void CEventCell::Load(HANDLE hFile)
 {
 	DWORD dwNum;
-	ReadFile(hFile, &m_Rect, sizeof(RECT), &dwNum, NULL);
-	ReadFile(hFile, &m_sEventType, sizeof(short), &dwNum, NULL);
+	ReadFile(hFile, &m_Rect, sizeof(RECT), &dwNum, nullptr);
+	ReadFile(hFile, &m_sEventType, sizeof(short), &dwNum, nullptr);
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -42,7 +42,7 @@ bool CEventManager::LoadFromFile(const char* szFileName)
 {
 	Release();
 
-	HANDLE hGevFile = CreateFile(szFileName, GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+	HANDLE hGevFile = CreateFile(szFileName, GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
 	if(INVALID_HANDLE_VALUE == hGevFile)
 	{
 		return false;
@@ -50,7 +50,7 @@ bool CEventManager::LoadFromFile(const char* szFileName)
 
 	DWORD dwNum;
 	int nEventCellCount = 0;
-	ReadFile(hGevFile, &nEventCellCount, sizeof(int), &dwNum, NULL);
+	ReadFile(hGevFile, &nEventCellCount, sizeof(int), &dwNum, nullptr);
 
 	for(int i = 0; i < nEventCellCount ; i++)
 	{

@@ -14,19 +14,19 @@ __InfoSelectedIcon		CN3UIWndBase::m_sSelectedIconInfo;
 __RecoveryJobInfo		CN3UIWndBase::m_sRecoveryJobInfo;
 __SkillSelectInfo		CN3UIWndBase::m_sSkillSelectInfo;
 
-CN3UIImage* CN3UIWndBase::m_pSelectionImage = NULL;
-CCountableItemEditDlg*	CN3UIWndBase::m_pCountableItemEdit = NULL;
+CN3UIImage* CN3UIWndBase::m_pSelectionImage = nullptr;
+CCountableItemEditDlg*	CN3UIWndBase::m_pCountableItemEdit = nullptr;
 
-CN3SndObj* CN3UIWndBase::s_pSnd_Item_Etc = NULL;
-CN3SndObj* CN3UIWndBase::s_pSnd_Item_Weapon = NULL;
-CN3SndObj* CN3UIWndBase::s_pSnd_Item_Armor = NULL;
-CN3SndObj* CN3UIWndBase::s_pSnd_Gold = NULL;
-CN3SndObj* CN3UIWndBase::s_pSnd_Repair = NULL;
+CN3SndObj* CN3UIWndBase::s_pSnd_Item_Etc = nullptr;
+CN3SndObj* CN3UIWndBase::s_pSnd_Item_Weapon = nullptr;
+CN3SndObj* CN3UIWndBase::s_pSnd_Item_Armor = nullptr;
+CN3SndObj* CN3UIWndBase::s_pSnd_Gold = nullptr;
+CN3SndObj* CN3UIWndBase::s_pSnd_Repair = nullptr;
 int CN3UIWndBase::s_iRefCount = 0;
 
 CN3UIWndBase::CN3UIWndBase()
 {
-	m_pSelectionImage = NULL;
+	m_pSelectionImage = nullptr;
 	m_pSelectionImage = new CN3UIImage;
 	m_pSelectionImage->Init(CGameProcedure::s_pUIMgr);
 	m_pSelectionImage->SetUVRect(0.0f, 0.0f, 1.0f, 1.0f);
@@ -39,12 +39,12 @@ CN3UIWndBase::CN3UIWndBase()
 		s_pSnd_Gold		= CN3Base::s_SndMgr.CreateObj(ID_SOUND_GOLD_IN_INVENTORY);	
 		s_pSnd_Repair	= CN3Base::s_SndMgr.CreateObj(ID_SOUND_ITEM_IN_REPAIR);	
 	}
-	s_iRefCount++; // ÂüÁ¶ Ä«¿îÆ®
+	s_iRefCount++; // ì°¸ì¡° ì¹´ìš´íŠ¸
 }
 
 CN3UIWndBase::~CN3UIWndBase()
 {
-	s_iRefCount--; // ÂüÁ¶ Ä«¿îÆ®
+	s_iRefCount--; // ì°¸ì¡° ì¹´ìš´íŠ¸
 	if(s_iRefCount == 0)
 	{
 		CN3Base::s_SndMgr.ReleaseObj(&s_pSnd_Item_Etc);
@@ -74,7 +74,7 @@ CN3UIArea* CN3UIWndBase::GetChildAreaByiOrder(eUI_AREA_TYPE eUAT, int iOrder)
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 CN3UIString* CN3UIWndBase::GetChildStringByiOrder(int iOrder)
@@ -91,7 +91,7 @@ CN3UIString* CN3UIWndBase::GetChildStringByiOrder(int iOrder)
 		}
 	}
 
-	return NULL;
+	return nullptr;
 
 }
 
@@ -110,9 +110,9 @@ DWORD CN3UIWndBase::MouseProc(DWORD dwFlags, const POINT& ptCur, const POINT& pt
 	DWORD dwRet = UI_MOUSEPROC_NONE;
 	if (!m_bVisible) return dwRet;
 
-	// ¾ÆÀÌÄÜÀ» °¡Áø À©µµ¿ì´Â ÀÚ±â À©µµ¿ì ¿µ¿ªÀ» ¹þ¾î ³µÀ»¶§µµ ÀÚ½ÄÀÇ ¸Þ½ÃÁö¸¦ ¹ÞÀ»¼ö ÀÖ¾î¾ß ÇÑ´Ù.. ^^
+	// ì•„ì´ì½˜ì„ ê°€ì§„ ìœˆë„ìš°ëŠ” ìžê¸° ìœˆë„ìš° ì˜ì—­ì„ ë²—ì–´ ë‚¬ì„ë•Œë„ ìžì‹ì˜ ë©”ì‹œì§€ë¥¼ ë°›ì„ìˆ˜ ìžˆì–´ì•¼ í•œë‹¤.. ^^
 
-	// UI ¿òÁ÷ÀÌ´Â ÄÚµå
+	// UI ì›€ì§ì´ëŠ” ì½”ë“œ
 	if (UI_STATE_COMMON_MOVE == m_eState)
 	{
 		if (dwFlags&UI_MOUSE_LBCLICKED)
@@ -127,40 +127,40 @@ DWORD CN3UIWndBase::MouseProc(DWORD dwFlags, const POINT& ptCur, const POINT& pt
 		return dwRet;
 	}
 
-	if(false == IsIn(ptCur.x, ptCur.y))	// ¿µ¿ª ¹ÛÀÌ¸é
+	if(false == IsIn(ptCur.x, ptCur.y))	// ì˜ì—­ ë°–ì´ë©´
 	{
 		if(false == IsIn(ptOld.x, ptOld.y))
 		{
 			if ( GetState() != UI_STATE_ICON_MOVING )
-				return dwRet;// ÀÌÀü ÁÂÇ¥µµ ¿µ¿ª ¹ÛÀÌ¸é 
+				return dwRet;// ì´ì „ ì¢Œí‘œë„ ì˜ì—­ ë°–ì´ë©´ 
 		}
-		dwRet |= UI_MOUSEPROC_PREVINREGION;	// ÀÌÀü ÁÂÇ¥´Â ¿µ¿ª ¾ÈÀÌ¾ú´Ù.
+		dwRet |= UI_MOUSEPROC_PREVINREGION;	// ì´ì „ ì¢Œí‘œëŠ” ì˜ì—­ ì•ˆì´ì—ˆë‹¤.
 	}
 	else
 	{
-		// tool tip °ü·Ã
+		// tool tip ê´€ë ¨
 		if (s_pTooltipCtrl) s_pTooltipCtrl->SetText(m_szToolTip);
 	}
-	dwRet |= UI_MOUSEPROC_INREGION;	// ÀÌ¹ø ÁÂÇ¥´Â ¿µ¿ª ¾ÈÀÌ´Ù.
+	dwRet |= UI_MOUSEPROC_INREGION;	// ì´ë²ˆ ì¢Œí‘œëŠ” ì˜ì—­ ì•ˆì´ë‹¤.
 
-	// child¿¡°Ô ¸Þ¼¼Áö Àü´Þ
+	// childì—ê²Œ ë©”ì„¸ì§€ ì „ë‹¬
 	for(UIListItor itor = m_Children.begin(); m_Children.end() != itor; ++itor)
 	{
 		CN3UIBase* pChild = (*itor);
 		DWORD dwChildRet = pChild->MouseProc(dwFlags, ptCur, ptOld);
 		if (UI_MOUSEPROC_DONESOMETHING & dwChildRet)
 		{	
-			// ÀÌ°æ¿ì¿¡´Â ¸Õ°¡ Æ÷Ä¿½º¸¦ ¹ÞÀº °æ¿ìÀÌ´Ù.
+			// ì´ê²½ìš°ì—ëŠ” ë¨¼ê°€ í¬ì»¤ìŠ¤ë¥¼ ë°›ì€ ê²½ìš°ì´ë‹¤.
 			dwRet |= (UI_MOUSEPROC_CHILDDONESOMETHING|UI_MOUSEPROC_DONESOMETHING);
 			return dwRet;
 		}
 	}
 
-	// UI ¿òÁ÷ÀÌ´Â ÄÚµå
+	// UI ì›€ì§ì´ëŠ” ì½”ë“œ
 	if (UI_STATE_COMMON_MOVE != m_eState && 
 			PtInRect(&m_rcMovable, ptCur) && (dwFlags&UI_MOUSE_LBCLICK) )
 	{
-		// ÀÎº¥Åä¸® À©µµ¿ìÀÌ°í »ó°Å·¡ ÁßÀÌ¸é..
+		// ì¸ë²¤í† ë¦¬ ìœˆë„ìš°ì´ê³  ìƒê±°ëž˜ ì¤‘ì´ë©´..
 		if ( (UIType() == UI_TYPE_ICON_MANAGER) && (m_eUIWnd == UIWND_INVENTORY) 
 			&& (CGameProcedure::s_pProcMain->m_pUITransactionDlg->IsVisible()) )
 			return dwRet;

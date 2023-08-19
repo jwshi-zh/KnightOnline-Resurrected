@@ -22,7 +22,7 @@ protected:
 	int					m_iNumIndices;
 	int					m_iNumVertices; 
 
-	CN3PMesh::__EdgeCollapse*	m_pCollapseUpTo;	// ¬¸¡∂ ∆˜¿Œ≈Õ
+	CN3PMesh::__EdgeCollapse*	m_pCollapseUpTo;	// Ï∞∏Ï°∞ Ìè¨Ïù∏ÌÑ∞
 
 	// A pointer to the original mesh. This is where you'll find the vertex data (which
 	// is invariant between PMRInstance's)
@@ -30,7 +30,7 @@ protected:
 
 public:
 	void		SetColor(DWORD dwColor = 0xffffffff);
-	BOOL		IsLOD() { if(NULL == m_pCollapseUpTo) return FALSE; return TRUE; }
+	BOOL		IsLOD() { if(nullptr == m_pCollapseUpTo) return FALSE; return TRUE; }
 	bool		Create(CN3FXPMesh* pN3FXPMesh);
 	bool		Create(const std::string& szFN);
 	void		Release();

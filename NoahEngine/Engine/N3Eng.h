@@ -10,21 +10,21 @@ public:
 	{
 		char	szDeviceName[128];
 		char	szDeviceDesc[128];
-		int		nAdapter; // ¸î¹øÂ° ±×·¡ÇÈ Ä«µåÀÎÁö.
-		int		nDevice; // ¸î¹øÂ° ÀåÄ¡ÀÎÁö.
+		int		nAdapter; // ëª‡ë²ˆì§¸ ê·¸ë˜í”½ ì¹´ë“œì¸ì§€.
+		int		nDevice; // ëª‡ë²ˆì§¸ ì¥ì¹˜ì¸ì§€.
 		
-		D3DDEVTYPE		DevType; // ÇÏµå¿ş¾î °¡¼ÓÀÎÁö.
-		int				nModeCount; // µğ½ºÇÃ·¹ÀÌ ¸ğµå °¹¼ö
-		D3DDISPLAYMODE* pModes; // µğ½ºÇÃ·¹ÀÌ ¸ğµå
+		D3DDEVTYPE		DevType; // í•˜ë“œì›¨ì–´ ê°€ì†ì¸ì§€.
+		int				nModeCount; // ë””ìŠ¤í”Œë ˆì´ ëª¨ë“œ ê°¯ìˆ˜
+		D3DDISPLAYMODE* pModes; // ë””ìŠ¤í”Œë ˆì´ ëª¨ë“œ
 	} __D3DDevInfo;
 
 	LPDIRECT3D9			m_lpD3D;
 	LPDIRECTDRAW		m_lpDD;
 
 protected:
-	int		m_nModeActive; // ÇöÀç ¼±ÅÃµÈ Mode
-	int		m_nAdapterCount; // ±×·¡ÇÈ Ä«µå °¹¼ö
-	__D3DDEV_INFO m_DeviceInfo; // Device Á¤º¸	
+	int		m_nModeActive; // í˜„ì¬ ì„ íƒëœ Mode
+	int		m_nAdapterCount; // ê·¸ë˜í”½ ì¹´ë“œ ê°¯ìˆ˜
+	__D3DDEV_INFO m_DeviceInfo; // Device ì •ë³´	
 	
 public:
 	
@@ -37,10 +37,10 @@ public:
 	
 	void SetDefaultEnvironment();
 	bool Reset(BOOL bWindowed, DWORD dwWidth, DWORD dwHeight, DWORD dwBPP);
-	static void Clear(D3DCOLOR crFill, RECT* pRC = NULL);
-	static void ClearAuto(RECT* pRC = NULL);
-	static void ClearZBuffer(const RECT* pRC = NULL);
-	static void Present(HWND hWnd, RECT* pRC = NULL);
+	static void Clear(D3DCOLOR crFill, RECT* pRC = nullptr);
+	static void ClearAuto(RECT* pRC = nullptr);
+	static void ClearZBuffer(const RECT* pRC = nullptr);
+	static void Present(HWND hWnd, RECT* pRC = nullptr);
 
 	void LookAt(__Vector3& vEye, __Vector3& vAt, __Vector3& vUp);
 	void SetProjection(float fNear, float fFar, float fLens, float fAspect);

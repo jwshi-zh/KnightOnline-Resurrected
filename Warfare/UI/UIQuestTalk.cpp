@@ -9,8 +9,8 @@
 
 CUIQuestTalk::CUIQuestTalk()
 {
-	m_pTextTalk	= NULL;
-	m_pBtnOk	= NULL;
+	m_pTextTalk	= nullptr;
+	m_pBtnOk	= nullptr;
 
 	m_iNumTalk	= 0;
 	m_iCurTalk	= 0;

@@ -2,19 +2,19 @@
 
 #include "N3Shape.h"
 
-const DWORD AF_POS = 0x00000001;		// Pos º¯È­°¡ ÀÖ´Ù.
-const DWORD AF_SCALE = 0x00000002;		// Scale º¯È­°¡ ÀÖ´Ù.
-const DWORD AF_ROTATION = 0x00000004;		// Rotation º¯È­°¡ ÀÖ´Ù.
+const DWORD AF_POS = 0x00000001;		// Pos ë³€í™”ê°€ ìˆë‹¤.
+const DWORD AF_SCALE = 0x00000002;		// Scale ë³€í™”ê°€ ìˆë‹¤.
+const DWORD AF_ROTATION = 0x00000004;		// Rotation ë³€í™”ê°€ ìˆë‹¤.
 
 struct __ActionInfo
 {
-	DWORD				dwActionFlag;			// Pos, Scale, Rot º¯È­°¡ ÀÖ´Â°¡?
-	std::vector<__Vector3>		ActionStateInfos_Pos;		// ¿òÁ÷ÀÏ »óÅÂ Á¤º¸µé(ÀÌµ¿ Á¤º¸ ÀÖ´Ù¸é m_iActionStateCount°³)
-	std::vector<__Vector3>		ActionStateInfos_Scale;	// È®´ëÃà¼Ò
-	std::vector<__Quaternion>	ActionStateInfos_Rot;		// È¸Àü
-//	__Vector3			vCurAction_Pos;	// ÇöÀç ¿òÁ÷ÀÎ »óÅÂ Á¤º¸(tick¿¡ µû¶ó º¯È­ÇÑ´Ù)
-//	__Vector3			vCurAction_Scale;	// ÇöÀç ¿òÁ÷ÀÎ »óÅÂ Á¤º¸(tick¿¡ µû¶ó º¯È­ÇÑ´Ù)
-//	__Quaternion		qtCurAction_Rot;	// ÇöÀç ¿òÁ÷ÀÎ »óÅÂ Á¤º¸(tick¿¡ µû¶ó º¯È­ÇÑ´Ù)
+	DWORD				dwActionFlag;			// Pos, Scale, Rot ë³€í™”ê°€ ìˆëŠ”ê°€?
+	std::vector<__Vector3>		ActionStateInfos_Pos;		// ì›€ì§ì¼ ìƒíƒœ ì •ë³´ë“¤(ì´ë™ ì •ë³´ ìˆë‹¤ë©´ m_iActionStateCountê°œ)
+	std::vector<__Vector3>		ActionStateInfos_Scale;	// í™•ëŒ€ì¶•ì†Œ
+	std::vector<__Quaternion>	ActionStateInfos_Rot;		// íšŒì „
+//	__Vector3			vCurAction_Pos;	// í˜„ì¬ ì›€ì§ì¸ ìƒíƒœ ì •ë³´(tickì— ë”°ë¼ ë³€í™”í•œë‹¤)
+//	__Vector3			vCurAction_Scale;	// í˜„ì¬ ì›€ì§ì¸ ìƒíƒœ ì •ë³´(tickì— ë”°ë¼ ë³€í™”í•œë‹¤)
+//	__Quaternion		qtCurAction_Rot;	// í˜„ì¬ ì›€ì§ì¸ ìƒíƒœ ì •ë³´(tickì— ë”°ë¼ ë³€í™”í•œë‹¤)
 };
 
 class CN3SPartEx : public CN3SPart
@@ -26,7 +26,7 @@ public:
 // Attributes
 public:
 protected:
-	__ActionInfo		m_ActionInfo;	// ¿òÁ÷ÀÓ¿¡ °üÇÑ Á¤º¸
+	__ActionInfo		m_ActionInfo;	// ì›€ì§ì„ì— ê´€í•œ ì •ë³´
 // Operations
 public:
 	virtual void Release();
@@ -51,17 +51,17 @@ protected:
 // Attributes
 public:
 protected:
-	int		m_iActionStateCount;		// »óÅÂ°¡ ¸î°³°¡ ÀÖ´ÂÁö ³ªÅ¸³½´Ù.
-	int		m_iCurActionState;		// ÇöÀç »óÅÂ
-	int		m_iPrevActionState;		// ÀÌÀü »óÅÂ(»õ·Î¿î »óÅÂ¸¦ ¼³Á¤ÇØÁÖ¸é AnimationµÇ´Â µ¿¾È ÀÌÀü»óÅÂ¸¦ ÀúÀåÇØµĞ´Ù.
-	float	m_fActionTimeChanged;		// »óÅÂ°¡ ¿ÏÀüÈ÷ ¹Ù²î´Â ½Ã°£
-	float	m_fActionTimeChanging;	// »óÅÂ°¡ ¹Ù²î´Â ½ÃÀÛ½Ã°£ºÎÅÍ Áö±İ±îÁöÀÇ °æ°ú ½Ã°£
+	int		m_iActionStateCount;		// ìƒíƒœê°€ ëª‡ê°œê°€ ìˆëŠ”ì§€ ë‚˜íƒ€ë‚¸ë‹¤.
+	int		m_iCurActionState;		// í˜„ì¬ ìƒíƒœ
+	int		m_iPrevActionState;		// ì´ì „ ìƒíƒœ(ìƒˆë¡œìš´ ìƒíƒœë¥¼ ì„¤ì •í•´ì£¼ë©´ Animationë˜ëŠ” ë™ì•ˆ ì´ì „ìƒíƒœë¥¼ ì €ì¥í•´ë‘”ë‹¤.
+	float	m_fActionTimeChanged;		// ìƒíƒœê°€ ì™„ì „íˆ ë°”ë€ŒëŠ” ì‹œê°„
+	float	m_fActionTimeChanging;	// ìƒíƒœê°€ ë°”ë€ŒëŠ” ì‹œì‘ì‹œê°„ë¶€í„° ì§€ê¸ˆê¹Œì§€ì˜ ê²½ê³¼ ì‹œê°„
 
-	__ActionInfo		m_ActionInfo;	// ¿òÁ÷ÀÓ¿¡ °üÇÑ Á¤º¸
+	__ActionInfo		m_ActionInfo;	// ì›€ì§ì„ì— ê´€í•œ ì •ë³´
 
 // Operations
 public:
-	BOOL	SetState(int iState, float fSec);	// fSec½Ã°£µ¿¾È »óÅÂ¸¦ ¹Ù²Û´Ù. (fSecÀÌ 0ÀÏ°æ¿ì Áï½Ã ¹Ù²ï´Ù.)
+	BOOL	SetState(int iState, float fSec);	// fSecì‹œê°„ë™ì•ˆ ìƒíƒœë¥¼ ë°”ê¾¼ë‹¤. (fSecì´ 0ì¼ê²½ìš° ì¦‰ì‹œ ë°”ë€ë‹¤.)
 	virtual void	Release();
 	virtual void	ReCalcMatrix();
 	virtual void	Tick(float fFrm = FRAME_SELFPLAY);

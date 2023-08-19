@@ -24,11 +24,11 @@
 
 CUIDroppedItemDlg::CUIDroppedItemDlg()
 {
-	for(auto i = 0; i < MAX_ITEM_BUNDLE_DROP_PIECE; i++ )	m_pMyDroppedItem[i] = NULL;
+	for(auto i = 0; i < MAX_ITEM_BUNDLE_DROP_PIECE; i++ )	m_pMyDroppedItem[i] = nullptr;
 	for(auto i = 0; i < MAX_ITEM_BUNDLE_DROP_PIECE; i++ )	m_bSendedIconArray[i] = false;
 
 	m_iItemBundleID = 0;
-	m_pUITooltipDlg = NULL;
+	m_pUITooltipDlg = nullptr;
 }
 
 CUIDroppedItemDlg::~CUIDroppedItemDlg()
@@ -42,10 +42,10 @@ void CUIDroppedItemDlg::Release()
 
 	for(auto i = 0; i < MAX_ITEM_BUNDLE_DROP_PIECE; i++ )
 	{
-		if ( m_pMyDroppedItem[i] != NULL )
+		if ( m_pMyDroppedItem[i] != nullptr)
 		{
 			delete m_pMyDroppedItem[i];
-			m_pMyDroppedItem[i] = NULL;
+			m_pMyDroppedItem[i] = nullptr;
 		}
 	}
 }
@@ -57,7 +57,7 @@ void CUIDroppedItemDlg::Init(CN3UIBase* pParent)
 
 void CUIDroppedItemDlg::Render()
 {
-	if (!m_bVisible) return;	// º¸ÀÌÁö ¾ÊÀ¸¸é ÀÚ½ÄµéÀ» renderÇÏÁö ¾Ê´Â´Ù.
+	if (!m_bVisible) return;	// ë³´ì´ì§€ ì•Šìœ¼ë©´ ìì‹ë“¤ì„ renderí•˜ì§€ ì•ŠëŠ”ë‹¤.
 	POINT ptCur = CGameProcedure::s_pLocalInput->MouseGetPos();
 	m_pUITooltipDlg->DisplayTooltipsDisable();
 
@@ -78,14 +78,14 @@ void CUIDroppedItemDlg::Render()
 	if ( bTooltipRender && spItem )
 		m_pUITooltipDlg->DisplayTooltipsEnable(ptCur.x, ptCur.y, spItem );
 
-	// °¹¼ö Ç¥½ÃµÇ¾ß ÇÒ ¾ÆÀÌÅÛ °¹¼ö Ç¥½Ã..
-	CN3UIString *pStr = NULL;
+	// ê°¯ìˆ˜ í‘œì‹œë˜ì•¼ í•  ì•„ì´í…œ ê°¯ìˆ˜ í‘œì‹œ..
+	CN3UIString *pStr = nullptr;
 	for(auto i = 0; i < MAX_ITEM_BUNDLE_DROP_PIECE; i++ )
 	{
 		if ( m_pMyDroppedItem[i] && ( (m_pMyDroppedItem[i]->pItemBasic->byContable == UIITEM_TYPE_COUNTABLE) || 
 			(m_pMyDroppedItem[i]->pItemBasic->byContable == UIITEM_TYPE_COUNTABLE_SMALL) ) )
 		{
-			// string ¾ò±â..
+			// string ì–»ê¸°..
 			pStr = GetChildStringByiOrder(i);
 			if(pStr) 
 			{
@@ -110,7 +110,7 @@ void CUIDroppedItemDlg::Render()
 		}
 		else
 		{
-			// string ¾ò±â..
+			// string ì–»ê¸°..
 			pStr = GetChildStringByiOrder(i);
 			if(pStr) 
 				pStr->SetVisible(false);
@@ -161,10 +161,10 @@ __IconItemSkill* CUIDroppedItemDlg::GetHighlightIconItem(CN3UIIcon* pUIIcon)
 {
 	for(auto i = 0; i < MAX_ITEM_BUNDLE_DROP_PIECE; i++ )
 	{
-		if ( (m_pMyDroppedItem[i] != NULL) && (m_pMyDroppedItem[i]->pUIIcon == pUIIcon) )
+		if ( (m_pMyDroppedItem[i] != nullptr) && (m_pMyDroppedItem[i]->pUIIcon == pUIIcon) )
 			return m_pMyDroppedItem[i];
 	}
-	return NULL;
+	return nullptr;
 }
 
 void CUIDroppedItemDlg::EnterDroppedState(int xpos, int ypos)
@@ -186,10 +186,10 @@ void CUIDroppedItemDlg::EnterDroppedState(int xpos, int ypos)
 				RemoveChild(m_pMyDroppedItem[i]->pUIIcon);
 				m_pMyDroppedItem[i]->pUIIcon->Release();
 				delete m_pMyDroppedItem[i]->pUIIcon;
-				m_pMyDroppedItem[i]->pUIIcon = NULL;
+				m_pMyDroppedItem[i]->pUIIcon = nullptr;
 			}
 			delete m_pMyDroppedItem[i];	
-			m_pMyDroppedItem[i] = NULL;
+			m_pMyDroppedItem[i] = nullptr;
 		}
 	}
 
@@ -217,16 +217,16 @@ DWORD CUIDroppedItemDlg::MouseProc(DWORD dwFlags, const POINT& ptCur, const POIN
 void CUIDroppedItemDlg::AddToItemTable(int iItemID, int iItemCount, int iOrder)
 {
 	__IconItemSkill*	spItem;
-	__TABLE_ITEM_BASIC*	pItem = NULL;								// ¾ÆÀÌÅÛ Å×ÀÌºí ±¸Á¶Ã¼ Æ÷ÀÎÅÍ..
-	__TABLE_ITEM_EXT*	pItemExt = NULL;							// ¾ÆÀÌÅÛ Å×ÀÌºí ±¸Á¶Ã¼ Æ÷ÀÎÅÍ..
+	__TABLE_ITEM_BASIC*	pItem = nullptr;								// ì•„ì´í…œ í…Œì´ë¸” êµ¬ì¡°ì²´ í¬ì¸í„°..
+	__TABLE_ITEM_EXT*	pItemExt = nullptr;							// ì•„ì´í…œ í…Œì´ë¸” êµ¬ì¡°ì²´ í¬ì¸í„°..
 	std::string szIconFN;
 
-	pItem = CGameBase::s_pTbl_Items_Basic->Find(iItemID/1000*1000);	// ¿­ µ¥ÀÌÅÍ ¾ò±â..
+	pItem = CGameBase::s_pTbl_Items_Basic->Find(iItemID/1000*1000);	// ì—´ ë°ì´í„° ì–»ê¸°..
 	if(pItem && pItem->byExtIndex >= 0 && pItem->byExtIndex < MAX_ITEM_EXTENSION)
 		pItemExt = CGameBase::s_pTbl_Items_Exts[pItem->byExtIndex]->Find(iItemID%1000);
-	if(NULL == pItem || NULL == pItemExt)
+	if(nullptr == pItem || nullptr == pItemExt)
 	{
-		__ASSERT(0, "¾ÆÀÌÅÛ Æ÷ÀÎÅÍ Å×ÀÌºí¿¡ ¾øÀ½!!");
+		__ASSERT(0, "ì•„ì´í…œ í¬ì¸í„° í…Œì´ë¸”ì— ì—†ìŒ!!");
 		CLogWriter::Write("CUIDroppedItemDlg::AddToItemTable - Invalidate ItemID : %d", iItemID);
 		return;
 	}
@@ -234,13 +234,13 @@ void CUIDroppedItemDlg::AddToItemTable(int iItemID, int iItemCount, int iOrder)
 	TRACE("Dropped item from server to ItemDlg %d \n", iItemID);
 	e_PartPosition ePart;
 	e_PlugPosition ePlug;
-	e_ItemType eType = CGameProcedure::MakeResrcFileNameForUPC(pItem, NULL, &szIconFN, ePart, ePlug); // ¾ÆÀÌÅÛ¿¡ µû¸¥ ÆÄÀÏ ÀÌ¸§À» ¸¸µé¾î¼­
+	e_ItemType eType = CGameProcedure::MakeResrcFileNameForUPC(pItem, nullptr, &szIconFN, ePart, ePlug); // ì•„ì´í…œì— ë”°ë¥¸ íŒŒì¼ ì´ë¦„ì„ ë§Œë“¤ì–´ì„œ
 	if ( ITEM_TYPE_UNKNOWN == eType ) return;
 	
 	spItem = new __IconItemSkill;
 	spItem->pItemBasic = pItem;
 	spItem->pItemExt = pItemExt;
-	spItem->szIconFN = szIconFN; // ¾ÆÀÌÄÜ ÆÄÀÏ ÀÌ¸§ º¹»ç..
+	spItem->szIconFN = szIconFN; // ì•„ì´ì½˜ íŒŒì¼ ì´ë¦„ ë³µì‚¬..
 	spItem->iCount	= iItemCount;
 	spItem->iDurability = pItem->siMaxDurability+pItemExt->siMaxDurability;
 
@@ -251,17 +251,17 @@ void CUIDroppedItemDlg::AddToItemTableToInventory(int iItemID, int iItemCount, i
 {
 	CN3UIArea* pArea;
 	__IconItemSkill*	spItem;
-	__TABLE_ITEM_BASIC*	pItem = NULL;								// ¾ÆÀÌÅÛ Å×ÀÌºí ±¸Á¶Ã¼ Æ÷ÀÎÅÍ..
-	__TABLE_ITEM_EXT*	pItemExt = NULL;							// ¾ÆÀÌÅÛ Å×ÀÌºí ±¸Á¶Ã¼ Æ÷ÀÎÅÍ..
+	__TABLE_ITEM_BASIC*	pItem = nullptr;								// ì•„ì´í…œ í…Œì´ë¸” êµ¬ì¡°ì²´ í¬ì¸í„°..
+	__TABLE_ITEM_EXT*	pItemExt = nullptr;							// ì•„ì´í…œ í…Œì´ë¸” êµ¬ì¡°ì²´ í¬ì¸í„°..
 	std::string szIconFN;
 	float fUVAspect = (float)45.0f/(float)64.0f;
 
-	pItem = CGameBase::s_pTbl_Items_Basic->Find(iItemID/1000*1000);	// ¿­ µ¥ÀÌÅÍ ¾ò±â..
+	pItem = CGameBase::s_pTbl_Items_Basic->Find(iItemID/1000*1000);	// ì—´ ë°ì´í„° ì–»ê¸°..
 	if(pItem && pItem->byExtIndex >= 0 && pItem->byExtIndex < MAX_ITEM_EXTENSION)
 		pItemExt = CGameBase::s_pTbl_Items_Exts[pItem->byExtIndex]->Find(iItemID%1000);
-	if(NULL == pItem || NULL == pItemExt)
+	if(nullptr == pItem || nullptr == pItemExt)
 	{
-		__ASSERT(0, "¾ÆÀÌÅÛ Æ÷ÀÎÅÍ Å×ÀÌºí¿¡ ¾øÀ½!!");
+		__ASSERT(0, "ì•„ì´í…œ í¬ì¸í„° í…Œì´ë¸”ì— ì—†ìŒ!!");
 		CLogWriter::Write("CUIDroppedItemDlg::AddToItemTableToInventory - Invalidate ItemID : %d", iItemID);
 		return;
 	}
@@ -269,13 +269,13 @@ void CUIDroppedItemDlg::AddToItemTableToInventory(int iItemID, int iItemCount, i
 	TRACE("Dropped item from server to ItemDlg %d \n", iItemID);
 	e_PartPosition ePart;
 	e_PlugPosition ePlug;
-	e_ItemType eType = CGameProcedure::MakeResrcFileNameForUPC(pItem, NULL, &szIconFN, ePart, ePlug); // ¾ÆÀÌÅÛ¿¡ µû¸¥ ÆÄÀÏ ÀÌ¸§À» ¸¸µé¾î¼­
+	e_ItemType eType = CGameProcedure::MakeResrcFileNameForUPC(pItem, nullptr, &szIconFN, ePart, ePlug); // ì•„ì´í…œì— ë”°ë¥¸ íŒŒì¼ ì´ë¦„ì„ ë§Œë“¤ì–´ì„œ
 	if ( ITEM_TYPE_UNKNOWN == eType ) return;
 	
 	spItem = new __IconItemSkill;
 	spItem->pItemBasic = pItem;
 	spItem->pItemExt = pItemExt;
-	spItem->szIconFN = szIconFN; // ¾ÆÀÌÄÜ ÆÄÀÏ ÀÌ¸§ º¹»ç..
+	spItem->szIconFN = szIconFN; // ì•„ì´ì½˜ íŒŒì¼ ì´ë¦„ ë³µì‚¬..
 	spItem->iCount	= iItemCount;
 	spItem->iDurability = pItem->siMaxDurability+pItemExt->siMaxDurability;
 
@@ -286,7 +286,7 @@ void CUIDroppedItemDlg::AddToItemTableToInventory(int iItemID, int iItemCount, i
 	spItem->pUIIcon->SetUIType(UI_TYPE_ICON);
 	spItem->pUIIcon->SetStyle(UISTYLE_ICON_ITEM|UISTYLE_ICON_CERTIFICATION_NEED);
 	spItem->pUIIcon->SetVisible(true);
-	pArea = NULL;
+	pArea = nullptr;
 	pArea = CGameProcedure::s_pProcMain->m_pUIInventory->GetChildAreaByiOrder(UI_AREA_TYPE_INV, iOrder);
 	if ( pArea )
 	{
@@ -300,19 +300,19 @@ void CUIDroppedItemDlg::AddToItemTableToInventory(int iItemID, int iItemCount, i
 
 bool CUIDroppedItemDlg::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 {
-	CN3UIArea* pArea = NULL;
+	CN3UIArea* pArea = nullptr;
 
 	if (!m_bVisible) return false;
 
-	// °Ë»çÇØ¼­ ¼±ÅÃµÈ ¾ÆÀÌÄÜÀ» °¡Áø À©µµ¿ì¿¡°Ô °á°ú¸¦ ¾Ë·ÁÁà¾ß ÇÑ´Ù..
+	// ê²€ì‚¬í•´ì„œ ì„ íƒëœ ì•„ì´ì½˜ì„ ê°€ì§„ ìœˆë„ìš°ì—ê²Œ ê²°ê³¼ë¥¼ ì•Œë ¤ì¤˜ì•¼ í•œë‹¤..
 	switch ( CN3UIWndBase::m_sSelectedIconInfo.UIWndSelect.UIWnd )
 	{
-		// ÀÎº¥Åä¸® À©µµ¿ì·ÎºÎÅÍ ¿Â °ÍÀÌ¶ó¸é..
+		// ì¸ë²¤í† ë¦¬ ìœˆë„ìš°ë¡œë¶€í„° ì˜¨ ê²ƒì´ë¼ë©´..
 		case UIWND_INVENTORY:
 			CGameProcedure::s_pProcMain->m_pUIInventory->CancelIconDrop(spItem);
 			break;
 
-		// »ó°Å·¡ À©µµ¿ì·ÎºÎÅÍ ¿Â °ÍÀÌ¶ó¸é...
+		// ìƒê±°ë˜ ìœˆë„ìš°ë¡œë¶€í„° ì˜¨ ê²ƒì´ë¼ë©´...
 		case UIWND_TRANSACTION:
 			CGameProcedure::s_pProcMain->m_pUITransactionDlg->CancelIconDrop(spItem);
 			break;
@@ -324,7 +324,7 @@ bool CUIDroppedItemDlg::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 int CUIDroppedItemDlg::GetInventoryEmptyInviOrder(__IconItemSkill* spItem)
 {
 	int i;
-	if (spItem == NULL)
+	if (spItem == nullptr)
 	{
 		for(auto i = 0; i < MAX_ITEM_INVENTORY; i++ )
 		{
@@ -357,7 +357,7 @@ int	CUIDroppedItemDlg::GetItemiOrder(__IconItemSkill* spItem)
 
 	for(auto i = 0; i < MAX_ITEM_BUNDLE_DROP_PIECE; i++ )
 	{
-		if ( (m_pMyDroppedItem[i] != NULL) && (m_pMyDroppedItem[i] == spItem) )
+		if ( (m_pMyDroppedItem[i] != nullptr) && (m_pMyDroppedItem[i] == spItem) )
 			return i;
 	}
 
@@ -373,7 +373,7 @@ bool CUIDroppedItemDlg::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 			}
 
 // Code Begin
-	if(NULL == pSender) return false;
+	if(nullptr == pSender) return false;
 
 	int iOrder, iOrderInv = -1;
 
@@ -386,14 +386,14 @@ bool CUIDroppedItemDlg::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 	e_PlugPosition ePlug;
 	e_ItemType eType;
 
-	// ¼­¹ö¿¡ º¸³»Áö ¾ÊÀº ¾ÆÀÌÅÛÀÌ´Ï±î.. ¼­¹ö¿¡ º¸³½´Ù..
+	// ì„œë²„ì— ë³´ë‚´ì§€ ì•Šì€ ì•„ì´í…œì´ë‹ˆê¹Œ.. ì„œë²„ì— ë³´ë‚¸ë‹¤..
 	BYTE byBuff[16];
 	int iOffset = 0;
 
 	switch (dwMsg & dwBitMask)
 	{
 		case UIMSG_ICON_DOWN_FIRST:
-			spItem = NULL;
+			spItem = nullptr;
 			spItem = GetHighlightIconItem((CN3UIIcon* )pSender);
 			if ( !spItem )	break;
 			m_iBackupiOrder = GetItemiOrder( spItem );
@@ -402,26 +402,26 @@ bool CUIDroppedItemDlg::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 		case UIMSG_ICON_UP:
 			SetState(UI_STATE_COMMON_NONE);
 
-			// ¾ÆÀÌÅÛÀÌ µ·ÀÎÁö °Ë»ç..
-			pItem = NULL;								// ¾ÆÀÌÅÛ Å×ÀÌºí ±¸Á¶Ã¼ Æ÷ÀÎÅÍ..
-			spItem = NULL;
+			// ì•„ì´í…œì´ ëˆì¸ì§€ ê²€ì‚¬..
+			pItem = nullptr;								// ì•„ì´í…œ í…Œì´ë¸” êµ¬ì¡°ì²´ í¬ì¸í„°..
+			spItem = nullptr;
 			spItem = GetHighlightIconItem((CN3UIIcon* )pSender);
 			if ( !spItem )	break;
-			pItem = CGameBase::s_pTbl_Items_Basic->Find(spItem->pItemBasic->dwID);	// ¿­ µ¥ÀÌÅÍ ¾ò±â..
-			if ( pItem == NULL )
+			pItem = CGameBase::s_pTbl_Items_Basic->Find(spItem->pItemBasic->dwID);	// ì—´ ë°ì´í„° ì–»ê¸°..
+			if ( pItem == nullptr)
 			{
 				__ASSERT(0, "NULL Item!!!");
 				CLogWriter::Write("CUIDroppedItemDlg::ReceiveMessage - UIMSG_ICON_UP - NULL Icon : %d", spItem->pItemBasic->dwID);
 				break;
 			}
 
-			eType = CGameProcedure::MakeResrcFileNameForUPC(pItem, NULL, &szIconFN, ePart, ePlug); // ¾ÆÀÌÅÛ¿¡ µû¸¥ ÆÄÀÏ ÀÌ¸§À» ¸¸µé¾î¼­
+			eType = CGameProcedure::MakeResrcFileNameForUPC(pItem, nullptr, &szIconFN, ePart, ePlug); // ì•„ì´í…œì— ë”°ë¥¸ íŒŒì¼ ì´ë¦„ì„ ë§Œë“¤ì–´ì„œ
 
-			// º¸³½ ¾ÆÀÌÄÜ ¹è¿­ÀÌ¶û ºñ±³.. 
+			// ë³´ë‚¸ ì•„ì´ì½˜ ë°°ì—´ì´ë‘ ë¹„êµ.. 
 			iOrder = GetItemiOrder( spItem );
 			if ( m_iBackupiOrder != iOrder )	break;
 
-			if ( m_bSendedIconArray[iOrder] == true )	// ÇÑ¹ø º¸³Â´ø ÆĞÅ¶ÀÌ¸é break.. 
+			if ( m_bSendedIconArray[iOrder] == true )	// í•œë²ˆ ë³´ëƒˆë˜ íŒ¨í‚·ì´ë©´ break.. 
 				break;
 			else
 				m_bSendedIconArray[iOrder] = true;
@@ -429,7 +429,7 @@ bool CUIDroppedItemDlg::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 			CAPISocket::MP_AddByte(byBuff, iOffset, N3_ITEM_DROPPED_GET);
 			CAPISocket::MP_AddDword(byBuff, iOffset, m_iItemBundleID);
 
-			// µ·ÀÌ ¾Æ´Ï¸é ÀÎº¥Åä¸® ¸®½ºÆ®¿¡ Ãß°¡.... 
+			// ëˆì´ ì•„ë‹ˆë©´ ì¸ë²¤í† ë¦¬ ë¦¬ìŠ¤íŠ¸ì— ì¶”ê°€.... 
 			if ( ITEM_TYPE_GOLD != eType ) 
 			{
 				CAPISocket::MP_AddDword(byBuff, iOffset, spItem->pItemBasic->dwID+spItem->pItemExt->dwID);
@@ -442,7 +442,7 @@ bool CUIDroppedItemDlg::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 			}
 			CGameProcedure::s_pSocket->Send(byBuff, iOffset);
 
-			// º¸³½ ¾ÆÀÌÄÜ Á¤º¸ ¼ÂÆÃ..	
+			// ë³´ë‚¸ ì•„ì´ì½˜ ì •ë³´ ì…‹íŒ…..	
 			CN3UIWndBase::m_sRecoveryJobInfo.pItemSource = spItem;
 			CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceStart.UIWnd = UIWND_DROPITEM;
 			CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceStart.UIWndDistrict = UIWND_DISTRICT_DROPITEM;
@@ -466,23 +466,23 @@ bool CUIDroppedItemDlg::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 void CUIDroppedItemDlg::GetItemByIDToInventory(BYTE bResult, int iItemID, int iGold, int iPos, int iItemCount, int iStrLen, 
 											   std::string strString)
 {
-	// ¾ÆÀÌÅÛ ¸®½ºÆ®¿¡¼­ ¾ÆÀÌÅÛÀ» Ã£°í..
+	// ì•„ì´í…œ ë¦¬ìŠ¤íŠ¸ì—ì„œ ì•„ì´í…œì„ ì°¾ê³ ..
 	bool				bFound = false;
-	__TABLE_ITEM_BASIC*	pItem = NULL;									// ¾ÆÀÌÅÛ Å×ÀÌºí ±¸Á¶Ã¼ Æ÷ÀÎÅÍ..
-	__TABLE_ITEM_EXT*	pItemExt = NULL;
-	__IconItemSkill*	spItem = NULL;
+	__TABLE_ITEM_BASIC*	pItem = nullptr;									// ì•„ì´í…œ í…Œì´ë¸” êµ¬ì¡°ì²´ í¬ì¸í„°..
+	__TABLE_ITEM_EXT*	pItemExt = nullptr;
+	__IconItemSkill*	spItem = nullptr;
 	int i;
 	char szMsg[32];
-	CN3UIString* pStatic = NULL;
-	__InfoPlayerMySelf*	pInfoExt = NULL;
+	CN3UIString* pStatic = nullptr;
+	__InfoPlayerMySelf*	pInfoExt = nullptr;
 	std::string stdMsg;
 
-	if (bResult == 0x00)			// ½ÇÆĞ..
+	if (bResult == 0x00)			// ì‹¤íŒ¨..
 	{
 		int iOrderInv = GetInventoryEmptyInviOrder();
 		if ( iOrderInv == -1 )
 		{
-			// ÀÎº¥Åä¸®°¡ ²Ë Â÷ÀÖÀ¸¸é.. break.. ^^
+			// ì¸ë²¤í† ë¦¬ê°€ ê½‰ ì°¨ìˆìœ¼ë©´.. break.. ^^
 			char szBuff[128] = "";
 			std::string stdMsg;
 			::_LoadStringFromResource(IDS_INV_ITEM_FULL, stdMsg);
@@ -495,26 +495,26 @@ void CUIDroppedItemDlg::GetItemByIDToInventory(BYTE bResult, int iItemID, int iG
 		return;
 	}
 	
-	if (bResult == 0x02)		// ÆÄÆ¼ »óÅÂ¿¡¼­ ³ë¾Æ¸¦ ¾ò´Â´Ù..
+	if (bResult == 0x02)		// íŒŒí‹° ìƒíƒœì—ì„œ ë…¸ì•„ë¥¼ ì–»ëŠ”ë‹¤..
 	{
-		// µ· °»½Å..
-		pStatic = NULL;
+		// ëˆ ê°±ì‹ ..
+		pStatic = nullptr;
 		pInfoExt = &(CGameBase::s_pPlayer->m_InfoExt);
 
-		// µ· ¾÷µ¥ÀÌÆ®..
+		// ëˆ ì—…ë°ì´íŠ¸..
 		::_LoadStringFromResource(IDS_DROPPED_NOAH_GET, stdMsg);
 		sprintf(szMsg, stdMsg.c_str(), iGold - pInfoExt->iGold);
 		CGameProcedure::s_pProcMain->MsgOutput(szMsg, 0xff9b9bff);
 
 		pInfoExt->iGold = iGold;
-		TRACE("µ· ¾÷µ¥ÀÌÆ® %d \n", iGold);
+		TRACE("ëˆ ì—…ë°ì´íŠ¸ %d \n", iGold);
 		pStatic = (CN3UIString* )CGameProcedure::s_pProcMain->m_pUIInventory->GetChildByID("text_gold"); __ASSERT(pStatic, "NULL UI Component!!");
 		if(pStatic) pStatic->SetStringAsInt(iGold);
 
 		if (!IsVisible()) 
 			return;
 
-		// µ· ¾ÆÀÌÄÜÀÌ ÀÖÀ¸¸é ¾ø¾Ø´Ù..
+		// ëˆ ì•„ì´ì½˜ì´ ìˆìœ¼ë©´ ì—†ì•¤ë‹¤..
 		bFound = false;
 		int i = 0;
 		for(; i < MAX_ITEM_BUNDLE_DROP_PIECE; i++ )
@@ -529,16 +529,16 @@ void CUIDroppedItemDlg::GetItemByIDToInventory(BYTE bResult, int iItemID, int iG
 
 		spItem = m_pMyDroppedItem[i];
 		if (!spItem)	return;
-		// ¸Å´ÏÀú¿¡¼­ Á¦°Å..
+		// ë§¤ë‹ˆì €ì—ì„œ ì œê±°..
 		RemoveChild(spItem->pUIIcon);
 
-		// ¸®¼Ò½º Á¦°Å..
+		// ë¦¬ì†ŒìŠ¤ ì œê±°..
 		spItem->pUIIcon->Release();
 		delete spItem->pUIIcon;
-		spItem->pUIIcon = NULL;
+		spItem->pUIIcon = nullptr;
 		delete spItem;
-		spItem = NULL;
-		m_pMyDroppedItem[i] = NULL;
+		spItem = nullptr;
+		m_pMyDroppedItem[i] = nullptr;
 
 		PlayGoldSound();
 
@@ -546,16 +546,16 @@ void CUIDroppedItemDlg::GetItemByIDToInventory(BYTE bResult, int iItemID, int iG
 		if (CGameProcedure::s_pProcMain->m_pUIHotKeyDlg) CGameProcedure::s_pProcMain->m_pUIHotKeyDlg->UpdateDisableCheck();
 	}
 
-	if (bResult == 0x03)		// ÆÄÆ¼»óÅÂ¿¡¼­ ³»°¡ ¾ÆÀÌÅÛÀ» ½Àµæ..
+	if (bResult == 0x03)		// íŒŒí‹°ìƒíƒœì—ì„œ ë‚´ê°€ ì•„ì´í…œì„ ìŠµë“..
 	{
-		pItem = NULL;
-		pItemExt = NULL;
-		pItem = CGameBase::s_pTbl_Items_Basic->Find(iItemID/1000*1000);	// ¿­ µ¥ÀÌÅÍ ¾ò±â..
+		pItem = nullptr;
+		pItemExt = nullptr;
+		pItem = CGameBase::s_pTbl_Items_Basic->Find(iItemID/1000*1000);	// ì—´ ë°ì´í„° ì–»ê¸°..
 		if(pItem && pItem->byExtIndex >= 0 && pItem->byExtIndex < MAX_ITEM_EXTENSION)
 			pItemExt = CGameBase::s_pTbl_Items_Exts[pItem->byExtIndex]->Find(iItemID%1000);
-		if(NULL == pItem || NULL == pItemExt)
+		if(nullptr == pItem || nullptr == pItemExt)
 		{
-			__ASSERT(0, "¾ÆÀÌÅÛ Æ÷ÀÎÅÍ Å×ÀÌºí¿¡ ¾øÀ½!!");
+			__ASSERT(0, "ì•„ì´í…œ í¬ì¸í„° í…Œì´ë¸”ì— ì—†ìŒ!!");
 			CLogWriter::Write("CUIDroppedItemDlg::GetItemByIDToInventory - NULL Icon : %d", iItemID);
 			return;
 		}
@@ -568,7 +568,7 @@ void CUIDroppedItemDlg::GetItemByIDToInventory(BYTE bResult, int iItemID, int iG
 		if (!IsVisible()) 
 			return;
 
-		// ¾ÆÀÌÅÛ ¾ÆÀÌÄÜÀÌ ÀÖÀ¸¸é ¾ø¾Ø´Ù..
+		// ì•„ì´í…œ ì•„ì´ì½˜ì´ ìˆìœ¼ë©´ ì—†ì•¤ë‹¤..
 		bFound = false;
 		int i = 0;
 		for(; i < MAX_ITEM_BUNDLE_DROP_PIECE; i++ )
@@ -586,16 +586,16 @@ void CUIDroppedItemDlg::GetItemByIDToInventory(BYTE bResult, int iItemID, int iG
 
 		spItem = m_pMyDroppedItem[i];
 		if (!spItem)	return;
-		// ¸Å´ÏÀú¿¡¼­ Á¦°Å..
+		// ë§¤ë‹ˆì €ì—ì„œ ì œê±°..
 		RemoveChild(spItem->pUIIcon);
 
-		// ¸®¼Ò½º Á¦°Å..
+		// ë¦¬ì†ŒìŠ¤ ì œê±°..
 		spItem->pUIIcon->Release();
 		delete spItem->pUIIcon;
-		spItem->pUIIcon = NULL;
+		spItem->pUIIcon = nullptr;
 		delete spItem;
-		spItem = NULL;
-		m_pMyDroppedItem[i] = NULL;
+		spItem = nullptr;
+		m_pMyDroppedItem[i] = nullptr;
 
 		if (CGameProcedure::s_pProcMain->m_pUISkillTreeDlg) CGameProcedure::s_pProcMain->m_pUISkillTreeDlg->UpdateDisableCheck();
 		if (CGameProcedure::s_pProcMain->m_pUIHotKeyDlg) CGameProcedure::s_pProcMain->m_pUIHotKeyDlg->UpdateDisableCheck();
@@ -603,23 +603,23 @@ void CUIDroppedItemDlg::GetItemByIDToInventory(BYTE bResult, int iItemID, int iG
 		return;
 	}
 
-	if (bResult == 0x04)		// ÆÄÆ¼ »óÅÂ¿¡¼­ ´Ù¸¥ ¸â¹ö°¡ ¾ÆÀÌÅÛÀ» ½Àµæ..
+	if (bResult == 0x04)		// íŒŒí‹° ìƒíƒœì—ì„œ ë‹¤ë¥¸ ë©¤ë²„ê°€ ì•„ì´í…œì„ ìŠµë“..
 	{
 		spItem = m_pMyDroppedItem[CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceStart.iOrder];
 		if (spItem)
 		{
-			// ¸Å´ÏÀú¿¡¼­ Á¦°Å..
+			// ë§¤ë‹ˆì €ì—ì„œ ì œê±°..
 			RemoveChild(spItem->pUIIcon);
 
-			// ¸®¼Ò½º Á¦°Å..
+			// ë¦¬ì†ŒìŠ¤ ì œê±°..
 			spItem->pUIIcon->Release();
 			delete spItem->pUIIcon;
-			spItem->pUIIcon = NULL;
+			spItem->pUIIcon = nullptr;
 			delete spItem;
-			spItem = NULL;
+			spItem = nullptr;
 		}
 
-		m_pMyDroppedItem[CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceStart.iOrder] = NULL;
+		m_pMyDroppedItem[CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceStart.iOrder] = nullptr;
 
 		if (CGameProcedure::s_pProcMain->m_pUISkillTreeDlg) CGameProcedure::s_pProcMain->m_pUISkillTreeDlg->UpdateDisableCheck();
 		if (CGameProcedure::s_pProcMain->m_pUIHotKeyDlg) CGameProcedure::s_pProcMain->m_pUIHotKeyDlg->UpdateDisableCheck();
@@ -627,7 +627,7 @@ void CUIDroppedItemDlg::GetItemByIDToInventory(BYTE bResult, int iItemID, int iG
 		return;	
 	}
 
-	if (bResult == 0x05)		// ÆÄÆ¼ »óÅÂ¿¡¼­ ÀÏ¹İÀûÀÎ ¾ÆÀÌÅÛ ½Àµæ..
+	if (bResult == 0x05)		// íŒŒí‹° ìƒíƒœì—ì„œ ì¼ë°˜ì ì¸ ì•„ì´í…œ ìŠµë“..
 	{
 		if (iItemID == dwGold)
 		{
@@ -644,44 +644,44 @@ void CUIDroppedItemDlg::GetItemByIDToInventory(BYTE bResult, int iItemID, int iG
 		}
 
 		__IconItemSkill	*spItemDest = CGameProcedure::s_pProcMain->m_pUIInventory->m_pMyInvWnd[iPos];
-		if (spItemDest)		// ¾ÆÀÌÅÛÀÌ ÀÖ´Ù..
+		if (spItemDest)		// ì•„ì´í…œì´ ìˆë‹¤..
 		{
 			if ( iItemID != (spItemDest->pItemBasic->dwID+spItemDest->pItemExt->dwID) )
 			{
-				// ±âÁ¸ ÀÌÀÌÅÛÀ» Å¬¸®¾î..
+				// ê¸°ì¡´ ì´ì´í…œì„ í´ë¦¬ì–´..
 				if (!spItemDest) return;
 				RemoveChild(spItemDest->pUIIcon);
 
-				// ¾ÆÀÌÄÜ ¸®¼Ò½º »èÁ¦...
+				// ì•„ì´ì½˜ ë¦¬ì†ŒìŠ¤ ì‚­ì œ...
 				spItemDest->pUIIcon->Release();
 				delete spItemDest->pUIIcon;
-				spItemDest->pUIIcon = NULL;
+				spItemDest->pUIIcon = nullptr;
 				delete spItemDest;
-				spItemDest = NULL;
+				spItemDest = nullptr;
 
-				CGameProcedure::s_pProcMain->m_pUIInventory->m_pMyInvWnd[iPos] = NULL;
+				CGameProcedure::s_pProcMain->m_pUIInventory->m_pMyInvWnd[iPos] = nullptr;
 
-				//  ¾ÆÀÌÅÛÀ» »õ·Î ¸¸µë.. °¹¼ö ¼ÂÆÃ..
+				//  ì•„ì´í…œì„ ìƒˆë¡œ ë§Œë“¬.. ê°¯ìˆ˜ ì…‹íŒ…..
 				AddToItemTableToInventory(iItemID, iItemCount, iPos);
 			}
 			else
 			{
-				// °¹¼ö ¼ÂÆÃ..
+				// ê°¯ìˆ˜ ì…‹íŒ…..
 				CGameProcedure::s_pProcMain->m_pUIInventory->m_pMyInvWnd[iPos]->iCount = iItemCount;
 				PlayItemSound(CGameProcedure::s_pProcMain->m_pUIInventory->m_pMyInvWnd[iPos]->pItemBasic);
 			}
 		}
 		else
 		{
-			// ¾ÆÀÌÅÛÀÌ ¾ø´Â °æ¿ì .. »õ·Î ¸¸µç´Ù.. °¹¼ö ¼ÂÆÃ..
+			// ì•„ì´í…œì´ ì—†ëŠ” ê²½ìš° .. ìƒˆë¡œ ë§Œë“ ë‹¤.. ê°¯ìˆ˜ ì…‹íŒ…..
 			AddToItemTableToInventory(iItemID, iItemCount, iPos);
 		}
 
-		pItem = NULL;
-		pItem = CGameBase::s_pTbl_Items_Basic->Find(iItemID/1000*1000);	// ¿­ µ¥ÀÌÅÍ ¾ò±â..
-		if(NULL == pItem)
+		pItem = nullptr;
+		pItem = CGameBase::s_pTbl_Items_Basic->Find(iItemID/1000*1000);	// ì—´ ë°ì´í„° ì–»ê¸°..
+		if(nullptr == pItem)
 		{
-			__ASSERT(0, "¾ÆÀÌÅÛ Æ÷ÀÎÅÍ Å×ÀÌºí¿¡ ¾øÀ½!!");
+			__ASSERT(0, "ì•„ì´í…œ í¬ì¸í„° í…Œì´ë¸”ì— ì—†ìŒ!!");
 			CLogWriter::Write("CUIDroppedItemDlg::GetItemByIDToInventory - NULL Icon : %d", iItemID);
 			return;
 		}
@@ -696,14 +696,14 @@ void CUIDroppedItemDlg::GetItemByIDToInventory(BYTE bResult, int iItemID, int iG
 
 	if (bResult == 0x06)
 	{
-		// ¸Ş½ÃÁö ¹Ú½º ÅØ½ºÆ® Ç¥½Ã..
+		// ë©”ì‹œì§€ ë°•ìŠ¤ í…ìŠ¤íŠ¸ í‘œì‹œ..
 		std::string szMsg; ::_LoadStringFromResource(IDS_ITEM_TOOMANY_OR_HEAVY, szMsg);
 		CGameProcedure::s_pProcMain->MsgOutput(szMsg, 0xffff3b3b);
 	}
 
 	if (bResult == 0x07)
 	{
-		// ¸Ş½ÃÁö ¹Ú½º ÅØ½ºÆ® Ç¥½Ã..
+		// ë©”ì‹œì§€ ë°•ìŠ¤ í…ìŠ¤íŠ¸ í‘œì‹œ..
 		std::string szMsg; ::_LoadStringFromResource(IDS_INV_ITEM_FULL, szMsg);
 		CGameProcedure::s_pProcMain->MsgOutput(szMsg, 0xffff3b3b);
 	}
@@ -719,84 +719,84 @@ void CUIDroppedItemDlg::GetItemByIDToInventory(BYTE bResult, int iItemID, int iG
 				return;
 			}
 
-			spItem = NULL;
+			spItem = nullptr;
 			__IconItemSkill	*spItemDest = CGameProcedure::s_pProcMain->m_pUIInventory->m_pMyInvWnd[iPos];
-			if (spItemDest)		// ¾ÆÀÌÅÛÀÌ ÀÖ´Ù..
+			if (spItemDest)		// ì•„ì´í…œì´ ìˆë‹¤..
 			{
 				if ( iItemID != (spItemDest->pItemBasic->dwID+spItemDest->pItemExt->dwID) )
 				{
-					// ±âÁ¸ ÀÌÀÌÅÛÀ» Å¬¸®¾î..
+					// ê¸°ì¡´ ì´ì´í…œì„ í´ë¦¬ì–´..
 					if (!spItemDest) return;
 					RemoveChild(spItemDest->pUIIcon);
 
-					// ¾ÆÀÌÄÜ ¸®¼Ò½º »èÁ¦...
+					// ì•„ì´ì½˜ ë¦¬ì†ŒìŠ¤ ì‚­ì œ...
 					spItemDest->pUIIcon->Release();
 					delete spItemDest->pUIIcon;
-					spItemDest->pUIIcon = NULL;
+					spItemDest->pUIIcon = nullptr;
 					delete spItemDest;
-					spItemDest = NULL;
+					spItemDest = nullptr;
 
-					CGameProcedure::s_pProcMain->m_pUIInventory->m_pMyInvWnd[iPos] = NULL;
+					CGameProcedure::s_pProcMain->m_pUIInventory->m_pMyInvWnd[iPos] = nullptr;
 
-					//  ¾ÆÀÌÅÛÀ» »õ·Î ¸¸µë.. °¹¼ö ¼ÂÆÃ..
+					//  ì•„ì´í…œì„ ìƒˆë¡œ ë§Œë“¬.. ê°¯ìˆ˜ ì…‹íŒ…..
 					AddToItemTableToInventory(iItemID, iItemCount, iPos);
 				}
 				else
 				{
-					// °¹¼ö ¼ÂÆÃ..
+					// ê°¯ìˆ˜ ì…‹íŒ…..
 					CGameProcedure::s_pProcMain->m_pUIInventory->m_pMyInvWnd[iPos]->iCount = iItemCount;
 					PlayItemSound(CGameProcedure::s_pProcMain->m_pUIInventory->m_pMyInvWnd[iPos]->pItemBasic);
 				}
 			}
 			else
 			{
-				// ¾ÆÀÌÅÛÀÌ ¾ø´Â °æ¿ì .. »õ·Î ¸¸µç´Ù.. °¹¼ö ¼ÂÆÃ..
+				// ì•„ì´í…œì´ ì—†ëŠ” ê²½ìš° .. ìƒˆë¡œ ë§Œë“ ë‹¤.. ê°¯ìˆ˜ ì…‹íŒ…..
 				AddToItemTableToInventory(iItemID, iItemCount, iPos);
 			}
 
 			spItem = m_pMyDroppedItem[CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceStart.iOrder];
 			if (spItem)
 			{
-				// ¸Å´ÏÀú¿¡¼­ Á¦°Å..
+				// ë§¤ë‹ˆì €ì—ì„œ ì œê±°..
 				RemoveChild(spItem->pUIIcon);
 
-				// ¸®¼Ò½º Á¦°Å..
+				// ë¦¬ì†ŒìŠ¤ ì œê±°..
 				spItem->pUIIcon->Release();
 				delete spItem->pUIIcon;
-				spItem->pUIIcon = NULL;
+				spItem->pUIIcon = nullptr;
 				delete spItem;
-				spItem = NULL;
+				spItem = nullptr;
 			}
-			m_pMyDroppedItem[CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceStart.iOrder] = NULL;
+			m_pMyDroppedItem[CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceStart.iOrder] = nullptr;
 		}
 		else
 		{
-			pStatic = NULL;
+			pStatic = nullptr;
 			pInfoExt = &(CGameBase::s_pPlayer->m_InfoExt);
 
-			// µ· ¾÷µ¥ÀÌÆ®..
+			// ëˆ ì—…ë°ì´íŠ¸..
 			::_LoadStringFromResource(IDS_DROPPED_NOAH_GET, stdMsg);
 			sprintf(szMsg, stdMsg.c_str(), iGold - pInfoExt->iGold);
 			CGameProcedure::s_pProcMain->MsgOutput(szMsg, 0xff9b9bff);
 
 			pInfoExt->iGold = iGold;
-			TRACE("µ· ¾÷µ¥ÀÌÆ® %d \n", iGold);
+			TRACE("ëˆ ì—…ë°ì´íŠ¸ %d \n", iGold);
 			pStatic = (CN3UIString* )CGameProcedure::s_pProcMain->m_pUIInventory->GetChildByID("text_gold"); __ASSERT(pStatic, "NULL UI Component!!");
 			if(pStatic) pStatic->SetStringAsInt(iGold);
 
 			spItem = CN3UIWndBase::m_sRecoveryJobInfo.pItemSource;
-			if ( NULL == spItem ) return;
+			if (nullptr == spItem ) return;
 
-			// ¸Å´ÏÀú¿¡¼­ Á¦°Å..
+			// ë§¤ë‹ˆì €ì—ì„œ ì œê±°..
 			RemoveChild(spItem->pUIIcon);
 
-			// ¸®¼Ò½º Á¦°Å..
+			// ë¦¬ì†ŒìŠ¤ ì œê±°..
 			spItem->pUIIcon->Release();
 			delete spItem->pUIIcon;
-			spItem->pUIIcon = NULL;
+			spItem->pUIIcon = nullptr;
 			delete spItem;
-			spItem = NULL;
-			m_pMyDroppedItem[CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceStart.iOrder] = NULL;
+			spItem = nullptr;
+			m_pMyDroppedItem[CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceStart.iOrder] = nullptr;
 
 			PlayGoldSound();
 		}
@@ -808,7 +808,7 @@ void CUIDroppedItemDlg::GetItemByIDToInventory(BYTE bResult, int iItemID, int iG
 	bFound = false;
 	for(auto i = 0; i < MAX_ITEM_BUNDLE_DROP_PIECE; i++ )
 	{
-		if( m_pMyDroppedItem[i] != NULL )
+		if( m_pMyDroppedItem[i] != nullptr)
 			bFound = true;
 	}
 

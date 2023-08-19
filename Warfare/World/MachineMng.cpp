@@ -15,7 +15,7 @@ CMachineMng::~CMachineMng()
 
 void CMachineMng::Release()
 {
-	CMachineBase*	pMachine = NULL;
+	CMachineBase*	pMachine = nullptr;
 	it_Machine it = m_Machines.begin();
 	int iSize = m_Machines.size();
 	for(int i = 0; i < iSize; i++, it++)
@@ -95,7 +95,7 @@ void CMachineMng::ReceiveReplyMsg(ReplyMsg& RPMsg)
 //				if(g_Facade.m_pSndMgr->m_IdxCatapultThrow == g_Facade.m_pSndMgr->m_NumCatapultThrow) g_Facade.m_pSndMgr->m_IdxCatapultThrow = 0;
 			}
 			break;		
-		case ID_MACHINE_POSITION:	// Åõ¼®±â À§Ä¡ Àç¼³Á¤
+		case ID_MACHINE_POSITION:	// íˆ¬ì„ê¸° ìœ„ì¹˜ ì¬ì„¤ì •
 			pMachine = GetMachine(RPMsg.s_pStrID);
 			if (pMachine)
 			{
@@ -112,7 +112,7 @@ void CMachineMng::AddMachine(ReplyMsg& RPMsg)
 //	if (lstrlen(RPMsg.s_cprscID) == 0) return;
 
 	char szFileName[_MAX_PATH] = "misc\\machines\\catapult.mcn";
-	FILE* stream = fopen(szFileName, "r"); //textÆÄÀÏ·Î ¸¸µç´Ù 
+	FILE* stream = fopen(szFileName, "r"); //textíŒŒì¼ë¡œ ë§Œë“ ë‹¤ 
 #if _DEBUG
 	char szErr[512];
 	if(NULL == stream)
@@ -122,8 +122,8 @@ void CMachineMng::AddMachine(ReplyMsg& RPMsg)
 	}
 #endif
 
-	char szMachineType[64];		// machine Á¾·ù
-	int result = fscanf(stream, "Machine_Type = %s\n", szMachineType);			__ASSERT(result != EOF, "Àß¸øµÈ Machine ¼¼ÆÃ ÆÄÀÏ");
+	char szMachineType[64];		// machine ì¢…ë¥˜
+	int result = fscanf(stream, "Machine_Type = %s\n", szMachineType);			__ASSERT(result != EOF, "ì˜ëª»ëœ Machine ì„¸íŒ… íŒŒì¼");
 	CMachineBase* pMachine = NULL;
 
 	if (lstrcmpi(szMachineType, "catapult") == 0)
@@ -148,7 +148,7 @@ void CMachineMng::AddMachine(ReplyMsg& RPMsg)
 */
 void CMachineMng::Render()
 {
-	CMachineBase*	pMachine = NULL;
+	CMachineBase*	pMachine = nullptr;
 	it_Machine it = m_Machines.begin();
 	int iSize = m_Machines.size();
 	for(int i = 0; i < iSize; i++, it++)
@@ -160,13 +160,13 @@ void CMachineMng::Render()
 
 void CMachineMng::Tick()
 {
-	CMachineBase*	pMachine = NULL;
+	CMachineBase*	pMachine = nullptr;
 	it_Machine it = m_Machines.begin();
 	int iSize = m_Machines.size();
 	for(int i = 0; i < iSize; i++, it++)
 	{
 		pMachine = *it;
-		if(NULL == pMachine) continue;
+		if(nullptr == pMachine) continue;
 
 		pMachine->Tick(-1);
 /*		if(pMachine->GetMachineState()!=MS_STOP)
@@ -182,9 +182,9 @@ void CMachineMng::Tick()
 
 CMachineBase* CMachineMng::GetMachine(const std::string& szID)
 {
-	if(szID.empty()) return NULL;
+	if(szID.empty()) return nullptr;
 
-	CMachineBase*	pMachine = NULL;
+	CMachineBase*	pMachine = nullptr;
 	it_Machine it = m_Machines.begin();
 	int iSize = m_Machines.size();
 	for(int i = 0; i < iSize; i++, it++)
@@ -193,6 +193,6 @@ CMachineBase* CMachineMng::GetMachine(const std::string& szID)
 		
 		if (pMachine->m_szID == szID) return pMachine;
 	}
-	return NULL;
+	return nullptr;
 }
 

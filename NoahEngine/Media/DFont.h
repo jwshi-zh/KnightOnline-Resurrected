@@ -8,11 +8,11 @@
 #define D3DFONT_3D		    0x0008		// 3D text
 
 // set text flag
-#define D3DFONT_CENTERED    0x0004		// 3D font¿¡¼­¸¸..
+#define D3DFONT_CENTERED    0x0004		// 3D fontì—ì„œë§Œ..
 
-// Font rendering flags (drawtext or DrawText3D ÇÔ¼ö¿¡¼­ ¾²´Â flag)
-#define D3DFONT_TWOSIDED    0x0010		// 3D font¿¡¼­¸¸..
-#define D3DFONT_FILTERED    0x0020		// texture¸¦ D3DTSS_MAGFILTER ·Î Âï±â
+// Font rendering flags (drawtext or DrawText3D í•¨ìˆ˜ì—ì„œ ì“°ëŠ” flag)
+#define D3DFONT_TWOSIDED    0x0010		// 3D fontì—ì„œë§Œ..
+#define D3DFONT_FILTERED    0x0020		// textureë¥¼ D3DTSS_MAGFILTER ë¡œ ì°ê¸°
 
 
 class CDFont  : public CN3Base
@@ -45,36 +45,36 @@ protected:
     LPDIRECT3DVERTEXBUFFER9 m_pVB;			// VertexBuffer for rendering text
     DWORD	m_dwTexWidth;					// Texture dimensions
     DWORD	m_dwTexHeight;					// Texture dimensions
-    FLOAT	m_fTextScale;					// ¾µ ÆùÆ®°¡ ³Ê¹« Å¬°æ¿ì ºñµğ¿À Ä«µå¿¡
-											// µû¸¥ texture Å©±â Á¦ÇÑÀ» ³Ñ¾î¹ö¸®±â ¶§¹®¿¡
-											// ÀÌ·± °æ¿ì ScaleÀ» ÀÌ¿ëÇÏ¿© Å©°Ô ´Ã·Á Âï´Â´Ù.
+    FLOAT	m_fTextScale;					// ì“¸ í°íŠ¸ê°€ ë„ˆë¬´ í´ê²½ìš° ë¹„ë””ì˜¤ ì¹´ë“œì—
+											// ë”°ë¥¸ texture í¬ê¸° ì œí•œì„ ë„˜ì–´ë²„ë¦¬ê¸° ë•Œë¬¸ì—
+											// ì´ëŸ° ê²½ìš° Scaleì„ ì´ìš©í•˜ì—¬ í¬ê²Œ ëŠ˜ë ¤ ì°ëŠ”ë‹¤.
 
 //	HDC			m_hDC;							// DC handle
 	HFONT		m_hFont;						// Font handle
-	UINT		m_iPrimitiveCount;				// ±Û¾¾ ÂïÀ» ÆÇÀÇ °¹¼ö
-	D3DXVECTOR2	m_PrevLeftTop;				// DrawTextÀÇ °æ¿ì Âï´Â °÷ÀÇ À§Ä¡°¡ º¯°æµÇ¾úÀ»¶§¸¦ À§ÇÑ º¯¼ö
-	DWORD		m_dwFontColor;				// ±Û¾¾ »ö
-	BOOL		m_Is2D;						// 2D TextÀÎ°¡?
-	SIZE		m_Size;						// ¾´ ±Û¾¾µéÀÌ Â÷ÁöÇÏ´Â Å©±â(pixel´ÜÀ§, °¡·Î ¼¼·Î)
+	UINT		m_iPrimitiveCount;				// ê¸€ì”¨ ì°ì„ íŒì˜ ê°¯ìˆ˜
+	D3DXVECTOR2	m_PrevLeftTop;				// DrawTextì˜ ê²½ìš° ì°ëŠ” ê³³ì˜ ìœ„ì¹˜ê°€ ë³€ê²½ë˜ì—ˆì„ë•Œë¥¼ ìœ„í•œ ë³€ìˆ˜
+	DWORD		m_dwFontColor;				// ê¸€ì”¨ ìƒ‰
+	BOOL		m_Is2D;						// 2D Textì¸ê°€?
+	SIZE		m_Size;						// ì“´ ê¸€ì”¨ë“¤ì´ ì°¨ì§€í•˜ëŠ” í¬ê¸°(pixelë‹¨ìœ„, ê°€ë¡œ ì„¸ë¡œ)
 
 // Operations
 public:
 	bool	IsSetText() { if(m_pTexture) return true; return false; }
 	void	AddToAlphaManager(DWORD dwColor, float fDist, __Matrix44& mtxWorld, DWORD dwFlags);
-	HRESULT	SetFontColor(DWORD dwColor);						// ±Û¾¾ »öÀ» ¹Ù²Û´Ù.
-	HRESULT InitDeviceObjects( LPDIRECT3DDEVICE9 pd3dDevice );	// d3d device¸¦ Á¤ÇØÁÖ´Â ÃÊ±âÈ­ ÇÔ¼ö (InitÇÒ¶§ È£Ãâ)
-	HRESULT RestoreDeviceObjects();								// resource¸¦ ¸Ş¸ğ¸®¿¡ ¼¼ÆÃÇÏ´Â ÃÊ±âÈ­ ÇÔ¼ö (InitÇÒ¶§ È£Ãâ)
-	HRESULT InvalidateDeviceObjects();							// resourceµîÀ» ¹«È¿È­½ÃÅ°´Â ÇÔ¼ö (releaseÇÒ¶§ È£Ãâ)
-	HRESULT DeleteDeviceObjects();								// resourceµîÀ» ¸Ş¸ğ¸®¿¡¼­ ÇØÁ¦ (releaseÇÒ¶§ È£Ãâ)
+	HRESULT	SetFontColor(DWORD dwColor);						// ê¸€ì”¨ ìƒ‰ì„ ë°”ê¾¼ë‹¤.
+	HRESULT InitDeviceObjects( LPDIRECT3DDEVICE9 pd3dDevice );	// d3d deviceë¥¼ ì •í•´ì£¼ëŠ” ì´ˆê¸°í™” í•¨ìˆ˜ (Inití• ë•Œ í˜¸ì¶œ)
+	HRESULT RestoreDeviceObjects();								// resourceë¥¼ ë©”ëª¨ë¦¬ì— ì„¸íŒ…í•˜ëŠ” ì´ˆê¸°í™” í•¨ìˆ˜ (Inití• ë•Œ í˜¸ì¶œ)
+	HRESULT InvalidateDeviceObjects();							// resourceë“±ì„ ë¬´íš¨í™”ì‹œí‚¤ëŠ” í•¨ìˆ˜ (releaseí• ë•Œ í˜¸ì¶œ)
+	HRESULT DeleteDeviceObjects();								// resourceë“±ì„ ë©”ëª¨ë¦¬ì—ì„œ í•´ì œ (releaseí• ë•Œ í˜¸ì¶œ)
 
-	HRESULT SetText(const std::string& szText, DWORD dwFlags = 0L);	// Ãâ·ÂÇÒ ±Û¾¾°¡ ´Ş¶óÁ³À»¶§¸¸ È£ÃâÇÏ´Â °ÍÀÌ Áß¿ä.
-	HRESULT DrawText( FLOAT sx, FLOAT sy, DWORD dwColor, DWORD dwFlags, FLOAT fZ = 1.0f);	// ¹öÆÛ¿¡ ÀúÀåµÈ ±Û¾¾¸¦ ±×¸°´Ù.(2d)
-	HRESULT DrawText3D(DWORD dwColor, DWORD dwFlags );		// ¹öÆÛ¿¡ ÀúÀåµÈ ±Û¾¾¸¦ ±×¸°´Ù.(3d)
+	HRESULT SetText(const std::string& szText, DWORD dwFlags = 0L);	// ì¶œë ¥í•  ê¸€ì”¨ê°€ ë‹¬ë¼ì¡Œì„ë•Œë§Œ í˜¸ì¶œí•˜ëŠ” ê²ƒì´ ì¤‘ìš”.
+	HRESULT DrawText( FLOAT sx, FLOAT sy, DWORD dwColor, DWORD dwFlags, FLOAT fZ = 1.0f);	// ë²„í¼ì— ì €ì¥ëœ ê¸€ì”¨ë¥¼ ê·¸ë¦°ë‹¤.(2d)
+	HRESULT DrawText3D(DWORD dwColor, DWORD dwFlags );		// ë²„í¼ì— ì €ì¥ëœ ê¸€ì”¨ë¥¼ ê·¸ë¦°ë‹¤.(3d)
 
-	HRESULT	SetFont(const std::string& szFontName, DWORD dwHeight, DWORD dwFlags=0L);	// Font¸¦ ¹Ù²Ù°í ½ÍÀ»¶§ È£ÃâÇÑ´Ù. (dwHeight´Â point size¸¦ ³Ö´Â´Ù.)
+	HRESULT	SetFont(const std::string& szFontName, DWORD dwHeight, DWORD dwFlags=0L);	// Fontë¥¼ ë°”ê¾¸ê³  ì‹¶ì„ë•Œ í˜¸ì¶œí•œë‹¤. (dwHeightëŠ” point sizeë¥¼ ë„£ëŠ”ë‹¤.)
 	BOOL	GetTextExtent(const std::string& szString, int iStrLen, SIZE* pSize );
 protected:
-	void Make2DVertex(const int iFontHeight, const std::string& szText);					// ÀÔ·Â ¹ŞÀº ¹®ÀÚ¸¦ ÀûÀıÇÏ°Ô ¹èÄ¡µÈ 2d Æú¸®°ïÀ¸·Î ¸¸µç´Ù.
-	void Make3DVertex(const int iFontHeight, const std::string& szText, DWORD dwFlags);	// ÀÔ·Â ¹ŞÀº ¹®ÀÚ¸¦ ÀûÀıÇÏ°Ô ¹èÄ¡µÈ 3d Æú¸®°ïÀ» ¸¸µç´Ù.
+	void Make2DVertex(const int iFontHeight, const std::string& szText);					// ì…ë ¥ ë°›ì€ ë¬¸ìë¥¼ ì ì ˆí•˜ê²Œ ë°°ì¹˜ëœ 2d í´ë¦¬ê³¤ìœ¼ë¡œ ë§Œë“ ë‹¤.
+	void Make3DVertex(const int iFontHeight, const std::string& szText, DWORD dwFlags);	// ì…ë ¥ ë°›ì€ ë¬¸ìë¥¼ ì ì ˆí•˜ê²Œ ë°°ì¹˜ëœ 3d í´ë¦¬ê³¤ì„ ë§Œë“ ë‹¤.
 
 };

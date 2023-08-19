@@ -17,11 +17,11 @@ typedef struct tagShapeInfo	: public CN3Transform
 	int									m_iID;
 	std::string						m_strShapeFile;
 
-	int									m_iBelong;				// ¼Ò¼Ó - 0:¼Ò¼Ó ¾øÀ½ 1:¿¤¸ğ¶óµå 2:Ä«·ç½º 3:?? ....
+	int									m_iBelong;				// ì†Œì† - 0:ì†Œì† ì—†ìŒ 1:ì—˜ëª¨ë¼ë“œ 2:ì¹´ë£¨ìŠ¤ 3:?? ....
 	int									m_iEventID;				 // Event ID
 	int									m_iEventType;		  // Event Type
-	int									m_iNPC_ID;			   // NPC ·Î ¾²´Â ¿ÀºêÁ§Æ®ÀÏ °æ¿ì NPC ID
-	int									m_iNPC_Status;	    // NPC ·Î ¾²´Â ¿ÀºêÁ§Æ®ÀÏ °æ¿ì Default Status
+	int									m_iNPC_ID;			   // NPC ë¡œ ì“°ëŠ” ì˜¤ë¸Œì íŠ¸ì¼ ê²½ìš° NPC ID
+	int									m_iNPC_Status;	    // NPC ë¡œ ì“°ëŠ” ì˜¤ë¸Œì íŠ¸ì¼ ê²½ìš° Default Status
 
 	CN3Shape*					m_pShape;
 
@@ -30,7 +30,7 @@ typedef struct tagShapeInfo	: public CN3Transform
 	{
 		m_iID = -1;
 		m_strShapeFile = "";
-		m_pShape = NULL;		
+		m_pShape = nullptr;		
 
 		m_iBelong = 0;
 		m_iEventID = 0;	
@@ -109,7 +109,7 @@ typedef struct tagVisPortalPriority
 
 	tagVisPortalPriority()
 	{
-		m_pVol = NULL;
+		m_pVol = nullptr;
 		m_iPriority = 100;
 	}
 }	VisPortalPriority;
@@ -130,15 +130,15 @@ class CPortalVolume	: public CN3Transform
 
 	e_ExtBool	m_eRenderType;
 
-	const float m_fOffs;				// ÀÏ¹İÀûÀÎ ¿É¼Â..
-	const float m_fHeightOffs;		// ³ôÀÌ ¿É¼Â..
-	const float m_fVolOffs;			  // Volume ¹ıÀ§ ¿É¼Â..
-	const float m_fPickIncline;		// ÇÈÅ· ±â¿ï±â Ã¼Å©..
-	const float m_fCameraOffs;		// Ä«¸Ş¶ó ³ôÀÌ..
+	const float m_fOffs;				// ì¼ë°˜ì ì¸ ì˜µì…‹..
+	const float m_fHeightOffs;		// ë†’ì´ ì˜µì…‹..
+	const float m_fVolOffs;			  // Volume ë²•ìœ„ ì˜µì…‹..
+	const float m_fPickIncline;		// í”½í‚¹ ê¸°ìš¸ê¸° ì²´í¬..
+	const float m_fCameraOffs;		// ì¹´ë©”ë¼ ë†’ì´..
 	
 	//////////////////////////////////////////////////////////////////////////////////////
 	std::list<ShapeInfo* > m_plShapeInfoList;
-	std::list<IDAndPriority>	m_piVisibleIDList;						// ·Îµå¿¡ ÇÊ¿äÇÑ Áß°£ µ¥ÀÌÅÍ..		
+	std::list<IDAndPriority>	m_piVisibleIDList;						// ë¡œë“œì— í•„ìš”í•œ ì¤‘ê°„ ë°ì´í„°..		
 	std::list<ShapePart* > m_lpShapePartList;	
 	std::list<__ColIndex* >	m_lpShapeColPartList;
 	std::list<VisPortalPriority>	m_pVisiblePvsList;		
@@ -147,7 +147,7 @@ class CPortalVolume	: public CN3Transform
 	__Vector3					  m_pvVertex[8];
 	unsigned short			   m_pIndex[36];
 
-	int									m_iPriority;							//.. 100 Á¤µµ·Î ÃÊ±âÈ­..
+	int									m_iPriority;							//.. 100 ì •ë„ë¡œ ì´ˆê¸°í™”..
 
 private:
 	void DeleteAllPvsObj();
@@ -162,17 +162,17 @@ private:
 	bool CheckCollisionCameraWithTerrain(__Vector3& vEyeResult, const __Vector3& vAt, float fNP);
 	bool CheckCollisionCameraWithShape(__Vector3& vEyeResult, const __Vector3& vAt, float fNP);
 	bool GetHeightWithTerrain(float fx, float fz, float& fy);
-	float GetHeightNearstPosWithShape(const __Vector3& vPos, float fDist, __Vector3* pvNormal = NULL); 
+	float GetHeightNearstPosWithShape(const __Vector3& vPos, float fDist, __Vector3* pvNormal = nullptr); 
 	bool IsInTerrainWithTerrain(__Vector3& vec);
 	BOOL PickWideWithTerrain(int x, int y, __Vector3& vPick);
-	CN3Shape* PickWithShape(int iXScreen, int iYScreen, bool bMustHaveEvent, __Vector3* pvPick = NULL);
+	CN3Shape* PickWithShape(int iXScreen, int iYScreen, bool bMustHaveEvent, __Vector3* pvPick = nullptr);
 	CN3Shape* ShapeGetByIDWithShape(int iID);
-	bool CheckCollisionWithShape(	const __Vector3& vPos,				 // Ãæµ¹ À§Ä¡
-														const __Vector3& vDir,				   // ¹æÇâ º¤ÅÍ
-														float fSpeedPerSec,					    // ÃÊ´ç ¿òÁ÷ÀÌ´Â ¼Óµµ
-														__Vector3* pvCol,						 // Ãæµ¹ ÁöÁ¡
-														__Vector3* pvNormal,				  // Ãæµ¹ÇÑ¸éÀÇ ¹ı¼±º¤ÅÍ
-														__Vector3* pVec);						// Ãæµ¹ÇÑ ¸é ÀÇ Æú¸®°ï __Vector3[3]
+	bool CheckCollisionWithShape(	const __Vector3& vPos,				 // ì¶©ëŒ ìœ„ì¹˜
+														const __Vector3& vDir,				   // ë°©í–¥ ë²¡í„°
+														float fSpeedPerSec,					    // ì´ˆë‹¹ ì›€ì§ì´ëŠ” ì†ë„
+														__Vector3* pvCol,						 // ì¶©ëŒ ì§€ì 
+														__Vector3* pvNormal,				  // ì¶©ëŒí•œë©´ì˜ ë²•ì„ ë²¡í„°
+														__Vector3* pVec);						// ì¶©ëŒí•œ ë©´ ì˜ í´ë¦¬ê³¤ __Vector3[3]
 
 public:
 	CPortalVolume();

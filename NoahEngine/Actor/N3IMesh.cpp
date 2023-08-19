@@ -10,22 +10,22 @@ CN3IMesh::CN3IMesh()
 
 	m_nFC = 0;
 
-	m_pwVtxIndices = NULL; // Á¡ ÀÎµ¦½º ¸®½ºÆ®. 
-	m_pwUVsIndices = NULL; // ÅØ½ºÃ³ ÁÂÇ¥ ÀÎµ¦½º ¸®½ºÆ®.
+	m_pwVtxIndices = nullptr; // ì  ì¸ë±ìŠ¤ ë¦¬ìŠ¤íŠ¸. 
+	m_pwUVsIndices = nullptr; // í…ìŠ¤ì²˜ ì¢Œí‘œ ì¸ë±ìŠ¤ ë¦¬ìŠ¤íŠ¸.
 
 	m_nVC = m_nUVC = 0;
-	m_pVertices = NULL;
-	m_pfUVs = NULL;
+	m_pVertices = nullptr;
+	m_pfUVs = nullptr;
 //	m_lpVB = NULL;
 }
 
 CN3IMesh::~CN3IMesh()
 {
-	delete [] m_pVertices; m_pVertices = NULL;
-	delete [] m_pfUVs; m_pfUVs = NULL;
+	delete [] m_pVertices; m_pVertices = nullptr;
+	delete [] m_pfUVs; m_pfUVs = nullptr;
 
-	delete [] m_pwVtxIndices; m_pwVtxIndices = NULL; // Á¡ ÀÎµ¦½º ¸®½ºÆ®. 
-	delete [] m_pwUVsIndices; m_pwUVsIndices = NULL; // ÅØ½ºÃ³ ÁÂÇ¥ ÀÎµ¦½º ¸®½ºÆ®.
+	delete [] m_pwVtxIndices; m_pwVtxIndices = nullptr; // ì  ì¸ë±ìŠ¤ ë¦¬ìŠ¤íŠ¸. 
+	delete [] m_pwUVsIndices; m_pwUVsIndices = nullptr; // í…ìŠ¤ì²˜ ì¢Œí‘œ ì¸ë±ìŠ¤ ë¦¬ìŠ¤íŠ¸.
 
 //	if(m_lpVB) m_lpVB->Release();
 }
@@ -38,11 +38,11 @@ void CN3IMesh::Release()
 	m_nVC = 0;
 	m_nUVC = 0;
 
-	delete [] m_pVertices; m_pVertices = NULL;
-	delete [] m_pfUVs; m_pfUVs = NULL;
+	delete [] m_pVertices; m_pVertices = nullptr;
+	delete [] m_pfUVs; m_pfUVs = nullptr;
 
-	delete [] m_pwVtxIndices; m_pwVtxIndices = NULL; // Á¡ ÀÎµ¦½º ¸®½ºÆ®. 
-	delete [] m_pwUVsIndices; m_pwUVsIndices = NULL; // ÅØ½ºÃ³ ÁÂÇ¥ ÀÎµ¦½º ¸®½ºÆ®.
+	delete [] m_pwVtxIndices; m_pwVtxIndices = nullptr; // ì  ì¸ë±ìŠ¤ ë¦¬ìŠ¤íŠ¸. 
+	delete [] m_pwUVsIndices; m_pwUVsIndices = nullptr; // í…ìŠ¤ì²˜ ì¢Œí‘œ ì¸ë±ìŠ¤ ë¦¬ìŠ¤íŠ¸.
 
 //	if(m_lpVB) m_lpVB->Release(); m_lpVB = NULL;
 
@@ -68,7 +68,7 @@ bool CN3IMesh::Create(int nFC, int nVC, int nUVC)
 	
 	if(nUVC > 0)
 	{
-		m_nUVC = nUVC; m_pfUVs = new float[nUVC*2]; memset(m_pfUVs, 0, 8 * nUVC); // »çÀÌÁî°¡ 8 ÀÎ ÀÌÀ¯´Â float 2°³¶ó ±×·¸´Ù..
+		m_nUVC = nUVC; m_pfUVs = new float[nUVC*2]; memset(m_pfUVs, 0, 8 * nUVC); // ì‚¬ì´ì¦ˆê°€ 8 ì¸ ì´ìœ ëŠ” float 2ê°œë¼ ê·¸ë ‡ë‹¤..
 		m_pwUVsIndices = new WORD[nFC*3]; memset(m_pwUVsIndices, 0, 2 * nFC * 3); // unsigned short
 	}
 
@@ -89,11 +89,11 @@ bool CN3IMesh::Create(int nFC, int nVC, int nUVC)
 
 __VertexT1* CN3IMesh::BuildVertexList()
 {
-	if(m_nFC <= 0) return NULL;
+	if(m_nFC <= 0) return nullptr;
 	if(m_nFC >= MAX_IMESH_BUFFER / 3)
 	{
 		__ASSERT(0, "Vertex Buffer Overflow");
-		return NULL;
+		return nullptr;
 	}
 
 	int n = 0, nVI = 0, nUVI = 0;
@@ -140,11 +140,11 @@ __VertexT1* CN3IMesh::BuildVertexList()
 
 __VertexT2* CN3IMesh::BuildVertexListTwoUV()
 {
-	if(m_nFC <= 0) return NULL;
+	if(m_nFC <= 0) return nullptr;
 	if(m_nFC >= MAX_IMESH_BUFFER / 3)
 	{
 		__ASSERT(0, "Vertex Buffer Overflow");
-		return NULL;
+		return nullptr;
 	}
 
 	int n = 0, nVI = 0, nUVI = 0;
@@ -246,7 +246,7 @@ __VertexT1* CN3IMesh::BuildVertexList()
 
 void CN3IMesh::Render(bool bUseTwoUV)
 {
-	if(s_lpD3DDev == NULL || m_nFC <= 0) return;
+	if(s_lpD3DDev == nullptr || m_nFC <= 0) return;
 
 	if(bUseTwoUV)
 	{
@@ -287,7 +287,7 @@ void CN3IMesh::RenderSelected()
 		vFace[1] = pVs[i*3+1];
 		vFace[2] = pVs[i*3+2];
 		vFace[3] = vFace[0];
-		CN3Base::RenderLines(vFace, 3, 0xff00ff00); // ³ì»öÀ¸·Î ·»´õ¸µ..
+		CN3Base::RenderLines(vFace, 3, 0xff00ff00); // ë…¹ìƒ‰ìœ¼ë¡œ ë Œë”ë§..
 	}
 }
 #endif // end of _N3TOOL
@@ -299,15 +299,15 @@ bool CN3IMesh::Load(HANDLE hFile)
 	
 	int nFC = 0, nVC = 0, nUVC = 0;
 
-	ReadFile(hFile, &nFC, 4, &dwRWC, NULL);
-	ReadFile(hFile, &nVC, 4, &dwRWC, NULL);
-	ReadFile(hFile, &nUVC, 4, &dwRWC, NULL);
+	ReadFile(hFile, &nFC, 4, &dwRWC, nullptr);
+	ReadFile(hFile, &nVC, 4, &dwRWC, nullptr);
+	ReadFile(hFile, &nUVC, 4, &dwRWC, nullptr);
 
 	if(nFC > 0 && nVC > 0)
 	{
 		this->Create(nFC, nVC, nUVC);
-		ReadFile(hFile, m_pVertices, sizeof(__VertexXyzNormal) * nVC, &dwRWC, NULL);
-		ReadFile(hFile, m_pwVtxIndices, 2 * nFC * 3, &dwRWC, NULL); // unsigned short
+		ReadFile(hFile, m_pVertices, sizeof(__VertexXyzNormal) * nVC, &dwRWC, nullptr);
+		ReadFile(hFile, m_pwVtxIndices, 2 * nFC * 3, &dwRWC, nullptr); // unsigned short
 	}
 	else
 	{
@@ -316,11 +316,11 @@ bool CN3IMesh::Load(HANDLE hFile)
 	
 	if(m_nUVC > 0)
 	{
-		ReadFile(hFile, m_pfUVs, 8 * nUVC, &dwRWC, NULL);
-		ReadFile(hFile, m_pwUVsIndices, 2 * nFC * 3, &dwRWC, NULL); // unsigned short
+		ReadFile(hFile, m_pfUVs, 8 * nUVC, &dwRWC, nullptr);
+		ReadFile(hFile, m_pwUVsIndices, 2 * nFC * 3, &dwRWC, nullptr); // unsigned short
 	}
 
-	this->FindMinMax(); // ÃÖ¼Ò ÃÖ´ë°ªÀ» Ã£´Â´Ù..
+	this->FindMinMax(); // ìµœì†Œ ìµœëŒ€ê°’ì„ ì°¾ëŠ”ë‹¤..
 
 	return true;
 }
@@ -357,9 +357,9 @@ void CN3IMesh::FindMinMax()
 	m_vMin.Zero();
 	m_vMax.Zero();
 
-	if(m_pVertices == NULL || m_nVC < 0) return;
+	if(m_pVertices == nullptr || m_nVC < 0) return;
 
-	// ÃÖ¼Ò, ÃÖ´ë Á¡À» Ã£´Â´Ù.
+	// ìµœì†Œ, ìµœëŒ€ ì ì„ ì°¾ëŠ”ë‹¤.
 	m_vMin.Set(FLT_MAX, FLT_MAX, FLT_MAX);
 	m_vMax.Set(-FLT_MAX, -FLT_MAX, -FLT_MAX);
 	for(int i = 0; i < m_nVC; i++)
@@ -430,9 +430,9 @@ void CN3IMesh::ApplyOffset(__Vector3 vOffset)
 #ifdef _N3GAME
 void CN3IMesh::TickForShadow(bool bUseTwoUV)
 {
-	if(s_lpD3DDev == NULL || m_nFC <= 0) 
+	if(s_lpD3DDev == nullptr || m_nFC <= 0) 
 	{
-		m_pVertexT1 = NULL;
+		m_pVertexT1 = nullptr;
 		return;
 	}
 
@@ -442,7 +442,7 @@ void CN3IMesh::TickForShadow(bool bUseTwoUV)
 		if(pVs)
 			m_pVertexT1 = pVs;
 		else
-			m_pVertexT1 = NULL;
+			m_pVertexT1 = nullptr;
 	}
 	else
 	{
@@ -450,7 +450,7 @@ void CN3IMesh::TickForShadow(bool bUseTwoUV)
 		if(pVs)
 			m_pVertexT1 = pVs;
 		else
-			m_pVertexT1 = NULL;
+			m_pVertexT1 = nullptr;
 	}
 }
 

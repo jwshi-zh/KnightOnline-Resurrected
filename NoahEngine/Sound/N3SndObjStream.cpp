@@ -11,9 +11,9 @@ CN3SndObjStream::CN3SndObjStream()
 	m_CurrPos = 0;
 	m_PrevState = 0;
 
-	hMMIO = NULL;
-	m_hWaveMem = NULL;
-	m_pWaveMem = NULL;
+	hMMIO = nullptr;
+	m_hWaveMem = nullptr;
+	m_pWaveMem = nullptr;
 }
 
 CN3SndObjStream::~CN3SndObjStream()
@@ -25,7 +25,7 @@ bool CN3SndObjStream::Create(const std::string& szFN, e_SndType eType)
 {
 	Release();
 
-	if(NULL == s_lpDS) return false;
+	if(nullptr == s_lpDS) return false;
 	if(SNDTYPE_STREAM != eType) return false;
 	if(!LoadWave(szFN.c_str())) return false;
 
@@ -49,7 +49,7 @@ bool CN3SndObjStream::Create(const std::string& szFN, e_SndType eType)
 	if(m_lpDSBuff) m_lpDSBuff->Release();
 
 	HRESULT	hResult;
-	hResult = s_lpDS->CreateSoundBuffer(&m_dsbd, &m_lpDSBuff, NULL);
+	hResult = s_lpDS->CreateSoundBuffer(&m_dsbd, &m_lpDSBuff, nullptr);
 	if(FAILED(hResult)) return false;
 
 	m_hWaveMem = ::GlobalAlloc(GHND, m_BlockSize);
@@ -64,13 +64,13 @@ bool CN3SndObjStream::Create(const std::string& szFN, e_SndType eType)
 
 BOOL CN3SndObjStream::LoadWave(LPCSTR pFileName)
 {
-	hMMIO = mmioOpen((LPSTR)pFileName,NULL,MMIO_READ|MMIO_ALLOCBUF);
-	if(hMMIO==NULL) return FALSE;
+	hMMIO = mmioOpen((LPSTR)pFileName, nullptr,MMIO_READ|MMIO_ALLOCBUF);
+	if(hMMIO== nullptr) return FALSE;
 
 	mmCkInfoRIFF.fccType = mmioFOURCC('W','A','V','E');
 
 	MMRESULT mmResult;
-	mmResult = mmioDescend(hMMIO, &mmCkInfoRIFF, NULL, MMIO_FINDRIFF);
+	mmResult = mmioDescend(hMMIO, &mmCkInfoRIFF, nullptr, MMIO_FINDRIFF);
 	if(mmResult != MMSYSERR_NOERROR) return FALSE;
 
 	mmCkInfoChunk.ckid = mmioFOURCC('f','m','t',' ');
@@ -94,8 +94,8 @@ BOOL CN3SndObjStream::LoadWave(LPCSTR pFileName)
 
 BOOL CN3SndObjStream::InitWriteBuffer()
 {	
-	LPVOID	pSoundBlock1 = NULL;
-	LPVOID	pSoundBlock2 = NULL;
+	LPVOID	pSoundBlock1 = nullptr;
+	LPVOID	pSoundBlock2 = nullptr;
 	DWORD	byteSoundBlock1 = 0;
 	DWORD	byteSoundBlock2 = 0;
 	DWORD	Offset = 0;
@@ -116,8 +116,8 @@ BOOL CN3SndObjStream::InitWriteBuffer()
 
 BOOL CN3SndObjStream::WriteBuffer()
 {	
-	LPVOID	pSoundBlock1 = NULL;
-	LPVOID	pSoundBlock2 = NULL;
+	LPVOID	pSoundBlock1 = nullptr;
+	LPVOID	pSoundBlock2 = nullptr;
 	DWORD	byteSoundBlock1 = 0;
 	DWORD	byteSoundBlock2 = 0;
 	DWORD	Offset;
@@ -166,7 +166,7 @@ void CN3SndObjStream::RealPlay()
 			m_lpDSBuff->Play(0,0,DSBPLAY_LOOPING);			
 		}
 
-		m_lpDSBuff->GetCurrentPosition(&m_CurrPos,NULL);
+		m_lpDSBuff->GetCurrentPosition(&m_CurrPos, nullptr);
 		m_PrevState = m_CurrState;
 		m_CurrState = m_CurrPos/m_BlockSize;
 		if(m_CurrState != m_PrevState)
@@ -176,14 +176,14 @@ void CN3SndObjStream::RealPlay()
 			{
 				if(m_bIsLoop==false)
 				{
-					//tick¿¡ ¾îÄÉ Àû¿ëÇÒ °ÍÀÎ°¡..
+					//tickì— ì–´ì¼€ ì ìš©í•  ê²ƒì¸ê°€..
 					m_PastTime = m_PlayTime;
 					Stop();
 					return;
 				}
 				else if(m_bIsLoop==true)
 				{
-					//tick¿¡ ¾îÄÉ Àû¿ëÇÒ °ÍÀÎ°¡..
+					//tickì— ì–´ì¼€ ì ìš©í•  ê²ƒì¸ê°€..
 					//Stop();
 					//m_lpDSBuff->Stop();
 					Play();
@@ -217,18 +217,18 @@ void CN3SndObjStream::Release()
 	if(hMMIO) 
 	{
 		mmioClose(hMMIO,0);
-		hMMIO = NULL;
+		hMMIO = nullptr;
 	}
 	if(m_hWaveMem)
 	{
 		::GlobalFree(m_hWaveMem);
-		m_hWaveMem = NULL;
+		m_hWaveMem = nullptr;
 	}
 }
 
 
 //
-//	À½¾ÇÀÌ ÇÃ·¹ÀÌµÇ°í ÀÖÀ»¶§ streamming½ÃÅ°±â..
+//	ìŒì•…ì´ í”Œë ˆì´ë˜ê³  ìžˆì„ë•Œ streammingì‹œí‚¤ê¸°..
 //
 void CN3SndObjStream::Tick()
 {
@@ -277,7 +277,7 @@ void CN3SndObjStream::Tick()
 		}
 		else
 		{
-			//º¼·ý Á¡Á¡ ÀÛ°Ô....
+			//ë³¼ë¥¨ ì ì  ìž‘ê²Œ....
 			int vol = 0;
 			if(m_fFadeOutTime>0.0f)  vol = (((m_fFadeOutTime - m_fTmpSecPerFrm)/m_fFadeOutTime)*(float)m_iMaxVolume);
 			SetVolume(vol);
@@ -288,7 +288,7 @@ void CN3SndObjStream::Tick()
 
 /*
 //
-// ¶È°°´Ù.
+// ë˜‘ê°™ë‹¤.
 //
 void CN3SndObjStream::Play(float delay, float fFadeInTime)
 {
@@ -301,7 +301,7 @@ void CN3SndObjStream::Play(float delay, float fFadeInTime)
 
 
 //
-// ¶È°°´Ù.
+// ë˜‘ê°™ë‹¤.
 //
 void CN3SndObjStream::Stop(float fFadeOutTime)
 {

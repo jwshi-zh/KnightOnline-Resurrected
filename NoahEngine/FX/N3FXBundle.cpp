@@ -14,7 +14,7 @@ CN3FXBundle::CN3FXBundle()
 {
 	m_iVersion = 2;
 	m_strName.erase();
-	for(int i=0;i<MAX_FX_PART;i++) m_pPart[i] = NULL;
+	for(int i=0;i<MAX_FX_PART;i++) m_pPart[i] = nullptr;
 	m_fLife0 = 0.0f;
 	
 	m_dwState = FX_BUNDLE_STATE_DEAD;
@@ -39,7 +39,7 @@ CN3FXBundle::CN3FXBundle()
 
 	m_bStatic = false;
 
-	m_pSndObj = NULL;
+	m_pSndObj = nullptr;
 }
 
 CN3FXBundle::~CN3FXBundle()
@@ -50,9 +50,9 @@ CN3FXBundle::~CN3FXBundle()
 	{
 		if(m_pPart[i])
 		{
-			if(m_pPart[i]->pPart) { delete m_pPart[i]->pPart; m_pPart[i]->pPart = NULL; }
+			if(m_pPart[i]->pPart) { delete m_pPart[i]->pPart; m_pPart[i]->pPart = nullptr; }
 			delete m_pPart[i];
-			m_pPart[i] = NULL;
+			m_pPart[i] = nullptr;
 		}
 	}	
 
@@ -64,7 +64,7 @@ CN3FXBundle::~CN3FXBundle()
 
 //
 //	decode script file..
-//	½ºÅ©¸³Æ® ÆÄÀÏ ÀĞ°í ÇØ¼®½ÃÅ´...
+//	ìŠ¤í¬ë¦½íŠ¸ íŒŒì¼ ì½ê³  í•´ì„ì‹œí‚´...
 //
 #ifdef _N3TOOL
 bool CN3FXBundle::DecodeScriptFile(const char* lpPathName)
@@ -110,7 +110,7 @@ bool CN3FXBundle::DecodeScriptFile(const char* lpPathName)
 
 		if(lstrcmpi(szCommand, "<part>")==0)
 		{
-			char szFullPath[_MAX_PATH];	//full path ¸¸µé±â..	
+			char szFullPath[_MAX_PATH];	//full path ë§Œë“¤ê¸°..	
 			sprintf(szFullPath,"%s%s",CN3Base::PathGet().c_str(), szBuf[0]);
 			
 			FXPARTWITHSTARTTIME* pPart = new FXPARTWITHSTARTTIME;
@@ -159,7 +159,7 @@ bool CN3FXBundle::DecodeScriptFile(const char* lpPathName)
 
 //
 //	GetPartType...
-//	ÆÄÆ®ÀÇ ÆÄÀÏÀÌ¸§À¸·Î Å¸ÀÔÀ» ¾Ë¾Æ³»ÀÚ..
+//	íŒŒíŠ¸ì˜ íŒŒì¼ì´ë¦„ìœ¼ë¡œ íƒ€ì…ì„ ì•Œì•„ë‚´ì..
 //
 #ifdef _N3TOOL
 CN3FXPartBase* CN3FXBundle::SetPart(const char* pFileName)
@@ -197,7 +197,7 @@ CN3FXPartBase* CN3FXBundle::SetPart(const char* pFileName)
 			else if(lstrcmpi(szBuf[0], "board")==0) PartType = FX_PART_TYPE_BOARD;
 			else if(lstrcmpi(szBuf[0], "mesh")==0) PartType = FX_PART_TYPE_MESH;
 			else if(lstrcmpi(szBuf[0], "ground")==0) PartType = FX_PART_TYPE_BOTTOMBOARD;
-			//^^v ´õ ³ÖÀ»²¨ ÀÖÀ¸¸é ³Ö¾î¶ó..
+			//^^v ë” ë„£ì„êº¼ ìˆìœ¼ë©´ ë„£ì–´ë¼..
 		}		
 	}
 	fclose(stream);
@@ -268,13 +268,13 @@ bool CN3FXBundle::Load(HANDLE hFile)
 {
 	DWORD			dwRWC = 0;
 
-	ReadFile(hFile, &m_iVersion, sizeof(int), &dwRWC, NULL);
+	ReadFile(hFile, &m_iVersion, sizeof(int), &dwRWC, nullptr);
 	
-	ReadFile(hFile, &m_fLife0, sizeof(float), &dwRWC, NULL);
+	ReadFile(hFile, &m_fLife0, sizeof(float), &dwRWC, nullptr);
 	if(m_fLife0 > 10.0f) m_fLife0 = 10.0f; 
-	ReadFile(hFile, &m_fVelocity, sizeof(float), &dwRWC, NULL);
+	ReadFile(hFile, &m_fVelocity, sizeof(float), &dwRWC, nullptr);
 
-	ReadFile(hFile, &m_bDependScale, sizeof(bool), &dwRWC, NULL);
+	ReadFile(hFile, &m_bDependScale, sizeof(bool), &dwRWC, nullptr);
 
 	if(m_iVersion==0)
 	{
@@ -282,7 +282,7 @@ bool CN3FXBundle::Load(HANDLE hFile)
 		{
 			int iType;
 
-			ReadFile(hFile, &iType, sizeof(int), &dwRWC, NULL);
+			ReadFile(hFile, &iType, sizeof(int), &dwRWC, nullptr);
 
 			if(iType == FX_PART_TYPE_NONE) continue;
 
@@ -294,13 +294,13 @@ bool CN3FXBundle::Load(HANDLE hFile)
 				float fStartTime;
 				//ReadFile(hFile, FName, 80, &dwRWC, NULL);
 
-				ReadFile(hFile, &(fStartTime), sizeof(float), &dwRWC, NULL);
+				ReadFile(hFile, &(fStartTime), sizeof(float), &dwRWC, nullptr);
 
 				m_pPart[i]->fStartTime = fStartTime;
 
 				m_pPart[i]->pPart = new CN3FXPartParticles;
 				m_pPart[i]->pPart->m_pRefBundle = this;
-				m_pPart[i]->pPart->m_pRefPrevPart = NULL;
+				m_pPart[i]->pPart->m_pRefPrevPart = nullptr;
 				m_pPart[i]->pPart->m_iType = FX_PART_TYPE_PARTICLE;
 				//m_pPart[i]->pPart->LoadFromFile(FName);
 				m_pPart[i]->pPart->Load(hFile);
@@ -314,13 +314,13 @@ bool CN3FXBundle::Load(HANDLE hFile)
 				float fStartTime;
 				//ReadFile(hFile, FName, 80, &dwRWC, NULL);
 				
-				ReadFile(hFile, &(fStartTime), sizeof(float), &dwRWC, NULL);
+				ReadFile(hFile, &(fStartTime), sizeof(float), &dwRWC, nullptr);
 
 				m_pPart[i]->fStartTime = fStartTime;
 
 				m_pPart[i]->pPart = new CN3FXPartBillBoard;
 				m_pPart[i]->pPart->m_pRefBundle = this;
-				m_pPart[i]->pPart->m_pRefPrevPart = NULL;
+				m_pPart[i]->pPart->m_pRefPrevPart = nullptr;
 				m_pPart[i]->pPart->m_iType = FX_PART_TYPE_BOARD;
 				//m_pPart[i]->pPart->LoadFromFile(FName);
 				m_pPart[i]->pPart->Load(hFile);
@@ -334,13 +334,13 @@ bool CN3FXBundle::Load(HANDLE hFile)
 				float fStartTime;
 				//ReadFile(hFile, FName, 80, &dwRWC, NULL);
 				
-				ReadFile(hFile, &(fStartTime), sizeof(float), &dwRWC, NULL);
+				ReadFile(hFile, &(fStartTime), sizeof(float), &dwRWC, nullptr);
 
 				m_pPart[i]->fStartTime = fStartTime;
 
 				m_pPart[i]->pPart = new CN3FXPartMesh;
 				m_pPart[i]->pPart->m_pRefBundle = this;
-				m_pPart[i]->pPart->m_pRefPrevPart = NULL;
+				m_pPart[i]->pPart->m_pRefPrevPart = nullptr;
 				m_pPart[i]->pPart->m_iType = FX_PART_TYPE_MESH;
 				//m_pPart[i]->pPart->LoadFromFile(FName);
 				m_pPart[i]->pPart->Load(hFile);
@@ -353,13 +353,13 @@ bool CN3FXBundle::Load(HANDLE hFile)
 				float fStartTime;
 				//ReadFile(hFile, FName, 80, &dwRWC, NULL);
 				
-				ReadFile(hFile, &(fStartTime), sizeof(float), &dwRWC, NULL);
+				ReadFile(hFile, &(fStartTime), sizeof(float), &dwRWC, nullptr);
 
 				m_pPart[i]->fStartTime = fStartTime;
 
 				m_pPart[i]->pPart = new CN3FXPartBottomBoard;
 				m_pPart[i]->pPart->m_pRefBundle = this;
-				m_pPart[i]->pPart->m_pRefPrevPart = NULL;
+				m_pPart[i]->pPart->m_pRefPrevPart = nullptr;
 				m_pPart[i]->pPart->m_iType = FX_PART_TYPE_BOTTOMBOARD;
 				//m_pPart[i]->pPart->LoadFromFile(FName);
 				m_pPart[i]->pPart->Load(hFile);
@@ -372,7 +372,7 @@ bool CN3FXBundle::Load(HANDLE hFile)
 		{
 			int iType;
 
-			ReadFile(hFile, &iType, sizeof(int), &dwRWC, NULL);
+			ReadFile(hFile, &iType, sizeof(int), &dwRWC, nullptr);
 
 			if(iType == FX_PART_TYPE_NONE) continue;
 
@@ -384,13 +384,13 @@ bool CN3FXBundle::Load(HANDLE hFile)
 				float fStartTime;
 				//ReadFile(hFile, FName, 80, &dwRWC, NULL);
 
-				ReadFile(hFile, &(fStartTime), sizeof(float), &dwRWC, NULL);
+				ReadFile(hFile, &(fStartTime), sizeof(float), &dwRWC, nullptr);
 
 				m_pPart[i]->fStartTime = fStartTime;
 
 				m_pPart[i]->pPart = new CN3FXPartParticles;
 				m_pPart[i]->pPart->m_pRefBundle = this;
-				m_pPart[i]->pPart->m_pRefPrevPart = NULL;
+				m_pPart[i]->pPart->m_pRefPrevPart = nullptr;
 				m_pPart[i]->pPart->m_iType = FX_PART_TYPE_PARTICLE;
 				//m_pPart[i]->pPart->LoadFromFile(FName);
 				m_pPart[i]->pPart->Load(hFile);
@@ -404,13 +404,13 @@ bool CN3FXBundle::Load(HANDLE hFile)
 				float fStartTime;
 				//ReadFile(hFile, FName, 80, &dwRWC, NULL);
 				
-				ReadFile(hFile, &(fStartTime), sizeof(float), &dwRWC, NULL);
+				ReadFile(hFile, &(fStartTime), sizeof(float), &dwRWC, nullptr);
 
 				m_pPart[i]->fStartTime = fStartTime;
 
 				m_pPart[i]->pPart = new CN3FXPartBillBoard;
 				m_pPart[i]->pPart->m_pRefBundle = this;
-				m_pPart[i]->pPart->m_pRefPrevPart = NULL;
+				m_pPart[i]->pPart->m_pRefPrevPart = nullptr;
 				m_pPart[i]->pPart->m_iType = FX_PART_TYPE_BOARD;
 				//m_pPart[i]->pPart->LoadFromFile(FName);
 				m_pPart[i]->pPart->Load(hFile);
@@ -424,13 +424,13 @@ bool CN3FXBundle::Load(HANDLE hFile)
 				float fStartTime;
 				//ReadFile(hFile, FName, 80, &dwRWC, NULL);
 				
-				ReadFile(hFile, &(fStartTime), sizeof(float), &dwRWC, NULL);
+				ReadFile(hFile, &(fStartTime), sizeof(float), &dwRWC, nullptr);
 
 				m_pPart[i]->fStartTime = fStartTime;
 
 				m_pPart[i]->pPart = new CN3FXPartMesh;
 				m_pPart[i]->pPart->m_pRefBundle = this;
-				m_pPart[i]->pPart->m_pRefPrevPart = NULL;
+				m_pPart[i]->pPart->m_pRefPrevPart = nullptr;
 				m_pPart[i]->pPart->m_iType = FX_PART_TYPE_MESH;
 				//m_pPart[i]->pPart->LoadFromFile(FName);
 				m_pPart[i]->pPart->Load(hFile);
@@ -443,13 +443,13 @@ bool CN3FXBundle::Load(HANDLE hFile)
 				float fStartTime;
 				//ReadFile(hFile, FName, 80, &dwRWC, NULL);
 				
-				ReadFile(hFile, &(fStartTime), sizeof(float), &dwRWC, NULL);
+				ReadFile(hFile, &(fStartTime), sizeof(float), &dwRWC, nullptr);
 
 				m_pPart[i]->fStartTime = fStartTime;
 
 				m_pPart[i]->pPart = new CN3FXPartBottomBoard;
 				m_pPart[i]->pPart->m_pRefBundle = this;
-				m_pPart[i]->pPart->m_pRefPrevPart = NULL;
+				m_pPart[i]->pPart->m_pRefPrevPart = nullptr;
 				m_pPart[i]->pPart->m_iType = FX_PART_TYPE_BOTTOMBOARD;
 				//m_pPart[i]->pPart->LoadFromFile(FName);
 				m_pPart[i]->pPart->Load(hFile);
@@ -459,7 +459,7 @@ bool CN3FXBundle::Load(HANDLE hFile)
 
 	if(m_iVersion>=2)
 	{
-		ReadFile(hFile, &m_bStatic, sizeof(bool), &dwRWC, NULL);
+		ReadFile(hFile, &m_bStatic, sizeof(bool), &dwRWC, nullptr);
 	}
 
 	return true;
@@ -472,32 +472,32 @@ bool CN3FXBundle::Load(HANDLE hFile)
 bool CN3FXBundle::Save(HANDLE hFile)
 {
 	DWORD			dwRWC = 0;
-	WriteFile(hFile, &m_iVersion, sizeof(int), &dwRWC, NULL);
-	WriteFile(hFile, &m_fLife0, sizeof(float), &dwRWC, NULL);
-	WriteFile(hFile, &m_fVelocity, sizeof(float), &dwRWC, NULL);
+	WriteFile(hFile, &m_iVersion, sizeof(int), &dwRWC, nullptr);
+	WriteFile(hFile, &m_fLife0, sizeof(float), &dwRWC, nullptr);
+	WriteFile(hFile, &m_fVelocity, sizeof(float), &dwRWC, nullptr);
 
-	WriteFile(hFile, &m_bDependScale, sizeof(bool), &dwRWC, NULL);
+	WriteFile(hFile, &m_bDependScale, sizeof(bool), &dwRWC, nullptr);
 
 	for(int i=0;i<MAX_FX_PART;i++)
 	{
 		if(m_pPart[i] && m_pPart[i]->pPart)
 		{
-			WriteFile(hFile, &(m_pPart[i]->pPart->m_iType), sizeof(int), &dwRWC, NULL);
+			WriteFile(hFile, &(m_pPart[i]->pPart->m_iType), sizeof(int), &dwRWC, nullptr);
 
 			//char FName[80];
 			//sprintf(FName, m_pPart[i]->pPart->FileName().c_str());
 			//WriteFile(hFile, FName, 80, &dwRWC, NULL);
-			WriteFile(hFile, &(m_pPart[i]->fStartTime), sizeof(float), &dwRWC, NULL);
+			WriteFile(hFile, &(m_pPart[i]->fStartTime), sizeof(float), &dwRWC, nullptr);
 			m_pPart[i]->pPart->Save(hFile);
 		}
 		else
 		{
 			int Type = FX_PART_TYPE_NONE;
-			WriteFile(hFile, &Type, sizeof(int), &dwRWC, NULL);
+			WriteFile(hFile, &Type, sizeof(int), &dwRWC, nullptr);
 		}
 	}
 
-	WriteFile(hFile, &m_bStatic, sizeof(bool), &dwRWC, NULL);
+	WriteFile(hFile, &m_bStatic, sizeof(bool), &dwRWC, nullptr);
 
 	return true;
 }
@@ -593,8 +593,8 @@ void CN3FXBundle::Trigger(int iSourceID, int iTargetID, int iTargetJoint, int iS
 
 //
 //	Stop...
-//	¸ØÃß´Â ´Ü°è¸¦ ½ÃÀÛÇÑ´Ù..
-//	Á¤¸» ¸ØÃß´Â ±â´ÉÀº tick¿¡¼­ ¸ğµç ÆÄÆ®°¡ ´Ù Á×¾ú´Ù°í ÆÇ´ÜµÉ¶§ tick¿¡¼­ ¼öÇàÇÑ´Ù.
+//	ë©ˆì¶”ëŠ” ë‹¨ê³„ë¥¼ ì‹œì‘í•œë‹¤..
+//	ì •ë§ ë©ˆì¶”ëŠ” ê¸°ëŠ¥ì€ tickì—ì„œ ëª¨ë“  íŒŒíŠ¸ê°€ ë‹¤ ì£½ì—ˆë‹¤ê³  íŒë‹¨ë ë•Œ tickì—ì„œ ìˆ˜í–‰í•œë‹¤.
 //
 void CN3FXBundle::Stop(bool immediately)
 {
@@ -637,11 +637,11 @@ bool CN3FXBundle::CheckAllPartsDead()
 
 CN3FXPartBase* CN3FXBundle::GetPart(int i)
 {
-	if(i<0 || i>=MAX_FX_PART) return NULL;
+	if(i<0 || i>=MAX_FX_PART) return nullptr;
 
 	if(m_pPart[i]) return m_pPart[i]->pPart;
 
-	return NULL;
+	return nullptr;
 }
 
 float CN3FXBundle::GetPartSTime(int i)
@@ -686,7 +686,7 @@ void CN3FXBundle::Duplicate(CN3FXBundle* pDestBundle)
 				CN3FXPartParticles* pPart = (CN3FXPartParticles*)pDestBundle->m_pPart[i]->pPart;
 
 				pPart->m_pRefBundle = pDestBundle;
-				pPart->m_pRefPrevPart = NULL;
+				pPart->m_pRefPrevPart = nullptr;
 				pPart->m_iType = FX_PART_TYPE_PARTICLE;
 
 				pPart->Duplicate((CN3FXPartParticles*)m_pPart[i]->pPart);
@@ -701,7 +701,7 @@ void CN3FXBundle::Duplicate(CN3FXBundle* pDestBundle)
 				CN3FXPartBillBoard* pPart = (CN3FXPartBillBoard*)pDestBundle->m_pPart[i]->pPart;
 
 				pPart->m_pRefBundle = pDestBundle;
-				pPart->m_pRefPrevPart = NULL;
+				pPart->m_pRefPrevPart = nullptr;
 				pPart->m_iType = FX_PART_TYPE_BOARD;
 
 				pPart->Duplicate((CN3FXPartBillBoard*)m_pPart[i]->pPart);
@@ -716,7 +716,7 @@ void CN3FXBundle::Duplicate(CN3FXBundle* pDestBundle)
 				CN3FXPartMesh* pPart = (CN3FXPartMesh*)pDestBundle->m_pPart[i]->pPart;
 				
 				pPart->m_pRefBundle = pDestBundle;
-				pPart->m_pRefPrevPart = NULL;
+				pPart->m_pRefPrevPart = nullptr;
 				pPart->m_iType = FX_PART_TYPE_MESH;
 
 				pPart->Duplicate((CN3FXPartMesh*)m_pPart[i]->pPart);
@@ -732,7 +732,7 @@ void CN3FXBundle::Duplicate(CN3FXBundle* pDestBundle)
 				CN3FXPartBottomBoard* pPart = (CN3FXPartBottomBoard*)pDestBundle->m_pPart[i]->pPart;
 				
 				pPart->m_pRefBundle = pDestBundle;
-				pPart->m_pRefPrevPart = NULL;
+				pPart->m_pRefPrevPart = nullptr;
 				pPart->m_iType = FX_PART_TYPE_BOTTOMBOARD;
 
 				pPart->Duplicate((CN3FXPartBottomBoard*)m_pPart[i]->pPart);
