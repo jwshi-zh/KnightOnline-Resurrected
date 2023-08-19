@@ -462,8 +462,8 @@ __AlphaPrimitive* CN3AlphaPrimitiveManager::Add(	__Vector3& vCamera,
 
 int CN3AlphaPrimitiveManager::SortByCameraDistance(const void *pArg1, const void *pArg2)
 {
-	__AlphaPrimitive *pObj1 = *((__AlphaPrimitive**)pArg1);
-	__AlphaPrimitive *pObj2 = *((__AlphaPrimitive**)pArg2);
+	const __AlphaPrimitive *pObj1 = *((__AlphaPrimitive**)pArg1);
+	const __AlphaPrimitive *pObj2 = *((__AlphaPrimitive**)pArg2);
 
 	if(pObj1->fCameraDistance > pObj2->fCameraDistance) return -1; // 거리가 먼것부터 소팅..
 	else if(pObj1->fCameraDistance < pObj2->fCameraDistance) return 1;

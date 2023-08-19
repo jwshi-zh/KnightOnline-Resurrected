@@ -59,17 +59,17 @@ void CBird::Tick()
 
 	 // 각도 계산
 	 // 미분식을 이용하여 기울기 구하기
-	float x = (m_fFactorSpeed1*cosf(m_fFactor1)*cosf(m_fRadian) - 
+	const float x = (m_fFactorSpeed1*cosf(m_fFactor1)*cosf(m_fRadian) - 
 		 m_fRadianSpeed*sinf(m_fFactor1)*sinf(m_fRadian));
-	float z = (m_fFactorSpeed2*cosf(m_fFactor2)*sinf(m_fRadian) + 
+	const float z = (m_fFactorSpeed2*cosf(m_fFactor2)*sinf(m_fRadian) + 
 		 m_fRadianSpeed*sinf(m_fFactor2)*cosf(m_fRadian));
-	float fRotY = atan2f(z, x)-(D3DX_PI/2);
+	const float fRotY = atan2f(z, x)-(D3DX_PI/2);
 
-	D3DXVECTOR3 vAxis(0, 1, 0);	 
+	const D3DXVECTOR3 vAxis(0, 1, 0);	 
 	D3DXQUATERNION qt;
 	D3DXQuaternionRotationAxis(&qt, &vAxis, -fRotY);
 
-	__Vector3 vNewPos = m_vPivot+vPos;
+	const __Vector3 vNewPos = m_vPivot+vPos;
 	 
 	m_pShape->RotSet(qt);
 	m_pShape->PosSet(vNewPos);

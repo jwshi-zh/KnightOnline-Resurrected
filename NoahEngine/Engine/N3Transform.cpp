@@ -100,7 +100,7 @@ void CN3Transform::Tick(float fFrm)
 		m_fFrmCur = fFrm;
 	}
 
-	bool bNdeedReCalcMatrix = this->TickAnimationKey(m_fFrmCur);
+	const bool bNdeedReCalcMatrix = this->TickAnimationKey(m_fFrmCur);
 	
 	if(m_dwType & OBJ_JOINT) return; // Joint 일 경우는 행렬을 계산하는 방법이 다르기 땜시 넘어간다..
 
@@ -122,9 +122,9 @@ void CN3Transform::ReCalcMatrix()
 bool CN3Transform::TickAnimationKey(float fFrm)
 {
 	// 에니메이션 키
-	int nKCP = m_KeyPos.Count();
-	int nKCR = m_KeyRot.Count();
-	int nKCS = m_KeyScale.Count();
+	const int nKCP = m_KeyPos.Count();
+	const int nKCR = m_KeyRot.Count();
+	const int nKCS = m_KeyScale.Count();
 	if(nKCP <= 0 && nKCR <= 0 && nKCS <= 0) return false;
 
 	bool bNeedReCalcMatrix = false;

@@ -147,7 +147,7 @@ DWORD CN3UIWndBase::MouseProc(DWORD dwFlags, const POINT& ptCur, const POINT& pt
 	for(auto itor = m_Children.begin(); m_Children.end() != itor; ++itor)
 	{
 		CN3UIBase* pChild = (*itor);
-		DWORD dwChildRet = pChild->MouseProc(dwFlags, ptCur, ptOld);
+		const DWORD dwChildRet = pChild->MouseProc(dwFlags, ptCur, ptOld);
 		if (UI_MOUSEPROC_DONESOMETHING & dwChildRet)
 		{	
 			// 이경우에는 먼가 포커스를 받은 경우이다.

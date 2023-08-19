@@ -49,9 +49,9 @@ CN3Terrain::CN3Terrain()
 	m_NumTileTex = 0;
 	m_pTileTex = nullptr;
 	m_ppColorMapTex = nullptr;
-	m_iNumColorMap = 0;	
+	m_iNumColorMap = 0;
 
-	float TileDirU[8][4] = {
+	const float TileDirU[8][4] = {
 		{ 0.0f,	1.0f, 0.0f,	1.0f},		//[up][LT, RT, LB, RB]
 		{ 0.0f,	0.0f, 1.0f, 1.0f},		//[right][ // ]
 		{ 1.0f,	0.0f, 1.0f, 0.0f},		//[left][ // ]
@@ -64,7 +64,7 @@ CN3Terrain::CN3Terrain()
 	};
 	memcpy(m_fTileDirU, TileDirU, sizeof(float)*8*4);
 
-	float TileDirV[8][4] = {
+	const float TileDirV[8][4] = {
 		{ 0.0f, 0.0f, 1.0f, 1.0f},		//[up][ // ]
 		{ 1.0f, 0.0f, 1.0f, 0.0f},		//[right][ // ]
 		{ 1.0f, 1.0f, 0.0f, 0.0f},		//[left][ // ]
@@ -243,12 +243,12 @@ void CN3Terrain::Release()
 	{
 		for(z=0;z<3;z++)
 		{
-			auto itBegin = m_LightMapPatch[x][z].begin();
+			const auto itBegin = m_LightMapPatch[x][z].begin();
 			auto itEnd = m_LightMapPatch[x][z].end();
 
 			for(auto it=itBegin; it!=itEnd; it++)
 			{
-				CN3Texture* pTex = (*it).second;
+				const CN3Texture* pTex = (*it).second;
 				if(pTex) delete pTex;
 			}
 			m_LightMapPatch[x][z].clear();
@@ -395,7 +395,7 @@ void CN3Terrain::TestAvailableTile()
 //
 bool CN3Terrain::Load(HANDLE hFile)
 {
-	std::string szFNBackup = m_szFileName; // Init 를 하고 나면 파일 이름이 없어진다.... 그래서...
+	const std::string szFNBackup = m_szFileName; // Init 를 하고 나면 파일 이름이 없어진다.... 그래서...
 
 	Init();
 
@@ -444,7 +444,7 @@ bool CN3Terrain::Load(HANDLE hFile)
 			ReadFile(hFile, &(m_ppPatchRadius[x][z]), sizeof(float), &dwRWC, nullptr);
 		}
 
-		int iLoading = (x+1) * 100 / m_pat_MapSize;
+		const int iLoading = (x+1) * 100 / m_pat_MapSize;
 		sprintf(szLoadingBuff, "Loading Terrain Patch Data... %d %%", iLoading);
 
 		if(pUILoading) pUILoading->Render(szLoadingBuff, iLoading);
@@ -498,7 +498,7 @@ bool CN3Terrain::Load(HANDLE hFile)
 		pTmpTex->Load(hFile);
 
 		//loading bar...
-		int iLoading = (i+1) * 100 / NumLightMap;
+		const int iLoading = (i+1) * 100 / NumLightMap;
 		sprintf(szLoadingBuff, "Loading Lightmap Data... %d %%", iLoading);
 		if(CGameProcedure::s_pUILoading) CGameProcedure::s_pUILoading->Render(szLoadingBuff, iLoading);
 	}
@@ -617,7 +617,7 @@ void CN3Terrain::LoadGrassInfo()
 	_makepath(szFullPath, szDrive, szGrassDir, m_pGrassFileName, "grs");
 
 	DWORD dwRWC;
-	HANDLE hFile = CreateFile(szFullPath, GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
+	const HANDLE hFile = CreateFile(szFullPath, GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
 	
 	char Buff[80];
 	if(!ReadFile(hFile, Buff, 80, &dwRWC, nullptr)) { CloseHandle(hFile); return; }
@@ -639,7 +639,7 @@ void CN3Terrain::LoadGrassInfo()
 		strcpy(m_pGrassTextureName[Log2(id)], szDxtFullPath);
 
 		//loading bar...
-		int iLoading = (i+1) * 100 / m_iNumGrass;
+		const int iLoading = (i+1) * 100 / m_iNumGrass;
 		sprintf(szLoadingBuff, "Loading Terrain Grass Data... %d %%", iLoading);
 		if(CGameProcedure::s_pUILoading) CGameProcedure::s_pUILoading->Render(szLoadingBuff, iLoading);
 	}
@@ -691,7 +691,7 @@ void CN3Terrain::LoadTileInfo(HANDLE hFile)
 		m_pTileTex[i].Load(hTTGFile);// 진짜 타일...
 
 		//loading bar...
-		int iLoading = (i+1) * 100 / m_NumTileTex;
+		const int iLoading = (i+1) * 100 / m_NumTileTex;
 		sprintf(szLoadingBuff, "Loading Terrain Tile Data... %d %%", iLoading);
 		if(CGameProcedure::s_pUILoading) CGameProcedure::s_pUILoading->Render(szLoadingBuff, iLoading);
 
@@ -811,18 +811,18 @@ void CN3Terrain::Tick()
 {	
 	int iLOD = 0; // LOD 수준 계산.. 나중에 계산식을 바꾸어야 한다.
 	iLOD = (int)(3.0f * s_CameraData.fFP / 512.0f);
-	bool ChangeLOD = this->SetLODLevel(iLOD);
+	const bool ChangeLOD = this->SetLODLevel(iLOD);
 
 	m_pat_PrevLBPos = m_pat_LBPos;
 	m_ti_PrevCenterPos = m_ti_CenterPos;
 
-	bool bMovePatch = CheckMovePatch();
+	const bool bMovePatch = CheckMovePatch();
 	if(bMovePatch || ChangeLOD)
 	{
 		DispositionPatch();
 	}
 
-	bool bChangeBound = CheckBound();
+	const bool bChangeBound = CheckBound();
 
 	int x,z;
 	if( (bMovePatch) || (bChangeBound) || ChangeLOD)
@@ -889,7 +889,7 @@ void CN3Terrain::DispositionPatch()
 
 	//lightmap읽어서 배치하고...
 	//있던건 지우고...
-	POINT PrevCenter = m_pat_CenterPos;
+	const POINT PrevCenter = m_pat_CenterPos;
 	m_pat_CenterPos.x = m_pat_LBPos.x + ( m_iNumPatch / 2 );
 	m_pat_CenterPos.y = m_pat_LBPos.y + ( m_iNumPatch / 2 );
 	
@@ -1088,12 +1088,12 @@ void CN3Terrain::SetLightMap(int dir)
 
 void CN3Terrain::ReplaceLightMapPatch(int x, int z, std::map<DWORD, class CN3Texture*>& LightMapPatch)
 {
-	auto itBegin = m_LightMapPatch[x][z].begin();
-	auto itEnd = m_LightMapPatch[x][z].end();
+	const auto itBegin = m_LightMapPatch[x][z].begin();
+	const auto itEnd = m_LightMapPatch[x][z].end();
 
 	for(auto it=itBegin; it!=itEnd; it++)
 	{
-		CN3Texture* pTex = (*it).second;
+		const CN3Texture* pTex = (*it).second;
 		if(pTex) delete pTex;
 	}
 	m_LightMapPatch[x][z].clear();
@@ -1107,12 +1107,12 @@ void CN3Terrain::ReplaceLightMapPatch(int x, int z, std::map<DWORD, class CN3Tex
 //
 void CN3Terrain::SetLightMapPatch(int x, int z, HANDLE hFile, int* pAddr)
 {
-	auto itBegin = m_LightMapPatch[x][z].begin();
-	auto itEnd = m_LightMapPatch[x][z].end();
+	const auto itBegin = m_LightMapPatch[x][z].begin();
+	const auto itEnd = m_LightMapPatch[x][z].end();
 
 	for(auto it=itBegin; it!=itEnd; it++)
 	{
-		CN3Texture* pTex = (*it).second;
+		const CN3Texture* pTex = (*it).second;
 		if(pTex) delete pTex;
 	}
 	m_LightMapPatch[x][z].clear();
@@ -1124,7 +1124,7 @@ void CN3Terrain::SetLightMapPatch(int x, int z, HANDLE hFile, int* pAddr)
 
 	if(px<0 || px>=m_pat_MapSize || pz<0 || pz>=m_pat_MapSize) return;
 
-	int jump = pAddr[px + (m_pat_MapSize*pz)];
+	const int jump = pAddr[px + (m_pat_MapSize*pz)];
 	if(jump<=0) return;
 	DWORD dwPtr = SetFilePointer (hFile, jump, nullptr, FILE_BEGIN) ;	
 
@@ -1162,8 +1162,8 @@ CN3Texture* CN3Terrain::GetLightMap(int tx, int tz)
 	pz -= (m_pat_CenterPos.y-1);
 	if(px<0 || px>2 || pz<0 || pz>2) return nullptr;
 
-	DWORD key = tx*10000 + tz;
-	auto it = m_LightMapPatch[px][pz].find(key);
+	const DWORD key = tx*10000 + tz;
+	const auto it = m_LightMapPatch[px][pz].find(key);
 	if(it!=m_LightMapPatch[px][pz].end())
 	{
 		return (*it).second;
@@ -1179,7 +1179,7 @@ CN3Texture* CN3Terrain::GetLightMap(int tx, int tz)
 //
 bool CN3Terrain::CheckBound()
 {
-	RECT prevPatRc = m_pat_BoundRect;
+	const RECT prevPatRc = m_pat_BoundRect;
 
 	RECT rc;
 	rc.left = rc.right = Real2Patch(CN3Base::s_CameraData.vEye.x);
@@ -1187,9 +1187,9 @@ bool CN3Terrain::CheckBound()
 
 	
 	// 사면체의 법선 벡터와 Far 네 귀퉁이 위치 계산..
-	float fS = sinf(CN3Base::s_CameraData.fFOV / 2.0f);
-	float fPL = CN3Base::s_CameraData.fFP;
-	float fAspect = CN3Base::s_CameraData.fAspect; // 종횡비
+	const float fS = sinf(CN3Base::s_CameraData.fFOV / 2.0f);
+	const float fPL = CN3Base::s_CameraData.fFP;
+	const float fAspect = CN3Base::s_CameraData.fAspect; // 종횡비
 	
 	// Far Plane 의 네 귀퉁이 위치 계산
 	__Vector3 vFPs[4] = {	__Vector3(fPL * -fS * fAspect, fPL * fS, fPL),	// LeftTop
@@ -1229,7 +1229,7 @@ bool CN3Terrain::CheckBound()
 	
 	m_pat_BoundRect = rc;
 
-	bool bChangeRender = CheckRenderablePatch();
+	const bool bChangeRender = CheckRenderablePatch();
 	
 	if(!bChangeRender && EqualRect(&m_pat_BoundRect, &prevPatRc)) return false;
 
@@ -1565,20 +1565,20 @@ BOOL CN3Terrain::Pick(int x, int y, __Vector3& vPick)
 	vTmp.z =  1.0f;
 
 	// Transform the screen space pick ray into 3D space
-	__Matrix44* pMtxVI = &CN3Base::s_CameraData.mtxViewInverse;
+	const __Matrix44* pMtxVI = &CN3Base::s_CameraData.mtxViewInverse;
 	__Vector3 vDir;
 	vDir.x  = vTmp.x * pMtxVI->_11 + vTmp.y * pMtxVI->_21 + vTmp.z * pMtxVI->_31;
 	vDir.y  = vTmp.x * pMtxVI->_12 + vTmp.y * pMtxVI->_22 + vTmp.z * pMtxVI->_32;
 	vDir.z  = vTmp.x * pMtxVI->_13 + vTmp.y * pMtxVI->_23 + vTmp.z * pMtxVI->_33;
-	__Vector3 vPos = pMtxVI->Pos();
-	__Vector3 vPosCur = vPos;
+	const __Vector3 vPos = pMtxVI->Pos();
+	const __Vector3 vPosCur = vPos;
 
 	bool bCollision = FALSE;
 	__Vector3 A, B, C;
 	float t, u, v;
-	
-	int ix = ((int)vPosCur.x) / TILE_SIZE;
-	int iz = ((int)vPosCur.z) / TILE_SIZE;
+
+	const int ix = ((int)vPosCur.x) / TILE_SIZE;
+	const int iz = ((int)vPosCur.z) / TILE_SIZE;
 
 	if((ix+iz)%2==1)				// 당근.. 왼손 바인딩...
 	{
@@ -1946,8 +1946,8 @@ bool CN3Terrain::CheckIncline(const __Vector3& vPos, const __Vector3& vDir, floa
 
 bool CN3Terrain::CheckCollisionCamera(__Vector3& vEyeResult, const __Vector3& vAt, float fNP)
 {
-	float fHeight = this->GetHeight(vEyeResult.x, vEyeResult.z);
-	float fDelta = fHeight - vEyeResult.y + fNP;
+	const float fHeight = this->GetHeight(vEyeResult.x, vEyeResult.z);
+	const float fDelta = fHeight - vEyeResult.y + fNP;
 	if(fDelta < 0) return false;
 	
 	__Vector3 vDir = vAt - vEyeResult;
@@ -1965,7 +1965,7 @@ bool CN3Terrain::CheckCollision(__Vector3& vPos, __Vector3& vDir, float fVelocit
 	vDir.Normalize();
 
 	fHeight1 = vPos.y - this->GetHeight(vPos.x, vPos.z);
-	__Vector3 vNextPos = vPos + (fVelocity*CN3Base::s_fSecPerFrm*vDir);
+	const __Vector3 vNextPos = vPos + (fVelocity*CN3Base::s_fSecPerFrm*vDir);
 	fHeight2 = vNextPos.y - this->GetHeight(vNextPos.x, vNextPos.z);
 	if(fHeight1<=0) 
 	{
@@ -2080,7 +2080,7 @@ bool CN3Terrain::LoadColorMap(const std::string& szFN)
 		m_ppColorMapTex[x] = new CN3Texture [m_iNumColorMap];
 	}
 
-	HANDLE hColorMapFile = CreateFile(szFN.c_str(), GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
+	const HANDLE hColorMapFile = CreateFile(szFN.c_str(), GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
 	if(INVALID_HANDLE_VALUE == hColorMapFile)
 	{
 		CLogWriter::Write("Failed to load ColorMap - %s", szFN.c_str());
@@ -2121,7 +2121,7 @@ bool CN3Terrain::GetTileTexInfo(float x, float z, TERRAINTILETEXINFO& TexInfo1, 
 
 	if(tx<0 || tx>=m_ti_MapSize || tz<0 || tz>=m_ti_MapSize) return false;
 
-	MAPDATA MapData = m_pMapData[(tx*m_ti_MapSize) + tz];
+	const MAPDATA MapData = m_pMapData[(tx*m_ti_MapSize) + tz];
 
 
 	if(MapData.Tex1Idx < 0 || MapData.Tex1Idx >= m_NumTileTex)

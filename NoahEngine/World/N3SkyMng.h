@@ -82,7 +82,7 @@ struct		__SKY_DAYCHANGE
 	{
 		DWORD dwRWC = 0;
 
-		int nL = szName.size();
+		const int nL = szName.size();
 		WriteFile(hFile, &nL, 4, &dwRWC, nullptr);
 		if(nL > 0) WriteFile(hFile, szName.c_str(), nL, &dwRWC, nullptr);
 

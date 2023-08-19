@@ -308,8 +308,8 @@ void CN3Cloak::SetLOD(int nLevel)
 			m_nGridW = 7;
 			m_nGridH = 5;
 
-			int nVertexCount = m_pPMesh->GetMaxNumVertices();
-			int nIndexCount = m_pPMesh->GetMaxNumIndices();
+			const int nVertexCount = m_pPMesh->GetMaxNumVertices();
+			const int nIndexCount = m_pPMesh->GetMaxNumIndices();
 			m_pVertex = new __VertexT1[nVertexCount];
 			memcpy(m_pVertex, m_pPMesh->GetVertices(), sizeof(__VertexT1)*nVertexCount);
 			m_pIndex = new WORD[nIndexCount];
@@ -492,8 +492,8 @@ void CN3Cloak::MoveAnchorLine(e_Cloak_AnchorMovePattern eType, float fPreserveTi
 	{
 	case AMP_MOVEXZ:
 		{
-			float x_Offset = (rand()%2-1)*0.01f;
-			float z_Offset = 0.03f;
+			const float x_Offset = (rand()%2-1)*0.01f;
+			const float z_Offset = 0.03f;
 
 			for(int i=0;i<m_nGridW;i++)
 			{
@@ -507,8 +507,8 @@ void CN3Cloak::MoveAnchorLine(e_Cloak_AnchorMovePattern eType, float fPreserveTi
 		break;
 	case AMP_MOVEXZ2:
 		{
-			float x_Offset = (rand()%2-1)*0.02f;
-			float z_Offset = 0.04f;
+			const float x_Offset = (rand()%2-1)*0.02f;
+			const float z_Offset = 0.04f;
 
 			for(int i=0;i<m_nGridW;i++)
 			{

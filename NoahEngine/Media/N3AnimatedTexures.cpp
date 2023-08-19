@@ -10,7 +10,7 @@ CN3AnimatedTexures::CN3AnimatedTexures()
 
 CN3AnimatedTexures::~CN3AnimatedTexures()
 {
-	int iTC = m_TexRefs.size();
+	const int iTC = m_TexRefs.size();
 	for(int i = 0; i < iTC; i++) s_MngTex.Delete(&m_TexRefs[i]);
 }
 
@@ -19,7 +19,7 @@ void CN3AnimatedTexures::Release()
 	m_fTexIndex = 0.0f;
 	m_fTexFPS = 30.0f;
 
-	int iTC = m_TexRefs.size();
+	const int iTC = m_TexRefs.size();
 	for(int i = 0; i < iTC; i++) s_MngTex.Delete(&m_TexRefs[i]);
 	m_TexRefs.clear();
 }
@@ -35,7 +35,7 @@ bool CN3AnimatedTexures::Load(HANDLE hFile)
 	ReadFile(hFile, &iTC, 4, &dwRWC, nullptr);
 	if(!m_TexRefs.empty())
 	{
-		int iTCPrev = m_TexRefs.size();
+		const int iTCPrev = m_TexRefs.size();
 		for(int i = 0; i < iTCPrev; i++) s_MngTex.Delete(&m_TexRefs[i]);
 		m_TexRefs.clear();
 	}
@@ -86,7 +86,7 @@ void CN3AnimatedTexures::Tick()
 {
 	if(m_fTexFPS <= 0 || m_TexRefs.empty()) return;
 
-	int iTC = m_TexRefs.size();
+	const int iTC = m_TexRefs.size();
 	m_fTexIndex += CN3Base::s_fSecPerFrm * m_fTexFPS;
 	if(m_fTexIndex >= iTC) m_fTexIndex -= (iTC * m_fTexIndex) / iTC; // 정수로 나누면 소숫점만 남기게 된다??(하여튼 비슷해~)
 }

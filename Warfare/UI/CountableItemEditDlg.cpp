@@ -195,7 +195,7 @@ void CCountableItemEditDlg::Close()
 //	SetVisible(false);	//이거 쓰지 말고 SetVisibleWithNoSound 함수 써주세요...
 	SetVisibleWithNoSound(false);
 
-	CN3UIEdit* pEdit = GetFocusedEdit();
+	const CN3UIEdit* pEdit = GetFocusedEdit();
 	if (pEdit) pEdit->KillFocus();
 }
 

@@ -64,8 +64,8 @@ void CUIRepairTooltipDlg::DisplayTooltipsEnable(int xpos, int ypos, __IconItemSk
 
 	if ( (m_iPosXBack != xpos) || (m_iPosYBack != ypos) )
 	{
-		int iWidth = m_rcRegion.right-m_rcRegion.left;
-		int iHeight = m_rcRegion.bottom-m_rcRegion.top;
+		const int iWidth = m_rcRegion.right-m_rcRegion.left;
+		const int iHeight = m_rcRegion.bottom-m_rcRegion.top;
 
 		int iRight, iTop;
 		iRight = 1024; iTop = 0;

@@ -32,7 +32,7 @@ void CN3Moon::Init(const std::string& szTexFN)
 	m_fMoonRatio = 0.2f;
 	const float fZ = 0.9f;
 	const float fRHW = 1.0f;
-	D3DCOLOR color = 0xffffffff;
+	const D3DCOLOR color = 0xffffffff;
 	m_pVertices[0].Set( 0, 0, fZ, fRHW, color, 0.0f, 0.0f);
 	m_pVertices[1].Set( 0, 0, fZ, fRHW, color, 1.0f, 0.0f);
 	m_pVertices[2].Set( 0, 0, fZ, fRHW, color, 1.0f, 1.0f);
@@ -54,11 +54,11 @@ void CN3Moon::Render(__Matrix44& matView, __Matrix44& matProj)
 	D3DXVECTOR4	 vOut;
 	D3DXVec3Transform(&vOut, (D3DXVECTOR3*)(&vMoon), &matFinal);
 
-	int Width = s_CameraData.vp.Width;
-	int Height = s_CameraData.vp.Height;
-	int X = s_CameraData.vp.X;
-	int Y = s_CameraData.vp.Y;
-	float fRHW = 1.0f/vOut.w;
+	const int Width = s_CameraData.vp.Width;
+	const int Height = s_CameraData.vp.Height;
+	const int X = s_CameraData.vp.X;
+	const int Y = s_CameraData.vp.Y;
+	const float fRHW = 1.0f/vOut.w;
 	vMoon.z = vOut.z*fRHW;
 	if (vMoon.z < 0.0f || vMoon.z > 1.0f) return;		// 화면 뒤에 그려진다.
 	// Mapping Screen Coordinate.
@@ -66,7 +66,7 @@ void CN3Moon::Render(__Matrix44& matView, __Matrix44& matProj)
 	vMoon.y = Y + int((-vOut.y*fRHW + 1.0f)*Height*0.5f);
 	
 	RECT rcMoon;
-	int iMoonSize = (Width * m_fMoonRatio) / 2;
+	const int iMoonSize = (Width * m_fMoonRatio) / 2;
 	SetRect(&rcMoon, vMoon.x-iMoonSize, vMoon.y-iMoonSize, vMoon.x+iMoonSize, vMoon.y+iMoonSize);
 	// clipping with screen.
 	if ( rcMoon.right < X|| rcMoon.bottom < Y || rcMoon.left > X+Width || rcMoon.top > Y+Height) return;	// 화면 밖에 그려진다.
@@ -92,8 +92,8 @@ void CN3Moon::SetMoonPhase(int iIndex)
 	iIndex %= 24;
 	m_iMoonPhaseIndex = iIndex;
 
-	int row = iIndex/6;
-	int col = iIndex%6;
+	const int row = iIndex/6;
+	const int col = iIndex%6;
 	static const float fOffsetX = 1.0f/6.0f;
 	static const float fOffsetY = 1.0f/4.0f;
 	m_pVertices[0].tu = fOffsetX*col;		m_pVertices[0].tv = fOffsetY*(row);

@@ -37,7 +37,7 @@ bool CN3UIScrollBar::Load(HANDLE hFile)
 		}
 		else if (UI_TYPE_BUTTON == pChild->UIType())
 		{
-			int iBtnType = pChild->GetReserved();
+			const int iBtnType = pChild->GetReserved();
 			if (iBtnType<0 || iBtnType >= NUM_BTN_TYPE) continue;
 			m_pBtnRef[iBtnType] = (CN3UIButton*)pChild;
 		}

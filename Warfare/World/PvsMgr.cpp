@@ -31,7 +31,7 @@ void CPvsMgr::DeleteAllPvsObj()
 
 	while (it != m_pPvsList.end())	
 	{
-		CPortalVolume* pvs = *it;
+		const CPortalVolume* pvs = *it;
 		if (pvs) delete pvs;
 		it++;
 	}	

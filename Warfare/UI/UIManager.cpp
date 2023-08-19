@@ -84,7 +84,7 @@ DWORD CUIManager::MouseProc(DWORD dwFlags, const POINT& ptCur, const POINT& ptOl
 
 		if(pChild->m_pChildUI && pChild->m_pChildUI->IsVisible())
 		{
-			DWORD dwRet = pChild->m_pChildUI->MouseProc(dwFlags, ptCur, ptOld);
+			const DWORD dwRet = pChild->m_pChildUI->MouseProc(dwFlags, ptCur, ptOld);
 			if (UI_MOUSEPROC_DONESOMETHING & dwRet)
 			{	// 이경우에는 먼가 포커스를 받은 경우이다.
 				pChild->MouseProc(0, ptCur, ptOld);
@@ -105,7 +105,7 @@ DWORD CUIManager::MouseProc(DWORD dwFlags, const POINT& ptCur, const POINT& ptOl
 			}
 		}
 
-		DWORD dwChildRet = pChild->MouseProc(dwFlags, ptCur, ptOld);
+		const DWORD dwChildRet = pChild->MouseProc(dwFlags, ptCur, ptOld);
 		if (UI_MOUSEPROC_DONESOMETHING & dwChildRet)
 		{	// 이경우에는 먼가 포커스를 받은 경우이다.
 			m_dwMouseFlagsCur |= (UI_MOUSEPROC_DONESOMETHING|UI_MOUSEPROC_CHILDDONESOMETHING);
@@ -135,7 +135,7 @@ DWORD CUIManager::MouseProc(DWORD dwFlags, const POINT& ptCur, const POINT& ptOl
 
 void CUIManager::ReorderChildList()	// 다이알로그 순서 재배치
 {
-	int iChildCount = m_Children.size();
+	const int iChildCount = m_Children.size();
 	if (iChildCount<=0) return;
 	auto** ppBuffer = new CN3UIBase*[iChildCount];
 	int iAlwaysTopChildCount = 0;
@@ -225,7 +225,7 @@ void CUIManager::RenderStateRestore()
 bool CUIManager::BroadcastIconDropMsg(__IconItemSkill* spItem)
 {
 	bool bFound = false;
-	POINT ptCur = CGameProcedure::s_pLocalInput->MouseGetPos();
+	const POINT ptCur = CGameProcedure::s_pLocalInput->MouseGetPos();
 
 	// 윈도우들을 돌아 다니면서 검사..
 	for(auto itor = m_Children.begin(); m_Children.end() != itor; ++itor)

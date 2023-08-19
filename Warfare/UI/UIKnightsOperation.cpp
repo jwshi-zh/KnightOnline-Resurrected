@@ -135,7 +135,7 @@ bool CUIKnightsOperation::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 
 void CUIKnightsOperation::KnightsInfoDelete(int iID)
 {
-	auto it = m_KnightsMapBase.find(iID);
+	const auto it = m_KnightsMapBase.find(iID);
 	if(it != m_KnightsMapBase.end()) m_KnightsMapBase.erase(it);
 }
 
@@ -150,7 +150,7 @@ void CUIKnightsOperation::KnightsInfoInsert(int iID, const std::string& szName)
 
 __KnightsInfoBase* CUIKnightsOperation::KnightsInfoFind(int iID)
 {
-	auto it = m_KnightsMapBase.find(iID);
+	const auto it = m_KnightsMapBase.find(iID);
 	if(it != m_KnightsMapBase.end()) return &(it->second);
 	return nullptr;
 }
@@ -181,7 +181,7 @@ void CUIKnightsOperation::KnightsListUpdate()
 	auto it = m_KnightsListExt.begin(), itEnd = m_KnightsListExt.end();
 	for(; it != itEnd; it++)
 	{
-		auto* pKIE = (__KnightsInfoExt*)(&(*it));
+		const auto* pKIE = (__KnightsInfoExt*)(&(*it));
 		std::string szName = pKIE->szName;
 		std::string szChiefName = pKIE->szChiefName;
 
@@ -232,7 +232,7 @@ void CUIKnightsOperation::Close()
 bool CUIKnightsOperation::MsgRecv_KnightsList(DataPack* pDataPack, int& iOffset)
 {
 	m_iPageCur = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
-	int iKC = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
+	const int iKC = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
 	int iID, iNameLength, iMemberCount, iPoint;
 	std::string szName, szChiefName;
 	for(int i = 0; i < iKC; i++)
@@ -257,7 +257,7 @@ void CUIKnightsOperation::MsgSend_KnightsCreate()
 {
 	if(nullptr == m_pEdit_KnightsName) return;
 
-	std::string szKnightsName = m_pEdit_KnightsName->GetString();
+	const std::string szKnightsName = m_pEdit_KnightsName->GetString();
 	if(szKnightsName.empty()) // 이름이 없으면 에러..
 	{
 		std::string szMsg; ::_LoadStringFromResource(IDS_ERR_KNIGHTS_CREATE_FAILED_NAME_EMPTY, szMsg);
@@ -290,12 +290,12 @@ void CUIKnightsOperation::MsgSend_KnightsDestroy()
 void CUIKnightsOperation::MsgSend_KnightsJoin()
 {
 	if(nullptr == m_pList_Knights) return;
-	int iCurSel = m_pList_Knights->GetCurSel();
+	const int iCurSel = m_pList_Knights->GetCurSel();
 	if(iCurSel < 0 && iCurSel >= m_KnightsListExt.size()) return;
 
 	auto it = m_KnightsListExt.begin();
 	for(int i = 0; i < iCurSel; i++, it++);
-	__KnightsInfoExt KIE = (*it);
+	const __KnightsInfoExt KIE = (*it);
 
 	int iOffset = 0;
 	BYTE byBuff[32];

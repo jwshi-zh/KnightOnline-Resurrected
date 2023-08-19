@@ -25,8 +25,8 @@ public:
 	{
 		if(KEY_VECTOR3 != m_eType) return false;
 		if(m_nCount <= 0) return false;
-		
-		float fD = 30.0f / m_fSamplingRate;
+
+		const float fD = 30.0f / m_fSamplingRate;
 		
 		int nIndex = (int)(fFrm * (m_fSamplingRate / 30.0f));
 		if(nIndex < 0 || nIndex > m_nCount) return false;
@@ -44,7 +44,7 @@ public:
 		if(KEY_QUATERNION != m_eType) return false;
 		if(m_nCount <= 0) return false;
 
-		float fD = 30.0f / m_fSamplingRate;
+		const float fD = 30.0f / m_fSamplingRate;
 
 		int nIndex = (int)(fFrm * (m_fSamplingRate / 30.0f));
 		if(nIndex < 0 || nIndex > m_nCount) return false;

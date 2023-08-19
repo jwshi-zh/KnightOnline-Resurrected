@@ -42,8 +42,8 @@ void CUINPCChangeEvent::Release()
 
 bool CUINPCChangeEvent::Load(HANDLE hFile)
 {
-	int iW = CN3Base::s_CameraData.vp.Width;
-	int iH = CN3Base::s_CameraData.vp.Height;
+	const int iW = CN3Base::s_CameraData.vp.Width;
+	const int iH = CN3Base::s_CameraData.vp.Height;
 
 	if(CN3UIBase::Load(hFile)==false) return false;
 
@@ -53,8 +53,8 @@ bool CUINPCChangeEvent::Load(HANDLE hFile)
 	m_pBtn_Close		= (CN3UIButton*)GetChildByID("Btn_close");		__ASSERT(m_pBtn_Close,	"NULL UI Component!!");
 
 	// UIPointInitDlg.. ^^
-	e_Nation eNation = CGameProcedure::s_pPlayer->m_InfoBase.eNation; // 국가....
-	__TABLE_UI_RESRC* pTbl = CGameProcedure::s_pTbl_UI->Find(eNation);
+	const e_Nation eNation = CGameProcedure::s_pPlayer->m_InfoBase.eNation; // 국가....
+	const __TABLE_UI_RESRC* pTbl = CGameProcedure::s_pTbl_UI->Find(eNation);
 
 	m_pDlg = new CUIPointInitDlg();
 	m_pDlg->LoadFromFile(pTbl->szChangeInitBill);
@@ -83,7 +83,7 @@ bool CUINPCChangeEvent::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 
 		else if(pSender == m_pBtn_Repoint0 && !CN3UIWndBase::m_sRecoveryJobInfo.m_bWaitFromServer)
 		{
-			CUIInventory* pInv = ((CGameProcMain* )CGameProcedure::s_pProcMain)->m_pUIInventory;
+			const CUIInventory* pInv = ((CGameProcMain* )CGameProcedure::s_pProcMain)->m_pUIInventory;
 			if (!pInv)
 			{
 				Close();

@@ -103,7 +103,7 @@ bool CN3EffectWave2::Load(HANDLE hFile)
 		WORD* indexPtr = ptmpPondMesh->m_wpIndex;	//	삼각형을 부를 위치 설정
 		iWidth--;
 
-		__VertexPond* ptVtx = ptmpPondMesh->m_pVertices;
+		const __VertexPond* ptVtx = ptmpPondMesh->m_pVertices;
 		float StX,EnX,StZ,EnZ;
 		StX = ptVtx[0].x,EnX = ptVtx[iWidth].x;
 		StZ = ptVtx[0].z,EnZ = ptVtx[iHeight].z;
@@ -203,8 +203,8 @@ void CN3EffectWave2::Tick()
 		static float ftemp = 0.0f;
 		frame = (30.0f / CN3Base::s_fFrmPerSec)*1.2f;
 		ftemp   += frame;
-		int i    = (int)ftemp;
-		float j  = ftemp - (float)i;
+		const int i    = (int)ftemp;
+		const float j  = ftemp - (float)i;
 
 		for(auto k = 0; k < i; k++ )
 		{

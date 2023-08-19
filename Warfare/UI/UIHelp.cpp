@@ -52,7 +52,7 @@ bool CUIHelp::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 			}
 		}
 
-		int iPagePrev = iPage;
+		const int iPagePrev = iPage;
 		
 		if(pSender == m_pBtn_Prev)
 		{

@@ -86,7 +86,7 @@ bool CN3PMeshInstance::Create(CN3PMesh* pN3PMesh)
 
 	// And setup my instance-specific data.
 	// We start with the lowest level of detail.
-	int iMaxNumIndices = m_pPMesh->GetMaxNumIndices();
+	const int iMaxNumIndices = m_pPMesh->GetMaxNumIndices();
 	if (iMaxNumIndices>0)
 	{
 #ifdef _USE_VERTEXBUFFER
@@ -194,8 +194,8 @@ void CN3PMeshInstance::SetLOD(float value)
 			if (value < m_pPMesh->m_pLODCtrlValues[i].fDist)
 			{
 				CN3PMesh::__LODCtrlValue* pHiValue = m_pPMesh->m_pLODCtrlValues + i;
-				CN3PMesh::__LODCtrlValue* pLowValue = pHiValue - 1;
-				float fVertices = (pHiValue->iNumVertices - pLowValue->iNumVertices)*
+				const CN3PMesh::__LODCtrlValue* pLowValue = pHiValue - 1;
+				const float fVertices = (pHiValue->iNumVertices - pLowValue->iNumVertices)*
 									(value - pLowValue->fDist)/(pHiValue->fDist - pLowValue->fDist);
 				SetLODByNumVertices(pLowValue->iNumVertices + (int)fVertices);
 				break;
@@ -458,15 +458,15 @@ void CN3PMeshInstance::PartialRender(int iCount, WORD* pIndices)
 
 	if(iCount > 3)
 	{
-		int iPC = iCount / 3;
-		int iLC = iPC / iPCToRender;
+		const int iPC = iCount / 3;
+		const int iLC = iPC / iPCToRender;
 		int i;
 		for (i=0; i<iLC; ++i)
 		{
 			s_lpD3DDev->DrawIndexedPrimitiveUP(D3DPT_TRIANGLELIST, 0, m_iNumVertices, iPCToRender, pIndices+i*iPCToRender*3, D3DFMT_INDEX16, m_pPMesh->m_pVertices, sizeof(__VertexT1));
 		}
 
-		int iRPC = iPC%iPCToRender;
+		const int iRPC = iPC%iPCToRender;
 		if(iRPC > 0) s_lpD3DDev->DrawIndexedPrimitiveUP(D3DPT_TRIANGLELIST, 0, m_iNumVertices, iRPC, pIndices+i*iPCToRender*3, D3DFMT_INDEX16, m_pPMesh->m_pVertices, sizeof(__VertexT1));
 	}
 }

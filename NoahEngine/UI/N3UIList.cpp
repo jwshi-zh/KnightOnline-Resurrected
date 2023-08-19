@@ -120,7 +120,7 @@ bool CN3UIList::InsertString(int iIndex, const std::string& szString)
 	pString->SetString(szString);
 
 	auto it = m_ListString.begin();
-	for(int i = 0; i < iIndex; it++);
+	for(const int i = 0; i < iIndex; it++);
 
 	m_ListString.insert(it, pString);
 	return true;
@@ -133,16 +133,16 @@ bool CN3UIList::DeleteString(int iIndex)
 	if(iIndex < 0 || iIndex >= m_ListString.size()) return false;
 
 	auto it = m_ListString.begin();
-	for(int i = 0; i < iIndex; it++);
+	for(const int i = 0; i < iIndex; it++);
 	
 	delete (*it);
 	m_ListString.erase(it);
 
-	int iSC = m_ListString.size();
+	const int iSC = m_ListString.size();
 
 	if(m_pScrollBarRef)
 	{
-		int iScrollPos = m_pScrollBarRef->GetCurrentPos();
+		const int iScrollPos = m_pScrollBarRef->GetCurrentPos();
 		if(iScrollPos >= iSC)
 		{
 			m_pScrollBarRef->SetCurrentPos(iSC - 1);
@@ -186,14 +186,14 @@ bool CN3UIList::SetString(int iIndex, const std::string& szString)
 void CN3UIList::UpdateChildRegions()
 {
 	RECT rc = this->GetRegion();
-	RECT rcThis = rc;
+	const RECT rcThis = rc;
 	POINT pt;
 	SIZE size;
-	int iScrollPos = 0;
+	const int iScrollPos = 0;
 	if(m_pScrollBarRef)
 	{
 		m_pScrollBarRef->GetCurrentPos();
-		RECT rcTmp = m_pScrollBarRef->GetRegion();
+		const RECT rcTmp = m_pScrollBarRef->GetRegion();
 		rc.right = rcTmp.left;
 	}
 
@@ -252,7 +252,7 @@ bool CN3UIList::SetScrollPos(int iScrollPos)
 
 bool CN3UIList::Load(HANDLE hFile)
 {
-	bool bSuccess = CN3UIBase::Load(hFile);
+	const bool bSuccess = CN3UIBase::Load(hFile);
 
 	// font 정보
 	DWORD dwNum;
@@ -344,7 +344,7 @@ DWORD CN3UIList::MouseProc(DWORD dwFlags, const POINT& ptCur, const POINT& ptOld
 		auto it = m_ListString.begin(), itEnd = m_ListString.end();
 		for(int i = 0; it != itEnd; it++, i++)
 		{
-			CN3UIString* pStr = (*it);
+			const CN3UIString* pStr = (*it);
 			if(false == pStr->IsVisible()) continue;
 
 			pStr->GetTextExtent("1", 1, &size);
@@ -384,10 +384,10 @@ void CN3UIList::Render()
 	{
 		auto it = m_ListString.begin();
 		for(int i = 0; i < m_iCurSel; it++, i++);
-		CN3UIString* pStr = *it;
+		const CN3UIString* pStr = *it;
 		if(pStr)
 		{
-			RECT rc = pStr->GetRegion(); // 선택 표시
+			const RECT rc = pStr->GetRegion(); // 선택 표시
 		
 			__VertexTransformedColor vLines[5];
 			vLines[0].Set(rc.left, rc.top, UI_DEFAULT_Z, UI_DEFAULT_RHW, 0xff00ff00);
@@ -454,8 +454,7 @@ void CN3UIList::ResetContent()
 	auto it = m_ListString.begin(), itEnd = m_ListString.end();
 	for(; it != itEnd; it++)
 	{
-		
-		CN3UIString* pString = *it;
+		const CN3UIString* pString = *it;
 		delete pString;		
 	}
 	m_ListString.clear();

@@ -16,7 +16,7 @@ CN3Board::CN3Board()
 
 CN3Board::~CN3Board()
 {
-	int iTC = m_TexRefs.size();
+	const int iTC = m_TexRefs.size();
 	if(iTC > 0)
 	{
 		for(int i = 0; i < iTC; i++) this->s_MngTex.Delete(&m_TexRefs[i]);
@@ -32,7 +32,7 @@ void CN3Board::Release()
 	m_fTexIndex = 0.0f;
 	m_dwBoardType = BOARD_XYZ;
 
-	int iTC = m_TexRefs.size();
+	const int iTC = m_TexRefs.size();
 	if(iTC > 0)
 	{
 		for(int i = 0; i < iTC; i++) this->s_MngTex.Delete(&m_TexRefs[i]);
@@ -47,7 +47,7 @@ void CN3Board::Tick(float fFrm)
 	// 회전 시킨다..
 	if(m_dwBoardType == BOARD_Y)
 	{
-		__Vector3 vDir = s_CameraData.vEye - m_vPos;
+		const __Vector3 vDir = s_CameraData.vEye - m_vPos;
 		if( vDir.x > 0.0f ) m_Matrix.RotationY(-atanf(vDir.z/vDir.x) - (D3DX_PI * 0.5f));
 		else m_Matrix.RotationY(-atanf(vDir.z/vDir.x) + (D3DX_PI * 0.5f));
 		m_Matrix.PosSet(m_vPos);
@@ -59,7 +59,7 @@ void CN3Board::Tick(float fFrm)
 	}
 	
 	// Texture Animation...
-	int iTC = m_TexRefs.size();
+	const int iTC = m_TexRefs.size();
 	if(iTC > 1)
 	{
 		m_fTexIndex += CN3Base::s_fSecPerFrm * m_fTexFPS;
@@ -70,7 +70,7 @@ void CN3Board::Tick(float fFrm)
 void CN3Board::Render() const
 {
 	LPDIRECT3DTEXTURE9 lpTex = nullptr;
-	int iTC = m_TexRefs.size();
+	const int iTC = m_TexRefs.size();
 	if(iTC > 0 && m_fTexIndex < iTC) lpTex = m_TexRefs[(int)m_fTexIndex]->Get();
 
 	s_lpD3DDev->SetTransform(D3DTS_WORLD, &m_Matrix);
@@ -113,7 +113,7 @@ void CN3Board::Init(__Vector3 vPos, DWORD dwBoardType, float fW, float fH)
 	m_vPos = vPos;
 	m_dwBoardType = dwBoardType;
 
-	__Vector3 vNormal(0.0f, 0.0f, -1.0f);
+	const __Vector3 vNormal(0.0f, 0.0f, -1.0f);
 	m_vRects[0].Set(-fW/2.0f, fH, 0, vNormal.x, vNormal.y, vNormal.z, 0.0f, 0.0f);
 	m_vRects[1].Set( fW/2.0f, fH, 0, vNormal.x, vNormal.y, vNormal.z, 1.0f, 0.0f);
 	m_vRects[2].Set( fW/2.0f,  0, 0, vNormal.x, vNormal.y, vNormal.z, 1.0f, 1.0f);
@@ -136,7 +136,7 @@ void CN3Board::TexAlloc(int nCount)
 {
 	if(nCount <= 0) return;
 
-	int iTC = m_TexRefs.size();
+	const int iTC = m_TexRefs.size();
 	if(iTC > 0)
 	{
 		for(int i = 0; i < iTC; i++) s_MngTex.Delete(&m_TexRefs[i]);

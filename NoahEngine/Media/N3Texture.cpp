@@ -18,7 +18,7 @@ CN3Texture::~CN3Texture()
 {
 	if(m_lpTexture)
 	{
-		int nRefCount = m_lpTexture->Release();
+		const int nRefCount = m_lpTexture->Release();
 		if(nRefCount == 0) m_lpTexture = nullptr;
 	}
 }
@@ -80,7 +80,7 @@ bool CN3Texture::Create(int nWidth, int nHeight, D3DFORMAT Format, BOOL bGenerat
 		for(int nW = nWidth, nH = nHeight; nW >=4 && nH >= 4; nW /=2, nH /= 2) nMMC++;
 	}
 
-	HRESULT rval = s_lpD3DDev->CreateTexture(nWidth, nHeight, nMMC, 0, Format, D3DPOOL_MANAGED, &m_lpTexture, nullptr);
+	const HRESULT rval = s_lpD3DDev->CreateTexture(nWidth, nHeight, nMMC, 0, Format, D3DPOOL_MANAGED, &m_lpTexture, nullptr);
 
 #ifdef _N3GAME
 	if(rval == D3DERR_INVALIDCALL)
@@ -156,7 +156,7 @@ bool CN3Texture::LoadFromFile(const std::string& szFileName)
 		szFullPath += m_szFileName;
 	}
 
-	int nFNL = szFullPath.size();
+	const int nFNL = szFullPath.size();
 	if(lstrcmpi(&szFullPath[nFNL-3], "DXT") == 0)
 	{
 		HANDLE hFile = ::CreateFile(szFullPath.c_str(), GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
@@ -173,20 +173,20 @@ bool CN3Texture::LoadFromFile(const std::string& szFileName)
 	else
 	{
 		D3DXIMAGE_INFO ImgInfo;
-		HRESULT rval = D3DXCreateTextureFromFileEx(	s_lpD3DDev, 
-													szFullPath.c_str(),
-													D3DX_DEFAULT, 
-													D3DX_DEFAULT, 
-													D3DX_DEFAULT, 
-													0,
-													D3DFMT_UNKNOWN,
-													D3DPOOL_MANAGED,
-													D3DX_FILTER_TRIANGLE|D3DX_FILTER_MIRROR,
-													D3DX_FILTER_TRIANGLE|D3DX_FILTER_MIRROR,
-													0,
-													&ImgInfo,
-													nullptr,
-													&m_lpTexture );
+		const HRESULT rval = D3DXCreateTextureFromFileEx(	s_lpD3DDev, 
+			                                                 szFullPath.c_str(),
+			                                                 D3DX_DEFAULT, 
+			                                                 D3DX_DEFAULT, 
+			                                                 D3DX_DEFAULT, 
+			                                                 0,
+			                                                 D3DFMT_UNKNOWN,
+			                                                 D3DPOOL_MANAGED,
+			                                                 D3DX_FILTER_TRIANGLE|D3DX_FILTER_MIRROR,
+			                                                 D3DX_FILTER_TRIANGLE|D3DX_FILTER_MIRROR,
+			                                                 0,
+			                                                 &ImgInfo,
+			                                                 nullptr,
+			                                                 &m_lpTexture );
 		if(rval == D3D_OK)
 		{
 			D3DSURFACE_DESC sd;

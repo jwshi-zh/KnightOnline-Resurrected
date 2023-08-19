@@ -48,7 +48,7 @@ CUIChat::~CUIChat()
 //		for(itor = m_ChatBuffers[i].begin(); m_ChatBuffers[i].end() != itor; ++itor)
 		for(auto itor = m_ChatBuffer.begin(); m_ChatBuffer.end() != itor; ++itor)
 		{
-			__ChatInfo* pChatInfo = (*itor);
+			const __ChatInfo* pChatInfo = (*itor);
 			if (pChatInfo) delete pChatInfo;
 		}
 //		m_ChatBuffers[i].clear();
@@ -57,7 +57,7 @@ CUIChat::~CUIChat()
 //		for(itor = m_LineBuffers[i].begin(); m_LineBuffers[i].end() != itor; ++itor)
 		for(auto itor = m_LineBuffer.begin(); m_LineBuffer.end() != itor; ++itor)
 		{
-			__ChatInfo* pChatInfo = (*itor);
+			const __ChatInfo* pChatInfo = (*itor);
 			if (pChatInfo) delete pChatInfo;
 		}
 //		m_LineBuffers[i].clear();
@@ -84,7 +84,7 @@ void CUIChat::Release()
 //		for(itor = m_ChatBuffers[i].begin(); m_ChatBuffers[i].end() != itor; ++itor)
 		for(auto itor = m_ChatBuffer.begin(); m_ChatBuffer.end() != itor; ++itor)
 		{
-			__ChatInfo* pChatInfo = (*itor);
+			const __ChatInfo* pChatInfo = (*itor);
 			if (pChatInfo) delete pChatInfo;
 		}
 //		m_ChatBuffers[i].clear();
@@ -93,7 +93,7 @@ void CUIChat::Release()
 //		for(itor = m_LineBuffers[i].begin(); m_LineBuffers[i].end() != itor; ++itor)
 		for(auto itor = m_LineBuffer.begin(); m_LineBuffer.end() != itor; ++itor)
 		{
-			__ChatInfo* pChatInfo = (*itor);
+			const __ChatInfo* pChatInfo = (*itor);
 			if (pChatInfo) delete pChatInfo;
 		}
 //		m_LineBuffers[i].clear();
@@ -134,7 +134,7 @@ bool CUIChat::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 	else if (dwMsg == UIMSG_SCROLLBAR_POS)
 	{
 		// 스크롤바에 맞는 채팅 Line 설정
-		int iCurLinePos = m_pScrollbar->GetCurrentPos();
+		const int iCurLinePos = m_pScrollbar->GetCurrentPos();
 		SetTopLine(iCurLinePos);
 	}
 	
@@ -147,7 +147,7 @@ bool CUIChat::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 
 		// buffer에 카피해둠.
 		m_szString = m_pEdit->GetString();
-		int iStrLen = m_szString.size();
+		const int iStrLen = m_szString.size();
 		if (iStrLen > 0)
 		{
 			if(iStrLen > 1 && '/' == m_szString[0])
@@ -156,10 +156,10 @@ bool CUIChat::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 			}
 			else if(iStrLen > 1 && '@' == m_szString[0])
 			{
-				int iTmp = m_szString.find(' ');
+				const int iTmp = m_szString.find(' ');
 				if(iTmp > 0)
 				{
-					std::string szID = m_szString.substr(1, iTmp-1);
+					const std::string szID = m_szString.substr(1, iTmp-1);
 					CGameProcedure::s_pProcMain->MsgSend_ChatSelectTarget(szID);
 					CGameProcedure::s_pProcMain->MsgSend_Chat(N3_CHAT_PRIVATE, &(m_szString[1]));
 				}
@@ -211,8 +211,8 @@ void CUIChat::CreateLines()
 	}
 	else return;
 	const std::string& szFontName = m_pChatOut->GetFontName();
-	DWORD dwFontHeight = m_pChatOut->GetFontHeight();
-	DWORD dwFontFlag = m_pChatOut->GetFontFlags();
+	const DWORD dwFontHeight = m_pChatOut->GetFontHeight();
+	const DWORD dwFontFlag = m_pChatOut->GetFontFlags();
 
 	if (m_iChatLineCount<=0 || szFontName.empty()) return;
 
@@ -315,7 +315,7 @@ void CUIChat::AddChatMsg(e_ChatMode eCM, const std::string& szString, D3DCOLOR c
 		if (m_ChatBuffer.size() > 255)	// 255개가 넘으면 앞에서부터 지우기
 		{
 //			__ChatInfo* pTemp = m_ChatBuffers[CHAT_BUFFER_NORMAL].front();
-			__ChatInfo* pTemp = m_ChatBuffer.front();
+const __ChatInfo* pTemp = m_ChatBuffer.front();
 			if (pTemp) delete pTemp;
 
 //			m_ChatBuffers[CHAT_BUFFER_NORMAL].pop_front();
@@ -344,14 +344,14 @@ void CUIChat::AdjustScroll()
 {
 	// Line buffer 갯수 조절
 	int iCurLinePos = m_pScrollbar->GetCurrentPos();	// 현재 scroll bar가 가리키고 있는 line
-	BOOL bAutoScroll = (m_pScrollbar->GetMaxPos() == iCurLinePos) ? TRUE : FALSE;
+	const BOOL bAutoScroll = (m_pScrollbar->GetMaxPos() == iCurLinePos) ? TRUE : FALSE;
 
 //	while (m_LineBuffers[m_eChatBuffer].size() > MAX_CHAT_LINES && 0 < iCurLinePos)	// MAX_CHAT_LINES은 최대 line의 수 (단 스크롤바가 0인 곳에 있으면 line을 지우지 않으므로 500개를 넘길 수 있다)
 	while (m_LineBuffer.size() > MAX_CHAT_LINES && 0 < iCurLinePos)	// MAX_CHAT_LINES은 최대 line의 수 (단 스크롤바가 0인 곳에 있으면 line을 지우지 않으므로 500개를 넘길 수 있다)
 	{
 		// 한줄 지우기
 //		__ChatInfo* pTemp = m_LineBuffers[m_eChatBuffer].front();
-		__ChatInfo* pTemp = m_LineBuffer.front();
+		const __ChatInfo* pTemp = m_LineBuffer.front();
 		if (pTemp) delete pTemp;
 //		m_LineBuffers[m_eChatBuffer].pop_front();
 		m_LineBuffer.pop_front();
@@ -359,7 +359,7 @@ void CUIChat::AdjustScroll()
 	}
 
 //	int iLineBufferSize = m_LineBuffers[m_eChatBuffer].size();
-	int iLineBufferSize = m_LineBuffer.size();
+	const int iLineBufferSize = m_LineBuffer.size();
 	int iMaxScrollPos = iLineBufferSize-m_iChatLineCount;
 	if (iMaxScrollPos<0) iMaxScrollPos = 0;
 	m_pScrollbar->SetRange(0, iMaxScrollPos);	// scroll bar range 설정
@@ -405,7 +405,7 @@ void CUIChat::AddLineBuffer(const std::string& szString, D3DCOLOR color)
 			pLineInfo->color = color;
 			if ((iCount - iLineStart)>0)
 			{
-				int iLineLength = iCount - iLineStart + 1;
+				const int iLineLength = iCount - iLineStart + 1;
 				std::string szLine;
 				pLineInfo->szChat = szString.substr(iLineStart, iLineLength);
 			}	// 연속된 \n일 경우 pszLine = NULL이 될 수 있다.
@@ -420,13 +420,13 @@ void CUIChat::AddLineBuffer(const std::string& szString, D3DCOLOR color)
 			if (0x80 & szString[iCount])	iCC = 2;	// 2BYTE 문자
 			else							iCC = 1;	// 1BYTE 문자
 
-			BOOL bFlag = m_pChatOut->GetTextExtent(&(szString[iCount]), iCC, &size);
+			const BOOL bFlag = m_pChatOut->GetTextExtent(&(szString[iCount]), iCC, &size);
 			__ASSERT(bFlag, "cannot get size of dfont");
 			if ((iCX+size.cx) > iRegionWidth)	// 가로 길이가 넘었으면
 			{
 				// 한 라인 더 추가하기
-				
-				int iLineLength = iCount - iLineStart;
+
+				const int iLineLength = iCount - iLineStart;
 				if (iLineLength>0)
 				{
 					auto* pLineInfo = new __ChatInfo;
@@ -451,7 +451,7 @@ void CUIChat::AddLineBuffer(const std::string& szString, D3DCOLOR color)
 	}
 
 	// 맨 마지막 출 처리
-	int iLineLength = iStrLen - iLineStart;
+	const int iLineLength = iStrLen - iLineStart;
 	if (iLineLength>0)
 	{
 		auto* pLineInfo = new __ChatInfo;
@@ -488,7 +488,7 @@ void CUIChat::SetTopLine(int iTopLine) const
 
 	__ASSERT(m_ppUILines, "null pointer");
 	// 앞에서부터 맞게 차례로 각각 버퍼에 넣기
-	int iRealLine = i;	// 실제 출력되는 줄 수
+	const int iRealLine = i;	// 실제 출력되는 줄 수
 	int iRealLineCount = 0;
 	for (i=0; i<iRealLine; ++i)
 	{
@@ -514,7 +514,7 @@ void CUIChat::RecalcLineBuffers()	// 채팅창 사이즈가 변했을때 호출�
 //		for(itor = m_LineBuffers[i].begin(); m_LineBuffers[i].end() != itor; ++itor)
 		for(auto itor = m_LineBuffer.begin(); m_LineBuffer.end() != itor; ++itor)
 		{
-			__ChatInfo* pLineBuff = (*itor);
+			const __ChatInfo* pLineBuff = (*itor);
 			if (pLineBuff) delete pLineBuff;
 		}
 //		m_LineBuffers[i].clear();
@@ -524,7 +524,7 @@ void CUIChat::RecalcLineBuffers()	// 채팅창 사이즈가 변했을때 호출�
 //		for(itor = m_ChatBuffers[i].begin(); m_ChatBuffers[i].end() != itor; ++itor)
 		for(auto itor = m_ChatBuffer.begin(); m_ChatBuffer.end() != itor; ++itor)
 		{
-			__ChatInfo* pChatBuff = (*itor);
+			const __ChatInfo* pChatBuff = (*itor);
 //			if (pChatBuff) AddLineBuffer((e_ChatBuffer)i, pChatBuff->szChat, pChatBuff->color);
 			if (pChatBuff) AddLineBuffer(pChatBuff->szChat, pChatBuff->color);
 		}
@@ -535,7 +535,7 @@ void CUIChat::RecalcLineBuffers()	// 채팅창 사이즈가 변했을때 호출�
 		{
 			// 한줄 지우기
 //			__ChatInfo* pLineBuff = m_LineBuffers[i].front();
-			__ChatInfo* pLineBuff = m_LineBuffer.front();
+			const __ChatInfo* pLineBuff = m_LineBuffer.front();
 			if (pLineBuff) delete pLineBuff;
 //			m_LineBuffers[i].pop_front();
 			m_LineBuffer.pop_front();
@@ -544,7 +544,7 @@ void CUIChat::RecalcLineBuffers()	// 채팅창 사이즈가 변했을때 호출�
 //		if(i == m_eChatBuffer)
 //		{
 //			int iLineBufferSize = m_LineBuffers[i].size();
-			int iLineBufferSize = m_LineBuffer.size();
+	const int iLineBufferSize = m_LineBuffer.size();
 			iMaxScrollPos = iLineBufferSize-m_iChatLineCount;
 //		}
 //	}
@@ -618,8 +618,8 @@ BOOL CUIChat::MoveOffset(int iOffsetX, int iOffsetY)
 
 	if(CGameProcedure::s_pProcMain->m_pUIMsgDlg)
 	{
-		POINT pt = CGameProcedure::s_pProcMain->m_pUIMsgDlg->GetPos();
-		RECT rt = this->GetRegion();
+		const POINT pt = CGameProcedure::s_pProcMain->m_pUIMsgDlg->GetPos();
+		const RECT rt = this->GetRegion();
 		if( (rt.right != pt.x) || (rt.top != pt.y) )
 		{
 			CGameProcedure::s_pProcMain->m_pUIMsgDlg->SetPos(rt.right, rt.top);
@@ -644,7 +644,7 @@ void CUIChat::ChangeChattingMode(e_ChatMode eCM)
 //	e_ChatBuffer eCBPrev = m_eChatBuffer;
 
 	bool bNBDs[5] = { false, false, false, false, false };
-	bool bICLs[5] = { m_bChatNormal, m_bChatPrivate, m_bChatParty, m_bChatClan, m_bChatShout };
+	const bool bICLs[5] = { m_bChatNormal, m_bChatPrivate, m_bChatParty, m_bChatClan, m_bChatShout };
 	CN3UIBase* pBtns[5] = { m_pBtn_Normal, m_pBtn_Private, m_pBtn_PartyOrForce, m_pBtn_KnightsOrGuild, m_pBtn_Shout };
 
 	switch(m_eChatMode)
@@ -747,7 +747,7 @@ void CUIChat::DeleteContinueMsg()
 
 	for(auto itor = m_ContinueMsg.begin(); m_ContinueMsg.end() != itor; ++itor)
 	{
-		__ChatInfo* pChatInfo = (*itor);
+		const __ChatInfo* pChatInfo = (*itor);
 		if (pChatInfo) delete pChatInfo;
 	}
 	m_ContinueMsg.clear();
@@ -755,17 +755,17 @@ void CUIChat::DeleteContinueMsg()
 
 void CUIChat::ShowContinueMsg()
 {
-	int iSize = m_ContinueMsg.size();
+	const int iSize = m_ContinueMsg.size();
 	if( m_iCurContinueMsg > iSize )
 		m_iCurContinueMsg = 0;
 
-	int iCnt = 0;
+	const int iCnt = 0;
 	for(auto itor = m_ContinueMsg.begin(); m_ContinueMsg.end() != itor; ++itor)
 	{
 		if( iCnt == m_iCurContinueMsg )
 		{
 			m_iCurContinueMsg++;
-			__ChatInfo* pChatInfo = (*itor);
+			const __ChatInfo* pChatInfo = (*itor);
 			if(pChatInfo) AddChatMsg(N3_CHAT_CONTINUE, pChatInfo->szChat, pChatInfo->color);	
 		}
 	}

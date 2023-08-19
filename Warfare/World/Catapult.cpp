@@ -25,7 +25,7 @@ void CCatapult::ReCalcMatrix4AnimatedPart()
 
 	if (m_Thrower.bFire == TRUE)	// 발사 상태이면
 	{
-		int iSize = m_Parts.size();
+		const int iSize = m_Parts.size();
 		for(int i = 0; i < iSize; i++)
 		{
 			if (m_Parts[i] == m_Thrower.pThrowerPart)

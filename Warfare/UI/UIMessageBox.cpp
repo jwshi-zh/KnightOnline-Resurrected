@@ -76,8 +76,8 @@ bool CUIMessageBox::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 		CPlayerMySelf* pPlayer = CGameBase::s_pPlayer;
 		CGameProcMain* pProcMain = CGameProcedure::s_pProcMain;
 		CGameProcLogIn* pProcLogIn = CGameProcedure::s_pProcLogIn;
-		CGameProcCharacterSelect* pProcChrSelect = CGameProcedure::s_pProcCharacterSelect;
-		CN3Shape* pShape = CGameBase::s_pPlayer->m_pObjectTarget;
+		const CGameProcCharacterSelect* pProcChrSelect = CGameProcedure::s_pProcCharacterSelect;
+		const CN3Shape* pShape = CGameBase::s_pPlayer->m_pObjectTarget;
 
 		if (pSender == m_pBtn_OK || pSender == m_pBtn_Yes)
 		{
@@ -104,8 +104,8 @@ bool CUIMessageBox::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 					{
 						if(CGameProcedure::s_pProcActive == pProcMain) // 지금 메인 프로시저이면..
 						{
-							std::string szIP = CGameProcedure::s_pSocket->GetCurrentIP();
-							DWORD dwPort = CGameProcedure::s_pSocket->GetCurrentPort();
+							const std::string szIP = CGameProcedure::s_pSocket->GetCurrentIP();
+							const DWORD dwPort = CGameProcedure::s_pSocket->GetCurrentPort();
 							
 							CGameProcedure::s_bNeedReportConnectionClosed = false; // 서버접속이 끊어진걸 보고해야 하는지..
 							CGameProcedure::s_pSocket->Disconnect();

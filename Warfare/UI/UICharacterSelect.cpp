@@ -43,7 +43,7 @@ bool CUICharacterSelect::Load(HANDLE hFile)
 	// 위치를 화면 해상도에 맞게 바꾸기...
 	POINT pt;
 	RECT rc = this->GetRegion();
-	float fRatio = (float)s_CameraData.vp.Width / (rc.right - rc.left);
+	const float fRatio = (float)s_CameraData.vp.Width / (rc.right - rc.left);
 //	if(pBtnLeft) { pt = pBtnLeft->GetPos(); pt.x *= fRatio; pt.y *= fRatio; pBtnLeft->SetPos(pt.x, pt.y); }
 //	if(pBtnRight) { pt = pBtnRight->GetPos(); pt.x *= fRatio; pt.y *= fRatio; pBtnRight->SetPos(pt.x, pt.y); }
 //	if(pBtnExit) { pt = pBtnExit->GetPos(); pt.x *= fRatio; pt.y *= fRatio; pBtnExit->SetPos(pt.x, pt.y); }
@@ -198,7 +198,7 @@ DWORD CUICharacterSelect::MouseProc(DWORD dwFlags, const POINT &ptCur, const POI
 	for(auto itor = m_Children.begin(); m_Children.end() != itor; ++itor)
 	{
 		CN3UIBase* pChild = (*itor);
-		DWORD dwChildRet = pChild->MouseProc(dwFlags, ptCur, ptOld);
+		const DWORD dwChildRet = pChild->MouseProc(dwFlags, ptCur, ptOld);
 		if (UI_MOUSEPROC_DONESOMETHING & dwChildRet)
 		{	// 이경우에는 먼가 포커스를 받은 경우이다.
 

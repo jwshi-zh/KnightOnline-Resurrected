@@ -31,8 +31,8 @@ bool CUIInn::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 
 		if(pSender->m_szID == "btn_makeclan")	//clan 생성..
 		{
-			__InfoPlayerBase* pInfo = &(CGameProcedure::s_pPlayer->m_InfoBase);
-			__InfoPlayerMySelf* pInfoExt = &(CGameProcedure::s_pPlayer->m_InfoExt);
+			const __InfoPlayerBase* pInfo = &(CGameProcedure::s_pPlayer->m_InfoBase);
+			const __InfoPlayerMySelf* pInfoExt = &(CGameProcedure::s_pPlayer->m_InfoExt);
 
 			if(pInfo->iLevel < CLAN_LEVEL_LIMIT)
 			{

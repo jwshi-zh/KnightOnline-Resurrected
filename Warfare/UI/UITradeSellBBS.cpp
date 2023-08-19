@@ -81,7 +81,7 @@ bool CUITradeSellBBS::Load(HANDLE hFile)
 
 	m_iCurPage = 0; // 현재 페이지..
 
-	__TABLE_UI_RESRC*	pTblUI	= nullptr;
+	const __TABLE_UI_RESRC*	pTblUI	= nullptr;
 	pTblUI = CGameBase::s_pTbl_UI->Find(NATION_ELMORAD);
 
 	m_MsgBox.LoadFromFile(pTblUI->szMessageBox);
@@ -109,7 +109,7 @@ bool CUITradeSellBBS::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 	{
 		if(pSender == m_pBtn_Refresh)
 		{
-			float fTime = CN3Base::TimeGet();
+			const float fTime = CN3Base::TimeGet();
 			if( fTime - m_fTime < 3.0f )
 				return true;//너무 자주 새데이터 요청을 못하게 함 3초에 한번정도로 제약을 둠.
 			m_fTime = fTime;
@@ -179,13 +179,13 @@ void CUITradeSellBBS::MsgRecv_TradeBBS(DataPack *pDataPack, int &iOffset)
 {
 	m_bProcessing	= false;
 
-	BYTE bySubType	= CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
-	BYTE byBBSKind	= CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
-	BYTE byResult	= CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
+	const BYTE bySubType	= CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
+	const BYTE byBBSKind	= CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
+	const BYTE byResult	= CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
 
 	if(byResult != 0x01)
 	{
-		BYTE bySubResult = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
+		const BYTE bySubResult = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
 		if(bySubType == N3_SP_TYPE_BBS_OPEN)
 		{
 			char szBuf[256] = "";
@@ -302,8 +302,8 @@ void CUITradeSellBBS::MsgRecv_RefreshData(DataPack *pDataPack, int &iOffset)
 			m_Datas.push_back(Info);
 	}
 
-	short sPage = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
-	short sTotal = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
+	const short sPage = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
+	const short sTotal = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
 
 	TRACE("TRADE_BBS_PAGE:%d\n",sPage);
 	m_iCurPage = sPage;
@@ -513,7 +513,7 @@ void CUITradeSellBBS::OnButtonWhisper()
 		if( it == m_Datas.end() ) break;
 		if( i == m_iCurIndex )
 		{
-			__InfoTradeSellBBS ITSB = (*it);
+			const __InfoTradeSellBBS ITSB = (*it);
 			if(0 != lstrcmpi(ITSB.szID.c_str(), CGameProcedure::s_pPlayer->m_InfoBase.szID.c_str()))
 			{//나 자신에게는 귓속말을 못하게 한다...
 				CGameProcedure::s_pProcMain->MsgSend_ChatSelectTarget(ITSB.szID);
@@ -577,7 +577,7 @@ void CUITradeSellBBS::RefreshExplanation(bool bPageUp)
 	}
 	else
 	{
-		int iCnt = m_Datas.size();
+		const int iCnt = m_Datas.size();
 		if((m_iCurIndex+1) >= iCnt) return;
 		m_iCurIndex++;
 	}
@@ -589,7 +589,7 @@ void CUITradeSellBBS::RefreshExplanation(bool bPageUp)
 		if( it == m_Datas.end() ) break;
 		if( i == m_iCurIndex )
 		{
-			__InfoTradeSellBBS ITSB = (*it);
+			const __InfoTradeSellBBS ITSB = (*it);
 
 			m_UIExplanation.SetExplanation(m_iCurIndex,ITSB.szExplanation);
 			break;
@@ -608,7 +608,7 @@ void CUITradeSellBBS::OnListExplanation()
 		if( it == m_Datas.end() ) break;
 		if( i == m_iCurIndex )
 		{
-			__InfoTradeSellBBS ITSB = (*it);
+			const __InfoTradeSellBBS ITSB = (*it);
 
 			m_UIExplanation.ShowWindow(CHILD_UI_EXPLANATION, this);
 			m_UIExplanation.SetExplanation(m_iCurIndex,ITSB.szExplanation);

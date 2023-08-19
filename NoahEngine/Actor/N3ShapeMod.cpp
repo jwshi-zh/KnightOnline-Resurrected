@@ -29,7 +29,7 @@ CN3SPart* CN3ShapeMod::GetPartByPMeshFileName(const std::string& szFN) const
 {
 	if(szFN.empty()) return nullptr;
 
-	int iPC = m_Parts.size();
+	const int iPC = m_Parts.size();
 	for(int i = 0; i < iPC; i++)
 	{
 		if (m_Parts[i]->Mesh() && m_Parts[i]->Mesh()->FileName() == szFN) return m_Parts[i];
@@ -39,7 +39,7 @@ CN3SPart* CN3ShapeMod::GetPartByPMeshFileName(const std::string& szFN) const
 
 bool CN3ShapeMod::Load(HANDLE hFile)
 {
-	bool ret = CN3Shape::Load(hFile);
+	const bool ret = CN3Shape::Load(hFile);
 
 	char szPathName[_MAX_PATH];
 	char szDir[_MAX_DIR];
@@ -121,14 +121,14 @@ BOOL CN3ShapeMod::LoadStateInfo(FILE* stream)	// 상태 정보를 읽어온다.(
 
 	// m_pMatchPart2ModPart CN3SPart갯수만큼 생성 및 초기화(매칭시키기)
 	__ASSERT(m_pMatchPart2ModPart == NULL, "Machine에서 메모리 릭 가능성");
-	int iPartCount = PartCount();
+	const int iPartCount = PartCount();
 	if (iPartCount>0) m_pMatchPart2ModPart = new __ModPart*[iPartCount];
 	ZeroMemory(m_pMatchPart2ModPart, sizeof(m_pMatchPart2ModPart[0])*iPartCount);
 	// (매칭시키기)
 	for(auto i =0; i<m_iModPartCount; ++i)
 	{
 		auto it = m_Parts.begin();
-		int iPC = m_Parts.size();
+		const int iPC = m_Parts.size();
 		for(int j = 0; j < iPC; j++)
 		{
 			if (m_Parts[j] == m_pModParts[i].pPart)
@@ -148,12 +148,12 @@ void CN3ShapeMod::ReCalcMatrix()
 	CN3Transform::ReCalcMatrix(); // Transfomr Matrix 를 계산 해주고..
 
 	// 각 파트의 매트릭스를 다시 계산.
-	int iPC = m_Parts.size();
+	const int iPC = m_Parts.size();
 	for(int i = 0; i < iPC; i++)
 	{
 		if (m_pMatchPart2ModPart[i])
 		{
-			__ModPart* pModPart = m_pMatchPart2ModPart[i];
+			const __ModPart* pModPart = m_pMatchPart2ModPart[i];
 			// Scale
 			m_Parts[i]->m_Matrix.Scale(pModPart->CurStateInfo.vScale);
 			// 회전

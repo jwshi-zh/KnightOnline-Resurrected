@@ -58,7 +58,7 @@ void CUIDroppedItemDlg::Init(CN3UIBase* pParent)
 void CUIDroppedItemDlg::Render()
 {
 	if (!m_bVisible) return;	// 보이지 않으면 자식들을 render하지 않는다.
-	POINT ptCur = CGameProcedure::s_pLocalInput->MouseGetPos();
+	const POINT ptCur = CGameProcedure::s_pLocalInput->MouseGetPos();
 	m_pUITooltipDlg->DisplayTooltipsDisable();
 
 	bool bTooltipRender = false;
@@ -120,7 +120,7 @@ void CUIDroppedItemDlg::Render()
 
 void CUIDroppedItemDlg::InitIconWnd(e_UIWND eWnd)
 {
-	__TABLE_UI_RESRC* pTblUI = CGameBase::s_pTbl_UI->Find(CGameBase::s_pPlayer->m_InfoBase.eNation);
+	const __TABLE_UI_RESRC* pTblUI = CGameBase::s_pTbl_UI->Find(CGameBase::s_pPlayer->m_InfoBase.eNation);
 
 	m_pUITooltipDlg = new CUIImageTooltipDlg();
 	m_pUITooltipDlg->Init(this);
@@ -134,7 +134,7 @@ void CUIDroppedItemDlg::InitIconWnd(e_UIWND eWnd)
 void CUIDroppedItemDlg::InitIconUpdate()
 {
 	CN3UIArea* pArea;
-	float fUVAspect = (float)45.0f/(float)64.0f;
+	const float fUVAspect = (float)45.0f/(float)64.0f;
 	int i;
 
 	for(auto i = 0; i < MAX_ITEM_BUNDLE_DROP_PIECE; i++ )
@@ -234,7 +234,7 @@ void CUIDroppedItemDlg::AddToItemTable(int iItemID, int iItemCount, int iOrder)
 	TRACE("Dropped item from server to ItemDlg %d \n", iItemID);
 	e_PartPosition ePart;
 	e_PlugPosition ePlug;
-	e_ItemType eType = CGameProcedure::MakeResrcFileNameForUPC(pItem, nullptr, &szIconFN, ePart, ePlug); // 아이템에 따른 파일 이름을 만들어서
+	const e_ItemType eType = CGameProcedure::MakeResrcFileNameForUPC(pItem, nullptr, &szIconFN, ePart, ePlug); // 아이템에 따른 파일 이름을 만들어서
 	if ( ITEM_TYPE_UNKNOWN == eType ) return;
 	
 	spItem = new __IconItemSkill;
@@ -254,7 +254,7 @@ void CUIDroppedItemDlg::AddToItemTableToInventory(int iItemID, int iItemCount, i
 	__TABLE_ITEM_BASIC*	pItem = nullptr;								// 아이템 테이블 구조체 포인터..
 	__TABLE_ITEM_EXT*	pItemExt = nullptr;							// 아이템 테이블 구조체 포인터..
 	std::string szIconFN;
-	float fUVAspect = (float)45.0f/(float)64.0f;
+	const float fUVAspect = (float)45.0f/(float)64.0f;
 
 	pItem = CGameBase::s_pTbl_Items_Basic->Find(iItemID/1000*1000);	// 열 데이터 얻기..
 	if(pItem && pItem->byExtIndex >= 0 && pItem->byExtIndex < MAX_ITEM_EXTENSION)
@@ -269,7 +269,7 @@ void CUIDroppedItemDlg::AddToItemTableToInventory(int iItemID, int iItemCount, i
 	TRACE("Dropped item from server to ItemDlg %d \n", iItemID);
 	e_PartPosition ePart;
 	e_PlugPosition ePlug;
-	e_ItemType eType = CGameProcedure::MakeResrcFileNameForUPC(pItem, nullptr, &szIconFN, ePart, ePlug); // 아이템에 따른 파일 이름을 만들어서
+	const e_ItemType eType = CGameProcedure::MakeResrcFileNameForUPC(pItem, nullptr, &szIconFN, ePart, ePlug); // 아이템에 따른 파일 이름을 만들어서
 	if ( ITEM_TYPE_UNKNOWN == eType ) return;
 	
 	spItem = new __IconItemSkill;
@@ -377,7 +377,7 @@ bool CUIDroppedItemDlg::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 
 	int iOrder, iOrderInv = -1;
 
-	DWORD dwBitMask = 0x000f0000;
+const DWORD dwBitMask = 0x000f0000;
 
 	__TABLE_ITEM_BASIC*	pItem;
 	__IconItemSkill*	spItem;
@@ -468,8 +468,8 @@ void CUIDroppedItemDlg::GetItemByIDToInventory(BYTE bResult, int iItemID, int iG
 {
 	// 아이템 리스트에서 아이템을 찾고..
 	bool				bFound = false;
-	__TABLE_ITEM_BASIC*	pItem = nullptr;									// 아이템 테이블 구조체 포인터..
-	__TABLE_ITEM_EXT*	pItemExt = nullptr;
+	const __TABLE_ITEM_BASIC*	pItem = nullptr;									// 아이템 테이블 구조체 포인터..
+	const __TABLE_ITEM_EXT*	pItemExt = nullptr;
 	__IconItemSkill*	spItem = nullptr;
 	int i;
 	char szMsg[32];
@@ -479,7 +479,7 @@ void CUIDroppedItemDlg::GetItemByIDToInventory(BYTE bResult, int iItemID, int iG
 
 	if (bResult == 0x00)			// 실패..
 	{
-		int iOrderInv = GetInventoryEmptyInviOrder();
+		const int iOrderInv = GetInventoryEmptyInviOrder();
 		if ( iOrderInv == -1 )
 		{
 			// 인벤토리가 꽉 차있으면.. break.. ^^

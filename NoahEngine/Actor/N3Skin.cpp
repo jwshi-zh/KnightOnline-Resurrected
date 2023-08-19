@@ -30,8 +30,8 @@ bool CN3Skin::Load(HANDLE hFile)
 		ReadFile(hFile, &m_pSkinVertices[i], sizeof(__VertexSkinned), &dwRWC, nullptr);
 		m_pSkinVertices[i].pnJoints = nullptr;
 		m_pSkinVertices[i].pfWeights = nullptr;
-		
-		int nAffect = m_pSkinVertices[i].nAffect;
+
+		const int nAffect = m_pSkinVertices[i].nAffect;
 		if(nAffect > 1)
 		{
 			m_pSkinVertices[i].pnJoints = new int[nAffect];

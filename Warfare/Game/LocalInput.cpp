@@ -182,7 +182,7 @@ void CLocalInput::AcquireKeyboard()
 {
 	if (m_lpDIDKeyboard)
 	{
-		HRESULT rval = m_lpDIDKeyboard->Acquire();
+		const HRESULT rval = m_lpDIDKeyboard->Acquire();
 //		if(rval != DI_OK) MessageBox(::GetActiveWindow(), "Acquire Keyboard Failed.", "DirectInput", MB_OK);
 		if (rval == DI_OK || rval == S_FALSE)
 		{
@@ -247,7 +247,7 @@ void CLocalInput::Tick(void)
 //	WORD i;
 //	DWORD key;
 
-	HWND hWndActive = ::GetActiveWindow(); // 포커싱되었을때만...
+	const HWND hWndActive = ::GetActiveWindow(); // 포커싱되었을때만...
 	if(hWndActive != m_hWnd) return;
 
 	///////////////////////

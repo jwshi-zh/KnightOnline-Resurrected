@@ -57,7 +57,7 @@ CN3TerrainManager::~CN3TerrainManager()
 
 void CN3TerrainManager::InitWorld(int iZoneID, const __Vector3& vPosPlayer)
 {
-	__TABLE_ZONE* pZone = s_pTbl_Zones->Find(s_pPlayer->m_InfoExt.iZoneCur);
+	const __TABLE_ZONE* pZone = s_pTbl_Zones->Find(s_pPlayer->m_InfoExt.iZoneCur);
 	if(nullptr == pZone) { CLogWriter::Write("Null Zone Data : %d", iZoneID); return; }
 
 	CLogWriter::Write("CN3TerrainManager::InitWorld Pre Load\t%d", m_pTerrain); // TmpLog_11_22

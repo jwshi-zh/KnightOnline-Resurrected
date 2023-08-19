@@ -27,7 +27,7 @@ void CN3SndMgr::Init(HWND hWnd)
 
 CN3SndObj* CN3SndMgr::CreateObj(int iID, e_SndType eType)
 {
-	TABLE_SOUND* pTbl = m_Tbl_Source.Find(iID);
+	const TABLE_SOUND* pTbl = m_Tbl_Source.Find(iID);
 	if(pTbl== nullptr) return nullptr;
 
 	return this->CreateObj(pTbl->szFN, eType);
@@ -38,7 +38,7 @@ CN3SndObj* CN3SndMgr::CreateObj(const std::string& szFN, e_SndType eType)
 	if(!m_bSndEnable) return nullptr;
 
 	CN3SndObj* pObjSrc = nullptr;
-	auto it = m_SndObjSrcs.find(szFN);
+	const auto it = m_SndObjSrcs.find(szFN);
 	if(it == m_SndObjSrcs.end()) // 못 찾았다... 새로 만들자..
 	{
 		pObjSrc = new CN3SndObj();
@@ -82,7 +82,7 @@ CN3SndObjStream* CN3SndMgr::CreateStreamObj(const std::string& szFN)
 
 CN3SndObjStream* CN3SndMgr::CreateStreamObj(int iID)
 {
-	TABLE_SOUND* pTbl = m_Tbl_Source.Find(iID);
+	const TABLE_SOUND* pTbl = m_Tbl_Source.Find(iID);
 	if(pTbl== nullptr) return nullptr;
 
 	return this->CreateStreamObj(pTbl->szFN);
@@ -245,7 +245,7 @@ void CN3SndMgr::Release()
 {
 	if(!m_bSndEnable) return;
 
-	CN3SndObj* pObj = nullptr;
+	const CN3SndObj* pObj = nullptr;
 	auto it = m_SndObjSrcs.begin(), itEnd = m_SndObjSrcs.end();
 	for(; it != itEnd; it++)
 	{
@@ -274,7 +274,7 @@ void CN3SndMgr::Release()
 	auto it3 = m_SndObjStreams.begin(), itEnd3 = m_SndObjStreams.end();
 	for(; it3 != itEnd3; it3++)
 	{
-		CN3SndObjStream* pObj2 = *it3;
+		const CN3SndObjStream* pObj2 = *it3;
 		if(pObj2) delete pObj2;
 	}
 	m_SndObjStreams.clear();
@@ -293,7 +293,7 @@ bool CN3SndMgr::PlayOnceAndRelease(int iSndID, const _D3DVECTOR* pPos)
 	if(pTbl== nullptr || pTbl->szFN.empty()) return false;
 	
 	CN3SndObj* pObjSrc = nullptr;
-	auto it = m_SndObjSrcs.find(pTbl->szFN);
+	const auto it = m_SndObjSrcs.find(pTbl->szFN);
 	if(it == m_SndObjSrcs.end()) // 못 찾았다... 새로 만들자..
 	{
 		pObjSrc = new CN3SndObj();

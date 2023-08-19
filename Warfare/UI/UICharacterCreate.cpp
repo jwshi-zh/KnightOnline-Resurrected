@@ -72,7 +72,7 @@ bool CUICharacterCreate::Load(HANDLE hFile)
 	if(m_pEdit_Name) m_pEdit_Name->SetString("");
 	
 	m_pStr_Desc = (CN3UIString*)(this->GetChildByID("text_desc")); __ASSERT(m_pStr_Desc, "NULL UI Component!!");
-	e_Nation eNation = pInfoBase->eNation;
+	const e_Nation eNation = pInfoBase->eNation;
 	if(m_pStr_Desc)
 	{
 		if(NATION_KARUS == eNation)
@@ -90,11 +90,11 @@ bool CUICharacterCreate::Load(HANDLE hFile)
 	}
 
 	m_pArea_Character = (CN3UIArea*)(this->GetChildByID("area_character")); __ASSERT(m_pArea_Character, "NULL UI Component!!");
-	
-	std::string szTexts[MAX_STATS] = { "text_str", "text_sta", "text_dex", "text_int", "text_map" };
-	std::string szAreas[MAX_STATS] = { "area_str", "area_sta", "area_dex", "area_int", "area_map" };
-	std::string szImgs[MAX_STATS] = { "img_str", "img_sta", "img_dex", "img_int", "img_map" };
-	DWORD dwResrcIDs[MAX_STATS] = { IDS_NEWCHR_POW, IDS_NEWCHR_STA, IDS_NEWCHR_DEX, IDS_NEWCHR_INT, IDS_NEWCHR_MAP };
+
+	const std::string szTexts[MAX_STATS] = { "text_str", "text_sta", "text_dex", "text_int", "text_map" };
+	const std::string szAreas[MAX_STATS] = { "area_str", "area_sta", "area_dex", "area_int", "area_map" };
+	const std::string szImgs[MAX_STATS] = { "img_str", "img_sta", "img_dex", "img_int", "img_map" };
+	const DWORD dwResrcIDs[MAX_STATS] = { IDS_NEWCHR_POW, IDS_NEWCHR_STA, IDS_NEWCHR_DEX, IDS_NEWCHR_INT, IDS_NEWCHR_MAP };
 	for(int i = 0; i < MAX_STATS; i++)
 	{
 		m_pStr_Stats[i] = (CN3UIString*)(this->GetChildByID(szTexts[i])); __ASSERT(m_pStr_Stats[i], "NULL UI Component!!");
@@ -143,8 +143,8 @@ bool CUICharacterCreate::Load(HANDLE hFile)
 		if(m_pBtn_Races[i]) ::_LoadStringFromResource(dwResrcID_Races[i], m_pBtn_Races[i]->m_szToolTip);
 	}
 
-	std::string szBtns[MAX_CLASS_SELECT] = { "btn_class_warrior", "btn_class_rogue", "btn_class_mage", "btn_class_priest" };
-	std::string szImgs2[MAX_CLASS_SELECT] = { "img_warrior", "img_rogue", "img_mage", "img_priest" };
+	const std::string szBtns[MAX_CLASS_SELECT] = { "btn_class_warrior", "btn_class_rogue", "btn_class_mage", "btn_class_priest" };
+	const std::string szImgs2[MAX_CLASS_SELECT] = { "img_warrior", "img_rogue", "img_mage", "img_priest" };
 	DWORD dwResrcID_Classes[MAX_CLASS_SELECT];
 	if(eNation==NATION_ELMORAD)
 	{
@@ -168,9 +168,9 @@ bool CUICharacterCreate::Load(HANDLE hFile)
 		::_LoadStringFromResource(dwResrcID_Classes[i], m_pBtn_Classes[i]->m_szToolTip);
 	}
 
-	RECT rc = this->GetRegion();
-	int iX = ((int)s_CameraData.vp.Width - (rc.right - rc.left))/2;
-	int iY = ((int)s_CameraData.vp.Height - (rc.bottom - rc.top))/2;
+	const RECT rc = this->GetRegion();
+	const int iX = ((int)s_CameraData.vp.Width - (rc.right - rc.left))/2;
+	const int iY = ((int)s_CameraData.vp.Height - (rc.bottom - rc.top))/2;
 	this->SetPos(iX, iY);
 	this->Reset();
 
@@ -185,8 +185,8 @@ bool CUICharacterCreate::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 		__InfoPlayerMySelf* pInfoExt = &(CGameBase::s_pPlayer->m_InfoExt);
 
 		//종족 고르기..
-		e_Nation eNation = pInfoBase->eNation;
-		e_Race eRacePrev = pInfoBase->eRace;
+		const e_Nation eNation = pInfoBase->eNation;
+		const e_Race eRacePrev = pInfoBase->eRace;
 		bool bNeedUpdateRaceButtons = false;
 		if(eNation == NATION_ELMORAD)
 		{
@@ -237,8 +237,8 @@ bool CUICharacterCreate::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 			this->UpdateRaceAndClassButtons(pInfoBase->eRace);
 		}
 
-		int iFacePrev = pInfoExt->iFace;
-		int iHairPrev = pInfoExt->iHair;
+		const int iFacePrev = pInfoExt->iFace;
+		const int iHairPrev = pInfoExt->iHair;
 
 		if ( pSender->m_szID == "btn_cancel" )
 		{
@@ -361,7 +361,7 @@ bool CUICharacterCreate::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 			}
 		}
 
-		__TABLE_NEW_CHR* pTbl = CGameProcedure::s_pProcCharacterCreate->m_Tbl_InitValue.Find(pInfoBase->eRace);
+		const __TABLE_NEW_CHR* pTbl = CGameProcedure::s_pProcCharacterCreate->m_Tbl_InitValue.Find(pInfoBase->eRace);
 		if(pTbl)
 		{
 			//수치 내리기..
@@ -428,7 +428,7 @@ bool CUICharacterCreate::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 void CUICharacterCreate::Reset() const
 {
 	__InfoPlayerBase* pInfoBase = &(CGameBase::s_pPlayer->m_InfoBase);
-	__InfoPlayerMySelf* pInfoExt = &(CGameBase::s_pPlayer->m_InfoExt);
+	const __InfoPlayerMySelf* pInfoExt = &(CGameBase::s_pPlayer->m_InfoExt);
 
 	if(m_pArea_Character) 
 		CGameProcedure::s_pProcCharacterCreate->m_rcChr = m_pArea_Character->GetRegion();
@@ -439,7 +439,7 @@ void CUICharacterCreate::Reset() const
 		if(m_pBtn_Classes[i]) m_pBtn_Classes[i]->SetVisible(false);
 	}
 
-	int iStats[MAX_STATS] = { pInfoExt->iStrength, pInfoExt->iStamina, pInfoExt->iDexterity, pInfoExt->iIntelligence, pInfoExt->iMagicAttak };
+	const int iStats[MAX_STATS] = { pInfoExt->iStrength, pInfoExt->iStamina, pInfoExt->iDexterity, pInfoExt->iIntelligence, pInfoExt->iMagicAttak };
 	for(auto i = 0; i < MAX_STATS; i++)
 	{
 		if(m_pImg_Stats[i]) m_pImg_Stats[i]->SetVisible(false);
@@ -551,8 +551,8 @@ void CUICharacterCreate::UpdateRaceAndClassButtons(e_Race eRace) // 종족에 �
 	for(auto i = 0; i < MAX_CLASS_SELECT; i++)
 	{
 		if(m_pBtn_Classes[i]) m_pBtn_Classes[i]->SetState(eUIStateClasses[i]);
-	
-		bool bVisible = (UI_STATE_BUTTON_DISABLE == eUIStateClasses[i]) ? true : false;
+
+		const bool bVisible = (UI_STATE_BUTTON_DISABLE == eUIStateClasses[i]) ? true : false;
 		if(m_pImg_Disable_Classes[i]) m_pImg_Disable_Classes[i]->SetVisible(bVisible);
 		if(m_pBtn_Classes[i]) m_pBtn_Classes[i]->SetVisible(!bVisible);
 	}

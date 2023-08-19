@@ -64,7 +64,7 @@ public:
 
 inline CPlayerOther* CPlayerOtherMgr::UPCGetByID(int iID, bool bFromAliveOnly)
 {
-	auto it = m_UPCs.find(iID);
+	const auto it = m_UPCs.find(iID);
 	if(it != m_UPCs.end())
 	{
 		CPlayerOther* pUPC = it->second;
@@ -80,7 +80,7 @@ inline CPlayerOther* CPlayerOtherMgr::UPCGetByID(int iID, bool bFromAliveOnly)
 
 inline CPlayerNPC* CPlayerOtherMgr::NPCGetByID(int iID, bool bFromAliveOnly)
 {
-	auto it = m_NPCs.find(iID);
+	const auto it = m_NPCs.find(iID);
 	if(it != m_NPCs.end())
 	{
 		CPlayerNPC* pNPC = it->second;
@@ -96,7 +96,7 @@ inline CPlayerNPC* CPlayerOtherMgr::NPCGetByID(int iID, bool bFromAliveOnly)
 
 inline CPlayerBase* CPlayerOtherMgr::CorpseGetByID(int iID)
 {
-	auto it = m_Corpses.find(iID);
+	const auto it = m_Corpses.find(iID);
 	if(it != m_Corpses.end()) return it->second;
 	else return nullptr;
 }
@@ -113,7 +113,7 @@ inline CPlayerNPC* CPlayerOtherMgr::CharacterGetByID(int iID, bool bFromAliveOnl
 
 inline void CPlayerOtherMgr::UPCAdd(CPlayerOther* pUPC)
 {
-	auto it = m_UPCs.find(pUPC->IDNumber());
+	const auto it = m_UPCs.find(pUPC->IDNumber());
 	if(it == m_UPCs.end()) // 중복된게 없으면..
 	{
 		m_UPCs.insert(std::make_pair(pUPC->IDNumber(), pUPC));
@@ -127,7 +127,7 @@ inline void CPlayerOtherMgr::UPCAdd(CPlayerOther* pUPC)
 
 inline bool CPlayerOtherMgr::UPCDelete(int iID)
 {
-	auto it = m_UPCs.find(iID);
+	const auto it = m_UPCs.find(iID);
 	if(it == m_UPCs.end()) return false;
 
 	T_Delete(it->second);
@@ -137,7 +137,7 @@ inline bool CPlayerOtherMgr::UPCDelete(int iID)
 
 inline void CPlayerOtherMgr::NPCAdd(CPlayerNPC* pNPC)
 {
-	auto it = m_NPCs.find(pNPC->IDNumber());
+	const auto it = m_NPCs.find(pNPC->IDNumber());
 	if(it == m_NPCs.end()) // 중복된게 없으면..
 	{
 		m_NPCs.insert(std::make_pair(pNPC->IDNumber(), pNPC));
@@ -151,7 +151,7 @@ inline void CPlayerOtherMgr::NPCAdd(CPlayerNPC* pNPC)
 
 inline bool CPlayerOtherMgr::NPCDelete(int iID)
 {
-	auto it = m_NPCs.find(iID);
+	const auto it = m_NPCs.find(iID);
 	if(it == m_NPCs.end()) return false;
 
 	T_Delete(it->second);

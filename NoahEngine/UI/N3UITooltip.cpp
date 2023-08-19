@@ -71,7 +71,7 @@ void CN3UITooltip::SetText(const std::string& szText)
 	if (!m_bVisible || m_bSetText) return;
 
 	// 툴팁상자 크기를 조정한다.
-	int iStrLen = szText.size();
+	const int iStrLen = szText.size();
 	if (0 == iStrLen || nullptr == m_pBuffOutRef) return;
 
 	m_pBuffOutRef->ClearOnlyStringBuffer();	//우선 기존에 있던 글씨를 지운다.(정렬하지 않고)
@@ -113,9 +113,9 @@ void CN3UITooltip::SetText(const std::string& szText)
 	ptNew.x -= (m_rcRegion.right - m_rcRegion.left) / 2;
 	ptNew.y -= (m_rcRegion.bottom - m_rcRegion.top) + 10;
 
-	D3DVIEWPORT9& vp = s_CameraData.vp;
-	int iRegionWidth = m_rcRegion.right - m_rcRegion.left;
-	int iRegionHeight = m_rcRegion.bottom - m_rcRegion.top;
+	const D3DVIEWPORT9& vp = s_CameraData.vp;
+	const int iRegionWidth = m_rcRegion.right - m_rcRegion.left;
+	const int iRegionHeight = m_rcRegion.bottom - m_rcRegion.top;
 
 	if (ptNew.x + iRegionWidth > vp.X + vp.Width)	// 화면 오른U으로 벗어난 경우
 		ptNew.x = vp.X + vp.Width - iRegionWidth;
@@ -132,7 +132,7 @@ void CN3UITooltip::SetText(const std::string& szText)
 
 void CN3UITooltip::Tick()
 {
-	int fOldTime = m_fHoverTime;
+	const int fOldTime = m_fHoverTime;
 	m_fHoverTime += s_fSecPerFrm;
 	static const float fDisplayTime = 0.3f;
 	if (fOldTime < fDisplayTime && m_fHoverTime >= fDisplayTime)

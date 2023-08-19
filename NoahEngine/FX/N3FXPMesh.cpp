@@ -94,7 +94,7 @@ bool CN3FXPMesh::Load(HANDLE hFile)
 	ReadFile(hFile, &m_iMinNumVertices, sizeof(int), &dwNum, nullptr);
 	ReadFile(hFile, &m_iMinNumIndices , sizeof(int), &dwNum, nullptr);
 
-	HRESULT hr = Create(m_iMaxNumVertices, m_iMaxNumIndices);
+	const HRESULT hr = Create(m_iMaxNumVertices, m_iMaxNumIndices);
 	__ASSERT(SUCCEEDED(hr), "Failed to create progressive mesh");
 
 	if (m_iMaxNumVertices>0)
@@ -173,16 +173,16 @@ void CN3FXPMesh::Render() const
 	const int iPCToRender = 1000;	// primitive count to render
 	if(m_iMaxNumIndices > 3)
 	{
-		int iPC = m_iMaxNumIndices / 3;
+		const int iPC = m_iMaxNumIndices / 3;
 
-		int iLC = iPC / iPCToRender;
+		const int iLC = iPC / iPCToRender;
 		int i;
 		for (i=0; i<iLC; ++i)
 		{
 			s_lpD3DDev->DrawIndexedPrimitiveUP(D3DPT_TRIANGLELIST, 0, m_iMaxNumVertices, iPCToRender, m_pIndices + i*iPCToRender*3, D3DFMT_INDEX16, m_pColorVertices, sizeof(__VertexXyzColorT1));
 		}
 
-		int iRPC = iPC%iPCToRender;
+		const int iRPC = iPC%iPCToRender;
 		if(iRPC > 0) s_lpD3DDev->DrawIndexedPrimitiveUP(D3DPT_TRIANGLELIST, 0, m_iMaxNumVertices, iRPC, m_pIndices + i*iPCToRender*3, D3DFMT_INDEX16, m_pColorVertices, sizeof(__VertexXyzColorT1));
 	}
 }

@@ -77,13 +77,13 @@ void CGameProcLogIn::Init()
 
 	m_pUILogIn = new CUILogIn();
 	m_pUILogIn->Init(s_pUIMgr);
-	
-	__TABLE_UI_RESRC* pTbl = s_pTbl_UI->GetIndexedData(0); // 국가 기준이 없기 때문이다...
+
+	const __TABLE_UI_RESRC* pTbl = s_pTbl_UI->GetIndexedData(0); // 국가 기준이 없기 때문이다...
 	if(pTbl) m_pUILogIn->LoadFromFile(pTbl->szLogIn);
 
 	RECT rc = m_pUILogIn->GetRegion();
-	int iX = (CN3Base::s_CameraData.vp.Width - (rc.right - rc.left))/2;
-	int iY = CN3Base::s_CameraData.vp.Height - (rc.bottom - rc.top);
+	const int iX = (CN3Base::s_CameraData.vp.Width - (rc.right - rc.left))/2;
+	const int iY = CN3Base::s_CameraData.vp.Height - (rc.bottom - rc.top);
 	m_pUILogIn->SetPos(iX, iY);
 	rc.left = 0; rc.top = 0; rc.right = CN3Base::s_CameraData.vp.Width; rc.bottom = CN3Base::s_CameraData.vp.Height;
 	m_pUILogIn->SetRegion(rc); // 이걸 꼭 해줘야 UI 처리가 제대로 된다..
@@ -93,7 +93,7 @@ void CGameProcLogIn::Init()
 	char szIniPath[_MAX_PATH] = "";
 	lstrcpy(szIniPath, CN3Base::PathGet().c_str());
 	lstrcat(szIniPath, "Server.Ini");
-	int iServerCount = GetPrivateProfileInt("Server", "Count", 0, szIniPath);
+	const int iServerCount = GetPrivateProfileInt("Server", "Count", 0, szIniPath);
 
 	char szIPs[256][32]; memset(szIPs, 0, sizeof(szIPs));
 	for(auto i = 0; i < iServerCount; i++)
@@ -108,7 +108,7 @@ void CGameProcLogIn::Init()
 	if(	iServer >= 0 && lstrlen(szIPs[iServer]) )
 	{
 		s_bNeedReportConnectionClosed = false; // 서버접속이 끊어진걸 보고해야 하는지..
-		int iErr = s_pSocket->Connect(s_hWndBase, szIPs[iServer], SOCKET_PORT_LOGIN);
+		const int iErr = s_pSocket->Connect(s_hWndBase, szIPs[iServer], SOCKET_PORT_LOGIN);
 		s_bNeedReportConnectionClosed = true; // 서버접속이 끊어진걸 보고해야 하는지..
 		if(iErr) this->ReportServerConnectionFailed("LogIn Server", iErr, true);
 		else
@@ -156,7 +156,7 @@ void CGameProcLogIn::Tick() // 프로시져 인덱스를 리턴한다. 0 이면 
 
 void CGameProcLogIn::Render()
 {
-	D3DCOLOR crEnv = 0x00000000;
+	const D3DCOLOR crEnv = 0x00000000;
 	s_pEng->Clear(crEnv); // 배경은 검은색
 	s_pEng->s_lpD3DDev->BeginScene();			// 씬 렌더 ㅅ작...
 
@@ -226,12 +226,12 @@ void CGameProcLogIn::Render()
 	D3DVIEWPORT9 vp;
 	CN3Base::s_lpD3DDev->GetViewport(&vp);
 
-	float fMW = (m_pTexBkg->Width() * vp.Width / 1024.0f)*1.3f;
-	float fMH = (m_pTexBkg->Height() * vp.Height / 768.0f)*1.3f;
-	float fX = 100.0f * vp.Width / 1024.0f;
-	float fY = 50.0f * vp.Height / 768.0f;
+	const float fMW = (m_pTexBkg->Width() * vp.Width / 1024.0f)*1.3f;
+	const float fMH = (m_pTexBkg->Height() * vp.Height / 768.0f)*1.3f;
+	const float fX = 100.0f * vp.Width / 1024.0f;
+	const float fY = 50.0f * vp.Height / 768.0f;
 
-	float fRHW = 1.0f;
+	const float fRHW = 1.0f;
 	__VertexTransformed vMoon[4];
 	vMoon[0].Set(fX,     fY,     0, fRHW, 0xffffffff, 0.0f, 0.0f);
 	vMoon[1].Set(fX+fMW, fY,     0, fRHW, 0xffffffff, 1.0f, 0.0f);
@@ -295,7 +295,7 @@ bool CGameProcLogIn::MsgSend_AccountLogIn(e_LogInClassification eLIC)
 
 void CGameProcLogIn::MsgRecv_GameServerGroupList(DataPack* pDataPack, int& iOffset) const
 {
-	int iServerCount = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);	// 서버 갯수
+	const int iServerCount = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);	// 서버 갯수
 	for(int i = 0; i < iServerCount; i++)
 	{
 		__GameServerInfo GSI;
@@ -408,7 +408,7 @@ void CGameProcLogIn::MsgRecv_AccountLogIn(int iCmd, DataPack* pDataPack, int& iO
 
 int CGameProcLogIn::MsgRecv_VersionCheck(DataPack* pDataPack, int& iOffset) // virtual
 {
-	int iVersion = CGameProcedure::MsgRecv_VersionCheck(pDataPack, iOffset);
+	const int iVersion = CGameProcedure::MsgRecv_VersionCheck(pDataPack, iOffset);
 	if(iVersion == CURRENT_VERSION)
 	{
 		CGameProcedure::MsgSend_GameServerLogIn(); // 게임 서버에 로그인..
@@ -423,7 +423,7 @@ int CGameProcLogIn::MsgRecv_VersionCheck(DataPack* pDataPack, int& iOffset) // v
 
 int CGameProcLogIn::MsgRecv_GameServerLogIn(DataPack* pDataPack, int& iOffset) // virtual - 국가번호를 리턴한다.
 {
-	int iNation = CGameProcedure::MsgRecv_GameServerLogIn(pDataPack, iOffset); // 국가 - 0 없음 0xff - 실패..
+	const int iNation = CGameProcedure::MsgRecv_GameServerLogIn(pDataPack, iOffset); // 국가 - 0 없음 0xff - 실패..
 
 	if( 0xff == iNation )
 	{
@@ -473,12 +473,12 @@ int CGameProcLogIn::MsgRecv_GameServerLogIn(DataPack* pDataPack, int& iOffset) /
 
 bool CGameProcLogIn::ProcessPacket(DataPack* pDataPack, int& iOffset)
 {
-	int iOffsetPrev = iOffset;
+	const int iOffsetPrev = iOffset;
 	if(false == CGameProcedure::ProcessPacket(pDataPack, iOffset)) iOffset = iOffsetPrev;
 	else return true;
 
 	s_pPlayer->m_InfoBase.eNation = NATION_UNKNOWN;
-	int iCmd = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);	// 커멘드 파싱..
+	const int iCmd = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);	// 커멘드 파싱..
 	s_pPlayer->m_InfoBase.eNation = NATION_UNKNOWN;
 	switch ( iCmd )										// 커멘드에 다라서 분기..
 	{
@@ -501,7 +501,7 @@ void CGameProcLogIn::ConnectToGameServer() // 고른 게임 서버에 접속
 	if(false == m_pUILogIn->ServerInfoGetCur(GSI)) return; // 서버를 고른다음..
 
 	s_bNeedReportConnectionClosed = false; // 서버접속이 끊어진걸 보고해야 하는지..
-	int iErr = s_pSocket->Connect(s_hWndBase, GSI.szIP.c_str(), SOCKET_PORT_GAME); // 게임서버 소켓 연결
+	const int iErr = s_pSocket->Connect(s_hWndBase, GSI.szIP.c_str(), SOCKET_PORT_GAME); // 게임서버 소켓 연결
 	s_bNeedReportConnectionClosed = true; // 서버접속이 끊어진걸 보고해야 하는지..
 	if(iErr)
 	{

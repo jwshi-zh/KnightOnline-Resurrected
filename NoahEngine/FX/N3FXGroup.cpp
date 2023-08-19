@@ -17,7 +17,7 @@ CN3FXGroup::~CN3FXGroup()
 
 	while(it!=ite)
 	{
-		__FXBInfo* pFXB = (*it);
+		const __FXBInfo* pFXB = (*it);
 		delete pFXB;
 		it++;
 	}
@@ -49,7 +49,7 @@ bool CN3FXGroup::Save(HANDLE hFile)
 	DWORD			dwRWC = 0;
 	WriteFile(hFile, &m_iVersion, sizeof(int), &dwRWC, nullptr);
 
-	int count = GetCount();
+	const int count = GetCount();
 	WriteFile(hFile, &count, sizeof(int), &dwRWC, nullptr);
 
 	std::list<__FXBInfo*>::iterator it, ite;
@@ -58,7 +58,7 @@ bool CN3FXGroup::Save(HANDLE hFile)
 
 	while(it!=ite)
 	{
-		__FXBInfo* pFXB = (*it);
+		const __FXBInfo* pFXB = (*it);
 		WriteFile(hFile, pFXB, sizeof(__FXBInfo), &dwRWC, nullptr);
 		it++;
 	}

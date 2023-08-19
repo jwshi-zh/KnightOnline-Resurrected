@@ -28,7 +28,7 @@ CN3FXMgr::~CN3FXMgr()
 
 	for(auto itOrigin=m_OriginBundle.begin(); itOrigin!=m_OriginBundle.end(); itOrigin++)
 	{
-		LPFXBUNDLEORIGIN pSrc = itOrigin->second;
+		const LPFXBUNDLEORIGIN pSrc = itOrigin->second;
 		delete pSrc->pBundle;
 		delete pSrc;
 	}
@@ -41,7 +41,7 @@ CN3FXMgr::~CN3FXMgr()
 //
 void CN3FXMgr::TriggerBundle(int SourceID, int SourceJoint, int FXID, int TargetID, int Joint, int idx, int MoveType)
 {
-	__TABLE_FX* pFX = s_pTbl_FXSource->Find(FXID);
+	const __TABLE_FX* pFX = s_pTbl_FXSource->Find(FXID);
 	if(!pFX) return;
 
 	char buff[MAX_PATH];
@@ -50,11 +50,11 @@ void CN3FXMgr::TriggerBundle(int SourceID, int SourceJoint, int FXID, int Target
 	std::string strTmp = buff;
 
 
-	auto itOrigin = m_OriginBundle.find(strTmp);
+	const auto itOrigin = m_OriginBundle.find(strTmp);
 	
 	if(itOrigin != m_OriginBundle.end())	//같은 효과가 있다..
 	{
-		LPFXBUNDLEORIGIN pSrc = itOrigin->second;
+		const LPFXBUNDLEORIGIN pSrc = itOrigin->second;
 
 		auto* pBundle = new CN3FXBundleGame;
 		
@@ -100,7 +100,7 @@ void CN3FXMgr::TriggerBundle(int SourceID, int SourceJoint, int FXID, int Target
 //
 void CN3FXMgr::TriggerBundle(int SourceID, int SourceJoint, int FXID, __Vector3 TargetPos, int idx, int MoveType)
 {
-	__TABLE_FX* pFX = s_pTbl_FXSource->Find(FXID);
+	const __TABLE_FX* pFX = s_pTbl_FXSource->Find(FXID);
 	if(!pFX) return; 
 
 	char buff[MAX_PATH];
@@ -108,11 +108,11 @@ void CN3FXMgr::TriggerBundle(int SourceID, int SourceJoint, int FXID, __Vector3 
 	_strlwr(buff);
 	std::string strTmp = buff;
 
-	auto itOrigin = m_OriginBundle.find(strTmp);
+	const auto itOrigin = m_OriginBundle.find(strTmp);
 
 	if(itOrigin != m_OriginBundle.end())	//같은 효과가 있다..
 	{
-		LPFXBUNDLEORIGIN pSrc = itOrigin->second;
+		const LPFXBUNDLEORIGIN pSrc = itOrigin->second;
 		auto* pBundle = new CN3FXBundleGame;
 				
 		pBundle->SetPreBundlePos(SourceID, SourceJoint);
@@ -676,8 +676,8 @@ void CN3FXMgr::Render()
 	mtx.Identity();
 	s_lpD3DDev->SetTransform(D3DTS_WORLD, &mtx);
 
-	auto itBegin = m_ListBundle.begin();
-	auto itEnd = m_ListBundle.end();
+	const auto itBegin = m_ListBundle.begin();
+	const auto itEnd = m_ListBundle.end();
 	
 	for(auto it=itBegin; it!=itEnd; it++) (*it)->Render();
 
@@ -690,8 +690,8 @@ void CN3FXMgr::Render()
 
 bool CN3FXMgr::CheckCollisionSphere(__Vector3 vSp, __Vector3 vEp, __Vector3 vCp, float fRadius, __Vector3* vCol)
 {
-	__Vector3 vSpCp = vCp - vSp;
-	float DistSpCp = vSpCp.Magnitude();
+	const __Vector3 vSpCp = vCp - vSp;
+	const float DistSpCp = vSpCp.Magnitude();
 	if(DistSpCp <= fRadius)
 	{
 		(*vCol) = vSp;
@@ -699,21 +699,21 @@ bool CN3FXMgr::CheckCollisionSphere(__Vector3 vSp, __Vector3 vEp, __Vector3 vCp,
 	}
 
 	__Vector3 vDir = vEp - vSp;
-	float DistSpEp = vDir.Magnitude();
+	const float DistSpEp = vDir.Magnitude();
 	vDir.Normalize();
 
 	__Vector3 vCross;
 	vCross.Cross(vSpCp, vDir);
-	float DistCross = vCross.Magnitude();
+	const float DistCross = vCross.Magnitude();
 
 	if(DistCross <= fRadius)
 	{
-		float sqDistCross = DistCross*DistCross;
-		float DistSpCross = sqrt((DistSpCp*DistSpCp)-sqDistCross);
+		const float sqDistCross = DistCross*DistCross;
+		const float DistSpCross = sqrt((DistSpCp*DistSpCp)-sqDistCross);
 
 		if(DistSpCross < DistSpEp)
 		{
-			float DistCol = DistSpCross - sqrt((fRadius*fRadius)-sqDistCross);
+			const float DistCol = DistSpCross - sqrt((fRadius*fRadius)-sqDistCross);
 			
 			(*vCol) = vSp + DistCol*vDir;
 			return true;
@@ -726,14 +726,14 @@ void CN3FXMgr::ClearAll()
 {
 	for(auto it=m_ListBundle.begin(); it!=m_ListBundle.end(); it++)
 	{
-		CN3FXBundleGame* pBundle = (*it);
+		const CN3FXBundleGame* pBundle = (*it);
 		if(pBundle) delete pBundle;
 	}
 	m_ListBundle.clear();
 
 	for(auto itOrigin=m_OriginBundle.begin(); itOrigin!=m_OriginBundle.end(); itOrigin++)
 	{
-		LPFXBUNDLEORIGIN pSrc = itOrigin->second;
+		const LPFXBUNDLEORIGIN pSrc = itOrigin->second;
 		if(pSrc)
 		{
 			if(pSrc->pBundle) delete pSrc->pBundle;

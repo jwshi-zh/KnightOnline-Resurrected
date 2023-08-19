@@ -42,7 +42,7 @@ bool CEventManager::LoadFromFile(const char* szFileName)
 {
 	Release();
 
-	HANDLE hGevFile = CreateFile(szFileName, GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
+	const HANDLE hGevFile = CreateFile(szFileName, GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
 	if(INVALID_HANDLE_VALUE == hGevFile)
 	{
 		return false;
@@ -70,7 +70,7 @@ void CEventManager::Release()
 
 	for(auto it=m_lstEvents.begin(); it!=m_lstEvents.end(); it++)
 	{
-		CEventCell* pEventCell = (*it);
+		const CEventCell* pEventCell = (*it);
 		if(pEventCell) delete pEventCell;
 	}
 	m_lstEvents.clear();
@@ -78,15 +78,15 @@ void CEventManager::Release()
 
 short CEventManager::SetPos(float fX, float fZ)
 {
-	int x = (int)fX;
-	int y = (int)fZ;
+	const int x = (int)fX;
+	const int y = (int)fZ;
 
 	if(PtInRect(x, y, m_rcEvent))
 		return m_sEventType;
 
 	for(auto it=m_lstEvents.begin(); it!=m_lstEvents.end(); it++)
 	{
-		CEventCell* pEventCell = (*it);
+		const CEventCell* pEventCell = (*it);
 		if(pEventCell)
 		{
 			if(PtInRect(x, y, pEventCell->m_Rect))
@@ -128,8 +128,8 @@ void CEventManager::Behavior(short sEventType, short sPreEventType)
 	{
 	case EVENT_TYPE_POISON:
 		{
-			int iID = CGameProcedure::s_pPlayer->IDNumber();
-			int iFX = FXID_REGION_POISON;
+			const int iID = CGameProcedure::s_pPlayer->IDNumber();
+			const int iFX = FXID_REGION_POISON;
 			CGameProcedure::s_pFX->Stop(iID, iID, iFX, -1, true);
 		}
 		break;
@@ -139,8 +139,8 @@ void CEventManager::Behavior(short sEventType, short sPreEventType)
 	{
 	case EVENT_TYPE_POISON:
 		{
-			int iID = CGameProcedure::s_pPlayer->IDNumber();
-			int iFX = FXID_REGION_POISON;
+			const int iID = CGameProcedure::s_pPlayer->IDNumber();
+			const int iFX = FXID_REGION_POISON;
 			CGameProcedure::s_pFX->TriggerBundle(iID, 0, iFX, iID, -1, FX_BUNDLE_REGION_POISON);
 		}
 		break;

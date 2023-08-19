@@ -184,7 +184,7 @@ bool CN3Scene::Save(HANDLE hFile)
 		m_pLights[i]->SaveToFile();
 	}
 
-	int iSC = m_Shapes.size();
+	const int iSC = m_Shapes.size();
 	WriteFile(hFile, &iSC, 4, &dwRWC, nullptr); // Shapes..
 	for(auto i = 0; i < iSC; i++)
 	{
@@ -196,7 +196,7 @@ bool CN3Scene::Save(HANDLE hFile)
 		m_Shapes[i]->SaveToFile();
 	}
 
-	int iCC = m_Chrs.size();
+	const int iCC = m_Chrs.size();
 	WriteFile(hFile, &iCC, 4, &dwRWC, nullptr); // 캐릭터
 	for(auto i = 0; i < iCC; i++)
 	{
@@ -229,13 +229,13 @@ void CN3Scene::Render() const
 //	}
 	s_lpD3DDev->SetRenderState(D3DRS_AMBIENT, m_AmbientLightColor);
 
-	int iSC = m_Shapes.size();
+	const int iSC = m_Shapes.size();
 	for(auto i = 0; i < iSC; i++)
 	{
 		m_Shapes[i]->Render();
 	}
 
-	int iCC = m_Chrs.size();
+	const int iCC = m_Chrs.size();
 	for(auto i = 0; i < iCC; i++)
 	{
 		m_Chrs[i]->Render();
@@ -303,7 +303,7 @@ void CN3Scene::TickLights(float fFrm)
 
 void CN3Scene::TickShapes(float fFrm)
 {
-	int iSC = m_Shapes.size();
+	const int iSC = m_Shapes.size();
 	for(int i = 0; i < iSC; i++)
 	{
 		m_Shapes[i]->Tick(m_fFrmCur);
@@ -312,7 +312,7 @@ void CN3Scene::TickShapes(float fFrm)
 
 void CN3Scene::TickChrs(float fFrm)
 {
-	int iCC = m_Chrs.size();
+	const int iCC = m_Chrs.size();
 	for(int i = 0; i < iCC; i++)
 	{
 		m_Chrs[i]->Tick(m_fFrmCur);
@@ -411,7 +411,7 @@ void CN3Scene::ShapeDelete(int iIndex)
 
 	auto it = m_Shapes.begin(), itEnd = m_Shapes.end();
 	for(int i = 0; i < iIndex; i++, it++);
-	CN3Shape* pShape = *it;
+	const CN3Shape* pShape = *it;
 	delete pShape;
 	it = m_Shapes.erase(it);
 }
@@ -421,7 +421,7 @@ void CN3Scene::ShapeDelete(CN3Shape* pShape)
 	auto it = m_Shapes.begin(), itEnd = m_Shapes.end();
 	for(; it != itEnd; it++)
 	{
-		CN3Shape* pShapeSrc = *it;
+		const CN3Shape* pShapeSrc = *it;
 		if(pShapeSrc == pShape)
 		{
 			delete pShapeSrc;
@@ -433,7 +433,7 @@ void CN3Scene::ShapeDelete(CN3Shape* pShape)
 
 void CN3Scene::ShapeRelease()
 {
-	int iSC = m_Shapes.size();
+	const int iSC = m_Shapes.size();
 	for(int i = 0; i < iSC; i++)
 	{
 		delete m_Shapes[i];
@@ -456,7 +456,7 @@ void CN3Scene::ChrDelete(int iIndex)
 	auto it = m_Chrs.begin(), itEnd = m_Chrs.end();
 	for(; it != itEnd; it++);
 
-	CN3Chr* pChr = *it; delete pChr;
+	const CN3Chr* pChr = *it; delete pChr;
 	m_Chrs.erase(it);
 }
 
@@ -478,7 +478,7 @@ void CN3Scene::ChrDelete(CN3Chr* pChr)
 
 void CN3Scene::ChrRelease()
 {
-	int iCC = m_Chrs.size();
+	const int iCC = m_Chrs.size();
 	for(int i = 0; i < iCC; i++) delete m_Chrs[i];
 	m_Chrs.clear();
 }
@@ -612,7 +612,7 @@ void CN3Scene::DefaultLightAdd()
 	auto* pLight = new CN3Light();
 	pLight->m_szName = "DefaultLight";
 	pLight->FileNameSet("Data\\DefaultLight.N3Light");
-	int nLight = this->LightAdd(pLight) - 1;
+	const int nLight = this->LightAdd(pLight) - 1;
 
 	D3DCOLORVALUE ltColor = { 0.7f, 0.7f, 0.7f, 1.0f};
 	auto vDirection = __Vector3(-1.0f, -1.0f, 0.5f);

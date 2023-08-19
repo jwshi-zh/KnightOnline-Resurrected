@@ -504,7 +504,7 @@ e_PlugType CN3CPlugBase::GetPlugTypeByFileName(const std::string& szFN)
 	if(szFN.empty()) return PLUGTYPE_UNDEFINED;
 	// berserk
 	// 일단 확장자로 구분한다. 별로 좋은 방법 같지는 않지만.. N3CPlug, N3CPlug_Cloak
-	int nL = szFN.size();
+	const int nL = szFN.size();
 	if (szFN[nL-2] == 'u' && szFN[nL-1] == 'g')
 	{	// PLUGTYPE_NORMAL
 		return PLUGTYPE_NORMAL;
@@ -659,7 +659,7 @@ void CN3CPlug::InitFX(std::string& szFXMain, std::string& szFXTail, D3DCOLOR Tra
 		}
 		else
 		{
-			CN3PMesh* pMesh = m_PMeshInstFX.GetMesh();
+			const CN3PMesh* pMesh = m_PMeshInstFX.GetMesh();
 			__Vector3 vInterval(1.0f,1.0f,1.0f);
 			if(pMesh) vInterval = m_PMeshInstFX.GetMesh()->Max() - m_PMeshInstFX.GetMesh()->Min();
 			m_pFXTailBundle[0]->Trigger(0, -1, -1);
@@ -739,7 +739,7 @@ void CN3CPlug::RenderFX(const __Matrix44& mtxParent, const __Matrix44& mtxJoint)
 {
 	if(!m_pFXMainBundle || !m_pFXPart) return;
 	if(!m_PMeshInstFX.GetVertices()) return;
-	__VertexT1* pvAxis = m_PMeshInstFX.GetVertices();
+	const __VertexT1* pvAxis = m_PMeshInstFX.GetVertices();
 	//if(m_pFXMainBundle->FileName() != m_strFXMainName) InitFX(m_strFXMainName, m_strFXTailName);
 
 	m_pFXMainBundle->Tick();
@@ -752,11 +752,11 @@ void CN3CPlug::RenderFX(const __Matrix44& mtxParent, const __Matrix44& mtxJoint)
 	//tail...
 	/////////////////////////////////////////////////////////////////////
 	//
-	__Vector3 vMax = m_PMeshInstFX.GetMesh()->Max();
-	__Vector3 vMin = m_PMeshInstFX.GetMesh()->Min();
-	__Vector3 vInterval = vMax - vMin;
+	const __Vector3 vMax = m_PMeshInstFX.GetMesh()->Max();
+	const __Vector3 vMin = m_PMeshInstFX.GetMesh()->Min();
+	const __Vector3 vInterval = vMax - vMin;
 	__Vector3 vTmp;
-	float fHeight = vMax.y - vMin.y;
+	const float fHeight = vMax.y - vMin.y;
 	if(m_pFXTailBundle[0])
 	{
 		mtx.Identity();
@@ -791,7 +791,7 @@ void CN3CPlug::RenderFX(const __Matrix44& mtxParent, const __Matrix44& mtxJoint)
 		mtx *= mtxJoint;
 		mtx *= mtxParent;
 
-		float fCameraDist = (s_CameraData.vEye - mtx.Pos()).Magnitude();
+		const float fCameraDist = (s_CameraData.vEye - mtx.Pos()).Magnitude();
 
 		m_PMeshInstFX.SetLOD(fCameraDist*s_CameraData.fFOV);
 		
@@ -818,9 +818,9 @@ void CN3CPlug::RenderFX(const __Matrix44& mtxParent, const __Matrix44& mtxJoint)
 			pAP->pwIndices			= m_PMeshInstFX.GetIndices();
 		}
 
-		float fArg1 = m_pFXMainBundle->m_fLife * 1.2f;
-		float fArg2 = (0.07f * (fArg1 - (int)fArg1)) - 0.035f;
-		__Vector3 vArg2 = pvAxis[0].n * fArg2;
+		const float fArg1 = m_pFXMainBundle->m_fLife * 1.2f;
+		const float fArg2 = (0.07f * (fArg1 - (int)fArg1)) - 0.035f;
+		const __Vector3 vArg2 = pvAxis[0].n * fArg2;
 
 		mtx.Identity();
 		mtx.RotationY(-__PI / 36.0f);
@@ -1352,7 +1352,7 @@ void CN3Chr::Tick(float fFrm)
 	}
 
 	// 카메라와 멀리 떨어지면 지나간다..
-	float fDist = (m_vPos - s_CameraData.vEye).Magnitude();
+	const float fDist = (m_vPos - s_CameraData.vEye).Magnitude();
 	if(fDist > s_CameraData.fFP + m_fRadius * 2.0f)
 	{
 		m_nLOD = -1;
@@ -1361,7 +1361,7 @@ void CN3Chr::Tick(float fFrm)
 
 	// LOD 결정...
 	m_nLOD = MAX_CHR_LOD;
-	float fLOD = fDist * s_CameraData.fFOV / (m_fRadius * m_vScale.x); // 덩치에 비례하게 한다..
+	const float fLOD = fDist * s_CameraData.fFOV / (m_fRadius * m_vScale.x); // 덩치에 비례하게 한다..
 	for(int i = 0; i < MAX_CHR_LOD; i++)
 	{
 		if(fLOD < CHR_LOD_CALCULATION_VALUES[0][i]) // 일단 가장 큰값을 기준으로 하고 LOD 값을 정한 다음..... Render 에서 변경한다....
@@ -1375,7 +1375,7 @@ void CN3Chr::Tick(float fFrm)
 	static __Vector3 vPos2;
 	vPos2 = m_vPos;
 	vPos2.y += 1.8f;
-	float fOffset = m_fRadius * 3.0f + 2.0f;
+	const float fOffset = m_fRadius * 3.0f + 2.0f;
 	if(	s_CameraData.IsOutOfFrustum(m_vPos, fOffset) &&
 		s_CameraData.IsOutOfFrustum(vPos2, fOffset) ) // 카메라 사면체 바깥이면 지나간다.. 현 지점과 머리 끝점을 조사..
 	{
@@ -1389,7 +1389,7 @@ void CN3Chr::Tick(float fFrm)
 	if(fFrm == FRAME_SELFPLAY) this->TickAnimationFrame();
 	else
 	{
-		int iJC = m_JointRefs.size();
+		const int iJC = m_JointRefs.size();
 		for(auto i = 0; i < iJC; i++) // 걍 단순히 조인트만 Tick 해주고 나간다..
 		{
 			m_JointRefs[i]->TickAnimationKey(fFrm);
@@ -1430,7 +1430,7 @@ void CN3Chr::TickAnimationFrame()
 		m_FrmCtrl.iAniLoop = 0;
 	}
 
-	float fDelta = s_fSecPerFrm * m_fAniSpeedDelta;			// 에니메이션 속도 조정 변수 1 이보통, 더 크면 빨라진다..
+	const float fDelta = s_fSecPerFrm * m_fAniSpeedDelta;			// 에니메이션 속도 조정 변수 1 이보통, 더 크면 빨라진다..
 
 	if(0.0f != m_FrmCtrl.fBlendTime) // Blending 할 에니메이션이 있으면..
 	{
@@ -1471,7 +1471,7 @@ void CN3Chr::TickAnimationFrame()
 				}
 				else
 				{
-					float fFrmDiff = m_FrmCtrl.pAniData->fFrmEnd - m_FrmCtrl.pAniData->fFrmStart;
+					const float fFrmDiff = m_FrmCtrl.pAniData->fFrmEnd - m_FrmCtrl.pAniData->fFrmStart;
 					if(fFrmDiff > 0) m_FrmCtrl.fFrmCur -= m_FrmCtrl.pAniData->fFrmEnd - m_FrmCtrl.pAniData->fFrmStart;
 					else m_FrmCtrl.fFrmCur = m_FrmCtrl.pAniData->fFrmStart;
 				}
@@ -1521,12 +1521,12 @@ void CN3Chr::TickJoints()
 {
 	if(nullptr == m_FrmCtrlUpper.pAniData) // 상하체 통째로 처리..
 	{
-		int iJC = m_JointRefs.size();
+		const int iJC = m_JointRefs.size();
 		for(int i = 0; i < iJC; i++)
 		{
 			if(m_FrmCtrl.fBlendTime > 0)
 			{
-				float fBlendFactor = m_FrmCtrl.fBlendTimeCur / m_FrmCtrl.fBlendTime;
+				const float fBlendFactor = m_FrmCtrl.fBlendTimeCur / m_FrmCtrl.fBlendTime;
 				m_JointRefs[i]->ReCalcMatrixBlended(m_FrmCtrl.fFrmCur, m_FrmCtrl.fBlendFrm, fBlendFactor); // Joint Animation Blending...
 			}
 			else
@@ -1547,7 +1547,7 @@ void CN3Chr::TickJoints()
 			{
 				if(pFrmCtrls[i]->fBlendTime > 0) // Motion Blending 이 필요하면...
 				{
-					float fBlendFactor = pFrmCtrls[i]->fBlendTimeCur / pFrmCtrls[i]->fBlendTime;
+					const float fBlendFactor = pFrmCtrls[i]->fBlendTimeCur / pFrmCtrls[i]->fBlendTime;
 					m_pRootJointRef->ReCalcMatrixBlended(pFrmCtrls[i]->fFrmCur, pFrmCtrls[i]->fBlendFrm, fBlendFactor); // Joint Animation Blending...// 하체 일경우
 				}
 				else
@@ -1560,7 +1560,7 @@ void CN3Chr::TickJoints()
 
 			if(m_nJointPartStarts[i] > 0)
 			{
-				float fBlendFactor = pFrmCtrls[i]->fBlendTimeCur / pFrmCtrls[i]->fBlendTime;
+				const float fBlendFactor = pFrmCtrls[i]->fBlendTimeCur / pFrmCtrls[i]->fBlendTime;
 				for(int j = m_nJointPartStarts[i]; j <= m_nJointPartEnds[i]; j++)
 				{
 					if(pFrmCtrls[i]->fBlendTime > 0)
@@ -1583,18 +1583,18 @@ void CN3Chr::TickPlugs(float fLOD)
 	if(nullptr == this->m_pRootJointRef) return;
 
 	CN3CPlug*	pPlug = nullptr;
-	
-	float fFrmCur = m_FrmCtrl.fFrmCur;
+
+	const float fFrmCur = m_FrmCtrl.fFrmCur;
 //	if(m_FrmCtrlUpper.pAniData) fFrmCur = m_FrmCtrlUpper.fFrmCur; // 상체 에니메이션이 있으면...
 
-	int iPC = m_Plugs.size();
+	const int iPC = m_Plugs.size();
 	for(int i = 0; i < iPC; i++)
 	{
 		pPlug = m_Plugs[i];
 		pPlug->m_PMeshInst.SetLOD(fLOD);
 		if (pPlug->m_ePlugType== PLUGTYPE_NORMAL)
 		{
-			__AnimData* pAniData = m_FrmCtrlUpper.pAniData;
+			const __AnimData* pAniData = m_FrmCtrlUpper.pAniData;
 			if(nullptr == pAniData) pAniData = m_FrmCtrl.pAniData;
 			if(nullptr == pAniData) continue;
 			if(pPlug->m_nTraceStep <= 0) continue;
@@ -1658,11 +1658,11 @@ void CN3Chr::RemakePlugTracePolygons()
 
 	if(m_Plugs.empty()) return;
 
-	int iPC = m_Plugs.size();
+	const int iPC = m_Plugs.size();
 	m_vTraces.assign(iPC, nullptr);
 	for(auto i = 0; i < iPC; i++)
 	{
-		int iTS = m_Plugs[i]->m_nTraceStep;
+		const int iTS = m_Plugs[i]->m_nTraceStep;
 		if(iTS <= 0) continue;
 
 		m_vTraces[i] = new __VertexColor[iTS * 2];
@@ -1685,8 +1685,8 @@ void CN3Chr::Render()
 	if(s_iLODDelta > 0)
 	{
 		m_nLOD = MAX_CHR_LOD;
-		float fDist = (m_vPos - s_CameraData.vEye).Magnitude();
-		float fLOD = fDist * s_CameraData.fFOV / (m_fRadius * m_vScale.x); // 덩치에 비례하게 한다..
+		const float fDist = (m_vPos - s_CameraData.vEye).Magnitude();
+		const float fLOD = fDist * s_CameraData.fFOV / (m_fRadius * m_vScale.x); // 덩치에 비례하게 한다..
 		for(int i = 0; i < MAX_CHR_LOD; i++)
 		{
 			if(fLOD < CHR_LOD_CALCULATION_VALUES[s_iLODDelta][i]) // 일단 가장 큰값을 기준으로 하고 LOD 값을 정한 다음..... Render 에서 변경한다....
@@ -1784,23 +1784,23 @@ void CN3Chr::BuildMesh()
 	CN3IMesh* pIMesh = nullptr;
 	CN3Skin* pSkin = nullptr;
 
-	__Matrix44* pMtxJs = &(m_MtxJoints[0]);
-	__Matrix44* pMtxJIs = &(m_MtxInverses[0]);
+	const __Matrix44* pMtxJs = &(m_MtxJoints[0]);
+	const __Matrix44* pMtxJIs = &(m_MtxInverses[0]);
 
-	int iPC = m_Parts.size();
+	const int iPC = m_Parts.size();
 	for(auto i = 0; i < iPC; i++)
 	{
 		pSkin = m_Parts[i]->Skin(m_nLOD);
 		if(nullptr == pSkin) continue;
 
 		__VertexXyzNormal* pVDest = pSkin->Vertices();
-		__VertexSkinned* pVSrc = pSkin->SkinVertices();
+		const __VertexSkinned* pVSrc = pSkin->SkinVertices();
 		if(nullptr == pVDest || nullptr == pVSrc) continue;
 
 		nVC = pSkin->VertexCount();
 		__Vector3 vFinal;
 		int nAffect = 0;
-		float* pfWeights = nullptr;
+		const float* pfWeights = nullptr;
 		for(auto j = 0; j < nVC; j++) // j < m_nBoneVertices 와 같다..
 		{
 
@@ -1883,23 +1883,23 @@ void CN3Chr::BuildMesh(int nLOD)
 	CN3IMesh* pIMesh = nullptr;
 	CN3Skin* pSkin = nullptr;
 
-	__Matrix44* pMtxJs = &(m_MtxJoints[0]);
-	__Matrix44* pMtxJIs = &(m_MtxInverses[0]);
+	const __Matrix44* pMtxJs = &(m_MtxJoints[0]);
+	const __Matrix44* pMtxJIs = &(m_MtxInverses[0]);
 
-	int iPC = m_Parts.size();
+	const int iPC = m_Parts.size();
 	for(auto i = 0; i < iPC; i++)
 	{
 		pSkin = m_Parts[i]->Skin(nLOD);
 		if(nullptr == pSkin) continue;
 
 		__VertexXyzNormal* pVDest = pSkin->Vertices();
-		__VertexSkinned* pVSrc = pSkin->SkinVertices();
+		const __VertexSkinned* pVSrc = pSkin->SkinVertices();
 		if(nullptr == pVDest || nullptr == pVSrc) continue;
 
 		nVC = pSkin->VertexCount();
 		__Vector3 vFinal;
 		int nAffect = 0;
-		float* pfWeights = nullptr;
+		const float* pfWeights = nullptr;
 		for(auto j = 0; j < nVC; j++) // j < m_nBoneVertices 와 같다..
 		{
 
@@ -1973,7 +1973,7 @@ void CN3Chr::JointSet(const std::string& szFN)
 
 void CN3Chr::PartAlloc(int iCount)
 {
-	int iPC = m_Parts.size();
+	const int iPC = m_Parts.size();
 	for(int i = 0; i < iPC; i++) delete m_Parts[i];
 	m_Parts.clear();
 		
@@ -2032,7 +2032,7 @@ CN3CPlug* CN3Chr::PlugSet(int iIndex, const std::string& szFN)
 
 void CN3Chr::PlugAlloc(int iCount)
 {
-	int iPC = m_Plugs.size();
+	const int iPC = m_Plugs.size();
 	for(int i = 0; i < iPC; i++) delete m_Plugs[i];
 	m_Plugs.clear();
 		
@@ -2078,8 +2078,8 @@ int	CN3Chr::AniCurSet(	int iAni,					// Animation 번호,
 //	if(iAni == m_FrmCtrl.iAni) { m_FrmCtrl.iAniLoop = 0; return -1; } // 같은 에니메이션이면 루핑 참조 카운트만 초기화하고 돌아간다.
 	if(iAni < 0 || iAni >= m_pAniCtrlRef->Count()) return -1;
 
-	int iAniPrev = m_FrmCtrl.iAni; // 전의 걸 기억하고..
-	float fFrmPrev = m_FrmCtrl.fFrmCur; // 최근의 프레임..
+	const int iAniPrev = m_FrmCtrl.iAni; // 전의 걸 기억하고..
+	const float fFrmPrev = m_FrmCtrl.fFrmCur; // 최근의 프레임..
 
 	if(bStopUpperAnimation)
 		m_FrmCtrlUpper.Init(); // 상체 에니메이션 강제 종료 !!
@@ -2106,7 +2106,7 @@ void CN3Chr::AniFixToLastFrame( int iAni ) // 마지막 프레임으로 고정 �
 	if(iAni == m_FrmCtrl.iAni) return; // 같은 에니메이션이면 돌아간다.
 	if(iAni < 0 || iAni >= m_pAniCtrlRef->Count()) return;
 
-	__AnimData* pAniData = m_pAniCtrlRef->DataGet(iAni);
+	const __AnimData* pAniData = m_pAniCtrlRef->DataGet(iAni);
 	if(nullptr == pAniData) return;
 
 	m_FrmCtrl.Init();
@@ -2165,7 +2165,7 @@ void CN3Chr::JointPartSet(int nAniPart, int nJS, int nJE)
 {
 	if(nAniPart < 0 || nAniPart >= MAX_CHR_ANI_PART) return;
 	if(m_JointRefs.empty()) return;
-	int iJC = m_JointRefs.size();
+	const int iJC = m_JointRefs.size();
 	if(nJE - nJS < 0 || nJS >= iJC || nJE >= iJC) return;
 
 	m_nJointPartStarts[nAniPart] = nJS;
@@ -2183,7 +2183,7 @@ void CN3Chr::FindMinMax()
 	this->TickAnimationKey(m_FrmCtrl.fFrmCur);
 	this->TickJoints();
 
-	int iJC = m_JointRefs.size();
+	const int iJC = m_JointRefs.size();
 
 	__Vector3 vTmp;
 	m_vMin.Set(FLT_MAX, FLT_MAX, FLT_MAX);
@@ -2220,11 +2220,11 @@ int CN3Chr::CheckCollisionPrecisely(int ixScreen, int iyScreen, __Vector3* pvPic
 	D3DXMatrixInverse(&mtxWI, nullptr, &m_Matrix); // World Matrix Inverse
 	mtxWIRot = mtxWI;
 	mtxWIRot.PosSet(0,0,0);
-	__Vector3 vPos2 = vPos * mtxWI;
-	__Vector3 vDir2 = vDir * mtxWIRot;
+	const __Vector3 vPos2 = vPos * mtxWI;
+	const __Vector3 vDir2 = vDir * mtxWIRot;
 
 	CN3VMesh* pvMesh = nullptr;
-	__Matrix44 Mtx = m_Matrix;
+	const __Matrix44 Mtx = m_Matrix;
 	pvMesh = CollisionMesh();
 
 	if(nullptr == pvMesh) 
@@ -2250,7 +2250,7 @@ int CN3Chr::CheckCollisionPrecisely(const __Vector3 &vPos, const __Vector3 &vDir
 
 	CN3Skin* pSkin = nullptr;
 	__Vector3 vPos2 = vPos, vDir2 = vDir;
-	int iPC = m_Parts.size();
+	const int iPC = m_Parts.size();
 	for(int i = 0; i < iPC; i++)
 	{
 		pSkin = m_Parts[i]->Skin(m_nLOD);

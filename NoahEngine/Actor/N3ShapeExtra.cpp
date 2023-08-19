@@ -20,9 +20,9 @@ void CN3ShapeExtra::Release()
 
 bool CN3ShapeExtra::Load(HANDLE hFile)
 {
-	bool bSuccess = CN3Shape::Load(hFile);
+	const bool bSuccess = CN3Shape::Load(hFile);
 
-	int iPC = m_Parts.size();
+	const int iPC = m_Parts.size();
 	m_Rotations.clear();
 	if(iPC <= 0) return bSuccess;
 
@@ -44,7 +44,7 @@ void CN3ShapeExtra::Tick(float fFrm)
 	if(m_Parts.empty()) return;
 
 	bool bNeedRemakeCollisionMeshes = false;
-	int iPC = m_Parts.size();
+	const int iPC = m_Parts.size();
 	float fDir = 0;
 	__Rotation* pRot = nullptr;
 	__Quaternion qRot;
@@ -57,8 +57,8 @@ void CN3ShapeExtra::Tick(float fFrm)
 		if(	pRot->fRadianPerSec == 0 || 
 			pRot->fRadianCur == pRot->fRadianToReach) continue;
 		(pRot->fRadianCur < pRot->fRadianToReach) ? fDir = 1.0f : fDir = -1.0f; // 도는 방향..
-		
-		float fRotDelta = pRot->fRadianPerSec * fDir * CN3Base::s_fSecPerFrm;
+
+		const float fRotDelta = pRot->fRadianPerSec * fDir * CN3Base::s_fSecPerFrm;
 		pRot->fRadianCur += fRotDelta;
 		if(T_Abs(pRot->fRadianToReach - pRot->fRadianCur) <= fRotDelta) /// 원하는 곳까지 다 열렸다!!
 		{

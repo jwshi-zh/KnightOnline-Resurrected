@@ -75,7 +75,7 @@ void CUITransactionDlg::Render()
 
 	int i;
 
-	POINT ptCur = CGameProcedure::s_pLocalInput->MouseGetPos();
+	const POINT ptCur = CGameProcedure::s_pLocalInput->MouseGetPos();
 	m_pUITooltipDlg->DisplayTooltipsDisable();
 
 	bool bTooltipRender = false;
@@ -138,7 +138,7 @@ void CUITransactionDlg::Render()
 
 	if (bTooltipRender && spItem)
 	{
-		e_UIWND_DISTRICT eUD = GetWndDistrict(spItem);
+		const e_UIWND_DISTRICT eUD = GetWndDistrict(spItem);
 		switch (eUD)
 		{
 		case UIWND_DISTRICT_TRADE_NPC:
@@ -153,7 +153,7 @@ void CUITransactionDlg::Render()
 
 void CUITransactionDlg::InitIconWnd(e_UIWND eWnd)
 {
-	__TABLE_UI_RESRC* pTbl = CGameBase::s_pTbl_UI->Find(CGameBase::s_pPlayer->m_InfoBase.eNation);
+	const __TABLE_UI_RESRC* pTbl = CGameBase::s_pTbl_UI->Find(CGameBase::s_pPlayer->m_InfoBase.eNation);
 
 	m_pUITooltipDlg = new CUIImageTooltipDlg();
 	m_pUITooltipDlg->Init(this);
@@ -174,7 +174,7 @@ void CUITransactionDlg::InitIconWnd(e_UIWND eWnd)
 void CUITransactionDlg::InitIconUpdate()
 {
 	CN3UIArea* pArea;
-	float fUVAspect = (float)45.0f / (float)64.0f;
+	const float fUVAspect = (float)45.0f / (float)64.0f;
 	int i, j;
 
 	for (j = 0; j < MAX_ITEM_TRADE_PAGE; j++)
@@ -257,9 +257,9 @@ void CUITransactionDlg::EnterTransactionState()
 	__TABLE_ITEM_BASIC* pItem = nullptr;													// 아이템 테이블 구조체 포인터..
 	__TABLE_ITEM_EXT* pItemExt = nullptr;
 
-	int iOrg = m_iTradeID / 1000;
-	int iExt = m_iTradeID % 1000;
-	int iSize = CGameBase::s_pTbl_Items_Basic->GetSize();
+	const int iOrg = m_iTradeID / 1000;
+	const int iExt = m_iTradeID % 1000;
+	const int iSize = CGameBase::s_pTbl_Items_Basic->GetSize();
 
 	j = 0;	int k = 0;
 	for (auto i = 0; i < iSize; i++)
@@ -299,7 +299,7 @@ void CUITransactionDlg::EnterTransactionState()
 
 		e_PartPosition ePart;
 		e_PlugPosition ePlug;
-		e_ItemType eType = CGameProcedure::MakeResrcFileNameForUPC(pItem, nullptr, &szIconFN, ePart, ePlug); // 아이템에 따른 파일 이름을 만들어서
+		const e_ItemType eType = CGameProcedure::MakeResrcFileNameForUPC(pItem, nullptr, &szIconFN, ePart, ePlug); // 아이템에 따른 파일 이름을 만들어서
 		__ASSERT(ITEM_TYPE_UNKNOWN != eType, "Unknown Item");
 
 		spItem = new __IconItemSkill;
@@ -348,7 +348,7 @@ void CUITransactionDlg::EnterTransactionState()
 
 	if (m_pStrMyGold)
 	{
-		__InfoPlayerMySelf* pInfoExt = &(CGameBase::s_pPlayer->m_InfoExt);
+		const __InfoPlayerMySelf* pInfoExt = &(CGameBase::s_pPlayer->m_InfoExt);
 		m_pStrMyGold->SetStringAsInt(pInfoExt->iGold);
 	}
 
@@ -368,7 +368,7 @@ void CUITransactionDlg::GoldUpdate() const
 {
 	if (m_pStrMyGold)
 	{
-		__InfoPlayerMySelf* pInfoExt = &(CGameBase::s_pPlayer->m_InfoExt);
+		const __InfoPlayerMySelf* pInfoExt = &(CGameBase::s_pPlayer->m_InfoExt);
 		m_pStrMyGold->SetStringAsInt(pInfoExt->iGold);
 	}
 }
@@ -899,7 +899,7 @@ bool CUITransactionDlg::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 			}
 			else
 			{
-				__InfoPlayerMySelf* pInfoExt = &(CGameBase::s_pPlayer->m_InfoExt);
+				const __InfoPlayerMySelf* pInfoExt = &(CGameBase::s_pPlayer->m_InfoExt);
 
 				// 매수가 X 갯수가 내가 가진 돈보다 많으면.. 그냥 리턴..
 				if ((CN3UIWndBase::m_sRecoveryJobInfo.pItemSource->pItemBasic->iPrice) > pInfoExt->iGold)
@@ -972,7 +972,7 @@ bool CUITransactionDlg::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 
 				// 아이콘 리소스 만들기..
 				spItemNew->pUIIcon = new CN3UIIcon;
-				float fUVAspect = (float)45.0f / (float)64.0f;
+				const float fUVAspect = (float)45.0f / (float)64.0f;
 				spItemNew->pUIIcon->Init(this);
 				spItemNew->pUIIcon->SetTex(szIconFN);
 				spItemNew->pUIIcon->SetUVRect(0, 0, fUVAspect, fUVAspect);
@@ -1093,7 +1093,7 @@ void CUITransactionDlg::ReceiveResultTradeFromServer(byte bResult, byte bType, i
 {
 	CN3UIWndBase::m_sRecoveryJobInfo.m_bWaitFromServer = false;
 	CN3UIString* pStatic = nullptr;
-	__IconItemSkill* spItem = nullptr;
+	const __IconItemSkill* spItem = nullptr;
 	__InfoPlayerMySelf* pInfoExt = &(CGameBase::s_pPlayer->m_InfoExt);
 
 	// 소스 영역이 UIWND_DISTRICT_TRADE_NPC 이면 아이템 사는거..
@@ -1105,7 +1105,7 @@ void CUITransactionDlg::ReceiveResultTradeFromServer(byte bResult, byte bType, i
 			if ((CN3UIWndBase::m_sRecoveryJobInfo.pItemSource->pItemBasic->byContable == UIITEM_TYPE_COUNTABLE) ||
 				(CN3UIWndBase::m_sRecoveryJobInfo.pItemSource->pItemBasic->byContable == UIITEM_TYPE_COUNTABLE_SMALL))
 			{
-				int iGold = CN3UIWndBase::m_pCountableItemEdit->GetQuantity();
+				const int iGold = CN3UIWndBase::m_pCountableItemEdit->GetQuantity();
 
 				if ((m_pMyTradeInv[CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceEnd.iOrder]->iCount - iGold) > 0)
 				{
@@ -1179,7 +1179,7 @@ void CUITransactionDlg::ReceiveResultTradeFromServer(byte bResult, byte bType, i
 			if ((CN3UIWndBase::m_sRecoveryJobInfo.pItemSource->pItemBasic->byContable == UIITEM_TYPE_COUNTABLE) ||
 				(CN3UIWndBase::m_sRecoveryJobInfo.pItemSource->pItemBasic->byContable == UIITEM_TYPE_COUNTABLE_SMALL))
 			{
-				int iGold = CN3UIWndBase::m_pCountableItemEdit->GetQuantity();
+				const int iGold = CN3UIWndBase::m_pCountableItemEdit->GetQuantity();
 
 				if (m_pMyTradeInv[CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceStart.iOrder]->pUIIcon->IsVisible()) // 기존 아이콘이 보인다면..
 				{
@@ -1306,7 +1306,7 @@ DWORD CUITransactionDlg::MouseProc(DWORD dwFlags, const POINT& ptCur, const POIN
 
 int CUITransactionDlg::GetItemiOrder(__IconItemSkill* spItem, e_UIWND_DISTRICT eWndDist)
 {
-	int iReturn = -1;
+	const int iReturn = -1;
 	int i;
 
 	switch (eWndDist)
@@ -1335,7 +1335,7 @@ RECT CUITransactionDlg::GetSampleRect()
 {
 	RECT rect;
 	CN3UIArea* pArea;
-	POINT ptCur = CGameProcedure::s_pLocalInput->MouseGetPos();
+	const POINT ptCur = CGameProcedure::s_pLocalInput->MouseGetPos();
 	pArea = CN3UIWndBase::GetChildAreaByiOrder(UI_AREA_TYPE_TRADE_NPC, 0);
 	rect = pArea->GetRegion();
 	float fWidth = rect.right - rect.left;
@@ -1455,7 +1455,7 @@ bool CUITransactionDlg::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 	e_UIWND_DISTRICT eUIWnd;
 	int iOrder;
 
-	DWORD dwBitMask = 0x000f0000;
+	const DWORD dwBitMask = 0x000f0000;
 
 	switch (dwMsg & dwBitMask)
 	{

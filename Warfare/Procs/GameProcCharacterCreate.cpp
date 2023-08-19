@@ -55,7 +55,7 @@ void CGameProcCharacterCreate::Init()
 	s_pPlayer->m_ChrInv.PartAlloc(PART_POS_COUNT);
 	s_pPlayer->m_ChrInv.PlugAlloc(PLUG_POS_COUNT);
 
-	__TABLE_UI_RESRC* pTblUI = s_pTbl_UI->Find(s_pPlayer->m_InfoBase.eNation);
+	const __TABLE_UI_RESRC* pTblUI = s_pTbl_UI->Find(s_pPlayer->m_InfoBase.eNation);
 	m_pUICharacterCreate = new CUICharacterCreate();
 	m_pUICharacterCreate->Init(s_pUIMgr);
 	m_pUICharacterCreate->LoadFromFile(pTblUI->szCharacterCreate);
@@ -79,9 +79,9 @@ void CGameProcCharacterCreate::Render()
 
 void CGameProcCharacterCreate::SetChr()
 {
-	__InfoPlayerBase*	pInfoBase = &(s_pPlayer->m_InfoBase);
+	const __InfoPlayerBase*	pInfoBase = &(s_pPlayer->m_InfoBase);
 	__InfoPlayerMySelf*	pInfoExt = &(s_pPlayer->m_InfoExt);
-	__TABLE_NEW_CHR* pTbl = m_Tbl_InitValue.Find(pInfoBase->eRace);
+	const __TABLE_NEW_CHR* pTbl = m_Tbl_InitValue.Find(pInfoBase->eRace);
 
 	if(pTbl)
 	{
@@ -126,7 +126,7 @@ void CGameProcCharacterCreate::Tick()
 
 	CGameProcedure::Tick();
 
-	DWORD dwMouseFlags = s_pLocalInput->MouseGetFlag();
+const DWORD dwMouseFlags = s_pLocalInput->MouseGetFlag();
 	m_pUICharacterCreate->Tick();
 	m_pUICharacterCreate->MouseProc(dwMouseFlags, s_pLocalInput->MouseGetPos(), s_pLocalInput->MouseGetPosOld());
 
@@ -150,7 +150,7 @@ bool CGameProcCharacterCreate::MsgSendCharacterCreate()
 	e_ErrorCharacterCreate eErrCode = ERROR_CHARACTER_CREATE_SUCCESS;
 	const std::string& szID = s_pPlayer->IDString();
 
-	int iIDLength = szID.size();
+	const int iIDLength = szID.size();
 	if(iIDLength <= 0)
 	{
 		eErrCode = ERROR_CHARACTER_CREATE_INVALID_NAME;
@@ -220,7 +220,7 @@ bool CGameProcCharacterCreate::MsgSendCharacterCreate()
 		{
 
 			__InfoPlayerBase*	pInfoBase = &(s_pPlayer->m_InfoBase);
-			__InfoPlayerMySelf*	pInfoExt = &(s_pPlayer->m_InfoExt);
+			const __InfoPlayerMySelf*	pInfoExt = &(s_pPlayer->m_InfoExt);
 
 			BYTE byBuff[64];
 			int iOffset = 0;
@@ -288,11 +288,11 @@ void CGameProcCharacterCreate::ReportErrorCharacterCreate(e_ErrorCharacterCreate
 
 bool CGameProcCharacterCreate::ProcessPacket(DataPack* pDataPack, int& iOffset)
 {
-	int iOffsetPrev = iOffset;
+	const int iOffsetPrev = iOffset;
 	if(false == CGameProcedure::ProcessPacket(pDataPack, iOffset)) iOffset = iOffsetPrev;
 	else return true;
 
-	int iCmd = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);	// 커멘드 파싱..
+	const int iCmd = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);	// 커멘드 파싱..
 	switch ( iCmd )										// 커멘드에 다라서 분기..
 	{
 		case N3_NEW_CHARACTER:				// 캐릭터 선택 메시지..

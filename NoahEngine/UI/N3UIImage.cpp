@@ -68,7 +68,7 @@ void CN3UIImage::SetVB()
 			m_pVB->Lock( 0, 0, (void**)&pVertices, 0 );
 
 			DWORD dwColor = 0xffffffff;
-			float fRHW = 1.0f;
+			const float fRHW = 1.0f;
 			// -0.5f를 해주지 않으면 가끔 이미지가 한 돗트씩 밀리는 경우가 있다.(왜 그런지는 확실하게 모르겠음)
 			pVertices[0].Set((float)m_rcRegion.left-0.5f,	(float)m_rcRegion.top-0.5f,		UI_DEFAULT_Z, fRHW, m_Color, m_frcUVRect.left,		m_frcUVRect.top);
 			pVertices[1].Set((float)m_rcRegion.right-0.5f,	(float)m_rcRegion.top-0.5f,		UI_DEFAULT_Z, fRHW, m_Color, m_frcUVRect.right,	m_frcUVRect.top);

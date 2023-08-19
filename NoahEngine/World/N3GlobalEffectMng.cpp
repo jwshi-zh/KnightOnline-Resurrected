@@ -160,11 +160,11 @@ void CN3GlobalEffectMng::WeatherSetRainy(int iPercent)
 	if (m_pGESnow) m_pGESnow->FadeSet(3.0f, false);
 	if (m_pGERain == nullptr) m_pGERain = new CN3GERain;
 
-	float fHeight = 20.0f;
-	float fPercent = iPercent / 100.0f;
-	float fDensity = fPercent * 0.1f;
-	__Vector3 vVelocity(3.0f * ((50-rand()%100) / 50.0f), -(10.0f + 8.0f * fPercent), 0);
-	float fRainLength = 0.4f + 0.6f * fPercent;
+	const float fHeight = 20.0f;
+	const float fPercent = iPercent / 100.0f;
+	const float fDensity = fPercent * 0.1f;
+	const __Vector3 vVelocity(3.0f * ((50-rand()%100) / 50.0f), -(10.0f + 8.0f * fPercent), 0);
+	const float fRainLength = 0.4f + 0.6f * fPercent;
 
 	m_fCellSize = 20.0f;
 	m_pGERain->Create(fDensity, m_fCellSize, fHeight, fRainLength, vVelocity, 10.0f);	// 비
@@ -176,12 +176,12 @@ void CN3GlobalEffectMng::WeatherSetSnow(int iPercent)
 	if (m_pGERain) m_pGERain->FadeSet(3.0f, false);
 	if (m_pGESnow == nullptr) m_pGESnow = new CN3GESnow;
 
-	float fHeight = 20.0f;
-	float fPercent = iPercent / 100.0f;
-	float fDensity = fPercent * 0.1f;
-	float fHorz = (3.0f * fPercent) + (3.0f * ((50-rand()%100) / 50.0f));
-	__Vector3 vVelocity(fHorz, -(2.0f + 2.0f * fPercent), 0);
-	float fSnowSize = 0.1f + 0.1f * fPercent;
+	const float fHeight = 20.0f;
+	const float fPercent = iPercent / 100.0f;
+	const float fDensity = fPercent * 0.1f;
+	const float fHorz = (3.0f * fPercent) + (3.0f * ((50-rand()%100) / 50.0f));
+	const __Vector3 vVelocity(fHorz, -(2.0f + 2.0f * fPercent), 0);
+	const float fSnowSize = 0.1f + 0.1f * fPercent;
 
 	m_fCellSize = 20.0f;
 	m_pGESnow->Create(fDensity, m_fCellSize, fHeight, fSnowSize, vVelocity, 10.0f);	// 비

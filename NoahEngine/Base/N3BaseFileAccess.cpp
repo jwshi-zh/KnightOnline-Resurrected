@@ -25,7 +25,7 @@ void CN3BaseFileAccess::FileNameSet(const std::string& szFileName)
 	std::string szTmpFN = szFileName;
 
 	if(!szTmpFN.empty()) CharLower(&(szTmpFN[0])); // 모두 소문자로 만든다..
- 	int iPos = szTmpFN.find(s_szPath); // 문자열에 Base Path 와 일치하는 이름이 있는지 본다.
+	const int iPos = szTmpFN.find(s_szPath); // 문자열에 Base Path 와 일치하는 이름이 있는지 본다.
 	if(iPos >= 0) m_szFileName = szTmpFN.substr(s_szPath.size()); // 경로가 일치하면.. 긴경로는 짤라준다..
 	else m_szFileName = szTmpFN;
 }
@@ -69,7 +69,7 @@ bool CN3BaseFileAccess::LoadFromFile()
 	}
 
 	DWORD dwRWC = 0;
-	HANDLE hFile = ::CreateFile(szFullPath.c_str(), GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
+	const HANDLE hFile = ::CreateFile(szFullPath.c_str(), GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
 
 	if(INVALID_HANDLE_VALUE == hFile)
 	{
@@ -83,7 +83,7 @@ bool CN3BaseFileAccess::LoadFromFile()
 		return false;
 	}
 
-	bool bSuccess =	this->Load(hFile);
+	const bool bSuccess =	this->Load(hFile);
 
 	CloseHandle(hFile);
 
@@ -100,7 +100,7 @@ bool CN3BaseFileAccess::SaveToFile()
 {
 	if(m_szFileName.size() <= 0)
 	{
-		std::string szErr = m_szName + " Can't open file (write) - NULL String";
+		const std::string szErr = m_szName + " Can't open file (write) - NULL String";
 		MessageBox(::GetActiveWindow(), szErr.c_str(), "File Open Error", MB_OK);
 		return false;
 	}
@@ -117,11 +117,11 @@ bool CN3BaseFileAccess::SaveToFile()
 	}
 
 	DWORD dwRWC = 0;
-	HANDLE hFile = ::CreateFile(szFullPath.c_str(), GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
+	const HANDLE hFile = ::CreateFile(szFullPath.c_str(), GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
 
 	if(hFile == INVALID_HANDLE_VALUE)
 	{
-		std::string szErr = szFullPath + " - Can't open file(write)";
+		const std::string szErr = szFullPath + " - Can't open file(write)";
 		MessageBox(::GetActiveWindow(), szErr.c_str(), "File Handle error", MB_OK);
 		return false;
 	}
@@ -142,7 +142,7 @@ bool CN3BaseFileAccess::Save(HANDLE hFile)
 {
 	DWORD dwRWC = 0;
 
-	int nL = m_szName.size();
+	const int nL = m_szName.size();
 	WriteFile(hFile, &nL, 4, &dwRWC, nullptr);
 	if(nL > 0) WriteFile(hFile, m_szName.c_str(), nL, &dwRWC, nullptr);
 

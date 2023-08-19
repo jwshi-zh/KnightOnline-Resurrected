@@ -76,7 +76,7 @@ bool CUIItemExchange::Load(HANDLE hFile)
 void CUIItemExchange::Render()
 {
 	if (!m_bVisible) return;	// 보이지 않으면 자식들을 render하지 않는다.
-	POINT ptCur = CGameProcedure::s_pLocalInput->MouseGetPos();
+	const POINT ptCur = CGameProcedure::s_pLocalInput->MouseGetPos();
 	m_pUITooltipDlg->DisplayTooltipsDisable();
 
 	bool bTooltipRender = false;
@@ -99,7 +99,7 @@ void CUIItemExchange::Render()
 
 void CUIItemExchange::InitIconWnd(e_UIWND eWnd)
 {
-	__TABLE_UI_RESRC* pTblUI = CGameBase::s_pTbl_UI->Find(CGameBase::s_pPlayer->m_InfoBase.eNation);
+	const __TABLE_UI_RESRC* pTblUI = CGameBase::s_pTbl_UI->Find(CGameBase::s_pPlayer->m_InfoBase.eNation);
 
 	m_pUITooltipDlg = new CUIImageTooltipDlg();
 	m_pUITooltipDlg->Init(this);
@@ -160,7 +160,7 @@ RECT CUIItemExchange::GetSampleRect()
 {
 	RECT rect;
 	CN3UIArea* pArea;
-	POINT ptCur = CGameProcedure::s_pLocalInput->MouseGetPos();
+	const POINT ptCur = CGameProcedure::s_pLocalInput->MouseGetPos();
 	pArea = CN3UIWndBase::GetChildAreaByiOrder(UI_AREA_TYPE_REPAIR_INV, 0);
 	rect = pArea->GetRegion();
 	float fWidth = rect.right - rect.left;
@@ -295,11 +295,11 @@ void CUIItemExchange::UpdateUserTotalGold(int iGold)
 
 int	 CUIItemExchange::CalcRepairGold(__IconItemSkill* spItem)
 {
-	int iMaxDurability = spItem->pItemBasic->siMaxDurability + spItem->pItemExt->siMaxDurability;
+	const int iMaxDurability = spItem->pItemBasic->siMaxDurability + spItem->pItemExt->siMaxDurability;
 	if (iMaxDurability <= 0) return 0;
-	float fAllPrice = (float)spItem->pItemBasic->iPrice*(float)spItem->pItemExt->siPriceMultiply;
-	float fTemp = ((fAllPrice-10.0f)/(10000.0f))+pow(fAllPrice, 0.75f);
-	float fValue = fTemp*( (float)(iMaxDurability - spItem->iDurability) / (float)(iMaxDurability) );
+	const float fAllPrice = (float)spItem->pItemBasic->iPrice*(float)spItem->pItemExt->siPriceMultiply;
+	const float fTemp = ((fAllPrice-10.0f)/(10000.0f))+pow(fAllPrice, 0.75f);
+	const float fValue = fTemp*( (float)(iMaxDurability - spItem->iDurability) / (float)(iMaxDurability) );
 
 	return (int)fValue;
 }
@@ -329,7 +329,7 @@ bool CUIItemExchange::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 	e_UIWND_DISTRICT eUIWnd;
 	int iOrder;
 
-	DWORD dwBitMask = 0x000f0000;
+const DWORD dwBitMask = 0x000f0000;
 
 	switch (dwMsg & dwBitMask)
 	{
@@ -470,7 +470,7 @@ void CUIItemExchange::ReceiveResultFromServer(int iResult, int iUserGold)
 	CN3UIWndBase::m_sRecoveryJobInfo.m_bWaitFromServer = false;
 
 	// 이 윈도우의 npc 영역의 아이템을 이 윈도우의 inv 영역으로 옮긴다..
-	CN3UIArea* pArea = nullptr;
+	const CN3UIArea* pArea = nullptr;
 	for(auto i = 0; i < MAX_ITEM_EX_RE_NPC; i++ )
 	{
 		if(m_pMyNpcWnd[i])
@@ -493,7 +493,7 @@ void CUIItemExchange::ReceiveResultFromServer(int iResult, int iUserGold)
 
 void CUIItemExchange::UserPressCancel()
 {
-	CN3UIArea* pArea = nullptr;
+	const CN3UIArea* pArea = nullptr;
 
 	// 이 윈도우의 npc 영역의 아이템을 이 윈도우의 inv 영역으로 옮긴다..
 	int i;

@@ -628,7 +628,7 @@ bool CUIKnights::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 		if(pSender->m_szID == "btn_clan_down")
 		{
 			m_iPageCur++;
-			int MaxPage = m_MemberList.size()/10 + 1;
+			const int MaxPage = m_MemberList.size()/10 + 1;
 			if(m_iPageCur > MaxPage) m_iPageCur = MaxPage;
 
 			char tmp[4];
@@ -656,7 +656,7 @@ bool CUIKnights::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 		if(pSender->m_szID == "btn_clan_whisper")
 		{
 			std::string szName;
-			int idx = m_pList_Members->GetCurSel();
+			const int idx = m_pList_Members->GetCurSel();
 			if(idx>=0)
 			{
 				m_pList_Members->GetString(idx, szName);
@@ -682,7 +682,7 @@ bool CUIKnights::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 			if(m_fTimeLimit_Remove > 3.0f)
 			{
 				std::string szName;
-				int idx = m_pList_Members->GetCurSel();
+				const int idx = m_pList_Members->GetCurSel();
 				if(idx>=0)
 				{
 					m_pList_Members->GetString(idx, szName);
@@ -700,7 +700,7 @@ bool CUIKnights::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 			if(m_fTimeLimit_Appoint > 3.0f)
 			{
 				std::string szName;
-				int idx = m_pList_Members->GetCurSel();
+				const int idx = m_pList_Members->GetCurSel();
 				if(idx>=0)
 				{
 					m_pList_Members->GetString(idx, szName);
@@ -874,7 +874,7 @@ void CUIKnights::MemberListSort()
 	int iViceChiefCount = 0;
 	while(it!=itEnd)
 	{
-		__KnightsMemberInfo kmi = (*it);
+		const __KnightsMemberInfo kmi = (*it);
 
 		if(kmi.eDuty == KNIGHTS_DUTY_CHIEF)
 		{
@@ -914,7 +914,7 @@ void CUIKnights::RefreshPage()
 	auto it = m_MemberList.begin();
 
 	int i = 10;
-	int e = m_iPageCur * 10;
+	const int e = m_iPageCur * 10;
 
 	for(;i<e;i++)
 	{
@@ -936,14 +936,14 @@ void CUIKnights::RefreshPage()
 		if(KMI.iConnected)
 		{
 			sprintf(szBuff, "%-6s %-20s %-4d %-6s", szDuty.c_str(), KMI.szName.c_str(), KMI.iLevel, szClass.c_str());
-			int idx = m_pList_Members->AddString(szBuff);
+			const int idx = m_pList_Members->AddString(szBuff);
 		
 			m_pList_Members->SetFontColor(idx, 0xff00ff00);
 		}
 		else
 		{
 			sprintf(szBuff, "%-6s %-20s", "....", KMI.szName.c_str());
-			int idx = m_pList_Members->AddString(szBuff);
+			const int idx = m_pList_Members->AddString(szBuff);
 			
 			m_pList_Members->SetFontColor(idx, 0xff808080);
 		}
@@ -984,7 +984,7 @@ bool CUIKnights::MsgRecv_MemberInfo(DataPack* pDataPack, int& iOffset)
 	this->MemberListClear();
 
 	int iPacketLen = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
-	int iKC = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
+	const int iKC = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
 
 	char tmp[4];
 	sprintf(tmp, "%d", iKC);
@@ -1203,15 +1203,15 @@ bool CUIFriends::Load(HANDLE hFile)
 	m_pBtn_Add			= (CN3UIButton*)this->GetChildByID("Btn_Add");		__ASSERT(m_pBtn_Add, "NULL UI Component!!");
 	m_pBtn_Delete		= (CN3UIButton*)this->GetChildByID("Btn_Delete");	__ASSERT(m_pBtn_Delete, "NULL UI Component!!");
 
-	std::string szFN = CGameProcedure::s_szAccount + "_" + CGameProcedure::s_szServer + ".txt"; // 파일이름은 계정_서버.txt 로 한다.
+	const std::string szFN = CGameProcedure::s_szAccount + "_" + CGameProcedure::s_szServer + ".txt"; // 파일이름은 계정_서버.txt 로 한다.
 	FILE* pFile = fopen(szFN.c_str(), "r");
 	if (pFile)
 	{
 		char szLine[256] = "";
-		char* pszResult = fgets(szLine, 256, pFile); // 줄을 읽고..
+		const char* pszResult = fgets(szLine, 256, pFile); // 줄을 읽고..
 		while(pszResult)
 		{
-			int iLen = lstrlen(szLine);
+			const int iLen = lstrlen(szLine);
 			if(iLen > 3 && iLen <= 22)
 			{
 				std::string szTmp = szLine;
@@ -1235,7 +1235,7 @@ bool CUIFriends::Load(HANDLE hFile)
 
 void CUIFriends::SaveListToTextFile(const std::string& szID) // 문자열이 있으면 추가하고.. 없으면 몽땅 저장..
 {
-	std::string szFN = CGameProcedure::s_szAccount + "_" + CGameProcedure::s_szServer + ".txt"; // 파일이름은 계정_서버.txt 로 한다.
+	const std::string szFN = CGameProcedure::s_szAccount + "_" + CGameProcedure::s_szServer + ".txt"; // 파일이름은 계정_서버.txt 로 한다.
 	char szFlags[4] = "w";
 	if(!szID.empty()) lstrcpy(szFlags, "a");
 	FILE* pFile = fopen(szFN.c_str(), szFlags);
@@ -1268,7 +1268,7 @@ bool CUIFriends::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 	{
 		if(pSender == m_pBtn_PrevPage || pSender == m_pBtn_NextPage)
 		{
-			int iPagePrev = m_iPageCur;
+			const int iPagePrev = m_iPageCur;
 
 			if(pSender == m_pBtn_PrevPage) m_iPageCur--;
 			else m_iPageCur++;
@@ -1317,7 +1317,7 @@ bool CUIFriends::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 		{
 			if(m_pList_Friends)
 			{
-				int iSel = m_pList_Friends->GetCurSel();
+				const int iSel = m_pList_Friends->GetCurSel();
 				std::string szID;
 				m_pList_Friends->GetString(iSel, szID);
 
@@ -1329,7 +1329,7 @@ bool CUIFriends::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 		{
 			if(m_pList_Friends)
 			{
-				int iSel = m_pList_Friends->GetCurSel();
+				const int iSel = m_pList_Friends->GetCurSel();
 				std::string szID;
 				m_pList_Friends->GetString(iSel, szID);
 				pProcMain->MsgSend_ChatSelectTarget(szID);
@@ -1337,10 +1337,10 @@ bool CUIFriends::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 		}
 		else if(pSender == m_pBtn_Party) // 파티 신청
 		{
-			int iSel = m_pList_Friends->GetCurSel();
+			const int iSel = m_pList_Friends->GetCurSel();
 			std::string szID;
 			m_pList_Friends->GetString(iSel, szID);
-			auto it = m_MapFriends.find(szID);
+			const auto it = m_MapFriends.find(szID);
 			if(it != m_MapFriends.end())
 			{
 				std::string szMsg;
@@ -1371,7 +1371,7 @@ bool CUIFriends::MemberAdd(const std::string &szID, int iID, bool bOnLine, bool 
 
 bool CUIFriends::MemberDelete(const std::string &szID)
 {
-	auto it = m_MapFriends.find(szID);
+	const auto it = m_MapFriends.find(szID);
 	if(it == m_MapFriends.end()) return false;
 
 	m_MapFriends.erase(it);
@@ -1382,7 +1382,7 @@ bool CUIFriends::MemberDelete(const std::string &szID)
 void CUIFriends::UpdateList()
 {
 	if(nullptr == m_pList_Friends) return;
-	int iSelPrev = m_pList_Friends->GetCurSel();
+	const int iSelPrev = m_pList_Friends->GetCurSel();
 
 	m_pList_Friends->ResetContent();
 	if(m_MapFriends.empty()) return;
@@ -1390,13 +1390,13 @@ void CUIFriends::UpdateList()
 //	RECT rc = m_pList_Friends->GetRegion();
 //	DWORD dwH = m_pList_Friends->FontHeight();
 //	int iLinePerPage = (rc.bottom - rc.top) / dwH;
-	int iLinePerPage = 10;
+	const int iLinePerPage = 10;
 //	if(iLinePerPage <= 0) return;
 
-	int iPageMax = m_MapFriends.size() / iLinePerPage;
+	const int iPageMax = m_MapFriends.size() / iLinePerPage;
 	if(m_iPageCur > iPageMax) return;
 
-	int iSkip = m_iPageCur * iLinePerPage;
+	const int iSkip = m_iPageCur * iLinePerPage;
 	if(iSkip >= m_MapFriends.size()) return;
 
 	if(m_pText_Page) m_pText_Page->SetStringAsInt(m_iPageCur+1); // 페이지 표시..
@@ -1407,7 +1407,7 @@ void CUIFriends::UpdateList()
 	for(auto i = 0; i < iLinePerPage && it != itEnd; i++, it++)
 	{
 		__FriendsInfo& FI = it->second;
-		int iIndex = m_pList_Friends->AddString(FI.szName);
+		const int iIndex = m_pList_Friends->AddString(FI.szName);
 		
 		D3DCOLOR crStatus;
 		if(FI.bOnLine)
@@ -1425,7 +1425,7 @@ void CUIFriends::UpdateList()
 
 void CUIFriends::MsgSend_MemberInfo(bool bDisableInterval)
 {
-	float fTime = CN3Base::TimeGet();
+	const float fTime = CN3Base::TimeGet();
 	static float fTimePrev = 0;
 	if(bDisableInterval) if(fTime < fTimePrev + 3.0f) return;
 	fTimePrev = fTime;
@@ -1434,7 +1434,7 @@ void CUIFriends::MsgSend_MemberInfo(bool bDisableInterval)
 	if(m_MapFriends.empty()) return;
 	if(nullptr == m_pList_Friends) return;
 
-	int iFC = m_pList_Friends->GetCount();
+	const int iFC = m_pList_Friends->GetCount();
 	if(iFC <= 0) return;
 
 	int iOffset = 0;
@@ -1456,7 +1456,7 @@ void CUIFriends::MsgSend_MemberInfo(bool bDisableInterval)
 void CUIFriends::MsgSend_MemberInfo(const std::string& szID)
 {
 	if(szID.empty() || szID.size() > 20) return;
-	int iFC = 1;
+	const int iFC = 1;
 
 	int iOffset = 0;
 	BYTE byBuff[32];
@@ -1477,7 +1477,7 @@ void CUIFriends::MsgRecv_MemberInfo(DataPack* pDataPack, int& iOffset)
 	int iID = 0;
 	BYTE bStatus = 0;
 
-	int iFC = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); 
+	const int iFC = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); 
 	for(int i = 0; i < iFC; i++)
 	{
 		iLen = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // 친구 정보.. Send s1(이름길이), str1(유저이름) | Receive s1(이름길이), str1(유저이름), s1(ID), b2(접속, 파티)
@@ -1652,7 +1652,7 @@ void CUIVarious::Open()
 {
 	// 스르륵 열린다!!
 	this->SetVisible(true);
-	RECT rc = this->GetRegion();
+	const RECT rc = this->GetRegion();
 	this->SetPos(-(rc.right - rc.left), 80);
 	m_fMoveDelta = 0;
 	m_bOpenningNow = true;
@@ -1693,15 +1693,15 @@ void CUIVarious::Tick()
 	if(m_bOpenningNow) // 오른쪽에서 왼쪽으로 스르륵...열려야 한다면..
 	{
 		POINT ptCur = this->GetPos();
-		RECT rc = this->GetRegion();
-		auto fWidth = (float)(rc.right - rc.left);
+		const RECT rc = this->GetRegion();
+		const auto fWidth = (float)(rc.right - rc.left);
 
 		float fDelta = 5000.0f * CN3Base::s_fSecPerFrm;
 		fDelta *= (fWidth - m_fMoveDelta) / fWidth;
 		if(fDelta < 2.0f) fDelta = 2.0f;
 		m_fMoveDelta += fDelta;
 
-		int iXLimit = 0;
+		const int iXLimit = 0;
 		ptCur.x = (int)(m_fMoveDelta - fWidth);
 		if(ptCur.x >= iXLimit) // 다열렸다!!
 		{
@@ -1714,15 +1714,15 @@ void CUIVarious::Tick()
 	else if(m_bClosingNow) // 오른쪽에서 왼쪽으로 스르륵...열려야 한다면..
 	{
 		POINT ptCur = this->GetPos();
-		RECT rc = this->GetRegion();
-		auto fWidth = (float)(rc.right - rc.left);
+		const RECT rc = this->GetRegion();
+		const auto fWidth = (float)(rc.right - rc.left);
 
 		float fDelta = 5000.0f * CN3Base::s_fSecPerFrm;
 		fDelta *= (fWidth - m_fMoveDelta) / fWidth;
 		if(fDelta < 2.0f) fDelta = 2.0f;
 		m_fMoveDelta += fDelta;
 
-		int iXLimit = -fWidth;
+		const int iXLimit = -fWidth;
 		ptCur.x = -m_fMoveDelta;
 		if(ptCur.x <= iXLimit) // 다 닫혔다..!!
 		{

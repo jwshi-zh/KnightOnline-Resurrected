@@ -46,7 +46,7 @@ bool CN3RiverPatch::Save(HANDLE hFile)
 	int i;
 	for (i=0; i<m_iRiverCount; ++i)
 	{
-		__River* pR = m_pRivers+i;
+		const __River* pR = m_pRivers+i;
 		WriteFile(hFile, &(pR->iRiverID), sizeof(pR->iRiverID), &dwNum, nullptr);
 		WriteFile(hFile, &(pR->iVertexCount), sizeof(pR->iVertexCount), &dwNum, nullptr);
 		if (pR->iVertexCount>0)

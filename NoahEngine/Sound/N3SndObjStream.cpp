@@ -31,8 +31,8 @@ bool CN3SndObjStream::Create(const std::string& szFN, e_SndType eType)
 
 	m_szFileName = szFN;
 
-	DWORD nBlockAlign = m_WaveFormat.nBlockAlign;
-	DWORD BlockPerSec = m_WaveFormat.nSamplesPerSec * nBlockAlign; 
+	const DWORD nBlockAlign = m_WaveFormat.nBlockAlign;
+	const DWORD BlockPerSec = m_WaveFormat.nSamplesPerSec * nBlockAlign; 
 
 	m_PlayTime = m_PastTime = m_WaveSize/BlockPerSec;
 	m_FinalByte = m_WaveSize%BlockPerSec;
@@ -98,7 +98,7 @@ BOOL CN3SndObjStream::InitWriteBuffer() const
 	LPVOID	pSoundBlock2 = nullptr;
 	DWORD	byteSoundBlock1 = 0;
 	DWORD	byteSoundBlock2 = 0;
-	DWORD	Offset = 0;
+	const DWORD	Offset = 0;
 	
 	HRESULT hResult;
 	//ReadStream();

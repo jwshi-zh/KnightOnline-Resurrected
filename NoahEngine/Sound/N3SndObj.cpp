@@ -368,8 +368,8 @@ void CN3SndObj::SetVolume(int Vol)
 		return;
 	}
 
-	float fVol = (float)(Vol) / 100.0f;
-	long dwVol = (long)(log10(fVol) * 3000);	//데시벨 관련 소리조절식..
+	const float fVol = (float)(Vol) / 100.0f;
+	const long dwVol = (long)(log10(fVol) * 3000);	//데시벨 관련 소리조절식..
 	m_lpDSBuff->SetVolume(dwVol);
 }
 
@@ -575,7 +575,7 @@ void CN3SndObj::SetDopplerFactor(D3DVALUE factor)
 void CN3SndObj::SetListenerPos(const D3DVECTOR* pVPos, bool IsDeferred)
 {
 	if(nullptr == s_lpDSListener || nullptr == pVPos) return;
-	DWORD dwParam = (IsDeferred) ? DS3D_DEFERRED : DS3D_IMMEDIATE;
+	const DWORD dwParam = (IsDeferred) ? DS3D_DEFERRED : DS3D_IMMEDIATE;
 	s_lpDSListener->SetPosition(pVPos->x, pVPos->y, pVPos->z, dwParam);
 	s_bNeedDeferredTick = true;	// 3D Listener CommitDeferredSetting
 }
@@ -587,7 +587,7 @@ void CN3SndObj::SetListenerPos(const D3DVECTOR* pVPos, bool IsDeferred)
 void CN3SndObj::SetListenerOrientation(const D3DVECTOR* pVAt, const D3DVECTOR* pVUp, bool IsDeferred)
 {
 	if(nullptr == s_lpDSListener || nullptr == pVAt || nullptr == pVUp) return;
-	DWORD dwParam = (IsDeferred) ? DS3D_DEFERRED : DS3D_IMMEDIATE;
+	const DWORD dwParam = (IsDeferred) ? DS3D_DEFERRED : DS3D_IMMEDIATE;
 	s_lpDSListener->SetOrientation(pVAt->x, pVAt->y, pVAt->z, pVUp->x, pVUp->y, pVUp->z, dwParam);
 	s_bNeedDeferredTick = true;	// 3D Listener CommitDeferredSetting
 }

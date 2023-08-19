@@ -177,7 +177,7 @@ void CN3VMesh::Render(D3DCOLOR crLine) const
 	__VertexColor vTs[3];
 	if(m_nIC)
 	{
-		int nFC = m_nIC / 3;
+		const int nFC = m_nIC / 3;
 		for(int i = 0; i < nFC; i++)
 		{
 			vTs[0].Set(m_pVertices[m_pwIndices[i*3+0]], crLine);
@@ -189,7 +189,7 @@ void CN3VMesh::Render(D3DCOLOR crLine) const
 	}
 	else
 	{
-		int nFC = m_nVC / 3;
+		const int nFC = m_nVC / 3;
 		for(int i = 0; i < nFC; i++)
 		{
 			vTs[0].Set(m_pVertices[i*3+0], crLine);
@@ -307,8 +307,8 @@ bool CN3VMesh::Pick(const __Matrix44& MtxWorld, const __Vector3& vPos, const __V
 	mtxWIRot.PosSet(0,0,0);
 	mtxRot = MtxWorld;
 	mtxRot.PosSet(0,0,0);
-	__Vector3 vPos2 = vPos * mtxWI;
-	__Vector3 vDir2 = vDir * mtxWIRot;
+	const __Vector3 vPos2 = vPos * mtxWI;
+	const __Vector3 vDir2 = vDir * mtxWIRot;
 
 	int nFC = 0;
 	if(m_nIC > 0) nFC = m_nIC / 3;
@@ -402,7 +402,7 @@ void CN3VMesh::PartialColRender(int iCount, int* piIndices)
 	__VertexColor vTs[3];
 	if(iCount)
 	{
-		int nFC = iCount / 3;
+		const int nFC = iCount / 3;
 		for(int i = 0; i < nFC; i++)
 		{
 			vTs[0].Set(m_pVertices[piIndices[i*3+0]], 0xffffffff);

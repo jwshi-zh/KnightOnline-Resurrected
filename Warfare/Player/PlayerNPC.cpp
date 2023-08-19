@@ -44,8 +44,8 @@ void CPlayerNPC::Tick()
 		__Vector3 vOffset = m_vPosFromServer - vPos; vOffset.y = 0;
 		__Vector3 vDir = vOffset; vDir.Normalize();  // 방향.. 
 
-		float fSpeedAbsolute = (m_fMoveSpeedPerSec > 0) ? m_fMoveSpeedPerSec : -m_fMoveSpeedPerSec; // 속도 절대값
-		float fDist = vOffset.Magnitude(); // 거리
+		const float fSpeedAbsolute = (m_fMoveSpeedPerSec > 0) ? m_fMoveSpeedPerSec : -m_fMoveSpeedPerSec; // 속도 절대값
+		const float fDist = vOffset.Magnitude(); // 거리
 		if(fDist < fSpeedAbsolute * CN3Base::s_fSecPerFrm) // 움직이는 거리가 거의 다온거면..
 		{
 			vPos.x = m_vPosFromServer.x; // 위치를 고정해주고..
@@ -55,12 +55,12 @@ void CPlayerNPC::Tick()
 		}
 		else 
 		{
-			float fYaw = (m_fMoveSpeedPerSec < 0) ? ::_Yaw2D(-vDir.x, -vDir.z) : ::_Yaw2D(vDir.x, vDir.z); // 방향을 계산해서..
+			const float fYaw = (m_fMoveSpeedPerSec < 0) ? ::_Yaw2D(-vDir.x, -vDir.z) : ::_Yaw2D(vDir.x, vDir.z); // 방향을 계산해서..
 			this->RotateTo(fYaw, false); // 진행 방향으로 돌리고..
 
 			e_StateMove eMove = PSM_STOP; // 움직임...
 			// 플레이어면 걷는 속도가 기준 나머지는 덩치에 반비례..
-			float fStandWalk = ((PLAYER_OTHER == m_ePlayerType) ? (MOVE_SPEED_WHEN_WALK * 2.0f) : (MOVE_SPEED_WHEN_WALK * m_Chr.Radius() * 2.0f));
+			const float fStandWalk = ((PLAYER_OTHER == m_ePlayerType) ? (MOVE_SPEED_WHEN_WALK * 2.0f) : (MOVE_SPEED_WHEN_WALK * m_Chr.Radius() * 2.0f));
 			if(m_fMoveSpeedPerSec < 0) eMove = PSM_WALK_BACKWARD; // 뒤로 걷기..
 			else if(m_fMoveSpeedPerSec < fStandWalk) eMove = PSM_WALK; // 앞으로 걷기..
 			else eMove = PSM_RUN; // if(fDN > 5.0f) // 다음 위치의 거리가 일정 이상이면 뛰어간다.
@@ -69,8 +69,8 @@ void CPlayerNPC::Tick()
 			vPos += vDir * (fSpeedAbsolute * s_fSecPerFrm); // 이동..
 		}
 
-		float fYTerrain = ACT_WORLD->GetHeightWithTerrain(vPos.x, vPos.z); // 지면의 높이값..
-		float fYMesh = ACT_WORLD->GetHeightNearstPosWithShape(vPos, 1.0f); // 충돌 체크 오브젝트의 높이값..
+		const float fYTerrain = ACT_WORLD->GetHeightWithTerrain(vPos.x, vPos.z); // 지면의 높이값..
+		const float fYMesh = ACT_WORLD->GetHeightNearstPosWithShape(vPos, 1.0f); // 충돌 체크 오브젝트의 높이값..
 		if(fYMesh != -FLT_MAX && fYMesh > fYTerrain && fYMesh < m_fYNext + 1.0f) m_fYNext = fYMesh; // 올라갈수 있는 오브젝트이고 높이값이 지면보다 높으면.
 		else m_fYNext = fYTerrain;
 		this->PositionSet(vPos, false); // 위치 최종 적용..
@@ -98,7 +98,7 @@ void CPlayerNPC::MoveTo(float fPosX, float fPosY, float fPosZ, float fSpeed, int
 	{
 		m_fMoveSpeedPerSec = fSpeed;
 		__Vector3 vPos = m_Chr.Pos(); vPos.y = 0;
-		__Vector3 vPosS(fPosX, 0, fPosZ);
+		const __Vector3 vPosS(fPosX, 0, fPosZ);
 	
 		if(fSpeed) m_fMoveSpeedPerSec *= ((vPosS - vPos).Magnitude() / (fSpeed * PACKET_INTERVAL_MOVE)) * 0.85f; // 속도보간.. 동기화때문에 그런다.. 약간 줄여주는 이유는 멈칫하는걸 방지하기 위해서이다..
 		else m_fMoveSpeedPerSec = ((vPosS - vPos).Magnitude() / (fSpeed * PACKET_INTERVAL_MOVE)) * 0.85f; // 속도보간.. 동기화때문에 그런다.. 약간 줄여주는 이유는 멈칫하는걸 방지하기 위해서이다..

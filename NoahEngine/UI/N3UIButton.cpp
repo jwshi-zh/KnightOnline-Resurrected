@@ -84,7 +84,7 @@ void CN3UIButton::Render()
 		}
 	}
 
-	int i = 0;
+    const int i = 0;
 	for(auto itor = m_Children.rbegin(); m_Children.rend() != itor; ++itor)
 	{
 		CN3UIBase* pChild = (*itor);
@@ -243,7 +243,7 @@ bool CN3UIButton::Load(HANDLE hFile)
 	{
 		CN3UIBase* pChild = (*itor);
 		if (UI_TYPE_IMAGE != pChild->UIType()) continue;	// image만 골라내기
-		int iBtnState = (int)(pChild->GetReserved());
+		const int iBtnState = (int)(pChild->GetReserved());
 		if (iBtnState<NUM_BTN_STATE)
 		{
 			m_ImageRef[iBtnState] = (CN3UIImage*)pChild;

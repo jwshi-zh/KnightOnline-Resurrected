@@ -43,18 +43,18 @@ void CN3ColorChange::Tick()
 		m_fPercentage = m_fRate = 0.0f;
 		return;
 	}
-	int iPrevA = (m_PrevColor & 0xff000000)>>24;
-	int iPrevR = (m_PrevColor & 0x00ff0000)>>16;
-	int iPrevG = (m_PrevColor & 0x0000ff00)>>8;
-	int iPrevB = (m_PrevColor & 0x000000ff);
-	int iNextA = (m_NextColor & 0xff000000)>>24;
-	int iNextR = (m_NextColor & 0x00ff0000)>>16;
-	int iNextG = (m_NextColor & 0x0000ff00)>>8;
-	int iNextB = (m_NextColor & 0x000000ff);
-	DWORD dwCurA = ((iPrevA + int((iNextA-iPrevA)*m_fPercentage))&0xff) << 24;
-	DWORD dwCurR = ((iPrevR + int((iNextR-iPrevR)*m_fPercentage))&0xff) << 16;
-	DWORD dwCurG = ((iPrevG + int((iNextG-iPrevG)*m_fPercentage))&0xff) << 8;
-	DWORD dwCurB = ((iPrevB + int((iNextB-iPrevB)*m_fPercentage))&0xff);
+	const int iPrevA = (m_PrevColor & 0xff000000)>>24;
+	const int iPrevR = (m_PrevColor & 0x00ff0000)>>16;
+	const int iPrevG = (m_PrevColor & 0x0000ff00)>>8;
+	const int iPrevB = (m_PrevColor & 0x000000ff);
+	const int iNextA = (m_NextColor & 0xff000000)>>24;
+	const int iNextR = (m_NextColor & 0x00ff0000)>>16;
+	const int iNextG = (m_NextColor & 0x0000ff00)>>8;
+	const int iNextB = (m_NextColor & 0x000000ff);
+	const DWORD dwCurA = ((iPrevA + int((iNextA-iPrevA)*m_fPercentage))&0xff) << 24;
+	const DWORD dwCurR = ((iPrevR + int((iNextR-iPrevR)*m_fPercentage))&0xff) << 16;
+	const DWORD dwCurG = ((iPrevG + int((iNextG-iPrevG)*m_fPercentage))&0xff) << 8;
+	const DWORD dwCurB = ((iPrevB + int((iNextB-iPrevB)*m_fPercentage))&0xff);
 
 	m_CurColor = dwCurA|dwCurR|dwCurG|dwCurB;
 }

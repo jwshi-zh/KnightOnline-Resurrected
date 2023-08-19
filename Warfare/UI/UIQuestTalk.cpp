@@ -29,8 +29,8 @@ void CUIQuestTalk::Open(DataPack *pDataPack, int &iOffset)
 	{
 		m_szTalk[i] = "";
 
-		int index = CAPISocket::Parse_GetDword(pDataPack->m_pData, iOffset);
-		__TABLE_QUEST_TALK* pTbl_Quest_Talk = CGameBase::s_pTbl_QuestTalk->Find(index);
+		const int index = CAPISocket::Parse_GetDword(pDataPack->m_pData, iOffset);
+		const __TABLE_QUEST_TALK* pTbl_Quest_Talk = CGameBase::s_pTbl_QuestTalk->Find(index);
 		if(pTbl_Quest_Talk)
 		{
 			m_szTalk[i] = pTbl_Quest_Talk->szTalk;

@@ -29,7 +29,7 @@ DWORD CN3UIManager::MouseProc(DWORD dwFlags, const POINT& ptCur, const POINT& pt
 	for(auto itor = m_Children.begin(); m_Children.end() != itor; )
 	{
 		CN3UIBase* pChild = (*itor);
-		DWORD dwChildRet = pChild->MouseProc(dwFlags, ptCur, ptOld);
+		const DWORD dwChildRet = pChild->MouseProc(dwFlags, ptCur, ptOld);
 		if (UI_MOUSEPROC_DONESOMETHING & dwChildRet)
 		{	// 이경우에는 먼가 포커스를 받은 경우이다.
 			itor = m_Children.erase(itor);			// 우선 리스트에서 지우고
@@ -57,7 +57,7 @@ DWORD CN3UIManager::MouseProc(DWORD dwFlags, const POINT& ptCur, const POINT& pt
 
 void CN3UIManager::ReorderChildList()	// 다이알로그 순서 재배치
 {
-	int iChildCount = m_Children.size();
+	const int iChildCount = m_Children.size();
 	if (iChildCount<=0) return;
 	auto** ppBuffer = new CN3UIBase*[iChildCount];
 	int iAlwaysTopChildCount = 0;

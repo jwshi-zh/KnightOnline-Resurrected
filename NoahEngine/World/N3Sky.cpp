@@ -31,7 +31,7 @@ void CN3Sky::Tick()
 	m_SkyColor.Tick();
 	m_FogColor.Tick();
 	int i;
-	D3DCOLOR FogColor = m_FogColor.GetCurColor();
+	const D3DCOLOR FogColor = m_FogColor.GetCurColor();
 	for (i=0; i<4; ++i)
 	{
 		m_vFronts[i].color = (m_vFronts[i].color&0xff000000) | (FogColor&0x00ffffff);
@@ -43,7 +43,7 @@ void CN3Sky::Render() const
 {
     // Set up a rotation matrix to orient the billboard towards the camera.
 	__Matrix44 matWorld;
-	__Vector3 vDir = s_CameraData.vEye - s_CameraData.vAt;	// 카메라의 방향
+    const __Vector3 vDir = s_CameraData.vEye - s_CameraData.vAt;	// 카메라의 방향
 	if (0.0f == vDir.x) matWorld.Identity();
 	else if( vDir.x > 0.0f ) matWorld.RotationY(-atanf(vDir.z/vDir.x) - (D3DX_PI * 0.5f));
 	else  matWorld.RotationY(-atanf(vDir.z/vDir.x) + (D3DX_PI * 0.5f));

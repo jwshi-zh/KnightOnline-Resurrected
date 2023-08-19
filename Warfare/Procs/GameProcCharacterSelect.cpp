@@ -106,8 +106,8 @@ void CGameProcCharacterSelect::Init()
 
 	CGameProcedure::s_iChrSelectIndex = 0;
 
-	e_Nation eNation = s_pPlayer->m_InfoBase.eNation;
-	__TABLE_UI_RESRC* pTbl = s_pTbl_UI->Find(eNation);
+const e_Nation eNation = s_pPlayer->m_InfoBase.eNation;
+const __TABLE_UI_RESRC* pTbl = s_pTbl_UI->Find(eNation);
 
 	m_pUICharacterSelect = new CUICharacterSelect();
 	m_pUICharacterSelect->Init(s_pUIMgr);
@@ -208,8 +208,8 @@ void CGameProcCharacterSelect::Tick()
 	CGameProcedure::Tick();	// 키, 마우스 입력 등등..
 
 	__Vector3 vDir = CN3Base::s_CameraData.vAt - CN3Base::s_CameraData.vEye; vDir.Normalize();
-	__Vector3 vEye = CN3Base::s_CameraData.vEye; 
-	__Vector3 vUp(0,1,0);
+	const __Vector3 vEye = CN3Base::s_CameraData.vEye;
+	const __Vector3 vUp(0,1,0);
 	CN3SndObj::SetListenerPos(&vEye);
 	CN3SndObj::SetListenerOrientation(&vDir, &vUp);
 
@@ -219,7 +219,7 @@ void CGameProcCharacterSelect::Tick()
 	if(s_pUIMgr->m_bDoneSomething == false && s_pUIMgr->EnableOperation()) // 패킷을 받기 전에 아무짓도 못하게 한다.
 	{
 		s_pUIMgr->SetFocusedUI(m_pUICharacterSelect);
-		int nMFlags = s_pLocalInput->MouseGetFlag();					// Mouse 상태 플래그..
+		const int nMFlags = s_pLocalInput->MouseGetFlag();					// Mouse 상태 플래그..
 		if(nMFlags & MOUSE_LBCLICK) // 누르는 순간..
 		{
 			if (m_eCurProcess == PROCESS_ROTATEING)
@@ -227,9 +227,9 @@ void CGameProcCharacterSelect::Tick()
 
 			D3DVIEWPORT9 vp;
 			CN3Base::s_lpD3DDev->GetViewport(&vp);
-			
-			RECT rc = { vp.Width * 0.36f, vp.Height * 0.44f, vp.Width * 0.64f, vp.Height * 0.86f };
-			POINT pt = s_pLocalInput->MouseGetPos();
+
+			const RECT rc = { vp.Width * 0.36f, vp.Height * 0.44f, vp.Width * 0.64f, vp.Height * 0.86f };
+			const POINT pt = s_pLocalInput->MouseGetPos();
 
 			if ( ::PtInRect(&rc, pt) )
 			{
@@ -260,7 +260,7 @@ NowRotating:
 
 void CGameProcCharacterSelect::Render()
 {
-	D3DCOLOR crEnv = 0x00000000;
+	const D3DCOLOR crEnv = 0x00000000;
 	s_pEng->Clear(crEnv); // 배경은 검은색
 	s_pEng->s_lpD3DDev->BeginScene();			// 씬 렌더 ㅅ작...
 
@@ -605,7 +605,7 @@ void CGameProcCharacterSelect::AddChrPart(	CN3Chr* pChr,
 	else pPart = pChr->PartSet(ePartPos, szResrcFN);
 	if(pPart && pItem && pItem->siMaxDurability > 0)
 	{
-		int iPercentage = iItemDurability * 100 / pItem->siMaxDurability;
+		const int iPercentage = iItemDurability * 100 / pItem->siMaxDurability;
 		if(iPercentage <= 30) pPart->TexOverlapSet("Misc\\Dust_Hard.dxt");
 		else if(iPercentage <= 70) pPart->TexOverlapSet("Misc\\Dust_Soft.dxt");
 		else pPart->TexOverlapSet("");
@@ -635,7 +635,7 @@ void CGameProcCharacterSelect::MsgRecv_DeleteChr(DataPack* pDataPack, int& iOffs
 
 int	CGameProcCharacterSelect::MsgRecv_VersionCheck(DataPack* pDataPack, int& iOffset) // virtual
 {
-	int iVersion = CGameProcedure::MsgRecv_VersionCheck(pDataPack, iOffset);
+	const int iVersion = CGameProcedure::MsgRecv_VersionCheck(pDataPack, iOffset);
 	if(iVersion == CURRENT_VERSION)
 	{
 		this->MsgSend_CharacterSelect(); // 게임 서버에 로그인..
@@ -647,7 +647,7 @@ int	CGameProcCharacterSelect::MsgRecv_VersionCheck(DataPack* pDataPack, int& iOf
 
 bool CGameProcCharacterSelect::MsgRecv_CharacterSelect(DataPack* pDataPack, int& iOffset) // virtual
 {
-	bool bSuccess = CGameProcedure::MsgRecv_CharacterSelect(pDataPack, iOffset);
+	const bool bSuccess = CGameProcedure::MsgRecv_CharacterSelect(pDataPack, iOffset);
 
 	if(bSuccess) this->CharacterSelect(); // 캐릭터를 일으킨다..
 	else this->CharacterSelectFailed();
@@ -1162,7 +1162,7 @@ void CGameProcCharacterSelect::DoProcPreselect()
 	top = vp.Height * 0.44f;
 	bottom = vp.Height * 0.86f;
 
-	POINT pt = s_pLocalInput->MouseGetPos(); 
+	const POINT pt = s_pLocalInput->MouseGetPos(); 
 
 	int	iPosIndex;
 	switch( m_eCurPos )
@@ -1273,12 +1273,12 @@ void CGameProcCharacterSelect::DecreseLightFactor()
 
 void CGameProcCharacterSelect::MsgRecv_AllCharacterInfo(DataPack* pDataPack, int& iOffset)
 {
-	int iResult = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // 결과..
+	const int iResult = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // 결과..
 	if(0x1 == iResult)
 	{
 		for(int i = 0; i < MAX_AVAILABLE_CHARACTER; i++)
 		{
-			int iIDLength				= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // 캐릭터 아이디 길이 s,
+			const int iIDLength				= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // 캐릭터 아이디 길이 s,
 			CAPISocket::Parse_GetString(pDataPack->m_pData, iOffset, m_InfoChrs[i].szID, iIDLength);// 캐릭터 아이디 문자열 str
 
 			m_InfoChrs[i].eRace			= (e_Race)(CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset)); // 종족 b
@@ -1330,11 +1330,11 @@ void CGameProcCharacterSelect::MsgSend_CharacterSelect() // virtual
 
 bool CGameProcCharacterSelect::ProcessPacket(DataPack* pDataPack, int& iOffset)
 {
-	int iOffsetPrev = iOffset;
+	const int iOffsetPrev = iOffset;
 	if(false == CGameProcedure::ProcessPacket(pDataPack, iOffset)) iOffset = iOffsetPrev;
 	else return true;
 
-	int iCmd = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);	// 커멘드 파싱..
+	const int iCmd = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);	// 커멘드 파싱..
 	switch ( iCmd )										// 커멘드에 다라서 분기..
 	{
 		case N3_ALL_CHARACTER_INFO_REQUEST:				// 캐릭터 선택 메시지..
@@ -1353,7 +1353,7 @@ void CGameProcCharacterSelect::CharacterSelectOrCreate()
 {
 	CGameProcedure::MessageBoxClose(-1);
 
-	int iIndex = CGameProcedure::s_iChrSelectIndex;
+	const int iIndex = CGameProcedure::s_iChrSelectIndex;
 	if(nullptr == m_pChrs[iIndex]) // 캐릭터가 없으면..
 	{
 		CGameProcedure::ProcActiveSet((CGameProcedure*)s_pProcCharacterCreate); // 캐릭터 생성 프로시저를 호출한다..

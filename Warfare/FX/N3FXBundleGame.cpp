@@ -36,8 +36,8 @@ void CN3FXBundleGame::Trigger(int iSourceID, int iTargetID, int iTargetJoint, in
 	{
 		if(pSource->m_pShapeExtraRef)
 		{
-			__Vector3 vMin = pSource->m_pShapeExtraRef->Min();
-			__Vector3 vMax = pSource->m_pShapeExtraRef->Max();
+			const __Vector3 vMin = pSource->m_pShapeExtraRef->Min();
+			const __Vector3 vMax = pSource->m_pShapeExtraRef->Max();
 			m_vPos = vMin + ((vMax-vMin)*0.5f);	
 		}
 		else
@@ -57,29 +57,29 @@ void CN3FXBundleGame::Trigger(int iSourceID, int iTargetID, int iTargetJoint, in
 		{
 			//m_vTargetScale.x = m_vTargetScale.z = pTarget->Radius() * 2.0f;
 			//m_vTargetScale.y = pTarget->Height();
-			float width = pTarget->Radius() * 2.0f;
+			const float width = pTarget->Radius() * 2.0f;
 			if(width > pTarget->Height()) m_fTargetScale = width;
 			else m_fTargetScale = pTarget->Height();
 		}
 
 		if(pTarget->m_pShapeExtraRef)
 		{
-			__Vector3 vMin = pTarget->m_pShapeExtraRef->Min();
-			__Vector3 vMax = pTarget->m_pShapeExtraRef->Max();
+			const __Vector3 vMin = pTarget->m_pShapeExtraRef->Min();
+			const __Vector3 vMax = pTarget->m_pShapeExtraRef->Max();
 
 			m_vDestPos = vMin + ((vMax-vMin)*0.5f);	
 		}
 		else
 		{
-			__Vector3 vMin = pTarget->Min();
-			__Vector3 vMax = pTarget->Max();
+			const __Vector3 vMin = pTarget->Min();
+			const __Vector3 vMax = pTarget->Max();
 			m_vDestPos = vMin + ((vMax-vMin)*0.5f);
 			//m_vDestPos = pTarget->Position();
 			
 			if(iTargetJoint==-1)
 			{
-				__Vector3 vMin = pTarget->Min();
-				__Vector3 vMax = pTarget->Max();
+				const __Vector3 vMin = pTarget->Min();
+				const __Vector3 vMax = pTarget->Max();
 	
 				m_vDestPos = vMin + ((vMax-vMin)*0.5f);	
 				m_vDestPos.y = vMin.y;
@@ -120,8 +120,8 @@ void CN3FXBundleGame::Trigger(int iSourceID, __Vector3 TargetPos, int iSndID)
 	{
 		if(pSource->m_pShapeExtraRef)
 		{
-			__Vector3 vMin = pSource->m_pShapeExtraRef->Min();
-			__Vector3 vMax = pSource->m_pShapeExtraRef->Max();
+			const __Vector3 vMin = pSource->m_pShapeExtraRef->Min();
+			const __Vector3 vMax = pSource->m_pShapeExtraRef->Max();
 
 			m_vPos = vMin + ((vMax-vMin)*0.5f);	
 		}
@@ -159,15 +159,15 @@ bool CN3FXBundleGame::Tick()
 
 			if(pTarget && pTarget->m_pShapeExtraRef)
 			{
-				__Vector3 vMin = pTarget->m_pShapeExtraRef->Min();
-				__Vector3 vMax = pTarget->m_pShapeExtraRef->Max();
+				const __Vector3 vMin = pTarget->m_pShapeExtraRef->Min();
+				const __Vector3 vMax = pTarget->m_pShapeExtraRef->Max();
 
 				m_vDestPos = vMin + ((vMax-vMin)*0.5f);	
 			}
 			else if(pTarget && m_iTargetJoint==-1)
 			{
-				__Vector3 vMin = pTarget->Min();
-				__Vector3 vMax = pTarget->Max();
+				const __Vector3 vMin = pTarget->Min();
+				const __Vector3 vMax = pTarget->Max();
 	
 				m_vDestPos = vMin + ((vMax-vMin)*0.5f);	
 				m_vDestPos.y = vMin.y;
@@ -203,7 +203,7 @@ bool CN3FXBundleGame::Tick()
 			}
 		case FX_BUNDLE_MOVE_DIR_FLEXABLETARGET_RATIO:
 			{
-				CPlayerBase* pTarget = CGameProcedure::s_pProcMain->CharacterGetByID(m_iTargetID, false);
+				const CPlayerBase* pTarget = CGameProcedure::s_pProcMain->CharacterGetByID(m_iTargetID, false);
 				if(!pTarget) 
 				{
 					m_vPos += m_vDir*CN3Base::s_fSecPerFrm*m_fVelocity;
@@ -263,8 +263,8 @@ bool CN3FXBundleGame::Tick()
 
 				if(pTarget && pTarget->m_pShapeExtraRef)
 				{
-					__Vector3 vMin = pTarget->m_pShapeExtraRef->Min();
-					__Vector3 vMax = pTarget->m_pShapeExtraRef->Max();
+					const __Vector3 vMin = pTarget->m_pShapeExtraRef->Min();
+					const __Vector3 vMax = pTarget->m_pShapeExtraRef->Max();
 
 					m_vDestPos = vMin + ((vMax-vMin)*0.5f);	
 				}
@@ -296,7 +296,7 @@ bool CN3FXBundleGame::Tick()
 				m_vPos = m_vDestPos;
 				if(m_iSourceID==m_iTargetID)
 				{
-					CPlayerBase* pSource = CGameProcedure::s_pProcMain->CharacterGetByID(m_iSourceID, false);
+					const CPlayerBase* pSource = CGameProcedure::s_pProcMain->CharacterGetByID(m_iSourceID, false);
 					if(pSource) 
 					{
 						m_vDir = pSource->Direction();
@@ -310,8 +310,8 @@ bool CN3FXBundleGame::Tick()
 			{
 				CN3Camera* pCamera = CGameProcedure::s_pEng->CameraGetActive();		// 활성화된 카메라 얻기..
 
-				__Vector3 vEyePos = pCamera->EyePos();
-				__Vector3 vEyeAt  = pCamera->AtPos();
+				const __Vector3 vEyePos = pCamera->EyePos();
+				const __Vector3 vEyeAt  = pCamera->AtPos();
 				__Vector3 vEyeDir = vEyeAt - vEyePos;
 				vEyeDir.Normalize();
 				m_vDir = vEyeDir;
@@ -640,8 +640,8 @@ void CN3FXBundleGame::SetPreBundlePos(int iSourceID, int iJoint)
 	{
 		if(pSource->m_pShapeExtraRef)
 		{
-			__Vector3 vMin = pSource->m_pShapeExtraRef->Min();
-			__Vector3 vMax = pSource->m_pShapeExtraRef->Max();
+			const __Vector3 vMin = pSource->m_pShapeExtraRef->Min();
+			const __Vector3 vMax = pSource->m_pShapeExtraRef->Max();
 			m_vPrePos = vMin + ((vMax-vMin)*0.5f);	
 		}
 		else

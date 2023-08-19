@@ -203,12 +203,12 @@ void CN3AnimKey::Duplicate(CN3AnimKey* pSrc)
 
 		if(KEY_VECTOR3 == m_eType)
 		{
-			char* pData = (char*)pSrc->GetDatas();
+			const char* pData = (char*)pSrc->GetDatas();
 			memcpy(m_pDatas, pData, sizeof(__Vector3)*m_nCount);
 		}
 		else if(KEY_QUATERNION == m_eType)
 		{
-			char* pData = (char*)pSrc->GetDatas();
+			const char* pData = (char*)pSrc->GetDatas();
 			memcpy(m_pDatas, pData, sizeof(__Quaternion)*m_nCount);
 		}
 	}	

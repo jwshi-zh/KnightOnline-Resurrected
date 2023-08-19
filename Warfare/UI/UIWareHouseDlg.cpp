@@ -84,7 +84,7 @@ void CUIWareHouseDlg::Render()
 
 	int i;
 
-	POINT ptCur = CGameProcedure::s_pLocalInput->MouseGetPos();
+	const POINT ptCur = CGameProcedure::s_pLocalInput->MouseGetPos();
 	m_pUITooltipDlg->DisplayTooltipsDisable();
 
 	bool bTooltipRender = false;
@@ -187,7 +187,7 @@ void CUIWareHouseDlg::Render()
 
 void CUIWareHouseDlg::InitIconWnd(e_UIWND eWnd)
 {
-	__TABLE_UI_RESRC* pTbl = CGameBase::s_pTbl_UI->Find(CGameBase::s_pPlayer->m_InfoBase.eNation);
+	const __TABLE_UI_RESRC* pTbl = CGameBase::s_pTbl_UI->Find(CGameBase::s_pPlayer->m_InfoBase.eNation);
 
 	m_pUITooltipDlg = new CUIImageTooltipDlg();
 	m_pUITooltipDlg->Init(this);
@@ -206,7 +206,7 @@ void CUIWareHouseDlg::InitIconWnd(e_UIWND eWnd)
 void CUIWareHouseDlg::InitIconUpdate()
 {
 	CN3UIArea* pArea;
-	float fUVAspect = (float)45.0f/(float)64.0f;
+	const float fUVAspect = (float)45.0f/(float)64.0f;
 	int i, j;
 
 	for( j = 0; j < MAX_ITEM_WARE_PAGE; j++ )
@@ -232,7 +232,7 @@ void CUIWareHouseDlg::InitIconUpdate()
 
 int CUIWareHouseDlg::GetItemiOrder(__IconItemSkill* spItem, e_UIWND_DISTRICT eWndDist) const
 {
-	int iReturn = -1;
+	const int iReturn = -1;
 	int i;
 
 	switch ( eWndDist )
@@ -261,7 +261,7 @@ RECT CUIWareHouseDlg::GetSampleRect()
 {
 	RECT rect;
 	CN3UIArea* pArea;
-	POINT ptCur = CGameProcedure::s_pLocalInput->MouseGetPos();
+	const POINT ptCur = CGameProcedure::s_pLocalInput->MouseGetPos();
 	pArea = CN3UIWndBase::GetChildAreaByiOrder(UI_AREA_TYPE_TRADE_NPC, 0);
 	rect = pArea->GetRegion();
 	float fWidth = rect.right - rect.left;
@@ -412,7 +412,7 @@ bool CUIWareHouseDlg::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 	e_UIWND_DISTRICT eUIWnd;
 	int iOrder;
 
-	DWORD dwBitMask = 0x000f0000;
+const DWORD dwBitMask = 0x000f0000;
 
 	switch (dwMsg & dwBitMask)
 	{
@@ -554,7 +554,7 @@ void CUIWareHouseDlg::EnterWareHouseStateEnd()
 
 	if(m_pStrMyGold)
 	{
-		__InfoPlayerMySelf*	pInfoExt = &(CGameBase::s_pPlayer->m_InfoExt);
+		const __InfoPlayerMySelf*	pInfoExt = &(CGameBase::s_pPlayer->m_InfoExt);
 		m_pStrMyGold->SetStringAsInt(pInfoExt->iGold);
 	}
 }
@@ -762,7 +762,7 @@ bool CUIWareHouseDlg::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 						CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceEnd.iOrder	= iDestiOrder;
 
 					// 무게 체크..
-					__InfoPlayerMySelf*	pInfoExt = &(CGameBase::s_pPlayer->m_InfoExt);
+					const __InfoPlayerMySelf*	pInfoExt = &(CGameBase::s_pPlayer->m_InfoExt);
 					if ( (pInfoExt->iWeight + CN3UIWndBase::m_sRecoveryJobInfo.pItemSource->pItemBasic->siWeight) > pInfoExt->iWeightMax)
 					{	 
 						std::string szMsg; ::_LoadStringFromResource(IDS_ITEM_WEIGHT_OVERFLOW, szMsg);	
@@ -1114,9 +1114,9 @@ void CUIWareHouseDlg::SendToServerInvToInvMsg(int iItemID, byte page, byte start
 void CUIWareHouseDlg::ReceiveResultToWareMsg(BYTE bResult)	// 넣는 경우..
 {
 	CN3UIWndBase::m_sRecoveryJobInfo.m_bWaitFromServer  = false;
-	int iGold = CN3UIWndBase::m_pCountableItemEdit->GetQuantity();
+	const int iGold = CN3UIWndBase::m_pCountableItemEdit->GetQuantity();
 	__IconItemSkill* spItem;
-	CN3UIArea* pArea = nullptr;
+	const CN3UIArea* pArea = nullptr;
 
 	if (bResult != 0x01)	// 실패..
 	{
@@ -1211,9 +1211,9 @@ void CUIWareHouseDlg::ReceiveResultToWareMsg(BYTE bResult)	// 넣는 경우..
 void CUIWareHouseDlg::ReceiveResultFromWareMsg(BYTE bResult)	// 빼는 경우..
 {
 	CN3UIWndBase::m_sRecoveryJobInfo.m_bWaitFromServer  = false;
-	int iGold = CN3UIWndBase::m_pCountableItemEdit->GetQuantity();
+	const int iGold = CN3UIWndBase::m_pCountableItemEdit->GetQuantity();
 	__IconItemSkill* spItem;
-	CN3UIArea* pArea = nullptr;
+	const CN3UIArea* pArea = nullptr;
 
 	if (bResult != 0x01)	// 실패..
 	{
@@ -1312,7 +1312,7 @@ void CUIWareHouseDlg::ReceiveResultFromWareMsg(BYTE bResult)	// 빼는 경우..
 void CUIWareHouseDlg::ReceiveResultWareToWareMsg(BYTE bResult)
 {
 	CN3UIWndBase::m_sRecoveryJobInfo.m_bWaitFromServer  = false;
-	CN3UIArea* pArea = nullptr;
+	const CN3UIArea* pArea = nullptr;
 
 	if (bResult != 0x01)	// 실패..
 	{
@@ -1358,7 +1358,7 @@ void CUIWareHouseDlg::ReceiveResultWareToWareMsg(BYTE bResult)
 void CUIWareHouseDlg::ReceiveResultInvToInvMsg(BYTE bResult)
 {
 	CN3UIWndBase::m_sRecoveryJobInfo.m_bWaitFromServer  = false;
-	CN3UIArea* pArea = nullptr;
+	const CN3UIArea* pArea = nullptr;
 
 	if (bResult != 0x01)	// 실패..
 	{
@@ -1759,7 +1759,7 @@ void CUIWareHouseDlg::AddItemInWare(int iItem, int iDurability, int iCount, int 
 
 	e_PartPosition ePart;
 	e_PlugPosition ePlug;
-	e_ItemType eType = CGameProcedure::MakeResrcFileNameForUPC(pItem, nullptr, &szIconFN, ePart, ePlug); // 아이템에 따른 파일 이름을 만들어서
+	const e_ItemType eType = CGameProcedure::MakeResrcFileNameForUPC(pItem, nullptr, &szIconFN, ePart, ePlug); // 아이템에 따른 파일 이름을 만들어서
 	if(ITEM_TYPE_UNKNOWN == eType) CLogWriter::Write("MyInfo - slot - Unknown Item");
 	__ASSERT(ITEM_TYPE_UNKNOWN != eType, "Unknown Item");
 	

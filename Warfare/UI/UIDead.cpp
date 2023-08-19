@@ -50,11 +50,11 @@ bool CUIDead::Load(HANDLE hFile)
 	::_LoadStringFromResource(IDS_DEAD_RETURN_TOWN, szMsg);
 	if(m_pTextTown) m_pTextTown->SetString(szMsg);
 
-	__TABLE_UI_RESRC* pTblUI = CGameBase::s_pTbl_UI->Find(NATION_ELMORAD);
+	const __TABLE_UI_RESRC* pTblUI = CGameBase::s_pTbl_UI->Find(NATION_ELMORAD);
 
 	m_MsgBox.LoadFromFile(pTblUI->szMessageBox);
 
-	RECT rt = m_MsgBox.GetRegion();
+	const RECT rt = m_MsgBox.GetRegion();
 	POINT pt;
 	pt.x = (CN3Base::s_CameraData.vp.Width - (rt.right - rt.left)) / 2;
 	pt.y = (CN3Base::s_CameraData.vp.Height - (rt.bottom - rt.top)) / 2;
@@ -73,8 +73,8 @@ bool CUIDead::ReceiveMessage(CN3UIBase *pSender, DWORD dwMsg)
 			if(CGameProcedure::s_pProcMain->m_pUIInventory)
 				iItemCnt = CGameProcedure::s_pProcMain->m_pUIInventory->GetIndexItemCount(LIFE_STONE_INDEX);
 
-			int iLevel = CGameProcedure::s_pPlayer->m_InfoBase.iLevel;
-			int iNeedItemCnt = iLevel * TIMES_LIFE_STONE;
+			const int iLevel = CGameProcedure::s_pPlayer->m_InfoBase.iLevel;
+			const int iNeedItemCnt = iLevel * TIMES_LIFE_STONE;
 			char szBuf[256] = "";
 			std::string szMsg;
 
@@ -266,7 +266,7 @@ void CUIDead::MsgRecv_Revival(DataPack *pDataPack, int &iOffset)
 
 	CLogWriter::Write("Receive Regeneration");
 
-	int iID = CGameProcedure::s_pPlayer->IDNumber();
+	const int iID = CGameProcedure::s_pPlayer->IDNumber();
 	if(CGameProcedure::s_pPlayer->Nation()==NATION_KARUS) 
 		CGameProcedure::s_pFX->TriggerBundle(iID, -1, FXID_REGEN_KARUS, iID, -1);
 	else if(CGameProcedure::s_pPlayer->Nation()==NATION_ELMORAD) 

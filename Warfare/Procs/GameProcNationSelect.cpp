@@ -32,7 +32,7 @@ void CGameProcNationSelect::Init()
 	CGameProcedure::Init();
 
 	std::string szTemp = "UI\\Co_NationSelect.uif";
-	__TABLE_UI_RESRC* pTbl = s_pTbl_UI->Find(NATION_ELMORAD);
+	const __TABLE_UI_RESRC* pTbl = s_pTbl_UI->Find(NATION_ELMORAD);
 	if(pTbl)
 	{
 		szTemp = pTbl->szNationSelect;
@@ -56,7 +56,7 @@ void CGameProcNationSelect::Tick()
 
 void CGameProcNationSelect::Render()
 {
-	DWORD color = 0x00000000; // 검은색으로..
+	const DWORD color = 0x00000000; // 검은색으로..
 	s_pEng->Clear(color); // 클리어..
 	s_pEng->s_lpD3DDev->BeginScene();			// 씬 렌더 ㅅ작...
 
@@ -82,16 +82,16 @@ void CGameProcNationSelect::MsgSendNationSelect(e_Nation eNation)
 
 bool CGameProcNationSelect::ProcessPacket(DataPack* pDataPack, int& iOffset)
 {
-	int iOffsetPrev = iOffset;
+	const int iOffsetPrev = iOffset;
 	if(false == CGameProcedure::ProcessPacket(pDataPack, iOffset)) iOffset = iOffsetPrev;
 	else return true;
 
-	int iCmd = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);	// 커멘드 파싱..
+	const int iCmd = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);	// 커멘드 파싱..
 	switch ( iCmd )										// 커멘드에 다라서 분기..
 	{
 		case N3_NATION_SELECT:							// 캐릭터 선택 메시지..
 		{
-			int iNation = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // 국가 - 0 실패.. 1 - 카루스 2 - 엘모라드..
+			const int iNation = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // 국가 - 0 실패.. 1 - 카루스 2 - 엘모라드..
 
 			if( 0 == iNation ) 	s_pPlayer->m_InfoBase.eNation = NATION_NOTSELECTED; // 아직 국가를 선택하지 않았다..
 			else if( 1 == iNation ) s_pPlayer->m_InfoBase.eNation = NATION_KARUS;

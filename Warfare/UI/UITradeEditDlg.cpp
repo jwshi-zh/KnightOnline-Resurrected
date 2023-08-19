@@ -105,7 +105,7 @@ void CUITradeEditDlg::Close()
 {
 	SetVisible(false);
 
-	CN3UIEdit* pEdit = GetFocusedEdit();
+	const CN3UIEdit* pEdit = GetFocusedEdit();
 	if (pEdit) pEdit->KillFocus();
 }
 

@@ -12,7 +12,7 @@ CLightMgr::~CLightMgr()
 	std::list<CN3Light*>::iterator it;
 	for(it=m_Lights.begin(); it!=m_Lights.end(); it++)
 	{
-		CN3Light* pLgt = (*it);
+		const CN3Light* pLgt = (*it);
 		delete pLgt;
 	}
 	m_Lights.clear();
@@ -29,7 +29,7 @@ void CLightMgr::Release()
 	std::list<CN3Light*>::iterator it;
 	for(it=m_Lights.begin(); it!=m_Lights.end(); it++)
 	{
-		CN3Light* pLgt = (*it);
+		const CN3Light* pLgt = (*it);
 		delete pLgt;
 	}
 	m_Lights.clear();
@@ -146,7 +146,7 @@ void CLightMgr::LoadZoneLight(const char* szFN)
 	if(!szFN) return;
 	
 	DWORD dwRWC;
-	HANDLE hFile = CreateFile(szFN, GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
+	const HANDLE hFile = CreateFile(szFN, GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
 	if(INVALID_HANDLE_VALUE == hFile) return;
 
 	int iVersion;

@@ -82,7 +82,7 @@ CGameEng::CGameEng()
 CGameEng::~CGameEng()
 {
 	auto itCam = m_Cameras.begin();
-	int iSize = m_Cameras.size();
+	const int iSize = m_Cameras.size();
 	for(int i = 0; i < iSize; i++, itCam++)
 	{
 		delete *itCam; 
@@ -447,7 +447,7 @@ void CGameEng::ViewPointChange(e_ViewPoint eVP)
 void CGameEng::CameraPitchAdd(float fRotXPerSec)
 {
 	if(nullptr == m_pActiveCam) return;
-	float fPitchMax = D3DXToRadian(70.0f);
+	const float fPitchMax = D3DXToRadian(70.0f);
 	float fPitchMin = -D3DXToRadian(50.0f);
 	if(VP_BACKWARD == m_eViewPoint)
 	{

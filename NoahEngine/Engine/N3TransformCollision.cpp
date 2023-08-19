@@ -250,9 +250,9 @@ void CN3TransformCollision::FindMinMax()
 
 	m_vMin.Set(FLT_MAX, FLT_MAX, FLT_MAX);
 	m_vMax.Set(-FLT_MAX, -FLT_MAX, -FLT_MAX);
-	
-	int nVC = m_pMeshCollision->VertexCount();
-	__Vector3* pVs = m_pMeshCollision->Vertices();
+
+	const int nVC = m_pMeshCollision->VertexCount();
+	const __Vector3* pVs = m_pMeshCollision->Vertices();
 	for(int i = 0; i < nVC; i++)
 	{
 		if(pVs[i].x < m_vMin.x) m_vMin.x = pVs[i].x;

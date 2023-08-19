@@ -38,7 +38,7 @@ bool CN3UITrackBar::Load(HANDLE hFile)
 	{
 		CN3UIBase* pChild = (*itor);
 		if (UI_TYPE_IMAGE != pChild->UIType()) continue;	// image만 골라내기
-		int iImageType = (int)(pChild->GetReserved());
+		const int iImageType = (int)(pChild->GetReserved());
 		if (IMAGETYPE_BKGND == iImageType)
 		{
 			m_pBkGndImageRef = (CN3UIImage*)pChild;
@@ -55,10 +55,12 @@ void CN3UITrackBar::SetRegion(const RECT& Rect)
 {
 	CN3UIBase::SetRegion(Rect);
 	if(m_pBkGndImageRef) m_pBkGndImageRef->SetRegion(m_rcRegion);	// 배경이미지는 같은 영역으로
-	RECT rcThumb = m_pThumbImageRef->GetRegion();
+	const RECT rcThumb = m_pThumbImageRef->GetRegion();
 
-	int iThumbWidth = rcThumb.right - rcThumb.left;		int iThumbHeight = rcThumb.bottom - rcThumb.top;
-	int iBkWidth = Rect.right - Rect.left;			int iBkHeight = Rect.bottom - Rect.top;
+	const int iThumbWidth = rcThumb.right - rcThumb.left;
+	const int iThumbHeight = rcThumb.bottom - rcThumb.top;
+	const int iBkWidth = Rect.right - Rect.left;
+	const int iBkHeight = Rect.bottom - Rect.top;
 	if (iBkWidth<=0 || iBkHeight<=0) return;
 	
 	if ( iThumbWidth<=0 && iThumbHeight<=0 )
@@ -121,7 +123,7 @@ DWORD CN3UITrackBar::MouseProc(DWORD dwFlags, const POINT& ptCur, const POINT& p
 			}
 			else	// thumb위부분 또는 아래 부분(좌 또는 우 여백)을 눌렀따.
 			{
-				RECT rcThumb = m_pThumbImageRef->GetRegion();
+				const RECT rcThumb = m_pThumbImageRef->GetRegion();
 				if (UISTYLE_TRACKBAR_VERTICAL == m_dwStyle)
 				{
 					if (ptCur.y <= rcThumb.top) SetCurrentPos(m_iCurPos-m_iPageSize);// 윗부분 클릭
@@ -171,19 +173,19 @@ void CN3UITrackBar::SetCurrentPos(int iPos)
 void CN3UITrackBar::UpdateThumbPos() const
 {
 	if (nullptr == m_pThumbImageRef) return;
-	float fDiff = m_iMaxPos - m_iMinPos;
+	const float fDiff = m_iMaxPos - m_iMinPos;
 	if (0.0f == fDiff) return;
-	float fPercentage = (float)m_iCurPos/fDiff;
-	RECT rcThumb = m_pThumbImageRef->GetRegion();
+	const float fPercentage = (float)m_iCurPos/fDiff;
+	const RECT rcThumb = m_pThumbImageRef->GetRegion();
 
 	if (UISTYLE_TRACKBAR_VERTICAL == m_dwStyle)
 	{
-		int iDY = fPercentage*((m_rcRegion.bottom - m_rcRegion.top) - (rcThumb.bottom - rcThumb.top));
+		const int iDY = fPercentage*((m_rcRegion.bottom - m_rcRegion.top) - (rcThumb.bottom - rcThumb.top));
 		m_pThumbImageRef->SetPos(	m_rcRegion.left, m_rcRegion.top + iDY);
 	}
 	else
 	{
-		int iDX = fPercentage*((m_rcRegion.right - m_rcRegion.left) - (rcThumb.right - rcThumb.left));
+		const int iDX = fPercentage*((m_rcRegion.right - m_rcRegion.left) - (rcThumb.right - rcThumb.left));
 		m_pThumbImageRef->SetPos( m_rcRegion.left + iDX, m_rcRegion.top );
 	}
 }
@@ -192,16 +194,16 @@ void CN3UITrackBar::UpdateThumbPos() const
 void CN3UITrackBar::UpDownThumbPos(int iDiff)
 {
 	if (nullptr == m_pThumbImageRef) return;
-	RECT rcThumb = m_pThumbImageRef->GetRegion();
+	const RECT rcThumb = m_pThumbImageRef->GetRegion();
 
 	if (UISTYLE_TRACKBAR_VERTICAL == m_dwStyle)		// 아래 움직일 대
 	{
-		int iRegionHeight = m_rcRegion.bottom - m_rcRegion.top;
-		int iThumbHeight = rcThumb.bottom - rcThumb.top;
+		const int iRegionHeight = m_rcRegion.bottom - m_rcRegion.top;
+		const int iThumbHeight = rcThumb.bottom - rcThumb.top;
 		if (0==iRegionHeight || 0==iThumbHeight) return;
 
 		// 옮긴후 thumb의 위치 percentage 구하기
-		float fPercentage = ((rcThumb.top-m_rcRegion.top)+iDiff) / (((float)(iRegionHeight)) - iThumbHeight);
+		const float fPercentage = ((rcThumb.top-m_rcRegion.top)+iDiff) / (((float)(iRegionHeight)) - iThumbHeight);
 
 		if (fPercentage>1.0f)	// 너무 아래로 내렸다.
 		{
@@ -221,12 +223,12 @@ void CN3UITrackBar::UpDownThumbPos(int iDiff)
 	}
 	else											// 좌우로 움직일 때
 	{
-		int iRegionWidth = m_rcRegion.right - m_rcRegion.left;
-		int iThumbWidth = rcThumb.right - rcThumb.left;
+		const int iRegionWidth = m_rcRegion.right - m_rcRegion.left;
+		const int iThumbWidth = rcThumb.right - rcThumb.left;
 		if (0==iRegionWidth || 0==iThumbWidth) return;
 
 		// 옮긴후 thumb의 위치 percentage 구하기
-		float fPercentage = ((rcThumb.left-m_rcRegion.left)+iDiff) / (((float)(iRegionWidth)) - iThumbWidth);
+		const float fPercentage = ((rcThumb.left-m_rcRegion.left)+iDiff) / (((float)(iRegionWidth)) - iThumbWidth);
 
 		if (fPercentage>1.0f)	// 너무 오른쪽으로 밀었다.
 		{

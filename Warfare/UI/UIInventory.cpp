@@ -210,7 +210,7 @@ void CUIInventory::Close(bool bByKey)
 
 	// 스르륵 닫힌다..!!
 //	SetVisible(false); // 다 닫히고 나서 해준다..
-	RECT rc = this->GetRegion();
+	const RECT rc = this->GetRegion();
 	this->SetPos(CN3Base::s_CameraData.vp.Width - (rc.right - rc.left), 10);
 	m_fMoveDelta = 0;
 	m_bOpenningNow = false;
@@ -228,15 +228,15 @@ void CUIInventory::Tick()
 	if(m_bOpenningNow) // 오른쪽에서 왼쪽으로 스르륵...열려야 한다면..
 	{
 		POINT ptCur = this->GetPos();
-		RECT rc = this->GetRegion();
-		auto fWidth = (float)(rc.right - rc.left);
+		const RECT rc = this->GetRegion();
+		const auto fWidth = (float)(rc.right - rc.left);
 
 		float fDelta = 5000.0f * CN3Base::s_fSecPerFrm;
 		fDelta *= (fWidth - m_fMoveDelta) / fWidth;
 		if(fDelta < 2.0f) fDelta = 2.0f;
 		m_fMoveDelta += fDelta;
 
-		int iXLimit = CN3Base::s_CameraData.vp.Width - (int)fWidth;
+		const int iXLimit = CN3Base::s_CameraData.vp.Width - (int)fWidth;
 		ptCur.x = CN3Base::s_CameraData.vp.Width - (int)m_fMoveDelta;
 		if(ptCur.x <= iXLimit) // 다열렸다!!
 		{
@@ -251,15 +251,15 @@ void CUIInventory::Tick()
 	else if(m_bClosingNow) // 오른쪽에서 왼쪽으로 스르륵...열려야 한다면..
 	{
 		POINT ptCur = this->GetPos();
-		RECT rc = this->GetRegion();
-		auto fWidth = (float)(rc.right - rc.left);
+		const RECT rc = this->GetRegion();
+		const auto fWidth = (float)(rc.right - rc.left);
 
 		float fDelta = 5000.0f * CN3Base::s_fSecPerFrm;
 		fDelta *= (fWidth - m_fMoveDelta) / fWidth;
 		if(fDelta < 2.0f) fDelta = 2.0f;
 		m_fMoveDelta += fDelta;
 
-		int iXLimit = CN3Base::s_CameraData.vp.Width;
+		const int iXLimit = CN3Base::s_CameraData.vp.Width;
 		ptCur.x = CN3Base::s_CameraData.vp.Width - (int)(fWidth - m_fMoveDelta);
 		if(ptCur.x >= iXLimit) // 다 닫혔다..!!
 		{
@@ -284,9 +284,9 @@ void CUIInventory::Tick()
 void CUIInventory::Render()
 {
 	if (!m_bVisible) return;	// 보이지 않으면 자식들을 render하지 않는다.
-	POINT ptCur = CGameProcedure::s_pLocalInput->MouseGetPos();
+	const POINT ptCur = CGameProcedure::s_pLocalInput->MouseGetPos();
 	m_pUITooltipDlg->DisplayTooltipsDisable();
-	RECT rUser = m_pArea_User->GetRegion();
+	const RECT rUser = m_pArea_User->GetRegion();
 
 	bool bTooltipRender = false;
 	__IconItemSkill* spItem = nullptr;
@@ -374,7 +374,7 @@ void CUIInventory::InitIconWnd(e_UIWND eWnd)
 	if(nullptr == m_pArea_Destroy) return;
 
 	m_pText_Weight		= (CN3UIString*)GetChildByID("text_weight");	__ASSERT(m_pText_Weight	, "NULL UI Component!!");
-	__TABLE_UI_RESRC* pTblUI = CGameBase::s_pTbl_UI->Find(CGameBase::s_pPlayer->m_InfoBase.eNation);
+	const __TABLE_UI_RESRC* pTblUI = CGameBase::s_pTbl_UI->Find(CGameBase::s_pPlayer->m_InfoBase.eNation);
 	__ASSERT(pTblUI, "NULL Pointer UI Table");
 
 	m_pUITooltipDlg = new CUIImageTooltipDlg();
@@ -396,7 +396,7 @@ void CUIInventory::UpdateWeight(std::string str)
 void CUIInventory::InitIconUpdate()
 {
 	CN3UIArea* pArea;
-	float fUVAspect = (float)45.0f/(float)64.0f;
+	const float fUVAspect = (float)45.0f/(float)64.0f;
 
 	for(auto i = 0; i < ITEM_SLOT_COUNT; i++ )
 	{
@@ -475,7 +475,7 @@ e_UIWND_DISTRICT CUIInventory::GetWndDistrict(__IconItemSkill* spItem)
 
 int CUIInventory::GetItemiOrder(__IconItemSkill* spItem, e_UIWND_DISTRICT eWndDist)
 {
-	int iReturn = -1;
+	const int iReturn = -1;
 	int i;
 
 	switch ( eWndDist )
@@ -504,7 +504,7 @@ RECT CUIInventory::GetSampleRect()
 {
 	RECT rect;
 	CN3UIArea* pArea;
-	POINT ptCur = CGameProcedure::s_pLocalInput->MouseGetPos();
+	const POINT ptCur = CGameProcedure::s_pLocalInput->MouseGetPos();
 	pArea = CN3UIWndBase::GetChildAreaByiOrder(UI_AREA_TYPE_INV, 0);
 	rect = pArea->GetRegion();
 	float fWidth = rect.right - rect.left;
@@ -525,8 +525,8 @@ DWORD CUIInventory::MouseProc(DWORD dwFlags, const POINT& ptCur, const POINT& pt
 	if (m_eInvenState == INV_STATE_REPAIR) { dwRet |= CN3UIBase::MouseProc(dwFlags, ptCur, ptOld);  return dwRet; }
 
 	if (m_bDestoyDlgAlive)	
-	{ 
-		CN3UIImage* pImg = (CN3UIImage* )m_pArea_Destroy->GetChildByID("img_Destroy");
+	{
+		const CN3UIImage* pImg = (CN3UIImage* )m_pArea_Destroy->GetChildByID("img_Destroy");
 		__ASSERT(pImg, "NULL UI Component!!");
 
 		if (!pImg) return dwRet;
@@ -602,7 +602,7 @@ int	CUIInventory::GetArmDestinationIndex(__IconItemSkill* spItem)
 
 	e_PartPosition ePart;
 	e_PlugPosition ePlug;
-	e_ItemType eType = CGameProcedure::MakeResrcFileNameForUPC(pItem, nullptr, nullptr, ePart, ePlug); // 아이템에 따른 파일 이름을 만들어서
+	const e_ItemType eType = CGameProcedure::MakeResrcFileNameForUPC(pItem, nullptr, nullptr, ePart, ePlug); // 아이템에 따른 파일 이름을 만들어서
 	if(ITEM_TYPE_UNKNOWN == eType) return false;
 
 	if ( IsValidRaceAndClass(pItem, CN3UIWndBase::m_sSelectedIconInfo.pItemSelect->pItemExt) )
@@ -696,7 +696,7 @@ bool CUIInventory::CheckIconDropIfSuccessSendToServer(__IconItemSkill* spItem)
 
 	if (!m_bRBtnProcessing)
 	{
-		POINT ptCur = CGameProcedure::s_pLocalInput->MouseGetPos();
+		const POINT ptCur = CGameProcedure::s_pLocalInput->MouseGetPos();
 		for(auto i = 0; i < ITEM_SLOT_COUNT; i++ )
 		{
 			pArea = CN3UIWndBase::GetChildAreaByiOrder(UI_AREA_TYPE_SLOT, i);
@@ -1008,7 +1008,7 @@ bool CUIInventory::CheckIconDropIfSuccessSendToServer(__IconItemSkill* spItem)
 inline	bool CUIInventory::InvOpsSomething(__IconItemSkill* spItem)
 {
 	if (!spItem) return false;
-	CN3UIArea* pArea = nullptr;
+	const CN3UIArea* pArea = nullptr;
 
 	// 검사한다..성공이면 서버에게 보냄..
 	if ( CheckIconDropIfSuccessSendToServer(spItem) )												
@@ -1104,7 +1104,7 @@ inline	bool CUIInventory::InvOpsSomething(__IconItemSkill* spItem)
 
 bool CUIInventory::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 {
-	CN3UIArea* pArea = nullptr;
+	const CN3UIArea* pArea = nullptr;
 
 	if (!m_bVisible) return false;
 	if (!spItem) return false;
@@ -1141,7 +1141,7 @@ bool CUIInventory::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 		m_bDestoyDlgAlive = true;
 
 		// 움직일 수 없다..
-		RECT rect = { 0, 0, 0, 0 };
+		const RECT rect = { 0, 0, 0, 0 };
 
 		switch ( CN3UIWndBase::m_sSelectedIconInfo.UIWndSelect.UIWndDistrict )
 		{
@@ -1179,14 +1179,14 @@ bool CUIInventory::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 
 void CUIInventory::ReceiveResultFromServer(BYTE bResult)
 {
-	CN3UIArea* pArea = nullptr;
+	const CN3UIArea* pArea = nullptr;
 
 	if (bResult == 0x01)		// 성공..
 	{
 		// 아이콘은 바뀌었으니 실제 데이터를 이동..
 		if ( CN3UIWndBase::m_sRecoveryJobInfo.pItemSource )
 		{
-			__IconItemSkill*	spItem = CN3UIWndBase::m_sRecoveryJobInfo.pItemSource;
+			const __IconItemSkill*	spItem = CN3UIWndBase::m_sRecoveryJobInfo.pItemSource;
 			e_ItemSlot eSlot = ITEM_SLOT_UNKNOWN;
 
 			// 제거..
@@ -1202,7 +1202,7 @@ void CUIInventory::ReceiveResultFromServer(BYTE bResult)
 
 		if ( CN3UIWndBase::m_sRecoveryJobInfo.pItemTarget )
 		{
-			__IconItemSkill*	spItem = CN3UIWndBase::m_sRecoveryJobInfo.pItemTarget;
+			const __IconItemSkill*	spItem = CN3UIWndBase::m_sRecoveryJobInfo.pItemTarget;
 			if (!spItem) return;
 			e_ItemSlot eSlot = ITEM_SLOT_UNKNOWN;
 
@@ -1220,7 +1220,7 @@ void CUIInventory::ReceiveResultFromServer(BYTE bResult)
 		// 아이콘은 바뀌었으니 실제 데이터를 이동..
 		if ( CN3UIWndBase::m_sRecoveryJobInfo.pItemSource )
 		{
-			__IconItemSkill*	spItem = CN3UIWndBase::m_sRecoveryJobInfo.pItemSource;
+			const __IconItemSkill*	spItem = CN3UIWndBase::m_sRecoveryJobInfo.pItemSource;
 			if (!spItem) return;
 
 			// 추가..
@@ -1237,7 +1237,7 @@ void CUIInventory::ReceiveResultFromServer(BYTE bResult)
 
 		if ( CN3UIWndBase::m_sRecoveryJobInfo.pItemTarget )
 		{
-			__IconItemSkill*	spItem = CN3UIWndBase::m_sRecoveryJobInfo.pItemTarget;
+			const __IconItemSkill*	spItem = CN3UIWndBase::m_sRecoveryJobInfo.pItemTarget;
 			if (!spItem) return;
 			e_ItemSlot eSlot = ITEM_SLOT_UNKNOWN;
 
@@ -1436,7 +1436,7 @@ bool CUIInventory::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 	__IconItemSkill* spItem = nullptr;
 	e_UIWND_DISTRICT eUIWnd;
 	int iOrder;
-	DWORD dwBitMask = 0x0f1f0000;
+const DWORD dwBitMask = 0x0f1f0000;
 
 	if (dwMsg == UIMSG_BUTTON_CLICK)					
 	{
@@ -1448,7 +1448,7 @@ bool CUIInventory::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 	}
 
 	if (m_eInvenState == INV_STATE_REPAIR) FAIL_CODE
-	POINT ptCur = CGameProcedure::s_pLocalInput->MouseGetPos();
+const POINT ptCur = CGameProcedure::s_pLocalInput->MouseGetPos();
 
 	switch (dwMsg & dwBitMask)
 	{
@@ -1576,7 +1576,7 @@ bool CUIInventory::IsValidRaceAndClass(__TABLE_ITEM_BASIC* pItem, __TABLE_ITEM_E
 			break;
 	}
 
-	__InfoPlayerMySelf*	pInfoExt = nullptr;
+	const __InfoPlayerMySelf*	pInfoExt = nullptr;
 	pInfoExt = &(CGameBase::s_pPlayer->m_InfoExt);
 	if (!pInfoExt)	return false;
 
@@ -1862,7 +1862,7 @@ bool CUIInventory::IsValidPosFromInvToArm(int iOrder)
 
 	e_PartPosition ePart;
 	e_PlugPosition ePlug;
-	e_ItemType eType = CGameProcedure::MakeResrcFileNameForUPC(pItem, nullptr, nullptr, ePart, ePlug); // 아이템에 따른 파일 이름을 만들어서
+	const e_ItemType eType = CGameProcedure::MakeResrcFileNameForUPC(pItem, nullptr, nullptr, ePart, ePlug); // 아이템에 따른 파일 이름을 만들어서
 	if(ITEM_TYPE_UNKNOWN == eType) return false;
 
 	if ( IsValidRaceAndClass(pItem, CN3UIWndBase::m_sSelectedIconInfo.pItemSelect->pItemExt) )
@@ -2147,7 +2147,7 @@ bool CUIInventory::IsValidPosFromArmToArm(int iOrder)
 
 	e_PartPosition ePart;
 	e_PlugPosition ePlug;
-	e_ItemType eType = CGameProcedure::MakeResrcFileNameForUPC(pItem, nullptr, nullptr, ePart, ePlug); // 아이템에 따른 파일 이름을 만들어서
+	const e_ItemType eType = CGameProcedure::MakeResrcFileNameForUPC(pItem, nullptr, nullptr, ePart, ePlug); // 아이템에 따른 파일 이름을 만들어서
 	if(ITEM_TYPE_UNKNOWN == eType) return false;
 
 	if ( IsValidRaceAndClass(pItem, CN3UIWndBase::m_sSelectedIconInfo.pItemSelect->pItemExt) )
@@ -2206,7 +2206,7 @@ bool CUIInventory::IsValidPosFromArmToArmInverse(int iOrder)
 
 	e_PartPosition ePart;
 	e_PlugPosition ePlug;
-	e_ItemType eType = CGameProcedure::MakeResrcFileNameForUPC(pItem, nullptr, nullptr, ePart, ePlug); // 아이템에 따른 파일 이름을 만들어서
+	const e_ItemType eType = CGameProcedure::MakeResrcFileNameForUPC(pItem, nullptr, nullptr, ePart, ePlug); // 아이템에 따른 파일 이름을 만들어서
 	if(ITEM_TYPE_UNKNOWN == eType) return false;
 
 	if ( IsValidRaceAndClass(pItem, CN3UIWndBase::m_sSelectedIconInfo.pItemSelect->pItemExt) )
@@ -2261,7 +2261,7 @@ void CUIInventory::ItemAdd(__TABLE_ITEM_BASIC* pItem, __TABLE_ITEM_EXT* pItemExt
 	std::string szFN;
 	e_PartPosition ePart;
 	e_PlugPosition ePlug;
-	e_ItemType eType = CGameProcedure::MakeResrcFileNameForUPC(pItem, &szFN, nullptr, ePart, ePlug); // 아이템에 따른 파일 이름을 만들어서
+	const e_ItemType eType = CGameProcedure::MakeResrcFileNameForUPC(pItem, &szFN, nullptr, ePart, ePlug); // 아이템에 따른 파일 이름을 만들어서
 
 	if(ITEM_TYPE_PLUG == eType)
 	{
@@ -2281,13 +2281,13 @@ void CUIInventory::ItemAdd(__TABLE_ITEM_BASIC* pItem, __TABLE_ITEM_EXT* pItemExt
 
 void CUIInventory::ItemDelete(__TABLE_ITEM_BASIC* pItem, __TABLE_ITEM_EXT* pItemExt, e_ItemSlot eSlot)
 {
-	__TABLE_PLAYER_LOOKS* pLooks = CGameBase::s_pTbl_UPC_Looks->Find(CGameBase::s_pPlayer->m_InfoBase.eRace);	// User Player Character Skin 구조체 포인터..
+	const __TABLE_PLAYER_LOOKS* pLooks = CGameBase::s_pTbl_UPC_Looks->Find(CGameBase::s_pPlayer->m_InfoBase.eRace);	// User Player Character Skin 구조체 포인터..
 	__ASSERT(pLooks, "NULL Basic Looks!");
 	if(nullptr == pLooks) return;
 
 	e_PartPosition ePart;
 	e_PlugPosition ePlug;
-	e_ItemType eType = CGameProcedure::MakeResrcFileNameForUPC(pItem, nullptr, nullptr, ePart, ePlug); // 아이템에 따른 파일 이름을 만들어서
+	const e_ItemType eType = CGameProcedure::MakeResrcFileNameForUPC(pItem, nullptr, nullptr, ePart, ePlug); // 아이템에 따른 파일 이름을 만들어서
 	
 	if(pLooks)
 	{
@@ -2404,7 +2404,7 @@ void CUIInventory::ItemCountChange(int iDistrict, int iIndex, int iCount, int iI
 				e_PartPosition ePart;
 				e_PlugPosition ePlug;
 				std::string szIconFN;
-				e_ItemType eType = CGameProcedure::MakeResrcFileNameForUPC(pItem, nullptr, &szIconFN, ePart, ePlug); // 아이템에 따른 파일 이름을 만들어서
+				const e_ItemType eType = CGameProcedure::MakeResrcFileNameForUPC(pItem, nullptr, &szIconFN, ePart, ePlug); // 아이템에 따른 파일 이름을 만들어서
 				if(ITEM_TYPE_UNKNOWN == eType) CLogWriter::Write("MyInfo - slot - Unknown Item");
 				__ASSERT(ITEM_TYPE_UNKNOWN != eType, "Unknown Item");
 				
@@ -2459,7 +2459,7 @@ void CUIInventory::ItemCountChange(int iDistrict, int iIndex, int iCount, int iI
 				e_PartPosition ePart;
 				e_PlugPosition ePlug;
 				std::string szIconFN;
-				e_ItemType eType = CGameProcedure::MakeResrcFileNameForUPC(pItem, nullptr, &szIconFN, ePart, ePlug); // 아이템에 따른 파일 이름을 만들어서
+				const e_ItemType eType = CGameProcedure::MakeResrcFileNameForUPC(pItem, nullptr, &szIconFN, ePart, ePlug); // 아이템에 따른 파일 이름을 만들어서
 				if(ITEM_TYPE_UNKNOWN == eType) CLogWriter::Write("MyInfo - slot - Unknown Item");
 				__ASSERT(ITEM_TYPE_UNKNOWN != eType, "Unknown Item");
 				
@@ -2510,7 +2510,7 @@ void CUIInventory::ItemCountChange(int iDistrict, int iIndex, int iCount, int iI
 				e_PartPosition ePart;
 				e_PlugPosition ePlug;
 				std::string szIconFN;
-				e_ItemType eType = CGameProcedure::MakeResrcFileNameForUPC(pItem, nullptr, &szIconFN, ePart, ePlug); // 아이템에 따른 파일 이름을 만들어서
+				const e_ItemType eType = CGameProcedure::MakeResrcFileNameForUPC(pItem, nullptr, &szIconFN, ePart, ePlug); // 아이템에 따른 파일 이름을 만들어서
 				if(ITEM_TYPE_UNKNOWN == eType) CLogWriter::Write("MyInfo - slot - Unknown Item");
 				__ASSERT(ITEM_TYPE_UNKNOWN != eType, "Unknown Item");
 				
@@ -2565,7 +2565,7 @@ void CUIInventory::ItemCountChange(int iDistrict, int iIndex, int iCount, int iI
 				e_PartPosition ePart;
 				e_PlugPosition ePlug;
 				std::string szIconFN;
-				e_ItemType eType = CGameProcedure::MakeResrcFileNameForUPC(pItem, nullptr, &szIconFN, ePart, ePlug); // 아이템에 따른 파일 이름을 만들어서
+				const e_ItemType eType = CGameProcedure::MakeResrcFileNameForUPC(pItem, nullptr, &szIconFN, ePart, ePlug); // 아이템에 따른 파일 이름을 만들어서
 				if(ITEM_TYPE_UNKNOWN == eType) CLogWriter::Write("MyInfo - slot - Unknown Item");
 				__ASSERT(ITEM_TYPE_UNKNOWN != eType, "Unknown Item");
 				
@@ -2580,11 +2580,11 @@ void CUIInventory::ItemCountChange(int iDistrict, int iIndex, int iCount, int iI
 				m_pMyInvWnd[iIndex]->pUIIcon = new CN3UIIcon;
 				m_pMyInvWnd[iIndex]->pUIIcon->Init(this);
 				m_pMyInvWnd[iIndex]->pUIIcon->SetTex(m_pMyInvWnd[iIndex]->szIconFN);
-				float fUVAspect = (float)45.0f/(float)64.0f;
+				const float fUVAspect = (float)45.0f/(float)64.0f;
 				m_pMyInvWnd[iIndex]->pUIIcon->SetUVRect(0,0, fUVAspect, fUVAspect);
 				m_pMyInvWnd[iIndex]->pUIIcon->SetUIType(UI_TYPE_ICON);
 				m_pMyInvWnd[iIndex]->pUIIcon->SetStyle(UISTYLE_ICON_ITEM|UISTYLE_ICON_CERTIFICATION_NEED);
-				CN3UIArea* pArea = nullptr;
+				const CN3UIArea* pArea = nullptr;
 				pArea = CN3UIWndBase::GetChildAreaByiOrder(UI_AREA_TYPE_INV, iIndex);
 				if ( pArea )
 				{
@@ -2627,7 +2627,7 @@ void CUIInventory::ItemDestroyOK()
 void CUIInventory::ItemDestroyCancel()
 {
 	m_bDestoyDlgAlive = false;
-	CN3UIArea* pArea = nullptr;
+	const CN3UIArea* pArea = nullptr;
 
 	switch ( CN3UIWndBase::m_sSelectedIconInfo.UIWndSelect.UIWndDistrict )
 	{
@@ -2659,7 +2659,7 @@ void CUIInventory::ItemDestroyCancel()
 
 void CUIInventory::ReceiveResultItemRemoveFromServer(int iResult)
 {
-	CN3UIArea* pArea = nullptr;
+	const CN3UIArea* pArea = nullptr;
 	__IconItemSkill* spItem = nullptr;
 	CN3UIWndBase::m_sRecoveryJobInfo.m_bWaitFromServer	= false;
 
@@ -2734,7 +2734,7 @@ bool CUIInventory::CheckWeightValidate(__IconItemSkill* spItem)
 
 	if (!spItem)	return false;
 
-	__InfoPlayerMySelf*	pInfoExt = &(CGameBase::s_pPlayer->m_InfoExt);
+	const __InfoPlayerMySelf*	pInfoExt = &(CGameBase::s_pPlayer->m_InfoExt);
 	if ( (pInfoExt->iWeight + spItem->pItemBasic->siWeight) > pInfoExt->iWeightMax)
 	{	 
 		::_LoadStringFromResource(IDS_ITEM_WEIGHT_OVERFLOW, szMsg);	

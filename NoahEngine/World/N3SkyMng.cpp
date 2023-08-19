@@ -174,7 +174,7 @@ void CN3SkyMng::RenderWeather()
 
 void CN3SkyMng::Tick()
 {
-	DWORD dwCurTickCount = timeGetTime();
+	const DWORD dwCurTickCount = timeGetTime();
 	__ASSERT(dwCurTickCount >= m_dwCheckTick,"음수이다.");
 	DWORD dwCurGameTime = m_dwCheckGameTime + (DWORD)((dwCurTickCount - m_dwCheckTick)*TIME_REAL_PER_GAME*0.001f);
 	if (!m_DayChanges.empty())
@@ -215,7 +215,7 @@ void CN3SkyMng::Tick()
 		{
 			__SKY_DAYCHANGE* pSDC = &(m_DayChanges[m_iDayChangeCurPos]);
 			// 실행할 명령의 시간과 현재 시간 차이
-			DWORD dwDiffTime = dwCurGameTime - pSDC->dwWhen;
+			const DWORD dwDiffTime = dwCurGameTime - pSDC->dwWhen;
 
 			// 변화에 걸리는 시간 조정 
 			float fTakeTime = pSDC->fHowLong - dwDiffTime*TIME_GAME_PER_REAL;	// 걸리는 시간
@@ -245,7 +245,7 @@ void CN3SkyMng::Tick()
 			{
 				__SKY_DAYCHANGE* pSDC = &(m_WeatherChanges[m_iWeatherChangeCurPos]);
 				// 실행할 명령의 시간과 현재 시간 차이
-				DWORD dwDiffTime = dwCurGameTime - pSDC->dwWhen;
+				const DWORD dwDiffTime = dwCurGameTime - pSDC->dwWhen;
 
 				// 변화에 걸리는 시간 조정 
 				float fTakeTime = pSDC->fHowLong - dwDiffTime*TIME_GAME_PER_REAL;	// 걸리는 시간
@@ -663,7 +663,7 @@ void CN3SkyMng::InitToDefaultHardCoding()
 void CN3SkyMng::SetCheckGameTime(DWORD dwCheckGameTime)
 {
 	dwCheckGameTime %= 86400;
-	DWORD dwCheckTick = timeGetTime();
+	const DWORD dwCheckTick = timeGetTime();
 	m_dwCheckGameTime = dwCheckGameTime;
 	m_dwCheckTick = dwCheckTick;
 
@@ -675,7 +675,7 @@ void CN3SkyMng::SetCheckGameTime(DWORD dwCheckGameTime)
 
 	// 큐에서 현재 게임시간에 맞는 순서를 찾는다.
 	m_iDayChangeCurPos = 0;
-	int iDCC = m_DayChanges.size();
+	const int iDCC = m_DayChanges.size();
 	while(m_iDayChangeCurPos<iDCC &&
 		m_DayChanges[m_iDayChangeCurPos].dwWhen < dwCheckGameTime) ++m_iDayChangeCurPos;
 	if (m_iDayChangeCurPos >= iDCC) m_iDayChangeCurPos = iDCC - 1;
@@ -686,7 +686,7 @@ void CN3SkyMng::SetCheckGameTime(DWORD dwCheckGameTime)
 	{
 		if (i == SDC_MOONPHASE) continue;
 
-		int iPos = GetLatestChange((eSKY_DAYCHANGE)i, m_iDayChangeCurPos);
+		const int iPos = GetLatestChange((eSKY_DAYCHANGE)i, m_iDayChangeCurPos);
 		if (iPos<0) continue;	// 한바퀴를 다 돌았는데도 변화값을 찾을 수 없다.
 		__SKY_DAYCHANGE* pSDC = &(m_DayChanges[iPos]);
 		DWORD dwEnd = pSDC->dwWhen + (DWORD)(TIME_REAL_PER_GAME * pSDC->fHowLong);	// 변화가 끝나는 시간
@@ -697,14 +697,14 @@ void CN3SkyMng::SetCheckGameTime(DWORD dwCheckGameTime)
 		}
 		else
 		{	// 현재 겜시간에서 변화가 진행중인 경우
-			int iPrevPos = GetLatestChange((eSKY_DAYCHANGE)i, iPos);
+			const int iPrevPos = GetLatestChange((eSKY_DAYCHANGE)i, iPos);
 			__ASSERT(iPrevPos>=0, "여기에 올리가 없다");
 			__SKY_DAYCHANGE* pPrevSDC = &(m_DayChanges[iPrevPos]);
 			ChangeSky(pPrevSDC, 0.0f);	// 이전 상태로 만들기
 
 			// 변화상태로 만들기
 			// 실행할 명령의 시간과 현재 시간 차이
-			DWORD dwDiffTime = dwCheckGameTime - pSDC->dwWhen;
+			const DWORD dwDiffTime = dwCheckGameTime - pSDC->dwWhen;
 			// 변화에 걸리는 시간 조정 
 			float fTakeTime = pSDC->fHowLong - dwDiffTime*TIME_GAME_PER_REAL;	// 걸리는 시간
 			if (fTakeTime<0.0f) fTakeTime = 0.0f;	// 0보다 작으면 즉시 변화하게 하자
@@ -742,7 +742,7 @@ int CN3SkyMng::GetLatestChange(eSKY_DAYCHANGE eSDC, int iPos)
 void CN3SkyMng::ChangeSky(__SKY_DAYCHANGE* pSDC, float fTakeTime)
 {
 	if (nullptr == pSDC) return;
-	float fPercentage = 1.0f - fTakeTime/pSDC->fHowLong;
+	const float fPercentage = 1.0f - fTakeTime/pSDC->fHowLong;
 
 	// 하늘 변화명령 실행하기
 	switch(pSDC->eSkyDayChange)
@@ -1097,12 +1097,12 @@ void CN3SkyMng::SunAndMoonDirectionFixByHour(int iHour) // 해와 달 각도 관
 
 void CN3SkyMng::GetGameTime(int* piYear, int* piMonth, int* piDay, int* piHour, int*piMin)
 {
-	DWORD dwCurTickCount = timeGetTime();
+	const DWORD dwCurTickCount = timeGetTime();
 	__ASSERT(dwCurTickCount >= m_dwCheckTick,"음수이다.");
-	DWORD dwCurGameTime = m_dwCheckGameTime + (DWORD)((dwCurTickCount - m_dwCheckTick)*TIME_REAL_PER_GAME*0.001f);
+	const DWORD dwCurGameTime = m_dwCheckGameTime + (DWORD)((dwCurTickCount - m_dwCheckTick)*TIME_REAL_PER_GAME*0.001f);
 
 	// dwCurGameTime - 초
-	int iSecond = dwCurGameTime%3600;
+	const int iSecond = dwCurGameTime%3600;
 
 	if(piYear)	*piYear = m_iYear;
 	if(piMonth) *piMonth = m_iMonth;

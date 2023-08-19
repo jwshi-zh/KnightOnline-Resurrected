@@ -11,7 +11,7 @@ CPick::~CPick()
 
 void CPick::SetPickXY(long x, long y)
 {
-	LPDIRECT3DDEVICE9 lpD3DDev = CN3Base::s_lpD3DDev;
+	const LPDIRECT3DDEVICE9 lpD3DDev = CN3Base::s_lpD3DDev;
 
     // Get the pick ray from the mouse position
     D3DXMATRIX matProj;
@@ -42,7 +42,7 @@ BOOL CPick::PickByBox(__Vector3 &vMin, __Vector3 &vMax, __Vector3& vIntersect)
 {
 	m_MeshBox.Create_Cube(vMin, vMax);
 
-	__VertexT1* pVs = m_MeshBox.Vertices();
+	const __VertexT1* pVs = m_MeshBox.Vertices();
 	if(pVs == nullptr) return FALSE;
 
 	float fT, fU, fV;

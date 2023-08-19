@@ -56,7 +56,7 @@ void CUILoading::Render(const std::string& szInfo, int iPercentage)
 	if(m_pText_Info) m_pText_Info->SetString(szInfo);
 	if(m_pProgress_Loading) m_pProgress_Loading->SetCurValue(iPercentage);
 
-	D3DCOLOR crEnv = 0x00000000;
+	const D3DCOLOR crEnv = 0x00000000;
 	CGameProcedure::s_pEng->Clear(crEnv); // 배경은 검은색
 	CN3Base::s_lpD3DDev->BeginScene();			// 씬 렌더 ㅅ작...
 	

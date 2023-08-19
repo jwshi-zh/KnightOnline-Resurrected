@@ -44,8 +44,8 @@ public:
 		while (IsOverFlowCondition(len)) BufferResize();
 		if (IsIndexOverFlow(len))
 		{
-			int FirstCopyLen = m_iBufSize-m_iTailPos;
-			int SecondCopyLen = len - FirstCopyLen;
+			const int FirstCopyLen = m_iBufSize-m_iTailPos;
+			const int SecondCopyLen = len - FirstCopyLen;
 			__ASSERT(FirstCopyLen, "1");
 			CopyMemory(m_pBuffer+m_iTailPos, pData, FirstCopyLen);
 			if (SecondCopyLen)
@@ -77,7 +77,7 @@ public:
 	}
 	int		GetOutData(BYTE *pData) //HeadPos, 변화
 	{
-		int len = GetValidCount();
+		const int len = GetValidCount();
 		int fc, sc;
 		fc = m_iBufSize-m_iHeadPos;
 		if (len>fc)
@@ -131,7 +131,7 @@ protected:
 	BOOL	IsIndexOverFlow(int &len) {return (len+m_iTailPos>=m_iBufSize) ? TRUE:FALSE;}
 	void	BufferResize() //overflow condition 일때 size를 현재의 두배로 늘림
 	{
-		int prevBufSize = m_iBufSize;
+		const int prevBufSize = m_iBufSize;
 		m_iBufSize <<= 1;
 		BYTE *pNewData = new BYTE[m_iBufSize];
 		CopyMemory(pNewData, m_pBuffer, prevBufSize);

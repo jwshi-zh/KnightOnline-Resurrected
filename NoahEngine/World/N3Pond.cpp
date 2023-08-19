@@ -115,7 +115,7 @@ bool CN3Pond::Load(HANDLE hFile)
 		WORD* indexPtr = ptmpPondMesh->m_wpIndex;	//	삼각형을 부를 위치 설정
 		iWidth--;
 
-		__VertexPond* ptVtx = ptmpPondMesh->m_pVertices;
+		const __VertexPond* ptVtx = ptmpPondMesh->m_pVertices;
 		float StX,EnX,StZ,EnZ;
 		StX = ptVtx[0].x,EnX = ptVtx[iWidth].x;
 		StZ = ptVtx[0].z,EnZ = ptVtx[iHeight].z;
@@ -241,8 +241,8 @@ void CN3Pond::Tick()
 		static float ftemp = 0.0f;
 		frame = (30.0f / CN3Base::s_fFrmPerSec)*1.2f;
 		ftemp   += frame;
-		int i    = (int)ftemp;
-		float j  = ftemp - (float)i;
+		const int i    = (int)ftemp;
+		const float j  = ftemp - (float)i;
 
 		for(auto k = 0; k < i; k++ )
 		{
@@ -257,7 +257,7 @@ void CN3Pond::Render() const
 {
 	if(m_iPondMeshNum <= 0) return;
 
-	int iTex = (int)m_fTexIndex;
+	const int iTex = (int)m_fTexIndex;
 	__ASSERT(iTex < MAX_POND_TEX, "Pond Texture index overflow..");
 	if(iTex >= MAX_POND_TEX || nullptr == m_pTexPond[iTex]) return;
 

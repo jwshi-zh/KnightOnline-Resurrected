@@ -64,7 +64,7 @@ void CPlayerOtherMgr::Tick(const __Vector3& vPosPlayer)
 		iLOD = pNPC->LODLevel();
 		if(iLOD >= 0 && iLOD < MAX_CHR_LOD) iLODTotal += MAX_CHR_LOD - iLOD; // 자동 LOD 계산할때 필요한 값..
 
-		float fDist = pNPC->Distance(vPosPlayer);
+		const float fDist = pNPC->Distance(vPosPlayer);
 		if(fDist < SOUND_RANGE_TO_SET) pNPC->SetSoundAndInitFont(); // SOUND_RANGE 안에 있으면.
 		else if(fDist > SOUND_RANGE_TO_RELEASE) pNPC->ReleaseSoundAndFont();
 		it++;
@@ -86,7 +86,7 @@ void CPlayerOtherMgr::Tick(const __Vector3& vPosPlayer)
 		}
 		else
 		{
-			float fDist = pNPC->Distance(vPosPlayer);
+			const float fDist = pNPC->Distance(vPosPlayer);
 			if(fDist < SOUND_RANGE_TO_SET) pNPC->SetSoundAndInitFont(); // SOUND_RANGE 안에 있으면.
 			else if(fDist > SOUND_RANGE_TO_RELEASE) pNPC->ReleaseSoundAndFont();
 			it2++;
@@ -142,7 +142,7 @@ void CPlayerOtherMgr::Render(float fSunAngle)
 //	}
 
 	// 카메라 거리순으로 정렬
-	int iUPCSize = m_UPCs.size();
+const int iUPCSize = m_UPCs.size();
 	if(iUPCSize > 0)
 	{
 		std::vector<CPlayerOther*> UPCs;
@@ -169,7 +169,7 @@ void CPlayerOtherMgr::Render(float fSunAngle)
 //		pNPC->Render(true, fSunAngle);
 //	}
 	// 카메라 거리순으로 정렬
-	int iNPCSize = m_NPCs.size();
+const int iNPCSize = m_NPCs.size();
 	if(iNPCSize > 0)
 	{
 		std::vector<CPlayerNPC*> NPCs;
@@ -192,7 +192,7 @@ void CPlayerOtherMgr::Render(float fSunAngle)
 //		pCorpse->Render(false, fSunAngle);
 //	}
 	// 카메라 거리순으로 정렬
-	int iCorpseSize = m_Corpses.size();
+const int iCorpseSize = m_Corpses.size();
 	if(iCorpseSize > 0)
 	{
 		std::vector<CPlayerNPC*> Corpses;
@@ -293,7 +293,7 @@ CPlayerNPC* CPlayerOtherMgr::PickNPC(int ixScreen, int iyScreen, int& iIDResult,
 			if(pNPC->LODLevel() < 0 || pNPC->LODLevel() >= MAX_CHR_LOD) continue; // Level Of Detail 이 없는건 지나간다.
 
 			CN3VMesh* pvMesh = nullptr;
-			__Matrix44* pMtx = nullptr;
+			const __Matrix44* pMtx = nullptr;
 			if(pNPC->m_pShapeExtraRef && pNPC->m_pShapeExtraRef->m_bVisible)
 			{
 				pvMesh = pNPC->m_pShapeExtraRef->CollisionMesh();
@@ -307,7 +307,7 @@ CPlayerNPC* CPlayerOtherMgr::PickNPC(int ixScreen, int iyScreen, int& iIDResult,
 
 			if(nullptr == pvMesh) continue;
 
-			bool bPick = pvMesh->Pick(*pMtx, vPos, vDir, pvPick);
+			const bool bPick = pvMesh->Pick(*pMtx, vPos, vDir, pvPick);
 			if(bPick)
 			{
 				iIDResult = pNPC->IDNumber();
@@ -356,21 +356,21 @@ bool CPlayerOtherMgr::IsValidCharacter(CPlayerBase *pCharacter)
 	auto it = m_UPCs.begin(), itEnd = m_UPCs.end();
 	for(; it != itEnd; it++)
 	{
-		CPlayerOther* pUPC = it->second;
+		const CPlayerOther* pUPC = it->second;
 		if(pCharacter == pUPC) return true;
 	}
 
 	auto it2 = m_NPCs.begin(), itEnd2 = m_NPCs.end();
 	for(; it2 != itEnd2; it2++)
 	{
-		CPlayerNPC* pNPC = it2->second;
+		const CPlayerNPC* pNPC = it2->second;
 		if(pCharacter == pNPC) return true;
 	}
 
 	auto it3 = m_Corpses.begin(), itEnd3 = m_Corpses.end();
 	for(; it3 != itEnd3; it3++)
 	{
-		CPlayerBase* pCorpse = it3->second;
+		const CPlayerBase* pCorpse = it3->second;
 		if(pCharacter == pCorpse) return true;
 	}
 
@@ -392,7 +392,7 @@ void CPlayerOtherMgr::CorpseRemove(CPlayerNPC *pCorpse, bool bRemoveImmediately)
 void CPlayerOtherMgr::CorpseAdd(CPlayerNPC* pNPC)
 {
 	if(nullptr == pNPC) return;
-	auto result = m_Corpses.insert(std::make_pair(pNPC->IDNumber(), pNPC));
+	const auto result = m_Corpses.insert(std::make_pair(pNPC->IDNumber(), pNPC));
 	if(false == result.second) // 중복되었으면..
 	{
 		T_Delete(result.first->second); // 전의걸 지워주고..
@@ -411,8 +411,8 @@ CPlayerNPC*	CPlayerOtherMgr::CorpseGetNearstNPC(bool bMustHaveItem, e_Nation eNa
 		CPlayerNPC* pNPC = it2->second;
 		if(eNation == pNPC->m_InfoBase.eNation) continue;
 		if(bMustHaveItem && pNPC->m_iDroppedItemID <= 0) continue;
-		
-		float fDistTmp = pNPC->Distance(vPosPlayer);
+
+		const float fDistTmp = pNPC->Distance(vPosPlayer);
 		if(fDistTmp < fDistMin)
 		{
 			pTarget = pNPC;
@@ -427,12 +427,12 @@ void CPlayerOtherMgr::MoveToCorpsesForcely(CPlayerNPC* pNPC, bool bErase)
 {
 	if(nullptr == pNPC) return;
 
-	int iID = pNPC->IDNumber();
+	const int iID = pNPC->IDNumber();
 	pNPC->Action(PSA_DEATH, false, nullptr, true); // 강제로 죽인다..
 	if(bErase) pNPC->m_fTimeAfterDeath = TIME_CORPSE_REMAIN - 10.0f; // 죽은 시간을 세팅...
 	else pNPC->m_fTimeAfterDeath = 0.1f;
 
-	auto it = m_UPCs.find(iID); // User를 찾아보고...
+	const auto it = m_UPCs.find(iID); // User를 찾아보고...
 	if(it != m_UPCs.end())
 	{
 		if( bErase ) //삭제일때는 시체로 만든다
@@ -448,7 +448,7 @@ void CPlayerOtherMgr::MoveToCorpsesForcely(CPlayerNPC* pNPC, bool bErase)
 	}
 	else
 	{
-		auto it2 = m_NPCs.find(iID);
+		const auto it2 = m_NPCs.find(iID);
 		if(it2 != m_NPCs.end())
 		{
 			CPlayerNPC* pNPC = it2->second; 
@@ -497,19 +497,19 @@ CPlayerNPC*	CPlayerOtherMgr::CharacterGetByNearstEnemy(e_Nation eNation, const _
 
 bool CPlayerOtherMgr::CharacterDelete(int iID) // User, NPC 안 가리고 지운다..
 {
-	auto it = m_UPCs.find(iID); // User를 찾아보고...
+	const auto it = m_UPCs.find(iID); // User를 찾아보고...
 	if(it != m_UPCs.end())
 	{
-		CPlayerOther* pUPC = it->second;
+		const CPlayerOther* pUPC = it->second;
 		delete pUPC;
 		m_UPCs.erase(it); // 맵에서 지운다.
 		return true;
 	}
 
-	auto it2 = m_NPCs.find(iID);
+	const auto it2 = m_NPCs.find(iID);
 	if(it2 != m_NPCs.end())
 	{
-		CPlayerNPC* pNPC = it2->second; 
+		const CPlayerNPC* pNPC = it2->second; 
 		delete pNPC;
 		m_NPCs.erase(it2); // 맵에서 지운다.
 		return true;
@@ -521,11 +521,11 @@ bool CPlayerOtherMgr::CharacterDelete(int iID) // User, NPC 안 가리고 지운
 
 int CPlayerOtherMgr::SortByCameraDistance(const void* pArg1, const void* pArg2)
 {
-	CPlayerBase* pPlayer1 = *((CPlayerBase**)pArg1);
-	CPlayerBase* pPlayer2 = *((CPlayerBase**)pArg2);
-	
-	float fDist1 = (CN3Base::s_CameraData.vEye - pPlayer1->Position()).Magnitude();
-	float fDist2 = (CN3Base::s_CameraData.vEye - pPlayer2->Position()).Magnitude();
+	const CPlayerBase* pPlayer1 = *((CPlayerBase**)pArg1);
+	const CPlayerBase* pPlayer2 = *((CPlayerBase**)pArg2);
+
+	const float fDist1 = (CN3Base::s_CameraData.vEye - pPlayer1->Position()).Magnitude();
+	const float fDist2 = (CN3Base::s_CameraData.vEye - pPlayer2->Position()).Magnitude();
 
 	if(fDist1 < fDist2) return -1; // 가까우면 true;
 	else if(fDist1 > fDist2) return 1;
@@ -534,7 +534,7 @@ int CPlayerOtherMgr::SortByCameraDistance(const void* pArg1, const void* pArg2)
 
 void CPlayerOtherMgr::CorpseAdd(int iID)
 {
-	auto it = m_UPCs.find(iID); // User를 찾아보고...
+	const auto it = m_UPCs.find(iID); // User를 찾아보고...
 	if(it != m_UPCs.end())
 	{
 		CPlayerOther* pUPC = it->second;
@@ -583,7 +583,7 @@ CPlayerNPC* CPlayerOtherMgr::PickAllPrecisely(int ixScreen, int iyScreen, int &i
 		if(pNPC->LODLevel() < 0 || pNPC->LODLevel() >= MAX_CHR_LOD) continue; // Level Of Detail 이 없는건 지나간다.
 
 		CN3VMesh* pvMesh = nullptr;
-		__Matrix44* pMtx = nullptr;
+		const __Matrix44* pMtx = nullptr;
 		if(pNPC->m_pShapeExtraRef && pNPC->m_pShapeExtraRef->m_bVisible)
 		{
 			pvMesh = pNPC->m_pShapeExtraRef->CollisionMesh();
@@ -595,7 +595,7 @@ CPlayerNPC* CPlayerOtherMgr::PickAllPrecisely(int ixScreen, int iyScreen, int &i
 			}
 
 			if(nullptr == pvMesh) continue;
-			bool bPick = pvMesh->Pick(*pMtx, vPos, vDir, pvPick);
+			const bool bPick = pvMesh->Pick(*pMtx, vPos, vDir, pvPick);
 			if(bPick)
 			{
 				NUPCBufs.push_back(pNPC);
@@ -608,7 +608,7 @@ CPlayerNPC* CPlayerOtherMgr::PickAllPrecisely(int ixScreen, int iyScreen, int &i
 			pMtx = &(pNPC->m_Chr.m_Matrix);
 
 			if(nullptr == pvMesh) continue;
-			bool bPick = pvMesh->Pick(*pMtx, vPos, vDir, pvPick);
+			const bool bPick = pvMesh->Pick(*pMtx, vPos, vDir, pvPick);
 			if(bPick)
 			{
 				NUPCBufs.push_back(pNPC);
@@ -623,7 +623,7 @@ CPlayerNPC* CPlayerOtherMgr::PickAllPrecisely(int ixScreen, int iyScreen, int &i
 //	충돌 체크를 해줘야 정확한 캐릭터를 찾아 낼수가 있다.
 ////////////////////////////////////////////////////////////////////////////
 
-	int iBufCnt = NUPCBufs.size();
+	const int iBufCnt = NUPCBufs.size();
 
 	if(iBufCnt < 0) return nullptr;
 	if(iBufCnt == 1)
@@ -684,7 +684,7 @@ CPlayerNPC* CPlayerOtherMgr::PickNPCPrecisely(int ixScreen, int iyScreen, int &i
 			if(pNPC->m_pShapeExtraRef && pNPC->m_pShapeExtraRef->m_bVisible)
 			{
 				CN3VMesh* pvMesh = pNPC->m_pShapeExtraRef->CollisionMesh();
-				__Matrix44* pMtx = &(pNPC->m_pShapeExtraRef->m_Matrix);
+				const __Matrix44* pMtx = &(pNPC->m_pShapeExtraRef->m_Matrix);
 				if(nullptr == pvMesh)
 				{
 					pvMesh = pNPC->m_Chr.CollisionMesh();
@@ -692,7 +692,7 @@ CPlayerNPC* CPlayerOtherMgr::PickNPCPrecisely(int ixScreen, int iyScreen, int &i
 				}
 
 				if(nullptr == pvMesh) continue;
-				bool bPick = pvMesh->Pick(*pMtx, vPos, vDir, pvPick);
+				const bool bPick = pvMesh->Pick(*pMtx, vPos, vDir, pvPick);
 				if(bPick)
 				{
 					iIDResult = pNPC->IDNumber();

@@ -108,7 +108,7 @@ bool CPlayerOther::Init(e_Race eRace, int iFace, int iHair, DWORD* pdwItemIDs, i
 
 	// 얼굴은 따로하자..
 	this->InitFace();
-	CN3CPart* pPartHairHelmet = this->Part(PART_POS_HAIR_HELMET);
+	const CN3CPart* pPartHairHelmet = this->Part(PART_POS_HAIR_HELMET);
 	if(pPartHairHelmet->FileName().empty()) // 헬멧에 해당되는게 없으면.. 머리카락 붙이기..
 		this->InitHair();
 
@@ -117,7 +117,7 @@ bool CPlayerOther::Init(e_Race eRace, int iFace, int iHair, DWORD* pdwItemIDs, i
 
 void CPlayerOther::InitFace()
 {
-	__TABLE_PLAYER_LOOKS* pItem = s_pTbl_UPC_Looks->Find(m_InfoBase.eRace);
+	const __TABLE_PLAYER_LOOKS* pItem = s_pTbl_UPC_Looks->Find(m_InfoBase.eRace);
 	if(pItem && !pItem->szPartFNs[PART_POS_FACE].empty()) // 아이템이 있고 얼굴 이름이 있으면..
 	{
 		char szBuff[256] = "", szDir[128] = "", szFName[128] = "", szExt[16] = "";
@@ -129,7 +129,7 @@ void CPlayerOther::InitFace()
 
 void CPlayerOther::InitHair()
 {
-	__TABLE_PLAYER_LOOKS* pItem = s_pTbl_UPC_Looks->Find(m_InfoBase.eRace);
+	const __TABLE_PLAYER_LOOKS* pItem = s_pTbl_UPC_Looks->Find(m_InfoBase.eRace);
 	if(pItem && !pItem->szPartFNs[PART_POS_HAIR_HELMET].empty()) // 아이템이 있고 얼굴 이름이 있으면..
 	{
 		char szBuff[256] = "", szDir[128] = "", szFName[128] = "", szExt[16] = "";
@@ -157,7 +157,7 @@ void CPlayerOther::KnightsInfoSet(int iID, const std::string& szName, int iGrade
 		if(m_pClanFont) delete m_pClanFont; m_pClanFont = nullptr; 
 	}
 
-	float fDist = Distance(CGameProcedure::s_pPlayer->Position());
+	const float fDist = Distance(CGameProcedure::s_pPlayer->Position());
 	if(fDist < SOUND_RANGE_TO_SET)
 	{
 		if(!m_pClanFont)

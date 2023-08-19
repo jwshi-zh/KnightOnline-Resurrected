@@ -148,7 +148,7 @@ void CPlayerMySelf::Tick()
 			CGameProcedure::s_pProcMain->MsgSend_Move(false, false); // 정지 패킷 보내기..
 		}
 
-		__Vector3 vPos = this->Position();
+		const __Vector3 vPos = this->Position();
 		CPlayerBase::m_pSnd_MyMove = m_pSnd_Move;
 		if(m_pSnd_Move && m_Chr.NeedPlaySound0()) 
 			m_pSnd_Move->Play(&vPos);
@@ -176,7 +176,7 @@ void CPlayerMySelf::Tick()
 		}
 		else
 		{
-			float fTime = CN3Base::TimeGet();
+			const float fTime = CN3Base::TimeGet();
 			
 			// 활쏘기, 석궁 쏘기 등 스킬로 처리한다..
 			if(	(m_pItemPlugBasics[PLUG_POS_LEFTHAND] && ITEM_CLASS_BOW == m_pItemPlugBasics[PLUG_POS_LEFTHAND]->byClass ) || 
@@ -228,13 +228,13 @@ void CPlayerMySelf::Tick()
 
 				if(	fTime > m_fAttackTimeRecent + fInterval) // 공격 간격이 넘으면.. 공격!
 				{
-					bool bCastingNow = CGameProcedure::s_pProcMain->m_pMagicSkillMng->IsCasting();
+					const bool bCastingNow = CGameProcedure::s_pProcMain->m_pMagicSkillMng->IsCasting();
 					if(false == bCastingNow) // 캐스팅 중이면 공격 패킷을 보내지 않는다.
 					{
-						bool bAttackable = IsAttackableTarget(pTarget);
+						const bool bAttackable = IsAttackableTarget(pTarget);
 						if(bAttackable) // 공격 가능..
 						{
-							float fDistance = s_pPlayer->DistanceExceptRadius(pTarget); // 공격거리
+							const float fDistance = s_pPlayer->DistanceExceptRadius(pTarget); // 공격거리
 							
 							CGameProcedure::s_pProcMain->MsgSend_Attack(pTarget->IDNumber(), fIntervalTable, fDistance);
 							if(m_iSkillStep == 0 && PSA_ATTACK != m_eState && m_fFlickeringFactor == 1.0f) // 스킬을 쓰는게 아닌데 공격하지 않으면..
@@ -248,8 +248,8 @@ void CPlayerMySelf::Tick()
 							{
 								CGameProcedure::s_pPlayer->RotateTo(pTarget); // 방향을 돌린다.
 
-								float fDist = (pTarget->Position() - m_Chr.Pos()).Magnitude(); // 공격 거리를 구하고..
-								float fDistLimit = this->AttackableDistance(pTarget);
+								const float fDist = (pTarget->Position() - m_Chr.Pos()).Magnitude(); // 공격 거리를 구하고..
+								const float fDistLimit = this->AttackableDistance(pTarget);
 
 								if(fDist > fDistLimit && !m_bTargetOrPosMove)
 								{
@@ -295,7 +295,7 @@ void CPlayerMySelf::Render(float fSunAngle)
 	m_Chr.m_nLOD--;
 	if(m_Chr.m_nLOD < 0) m_Chr.m_nLOD = 0;
 
-	int iLODDeltaPrev = CN3Chr::LODDelta(); // 내캐릭은 좀더 정교하게 그리자..
+	const int iLODDeltaPrev = CN3Chr::LODDelta(); // 내캐릭은 좀더 정교하게 그리자..
 	CN3Chr::LODDeltaSet(0);
 	CPlayerBase::Render(fSunAngle);
 	CN3Chr::LODDeltaSet(iLODDeltaPrev);
@@ -310,7 +310,7 @@ bool CPlayerMySelf::ToggleAttackContinous()
 
 	if(false == m_bAttackContinous) // 타겟이 있는지 본다..
 	{
-		CPlayerNPC* pTarget = s_pOPMgr->CharacterGetByID(m_iIDTarget, true);
+		const CPlayerNPC* pTarget = s_pOPMgr->CharacterGetByID(m_iIDTarget, true);
 		if(pTarget) //  && !IsOutOfAttackRange(pTarget)) // 타겟이 있고 공격 가능한 범위에 있을때만
 		{
 			this->m_bAttackContinous = true;
@@ -365,7 +365,7 @@ void CPlayerMySelf::ToggleMoveMode()
 			nAni = ANI_WALK;
 		}
 
-		float fSpeed = this->MoveSpeedCalculationAndCheckCollision(); // 움직이는 속도 및 충돌체크...
+		const float fSpeed = this->MoveSpeedCalculationAndCheckCollision(); // 움직이는 속도 및 충돌체크...
 		if(0 == fSpeed) // 갈수 없으면...
 		{
 			m_bMoveContinous = false;
@@ -387,8 +387,8 @@ void CPlayerMySelf::ToggleMoveMode()
 
 __Vector3 CPlayerMySelf::NextPos(float fTimeAfter) const
 {
-	__Matrix44 mtxRot = m_Chr.Rot();
-	__Vector3 vDir(0,0,1);
+	const __Matrix44 mtxRot = m_Chr.Rot();
+	const __Vector3 vDir(0,0,1);
 	__Vector3 vNextPos = m_Chr.Pos() + ((vDir * mtxRot) * m_fMoveSpeedPerSec * fTimeAfter);
 
 	return vNextPos;
@@ -544,7 +544,7 @@ void CPlayerMySelf::InventoryChrTick()
 
 void CPlayerMySelf::InventoryChrAnimationInitialize()
 {
-	int iAniTmp = m_ChrInv.AniCtrl()->Count() - 1;
+	const int iAniTmp = m_ChrInv.AniCtrl()->Count() - 1;
 	m_ChrInv.AniCurSet(iAniTmp, false, 0);
 	m_ChrInv.AniCurSet(ANI_BREATH, false, 0);
 	m_ChrInv.Tick(); // 한번 해준다..
@@ -635,7 +635,7 @@ CN3CPart* CPlayerMySelf::PartSet(e_PartPosition ePos, const std::string& szFN, _
 				}
 				else // 하체에 입고 있었던 아이템이 없다면..
 				{
-					__TABLE_PLAYER_LOOKS* pLooks = s_pTbl_UPC_Looks->Find(m_InfoBase.eRace);	// User Player Character Skin 구조체 포인터..
+					const __TABLE_PLAYER_LOOKS* pLooks = s_pTbl_UPC_Looks->Find(m_InfoBase.eRace);	// User Player Character Skin 구조체 포인터..
 					m_ChrInv.PartSet(PART_POS_LOWER, pLooks->szPartFNs[PART_POS_LOWER]); // 하체에 기본옷을 입힌다.
 					m_Chr.PartSet(PART_POS_LOWER, pLooks->szPartFNs[PART_POS_LOWER]); // 하체에 기본옷을 입힌다.
 				}
@@ -670,7 +670,7 @@ CN3CPart* CPlayerMySelf::PartSet(e_PartPosition ePos, const std::string& szFN, _
 		}
 		else
 		{
-			__TABLE_PLAYER_LOOKS* pLooks = s_pTbl_UPC_Looks->Find(m_InfoBase.eRace);	// Player Character Skin 구조체 포인터..
+			const __TABLE_PLAYER_LOOKS* pLooks = s_pTbl_UPC_Looks->Find(m_InfoBase.eRace);	// Player Character Skin 구조체 포인터..
 			if(pLooks)
 			{
 				m_ChrInv.PartSet(ePos, pLooks->szPartFNs[ePos]);
@@ -697,8 +697,8 @@ bool CPlayerMySelf::InitChr(__TABLE_PLAYER_LOOKS* pTbl)
 
 	m_ChrInv.JointSet(pTbl->szJointFN);
 	m_ChrInv.AniCtrlSet(pTbl->szAniFN);
-	
-	float fScale = 2.1f / m_Chr.Height();
+
+	const float fScale = 2.1f / m_Chr.Height();
 	m_ChrInv.ScaleSet(fScale, fScale, fScale); // 인벤토리 창에 들어가게 크기를 줄여준다..
 
 	return true;
@@ -721,8 +721,8 @@ float CPlayerMySelf::DistanceExceptRadius(CPlayerBase* pTarget)
 {
 	if(nullptr == pTarget) return 0;
 
-	float fDist = (pTarget->Position() - m_Chr.Pos()).Magnitude();
-	float fDistRadius = (m_Chr.Radius() + pTarget->Radius())/2.0f; // 공격 거리제한..
+	const float fDist = (pTarget->Position() - m_Chr.Pos()).Magnitude();
+	const float fDistRadius = (m_Chr.Radius() + pTarget->Radius())/2.0f; // 공격 거리제한..
 
 	return fDist - fDistRadius;
 }
@@ -733,15 +733,15 @@ bool CPlayerMySelf::IsAttackableTarget(CPlayerBase* pTarget, bool bMesureAngle)
 	if(nullptr == pTarget || pTarget->IsDead()) return false;  //죽은 상태의 캐릭은 공격하지 못하게 - 단 죽기 직전의 캐릭은 제외한다..
 	if(pTarget->m_InfoBase.eNation == m_InfoBase.eNation) return false; // 같은 국가이다..
 
-	float fDist = (pTarget->Position() - m_Chr.Pos()).Magnitude(); // 공격 거리를 구하고..
-	float fDistLimit = this->AttackableDistance(pTarget);
+	const float fDist = (pTarget->Position() - m_Chr.Pos()).Magnitude(); // 공격 거리를 구하고..
+	const float fDistLimit = this->AttackableDistance(pTarget);
 	if(fDist > fDistLimit) return false; // 거리가 일정이상 떨어져 있으면 돌아간다.
 
 	if(bMesureAngle)// 각도를 본다..
 	{
 		__Vector3 vDir = this->Direction(); vDir.y = 0; vDir.Normalize();
 		__Vector3 vDirTarget = pTarget->Position() - m_Chr.Pos(); vDirTarget.y = 0; vDirTarget.Normalize();
-		float fDot = vDir.Dot(vDirTarget);
+		const float fDot = vDir.Dot(vDirTarget);
 		if(fDot > 0.7f) return true;
 		else return false;
 	}
@@ -754,17 +754,17 @@ bool CPlayerMySelf::CheckCollision()
 	float fSpeed = m_fMoveSpeedPerSec * CN3Base::s_fSecPerFrm; // 현재 움직이는 속도..프레임에 따라 계산되어 나오는 속도이다. 
 	if(0 == fSpeed) return false; // 움직이지 않으면 충돌체크 하지 않는다.
 
-	__Vector3 vPos = this->Position();
+	const __Vector3 vPos = this->Position();
 
 	__Vector3 vDir(0,0,1); // 회전값을 구하고..
-	__Matrix44 mtxRot = this->Rotation(); 
+	const __Matrix44 mtxRot = this->Rotation(); 
 	vDir *= mtxRot; // 회전에 따른 방향을 구하고.
 	if(fSpeed < 0)
 	{
 		fSpeed *= -1.0f;
 		vDir *= -1.0f;
 	}
-	__Vector3 vPosNext = vPos + (vDir * fSpeed); // 다음 위치 계산..
+	const __Vector3 vPosNext = vPos + (vDir * fSpeed); // 다음 위치 계산..
 	if ( false == ACT_WORLD->IsInTerrainWithTerrain(vPosNext.x, vPosNext.z, vPos) )
 		return true; // 경계 안에 있지 않으면..
 
@@ -786,7 +786,7 @@ bool CPlayerMySelf::CheckCollision()
 			fHeightSum = (pUPC->Height() + m_Chr.Height()) / 2.5f;
 			if(fMag < fHeightSum) // 거리가 키의 합보다 작으면..
 			{
-				float fMag2 = (pUPC->Position() - vPosNext).Magnitude(); // 다음위치가 더 가까우면.
+				const float fMag2 = (pUPC->Position() - vPosNext).Magnitude(); // 다음위치가 더 가까우면.
 				if(fMag2 < fMag)
 					return true;
 			}
@@ -815,7 +815,7 @@ bool CPlayerMySelf::CheckCollision()
 			fHeightSum = (pNPC->Height() + m_Chr.Height()) / 2.5f;
 			if(fMag < fHeightSum) // 거리가 키의 합보다 작으면..
 			{
-				float fMag2 = (pNPC->Position() - vPosNext).Magnitude(); // 다음위치가 더 가까우면.
+				const float fMag2 = (pNPC->Position() - vPosNext).Magnitude(); // 다음위치가 더 가까우면.
 				if(fMag2 < fMag)
 					return true;
 			}
@@ -829,13 +829,13 @@ bool CPlayerMySelf::CheckCollision()
 		vPos2.y += 0.5f; // 캐릭터 발높이에서 0.5 미터 높이 위에서 충돌체크한다.
 	else
 		vPos2.y += 0.6f; // 캐릭터 발높이에서 0.6 미터 높이 위에서 충돌체크한다.	이 함수 내에서 쓰는 0.6은 PvsMgr의 m_fVolumeOffs.. ^^
-	bool bColShape = ACT_WORLD->CheckCollisionWithShape(vPos2, vDir, fSpeed, &vCol, &vNormal);
+	const bool bColShape = ACT_WORLD->CheckCollisionWithShape(vPos2, vDir, fSpeed, &vCol, &vNormal);
 	if( bColShape) return true; // 오브젝트와 충돌값이 있으면 
 
 	////////////////////////////////////////////////////////////////////////////////
 	// 지면과 오브젝트의 높이값 구하기..
-	float fYTerrain = ACT_WORLD->GetHeightWithTerrain(vPosNext.x, vPosNext.z);		// 지면의 높이값..
-	float fYClimb = ACT_WORLD->GetHeightNearstPosWithShape(vPosNext, CN3Base::s_fSecPerFrm * 30.0f, &vNormal); // 충돌 체크 오브젝트의 높이값..
+	const float fYTerrain = ACT_WORLD->GetHeightWithTerrain(vPosNext.x, vPosNext.z);		// 지면의 높이값..
+	const float fYClimb = ACT_WORLD->GetHeightNearstPosWithShape(vPosNext, CN3Base::s_fSecPerFrm * 30.0f, &vNormal); // 충돌 체크 오브젝트의 높이값..
 	vNormal.y = 0; // 이래야 정상적인 경사를 얻을수 있다..
 	
 	if (!s_pWorldMgr->IsIndoor())
@@ -905,7 +905,7 @@ bool CPlayerMySelf::CheckCollision()
 
 void CPlayerMySelf::InitFace()
 {
-	__TABLE_PLAYER_LOOKS* pLooks = s_pTbl_UPC_Looks->Find(m_InfoBase.eRace);
+	const __TABLE_PLAYER_LOOKS* pLooks = s_pTbl_UPC_Looks->Find(m_InfoBase.eRace);
 	if(pLooks && !pLooks->szPartFNs[PART_POS_FACE].empty()) // 아이템이 있고 얼굴 이름이 있으면..
 	{
 		char szBuff[256] = "", szDir[128] = "", szFName[128] = "", szExt[16] = "";
@@ -917,7 +917,7 @@ void CPlayerMySelf::InitFace()
 
 void CPlayerMySelf::InitHair()
 {
-	__TABLE_PLAYER_LOOKS* pLooks = s_pTbl_UPC_Looks->Find(m_InfoBase.eRace);
+	const __TABLE_PLAYER_LOOKS* pLooks = s_pTbl_UPC_Looks->Find(m_InfoBase.eRace);
 	if(pLooks && !pLooks->szPartFNs[PART_POS_HAIR_HELMET].empty()) // 아이템이 있고 얼굴 이름이 있으면..
 	{
 		char szBuff[256] = "", szDir[128] = "", szFName[128] = "", szExt[16] = "";
@@ -1038,7 +1038,7 @@ void CPlayerMySelf::TargetOrPosMove()
 
 	if( m_iMoveTarget >= 0 )
 	{
-		CPlayerNPC* pTarget = s_pOPMgr->CharacterGetByID(m_iMoveTarget, true);
+		const CPlayerNPC* pTarget = s_pOPMgr->CharacterGetByID(m_iMoveTarget, true);
 		if(pTarget)
 		{
 			m_vTargetPos = pTarget->Position();
@@ -1054,15 +1054,15 @@ void CPlayerMySelf::TargetOrPosMove()
 	vDir.y = 0.0f;
 	vDir.Normalize();
 
-	float fYaw = ::_Yaw2D(vDir.x, vDir.z);
+	const float fYaw = ::_Yaw2D(vDir.x, vDir.z);
 	this->RotateTo(fYaw, true); // 방향을 돌리고
 
 	if( m_iMoveTarget >= 0 )
 	{
 		CPlayerNPC* pTarget = s_pOPMgr->CharacterGetByID(m_iMoveTarget, true);
 
-		float fDist = (pTarget->Position() - m_Chr.Pos()).Magnitude(); // 공격 거리를 구하고..
-		float fDistLimit = this->AttackableDistance(pTarget);
+		const float fDist = (pTarget->Position() - m_Chr.Pos()).Magnitude(); // 공격 거리를 구하고..
+		const float fDistLimit = this->AttackableDistance(pTarget);
 
 		if(fDist < fDistLimit)
 		{
@@ -1073,7 +1073,7 @@ void CPlayerMySelf::TargetOrPosMove()
 	}
 	else
 	{
-		float fDist = (m_vTargetPos - Position()).Magnitude();
+		const float fDist = (m_vTargetPos - Position()).Magnitude();
 		if( fDist < 0.5f )
 		{
 			this->ActionMove(PSM_STOP);

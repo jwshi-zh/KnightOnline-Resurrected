@@ -265,7 +265,7 @@ int CAPISocket::Connect(HWND hWnd, const char* pszIP, DWORD dwPort)
 	// create socket 
 	if( (m_hSocket = socket(AF_INET, SOCK_STREAM, 0)) < 1) 
 	{
-		int iErrCode = ::WSAGetLastError();
+		const int iErrCode = ::WSAGetLastError();
 #ifdef _DEBUG
 		char msg[256];
 		sprintf(msg,"Error opening stream socket");
@@ -280,7 +280,7 @@ int CAPISocket::Connect(HWND hWnd, const char* pszIP, DWORD dwPort)
   
 	if (connect(m_hSocket, (struct sockaddr far *)&server, sizeof(server)) != 0) 
 	{
-		int iErrCode = ::WSAGetLastError();
+		const int iErrCode = ::WSAGetLastError();
 
 		closesocket(m_hSocket);
 		m_hSocket = INVALID_SOCKET;
@@ -314,7 +314,7 @@ int CAPISocket::Connect(HWND hWnd, const char* pszIP, DWORD dwPort)
 
 int	CAPISocket::ReConnect()
 {
-	std::string szIP = m_szIP;
+	const std::string szIP = m_szIP;
 	return this->Connect(m_hWndTarget, szIP.c_str(), m_dwPort);
 }
 
@@ -334,7 +334,7 @@ void CAPISocket::Receive()
 		{
 			__ASSERT(0,"socket receive error!");
 #ifdef _N3GAME
-			int iErr = ::GetLastError();
+			const int iErr = ::GetLastError();
 			CLogWriter::Write("socket receive error! : %d", iErr);
 			TRACE("socket receive error! : %d\n", iErr);
 #endif
@@ -353,7 +353,7 @@ void CAPISocket::Receive()
 
 BOOL CAPISocket::ReceiveProcess()
 {
-	int iCount = m_CB.GetValidCount();
+	const int iCount = m_CB.GetValidCount();
 	BOOL bFoundTail = FALSE;
 	if (iCount >=7 )
 	{
@@ -379,7 +379,7 @@ BOOL CAPISocket::ReceiveProcess()
 					m_CB.HeadIncrease(siCore + 6); // 환형 버퍼 인덱스 증가 시키기..
 					bFoundTail = TRUE;
 #ifdef _DEBUG
-					BYTE byCmd = pData[4];
+					const BYTE byCmd = pData[4];
 					m_Statistics_Recv_Sum[byCmd].dwTime++;
 					m_Statistics_Recv_Sum[byCmd].iSize += siCore;
 #endif
@@ -411,12 +411,9 @@ void CAPISocket::Send(BYTE* pData, int nSize)
 	nSize = DP.m_Size;
 	pData = DP.m_pData;
 #endif
-	
-	
-	
-	
-	
-	int nTotalSize = nSize+6;
+
+
+	const int nTotalSize = nSize+6;
 	BYTE *pSendData = m_RecvBuf;
 	*((WORD*)pSendData) = htons(PACKET_HEADER);	pSendData+=2;
 	*((WORD*)pSendData) = nSize;				pSendData+=2;
@@ -432,7 +429,7 @@ void CAPISocket::Send(BYTE* pData, int nSize)
 		{
 			__ASSERT(0,"socket send error!");
 #ifdef _N3GAME
-			int iErr = ::GetLastError();
+			const int iErr = ::GetLastError();
 			CLogWriter::Write("socket send error! : %d", iErr);
 			TRACE("socket send error! : %d\n", iErr);
 			PostQuitMessage(-1);
@@ -446,7 +443,7 @@ void CAPISocket::Send(BYTE* pData, int nSize)
 	}
 
 #ifdef _DEBUG
-	BYTE byCmd = pData[0]; // 통계 넣기..
+	const BYTE byCmd = pData[0]; // 통계 넣기..
 
 //	__SocketStatisics SS;
 //	SS.dwTime = GetTickCount();

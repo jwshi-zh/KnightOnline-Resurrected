@@ -24,7 +24,7 @@ CItemRepairMgr::~CItemRepairMgr()
 
 void CItemRepairMgr::Tick()
 {
-	CUIInventory *pInv	= CGameProcedure::s_pProcMain->m_pUIInventory;
+	const CUIInventory *pInv	= CGameProcedure::s_pProcMain->m_pUIInventory;
 	if (!pInv) return;
 	if (!pInv->IsVisible())	return;
 	if (pInv->GetInvState() != INV_STATE_REPAIR) return;
@@ -33,7 +33,7 @@ void CItemRepairMgr::Tick()
 	CUIRepairTooltipDlg *pDlg = CGameProcedure::s_pProcMain->m_pUIRepairTooltip;
 	if (pDlg)	pDlg->m_bBRender = false;
 
-	POINT ptCur			= CGameProcedure::s_pLocalInput->MouseGetPos();
+	const POINT ptCur			= CGameProcedure::s_pLocalInput->MouseGetPos();
 
 	// 위치를 구해서 
 	int i;	int iArm = 0x00; int iOrder = -1; __IconItemSkill* spItem = nullptr;
@@ -99,7 +99,7 @@ void CItemRepairMgr::Tick()
 		}
 	}
 
-	DWORD dwMouseFlags	= CGameProcedure::s_pLocalInput->MouseGetFlag();	// 마우스 버튼 플래그 - LocalInput.h 참조
+	const DWORD dwMouseFlags	= CGameProcedure::s_pLocalInput->MouseGetFlag();	// 마우스 버튼 플래그 - LocalInput.h 참조
 	if (dwMouseFlags & MOUSE_LBCLICK)		// 왼쪽 버튼을 누르면..
 	{
 		m_pspItemBack	= spItem;
@@ -200,11 +200,11 @@ void CItemRepairMgr::UpdateUserTotalGold(int iGold)
 
 int CItemRepairMgr::CalcRepairGold(__IconItemSkill* spItem)
 {
-	int iMaxDurability = spItem->pItemBasic->siMaxDurability + spItem->pItemExt->siMaxDurability;
+	const int iMaxDurability = spItem->pItemBasic->siMaxDurability + spItem->pItemExt->siMaxDurability;
 	if (iMaxDurability <= 0) return 0;
-	float fAllPrice = (float)spItem->pItemBasic->iPrice*(float)spItem->pItemExt->siPriceMultiply;
-	float fTemp = ((fAllPrice-10.0f)/(10000.0f))+pow(fAllPrice, 0.75f);
-	float fValue = fTemp*( (float)(iMaxDurability - spItem->iDurability) / (float)(iMaxDurability) );
+	const float fAllPrice = (float)spItem->pItemBasic->iPrice*(float)spItem->pItemExt->siPriceMultiply;
+	const float fTemp = ((fAllPrice-10.0f)/(10000.0f))+pow(fAllPrice, 0.75f);
+	const float fValue = fTemp*( (float)(iMaxDurability - spItem->iDurability) / (float)(iMaxDurability) );
 
 	return (int)fValue;
 }

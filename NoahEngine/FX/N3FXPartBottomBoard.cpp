@@ -246,21 +246,21 @@ bool CN3FXPartBottomBoard::Tick()
 
 	if(m_fCurrLife<=m_fFadeIn)
 	{
-		auto Alpha = (DWORD)(255.0f * m_fCurrLife / m_fFadeIn);
+		const auto Alpha = (DWORD)(255.0f * m_fCurrLife / m_fFadeIn);
 		m_dwCurrColor = (Alpha<<24) + 0x00ffffff;		
 	}
 	else m_dwCurrColor = 0xffffffff;
 
 	if(m_dwState==FX_PART_STATE_DYING)
 	{
-		float TotalLife = m_fFadeIn + m_fLife + m_fFadeOut;
+		const float TotalLife = m_fFadeIn + m_fLife + m_fFadeOut;
 		if(m_fCurrLife >= TotalLife)
 		{
 			m_dwCurrColor = 0x00ffffff;
 		}
 		else
 		{
-			auto Alpha = (DWORD)(255.0f * (TotalLife - m_fCurrLife) / m_fFadeOut);
+			const auto Alpha = (DWORD)(255.0f * (TotalLife - m_fCurrLife) / m_fFadeOut);
 			m_dwCurrColor = (Alpha<<24) + 0x00ffffff;
 		}
 	}
@@ -327,7 +327,7 @@ bool CN3FXPartBottomBoard::Tick()
 //
 bool CN3FXPartBottomBoard::IsDead()
 {
-	float TotalLife = m_fFadeIn + m_fLife + m_fFadeOut;
+	const float TotalLife = m_fFadeIn + m_fLife + m_fFadeOut;
 	if(m_fCurrLife >= TotalLife) return true;
 	return false;
 }

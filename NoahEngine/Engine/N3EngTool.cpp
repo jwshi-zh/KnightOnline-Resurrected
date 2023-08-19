@@ -135,24 +135,24 @@ void CN3EngTool::RenderTexturePreview(CN3Texture *pTex, HWND hWndDiffuse, RECT* 
 		RECT rcPreview;
 		::GetClientRect(hWndDiffuse, &rcPreview);
 
-		int nW = rcPreview.right - rcPreview.left;
-		int nH = rcPreview.bottom - rcPreview.top;
+		const int nW = rcPreview.right - rcPreview.left;
+		const int nH = rcPreview.bottom - rcPreview.top;
 
-		D3DRECT rcClear = { rcPreview.left, rcPreview.top, rcPreview.right, rcPreview.bottom };
+		const D3DRECT rcClear = { rcPreview.left, rcPreview.top, rcPreview.right, rcPreview.bottom };
 		s_lpD3DDev->Clear(1, &rcClear, D3DCLEAR_ZBUFFER | D3DCLEAR_TARGET, D3DCOLOR_ARGB(255,64,64,64), 1.0f, 0);
 
 		RECT rcTex = rcPreview;
-		float fRatioDest = (float)nW / (float)nH;
+		const float fRatioDest = (float)nW / (float)nH;
 		
 		if(fRatioDest > 1.0f) // 가로가 긴경우
 		{
-			int nDec = (nW - nH) / 2;
+			const int nDec = (nW - nH) / 2;
 			rcTex.left += nDec;
 			rcTex.right -= nDec;
 		}
 		else if(fRatioDest < 1.0f) // 세로가 긴경우
 		{
-			int nDec = (nH - nW) / 2;
+			const int nDec = (nH - nW) / 2;
 			rcTex.top += nDec;
 			rcTex.bottom -= nDec;
 		}
@@ -191,27 +191,27 @@ void CN3EngTool::RenderTexturePreview(CN3Texture *pTex, HWND hWndDiffuse, RECT* 
 		HRESULT hr;
 		::GetClientRect(hWndDiffuse, &rcPreview);
 
-		int nW = rcPreview.right - rcPreview.left;
-		int nH = rcPreview.bottom - rcPreview.top;
+		const int nW = rcPreview.right - rcPreview.left;
+		const int nH = rcPreview.bottom - rcPreview.top;
 
-		D3DRECT rcClear = { rcPreview.left, rcPreview.top, rcPreview.right, rcPreview.bottom };
+		const D3DRECT rcClear = { rcPreview.left, rcPreview.top, rcPreview.right, rcPreview.bottom };
 		hr = s_lpD3DDev->Clear(1, &rcClear, D3DCLEAR_ZBUFFER | D3DCLEAR_TARGET, D3DCOLOR_ARGB(255,64,64,64), 1.0f, 0);
 
 		if(pTex->Get() != nullptr)
 		{
 			RECT rcTex = rcPreview;
-			float fRatioDest = (float)nW / (float)nH;
+			const float fRatioDest = (float)nW / (float)nH;
 			float fRatioSrc = (float)(pTex->Width()) / (float)(pTex->Height());
 
 			if(fRatioDest > 1.0f) // 가로가 긴경우
 			{
-				int nDec = (nW - nH) / 2;
+				const int nDec = (nW - nH) / 2;
 				rcTex.left += nDec;
 				rcTex.right -= nDec;
 			}
 			else if(fRatioDest < 1.0f) // 세로가 긴경우
 			{
-				int nDec = (nH - nW) / 2;
+				const int nDec = (nH - nW) / 2;
 				rcTex.top += nDec;
 				rcTex.bottom -= nDec;
 			}
@@ -221,8 +221,8 @@ void CN3EngTool::RenderTexturePreview(CN3Texture *pTex, HWND hWndDiffuse, RECT* 
 			// 만약 Rect 가 있으면..
 			if(pRCSrc)
 			{
-				auto fW = (float)(pTex->Width());
-				auto fH = (float)(pTex->Height());
+				const auto fW = (float)(pTex->Width());
+				const auto fH = (float)(pTex->Height());
 
 				fU_Left = pRCSrc->left / fW;
 				fV_Top = pRCSrc->top / fH;
@@ -283,7 +283,7 @@ void CN3EngTool::GridCreate(int nWidth, int nHeight)
 	m_pVGrids = new __VertexColor[m_nGridLineCount * 2];
 
 	// 그리드 생성..
-	D3DCOLOR GridColor = 0xff808080;
+	const D3DCOLOR GridColor = 0xff808080;
 	int xx = nWidth/2, zz = nHeight/2;
 	int nSeq = 0;
 	for(int x = -xx; x <= xx; x++)

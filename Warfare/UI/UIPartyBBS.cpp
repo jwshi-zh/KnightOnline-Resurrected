@@ -162,7 +162,7 @@ void CUIPartyBBS::MsgSend_RefreshData(int iCurPage)
 {
 	if(m_bProcessing) return; //전에 보낸 패킷 응답이 없으면
 
-	float fTime = CN3Base::TimeGet();
+	const float fTime = CN3Base::TimeGet();
 	if( fTime - m_fTime < 3.0f )
 		return;
 	m_fTime = fTime;
@@ -170,7 +170,7 @@ void CUIPartyBBS::MsgSend_RefreshData(int iCurPage)
 	BYTE byBuff[4];
 	int iOffset=0;
 
-	short sPage = m_iCurPage;
+	const short sPage = m_iCurPage;
 	CAPISocket::MP_AddByte(byBuff, iOffset, N3_PARTY_BBS);
 	CAPISocket::MP_AddByte(byBuff, iOffset, N3_SP_PARTY_BBS_DATA);
 	CAPISocket::MP_AddShort(byBuff, iOffset, sPage);
@@ -183,8 +183,8 @@ void CUIPartyBBS::MsgRecv_RefreshData(DataPack* pDataPack, int& iOffset)
 {
 	m_bProcessing = false;
 
-	BYTE byType = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
-	BYTE byResult = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
+	const BYTE byType = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
+	const BYTE byResult = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
 	if(byResult != 0x01) return; //실패했다면
 
 	switch( byType )
@@ -213,7 +213,7 @@ void CUIPartyBBS::MsgRecv_RefreshData(DataPack* pDataPack, int& iOffset)
 	for(auto i = 0 ; i < PARTY_BBS_MAXLINE ; i++ )
 	{
 		__InfoPartyBBS Info;
-		int iNameLen	= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
+		const int iNameLen	= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
 		CAPISocket::Parse_GetString(pDataPack->m_pData, iOffset, Info.szID, iNameLen);
 		Info.iLevel		= CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
 		Info.eClass		= (e_Class)CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
@@ -222,8 +222,8 @@ void CUIPartyBBS::MsgRecv_RefreshData(DataPack* pDataPack, int& iOffset)
 			m_Datas.push_back(Info);
 	}
 
-	short sPage = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
-	short sTotal = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
+	const short sPage = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
+	const short sTotal = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
 
 	m_iCurPage = sPage;
 	m_iMaxPage = sTotal / PARTY_BBS_MAXLINE;
@@ -297,7 +297,7 @@ void CUIPartyBBS::PartyStringSet(BYTE byType)
 
 	if(CGameProcedure::s_pPlayer->m_bRecruitParty)
 	{
-		int iLevel = CGameProcedure::s_pPlayer->m_InfoBase.iLevel;
+		const int iLevel = CGameProcedure::s_pPlayer->m_InfoBase.iLevel;
 		int iLMin = iLevel - 8;
 		if(iLMin < 0) iLMin = 0;
 		int iLMax = iLevel + 8;
@@ -445,7 +445,7 @@ void CUIPartyBBS::RequestWhisper()
 		if( it == m_Datas.end() ) break;
 		if( i == m_iCurIndex )
 		{
-			__InfoPartyBBS IPB = (*it);
+			const __InfoPartyBBS IPB = (*it);
 			if(0 != lstrcmpi(IPB.szID.c_str(), CGameProcedure::s_pPlayer->m_InfoBase.szID.c_str()))
 			{//나 자신에게는 귓속말을 못하게 한다...
 				CGameProcedure::s_pProcMain->MsgSend_ChatSelectTarget(IPB.szID);

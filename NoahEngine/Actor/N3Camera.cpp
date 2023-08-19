@@ -423,7 +423,7 @@ void CN3Camera::Tick(float fFrm)
 	m_Data.fAspect = (float)m_Data.vp.Width / (float)m_Data.vp.Height; // 종횡비
 	if(m_bOrtho)
 	{
-		float fL = (m_Data.vAt - m_Data.vEye).Magnitude() / 2.0f;
+		const float fL = (m_Data.vAt - m_Data.vEye).Magnitude() / 2.0f;
 		::D3DXMatrixOrthoLH(&m_Data.mtxProjection, fL, fL / m_Data.fAspect, m_Data.fNP * (1.0f + fL / 1000.0f), m_Data.fFP);  // Projection Matrix Setting
 //		::D3DXMatrixOrthoLH(&m_Data.mtxProjection, 2.0f, 2.0f, m_Data.fNP, m_Data.fFP);  // Projection Matrix Setting
 	}
@@ -432,7 +432,7 @@ void CN3Camera::Tick(float fFrm)
 		::D3DXMatrixPerspectiveFovLH(&m_Data.mtxProjection, m_Data.fFOV, m_Data.fAspect, m_Data.fNP, m_Data.fFP); // Projection Matrix Setting
 	}
 
-	__Matrix44 mtx = m_Data.mtxView * m_Data.mtxProjection;
+	const __Matrix44 mtx = m_Data.mtxView * m_Data.mtxProjection;
 	float frustum [6][4];
 	frustum[0][0] = mtx._14 - mtx._11;
 	frustum[0][1] = mtx._24 - mtx._21;

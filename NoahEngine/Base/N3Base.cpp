@@ -151,7 +151,7 @@ float CN3Base::TimerProcess(TIMER_COMMAND command)
         // Return the current time
         if (command == TIMER_GETAPPTIME)
         {
-            double fAppTime = (double)(qwTime.QuadPart - m_llBaseTime) / (double)m_llQPFTicksPerSec;
+	        const double fAppTime = (double)(qwTime.QuadPart - m_llBaseTime) / (double)m_llQPFTicksPerSec;
             return (FLOAT)fAppTime;
         }
 
@@ -302,14 +302,14 @@ void CN3Base::RenderLines(const __Vector3* pvLines, int nCount, D3DCOLOR color)
 
     s_lpD3DDev->SetFVF(FVF_CV);
 
-    int nRepeat = nCount / 512;
+    const int nRepeat = nCount / 512;
     for (int i = 0; i < nRepeat; i++)
     {
         for (int j = 0; j < 512; j++) svLines[j].Set(pvLines[i * 512 + j].x, pvLines[i * 512 + j].y, pvLines[i * 512 + j].z, color);
 
         s_lpD3DDev->DrawPrimitiveUP(D3DPT_LINESTRIP, 511, svLines, sizeof(__VertexColor));
     }
-    int nPC = nCount % 512;
+    const int nPC = nCount % 512;
     for (int j = 0; j < nPC + 1; j++) svLines[j].Set(pvLines[nRepeat * 512 + j].x, pvLines[nRepeat * 512 + j].y, pvLines[nRepeat * 512 + j].z, color);
     s_lpD3DDev->DrawPrimitiveUP(D3DPT_LINESTRIP, nPC, svLines, sizeof(__VertexColor)); // Y
 

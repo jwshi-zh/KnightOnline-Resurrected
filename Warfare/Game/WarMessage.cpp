@@ -61,8 +61,8 @@ void CWarMessage::RenderMessage()
 
 	if(m_pMessageFont) 
 	{
-		POINT pt = m_ptMessage;
-		D3DCOLOR crFont = m_pMessageFont->GetFontColor();
+		const POINT pt = m_ptMessage;
+		const D3DCOLOR crFont = m_pMessageFont->GetFontColor();
 
 		m_pMessageFont->DrawText(pt.x - 1, pt.y - 1, 0xff000000, 0);
 		m_pMessageFont->DrawText(pt.x + 1, pt.y + 1, 0xff000000, 0);
@@ -72,7 +72,7 @@ void CWarMessage::RenderMessage()
 
 void CWarMessage::Tick()
 {
-	int iW = CN3Base::s_CameraData.vp.Width;
+	const int iW = CN3Base::s_CameraData.vp.Width;
 	if(m_fTime < 0.0f)
 	{
 		m_ptMessage.x = iW;
@@ -80,7 +80,7 @@ void CWarMessage::Tick()
 	}
 
 	m_ptMessage.x -= CN3Base::s_fSecPerFrm * 100;
-	SIZE size = m_pMessageFont->GetSize();
+	const SIZE size = m_pMessageFont->GetSize();
 	if(m_ptMessage.x < (-size.cx))
 	{
 		m_ptMessage.x = iW;

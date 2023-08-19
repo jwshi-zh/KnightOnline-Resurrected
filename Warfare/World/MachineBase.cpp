@@ -31,7 +31,7 @@ void CMachineBase::Release()
 void CMachineBase::ReCalcMatrix4AnimatedPart()
 {
 	// 바퀴 파트의 매트릭스를 다시 계산해 준다..
-	int iPC = m_Parts.size();
+	const int iPC = m_Parts.size();
 	for(int i = 0; i < iPC; i++)
 	{
 		for (int j=0; j<NUM_WHEEL; ++j)
@@ -175,10 +175,10 @@ CN3SPart* CMachineBase::GetPartByPMeshName(const std::string& szName) const
 {
 	if(szName.empty()) return nullptr;
 
-	int iPC = m_Parts.size();
+	const int iPC = m_Parts.size();
 	for(int i = 0; i < iPC; i++)
 	{
-		CN3PMesh* pPMesh = m_Parts[i]->Mesh();
+		const CN3PMesh* pPMesh = m_Parts[i]->Mesh();
 		if (pPMesh == nullptr) continue;
 		if (pPMesh->m_szName == szName) return m_Parts[i];
 	}
@@ -211,7 +211,7 @@ void CMachineBase::LoadMachine(FILE* stream)
 	this->Load(szSrcName);
 
 	__ASSERT(m_bSkipCalcPartMtx == NULL, "Machine에서 메모리 릭 가능성");
-	int iPartCount = PartCount();
+	const int iPartCount = PartCount();
 	if (iPartCount>0) m_bSkipCalcPartMtx = new BOOL[iPartCount];
 	ZeroMemory(m_bSkipCalcPartMtx, sizeof(m_bSkipCalcPartMtx[0])*iPartCount);
 

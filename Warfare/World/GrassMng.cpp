@@ -275,8 +275,8 @@ int CGrassMng::SetFile(int iTexIndex,unsigned char ucTexOrgIndex,__Vector3 CamPo
 inline float CGrassMng::RandomGenf(float max, float min)
 {
 	if ( max == min ) return max;
-	if ( min > max ) { float b = min; min = max; max = b; }
-	int k = rand()%(int)((max*100-min*100));	
+	if ( min > max ) { const float b = min; min = max; max = b; }
+	const int k = rand()%(int)((max*100-min*100));	
 
 	return (float)((float)(k*0.01f)+min);
 }
@@ -373,7 +373,7 @@ bool CGrassMng::ChangeZone()
 
 
 	//	지금 옮긴 지형에서 쓰일 풀의 인덱스를 가짐
-	__Vector3 vCamPos = CGameBase::s_CameraData.vEye;
+	const __Vector3 vCamPos = CGameBase::s_CameraData.vEye;
 	this->ChkTileRange(vCamPos.x,vCamPos.z);
 
 	//	Tick,Render를 허락

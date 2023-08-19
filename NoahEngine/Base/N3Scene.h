@@ -75,7 +75,7 @@ public:
 	CN3Shape* ShapeGetByFileName(std::string& str)
 	{
 		if(m_Shapes.empty()) return nullptr;
-		int iSize = m_Shapes.size();
+		const int iSize = m_Shapes.size();
 		for(auto i = 0; i < iSize; i++)
 		{
 			if (str == m_Shapes[i]->FileName())

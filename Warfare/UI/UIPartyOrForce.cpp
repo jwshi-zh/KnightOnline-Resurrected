@@ -95,7 +95,7 @@ bool CUIPartyOrForce::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 {
 	if( dwMsg == UIMSG_BUTTON_CLICK )
 	{
-		__InfoPartyOrForce* pIP = nullptr;
+		const __InfoPartyOrForce* pIP = nullptr;
 		auto it = m_Members.begin(), itEnd = m_Members.end();
 		for(int i = 0; it != itEnd && i < MAX_PARTY_OR_FORCE; it++, i++)
 		{
@@ -148,7 +148,7 @@ bool CUIPartyOrForce::TargetByIndex(int iIndex)
 	auto it = m_Members.begin();
 	for(int i = 0; i < iIndex; i++) it++;
 
-	__InfoPartyOrForce* pIP = &(*it);
+	const __InfoPartyOrForce* pIP = &(*it);
 	m_iIndexSelected = iIndex; // 현재 선택된 멤버인덱스..
 
 	if(pIP) CGameProcedure::s_pProcMain->TargetSelect(pIP->iID, true);
@@ -198,7 +198,7 @@ CPlayerOther* CUIPartyOrForce::MemberGetByNearst(const __Vector3& vPosPlayer)
 		CPlayerOther* pUPC = CGameBase::s_pOPMgr->UPCGetByID(it->iID, false);
 		if(nullptr == pUPC) continue;
 
-		float fDistTmp = pUPC->Distance(vPosPlayer);
+		const float fDistTmp = pUPC->Distance(vPosPlayer);
 		if(fDistTmp < fDistMin)
 		{
 			pTarget = pUPC;
@@ -269,7 +269,7 @@ void CUIPartyOrForce::MemberInfoReInit() // 파티원 구성이 변경될때.. �
 
 	for(i = 0; it != itEnd && i < MAX_PARTY_OR_FORCE; it++, i++)
 	{
-		__InfoPartyOrForce* pIP = &(*it); // 디버깅 하기 쉬우라고 이렇게 했다..
+		const __InfoPartyOrForce* pIP = &(*it); // 디버깅 하기 쉬우라고 이렇게 했다..
 		if(pIP->iHPMax <= 0)
 		{
 			__ASSERT(0, "Invalid Party memeber HP");
@@ -398,7 +398,7 @@ void CUIPartyOrForce::Tick()
 	auto it = m_Members.begin(), itEnd = m_Members.end();
 	for(int i = 0; it != itEnd && i < MAX_PARTY_OR_FORCE; it++, i++)
 	{
-		__InfoPartyOrForce* pIP = &(*it); // 디버깅 하기 쉬우라고 이렇게 했다..
+		const __InfoPartyOrForce* pIP = &(*it); // 디버깅 하기 쉬우라고 이렇게 했다..
 		if(m_pProgress_HPs[i])
 		{
 			if( pIP->bSufferDown_HP || pIP->bSufferDown_Etc )

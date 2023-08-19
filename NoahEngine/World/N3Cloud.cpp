@@ -67,10 +67,10 @@ void CN3Cloud::Tick()
 //		float dv = 0.003*fCloudLayer;
 //		float du2 = 0.003*fCloudLayer;
 //		float dv2 = 0.005*fCloudLayer;
-		float du = 0.005*fCloudLayer;
-		float dv = 0.015*fCloudLayer;
-		float du2 = 0.015*fCloudLayer;
-		float dv2 = 0.025*fCloudLayer;
+const float du = 0.005*fCloudLayer;
+const float dv = 0.015*fCloudLayer;
+const float du2 = 0.015*fCloudLayer;
+const float dv2 = 0.025*fCloudLayer;
 
 		for (i=0; i<NUM_CLOUD_VERTEX; ++i)
 		{
@@ -110,7 +110,7 @@ void CN3Cloud::Tick()
 
 			if (CLOUD_NONE != m_eBackupCloud)	// 구름 바꿔야 할 것이 있으면
 			{
-				e_CLOUDTEX eTmp = m_eCloud1;
+				const e_CLOUDTEX eTmp = m_eCloud1;
 				m_eCloud1 = m_eCloud2;
 				m_eCloud2 = eTmp;
 
@@ -160,7 +160,7 @@ void CN3Cloud::Render()
 
 	s_lpD3DDev->SetFVF(FVF_XYZCOLORT2);
 
-	D3DCOLOR color1 = m_Color1.GetCurColor();
+	const D3DCOLOR color1 = m_Color1.GetCurColor();
 	D3DCOLOR color2 = m_Color2.GetCurColor();
 	__ASSERT(CLOUD_NONE != m_eCloud1 && CLOUD_NONE != m_eCloud2, "no cloud texture type");
 	// render cloud 1
@@ -174,7 +174,7 @@ void CN3Cloud::Render()
 	s_lpD3DDev->SetTextureStageState(0, D3DTSS_TEXCOORDINDEX , 1);
 	if (CLOUD_NONE != m_eCloud3)
 	{
-		D3DCOLOR Alpha = m_Alpha.GetCurColor();
+		const D3DCOLOR Alpha = m_Alpha.GetCurColor();
 		if (Alpha<color2) color2 = (Alpha&0xff000000) | (color2&0x00ffffff);	// 기존 색 변화의 alpha값이 구름 교체alpha값보다 큰 경우 구름 교체 alpha값으로 대체
 		// render cloud 2
 		for (i=0; i<4; ++i) m_pVertices[i].color = color2&0x00ffffff;
@@ -183,7 +183,7 @@ void CN3Cloud::Render()
 		s_lpD3DDev->DrawIndexedPrimitiveUP(D3DPT_TRIANGLELIST, 0, 8, 10,
 							CloudIndex, D3DFMT_INDEX16, m_pVertices, sizeof(__VertexXyzColorT2));
 		// render cloud 3
-		D3DCOLOR color3 = ((0xff-(color2>>24))<<24) | (color2&0x00ffffff);	// color2의 alpha값을 0xff에서 뺀 값으로 바꿈
+		const D3DCOLOR color3 = ((0xff-(color2>>24))<<24) | (color2&0x00ffffff);	// color2의 alpha값을 0xff에서 뺀 값으로 바꿈
 		for (i=4; i<NUM_CLOUD_VERTEX; ++i) m_pVertices[i].color = color3;			
 		s_lpD3DDev->SetTexture(0, GetTex(m_eCloud3));
 		s_lpD3DDev->DrawIndexedPrimitiveUP(D3DPT_TRIANGLELIST, 0, 8, 10,
@@ -285,8 +285,8 @@ void	CN3Cloud::Init(	const std::string* pszFNs)
 
 	fBigLenth = 24.0f;	//위에 코드는 최적화 각도, 이것은 큰 사격형만 다시 늘림
 
-	D3DCOLOR BigColor = 0x00ffffff;
-	D3DCOLOR SmallColor = 0xffffffff;
+	const D3DCOLOR BigColor = 0x00ffffff;
+	const D3DCOLOR SmallColor = 0xffffffff;
 
 	float fTexUVLeft = 0.0f, fTexUVTop = 0.0f, fTexUVRight = 4.0f, fTexUVBottom = 4.0f;	// 텍스쳐 구름으로 표시할 영역 좌표(텍스쳐의 전체가 될수도 있고 일부분이 될 수도 있기 때문에)
 	float fTmp1 = fBigLenth - fSmallLength;

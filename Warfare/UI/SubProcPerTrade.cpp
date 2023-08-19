@@ -68,11 +68,11 @@ void CSubProcPerTrade::Release()
 
 void CSubProcPerTrade::InitPerTradeDlg(CUIManager* pUIManager)
 {
-	int iW = CN3Base::s_CameraData.vp.Width;
+	const int iW = CN3Base::s_CameraData.vp.Width;
 	RECT rc;
 
-	e_Nation eNation = s_pPlayer->m_InfoBase.eNation;		// 국가....
-	__TABLE_UI_RESRC* pTbl = s_pTbl_UI->Find(eNation);
+	const e_Nation eNation = s_pPlayer->m_InfoBase.eNation;		// 국가....
+	const __TABLE_UI_RESRC* pTbl = s_pTbl_UI->Find(eNation);
 
 	// UIPerTradeDlg.. ^^
 	m_pUIPerTradeDlg = new CUIPerTradeDlg();
@@ -94,7 +94,7 @@ void CSubProcPerTrade::InitPerTradeDlg(CUIManager* pUIManager)
 	m_pUITradeEditDlg->SetStyle(UISTYLE_ALWAYSTOP);
 	// 위치 계산 ..
 	int iXPos, iYPos;
-	int iH = CN3Base::s_CameraData.vp.Height;
+	const int iH = CN3Base::s_CameraData.vp.Height;
 	iXPos = (iW/2) - (m_pUITradeEditDlg->GetRegion().right - m_pUITradeEditDlg->GetRegion().left)/2;
 	iYPos = (iH/2) - (m_pUITradeEditDlg->GetRegion().bottom - m_pUITradeEditDlg->GetRegion().top)/2;
 	m_pUITradeEditDlg->SetPos(iXPos, iYPos);	
@@ -116,7 +116,7 @@ void CSubProcPerTrade::InitPerTradeDlg(CUIManager* pUIManager)
 	e_PlugPosition ePlug;
 	CGameProcedure::MakeResrcFileNameForUPC(pItem, nullptr, &szIconFN, ePart, ePlug); // 아이템에 따른 파일 이름을 만들어서
 	m_pUITradeEditDlg->m_pImageOfIcon->SetTex(szIconFN);
-	float fUVAspect = (float)45.0f/(float)64.0f;
+	const float fUVAspect = (float)45.0f/(float)64.0f;
 	m_pUITradeEditDlg->m_pImageOfIcon->SetUVRect(0,0, fUVAspect, fUVAspect);
 	m_pUITradeEditDlg->m_pImageOfIcon->SetRegion(m_pUITradeEditDlg->m_pArea->GetRegion());
 	m_pUITradeEditDlg->m_pImageOfIcon->SetMoveRect(m_pUITradeEditDlg->m_pArea->GetRegion());	
@@ -494,7 +494,7 @@ void CSubProcPerTrade::PerTradeCoreStart()
 
 void CSubProcPerTrade::PerTradeCoreInvDisable()
 {
-	RECT rect = { 0, 0, 0 ,0 };
+	const RECT rect = { 0, 0, 0 ,0 };
 
 	for(auto i = 0; i < MAX_ITEM_INVENTORY; i++ )
 	{
@@ -595,7 +595,7 @@ void CSubProcPerTrade::ItemCountEditCancel()
 
 void CSubProcPerTrade::PerTradeMyDecision()							// 내가 거래를 결정 했다..
 {
-	std::string szFN = "btn_trade_my";
+	const std::string szFN = "btn_trade_my";
 	CN3UIButton* pButton;
 	pButton = (CN3UIButton* )m_pUIPerTradeDlg->GetChildButtonByName(szFN);
 
@@ -730,7 +730,7 @@ void CSubProcPerTrade::ReceiveMsgPerTradeAdd(BYTE bResult)
 
 								// 아이콘 리소스 만들기..
 								spItemNew->pUIIcon		= new CN3UIIcon;
-								float fUVAspect			= (float)45.0f/(float)64.0f;
+								const float fUVAspect			= (float)45.0f/(float)64.0f;
 								spItemNew->pUIIcon->Init(m_pUIPerTradeDlg); 
 								spItemNew->pUIIcon->SetTex(spItemNew->szIconFN);
 								spItemNew->pUIIcon->SetUVRect(0,0, fUVAspect, fUVAspect);
@@ -910,7 +910,7 @@ void CSubProcPerTrade::ReceiveMsgPerTradeOtherAdd(int iItemID, int iCount, int i
 				spItem->szIconFN	= szIconFN; // 아이콘 파일 이름 복사..
 				spItem->iCount		= iCount;
 				spItem->iDurability = iDurability;
-				float fUVAspect		= (float)45.0f/(float)64.0f;
+				const float fUVAspect		= (float)45.0f/(float)64.0f;
 				spItem->pUIIcon		= new CN3UIIcon;
 				spItem->pUIIcon->Init(m_pUIPerTradeDlg); 
 				spItem->pUIIcon->SetTex(szIconFN);
@@ -919,13 +919,13 @@ void CSubProcPerTrade::ReceiveMsgPerTradeOtherAdd(int iItemID, int iCount, int i
 				spItem->pUIIcon->SetStyle(UISTYLE_ICON_ITEM|UISTYLE_ICON_CERTIFICATION_NEED);
 				spItem->pUIIcon->SetVisible(true);
 
-				CN3UIArea* pArea = nullptr;
+				const CN3UIArea* pArea = nullptr;
 				pArea = m_pUIPerTradeDlg->GetChildAreaByiOrder(UI_AREA_TYPE_PER_TRADE_OTHER, i);
 				if ( pArea )
 				{
 					spItem->pUIIcon->SetRegion(pArea->GetRegion());
 					// 움직일 수 없다..
-					RECT rect = { 0, 0, 0, 0 };
+					const RECT rect = { 0, 0, 0, 0 };
 					spItem->pUIIcon->SetMoveRect(rect);
 				}
 
@@ -960,7 +960,7 @@ void CSubProcPerTrade::ReceiveMsgPerTradeOtherAdd(int iItemID, int iCount, int i
 			spItem->szIconFN	= szIconFN; // 아이콘 파일 이름 복사..
 			spItem->iCount		= 1;
 			spItem->iDurability = iDurability;
-			float fUVAspect		= (float)45.0f/(float)64.0f;
+			const float fUVAspect		= (float)45.0f/(float)64.0f;
 			spItem->pUIIcon		= new CN3UIIcon;
 			spItem->pUIIcon->Init(m_pUIPerTradeDlg); 
 			spItem->pUIIcon->SetTex(szIconFN);
@@ -969,13 +969,13 @@ void CSubProcPerTrade::ReceiveMsgPerTradeOtherAdd(int iItemID, int iCount, int i
 			spItem->pUIIcon->SetStyle(UISTYLE_ICON_ITEM|UISTYLE_ICON_CERTIFICATION_NEED);
 			spItem->pUIIcon->SetVisible(true);
 
-			CN3UIArea* pArea = nullptr;
+			const CN3UIArea* pArea = nullptr;
 			pArea = m_pUIPerTradeDlg->GetChildAreaByiOrder(UI_AREA_TYPE_PER_TRADE_OTHER, i);
 			if ( pArea )
 			{
 				spItem->pUIIcon->SetRegion(pArea->GetRegion());
 				// 움직일 수 없다..
-				RECT rect = { 0, 0, 0, 0 };
+				const RECT rect = { 0, 0, 0, 0 };
 				spItem->pUIIcon->SetMoveRect(rect);
 			}
 
@@ -1077,7 +1077,7 @@ Make_Icon:
 	spItem->iCount		= iCount;
 	spItem->iDurability = iDurability;
 
-	float fUVAspect		= (float)45.0f/(float)64.0f;
+	const float fUVAspect		= (float)45.0f/(float)64.0f;
 	spItem->pUIIcon		= new CN3UIIcon;
 	spItem->pUIIcon->Init(m_pUIPerTradeDlg); 
 	spItem->pUIIcon->SetTex(szIconFN);
@@ -1086,7 +1086,7 @@ Make_Icon:
 	spItem->pUIIcon->SetStyle(UISTYLE_ICON_ITEM|UISTYLE_ICON_CERTIFICATION_NEED);
 	spItem->pUIIcon->SetVisible(true);
 
-	CN3UIArea* pArea = nullptr;
+	const CN3UIArea* pArea = nullptr;
 	pArea = m_pUIPerTradeDlg->GetChildAreaByiOrder(UI_AREA_TYPE_PER_TRADE_INV, bItemPos);
 	if ( pArea )
 	{

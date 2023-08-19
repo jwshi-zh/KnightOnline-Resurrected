@@ -43,7 +43,7 @@ public:
 		if(it == m_Datas.end()) return -1; // 찾기에 실패 했다!~!!
 
 		auto itSkill = m_Datas.begin();
-		int iSize = m_Datas.size();
+		const int iSize = m_Datas.size();
 		for(int i = 0; i < iSize; i++, itSkill++)
 			if (itSkill == it)	return i;
 
@@ -93,7 +93,7 @@ BOOL CN3TableBase<Type>::WriteData(HANDLE hFile, DATA_TYPE DataType, const char*
 			char cWrite;
 			if (isdigit(lpszData[0]))
 			{
-				int iTemp = atoi(lpszData);
+				const int iTemp = atoi(lpszData);
 				if (iTemp < -127 || iTemp > 128) return FALSE; // 범위가 벗어났어~
 				cWrite = (char)iTemp;
 			}
@@ -107,7 +107,7 @@ BOOL CN3TableBase<Type>::WriteData(HANDLE hFile, DATA_TYPE DataType, const char*
 			BYTE byteWrite;
 			if (isdigit(lpszData[0]))
 			{
-				int iTemp = atoi(lpszData);
+				const int iTemp = atoi(lpszData);
 				if (iTemp < 0 || iTemp > 255) return FALSE; // 범위가 벗어났어~
 				byteWrite = (BYTE)iTemp;
 			}
@@ -121,7 +121,7 @@ BOOL CN3TableBase<Type>::WriteData(HANDLE hFile, DATA_TYPE DataType, const char*
 			short iWrite;
 			if (isdigit(lpszData[0]) || '-' == lpszData[0] )
 			{
-				int iTemp = atoi(lpszData);
+				const int iTemp = atoi(lpszData);
 				if (iTemp < -32767 || iTemp > 32768) return FALSE; // 범위가 벗어났어~
 				iWrite = (short)iTemp;
 			}
@@ -135,7 +135,7 @@ BOOL CN3TableBase<Type>::WriteData(HANDLE hFile, DATA_TYPE DataType, const char*
 			WORD iWrite;
 			if (isdigit(lpszData[0]) )
 			{
-				int iTemp = atoi(lpszData);
+				const int iTemp = atoi(lpszData);
 				if (iTemp < 0 || iTemp > 65535) return FALSE; // 범위가 벗어났어~
 				iWrite = (short)iTemp;
 			}
@@ -164,8 +164,8 @@ BOOL CN3TableBase<Type>::WriteData(HANDLE hFile, DATA_TYPE DataType, const char*
 		break;
 	case DT_STRING:
 		{
-			std::string& szString = *((std::string*)lpszData);
-			int iStrLen = szString.size();
+			const std::string& szString = *((std::string*)lpszData);
+			const int iStrLen = szString.size();
 			WriteFile(hFile, &iStrLen, sizeof(iStrLen), &dwNum, nullptr);
 			if (iStrLen>0) WriteFile(hFile, &(szString[0]), iStrLen, &dwNum, nullptr);
 		}
@@ -290,9 +290,9 @@ BOOL CN3TableBase<Type>::LoadFromFile(const std::string& szFN)
 	
 	
 	// 파일 암호화 풀기.. .. 임시 파일에다 쓴다음 ..
-	std::string szFNTmp = szFN + ".tmp";
+	const std::string szFNTmp = szFN + ".tmp";
 	DWORD dwSizeHigh = 0;
-	DWORD dwSizeLow = ::GetFileSize(hFile, &dwSizeHigh);
+	const DWORD dwSizeLow = ::GetFileSize(hFile, &dwSizeHigh);
 	if(dwSizeLow <= 0)
 	{
 		CloseHandle(hFile);
@@ -308,8 +308,8 @@ BOOL CN3TableBase<Type>::LoadFromFile(const std::string& szFN)
 
 // 테이블 만드는 툴에서 쓰는 키와 같은 키..
 	WORD key_r = 0x0816;
-	WORD key_c1 = 0x6081;
-	WORD key_c2 = 0x1608;
+	const WORD key_c1 = 0x6081;
+	const WORD key_c2 = 0x1608;
 
 //BYTE Encrypt(BYTE plain)
 //{
@@ -330,7 +330,7 @@ BOOL CN3TableBase<Type>::LoadFromFile(const std::string& szFN)
 	// 암호화 풀고..
 	for(int i = 0; i < dwSizeLow; i++)
 	{
-		BYTE byData = (pDatas[i] ^ (key_r>>8));
+		const BYTE byData = (pDatas[i] ^ (key_r>>8));
 		key_r = (pDatas[i] + key_r) * key_c1 + key_c2;
 		pDatas[i] = byData;
 	}
@@ -343,16 +343,8 @@ BOOL CN3TableBase<Type>::LoadFromFile(const std::string& szFN)
 
 	hFile = ::CreateFile(szFNTmp.c_str(), GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr); // 임시 파일 읽기 모드로 열기.
 
-	
 
-
-
-
-	
-	
-	
-	
-	BOOL bResult = Load(hFile);
+	const BOOL bResult = Load(hFile);
 
 	CloseHandle(hFile);
 
@@ -393,7 +385,7 @@ BOOL CN3TableBase<Type>::Load(HANDLE hFile)
 			return FALSE;	// structure변수에 대한 offset table 만들어주기
 		}
 
-		int iSize = offsets[iDataTypeCount];	// MakeOffstTable 함수에서 리턴되는 값중 m_iDataTypeCount번째에 이 함수의 실제 사이즈가 들어있다.
+		const int iSize = offsets[iDataTypeCount];	// MakeOffstTable 함수에서 리턴되는 값중 m_iDataTypeCount번째에 이 함수의 실제 사이즈가 들어있다.
 		if (sizeof(Type) != iSize ||		// 전체 type의 크기와 실제 구조체의 크기와 다르거나 
 			DT_DWORD != m_DataTypes[0] )	// 맨 처음의 데이타가 DT_DWORD형이 아닐때(맨처음은 고유한 ID이므로)
 		{
@@ -464,7 +456,7 @@ BOOL CN3TableBase<Type>::MakeOffsetTable(std::vector<int>& offsets)
 	int iPrevDataSize = SizeOf(m_DataTypes[0]);
 	for (i=1; i<iDataTypeCount; ++i)
 	{
-		int iCurDataSize = SizeOf(m_DataTypes[i]);
+		const int iCurDataSize = SizeOf(m_DataTypes[i]);
 		if (1 == iCurDataSize%4)	// 현재 데이터가 1바이트면 그냥 이전 데이터가 몇바이트든 상관 없다.
 		{
 			offsets[i] = offsets[i-1] + iPrevDataSize;

@@ -175,7 +175,7 @@ void CGameProcedure::StaticMemberInit(HINSTANCE hInstance, HWND hWndMain, HWND h
 
 	s_pFX = new CN3FXMgr();
 
-	__TABLE_UI_RESRC* pTblUI = s_pTbl_UI->Find(NATION_ELMORAD); // 기본은 엘모라드 UI 로 한다..
+	const __TABLE_UI_RESRC* pTblUI = s_pTbl_UI->Find(NATION_ELMORAD); // 기본은 엘모라드 UI 로 한다..
 	__ASSERT(pTblUI, "기본 UI 가 없습니다.");
 
 	s_pUIMgr = new CUIManager(); // 기본 UIManager
@@ -241,8 +241,8 @@ void CGameProcedure::StaticMemberRelease()
 	// 엔딩화면 보이기..
 	if(s_pPlayer)
 	{
-		e_Nation eNation = s_pPlayer->m_InfoBase.eNation;
-		__TABLE_UI_RESRC* pTbl = s_pTbl_UI->Find(eNation);
+		const e_Nation eNation = s_pPlayer->m_InfoBase.eNation;
+		const __TABLE_UI_RESRC* pTbl = s_pTbl_UI->Find(eNation);
 		if(pTbl)
 		{
 			CUIEndingDisplay Credit; // 엔딩 표시하기..
@@ -295,10 +295,10 @@ void CGameProcedure::Tick()
 	ProcessUIKeyInput();
 
 	DWORD dwMouseFlags = s_pLocalInput->MouseGetFlag();
-	POINT ptPrev = s_pLocalInput->MouseGetPosOld();
-	POINT ptCur = s_pLocalInput->MouseGetPos();
+	const POINT ptPrev = s_pLocalInput->MouseGetPosOld();
+	const POINT ptCur = s_pLocalInput->MouseGetPos();
 
-	e_Nation eNation = s_pPlayer->m_InfoBase.eNation;
+	const e_Nation eNation = s_pPlayer->m_InfoBase.eNation;
 	if(dwMouseFlags & MOUSE_LBCLICK) SetGameCursor(((NATION_ELMORAD == eNation) ? s_hCursorClick1 : s_hCursorClick));
 	else if(dwMouseFlags & MOUSE_LBCLICKED) SetGameCursor(((NATION_ELMORAD == eNation) ? s_hCursorNormal1 : s_hCursorNormal));
 	if(dwMouseFlags & MOUSE_RBCLICKED)
@@ -349,7 +349,7 @@ void CGameProcedure::Tick()
 		{
 			// 패킷을 처리할 상황이 아니다.
 			int iTempOffst = 0;
-			int iCmd = CAPISocket::Parse_GetByte(pDataPack->m_pData, iTempOffst);
+			const int iCmd = CAPISocket::Parse_GetByte(pDataPack->m_pData, iTempOffst);
 			CLogWriter::Write("Invalid Packet... (%d)", iCmd);
 		}
 		delete pDataPack;
@@ -619,7 +619,7 @@ void CGameProcedure::UIPostData_Read(const std::string& szKey, CN3UIBase* pUI, i
 	WI.ptPosition.y = iDefaultY;
 	if(false == RegGetSetting(szKey.c_str(), &WI, sizeof(__WndInfo))) WI.bVisible = true; // 기본 데이터가 없으면 무조건 보이게 한다..
 
-	RECT rc = pUI->GetRegion();
+	const RECT rc = pUI->GetRegion();
 
 	if (WI.ptPosition.x < 0) WI.ptPosition.x = 0;
 	if (WI.ptPosition.x + (rc.right - rc.left) > CN3Base::s_CameraData.vp.Width)
@@ -715,7 +715,7 @@ std::string CGameProcedure::GetStrRegKeySetting()
 
 bool CGameProcedure::ProcessPacket(DataPack* pDataPack, int& iOffset)
 {
-	int iCmd = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);	// 커멘드 파싱..
+	const int iCmd = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);	// 커멘드 파싱..
 	switch ( iCmd )										// 커멘드에 다라서 분기..
 	{
 		case N3_VERSION_CHECK: // 암호화도 같이 받는다..
@@ -732,18 +732,18 @@ bool CGameProcedure::ProcessPacket(DataPack* pDataPack, int& iOffset)
 			std::string szName, szIP;
 //			iLen = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // 서버 이름
 //			CAPISocket::Parse_GetString(pDataPack->m_pData, iOffset, szName, iLen);
-			int iLen = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // 서버 IP
+			const int iLen = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // 서버 IP
 			CAPISocket::Parse_GetString(pDataPack->m_pData, iOffset, szIP, iLen);
-			DWORD dwPort = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
+			const DWORD dwPort = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
 			s_pPlayer->m_InfoExt.iZoneInit = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
 			s_pPlayer->m_InfoExt.iZoneCur = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
-			int iVictoryNation = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
+			const int iVictoryNation = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
 			CGameProcedure::LoadingUIChange(iVictoryNation);
 
 			s_bNeedReportConnectionClosed = false; // 서버접속이 끊어진걸 보고해야 하는지..
 			s_pSocket->Disconnect(); // 끊고...
 			Sleep(2000); // 2초 딜레이.. 서버가 처리할 시간을 준다.
-			int iErr = s_pSocket->Connect(s_hWndBase, szIP.c_str(), dwPort);
+			const int iErr = s_pSocket->Connect(s_hWndBase, szIP.c_str(), dwPort);
 			s_bNeedReportConnectionClosed = true; // 서버접속이 끊어진걸 보고해야 하는지..
 
 			if(iErr) this->ReportServerConnectionFailed("Current Zone", iErr, true); // 서버 접속 오류.. Exit.
@@ -777,8 +777,8 @@ void CGameProcedure::ReportServerConnectionFailed(const std::string& szServerNam
 	char szErr[256];
 	std::string szFmt; ::_LoadStringFromResource(IDS_FMT_CONNECT_ERROR, szFmt);
 	sprintf(szErr, szFmt.c_str(), szServerName.c_str(), iErrCode);
-	
-	e_Behavior eBehavior = ((bNeedQuitGame) ? BEHAVIOR_EXIT : BEHAVIOR_NOTHING);
+
+	const e_Behavior eBehavior = ((bNeedQuitGame) ? BEHAVIOR_EXIT : BEHAVIOR_NOTHING);
 	CGameProcedure::MessageBoxPost(szErr, "", MB_OK, eBehavior);
 	return;
 }
@@ -788,12 +788,12 @@ void CGameProcedure::ReportServerConnectionClosed(bool bNeedQuitGame)
 	if(!s_bNeedReportConnectionClosed) return;
 
 	std::string szMsg; ::_LoadStringFromResource(IDS_CONNECTION_CLOSED, szMsg);
-	e_Behavior eBehavior = ((bNeedQuitGame) ? BEHAVIOR_EXIT : BEHAVIOR_NOTHING);
+	const e_Behavior eBehavior = ((bNeedQuitGame) ? BEHAVIOR_EXIT : BEHAVIOR_NOTHING);
 	CGameProcedure::MessageBoxPost(szMsg, "", MB_OK, eBehavior);
 
 	if(s_pPlayer)
 	{
-		__Vector3 vPos = s_pPlayer->Position();
+		const __Vector3 vPos = s_pPlayer->Position();
 		CLogWriter::Write("Socket Closed... Zone(%d) Pos(%.1f, %.1f, %.1f) Exp(%d)",
 			s_pPlayer->m_InfoExt.iZoneCur, vPos.x, vPos.y, vPos.z, s_pPlayer->m_InfoExt.iExp);
 	}
@@ -813,7 +813,7 @@ void CGameProcedure::ReportDebugStringAndSendToServer(const std::string& szDebug
 
 	if(s_pSocket && s_pSocket->IsConnected())
 	{
-		int iLen = szDebug.size();
+		const int iLen = szDebug.size();
 		std::vector<BYTE> buffer;	// 버퍼.. 
 		buffer.reserve(iLen + 4);
 		int iOffset=0;												// 옵셋..
@@ -878,7 +878,7 @@ void CGameProcedure::MsgSend_AliveCheck()
 
 int CGameProcedure::MsgRecv_VersionCheck(DataPack* pDataPack, int& iOffset) // virtual
 {
-	int iVersion = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);	// 버전
+	const int iVersion = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);	// 버전
 #ifdef _CRYPTION
 	__int64 iPublicKey = CAPISocket::Parse_GetInt64(pDataPack->m_pData, iOffset); // 암호화 공개키
 	DataPack::InitCrypt(iPublicKey);
@@ -889,7 +889,7 @@ int CGameProcedure::MsgRecv_VersionCheck(DataPack* pDataPack, int& iOffset) // v
 	{
 		char szErr[256];
 
-		int iLangID = ::GetUserDefaultLangID();
+		const int iLangID = ::GetUserDefaultLangID();
 		if(0x0404 == iLangID)// Taiwan Language
 		{
 			std::string szFmt; ::_LoadStringFromResource(IDS_VERSION_CONFIRM_TW, szFmt);
@@ -909,24 +909,24 @@ int CGameProcedure::MsgRecv_VersionCheck(DataPack* pDataPack, int& iOffset) // v
 
 int CGameProcedure::MsgRecv_GameServerLogIn(DataPack* pDataPack, int& iOffset) // virtual
 {
-	int iNation = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // 국가 - 0 없음 0xff - 실패..
+	const int iNation = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // 국가 - 0 없음 0xff - 실패..
 	return iNation;
 }
 
 bool CGameProcedure::MsgRecv_CharacterSelect(DataPack* pDataPack, int& iOffset) // virtual
 {
-	int iResult = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // 0x00 실패
+	const int iResult = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // 0x00 실패
 	if(1 == iResult) // 성공..
 	{
-		int iZoneCur = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
-		float fX = (CAPISocket::Parse_GetWord(pDataPack->m_pData, iOffset))/10.0f;
-		float fZ = (CAPISocket::Parse_GetWord(pDataPack->m_pData, iOffset))/10.0f;
-		float fY = (CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset))/10.0f;
+		const int iZoneCur = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
+		const float fX = (CAPISocket::Parse_GetWord(pDataPack->m_pData, iOffset))/10.0f;
+		const float fZ = (CAPISocket::Parse_GetWord(pDataPack->m_pData, iOffset))/10.0f;
+		const float fY = (CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset))/10.0f;
 
-		int iVictoryNation = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
+		const int iVictoryNation = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
 		CGameProcedure::LoadingUIChange(iVictoryNation);
 
-		int iZonePrev = 
+		const int iZonePrev = 
 		s_pPlayer->m_InfoExt.iZoneCur = iZoneCur;
 		s_pPlayer->PositionSet(__Vector3(fX, fY, fZ), true);
 
@@ -1033,7 +1033,7 @@ void CGameProcedure::LoadingUIChange(int iVictoryNation)
 	__ASSERT(s_pUILoading, "로딩화면 생성 실패");
 	if(s_pUILoading == nullptr) return;
 
-	__TABLE_UI_RESRC* pTblUI = s_pTbl_UI->Find(NATION_ELMORAD); // 기본은 엘모라드 UI 로 한다..
+	const __TABLE_UI_RESRC* pTblUI = s_pTbl_UI->Find(NATION_ELMORAD); // 기본은 엘모라드 UI 로 한다..
 	__ASSERT(pTblUI, "기본 UI 가 없습니다.");
 	if(pTblUI == nullptr) return;
 

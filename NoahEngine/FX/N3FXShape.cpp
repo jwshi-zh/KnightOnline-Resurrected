@@ -23,7 +23,7 @@ CN3FXSPart::CN3FXSPart()
 
 CN3FXSPart::~CN3FXSPart()
 {
-	int iTC = m_TexRefs.size();
+	const int iTC = m_TexRefs.size();
 	for(int i = 0; i < iTC; i++) s_MngTex.Delete(&m_TexRefs[i]);
 
 //	if(m_pPM) { m_pPM->Release(); delete m_pPM; m_pPM = NULL; }
@@ -38,7 +38,7 @@ void CN3FXSPart::Release()
 	m_fTexFPS = 10.0f; // Texture Animation Interval;
 	m_fTexIndex = 0; // Current Texture Index.. Animation 시킬때 필요한 인덱스이다..
 
-	int iTC = m_TexRefs.size();
+	const int iTC = m_TexRefs.size();
 	for(int i = 0; i < iTC; i++) s_MngTex.Delete(&m_TexRefs[i]);
 	m_TexRefs.clear();
 
@@ -53,7 +53,7 @@ void CN3FXSPart::TexAlloc(int nCount)
 {
 	if(nCount <= 0) return;
 
-	int iTC = m_TexRefs.size();
+	const int iTC = m_TexRefs.size();
 	for(int i = 0; i < iTC; i++) s_MngTex.Delete(&m_TexRefs[i]);
 	m_TexRefs.clear();
 
@@ -83,7 +83,7 @@ void CN3FXSPart::TexSet(int iIndex, CN3Texture* pTex)
 // timeGetTime 으로 얻은 값을 넣으면 Texture Animation 을 컨트롤 한다..
 void CN3FXSPart::Tick(const __Matrix44& mtxParent) 
 {
-	CN3FXPMesh* pFXPMesh = m_FXPMInst.GetMesh();
+	const CN3FXPMesh* pFXPMesh = m_FXPMInst.GetMesh();
 	if(nullptr == pFXPMesh) return;
 
 	m_bOutOfCameraRange = FALSE;
@@ -94,8 +94,8 @@ void CN3FXSPart::Tick(const __Matrix44& mtxParent)
 
 	////////////////////////////////////////////////////////////////////////////
 	// 카메라와 멀리 떨어지면 지나간다..
-	float fDist = (m_WorldMtx.Pos() - s_CameraData.vEye).Magnitude();
-	float fRadius = Radius();
+	const float fDist = (m_WorldMtx.Pos() - s_CameraData.vEye).Magnitude();
+	const float fRadius = Radius();
 	if(s_CameraData.IsOutOfFrustum(this->m_WorldMtx.Pos(), fRadius * 3.0f)) // 카메라 사면체 바깥이면 지나간다..
 	{
 		m_bOutOfCameraRange = TRUE;
@@ -105,11 +105,11 @@ void CN3FXSPart::Tick(const __Matrix44& mtxParent)
 	//////////////////////////////////////////////////////////////////////////////////
 
 	// 카메라 거리에 따라 LOD 수준을 조절한다.
-	float fLOD = fDist * s_CameraData.fFOV;
+	const float fLOD = fDist * s_CameraData.fFOV;
 	m_FXPMInst.SetLOD(fLOD);
 
 
-	int iTC = m_TexRefs.size();
+	const int iTC = m_TexRefs.size();
 	if(iTC > 1) m_fTexIndex += CN3Base::s_fSecPerFrm * m_fTexFPS;
 }
 
@@ -123,7 +123,7 @@ void CN3FXSPart::Render()
 #endif
 	
 	LPDIRECT3DTEXTURE9 lpTex = nullptr;
-	int iTC = m_TexRefs.size();
+	const int iTC = m_TexRefs.size();
 	if(iTC > 0)
 	{
 		int iTexIndex = (int)m_fTexIndex;
@@ -250,7 +250,7 @@ void CN3FXSPart::Duplicate(CN3FXSPart* pSrc)
 	
 	m_Mtl = pSrc->m_Mtl;
 
-	int iTC = pSrc->TexCount();
+	const int iTC = pSrc->TexCount();
 	m_fTexFPS = m_fTexFPS;
 
 	m_TexRefs.clear();	
@@ -298,7 +298,7 @@ CN3FXShape::CN3FXShape()
 
 CN3FXShape::~CN3FXShape()
 {
-	int iPC = m_Parts.size();
+	const int iPC = m_Parts.size();
 	for(int i = 0; i < iPC; i++)
 	{
 		m_Parts[i]->Release();
@@ -309,7 +309,7 @@ CN3FXShape::~CN3FXShape()
 
 void CN3FXShape::Release()
 {
-	int iPC = m_Parts.size();
+	const int iPC = m_Parts.size();
 	for(int i = 0; i < iPC; i++)
 	{
 		m_Parts[i]->Release();
@@ -326,7 +326,7 @@ void CN3FXShape::Tick(float fFrm)
 	m_mtxFinalTransform = CN3Transform::m_Matrix * m_mtxParent;
 
 	CN3FXSPart* pPD = nullptr;
-	int iPC = m_Parts.size();
+	const int iPC = m_Parts.size();
 	for(int i = 0; i < iPC; i++)
 	{
 		m_Parts[i]->Tick(m_mtxFinalTransform);
@@ -337,7 +337,7 @@ void CN3FXShape::Tick(float fFrm)
 // [0][1]:카메라 위치와 벡터, [2][3]:카메라 범위 위치와 방향 벡터, [4][5] ~ [10][11]:상하좌우평면벡터
 void CN3FXShape::Render()
 {
-	int iPC = m_Parts.size();
+	const int iPC = m_Parts.size();
 	for(int i = 0; i < iPC; i++)
 	{
 		m_Parts[i]->Render();
@@ -429,12 +429,12 @@ void CN3FXShape::FindMinMax()
 	// 가장 큰 지점찾기..
 	static __Matrix44 mtxWI;
 	D3DXMatrixInverse(&mtxWI, nullptr, &m_mtxFinalTransform); // World Matrix Inverse
-	int iPC = m_Parts.size();
+	const int iPC = m_Parts.size();
 	for(int i = 0; i < iPC; i++)
 	{
 		//m_Parts[i]->ReCalcMatrix(m_mtxFinalTransform);
-		__Vector3 vMinTmp = m_Parts[i]->Min() * mtxWI; // 월드 상의 최소값을 로컬 좌표로 바꾸어준다..
-		__Vector3 vMaxTmp = m_Parts[i]->Max() * mtxWI; // 월드 상의 최대값을 로컬 좌표로 바꾸어준다..
+		const __Vector3 vMinTmp = m_Parts[i]->Min() * mtxWI; // 월드 상의 최소값을 로컬 좌표로 바꾸어준다..
+		const __Vector3 vMaxTmp = m_Parts[i]->Max() * mtxWI; // 월드 상의 최대값을 로컬 좌표로 바꾸어준다..
 
 		if(vMinTmp.x < vMin.x) vMin.x = vMinTmp.x;
 		if(vMinTmp.y < vMin.y) vMin.y = vMinTmp.y;
@@ -546,13 +546,13 @@ void CN3FXShape::SetPartsMtl(BOOL bAlpha, DWORD dwSrcBlend, DWORD dwDestBlend, D
 	if(m_dwLight == TRUE) dwRenderFlag ^= RF_NOTUSELIGHT;
 	if(m_bAlpha != TRUE) dwRenderFlag ^= RF_ALPHABLENDING;
 
-	int iPC = m_Parts.size();
+	const int iPC = m_Parts.size();
 	for(int i = 0; i < iPC; i++) m_Parts[i]->m_Mtl.nRenderFlags = dwRenderFlag;
 }
 
 void CN3FXShape::SetMaxLOD()
 {
-	int iPC = m_Parts.size();
+	const int iPC = m_Parts.size();
 	for(int i = 0; i < iPC; i++)
 	{
 		m_Parts[i]->m_bOutOfCameraRange = FALSE;

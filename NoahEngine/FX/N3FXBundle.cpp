@@ -577,7 +577,7 @@ void CN3FXBundle::Trigger(int iSourceID, int iTargetID, int iTargetJoint, int iS
 #ifdef _N3GAME
 	if(iSndID>=0)
 	{
-		float fDist = (s_CameraData.vEye - m_vPos).Magnitude();
+		const float fDist = (s_CameraData.vEye - m_vPos).Magnitude();
 //		if(fDist < 48.0f)
 		if(fDist < m_fEffectSndDist) //this_Snd
 			CN3Base::s_SndMgr.PlayOnceAndRelease(iSndID, &m_vPos);

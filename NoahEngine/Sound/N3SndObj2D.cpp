@@ -84,9 +84,9 @@ void CN3SndObj2D::SetVolume(int Vol)
 			return;
 		}
 
-		float fVol = (float)(Vol) / 100.0f;
-		
-		long dwVol = (long)(log10(fVol) * 3000);	//데시벨 관련 소리조절식..
+		const float fVol = (float)(Vol) / 100.0f;
+
+		const long dwVol = (long)(log10(fVol) * 3000);	//데시벨 관련 소리조절식..
 		m_pDSBuff->SetVolume(dwVol);
 	}
 }

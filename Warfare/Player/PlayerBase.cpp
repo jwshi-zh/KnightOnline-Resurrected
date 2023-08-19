@@ -363,7 +363,7 @@ void CPlayerBase::KnightsInfoSet(int iID, const std::string& szName, int iGrade,
 	if (nullptr == pPlug) return;
 
 	auto* pCPlug = (CN3CPlug*)pPlug;
-	__TABLE_FX* pFXClanRank = s_pTbl_FXSource->Find(FXID_CLAN_RANK_1);
+	const __TABLE_FX* pFXClanRank = s_pTbl_FXSource->Find(FXID_CLAN_RANK_1);
 
 	std::string szFXClanRank = "";
 	std::string szEmpty = "";
@@ -484,12 +484,12 @@ void CPlayerBase::RenderChrInRect(CN3Chr* pChr, const RECT& Rect)
 
 	// set matrix
 	__Matrix44 mtxProj, mtxView;
-	float fChrHeight = pChr->Height() + 0.2f;	// 캐릭터의 키에 20cm정도 더한값
-	float fVCenter = fChrHeight * 0.5f;
-	int iWidth = Rect.right - Rect.left;
-	int iHeight = Rect.bottom - Rect.top;
-	float fViewVolumeHeight = fChrHeight * vp.Height / iHeight;	// 캐릭터의 키(클리핑 될 경우 클리핑 되는 비율에 맞게 좁혀준다.)
-	float fViewVolumeWidth = fChrHeight * vp.Width / iHeight;	// 가로는 pRect의 가로 세로 비율에 맞게 (클리핑 될 경우 클리핑 되는 비율에 맞게 좁혀준다.)
+	const float fChrHeight = pChr->Height() + 0.2f;	// 캐릭터의 키에 20cm정도 더한값
+	const float fVCenter = fChrHeight * 0.5f;
+	const int iWidth = Rect.right - Rect.left;
+	const int iHeight = Rect.bottom - Rect.top;
+	const float fViewVolumeHeight = fChrHeight * vp.Height / iHeight;	// 캐릭터의 키(클리핑 될 경우 클리핑 되는 비율에 맞게 좁혀준다.)
+	const float fViewVolumeWidth = fChrHeight * vp.Width / iHeight;	// 가로는 pRect의 가로 세로 비율에 맞게 (클리핑 될 경우 클리핑 되는 비율에 맞게 좁혀준다.)
 	// 원래는 이거 : fChrHeight * iWidth / iHeight * vp.Width / iWidth;
 	D3DXMatrixOrthoLH(&mtxProj, fViewVolumeWidth, fViewVolumeHeight, 0, 20);
 
@@ -502,9 +502,9 @@ void CPlayerBase::RenderChrInRect(CN3Chr* pChr, const RECT& Rect)
 	//								  &D3DXVECTOR3( 0.0f + fCameraMoveX, fVCenter + fCameraMoveY, 0.0f ),	// fVCenter: 캐릭터 키의 중간을 바라보기
 	//								  &D3DXVECTOR3( 0.0f, 1.0f, 0.0f ) );
 	const __Vector3& vChrPos = pChr->Pos();
-	auto vEye = D3DXVECTOR3(vChrPos.x + fCameraMoveX, vChrPos.y + fVCenter + 2.0f + fCameraMoveY, vChrPos.z + 10.0f);
-	auto vAt = D3DXVECTOR3(vChrPos.x + fCameraMoveX, vChrPos.y + fVCenter + fCameraMoveY, vChrPos.z + 0.0f);
-	auto vUp = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+	const auto vEye = D3DXVECTOR3(vChrPos.x + fCameraMoveX, vChrPos.y + fVCenter + 2.0f + fCameraMoveY, vChrPos.z + 10.0f);
+	const auto vAt = D3DXVECTOR3(vChrPos.x + fCameraMoveX, vChrPos.y + fVCenter + fCameraMoveY, vChrPos.z + 0.0f);
+	const auto vUp = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 	D3DXMatrixLookAtLH(&mtxView, &vEye, &vAt, &vUp);
 	s_lpD3DDev->SetTransform(D3DTS_VIEW, &mtxView);
 	s_lpD3DDev->SetTransform(D3DTS_PROJECTION, &mtxProj);
@@ -521,10 +521,10 @@ void CPlayerBase::RenderChrInRect(CN3Chr* pChr, const RECT& Rect)
 	if (FALSE != dwFog) s_lpD3DDev->SetRenderState(D3DRS_FOGENABLE, FALSE);
 
 	// render
-	D3DRECT rc = { Rect.left, Rect.top, Rect.right, Rect.bottom };
+	const D3DRECT rc = { Rect.left, Rect.top, Rect.right, Rect.bottom };
 	s_lpD3DDev->Clear(1, &rc, D3DCLEAR_ZBUFFER, 0, 1.0f, 0); // Z Buffer Clear
 
-	int iLODPrev = CN3Chr::LODDelta();
+	const int iLODPrev = CN3Chr::LODDelta();
 	CN3Chr::LODDeltaSet(0);
 	pChr->m_nLOD = 1;	// LOD를 0으로 만든다.(최대한 디테일하게..)
 	pChr->Render();
@@ -575,7 +575,7 @@ void CPlayerBase::RotateTo(CPlayerBase* pOther)
 	vDir.y = 0.0f;
 	vDir.Normalize();
 
-	float fYaw = ::_Yaw2D(vDir.x, vDir.z);
+	const float fYaw = ::_Yaw2D(vDir.x, vDir.z);
 	this->RotateTo(fYaw, false); // 방향을 돌리고
 
 }
@@ -584,7 +584,7 @@ void CPlayerBase::TickYaw()
 {
 	if (m_fYawCur != m_fYawToReach && this->IsAlive()) // 회전을 해야 한다면.. 살아 있는 넘만...
 	{
-		float fYawDiff = m_fYawToReach - m_fYawCur; // 회전값 차이.
+		const float fYawDiff = m_fYawToReach - m_fYawCur; // 회전값 차이.
 		float fYawDelta = m_fRotRadianPerSec * s_fSecPerFrm; // 회전할 양
 		if (T_Abs(fYawDiff) <= fYawDelta)
 		{
@@ -643,7 +643,7 @@ void CPlayerBase::TickAnimation()
 		}
 		else // 에니메이션 데크가 비어 있지 않고 시킬 동작이 있으면..
 		{
-			e_Ani eAniToSet = m_AnimationDeque[0]; // 데크에서 하나 빼오고..
+			const e_Ani eAniToSet = m_AnimationDeque[0]; // 데크에서 하나 빼오고..
 			m_AnimationDeque.pop_front();
 			m_Chr.AniCurSet(eAniToSet);
 			//			TRACE("      Animation : %d\n", eAniToSet);
@@ -661,7 +661,7 @@ void CPlayerBase::TickDurationColor()
 		m_fDurationColorTimeCur = 0;
 
 		CN3CPart* pPart = nullptr;
-		int iPC = m_Chr.m_Parts.size();
+		const int iPC = m_Chr.m_Parts.size();
 		for (int i = 0; i < iPC; i++)
 		{
 			pPart = m_Chr.m_Parts[i];
@@ -670,9 +670,9 @@ void CPlayerBase::TickDurationColor()
 	}
 	else
 	{
-		float fD = m_fDurationColorTimeCur / m_fDurationColorTime;
+		const float fD = m_fDurationColorTimeCur / m_fDurationColorTime;
 		CN3CPart* pPart = nullptr;
-		int iPC = m_Chr.m_Parts.size();
+		const int iPC = m_Chr.m_Parts.size();
 		for (int i = 0; i < iPC; i++)
 		{
 			pPart = m_Chr.m_Parts[i];
@@ -694,7 +694,7 @@ void CPlayerBase::TickDurationColor()
 
 void CPlayerBase::TickSound()
 {
-	__Vector3 vPos = this->Position();
+	const __Vector3 vPos = this->Position();
 
 	if (PSA_ATTACK == m_eState) // 공격 일때..
 	{
@@ -712,7 +712,7 @@ void CPlayerBase::TickSound()
 	{
 		if (PSA_DYING == m_eState && m_Chr.NeedPlaySound0())
 		{
-			int DeadSoundID = (rand() % 2) ? m_pLooksRef->iSndID_Dead0 : m_pLooksRef->iSndID_Dead1;
+			const int DeadSoundID = (rand() % 2) ? m_pLooksRef->iSndID_Dead0 : m_pLooksRef->iSndID_Dead1;
 			CN3Base::s_SndMgr.PlayOnceAndRelease(DeadSoundID, &vPos);
 		}
 		else if (PSA_BASIC == m_eState && m_Chr.NeedPlaySound0())
@@ -798,7 +798,7 @@ void CPlayerBase::Tick()  // 회전, 지정된 에니메이션 Tick 및 색깔 �
 
 			if (fAD > 0)
 			{
-				float fDelta = (fAD * (0.3f + 0.7f / m_Chr.Radius()));
+				const float fDelta = (fAD * (0.3f + 0.7f / m_Chr.Radius()));
 				vPos -= m_vDirDying * (fDelta * s_fSecPerFrm); // 덩치에 반비례하게 밀린다..
 				vPos.y = ACT_WORLD->GetHeightWithTerrain(vPos.x, vPos.z);
 				m_Chr.PosSet(vPos);
@@ -871,7 +871,7 @@ void CPlayerBase::Render(float fSunAngle)
 		s_lpD3DDev->GetTextureStageState(0, D3DTSS_ALPHAOP, &dwAlphaOP);
 		s_lpD3DDev->GetTextureStageState(0, D3DTSS_ALPHAARG1, &dwAlphaArg1);
 
-		DWORD dwFactorToApply = ((DWORD)(255.0f * fFactorToApply)) << 24; // 투명도 계산..
+		const DWORD dwFactorToApply = ((DWORD)(255.0f * fFactorToApply)) << 24; // 투명도 계산..
 
 		// render state 세팅
 		s_lpD3DDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
@@ -939,7 +939,7 @@ void CPlayerBase::Render(float fSunAngle)
 
 	if (m_InfoBase.bRenderID && m_pIDFont)
 	{
-		float fDist = (m_Chr.Pos() - s_CameraData.vEye).Magnitude();
+		const float fDist = (m_Chr.Pos() - s_CameraData.vEye).Magnitude();
 		if (fDist < 48.0f)
 		{
 			__Vector3 vHead = this->HeadPosition();
@@ -1033,7 +1033,7 @@ float CPlayerBase::Radius()
 __Vector3 CPlayerBase::Direction() const
 {
 	__Vector3 vDir(0, 0, 1);
-	__Matrix44 mtxRot = m_Chr.Rot();
+	const __Matrix44 mtxRot = m_Chr.Rot();
 	vDir *= mtxRot;
 
 	return vDir;
@@ -1080,13 +1080,13 @@ bool CPlayerBase::Action(e_StateAction eState, bool bLooping, CPlayerBase* pTarg
 	//		TRACE("%s(%.1f) - %s\n", m_szName.c_str(), CN3Base::TimeGet(), szSt1.c_str());
 	//	}
 
-	bool bNPC = (RACE_NPC == m_InfoBase.eRace ? true : false);
+	const bool bNPC = (RACE_NPC == m_InfoBase.eRace ? true : false);
 	bool bNeedUpperAnimationOnly = false; // 몸 전체에 에니메이션을 적요하는가... -1 : 전체, 0 : 하체 1 : 상체
 	bool bOnceAndFreeze = false;
 	e_Ani eAni = ANI_UNKNOWN;
 	e_Ani eAniToRestore = ANI_UNKNOWN;
 	float fFreezeTime = 0.0f;
-	e_StateAction eStatePrev = m_eState;
+	const e_StateAction eStatePrev = m_eState;
 	m_eStateNext = m_eState = eState; // 일단 캐릭터의 상태 유지..
 
 	switch (eState)
@@ -1524,7 +1524,7 @@ e_Ani CPlayerBase::JudgeAnimationAttack()
 	{
 		if (-1 != m_iIDTarget) // 타겟이 있으면..
 		{
-			e_ItemClass eICR = this->ItemClass_RightHand(); // 오른손 무기에 따라서..
+			const e_ItemClass eICR = this->ItemClass_RightHand(); // 오른손 무기에 따라서..
 			if (ITEM_CLASS_STAFF == eICR) // 지팡이 일경우 창 공격으로 한다. ???
 			{
 				eAni = ANI_DAGGER_ATTACK_A0;
@@ -1550,12 +1550,12 @@ e_Ani CPlayerBase::JudgeAnimationBreath()
 	}
 	else // 플레이어 일경우..
 	{
-		CPlayerBase* pTarget = TargetPointerCheck(false);
+		const CPlayerBase* pTarget = TargetPointerCheck(false);
 
 		if (pTarget && pTarget->m_InfoBase.eNation != m_InfoBase.eNation) // 타겟이 있고 국가가 다르면..
 		{
-			e_ItemClass eICR = this->ItemClass_RightHand();
-			e_ItemClass eICL = this->ItemClass_LeftHand();
+			const e_ItemClass eICR = this->ItemClass_RightHand();
+			const e_ItemClass eICL = this->ItemClass_LeftHand();
 
 			float fIWR = 0; // , fIWL = 0; // Item Weight RightHand, LeftHand
 			if (m_pItemPlugBasics[PLUG_POS_RIGHTHAND]) fIWR = m_pItemPlugBasics[PLUG_POS_RIGHTHAND]->siWeight / 10.f;
@@ -1712,7 +1712,7 @@ bool CPlayerBase::CheckCollisionByBox(const __Vector3& v0, const __Vector3& v1, 
 bool CPlayerBase::CheckCollisionToTargetByPlug(CPlayerBase* pTarget, int nPlug, __Vector3* pVCol)
 {
 	if (nullptr == pTarget) return false;
-	CN3CPlug* pPlug = m_Chr.Plug(nPlug);
+	const CN3CPlug* pPlug = m_Chr.Plug(nPlug);
 	if (nullptr == pPlug) return false; // 장착한 무기가 없으면 하지 않는다..
 	// berserk
 //	if(pPlug->m_ePlugType == PLUGTYPE_CLOAK)	return false;
@@ -1731,7 +1731,7 @@ bool CPlayerBase::CheckCollisionToTargetByPlug(CPlayerBase* pTarget, int nPlug, 
 	////////////////////////////////////////////////////////////////////////
 
 	__Vector3 v1, v2, v3;
-	__Matrix44 mtx = *(m_Chr.MatrixGet(pPlug->m_nJointIndex));
+	const __Matrix44 mtx = *(m_Chr.MatrixGet(pPlug->m_nJointIndex));
 
 	v1.Set(0.0f, pPlug->m_fTrace0, 0.0f);
 	v2.Set(0.0f, pPlug->m_fTrace1, 0.0f);
@@ -1930,7 +1930,7 @@ CN3CPart* CPlayerBase::PartSet(e_PartPosition ePos, const std::string& szFN, __T
 				}
 				else // 하체에 입고 있었던 아이템이 없다면..
 				{
-					__TABLE_PLAYER_LOOKS* pLooks = s_pTbl_UPC_Looks->Find(m_InfoBase.eRace);	// User Player Character Skin 구조체 포인터..
+					const __TABLE_PLAYER_LOOKS* pLooks = s_pTbl_UPC_Looks->Find(m_InfoBase.eRace);	// User Player Character Skin 구조체 포인터..
 					this->PartSet(PART_POS_LOWER, pLooks->szPartFNs[PART_POS_LOWER], nullptr, nullptr); // 하체에 기본옷을 입힌다.
 				}
 			}
@@ -1964,7 +1964,7 @@ CN3CPart* CPlayerBase::PartSet(e_PartPosition ePos, const std::string& szFN, __T
 		}
 		else
 		{
-			__TABLE_PLAYER_LOOKS* pLooks = s_pTbl_UPC_Looks->Find(m_InfoBase.eRace);	// Player Character Skin 구조체 포인터..
+			const __TABLE_PLAYER_LOOKS* pLooks = s_pTbl_UPC_Looks->Find(m_InfoBase.eRace);	// Player Character Skin 구조체 포인터..
 			if (pLooks)
 			{
 				pPart = m_Chr.PartSet(ePos, pLooks->szPartFNs[ePos]);
@@ -2002,7 +2002,7 @@ void CPlayerBase::DurabilitySet(e_ItemSlot eSlot, int iDurability)
 			return;
 		}
 
-		int iDuMax = m_pItemPlugBasics[ePos]->siMaxDurability + m_pItemPlugExts[ePos]->siMaxDurability;
+		const int iDuMax = m_pItemPlugBasics[ePos]->siMaxDurability + m_pItemPlugExts[ePos]->siMaxDurability;
 		if (iDuMax <= 0)
 		{
 			__ASSERT(0, "최대 내구력 없음");
@@ -2016,7 +2016,7 @@ void CPlayerBase::DurabilitySet(e_ItemSlot eSlot, int iDurability)
 			return;
 		}
 
-		int iPercentage = iDurability * 100 / iDuMax;
+		const int iPercentage = iDurability * 100 / iDuMax;
 		std::string szFN;
 		if (iPercentage <= 30) szFN = "Misc\\Dust_Hard.dxt";
 		else if (iPercentage <= 70) szFN = "Misc\\Dust_Soft.dxt";
@@ -2036,8 +2036,8 @@ void CPlayerBase::DurabilitySet(e_ItemSlot eSlot, int iDurability)
 		{
 			if (m_pItemPartBasics[ePartPos] && m_pItemPartExts[ePartPos])
 			{
-				int iDuMax = m_pItemPartBasics[ePartPos]->siMaxDurability + m_pItemPartExts[ePartPos]->siMaxDurability; // 기본내구력 + 확장 내구력
-				int iPercentage = iDurability * 100 / iDuMax;
+				const int iDuMax = m_pItemPartBasics[ePartPos]->siMaxDurability + m_pItemPartExts[ePartPos]->siMaxDurability; // 기본내구력 + 확장 내구력
+				const int iPercentage = iDurability * 100 / iDuMax;
 
 				std::string szFN;
 				if (iPercentage <= 30) szFN = "Misc\\Dust_Hard.dxt";
@@ -2373,11 +2373,11 @@ void CPlayerBase::CalcPart(CN3CPart* pPart, int nLOD, __Vector3 vDir)
 	//	CN3Base::s_RenderInfo.nChr_Polygon += pPart->Skin(nLOD)->FaceCount();
 	//#endif
 
-	int iTotalCount = pPart->Skin(nLOD)->VertexCount();
+	const int iTotalCount = pPart->Skin(nLOD)->VertexCount();
 	if (iTotalCount < 0 || iTotalCount >  10000) return;
 
 	__Vector3 vec, A, B, C, vPick;
-	__VertexXyzNormal* pVDest = pPart->Skin(nLOD)->Vertices();
+	const __VertexXyzNormal* pVDest = pPart->Skin(nLOD)->Vertices();
 	float t, u, v, fx, fz;
 
 	for (auto i = 0; i < iTotalCount; i++)
@@ -2430,7 +2430,7 @@ void CPlayerBase::CalcPlug(CN3CPlugBase* pPlug, const __Matrix44* pmtxJoint, __M
 	mtx *= (*pmtxJoint);
 	mtx *= m_Chr.m_Matrix;
 
-	int iTotalCount = pPlug->PMeshInst()->GetNumVertices();
+	const int iTotalCount = pPlug->PMeshInst()->GetNumVertices();
 	if (iTotalCount < 0 || iTotalCount >  10000) return;
 
 	__Vector3 vec, A, B, C, vPick;

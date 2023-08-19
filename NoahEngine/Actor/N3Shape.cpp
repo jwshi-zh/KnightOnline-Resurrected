@@ -21,7 +21,7 @@ CN3SPart::CN3SPart()
 
 CN3SPart::~CN3SPart()
 {
-	int iTC = m_TexRefs.size();
+	const int iTC = m_TexRefs.size();
 	for(int i = 0; i < iTC; i++) s_MngTex.Delete(&m_TexRefs[i]);
 }
 
@@ -40,7 +40,7 @@ void CN3SPart::Release()
 	m_fWindFactorCur = 0;			// 현재 바람 부는 값.. 이값으로 회전을 시킨다..
 	m_fWindFactorToReach = 0;		// 바람 부는 값..
 
-	int iTC = m_TexRefs.size();
+	const int iTC = m_TexRefs.size();
 	for(int i = 0; i < iTC; i++) s_MngTex.Delete(&m_TexRefs[i]);
 	m_TexRefs.clear();
 	m_PMInst.Release();
@@ -55,7 +55,7 @@ void CN3SPart::TexAlloc(int nCount)
 {
 	if(nCount <= 0) return;
 
-	int iTC = m_TexRefs.size();
+	const int iTC = m_TexRefs.size();
 	for(int i = 0; i < iTC; i++) s_MngTex.Delete(&m_TexRefs[i]);
 	m_TexRefs.clear();
 
@@ -64,29 +64,29 @@ void CN3SPart::TexAlloc(int nCount)
 
 void CN3SPart::Tick(const __Matrix44& mtxParent, const __Quaternion& qRot, float fScale) // timeGetTime 으로 얻은 값을 넣으면 Texture Animation 을 컨트롤 한다..
 {
-	CN3PMesh* pPMesh = m_PMInst.GetMesh();
+	const CN3PMesh* pPMesh = m_PMInst.GetMesh();
 	if(nullptr == pPMesh) return;
 
 	m_bOutOfCameraRange = FALSE;
 
 	// 카메라와 멀리 떨어지면 지나간다..
-	__Vector3 vCenter = (this->Min() + this->Max()) * 0.5f;
+	const __Vector3 vCenter = (this->Min() + this->Max()) * 0.5f;
 	if(s_CameraData.IsOutOfFrustum(vCenter, this->Radius() * fScale)) // 카메라 사면체 바깥이면 지나간다..
 	{
 		m_bOutOfCameraRange = TRUE;
 		return;
 	}
-	
-	float fDist = (vCenter - s_CameraData.vEye).Magnitude();
-	float fLOD = fDist * s_CameraData.fFOV / fScale;
+
+	const float fDist = (vCenter - s_CameraData.vEye).Magnitude();
+	const float fLOD = fDist * s_CameraData.fFOV / fScale;
 //	float fLOD = fDist + fDist * (s_CameraData.fFOV - 1.0f) / 3.0f;
 //	float fLOD = fDist * s_CameraData.fFOV * (512.0f / s_CameraData.fFP);
 
 	// 카메라 거리에 따라 LOD 수준을 조절한다.
 //	fLOD *= 256.0f / s_CameraData.fFP;
 	m_PMInst.SetLOD(fLOD);
-	
-	int iTC = m_TexRefs.size();
+
+	const int iTC = m_TexRefs.size();
 	if(iTC > 1) // 텍스처 에니메이션
 	{
 		m_fTexIndex += CN3Base::s_fSecPerFrm * m_fTexFPS;
@@ -95,7 +95,7 @@ void CN3SPart::Tick(const __Matrix44& mtxParent, const __Quaternion& qRot, float
 
 	if(m_Mtl.nRenderFlags & RF_BOARD_Y) // 카메라를 바라봐야하는 거면..
 	{
-		__Vector3 vPos = m_vPivot * mtxParent;
+		const __Vector3 vPos = m_vPivot * mtxParent;
 		__Vector3 vDir = s_CameraData.vEye - vPos;
 		if( vDir.x > 0.0f ) m_Matrix.RotationY(-atanf(vDir.z/vDir.x) - (D3DX_PI * 0.5f));
 		else m_Matrix.RotationY(-atanf(vDir.z/vDir.x) + (D3DX_PI * 0.5f));
@@ -132,7 +132,7 @@ void CN3SPart::Tick(const __Matrix44& mtxParent, const __Quaternion& qRot, float
 //		else if(m_vWindFactorToReach != m_vWindFactorCur)
 		{
 //			float fFactor = s_fSecPerFrm * (m_vWindFactorToReach - m_vWindFactorCur).Magnitude();
-			float fFactor = s_fSecPerFrm * T_Abs(m_fWindFactorToReach - m_fWindFactorCur);
+const float fFactor = s_fSecPerFrm * T_Abs(m_fWindFactorToReach - m_fWindFactorCur);
 
 //			if(m_vWindFactorCur.x < m_vWindFactorToReach.x) m_vWindFactorCur.x += fFactor;
 //			if(m_vWindFactorCur.x > m_vWindFactorToReach.x) m_vWindFactorCur.x -= fFactor;
@@ -147,8 +147,8 @@ void CN3SPart::Tick(const __Matrix44& mtxParent, const __Quaternion& qRot, float
 //			if(T_Abs(m_vWindFactorToReach.y - m_vWindFactorCur.y) < fFactor) m_vWindFactorCur.y = m_vWindFactorToReach.y;
 //			if(T_Abs(m_vWindFactorToReach.z - m_vWindFactorCur.z) < fFactor) m_vWindFactorCur.z = m_vWindFactorToReach.z;
 			if(T_Abs(m_fWindFactorToReach - m_fWindFactorCur) < fFactor) m_fWindFactorCur = m_fWindFactorToReach;
-			
-			__Vector3 vPos = m_vPivot * mtxParent;
+
+const __Vector3 vPos = m_vPivot * mtxParent;
 //			m_Matrix.Rotation(CN3Base::s_vWindFactor * m_fWindFactorCur);
 			m_Matrix.Rotation(__Vector3(0.05f, 0.02f, 0.05f) * m_fWindFactorCur);
 			m_Matrix *= mtxParent;
@@ -167,10 +167,10 @@ void CN3SPart::Render() const
 #endif
 
 	LPDIRECT3DTEXTURE9 lpTex = nullptr;
-	int iTC = m_TexRefs.size();
+	const int iTC = m_TexRefs.size();
 	if(iTC > 0)
 	{
-		int iTexIndex = (int)m_fTexIndex;
+		const int iTexIndex = (int)m_fTexIndex;
 		if(iTexIndex >= 0 && iTexIndex < iTC && m_TexRefs[iTexIndex]) lpTex = m_TexRefs[iTexIndex]->Get();
 	}
 
@@ -498,10 +498,10 @@ void CN3SPart::PartialRender(int iCount, WORD* pIndices)
 #endif
 
 	LPDIRECT3DTEXTURE9 lpTex = nullptr;
-	int iTC = m_TexRefs.size();
+	const int iTC = m_TexRefs.size();
 	if(iTC > 0)
 	{
-		int iTexIndex = (int)m_fTexIndex;
+		const int iTexIndex = (int)m_fTexIndex;
 		if(iTexIndex >= 0 && iTexIndex < iTC && m_TexRefs[iTexIndex]) lpTex = m_TexRefs[iTexIndex]->Get();
 	}
 
@@ -593,7 +593,7 @@ CN3Shape::CN3Shape()
 
 CN3Shape::~CN3Shape()
 {
-	int iPC = m_Parts.size();
+	const int iPC = m_Parts.size();
 	for(int i = 0; i < iPC; i++) delete m_Parts[i];
 	m_Parts.clear();
 }
@@ -602,8 +602,8 @@ void CN3Shape::Release()
 {
 	m_bDontRender = false;
 	m_bVisible = true;
-	
-	int iPC = m_Parts.size();
+
+	const int iPC = m_Parts.size();
 	for(int i = 0; i < iPC; i++) delete m_Parts[i];
 	m_Parts.clear();
 	
@@ -627,7 +627,7 @@ void CN3Shape::Tick(float fFrm)
 	if(fScale < m_vScale.z) fScale = m_vScale.z;
 
 	// 카메라와 멀리 떨어지면 지나간다..
-	float fDist = (m_vPos - s_CameraData.vEye).Magnitude();
+	const float fDist = (m_vPos - s_CameraData.vEye).Magnitude();
 	if(fDist > s_CameraData.fFP + m_fRadius * fScale * 2.0f)
 	{
 		m_bDontRender = true;
@@ -637,7 +637,7 @@ void CN3Shape::Tick(float fFrm)
 //	float fDelta = 2.4f;
 //	if(fDist < 64.0f)
 //		fDelta += (64.0f - fDist)/24.0f;
-	__Vector3 vCenter = (this->Min() + this->Max()) * 0.5f;
+	const __Vector3 vCenter = (this->Min() + this->Max()) * 0.5f;
 	if(s_CameraData.IsOutOfFrustum(vCenter, this->Radius()))
 	{
 		m_bDontRender = true;
@@ -649,7 +649,7 @@ void CN3Shape::Tick(float fFrm)
 	CN3TransformCollision::Tick(fFrm);
 
 	CN3SPart* pPD = nullptr;
-	int iPC = m_Parts.size();
+	const int iPC = m_Parts.size();
 	for(int i = 0; i < iPC; i++)
 	{
 		if(nullptr == m_Parts[i]) continue;
@@ -669,7 +669,7 @@ void CN3Shape::Render()
 	CN3Base::s_RenderInfo.nShape++;
 #endif
 
-	int iPC = m_Parts.size();
+	const int iPC = m_Parts.size();
 	for(int i = 0; i < iPC; i++)
 	{
 		if(nullptr == m_Parts[i]) continue;
@@ -808,7 +808,7 @@ void CN3Shape::ReCalcMatrix()
 void CN3Shape::ReCalcPartMatrix()
 {
 	// 각 파트의 매트릭스를 다시 계산해 준다..
-	int iPC = m_Parts.size();
+	const int iPC = m_Parts.size();
 	for(int i = 0; i < iPC; i++)
 	{
 		m_Parts[i]->ReCalcMatrix(m_Matrix);
@@ -821,7 +821,7 @@ void CN3Shape::FindMinMax()
 	m_vMax.Zero();
 	m_fRadius = 0;
 
-	int iPC = m_Parts.size();
+	const int iPC = m_Parts.size();
 	if(iPC <= 0) return;
 
 	m_vMin.Set(FLT_MAX, FLT_MAX, FLT_MAX);
@@ -859,7 +859,7 @@ int CN3Shape::CheckCollisionPrecisely(bool bIgnoreBoxCheck, int ixScreen, int iy
 	vTmp.z =  1.0f;
 
 	// Transform the screen space pick ray into 3D space
-	__Matrix44* pMtxVI = &CN3Base::s_CameraData.mtxViewInverse;
+	const __Matrix44* pMtxVI = &CN3Base::s_CameraData.mtxViewInverse;
 	__Vector3 vPos, vDir;
 	vDir.x  = vTmp.x * pMtxVI->_11 + vTmp.y * pMtxVI->_21 + vTmp.z * pMtxVI->_31;
 	vDir.y  = vTmp.x * pMtxVI->_12 + vTmp.y * pMtxVI->_22 + vTmp.z * pMtxVI->_32;
@@ -874,17 +874,17 @@ int CN3Shape::CheckCollisionPrecisely(bool bIgnoreBoxCheck, const __Vector3& vPo
 	if(false == bIgnoreBoxCheck && false == ::_CheckCollisionByBox(vPos, vDir, m_vMin * m_Matrix, m_vMax * m_Matrix)) return -1; // 박스 체크 먼저한다..
 
 	__Vector3 vPos2 = vPos, vDir2 = vDir;
-	int iPC = m_Parts.size();
+	const int iPC = m_Parts.size();
 	for(int i = 0; i < iPC; i++)
 	{
-		CN3PMeshInstance* pPMI = m_Parts[i]->MeshInstance();
+		const CN3PMeshInstance* pPMI = m_Parts[i]->MeshInstance();
 		if(nullptr == pPMI) continue;
 
-		__VertexT1* pVs = pPMI->GetVertices();
-		WORD* pwIs = pPMI->GetIndices();
-		int nIndexCount = pPMI->GetNumIndices();
+		const __VertexT1* pVs = pPMI->GetVertices();
+		const WORD* pwIs = pPMI->GetIndices();
+		const int nIndexCount = pPMI->GetNumIndices();
 
-		int nFC = nIndexCount / 3; // Face Count
+		const int nFC = nIndexCount / 3; // Face Count
 		if(nFC > 64 && false == ::_CheckCollisionByBox(vPos, vDir, m_Parts[i]->Min(), m_Parts[i]->Max())) continue;  // Face 수가 24 개보다 많은 경우 일단 박스체크를 한다..
 		
 		static __Matrix44 mtxWI;
@@ -993,13 +993,13 @@ bool CN3Shape::MakeCollisionMeshByParts()  // 충돌 메시를 박스로 만든�
 
 bool CN3Shape::MakeCollisionMeshByPartsDetail()  // 현재 모습 그대로... 충돌 메시를 만든다...
 {
-	int iPC = m_Parts.size();
+	const int iPC = m_Parts.size();
 	int iMaxNumVertices = 0, iMaxNumIndices = 0;
 	int iVC = 0, iIC = 0;
 	for(int i = 0; i < iPC; i++)
 	{
-		CN3PMesh* pPMesh = m_Parts[i]->Mesh();
-		CN3PMeshInstance* pPMI = m_Parts[i]->MeshInstance();
+		const CN3PMesh* pPMesh = m_Parts[i]->Mesh();
+		const CN3PMeshInstance* pPMI = m_Parts[i]->MeshInstance();
 		if(nullptr == pPMesh || nullptr == pPMI) continue;
 
 		iMaxNumVertices = pPMesh->GetMaxNumVertices();
@@ -1018,8 +1018,8 @@ bool CN3Shape::MakeCollisionMeshByPartsDetail()  // 현재 모습 그대로... �
 	__Vector3* pVDest = pVMesh->Vertices();
 	WORD* pwIDest = pVMesh->Indices();
 
-	__VertexT1* pVSrc = nullptr;
-	WORD* pwISrc = nullptr;
+	const __VertexT1* pVSrc = nullptr;
+	const WORD* pwISrc = nullptr;
 	
 	iVC = 0; iIC = 0;
 	__Matrix44 mtxI = m_Matrix;
@@ -1027,7 +1027,7 @@ bool CN3Shape::MakeCollisionMeshByPartsDetail()  // 현재 모습 그대로... �
 
 	for(auto i = 0; i < iPC; i++)
 	{
-		CN3PMesh* pPMesh = m_Parts[i]->Mesh();
+		const CN3PMesh* pPMesh = m_Parts[i]->Mesh();
 		CN3PMeshInstance* pPMI = m_Parts[i]->MeshInstance();
 		if(nullptr == pPMesh || nullptr == pPMI) continue;
 
@@ -1054,7 +1054,7 @@ bool CN3Shape::MakeCollisionMeshByPartsDetail()  // 현재 모습 그대로... �
 		return false;
 	}
 
-	int iCount = CN3Base::s_MngVMesh.Count();
+	const int iCount = CN3Base::s_MngVMesh.Count();
 	char szBuff[256];
 	sprintf(szBuff, "%s_collision_%d.n3vmesh", m_szFileName.c_str(), iCount); // 임시로 이름일 짓고..
 
@@ -1240,9 +1240,9 @@ bool CN3Shape::SaveToSameFolderAndMore(const std::string& szFullPath, const std:
 //
 void CN3Shape::SetMaxLOD()
 {
-	m_bDontRender = false;	
+	m_bDontRender = false;
 
-	int iPC = m_Parts.size();
+	const int iPC = m_Parts.size();
 	for(int i = 0; i < iPC; i++)
 	{
 		m_Parts[i]->m_bOutOfCameraRange = FALSE;

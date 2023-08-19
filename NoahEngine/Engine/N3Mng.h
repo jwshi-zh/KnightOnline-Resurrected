@@ -90,7 +90,7 @@ public:
 			}
 			else 
 			{
-				int reChk = Add(pData); // 읽기 성공하면 추가..
+				const int reChk = Add(pData); // 읽기 성공하면 추가..
 				//	asm
 				if(reChk==-1)	//	추가시 전에 데이터가 있어 참조 카운트를 하나 더한다 
 				{

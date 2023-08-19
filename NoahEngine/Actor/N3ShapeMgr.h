@@ -133,15 +133,15 @@ public:
 	__CellSub* SubCell(float fX, float fZ) const
 	// 해당 위치의 셀 포인터를 돌려준다.
 	{
-		int x = (int)(fX / CELL_MAIN_SIZE);
-		int z = (int)(fZ / CELL_MAIN_SIZE);
+		const int x = (int)(fX / CELL_MAIN_SIZE);
+		const int z = (int)(fZ / CELL_MAIN_SIZE);
 		
 		__ASSERT(x >= 0 && x < MAX_CELL_MAIN && z >= 0 && z < MAX_CELL_MAIN, "Invalid cell number");
 		if(x < 0 || x >= MAX_CELL_MAIN || z < 0 || z >= MAX_CELL_MAIN) return nullptr;
 		if(nullptr == m_pCells[x][z]) return nullptr;
 
-		int xx = (((int)fX)%CELL_MAIN_SIZE)/CELL_SUB_SIZE;
-		int zz = (((int)fZ)%CELL_MAIN_SIZE)/CELL_SUB_SIZE;
+		const int xx = (((int)fX)%CELL_MAIN_SIZE)/CELL_SUB_SIZE;
+		const int zz = (((int)fZ)%CELL_MAIN_SIZE)/CELL_SUB_SIZE;
 		
 		return &(m_pCells[x][z]->SubCells[xx][zz]);
 	}

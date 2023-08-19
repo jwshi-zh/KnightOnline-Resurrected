@@ -25,7 +25,7 @@ void CN3GERain::Tick()
 
 	CN3GlobalEffect::Tick();
 
-	int iCount = m_iVC/2;
+	const int iCount = m_iVC/2;
 	int iActiveCount = iCount;
 	if(m_iFadeMode > 0) // 차차 많아지게 한다..
 	{
@@ -53,8 +53,8 @@ void CN3GERain::Tick()
 	HRESULT hr = m_pVB->Lock(0, 0, (void**)&pVertices, D3DLOCK_NOSYSLOCK);
 
 	__Vector3 vN = m_vVelocity;	vN.Normalize();
-	__Vector3 vAdd = m_vVelocity*s_fSecPerFrm;
-	__Vector3 vAddLength = vN*m_fRainLength;
+	const __Vector3 vAdd = m_vVelocity*s_fSecPerFrm;
+	const __Vector3 vAddLength = vN*m_fRainLength;
 
 	const float fHalfWidth = m_fWidth/2.0f;
 	const float fHalfHeight = m_fHeight/2.0f;
@@ -103,8 +103,8 @@ void CN3GERain::Render(__Vector3& vPos)
 	if (m_bActive == FALSE || m_iVC <= 0 || m_pVB == nullptr) return;
 	
 	CN3GlobalEffect::Render(vPos);
-	
-	int iCount = m_iVC / 2;
+
+	const int iCount = m_iVC / 2;
 	
 	int iActiveCount = iCount;
 	if(m_iFadeMode > 0) // 차차 많아지게 한다..
@@ -182,13 +182,13 @@ void CN3GERain::Create(float fDensity,
 	m_fFadeTime = fTimeToFade;
 	m_fFadeTimeCur = 0;
 
-	float fVolume = fWidth*fWidth*fHeight;
+	const float fVolume = fWidth*fWidth*fHeight;
 	__ASSERT(fVolume > 0, "Rain volume is less than 0");
 	if(fVolume <= 0) return;
 
 	m_fWidth = fWidth;	m_fHeight = fHeight;	m_fRainLength = fRainLength;
 	m_vVelocity = vVelocity;
-	int iRainCount = (int)(fVolume*fDensity);
+	const int iRainCount = (int)(fVolume*fDensity);
 
 	// m_pVB, m_pIB 만들기
 	m_iVC = iRainCount*2;
@@ -203,7 +203,7 @@ void CN3GERain::Create(float fDensity,
 				dwColorB = 0x80bfbfbf;	// 머리
 	int i;
 	__Vector3 vN = vVelocity; vN.Normalize();
-	__Vector3 vAdd = vN*fRainLength;
+	const __Vector3 vAdd = vN*fRainLength;
 	for (i=0; i<iRainCount; ++i)
 	{
 		pVertices[i*2+0].Set(	fWidth*(rand()%10000-5000)/10000.f,

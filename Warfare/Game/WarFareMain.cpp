@@ -103,12 +103,12 @@ LRESULT CALLBACK WndProcMain(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
     {
 	case WM_COMMAND:
 		{
-			WORD wNotifyCode = HIWORD(wParam); // notification code 
-			CN3UIEdit* pEdit = CN3UIEdit::GetFocusedEdit();
+			const WORD wNotifyCode = HIWORD(wParam); // notification code 
+			const CN3UIEdit* pEdit = CN3UIEdit::GetFocusedEdit();
 			if(EN_CHANGE == wNotifyCode && pEdit)
 			{
 				WORD wID = LOWORD(wParam);         // item, control, or accelerator identifier 
-				HWND hwndCtl = (HWND)lParam;
+				const HWND hwndCtl = (HWND)lParam;
 				if(hwndCtl == CN3UIEdit::s_hWndEdit)
 				{
 					pEdit->UpdateTextFromEditCtrl();
@@ -128,11 +128,11 @@ LRESULT CALLBACK WndProcMain(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 
 	case WM_KEYDOWN:
 		{
-			int iLangID = ::GetUserDefaultLangID();
+			const int iLangID = ::GetUserDefaultLangID();
 			if(0x0404 == iLangID) // Taiwan Language
 			{
 				CUIChat* pUIChat = CGameProcedure::s_pProcMain->m_pUIChatDlg;
-				int iVK = (int)wParam;
+				const int iVK = (int)wParam;
 				if(	pUIChat &&
 					VK_ESCAPE != iVK &&
 					VK_RETURN != iVK &&
@@ -193,7 +193,7 @@ LRESULT CALLBACK WndProcMain(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 
 		case WM_ACTIVATE:
 			{
-				int iActive = LOWORD(wParam);           // activation flag 
+				const int iActive = LOWORD(wParam);           // activation flag 
 				int iMinimized = (BOOL) HIWORD(wParam); // minimized flag 
 				HWND hwndPrevious = (HWND) lParam;       // window handle 
 
@@ -233,7 +233,7 @@ LRESULT CALLBACK WndProcMain(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 			{
 				if(CGameProcedure::s_pProcActive == CGameProcedure::s_pProcMain)
 				{
-					float fDelta = ((short)HIWORD(wParam)) * 0.05f;
+					const float fDelta = ((short)HIWORD(wParam)) * 0.05f;
 					CGameProcedure::s_pEng->CameraZoom(fDelta);
 //					CGameProcedure::s_pProcMain->ControlViewVDegree((short)HIWORD(wParam));
 				}
@@ -298,7 +298,7 @@ HWND CreateMainWindow(HINSTANCE hInstance)
 		exit(-1);
 	}
 
-	DWORD	style = WS_POPUP | WS_CLIPCHILDREN;
+	const DWORD	style = WS_POPUP | WS_CLIPCHILDREN;
 	return ::CreateWindow("Knight OnLine Client", "Knight OnLine Client", style, 0, 0, CN3Base::s_Options.iViewWidth, CN3Base::s_Options.iViewHeight, NULL, NULL, hInstance, NULL);
 }
 
@@ -324,7 +324,7 @@ HWND CreateSubWindow(HINSTANCE hInstance)
 		exit(-1);
 	}
 
-	DWORD	style = WS_POPUP;
+	const DWORD	style = WS_POPUP;
 	return ::CreateWindow("Knight OnLine Sub", "Knight OnLine Sub", style, 0, 0, 0, 0, NULL, NULL, hInstance, NULL);
 }
 
@@ -413,21 +413,21 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 	if(CN3Base::s_Options.iEffectSndDist < 20) CN3Base::s_Options.iEffectSndDist = 20;
 	if(CN3Base::s_Options.iEffectSndDist > 48) CN3Base::s_Options.iEffectSndDist = 48;
 
-	int iSndEnable = GetPrivateProfileInt("Sound", "Enable", 1, szIniPath);
+	const int iSndEnable = GetPrivateProfileInt("Sound", "Enable", 1, szIniPath);
 	CN3Base::s_Options.bSndEnable = (iSndEnable) ? true : false; // 사운드...
 
-	int iSndDuplicate = GetPrivateProfileInt("Sound", "Duplicate", 0, szIniPath);
+	const int iSndDuplicate = GetPrivateProfileInt("Sound", "Duplicate", 0, szIniPath);
 	CN3Base::s_Options.bSndDuplicated = (iSndDuplicate) ? true : false; // 사운드...
 
-	int iWindowCursor = GetPrivateProfileInt("Cursor", "WindowCursor", 1, szIniPath);
+	const int iWindowCursor = GetPrivateProfileInt("Cursor", "WindowCursor", 1, szIniPath);
 	CN3Base::s_Options.bWindowCursor = (iWindowCursor) ? true : false; // cursor...
 
 	// 두번째 소켓으로 쓸 서브 윈도우 만들기..
-	HWND hWndSub = CreateSubWindow(hInstance);
+	const HWND hWndSub = CreateSubWindow(hInstance);
 	::ShowWindow(hWndSub, SW_HIDE); // 감추기..
 	
 	// 메인 윈도우를 만들고..
-	HWND hWndMain = CreateMainWindow(hInstance);
+	const HWND hWndMain = CreateMainWindow(hInstance);
 	if(nullptr == hWndMain || nullptr == hWndSub)
 	{
 		CLogWriter::Write("Cannot create window.");
@@ -490,7 +490,7 @@ int APIENTRY WinMain(HINSTANCE hInstance,
     BOOL bGotMsg = FALSE;
 
 #if _DEBUG
-	HDC hDC = GetDC(hWndMain);
+	const HDC hDC = GetDC(hWndMain);
 #endif // #if _DEBUG
 
     MSG msg; memset(&msg, 0, sizeof(MSG));
@@ -518,7 +518,7 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 #if _DEBUG
 				static float fTimePrev = CN3Base::TimeGet();
 				static char szDebugs[4][256] = { "", "", "", "" };
-				float fTime = CN3Base::TimeGet();
+				const float fTime = CN3Base::TimeGet();
 				if(fTime > fTimePrev + 0.5f)
 				{
 					fTimePrev = fTime;

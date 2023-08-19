@@ -250,7 +250,7 @@ void CN3IMesh::Render(bool bUseTwoUV)
 
 	if(bUseTwoUV)
 	{
-		__VertexT2* pVs = this->BuildVertexListTwoUV();
+		const __VertexT2* pVs = this->BuildVertexListTwoUV();
 		if(pVs)
 		{
 			s_lpD3DDev->SetFVF(FVF_VNT2);
@@ -259,7 +259,7 @@ void CN3IMesh::Render(bool bUseTwoUV)
 	}
 	else
 	{
-		__VertexT1* pVs = this->BuildVertexList();
+		const __VertexT1* pVs = this->BuildVertexList();
 		if(pVs)
 		{
 			s_lpD3DDev->SetFVF(FVF_VNT1);

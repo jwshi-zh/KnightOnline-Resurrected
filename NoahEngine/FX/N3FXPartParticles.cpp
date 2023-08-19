@@ -82,7 +82,7 @@ CN3FXPartParticles::~CN3FXPartParticles()
 	it = m_pVBList_Alive.begin();
 	for(auto i =0;i<m_pVBList_Alive.size();i++, it++)
 	{
-		CN3FXParticle* pParticle = (*it);
+		const CN3FXParticle* pParticle = (*it);
 		if(pParticle) delete pParticle;		
 	}
 	m_pVBList_Alive.clear();
@@ -90,7 +90,7 @@ CN3FXPartParticles::~CN3FXPartParticles()
 	it = m_pVBList_Dead.begin();
 	for(auto i =0;i<m_pVBList_Dead.size();i++, it++)
 	{
-		CN3FXParticle* pParticle = (*it);
+		const CN3FXParticle* pParticle = (*it);
 		if(pParticle) delete pParticle;
 	}
 	m_pVBList_Dead.clear();
@@ -480,7 +480,7 @@ bool CN3FXPartParticles::Save(HANDLE hFile)
 	WriteFile(hFile, &m_bChangeColor, sizeof(bool), &dwRWC, nullptr);
 	if(m_bChangeColor)
 	{
-		int iNumKeyColor = NUM_KEY_COLOR;
+		const int iNumKeyColor = NUM_KEY_COLOR;
 		WriteFile(hFile, &iNumKeyColor, sizeof(int), &dwRWC, nullptr);
 		WriteFile(hFile, &m_dwChangeColor, sizeof(DWORD)*NUM_KEY_COLOR, &dwRWC, nullptr);
 	}
@@ -531,7 +531,7 @@ bool CN3FXPartParticles::Tick()
 	if(!CN3FXPartBase::Tick()) return false;
 
 #ifndef _N3TOOL
-	float fDist = (s_CameraData.vEye - m_pRefBundle->m_vPos).Magnitude();
+	const float fDist = (s_CameraData.vEye - m_pRefBundle->m_vPos).Magnitude();
 
 	if(fDist > 30.0f)
 		m_iNumLodParticle = m_iNumParticle / 3.0f;
@@ -552,7 +552,7 @@ bool CN3FXPartParticles::Tick()
 	{
 		//frm 계산..
 		float fFrm = m_fCurrLife * m_fMeshFPS;
-		int share = fFrm / m_pShape->GetWholeFrm();
+		const int share = fFrm / m_pShape->GetWholeFrm();
 		//if(fFrm > m_pShape->GetWholeFrm()-1.0f) fFrm = m_pShape->GetWholeFrm()-1.0f;
 		fFrm -= ((float)share * m_pShape->GetWholeFrm());
 		m_pShape->SetCurrFrm(fFrm);
@@ -661,7 +661,7 @@ void CN3FXPartParticles::Render()
 		it = m_pVBList_Alive.begin();
 		for(;it!=m_pVBList_Alive.end();it++)
 		{
-			CN3FXParticle* pParticle = (*it);
+			const CN3FXParticle* pParticle = (*it);
 			if(pParticle->m_iTexIdx>=m_iNumTex) continue;
 
 			__AlphaPrimitive* pAP = s_AlphaMgr.Add();
@@ -740,7 +740,7 @@ void CN3FXPartParticles::Render()
 	it = m_pVBList_Alive.begin();
 	for(;it!=m_pVBList_Alive.end();it++)
 	{
-		CN3FXParticle* pParticle = (*it);
+		const CN3FXParticle* pParticle = (*it);
 		if(pParticle->m_iTexIdx<m_iNumTex) 
 			CN3Base::s_lpD3DDev->SetTexture(0, m_ppRefTex[pParticle->m_iTexIdx]->Get());
 		else continue;
@@ -764,13 +764,13 @@ void CN3FXPartParticles::Render()
 
 float CN3FXPartParticles::CameraDist(__Vector3 v1, __Vector3 v2, __Vector3 v3)
 {
-	__Vector3 vA = v1 - v3;
-	__Vector3 vB = v2 - v3;
+	const __Vector3 vA = v1 - v3;
+	const __Vector3 vB = v2 - v3;
 	__Vector3 vN;
 	vN.Cross(vA, vB);
 	vN.Normalize();
 
-	float D = -(vN.x*v1.x + vN.y*v1.y + vN.z*v1.z);
+	const float D = -(vN.x*v1.x + vN.y*v1.y + vN.z*v1.z);
 
 	return (vN.x*s_CameraData.vEye.x + vN.y*s_CameraData.vEye.y + vN.z*s_CameraData.vEye.z + D);
 }
@@ -1300,7 +1300,7 @@ void CN3FXPartParticles::CreateParticles_Gather()
 //
 void CN3FXPartParticles::CreateParticles()
 {
-	int iNumLiveParticle = m_pVBList_Alive.size();
+	const int iNumLiveParticle = m_pVBList_Alive.size();
 	if( iNumLiveParticle > m_iNumLodParticle )
 		return;
 	if(m_dwEmitType==FX_PART_PARTICLE_EMIT_TYPE_SPREAD) CreateParticles_Spread();

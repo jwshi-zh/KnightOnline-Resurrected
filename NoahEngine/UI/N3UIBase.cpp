@@ -53,7 +53,7 @@ CN3UIBase::~CN3UIBase()
 
 	while(!m_Children.empty())
 	{
-		CN3UIBase* pChild = m_Children.front();
+		const CN3UIBase* pChild = m_Children.front();
 		if (pChild) delete pChild;	// 자식이 delete되면서 부모의 list에서는 자동으로 제거된다.
 									// 따라서 리스트에서 따로 지우는 부분이 없어도 된다.
 	}
@@ -78,7 +78,7 @@ void CN3UIBase::Release()
 
 	while(!m_Children.empty())
 	{
-		CN3UIBase* pChild = m_Children.front();
+		const CN3UIBase* pChild = m_Children.front();
 		if (pChild) delete pChild;	// 자식이 delete되면서 부모의 list에서는 자동으로 제거된다.
 									// 따라서 리스트에서 따로 지우는 부분이 없어도 된다.
 	}
@@ -138,12 +138,12 @@ void CN3UIBase::SetPos(int x, int y)
 
 void CN3UIBase::SetPosCenter()
 {
-	POINT pt = this->GetPos();
-	RECT rc = this->GetRegion();
-	int iW = rc.right - rc.left;
-	int iH = rc.bottom - rc.top;
-	int iWVP = CN3Base::s_CameraData.vp.Width;
-	int iHVP = CN3Base::s_CameraData.vp.Height;
+	const POINT pt = this->GetPos();
+	const RECT rc = this->GetRegion();
+	const int iW = rc.right - rc.left;
+	const int iH = rc.bottom - rc.top;
+	const int iWVP = CN3Base::s_CameraData.vp.Width;
+	const int iHVP = CN3Base::s_CameraData.vp.Height;
 
 	// 움직인 차이 구하기
 	MoveOffset(((iWVP - iW) / 2) - pt.x, ((iHVP - iH) / 2) - pt.y);
@@ -376,7 +376,7 @@ DWORD CN3UIBase::MouseProc(DWORD dwFlags, const POINT& ptCur, const POINT& ptOld
 	for(auto itor = m_Children.begin(); m_Children.end() != itor; ++itor)
 	{
 		CN3UIBase* pChild = (*itor);
-		DWORD dwChildRet = pChild->MouseProc(dwFlags, ptCur, ptOld);
+		const DWORD dwChildRet = pChild->MouseProc(dwFlags, ptCur, ptOld);
 		if (UI_MOUSEPROC_DONESOMETHING & dwChildRet)
 		{	// 이경우에는 먼가 포커스를 받은 경우이다.
 			// (아래 코드는 dialog를 관리하는 곳에서 해야 한다. 따라서 막아놓음)
@@ -481,7 +481,7 @@ void CN3UIBase::operator = (const CN3UIBase& other)
 	Init(nullptr);	// 일단 부모는 없게 초기화
 
 	auto it = other.m_Children.begin();
-	auto itEnd = other.m_Children.end();
+	const auto itEnd = other.m_Children.end();
 	CN3UIBase* pOtherChild = nullptr;
 	CN3UIBase* pChild = nullptr;
 	for(; it != itEnd; it++)

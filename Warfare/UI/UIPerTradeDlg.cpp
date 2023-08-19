@@ -76,7 +76,7 @@ void CUIPerTradeDlg::Release()
 void CUIPerTradeDlg::Render()
 {
 	if (!m_bVisible) return;	// 보이지 않으면 자식들을 render하지 않는다.
-	POINT ptCur = CGameProcedure::s_pLocalInput->MouseGetPos();
+	const POINT ptCur = CGameProcedure::s_pLocalInput->MouseGetPos();
 	m_pUITooltipDlg->DisplayTooltipsDisable();
 
 	bool bTooltipRender = false;
@@ -191,7 +191,7 @@ void CUIPerTradeDlg::Render()
 
 void CUIPerTradeDlg::InitIconWnd(e_UIWND eWnd)
 {
-	__TABLE_UI_RESRC* pTblUI = CGameBase::s_pTbl_UI->Find(CGameBase::s_pPlayer->m_InfoBase.eNation);
+	const __TABLE_UI_RESRC* pTblUI = CGameBase::s_pTbl_UI->Find(CGameBase::s_pPlayer->m_InfoBase.eNation);
 
 	m_pUITooltipDlg = new CUIImageTooltipDlg();
 	m_pUITooltipDlg->Init(this);
@@ -202,7 +202,7 @@ void CUIPerTradeDlg::InitIconWnd(e_UIWND eWnd)
 	CN3UIWndBase::InitIconWnd(eWnd);
 
 	// 내 결정 버튼 보통 상태로..
-	std::string szFN = "btn_trade_my";
+	const std::string szFN = "btn_trade_my";
 	CN3UIButton* pButton;
 	pButton = (CN3UIButton* )GetChildButtonByName(szFN);
 	if(pButton) pButton->SetState(UI_STATE_BUTTON_NORMAL);
@@ -244,7 +244,7 @@ void CUIPerTradeDlg::LeavePerTradeState()
 	// 변수 클리어..
 	for(auto i = 0; i < MAX_ITEM_PER_TRADE; i++ )	m_iBackupiOrder[i] = -1;
 	// 내 결정 버튼 보통 상태로..
-	std::string szFN = "btn_trade_my";
+	const std::string szFN = "btn_trade_my";
 	CN3UIButton* pButton;
 	pButton = (CN3UIButton* )GetChildButtonByName(szFN);
 	if(pButton) pButton->SetState(UI_STATE_BUTTON_NORMAL);
@@ -263,7 +263,7 @@ void CUIPerTradeDlg::EnterPerTradeState()
 	for(auto i = 0; i < MAX_ITEM_PER_TRADE; i++ )	m_iBackupiOrder[i] = -1;
 
 	// 내 결정 버튼 보통 상태로..
-	std::string szFN = "btn_trade_my";
+	const std::string szFN = "btn_trade_my";
 	CN3UIButton* pButton;
 	pButton = (CN3UIButton* )GetChildButtonByName(szFN);
 	if(pButton) pButton->SetState(UI_STATE_BUTTON_NORMAL);
@@ -389,7 +389,7 @@ void CUIPerTradeDlg::ItemMoveFromThisToInv()
 
 void CUIPerTradeDlg::ItemCountOK()
 {
-	int iGold = CN3UIWndBase::m_pCountableItemEdit->GetQuantity();
+	const int iGold = CN3UIWndBase::m_pCountableItemEdit->GetQuantity();
 
 	__IconItemSkill* spItem, *spItemNew = nullptr;
 	spItem = m_pPerTradeInv[CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceStart.iOrder];
@@ -399,7 +399,7 @@ void CUIPerTradeDlg::ItemCountOK()
 
 	CN3UIWndBase::m_sRecoveryJobInfo.m_bWaitFromServer	= true;
 	m_iBackupiCount = iGold;	// 전에 옮긴 화살등의 갯수..
-	int iOffset = spItem->iCount - iGold;
+	const int iOffset = spItem->iCount - iGold;
 
 	// Sound..
 	if (spItem) PlayItemSound(spItem->pItemBasic);
@@ -612,7 +612,7 @@ bool CUIPerTradeDlg::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 
 			// 아이콘 리소스 만들기..
 			spItemNew->pUIIcon		= new CN3UIIcon;
-			float fUVAspect			= (float)45.0f/(float)64.0f;
+			const float fUVAspect			= (float)45.0f/(float)64.0f;
 			spItemNew->pUIIcon->Init(this); 
 			spItemNew->pUIIcon->SetTex(spItemNew->szIconFN);
 			spItemNew->pUIIcon->SetUVRect(0,0, fUVAspect, fUVAspect);
@@ -625,7 +625,7 @@ bool CUIPerTradeDlg::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 			{
 				spItemNew->pUIIcon->SetRegion(pArea->GetRegion());
 				// 움직일 수 없다..
-				RECT rect = { 0, 0, 0, 0 };
+				const RECT rect = { 0, 0, 0, 0 };
 				spItemNew->pUIIcon->SetMoveRect(rect);
 			}
 
@@ -735,7 +735,7 @@ DWORD CUIPerTradeDlg::MouseProc(DWORD dwFlags, const POINT& ptCur, const POINT& 
 
 int	CUIPerTradeDlg::GetItemiOrder(__IconItemSkill* spItem, e_UIWND_DISTRICT eWndDist)
 {
-	int iReturn = -1;
+	const int iReturn = -1;
 	int i;
 
 	switch ( eWndDist )
@@ -756,7 +756,7 @@ RECT CUIPerTradeDlg::GetSampleRect()
 {
 	RECT rect;
 	CN3UIArea* pArea;
-	POINT ptCur = CGameProcedure::s_pLocalInput->MouseGetPos();
+	const POINT ptCur = CGameProcedure::s_pLocalInput->MouseGetPos();
 	pArea = CN3UIWndBase::GetChildAreaByiOrder(UI_AREA_TYPE_PER_TRADE_MY, 0);
 	rect = pArea->GetRegion();
 	float fWidth = rect.right - rect.left;
@@ -799,7 +799,7 @@ bool CUIPerTradeDlg::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 	__IconItemSkill* spItem = nullptr;
 	int iOrder;
 
-	DWORD dwBitMask = 0x000f0000;
+const DWORD dwBitMask = 0x000f0000;
 
 	switch (dwMsg & dwBitMask)
 	{

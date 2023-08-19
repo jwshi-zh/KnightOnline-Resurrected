@@ -196,7 +196,7 @@ void CN3Mesh::Create_Cube(__Vector3 &vMin, __Vector3 &vMax)
 
 	__Vector3 vPs[6];
 	__Vector3 vN;
-	float fTUVs[6][2] = { 0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1 };
+	const float fTUVs[6][2] = { 0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1 };
 
 	int i = 0;
 
@@ -282,7 +282,7 @@ void CN3Mesh::Create_Axis(float fLength)
 bool CN3Mesh::Import(CN3PMesh* pPMesh)
 {
 	if(nullptr == pPMesh) return false;
-	int iNumIndices = pPMesh->GetMaxNumIndices();
+	const int iNumIndices = pPMesh->GetMaxNumIndices();
 	if (0 >= iNumIndices) return false;
 	Release();	// 초기화
 
@@ -295,8 +295,8 @@ bool CN3Mesh::Import(CN3PMesh* pPMesh)
 	Create(PMeshInstance.GetNumVertices(), PMeshInstance.GetNumIndices());
 
 	// vertex index buffer 복사
-	__VertexT1* pVertices = PMeshInstance.GetVertices();
-	WORD* pIndices = PMeshInstance.GetIndices();
+	const __VertexT1* pVertices = PMeshInstance.GetVertices();
+	const WORD* pIndices = PMeshInstance.GetIndices();
 	memcpy(m_pVertices, pVertices, sizeof(__VertexT1)*m_nVC);
 	memcpy(m_psnIndices, pIndices, sizeof(WORD)*m_nIC);
 

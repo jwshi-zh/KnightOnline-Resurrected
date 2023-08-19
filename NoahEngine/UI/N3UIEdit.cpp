@@ -56,7 +56,7 @@ void CN3UIEdit::CN3Caret::Render(LPDIRECT3DDEVICE9	lpD3DDev)
 	if (FALSE == m_bVisible) return;
 
 	// 깜박임 처리..
-	float fTime = CN3Base::TimeGet();
+	const float fTime = CN3Base::TimeGet();
 	if(fTime - m_fFlickerTimePrev > CARET_FLICKERING_TIME)
 	{
 		m_bFlickerStatus = !m_bFlickerStatus;
@@ -99,7 +99,7 @@ BOOL CN3UIEdit::CreateEditWindow(HWND hParent, RECT rect)
 	::SendMessage(s_hWndEdit, WM_SETFONT, (WPARAM)hFont, MAKELPARAM(TRUE, 0));
 
 	// 배경 지우기...??
-	HDC hDC = GetDC(s_hWndEdit);
+	const HDC hDC = GetDC(s_hWndEdit);
 	SetBkMode(hDC, TRANSPARENT);
 	SetROP2(hDC, R2_XORPEN);
 	ReleaseDC(s_hWndEdit, hDC);
@@ -486,11 +486,11 @@ bool CN3UIEdit::SetFocus()
 	{
 		::SetFocus(s_hWndEdit);
 
-		RECT rcEdit = GetRegion();
-		int iX		= rcEdit.left;
-		int iY		= rcEdit.top;
-		int iH		= rcEdit.bottom - rcEdit.top;
-		int iW		= rcEdit.right - rcEdit.left;
+		const RECT rcEdit = GetRegion();
+		const int iX		= rcEdit.left;
+		const int iY		= rcEdit.top;
+		const int iH		= rcEdit.bottom - rcEdit.top;
+		const int iW		= rcEdit.right - rcEdit.left;
 		::MoveWindow(s_hWndEdit, iX, iY, iW, iH, false);
 		
 		if(UISTYLE_EDIT_PASSWORD & m_dwStyle)
@@ -531,7 +531,7 @@ void CN3UIEdit::SetCaretPos(UINT nPos)
 	SIZE size = {0,0};
 	if (!szBuff.empty() && m_pBuffOutRef ) m_pBuffOutRef->GetTextExtent(szBuff, m_nCaretPos, &size) ;
 
-	int iRegionWidth = m_rcRegion.right - m_rcRegion.left;
+	const int iRegionWidth = m_rcRegion.right - m_rcRegion.left;
 	if (size.cx > iRegionWidth) size.cx = iRegionWidth;
 	s_Caret.SetPos(m_pBuffOutRef->m_ptDrawPos.x + size.cx, m_pBuffOutRef->m_ptDrawPos.y);
 }
@@ -565,7 +565,7 @@ BOOL CN3UIEdit::IsHangulMiddleByte( const char* lpszStr, int iPos )
 {
     if( !lpszStr ) return FALSE;
     if (iPos <= 0) return FALSE;
-    int nLength = lstrlen(lpszStr);
+    const int nLength = lstrlen(lpszStr);
     if (iPos >= nLength) return FALSE;
     if (!(lpszStr[iPos] & 0x80))
         return FALSE;
@@ -627,7 +627,7 @@ void CN3UIEdit::SetString(const std::string& szString)
 			m_szPassword = szString;
 			if (!szString.empty())
 			{
-				std::string szNewBuff(szString.size(), '*');
+				const std::string szNewBuff(szString.size(), '*');
 				m_pBuffOutRef->SetString(szNewBuff);
 			}
 			else m_pBuffOutRef->SetString("");
@@ -639,7 +639,7 @@ void CN3UIEdit::SetString(const std::string& szString)
 	}
 
 	const std::string& szTempStr = m_pBuffOutRef->GetString();
-	int iStrLen = szTempStr.size();
+	const int iStrLen = szTempStr.size();
 	if (m_nCaretPos > iStrLen) SetCaretPos(iStrLen);
 }
 
@@ -745,8 +745,8 @@ void CN3UIEdit::UpdateCaretPosFromEditCtrl()
 		ReleaseDC(s_hWndEdit, hDC);
 	}
 */
-	int iTmp = ::SendMessage(s_hWndEdit, EM_GETSEL, 0, 0);
-	int iCaret = LOWORD(iTmp);
+	const int iTmp = ::SendMessage(s_hWndEdit, EM_GETSEL, 0, 0);
+	const int iCaret = LOWORD(iTmp);
 	int iCTmp2 = HIWORD(iTmp);
 	s_pFocusedEdit->SetCaretPos(iCaret);
 }
@@ -754,10 +754,10 @@ void CN3UIEdit::UpdateCaretPosFromEditCtrl()
 void CN3UIEdit::SetImeStatus(POINT ptPos, bool bOpen)
 {
 #ifndef _N3TOOL
-	HKL hHKL = GetKeyboardLayout(0);
+	const HKL hHKL = GetKeyboardLayout(0);
 	if(ImmIsIME(hHKL))
 	{
-		HIMC hImc = ImmGetContext(s_hWndEdit);
+		const HIMC hImc = ImmGetContext(s_hWndEdit);
 		if(bOpen)
 		{
 			SendMessage(s_hWndEdit, WM_IME_NOTIFY, IMN_OPENSTATUSWINDOW, 0);

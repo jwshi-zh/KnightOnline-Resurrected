@@ -18,7 +18,7 @@ CN3ShapeMgr::CN3ShapeMgr()
 CN3ShapeMgr::~CN3ShapeMgr()
 {
 #ifndef _3DSERVER
-	int iSC = m_Shapes.size();
+	const int iSC = m_Shapes.size();
 	for(int i = 0; i < iSC; i++) delete m_Shapes[i];
 	m_Shapes.clear();
 #endif // end of #ifndef _3DSERVER
@@ -65,7 +65,7 @@ void CN3ShapeMgr::Release()
 #ifndef _3DSERVER
 void CN3ShapeMgr::ReleaseShapes()
 {
-	int iSC = m_Shapes.size();
+	const int iSC = m_Shapes.size();
 	for(int i = 0; i < iSC; i++) delete m_Shapes[i];
 	m_Shapes.clear();
 	m_ShapesHaveID.clear();
@@ -601,7 +601,7 @@ void CN3ShapeMgr::Tick()
 	int zMainS = (int)((s_CameraData.vEye.z - s_CameraData.fFP) / CELL_MAIN_SIZE); if (zMainS < 0) zMainS = 0;
 	int zMainE = (int)((s_CameraData.vEye.z + s_CameraData.fFP) / CELL_MAIN_SIZE); if (zMainE > MAX_CELL_MAIN) zMainE = MAX_CELL_MAIN;
 
-	__CellMain* pCellCur = nullptr;
+	const __CellMain* pCellCur = nullptr;
 	int i = 0, iShp = 0, iSIndex = 0, iSC = m_Shapes.size();;
 	m_ShapesToRender.clear();
 	// 렌더링 리스트 비우고..
@@ -613,7 +613,7 @@ void CN3ShapeMgr::Tick()
 			pCellCur = m_pCells[xM][zM];
 			if (nullptr == pCellCur) continue;
 
-			int iSCC = pCellCur->nShapeCount;
+			const int iSCC = pCellCur->nShapeCount;
 			for (auto i = 0; i < iSCC; i++)
 			{
 				iSIndex = pCellCur->pwShapeIndices[i];
@@ -633,7 +633,7 @@ void CN3ShapeMgr::Tick()
 void CN3ShapeMgr::Render()
 {
 	CN3Shape* pShpCur = nullptr;
-	auto itEnd = m_ShapesToRender.end();
+	const auto itEnd = m_ShapesToRender.end();
 	for (auto it = m_ShapesToRender.begin(); it != itEnd; it++)
 	{
 		pShpCur = *it;
@@ -656,12 +656,12 @@ bool CN3ShapeMgr::CheckCollision(const __Vector3& vPos,		// 충돌 위치
 {
 	if (fSpeedPerSec <= 0) return false; // 움직이는 속도가 없거나 반대로 움직이면 넘어간다..
 	static __CellSub* ppCells[128];
-	__Vector3 vPosNext = vPos + (vDir * fSpeedPerSec); // 다음 위치
+	const __Vector3 vPosNext = vPos + (vDir * fSpeedPerSec); // 다음 위치
 
 	int iSubCellCount = 0;
 	if (fSpeedPerSec < 4.0f)
 	{
-		__Vector3 vPos2 = vPos + (vDir * 4.0f);
+		const __Vector3 vPos2 = vPos + (vDir * 4.0f);
 		iSubCellCount = this->SubCellPathThru(vPos, vPos2, 128, ppCells); // 통과하는 서브셀을 가져온다..
 	}
 	else
@@ -762,12 +762,12 @@ bool CN3ShapeMgr::CheckCollision(const __Vector3& vPos,		// 충돌 위치
 bool CN3ShapeMgr::CheckCollisionCamera(__Vector3& vEyeResult, const __Vector3& vAt, float fNP)
 {
 	__Vector3 vDir = vEyeResult - vAt;
-	float fD = vDir.Magnitude();
+	const float fD = vDir.Magnitude();
 	vDir.Normalize();
 	__Vector3 vCol(0, 0, 0);
 	if (false == this->CheckCollision(vAt, vDir, fD, &vCol)) return false;
 
-	float fDelta = (vEyeResult - vCol).Magnitude(); // 충돌점과 처다보는 거리를 재보고..
+	const float fDelta = (vEyeResult - vCol).Magnitude(); // 충돌점과 처다보는 거리를 재보고..
 	if (fDelta < fNP * 2.0f) return false; // 너무 가까이 붙으면 돌아간다..
 
 	vEyeResult -= vDir * fDelta;
@@ -804,7 +804,7 @@ void CN3ShapeMgr::RenderCollision(__Vector3& vPos)
 	for (auto i = 0; i < 9; i++)
 	{
 		if (nullptr == ppCell[i] || ppCell[i]->nCCPolyCount <= 0) continue;
-		int nFC = ppCell[i]->nCCPolyCount;
+		const int nFC = ppCell[i]->nCCPolyCount;
 		int n0, n1, n2;
 		__VertexColor vCols[4];
 		__VertexColor vNormalDir[2];
@@ -847,7 +847,7 @@ CN3Shape* CN3ShapeMgr::Pick(int iXScreen, int iYScreen, bool bMustHaveEvent, __V
 	::_Convert2D_To_3DCoordinate(iXScreen, iYScreen, s_CameraData.mtxView, s_CameraData.mtxProjection, s_CameraData.vp, vPos, vDir);
 
 	auto it = m_ShapesToRender.begin(), itEnd = m_ShapesToRender.end(); // 눈에 보이는것만 대상으로 해서...
-	int iSC = m_ShapesToRender.size();
+	const int iSC = m_ShapesToRender.size();
 
 	// 거리순으로 정렬..
 	std::vector<CN3Shape*> Shapes(iSC, nullptr);
@@ -874,7 +874,7 @@ CN3Shape* CN3ShapeMgr::PickMovable(int iXScreen, int iYScreen, __Vector3* pvPick
 	::_Convert2D_To_3DCoordinate(iXScreen, iYScreen, s_CameraData.mtxView, s_CameraData.mtxProjection, s_CameraData.vp, vPos, vDir);
 
 	auto it = m_ShapesToRender.begin(), itEnd = m_ShapesToRender.end(); // 눈에 보이는것만 대상으로 해서...
-	int iSC = m_ShapesToRender.size();
+	const int iSC = m_ShapesToRender.size();
 
 	// 거리순으로 정렬..
 	std::vector<CN3Shape*> Shapes(iSC, nullptr);
@@ -909,11 +909,11 @@ CN3Shape* CN3ShapeMgr::ShapeGetByID(int iID)
 #ifndef _3DSERVER
 int CN3ShapeMgr::SortByCameraDistance(const void* pArg1, const void* pArg2)
 {
-	CN3Shape* pShape1 = *((CN3Shape**)pArg1);
-	CN3Shape* pShape2 = *((CN3Shape**)pArg2);
+	const CN3Shape* pShape1 = *((CN3Shape**)pArg1);
+	const CN3Shape* pShape2 = *((CN3Shape**)pArg2);
 
-	float fDist1 = (CN3Base::s_CameraData.vEye - pShape1->Pos()).Magnitude();
-	float fDist2 = (CN3Base::s_CameraData.vEye - pShape2->Pos()).Magnitude();
+	const float fDist1 = (CN3Base::s_CameraData.vEye - pShape1->Pos()).Magnitude();
+	const float fDist2 = (CN3Base::s_CameraData.vEye - pShape2->Pos()).Magnitude();
 
 	if (fDist1 < fDist2) return -1; // 가까우면 true;
 	else if (fDist1 > fDist2) return 1;
@@ -964,7 +964,7 @@ int CN3ShapeMgr::SubCellPathThru(const __Vector3& vFrom, const __Vector3& vAt, i
 			else if ((dwOC0 == 0 && dwOC1 != 0) || (dwOC0 != 0 && dwOC1 == 0)) bPathThru = true;// 선분 한점은 셀의 내부에 한점은 외부에 있음.
 			else if ((dwOC0 & dwOC1) == 0) // 두 L점 모두 셀 외부에 있지만 판단을 다시 해야 한다.
 			{
-				float fXCross = vFrom.x + (fZMax - vFrom.z) * (vAt.x - vFrom.x) / (vAt.z - vFrom.z); // 위의 변과의 교차점을 계산하고..
+				const float fXCross = vFrom.x + (fZMax - vFrom.z) * (vAt.x - vFrom.x) / (vAt.z - vFrom.z); // 위의 변과의 교차점을 계산하고..
 				if (fXCross < fXMin) bPathThru = false; // 완전히 외곽에 있다.
 				else bPathThru = true; // 걸처있다.
 			}
@@ -972,13 +972,13 @@ int CN3ShapeMgr::SubCellPathThru(const __Vector3& vFrom, const __Vector3& vAt, i
 			if (false == bPathThru) continue;
 
 			// 충돌 정보를 써야 한다..
-			int nX = x / CELL_MAIN_DEVIDE;
-			int nZ = z / CELL_MAIN_DEVIDE;
+			const int nX = x / CELL_MAIN_DEVIDE;
+			const int nZ = z / CELL_MAIN_DEVIDE;
 			if (nX < 0 || nX >= MAX_CELL_MAIN || nZ < 0 && nZ >= MAX_CELL_MAIN) continue; // 메인셀바깥에 있음 지나간다.
 			if (nullptr == m_pCells[nX][nZ]) continue; // 메인셀이 널이면 지나간다..
 
-			int nXSub = x % CELL_MAIN_DEVIDE;
-			int nZSub = z % CELL_MAIN_DEVIDE;
+			const int nXSub = x % CELL_MAIN_DEVIDE;
+			const int nZSub = z % CELL_MAIN_DEVIDE;
 
 			ppSubCells[iSubCellCount] = &(m_pCells[nX][nZ]->SubCells[nXSub][nZSub]);
 			iSubCellCount++;
@@ -992,11 +992,11 @@ int CN3ShapeMgr::SubCellPathThru(const __Vector3& vFrom, const __Vector3& vAt, i
 
 float CN3ShapeMgr::GetHeightNearstPos(const __Vector3& vPos, float fDist, __Vector3* pvNormal) // 가장 가까운 높이값을 돌려준다. 없으면 -FLT_MAX 을 돌려준다.
 {
-	__CellSub* pCell = this->SubCell(vPos.x, vPos.z); // 서브셀을 가져온다..
+	const __CellSub* pCell = this->SubCell(vPos.x, vPos.z); // 서브셀을 가져온다..
 	if (nullptr == pCell || pCell->nCCPolyCount <= 0) return -FLT_MAX; // 없음 말자.
 
 	__Vector3 vPosV = vPos; vPosV.y = 5000.0f; // 꼭대기에 위치를 하고..
-	__Vector3 vDir(0, -1, 0); // 수직 방향 벡터
+	const __Vector3 vDir(0, -1, 0); // 수직 방향 벡터
 	__Vector3 vColTmp(0, 0, 0); // 최종적으로 가장 가까운 충돌 위치..
 
 	int nIndex0, nIndex1, nIndex2;
@@ -1032,11 +1032,11 @@ float CN3ShapeMgr::GetHeightNearstPos(const __Vector3& vPos, float fDist, __Vect
 
 float CN3ShapeMgr::GetHeight(float fX, float fZ, __Vector3* pvNormal) // 가장 높은 곳을 돌려준다.. 없으면 -FLT_MAX값을 돌려준다.
 {
-	__CellSub* pCell = this->SubCell(fX, fZ); // 서브셀을 가져온다..
+	const __CellSub* pCell = this->SubCell(fX, fZ); // 서브셀을 가져온다..
 	if (nullptr == pCell || pCell->nCCPolyCount <= 0) return -FLT_MAX; // 없음 말자.
 
-	__Vector3 vPosV(fX, 5000.0f, fZ); // 꼭대기에 위치를 하고..
-	__Vector3 vDir(0, -1, 0); // 수직 방향 벡터
+	const __Vector3 vPosV(fX, 5000.0f, fZ); // 꼭대기에 위치를 하고..
+	const __Vector3 vDir(0, -1, 0); // 수직 방향 벡터
 	__Vector3 vColTmp(0, 0, 0); // 최종적으로 가장 가까운 충돌 위치..
 
 	int nIndex0, nIndex1, nIndex2;
@@ -1069,14 +1069,14 @@ float CN3ShapeMgr::GetHeight(float fX, float fZ, __Vector3* pvNormal) // 가장 
 
 void CN3ShapeMgr::SubCell(const __Vector3& vPos, __CellSub** ppSubCell)			// 해당 위치의 셀 포인터를 돌려준다.
 {
-	int x = (int)(vPos.x / CELL_MAIN_SIZE);
-	int z = (int)(vPos.z / CELL_MAIN_SIZE);
+	const int x = (int)(vPos.x / CELL_MAIN_SIZE);
+	const int z = (int)(vPos.z / CELL_MAIN_SIZE);
 
 	__ASSERT(x >= 0 && x < MAX_CELL_MAIN && z >= 0 && z < MAX_CELL_MAIN, "Invalid cell number");
 	if (x < 0 || x >= MAX_CELL_MAIN || z < 0 || z >= MAX_CELL_MAIN) return;
 
-	int xx = (((int)vPos.x) % CELL_MAIN_SIZE) / CELL_SUB_SIZE;			// 2, 3, 4
-	int zz = (((int)vPos.z) % CELL_MAIN_SIZE) / CELL_SUB_SIZE;			// 1, 0, 5
+	const int xx = (((int)vPos.x) % CELL_MAIN_SIZE) / CELL_SUB_SIZE;			// 2, 3, 4
+	const int zz = (((int)vPos.z) % CELL_MAIN_SIZE) / CELL_SUB_SIZE;			// 1, 0, 5
 	// 8, 7, 6	
 	for (auto i = 0; i < 9; i++)
 	{

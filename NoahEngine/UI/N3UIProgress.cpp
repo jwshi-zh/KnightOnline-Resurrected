@@ -78,7 +78,7 @@ void CN3UIProgress::SetStyle(DWORD dwStyle)
 void CN3UIProgress::UpdateFrGndImage() const
 {
 	if (nullptr == m_pFrGndImgRef) return;
-	int iDiff = m_iMaxValue - m_iMinValue;
+	const int iDiff = m_iMaxValue - m_iMinValue;
 	if (0 == iDiff) return;
 	const float fPercentage = ((float)(m_fCurValue - m_iMinValue)) / ((float)(m_iMaxValue - m_iMinValue));
 
@@ -159,7 +159,7 @@ bool CN3UIProgress::Load(HANDLE hFile)
 	{
 		CN3UIBase* pChild = (*itor);
 		if (UI_TYPE_IMAGE != pChild->UIType()) continue;	// image만 골라내기
-		int iImageType = (int)(pChild->GetReserved());
+		const int iImageType = (int)(pChild->GetReserved());
 		if (iImageType == IMAGETYPE_BKGND)
 		{
 			m_pBkGndImgRef = (CN3UIImage*)pChild;

@@ -193,10 +193,10 @@ void CN3Joint::ChildAdd(CN3Joint *pChild)
 	__ASSERT(pChild, "Child joint pointer is NULL!");
 
 	auto it = m_Children.begin();
-	int iSize = m_Children.size();
+	const int iSize = m_Children.size();
 	for(int i = 0; i < iSize; i++, it++)
 	{
-		CN3Joint* pChild2 = *it;
+		const CN3Joint* pChild2 = *it;
 		if(pChild2 == pChild) return;
 	}
 
@@ -237,7 +237,7 @@ void CN3Joint::NodeCount(int &nCount)
 	nCount++;
 
 	auto it = m_Children.begin();
-	int iSize = m_Children.size();
+	const int iSize = m_Children.size();
 	for(int i = 0; i < iSize; i++, it++)
 	{
 		CN3Joint* pChild = *it;
@@ -284,7 +284,7 @@ BOOL CN3Joint::FindPointerByID(int nID, CN3Joint *&pJoint)
 	stnID++;
 
 	auto it = m_Children.begin();
-	int iSize = m_Children.size();
+	const int iSize = m_Children.size();
 	for(int i = 0; i < iSize; i++, it++)
 	{
 		CN3Joint* pChild = *it;
@@ -333,7 +333,7 @@ void CN3Joint::Tick(float fFrm)
 	CN3Joint::ReCalcMatrix();
 
 	auto it = m_Children.begin();
-	int iSize = m_Children.size();
+	const int iSize = m_Children.size();
 	for(int i = 0; i < iSize; i++, it++)
 	{
 		CN3Joint* pChild = *it;
@@ -400,7 +400,7 @@ void CN3Joint::MatricesGet(__Matrix44 *pMtxs, int &nJointIndex)
 	nJointIndex++;
 
 	auto it = m_Children.begin();
-	int iSize = m_Children.size();
+	const int iSize = m_Children.size();
 	for(int i = 0; i < iSize; i++, it++)
 	{
 		CN3Joint* pChild = *it;
@@ -415,7 +415,7 @@ void CN3Joint::ReCalcMatrixBlended(float fFrm0, float fFrm1, float fWeight0)
 	static __Vector3 v1, v2;
 	static __Quaternion qt1, qt2;
 	int nKC = 0, nFrm0 = (int)fFrm0, nFrm1 = (int)fFrm1;
-	float fWeight1 = 1.0f - fWeight0;
+const float fWeight1 = 1.0f - fWeight0;
 
 	bool bHaveKey1 = m_KeyPos.DataGet(fFrm0, v1);
 	bool bHaveKey2 = m_KeyPos.DataGet(fFrm1, v2);

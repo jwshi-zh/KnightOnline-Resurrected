@@ -15,14 +15,14 @@ CUINationSelectDlg::~CUINationSelectDlg()
 
 bool CUINationSelectDlg::Load(HANDLE hFile)
 {
-	bool bSuccess = CN3UIBase::Load(hFile);
+	const bool bSuccess = CN3UIBase::Load(hFile);
 
 	m_pBtnKarus = this->GetChildByID("bt_karus");	__ASSERT(m_pBtnKarus, "NULL UI Component!!");
 	m_pBtnElmorad = this->GetChildByID("bt_elmo");	__ASSERT(m_pBtnElmorad, "NULL UI Component!!");
-	
-	RECT rc = this->GetRegion();
-	int iX = ((int)s_CameraData.vp.Width - (rc.right - rc.left))/2;
-	int iY = ((int)s_CameraData.vp.Height - (rc.bottom - rc.top))/2;
+
+	const RECT rc = this->GetRegion();
+	const int iX = ((int)s_CameraData.vp.Width - (rc.right - rc.left))/2;
+	const int iY = ((int)s_CameraData.vp.Height - (rc.bottom - rc.top))/2;
 	this->SetPos(iX, iY);
 
 	return bSuccess;

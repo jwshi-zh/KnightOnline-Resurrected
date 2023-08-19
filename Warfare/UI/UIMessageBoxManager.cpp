@@ -21,7 +21,7 @@ int CUIMessageBoxManager::GetCount() const
 std::string CUIMessageBoxManager::MessageBoxPost(const std::string& szMsg, const std::string& szTitle, int iStyle, e_Behavior eBehavior)
 {
 	CUIMessageBox*		pMB		= nullptr;
-	__TABLE_UI_RESRC*	pTblUI	= nullptr;
+	const __TABLE_UI_RESRC*	pTblUI	= nullptr;
 
 	auto it		= m_UBMs.find(szMsg);
 	auto it_e	= m_UBMs.end();
@@ -43,7 +43,7 @@ std::string CUIMessageBoxManager::MessageBoxPost(const std::string& szMsg, const
 		pMB = it->second;
 	}
 
-	RECT rt = pMB->GetRegion();
+	const RECT rt = pMB->GetRegion();
 	POINT pt;
 	pt.x = (CN3Base::s_CameraData.vp.Width - (rt.right - rt.left)) / 2;
 	pt.y = (CN3Base::s_CameraData.vp.Height - (rt.bottom - rt.top)) / 2;
@@ -81,8 +81,8 @@ std::string CUIMessageBoxManager::MessageBoxPost(const std::string& szMsg, const
 
 void CUIMessageBoxManager::MessageBoxClose(const std::string& szMsg)
 {
-	auto it_f = m_UBMs.find(szMsg);
-	auto it_e = m_UBMs.end();
+	const auto it_f = m_UBMs.find(szMsg);
+	const auto it_e = m_UBMs.end();
 
 	if(it_f != it_e)
 	{

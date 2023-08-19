@@ -59,7 +59,7 @@ bool CN3FXParticle::Tick()
 	m_vWdPos = m_vCreatePoint + (m_vLcPos*mtxRot);
 	m_vWdPos.y -= m_fDropY;
 
-	__Matrix44 mtxVI = m_pRefParent->m_mtxVI;
+	const __Matrix44 mtxVI = m_pRefParent->m_mtxVI;
 
 	m_pVB = &(m_pRefParent->m_pVB[m_iID]);
 

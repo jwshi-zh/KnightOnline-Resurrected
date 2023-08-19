@@ -29,7 +29,7 @@ void CN3Star::Tick()
 	fSec += s_fSecPerFrm;
 	if (fSec > m_fAddTime)
 	{
-		int iCount = (int)(fSec/m_fAddTime);
+		const int iCount = (int)(fSec/m_fAddTime);
 		fSec -= m_fAddTime*iCount;
 		if (m_bIncrease)
 		{
@@ -74,9 +74,9 @@ void CN3Star::Init()
 
 	int i;
 	BYTE alpha = 0xff;
-	BYTE alpha_min = 0x80;
-	BYTE alpha_max = 0xff;
-	float fInc = ((float)(alpha_max - alpha_min))/MAX_STAR;
+	const BYTE alpha_min = 0x80;
+	const BYTE alpha_max = 0xff;
+	const float fInc = ((float)(alpha_max - alpha_min))/MAX_STAR;
 	for (i=0; i<MAX_STAR; ++i)
 	{
 		float fX = ((float)(rand()%10000))/1000.f - 5.0f;
@@ -108,7 +108,7 @@ void CN3Star::SetStar(int iNum, float fSec)
 		return;
 	}
 
-	int iDiff = m_iNextNumStar - m_iCurNumStar;
+	const int iDiff = m_iNextNumStar - m_iCurNumStar;
 	if (0 == iDiff) return;
 	else if (iDiff>0)
 	{

@@ -67,8 +67,8 @@ void CUIWarp::InfoAdd(const __WarpInfo& WI)
 int CUIWarp::InfoGetCur(__WarpInfo& WI)
 {
 	if(nullptr == m_pList_Infos) return -1;
-	
-	int iSel = m_pList_Infos->GetCurSel();
+
+	const int iSel = m_pList_Infos->GetCurSel();
 	if(iSel < 0 || iSel >= m_ListInfos.size()) return -1;
 
 	auto it = m_ListInfos.begin(), itEnd = m_ListInfos.end();
@@ -96,7 +96,7 @@ void CUIWarp::UpdateList()
 void CUIWarp::UpdateAgreement()
 {
 	if(nullptr == m_pList_Infos || nullptr == m_pText_Agreement) return;
-	int iSel = m_pList_Infos->GetCurSel();
+	const int iSel = m_pList_Infos->GetCurSel();
 	if(iSel < 0 || iSel >= m_ListInfos.size()) return;
 
 	auto it = m_ListInfos.begin();

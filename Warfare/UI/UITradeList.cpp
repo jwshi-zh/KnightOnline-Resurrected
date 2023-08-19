@@ -54,7 +54,7 @@ bool CUITradeList::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 	else if (dwMsg == UIMSG_SCROLLBAR_POS)
 	{
 		// 스크롤바에 맞는 채팅 Line 설정
-		int iCurLinePos = m_pScrollbar->GetCurrentPos();
+		const int iCurLinePos = m_pScrollbar->GetCurrentPos();
 		SetTopLine(iCurLinePos);
 	}
 
@@ -67,9 +67,9 @@ void CUITradeList::Open(int iIDTarget)
 
 	if (iIDTarget == -1) return;
 
-	__TABLE_EXCHANGE_QUEST* pQuest = nullptr;
-	__TABLE_PLAYER_LOOKS* pPlayer = nullptr;
-	__TABLE_ITEM_BASIC* pItem = nullptr;
+	const __TABLE_EXCHANGE_QUEST* pQuest = nullptr;
+	const __TABLE_PLAYER_LOOKS* pPlayer = nullptr;
+	const __TABLE_ITEM_BASIC* pItem = nullptr;
 
 	// 아이디 = 직업 코드*1000 + 001부터.. (직업 코드+1)*100 + 001까지..
 	int i, iIDFirst, iIDIndexFirst, iIDIndexLast, iDivide, iTotalCount;
@@ -150,7 +150,7 @@ void CUITradeList::SetTopLine(int iTopLine) const
 	}
 	iTotalCount = i;
 
-	int iRatio = (int)( ((float)iTopLine)*0.1f*((float)(iTotalCount-9.0f)));
+	const int iRatio = (int)( ((float)iTopLine)*0.1f*((float)(iTotalCount-9.0f)));
 	iFirstIndex = iRatio;
 	iLastIndex  = iRatio + 9;
 	

@@ -163,8 +163,8 @@ DWORD CGrassBoard::SetBrightLevel(float Level) const
 	DWORD Color=0x00ffffff;
 	if(Level>m_fBrightmin)	//	일정거리내만큼 보임
 	{
-		float brightper = (Level-m_fBrightmin)/m_fBrightmax;
-		DWORD alphaColor = 255 - 255*brightper;
+		const float brightper = (Level-m_fBrightmin)/m_fBrightmax;
+		const DWORD alphaColor = 255 - 255*brightper;
 		Color = (alphaColor << 24) | 0x00ffffff;
 	}
 	else Color = 0xffffffff;	//	일정거리안은 완전히 보여줌

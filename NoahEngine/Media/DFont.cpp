@@ -15,10 +15,10 @@ CDFont::CDFont(const std::string& szFontName, DWORD dwHeight, DWORD dwFlags)
 	{
 		s_hDC = CreateCompatibleDC(nullptr);
 		// 임시 폰트를 만들고 s_hFontOld를 얻는다.
-		HFONT hFont			= CreateFont( 0, 0, 0, 0, 0, FALSE,
-							  FALSE, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS,
-							  CLIP_DEFAULT_PRECIS, ANTIALIASED_QUALITY,
-							  VARIABLE_PITCH, "굴림");
+		const HFONT hFont			= CreateFont( 0, 0, 0, 0, 0, FALSE,
+					                               FALSE, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS,
+					                               CLIP_DEFAULT_PRECIS, ANTIALIASED_QUALITY,
+					                               VARIABLE_PITCH, "굴림");
 		if(hFont)
 		{
 			s_hFontOld = (HFONT)(SelectObject( s_hDC, hFont ));
@@ -83,9 +83,9 @@ HRESULT CDFont::SetFont(const std::string& szFontName, DWORD dwHeight, DWORD dwF
 
     // Create a font.  By specifying ANTIALIASED_QUALITY, we might get an
     // antialiased font, but this is not guaranteed.
-	INT nHeight    = -MulDiv( m_dwFontHeight, (INT)(GetDeviceCaps(s_hDC, LOGPIXELSY) * m_fTextScale), 72 );
-	DWORD dwBold	= (m_dwFontFlags&D3DFONT_BOLD)   ? FW_BOLD : FW_NORMAL;
-	DWORD dwItalic	= (m_dwFontFlags&D3DFONT_ITALIC) ? TRUE    : FALSE;
+	const INT nHeight    = -MulDiv( m_dwFontHeight, (INT)(GetDeviceCaps(s_hDC, LOGPIXELSY) * m_fTextScale), 72 );
+	const DWORD dwBold	= (m_dwFontFlags&D3DFONT_BOLD)   ? FW_BOLD : FW_NORMAL;
+	const DWORD dwItalic	= (m_dwFontFlags&D3DFONT_ITALIC) ? TRUE    : FALSE;
     m_hFont			= CreateFont( nHeight, 0, 0, 0, dwBold, dwItalic,
                           FALSE, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS,
                           CLIP_DEFAULT_PRECIS, ANTIALIASED_QUALITY,
@@ -126,10 +126,10 @@ HRESULT CDFont::RestoreDeviceObjects()
 
     // Create a font.  By specifying ANTIALIASED_QUALITY, we might get an
     // antialiased font, but this is not guaranteed.
-    INT nHeight    = -MulDiv( m_dwFontHeight, 
-        (INT)(GetDeviceCaps(s_hDC, LOGPIXELSY) * m_fTextScale), 72 );
-	DWORD dwBold	= (m_dwFontFlags&D3DFONT_BOLD)   ? FW_BOLD : FW_NORMAL;
-	DWORD dwItalic	= (m_dwFontFlags&D3DFONT_ITALIC) ? TRUE    : FALSE;
+    const INT nHeight    = -MulDiv( m_dwFontHeight, 
+                                    (INT)(GetDeviceCaps(s_hDC, LOGPIXELSY) * m_fTextScale), 72 );
+    const DWORD dwBold	= (m_dwFontFlags&D3DFONT_BOLD)   ? FW_BOLD : FW_NORMAL;
+    const DWORD dwItalic	= (m_dwFontFlags&D3DFONT_ITALIC) ? TRUE    : FALSE;
     m_hFont			= CreateFont( nHeight, 0, 0, 0, dwBold, dwItalic,
                           FALSE, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS,
                           CLIP_DEFAULT_PRECIS, ANTIALIASED_QUALITY,
@@ -404,7 +404,7 @@ void CDFont::Make2DVertex(const int iFontHeight, const std::string& szText)
 		return;
 	}
 	if(szText.empty()) return;
-	int iStrLen = szText.size();
+	const int iStrLen = szText.size();
 
 	// lock vertex buffer
 	__VertexTransformed* pVertices = nullptr;
@@ -417,7 +417,7 @@ void CDFont::Make2DVertex(const int iFontHeight, const std::string& szText)
 	int iCount = 0; int iTempCount = 0;
 
 	char	szTempChar[3] = "";
-	DWORD dwColor = 0xffffffff;			// 폰트의 색
+	const DWORD dwColor = 0xffffffff;			// 폰트의 색
 	m_dwFontColor = 0xffffffff;
 	SIZE size;
 
@@ -432,19 +432,21 @@ void CDFont::Make2DVertex(const int iFontHeight, const std::string& szText)
 			// vertex 만들기
 			if (sx != x)
 			{
-				FLOAT tx1 = ((FLOAT)(sx))/m_dwTexWidth;
-				FLOAT ty1 = ((FLOAT)(y))/m_dwTexHeight;
-				FLOAT tx2 = ((FLOAT)(x))/m_dwTexWidth;
-				FLOAT ty2 = ((FLOAT)(y+iFontHeight))/m_dwTexHeight;
+				const FLOAT tx1 = ((FLOAT)(sx))/m_dwTexWidth;
+				const FLOAT ty1 = ((FLOAT)(y))/m_dwTexHeight;
+				const FLOAT tx2 = ((FLOAT)(x))/m_dwTexWidth;
+				const FLOAT ty2 = ((FLOAT)(y+iFontHeight))/m_dwTexHeight;
 
-				FLOAT w = (tx2-tx1) *  m_dwTexWidth / m_fTextScale;
-				FLOAT h = (ty2-ty1) * m_dwTexHeight / m_fTextScale;
+				const FLOAT w = (tx2-tx1) *  m_dwTexWidth / m_fTextScale;
+				const FLOAT h = (ty2-ty1) * m_dwTexHeight / m_fTextScale;
 
 				__ASSERT(dwNumTriangles+2 < MAX_NUM_VERTICES, "??");		// Vertex buffer가 모자란다.
 				if (dwNumTriangles+2 >= MAX_NUM_VERTICES) break;
 
-				FLOAT fLeft = vtx_sx+0-0.5f;	FLOAT fRight  = vtx_sx+w-0.5f;
-				FLOAT fTop  = vtx_sy+0-0.5f;	FLOAT fBottom = vtx_sy+h-0.5f;
+				const FLOAT fLeft = vtx_sx+0-0.5f;
+				const FLOAT fRight  = vtx_sx+w-0.5f;
+				const FLOAT fTop  = vtx_sy+0-0.5f;
+				const FLOAT fBottom = vtx_sy+h-0.5f;
 				pVertices->Set(fLeft , fBottom, Z_DEFAULT, RHW_DEFAULT, dwColor, tx1, ty2 );	++pVertices;
 				pVertices->Set(fLeft , fTop   , Z_DEFAULT, RHW_DEFAULT, dwColor, tx1, ty1 );	++pVertices;
 				pVertices->Set(fRight, fBottom, Z_DEFAULT, RHW_DEFAULT, dwColor, tx2, ty2 );	++pVertices;
@@ -483,19 +485,21 @@ void CDFont::Make2DVertex(const int iFontHeight, const std::string& szText)
 			// vertex 만들기
 			if (sx != x)
 			{
-				FLOAT tx1 = ((FLOAT)(sx))/m_dwTexWidth;
-				FLOAT ty1 = ((FLOAT)(y))/m_dwTexHeight;
-				FLOAT tx2 = ((FLOAT)(x))/m_dwTexWidth;
-				FLOAT ty2 = ((FLOAT)(y+iFontHeight))/m_dwTexHeight;
+				const FLOAT tx1 = ((FLOAT)(sx))/m_dwTexWidth;
+				const FLOAT ty1 = ((FLOAT)(y))/m_dwTexHeight;
+				const FLOAT tx2 = ((FLOAT)(x))/m_dwTexWidth;
+				const FLOAT ty2 = ((FLOAT)(y+iFontHeight))/m_dwTexHeight;
 
-				FLOAT w = (tx2-tx1) *  m_dwTexWidth / m_fTextScale;
-				FLOAT h = (ty2-ty1) * m_dwTexHeight / m_fTextScale;
+				const FLOAT w = (tx2-tx1) *  m_dwTexWidth / m_fTextScale;
+				const FLOAT h = (ty2-ty1) * m_dwTexHeight / m_fTextScale;
 
 				__ASSERT(dwNumTriangles+2 < MAX_NUM_VERTICES, "??");		// Vertex buffer가 모자란다.
 				if (dwNumTriangles+2 >= MAX_NUM_VERTICES) break;
 
-				FLOAT fLeft = vtx_sx+0-0.5f;	FLOAT fRight  = vtx_sx+w-0.5f;
-				FLOAT fTop  = vtx_sy+0-0.5f;	FLOAT fBottom = vtx_sy+h-0.5f;
+				const FLOAT fLeft = vtx_sx+0-0.5f;
+				const FLOAT fRight  = vtx_sx+w-0.5f;
+				const FLOAT fTop  = vtx_sy+0-0.5f;
+				const FLOAT fBottom = vtx_sy+h-0.5f;
 				pVertices->Set(fLeft , fBottom, Z_DEFAULT, RHW_DEFAULT, dwColor, tx1, ty2 );	++pVertices;
 				pVertices->Set(fLeft , fTop   , Z_DEFAULT, RHW_DEFAULT, dwColor, tx1, ty1 );	++pVertices;
 				pVertices->Set(fRight, fBottom, Z_DEFAULT, RHW_DEFAULT, dwColor, tx2, ty2 );	++pVertices;
@@ -526,18 +530,20 @@ void CDFont::Make2DVertex(const int iFontHeight, const std::string& szText)
 	// 마지막 남은 vertex 만들기
 	if (sx != x)
 	{
-		FLOAT tx1 = ((FLOAT)(sx))/m_dwTexWidth;
-		FLOAT ty1 = ((FLOAT)(y))/m_dwTexHeight;
-		FLOAT tx2 = ((FLOAT)(x))/m_dwTexWidth;
-		FLOAT ty2 = ((FLOAT)(y+iFontHeight))/m_dwTexHeight;
+		const FLOAT tx1 = ((FLOAT)(sx))/m_dwTexWidth;
+		const FLOAT ty1 = ((FLOAT)(y))/m_dwTexHeight;
+		const FLOAT tx2 = ((FLOAT)(x))/m_dwTexWidth;
+		const FLOAT ty2 = ((FLOAT)(y+iFontHeight))/m_dwTexHeight;
 
-		FLOAT w = (tx2-tx1) *  m_dwTexWidth / m_fTextScale;
-		FLOAT h = (ty2-ty1) * m_dwTexHeight / m_fTextScale;
+		const FLOAT w = (tx2-tx1) *  m_dwTexWidth / m_fTextScale;
+		const FLOAT h = (ty2-ty1) * m_dwTexHeight / m_fTextScale;
 
 		__ASSERT(dwNumTriangles+2 < MAX_NUM_VERTICES, "??");		// Vertex buffer가 모자란다.
 
-		FLOAT fLeft = vtx_sx+0-0.5f;	FLOAT fRight  = vtx_sx+w-0.5f;
-		FLOAT fTop  = vtx_sy+0-0.5f;	FLOAT fBottom = vtx_sy+h-0.5f;
+		const FLOAT fLeft = vtx_sx+0-0.5f;
+		const FLOAT fRight  = vtx_sx+w-0.5f;
+		const FLOAT fTop  = vtx_sy+0-0.5f;
+		const FLOAT fBottom = vtx_sy+h-0.5f;
 		pVertices->Set(fLeft , fBottom, Z_DEFAULT, RHW_DEFAULT, dwColor, tx1, ty2 );	++pVertices;
 		pVertices->Set(fLeft , fTop   , Z_DEFAULT, RHW_DEFAULT, dwColor, tx1, ty1 );	++pVertices;
 		pVertices->Set(fRight, fBottom, Z_DEFAULT, RHW_DEFAULT, dwColor, tx2, ty2 );	++pVertices;
@@ -779,7 +785,7 @@ HRESULT CDFont::DrawText( FLOAT sx, FLOAT sy, DWORD dwColor, DWORD dwFlags, FLOA
         return E_FAIL;
 
 	// 위치 색 조정
-	D3DXVECTOR2 vDiff = D3DXVECTOR2(sx, sy) - m_PrevLeftTop;
+	const D3DXVECTOR2 vDiff = D3DXVECTOR2(sx, sy) - m_PrevLeftTop;
 	if ( fabs(vDiff.x)>0.5f || fabs(vDiff.y)>0.5f || dwColor != m_dwFontColor)
 	{
 		// lock vertex buffer
@@ -1087,7 +1093,7 @@ void CDFont::AddToAlphaManager(DWORD dwColor, float fDist, __Matrix44& mtxWorld,
 		dwFVFSize = sizeof(__VertexTransformed);
 
 		// 위치 색 조정
-		D3DXVECTOR2 vDiff = D3DXVECTOR2(mtxWorld._41, mtxWorld._42) - m_PrevLeftTop;
+		const D3DXVECTOR2 vDiff = D3DXVECTOR2(mtxWorld._41, mtxWorld._42) - m_PrevLeftTop;
 		if ( fabs(vDiff.x)>0.5f || fabs(vDiff.y)>0.5f || dwColor != m_dwFontColor)
 		{
 			// lock vertex buffer

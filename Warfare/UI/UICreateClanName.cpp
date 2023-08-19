@@ -59,7 +59,7 @@ bool CUICreateClanName::MakeClan()
 
 void CUICreateClanName::MsgSend_MakeClan() const
 {
-	int iLn = m_szClanName.size();
+	const int iLn = m_szClanName.size();
 	BYTE byBuff[40];									// 패킷 버퍼..
 	int iOffset=0;										// 패킷 오프셋..
 	CAPISocket::MP_AddByte(byBuff, iOffset, N3_KNIGHTS);		

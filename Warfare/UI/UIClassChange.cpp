@@ -63,7 +63,7 @@ void CUIClassChange::Open(int iCode)
 
 	SetVisible(true);
 
-	__InfoPlayerBase*	pInfoBase = &(CGameBase::s_pPlayer->m_InfoBase);
+	const __InfoPlayerBase*	pInfoBase = &(CGameBase::s_pPlayer->m_InfoBase);
 	__InfoPlayerMySelf*	pInfoExt = &(CGameBase::s_pPlayer->m_InfoExt);
 
 	std::string szSuccess;	::_LoadStringFromResource(IDS_CLASS_CHANGE_SUCCESS, szSuccess);
@@ -152,7 +152,7 @@ void CUIClassChange::Open(int iCode)
 bool CUIClassChange::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 {
 	__InfoPlayerBase*	pInfoBase = &(CGameBase::s_pPlayer->m_InfoBase);
-	__InfoPlayerMySelf*	pInfoExt = &(CGameBase::s_pPlayer->m_InfoExt);
+	const __InfoPlayerMySelf*	pInfoExt = &(CGameBase::s_pPlayer->m_InfoExt);
 
 	if (dwMsg == UIMSG_BUTTON_CLICK)					
 	{
@@ -232,7 +232,7 @@ void CUIClassChange::Close()
 void CUIClassChange::RestorePrevClass() const
 {
 	__InfoPlayerBase*	pInfoBase = &(CGameBase::s_pPlayer->m_InfoBase);
-	__InfoPlayerMySelf*	pInfoExt = &(CGameBase::s_pPlayer->m_InfoExt);
+	const __InfoPlayerMySelf*	pInfoExt = &(CGameBase::s_pPlayer->m_InfoExt);
 
 	pInfoBase->eClass = m_eClass;
 	CGameProcedure::s_pProcMain->m_pUISkillTreeDlg->InitIconUpdate();

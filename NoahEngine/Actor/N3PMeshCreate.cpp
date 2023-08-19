@@ -35,7 +35,7 @@ void CN3PMeshCreate::swap_triangle(WORD *t1, WORD *t2)
 float CN3PMeshCreate::GetTriCollapsesLoss(WORD* pTriIndex, bool bArea) const
 {
 	// These are the corners of the triangle.
-	D3DXVECTOR3 pts[3] = {
+	const D3DXVECTOR3 pts[3] = {
 			D3DXVECTOR3(m_pVertices[pTriIndex[0]].x, m_pVertices[pTriIndex[0]].y, m_pVertices[pTriIndex[0]].z),
 			D3DXVECTOR3(m_pVertices[pTriIndex[1]].x, m_pVertices[pTriIndex[1]].y, m_pVertices[pTriIndex[1]].z),
 			D3DXVECTOR3(m_pVertices[pTriIndex[2]].x, m_pVertices[pTriIndex[2]].y, m_pVertices[pTriIndex[2]].z)};
@@ -52,7 +52,7 @@ float CN3PMeshCreate::GetTriCollapsesLoss(WORD* pTriIndex, bool bArea) const
 		// Calculate side length.
 		D3DXVECTOR3 V1, V2, V3;
 		V1 = pts[2] - pts[0];	V2 = pts[1] - pts[0];	V3 = pts[1] - pts[2];
-		float fLoss = D3DXVec3Length(&V1) + D3DXVec3Length(&V2) + D3DXVec3Length(&V3) + 0.0001f;
+		const float fLoss = D3DXVec3Length(&V1) + D3DXVec3Length(&V2) + D3DXVec3Length(&V3) + 0.0001f;
 		__ASSERT(fLoss > 0, "Loss value is less than 0");
 		return fLoss;
 	}
@@ -69,14 +69,14 @@ void CN3PMeshCreate::combine_modified(float &sofar, WORD *tri, int which, int wh
 			D3DXVECTOR3(m_pVertices[tri[2]].x, m_pVertices[tri[2]].y, m_pVertices[tri[2]].z) };
 
 	// This is a point in the plane of the triangle.
-	D3DXVECTOR3 in_plane = pts[0];
+	const D3DXVECTOR3 in_plane = pts[0];
 
 	// Calculate the area and face normal for the triangle at the moment.
 	D3DXVECTOR3 oldcross, V1, V2;
 	V1 = pts[2] - pts[0];	V2 = pts[1] - pts[0];
 	D3DXVec3Cross(&oldcross, &V1, &V2);
 
-	float oldarea = D3DXVec3Length(&oldcross);
+	const float oldarea = D3DXVec3Length(&oldcross);
 	D3DXVECTOR3 oldnorm;
 	D3DXVec3Normalize(&oldnorm, &oldcross);
 
@@ -88,12 +88,12 @@ void CN3PMeshCreate::combine_modified(float &sofar, WORD *tri, int which, int wh
 	V1 = pts[2] - pts[0];	V2 = pts[1] - pts[0];
 	D3DXVec3Cross(&newcross, &V1, &V2);
 
-	float newarea = D3DXVec3Length(&newcross);
+	const float newarea = D3DXVec3Length(&newcross);
 	D3DXVECTOR3 newnorm;
 	D3DXVec3Normalize(&newnorm, &newcross);
 
 	// A measure of the difference in the face normals.
-	float cosangdiff = D3DXVec3Dot(&newnorm, &oldnorm);
+	const float cosangdiff = D3DXVec3Dot(&newnorm, &oldnorm);
 
 	// Calculate some statistics about the triangle change.
 	V1 = D3DXVECTOR3(m_pVertices[what_to].x, m_pVertices[what_to].y, m_pVertices[what_to].z) - in_plane;
@@ -110,7 +110,7 @@ void CN3PMeshCreate::combine_modified(float &sofar, WORD *tri, int which, int wh
 	weighted_angle_change = powf(weighted_angle_change, .5f     ) * 5.f;
 
 	// Work out a cost for the changing of this triangle
-	float newval = weighted_angle_change + volume_change;
+	const float newval = weighted_angle_change + volume_change;
 
 	if (bSumOfLoss)
 	{
@@ -208,7 +208,7 @@ void CN3PMeshCreate::Collapse(WORD& pt_to, WORD& pt_from, float edge_val)
 						swap_triangle(m_pIndices + tri_index, m_pIndices + m_iNumIndices);
 
 						// And any references to them (in other collapses)
-						for (__PMCEdgeCollapse *c = m_pCollapses; c < m_pCollapseUpTo; c++)
+						for (const __PMCEdgeCollapse *c = m_pCollapses; c < m_pCollapseUpTo; c++)
 						{
 							// Look through the index changes.
 							int *ic;
@@ -363,7 +363,7 @@ void CN3PMeshCreate::TryEdge(
 				// tri collapses.
 				if (m_PMCOption.bTriangleWeight)
 				{
-					float t_loss = GetTriCollapsesLoss(tri, m_PMCOption.bArea) * m_PMCOption.fWeight;
+					const float t_loss = GetTriCollapsesLoss(tri, m_PMCOption.bArea) * m_PMCOption.fWeight;
 					if (m_PMCOption.bUseSumOfLoss)
 					{
 						a_loss += t_loss;
@@ -391,7 +391,7 @@ void CN3PMeshCreate::TryEdge(
 				// tri collapses.
 				if (m_PMCOption.bTriangleWeight)
 				{
-					float t_loss = GetTriCollapsesLoss(tri, m_PMCOption.bArea) * m_PMCOption.fWeight;
+					const float t_loss = GetTriCollapsesLoss(tri, m_PMCOption.bArea) * m_PMCOption.fWeight;
 					if (m_PMCOption.bUseSumOfLoss)
 					{
 						a_loss += t_loss;
@@ -419,7 +419,7 @@ void CN3PMeshCreate::TryEdge(
 				// tri collapses.
 				if (m_PMCOption.bTriangleWeight)
 				{
-					float t_loss = GetTriCollapsesLoss(tri, m_PMCOption.bArea) * m_PMCOption.fWeight;
+					const float t_loss = GetTriCollapsesLoss(tri, m_PMCOption.bArea) * m_PMCOption.fWeight;
 					if (m_PMCOption.bUseSumOfLoss)
 					{
 						a_loss += t_loss;
@@ -459,8 +459,8 @@ void CN3PMeshCreate::TryEdge(
 	__ASSERT(a_loss>=0.0f && b_loss>=0.0f, "loss > 0이어야 한다.");
 
 #ifdef _SAME_VERTEXPOS
-	float temp_a_loss = GetLossOfSamePosVertex(pt_b, pt_a);
-	float temp_b_loss = GetLossOfSamePosVertex(pt_a, pt_b);
+	const float temp_a_loss = GetLossOfSamePosVertex(pt_b, pt_a);
+	const float temp_b_loss = GetLossOfSamePosVertex(pt_a, pt_b);
 	__ASSERT(temp_a_loss>=0.0f && temp_b_loss>=0.0f, "loss > 0이어야 한다.");
 	if (m_PMCOption.bUseSumOfLoss)
 	{
@@ -489,7 +489,7 @@ void CN3PMeshCreate::TryEdge(
 	}
 
 	// And therefore, the cost of this edge is the cost of losing point B.
-	float val = b_loss;
+	const float val = b_loss;
 
 	//__ASSERT(m_PMCOption.bUseSumOfLoss == false || val>0.0f, "Sum of loss value is less than 0");
 
@@ -604,7 +604,7 @@ CN3PMesh *CN3PMeshCreate::CreateRendererMesh()
 	float fTempValue = 0.0f;
 	for (auto i = 0; i < pPMesh->m_iNumCollapses; i++)
 	{
-		__PMCEdgeCollapse &src  = m_pCollapses[pPMesh->m_iNumCollapses - i - 1];
+		const __PMCEdgeCollapse &src  = m_pCollapses[pPMesh->m_iNumCollapses - i - 1];
 		CN3PMesh::__EdgeCollapse &dest = pPMesh->m_pCollapses[i];
 
 		dest.CollapseTo = src.CollapseTo;
@@ -686,7 +686,7 @@ int CN3PMeshCreate::ReGenerate(CN3PMesh *pPMesh)
 	float fTempValue = 0.0f;
 	for (auto i = 0; i < pPMesh->m_iNumCollapses; i++)
 	{
-		__PMCEdgeCollapse &src  = m_pCollapses[pPMesh->m_iNumCollapses - i - 1];
+		const __PMCEdgeCollapse &src  = m_pCollapses[pPMesh->m_iNumCollapses - i - 1];
 		CN3PMesh::__EdgeCollapse &dest = pPMesh->m_pCollapses[i];
 
 		dest.CollapseTo = src.CollapseTo;
@@ -907,9 +907,9 @@ float CN3PMeshCreate::GetLossOfSamePosVertex(WORD pt_to, WORD pt_from)
 	__ASSERT(pt_to<m_iNumVertices && pt_from<m_iNumVertices && m_pVertices && m_pIndices, "Pointer is NULL");
 	float fLoss = 0.0f;
 
-	float x = m_pVertices[pt_from].x;
-	float y = m_pVertices[pt_from].y;
-	float z = m_pVertices[pt_from].z;
+	const float x = m_pVertices[pt_from].x;
+	const float y = m_pVertices[pt_from].y;
+	const float z = m_pVertices[pt_from].z;
 
 	int i;
 	for (i=0; i<m_iNumVertices; ++i)
@@ -931,7 +931,7 @@ float CN3PMeshCreate::GetLossOfSamePosVertex(WORD pt_to, WORD pt_from)
 						// tri collapses.
 					if (m_PMCOption.bTriangleWeight)
 					{
-						float t_loss = GetTriCollapsesLoss(tri, m_PMCOption.bArea) * m_PMCOption.fWeight;
+						const float t_loss = GetTriCollapsesLoss(tri, m_PMCOption.bArea) * m_PMCOption.fWeight;
 						if (m_PMCOption.bUseSumOfLoss) fLoss += t_loss;
 						else if (t_loss > fLoss) fLoss = t_loss;
 					}
@@ -943,7 +943,7 @@ float CN3PMeshCreate::GetLossOfSamePosVertex(WORD pt_to, WORD pt_from)
 						// tri collapses.
 					if (m_PMCOption.bTriangleWeight)
 					{
-						float t_loss = GetTriCollapsesLoss(tri, m_PMCOption.bArea) * m_PMCOption.fWeight;
+						const float t_loss = GetTriCollapsesLoss(tri, m_PMCOption.bArea) * m_PMCOption.fWeight;
 						if (m_PMCOption.bUseSumOfLoss) fLoss += t_loss;
 						else if (t_loss > fLoss) fLoss = t_loss;
 					}
@@ -955,7 +955,7 @@ float CN3PMeshCreate::GetLossOfSamePosVertex(WORD pt_to, WORD pt_from)
 						// tri collapses.
 					if (m_PMCOption.bTriangleWeight)
 					{
-						float t_loss = GetTriCollapsesLoss(tri, m_PMCOption.bArea) * m_PMCOption.fWeight;
+						const float t_loss = GetTriCollapsesLoss(tri, m_PMCOption.bArea) * m_PMCOption.fWeight;
 						if (m_PMCOption.bUseSumOfLoss) fLoss += t_loss;
 						else if (t_loss > fLoss) fLoss = t_loss;
 					}

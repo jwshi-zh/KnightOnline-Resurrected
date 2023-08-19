@@ -153,8 +153,8 @@ void CN3UIString::WordWrap()
 		return;
 	}
 
-	int iRegionWidth = m_rcRegion.right - m_rcRegion.left;
-	int iRegionHeight = m_rcRegion.bottom - m_rcRegion.top;
+	const int iRegionWidth = m_rcRegion.right - m_rcRegion.left;
+	const int iRegionHeight = m_rcRegion.bottom - m_rcRegion.top;
 
 	if (m_dwStyle & UISTYLE_STRING_SINGLELINE)
 	{
@@ -200,14 +200,14 @@ void CN3UIString::WordWrap()
 				}
 				else if (0x80 & szString[iCount])	// 2BYTE 문자
 				{
-					BOOL bFlag = m_pDFont->GetTextExtent(szString.c_str(), iCount+2, &size);
+					const BOOL bFlag = m_pDFont->GetTextExtent(szString.c_str(), iCount+2, &size);
 					__ASSERT(bFlag, "cannot get size of dfont");
 					if (size.cx>iRegionWidth) break;
 					iCount += 2;
 				}
 				else								// 1BYTE 문자
 				{
-					BOOL bFlag = m_pDFont->GetTextExtent(szString.c_str(), iCount+1, &size);
+					const BOOL bFlag = m_pDFont->GetTextExtent(szString.c_str(), iCount+1, &size);
 					__ASSERT(bFlag, "cannot get size of dfont");
 					if (size.cx>iRegionWidth) break;
 					++iCount;
@@ -232,7 +232,7 @@ void CN3UIString::WordWrap()
 		int iCount = 0;
 
 		// 우선 맨 처음 한줄이 들어갈 수 있는 크기인지 체크하기
-		BOOL bFlag = m_pDFont->GetTextExtent("최", 2, &size);
+		const BOOL bFlag = m_pDFont->GetTextExtent("최", 2, &size);
 		__ASSERT(bFlag, "cannot get size of dfont");
 //		iCY += size.cy;
 //		if (iCY > iRegionHeight)
@@ -266,7 +266,7 @@ void CN3UIString::WordWrap()
 				if (0x80 & szString[iCount])	iCC = 2;	// 2BYTE 문자
 				else iCC = 1;	// 1BYTE 문자
 
-				BOOL bFlag = m_pDFont->GetTextExtent(&(szString[iCount]), iCC, &size);
+				const BOOL bFlag = m_pDFont->GetTextExtent(&(szString[iCount]), iCC, &size);
 				__ASSERT(bFlag, "cannot get size of dfont");
 				if ((iCX+size.cx) > iRegionWidth)	// 가로 길이가 넘었으면
 				{
@@ -298,7 +298,7 @@ void CN3UIString::SetStartLine(int iLine)
 	m_iStartLine = iLine;
 
 	SIZE size = {0,0};
-	BOOL bFlag = m_pDFont->GetTextExtent("최", 2, &size);
+	const BOOL bFlag = m_pDFont->GetTextExtent("최", 2, &size);
 	__ASSERT(bFlag, "cannot get size of dfont");
 	if (0 == size.cy) return;
 
@@ -384,7 +384,7 @@ void CN3UIString::operator = (const CN3UIString& other)
 	m_Color = other.m_Color;			// 글자 색
 
 	// 폰트 설정
-	DWORD dwFontFlags = other.GetFontFlags();
+	const DWORD dwFontFlags = other.GetFontFlags();
 	SetFont(other.GetFontName(), other.GetFontHeight(), dwFontFlags & D3DFONT_BOLD, dwFontFlags & D3DFONT_ITALIC);
 
 	// 글씨 설정
@@ -445,9 +445,9 @@ void CN3UIString::ChangeFont(const std::string& szFont)
 int CN3UIString::GetStringRealWidth(int iNum) const
 {
 	SIZE size;
-	BOOL bFlag = m_pDFont->GetTextExtent("가", lstrlen("가"), &size);
+	const BOOL bFlag = m_pDFont->GetTextExtent("가", lstrlen("가"), &size);
 	__ASSERT(bFlag, "cannot get size of dfont");
-	int iLength = iNum/2;
+	const int iLength = iNum/2;
 	if (iLength == 0) return 0;
 	return (size.cx*iLength); 
 }
@@ -487,7 +487,7 @@ void CN3UIString::SetStyle(DWORD dwType, DWORD dwStyleEx)
 
 DWORD CN3UIString::MouseProc(DWORD dwFlags, const POINT &ptCur, const POINT &ptOld)
 {
-	DWORD dwRet = UI_MOUSEPROC_NONE;
+	const DWORD dwRet = UI_MOUSEPROC_NONE;
 	if (!m_bVisible) return dwRet;
 
 	// TODO: Enable this code

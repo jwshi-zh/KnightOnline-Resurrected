@@ -24,6 +24,6 @@ CN3FXPartBottomBoardGame::~CN3FXPartBottomBoardGame()
 
 float CN3FXPartBottomBoardGame::GetGroundHeight(float x, float z)
 {
-	float fHeight = CGameBase::ACT_WORLD->GetHeightWithTerrain(x, z) + 0.1f;
+	const float fHeight = CGameBase::ACT_WORLD->GetHeightWithTerrain(x, z) + 0.1f;
 	return fHeight;
 }

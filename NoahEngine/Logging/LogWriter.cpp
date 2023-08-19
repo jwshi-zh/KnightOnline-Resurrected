@@ -27,7 +27,7 @@ void CLogWriter::Open(const std::string& szFN)
 	}
 
 	DWORD dwSizeHigh = 0;
-	DWORD dwSizeLow = ::GetFileSize(hFile, &dwSizeHigh);
+const DWORD dwSizeLow = ::GetFileSize(hFile, &dwSizeHigh);
 	if(dwSizeLow > 256000)  // 파일 사이즈가 너무 크면 지운다..
 	{
 		CloseHandle(hFile);
@@ -106,7 +106,7 @@ void CLogWriter::Write(const char *lpszFormat, ...)
 
 	lstrcat(szFinal, szBuff);
 	lstrcat(szFinal, "\r\n");
-	int iLength = lstrlen(szFinal);
+	const int iLength = lstrlen(szFinal);
 
 	HANDLE hFile = CreateFile(s_szFileName.c_str(), GENERIC_WRITE, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
 	if(INVALID_HANDLE_VALUE == hFile)

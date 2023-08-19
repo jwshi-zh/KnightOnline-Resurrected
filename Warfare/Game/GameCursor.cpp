@@ -85,10 +85,10 @@ void CGameCursor::Render()
 
 void CGameCursor::Tick()
 {
-	HCURSOR hCursor = ::GetCursor();
+	const HCURSOR hCursor = ::GetCursor();
 	if(hCursor)	::SetCursor(nullptr);
 
-	POINT ptCur = CGameProcedure::s_pLocalInput->MouseGetPos();
+	const POINT ptCur = CGameProcedure::s_pLocalInput->MouseGetPos();
 	for(int i = 0 ; i < CURSOR_COUNT; i++)
 	{
 		if(m_pImageCursor[i]) m_pImageCursor[i]->SetPos(ptCur.x, ptCur.y);

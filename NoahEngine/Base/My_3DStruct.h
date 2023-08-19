@@ -163,7 +163,7 @@ inline __Vector2::__Vector2(float fx, float fy)
 
 inline void	__Vector3::Normalize()
 {
-	float fn = sqrtf(x*x + y*y + z*z);
+	const float fn = sqrtf(x*x + y*y + z*z);
 	if(fn == 0) return;
 	x /= fn; y /= fn; z /= fn;
 }
@@ -683,7 +683,7 @@ inline void __Quaternion::RotationAxis(const __Vector3& v, float fRadian)
 
 inline void __Quaternion::RotationAxis(float fX, float fY, float fZ, float fRadian)
 {
-	__Vector3 v(fX, fY, fZ);
+	const __Vector3 v(fX, fY, fZ);
 	D3DXQuaternionRotationAxis(this, &v, fRadian);
 }
 
@@ -778,7 +778,7 @@ public:
 
 	void Init() // 기본 흰색으로 만든다..
 	{
-		D3DCOLORVALUE crDiffuse = { 1.0f, 1.0f, 1.0f, 1.0f };
+		const D3DCOLORVALUE crDiffuse = { 1.0f, 1.0f, 1.0f, 1.0f };
 		this->Init(crDiffuse);
 	}
 
@@ -1137,7 +1137,7 @@ void			_LoadStringFromResource(DWORD dwID, std::string& szText);
 
 inline D3DCOLOR _RGB_To_D3DCOLOR(COLORREF cr, DWORD dwAlpha)
 {
-	D3DCOLOR cr2 =	(dwAlpha << 24) | 
+	const D3DCOLOR cr2 =	(dwAlpha << 24) | 
 					((cr & 0x000000ff)<<16) | // R
 					(cr & 0x0000ff00) | // G
 					((cr & 0x00ff0000)>>16); // B
@@ -1146,7 +1146,7 @@ inline D3DCOLOR _RGB_To_D3DCOLOR(COLORREF cr, DWORD dwAlpha)
 
 inline COLORREF _D3DCOLOR_To_RGB(D3DCOLOR cr)
 {
-	COLORREF cr2 =	((cr & 0x00ff0000)>>16) | // R
+	const COLORREF cr2 =	((cr & 0x00ff0000)>>16) | // R
 					(cr & 0x0000ff00) | // G
 					((cr & 0x000000ff)<<16); // B
 	return cr2;
@@ -1154,7 +1154,7 @@ inline COLORREF _D3DCOLOR_To_RGB(D3DCOLOR cr)
 
 inline COLORREF _D3DCOLORVALUE_To_RGB(const D3DCOLORVALUE& cr)
 {
-	COLORREF cr2 =	(((DWORD)(cr.r*255.0f))) | // R
+	const COLORREF cr2 =	(((DWORD)(cr.r*255.0f))) | // R
 					(((DWORD)(cr.g*255.0f))<<8) | // G
 					(((DWORD)(cr.b*255.0f))<<16); // B
 	return cr2;
@@ -1162,7 +1162,7 @@ inline COLORREF _D3DCOLORVALUE_To_RGB(const D3DCOLORVALUE& cr)
 
 inline D3DCOLOR _D3DCOLORVALUE_To_D3DCOLOR(const D3DCOLORVALUE& cr)
 {
-	COLORREF cr2 =	(((DWORD)(cr.a*255.0f))<<24) | // A
+	const COLORREF cr2 =	(((DWORD)(cr.a*255.0f))<<24) | // A
 					(((DWORD)(cr.r*255.0f))<<16) | // R
 					(((DWORD)(cr.g*255.0f))<<8) | // G
 					(((DWORD)(cr.b*255.0f))); // B
@@ -1264,7 +1264,7 @@ inline bool _IntersectTriangle(const __Vector3& vOrig, const __Vector3& vDir,
         return FALSE;
 
     // Calculate distance from vert0 to ray origin
-    __Vector3 tVec = vOrig - v0;
+    const __Vector3 tVec = vOrig - v0;
 
     // Calculate U parameter and test bounds
     fU = tVec.Dot(pVec);
@@ -1282,7 +1282,7 @@ inline bool _IntersectTriangle(const __Vector3& vOrig, const __Vector3& vDir,
 
     // Calculate t, scale parameters, ray intersects triangle
     fT = D3DXVec3Dot( &vEdge2, &qVec );
-    float fInvDet = 1.0f / fDet;
+    const float fInvDet = 1.0f / fDet;
     fT *= fInvDet;
     fU *= fInvDet;
     fV *= fInvDet;
@@ -1363,7 +1363,7 @@ inline POINT _Convert3D_To_2DCoordinate(const __Vector3 &vPos, const __Matrix44&
 	D3DXVec3Transform(&v, (D3DXVECTOR3*)(&vPos), &matVP);
 
 	POINT pt;
-	float fScreenZ = (v.z/v.w);
+	const float fScreenZ = (v.z/v.w);
 	if (fScreenZ>1.0 || fScreenZ<0.0)
 	{
 		pt.x = -1;

@@ -135,15 +135,15 @@ void CUISkillTreeDlg::Tick()
 	if(m_bOpenningNow) // 오른쪽에서 왼쪽으로 스르륵...열려야 한다면..
 	{
 		POINT ptCur = this->GetPos();
-		RECT rc = this->GetRegion();
-		auto fWidth = (float)(rc.right - rc.left);
+		const RECT rc = this->GetRegion();
+		const auto fWidth = (float)(rc.right - rc.left);
 
 		float fDelta = 5000.0f * CN3Base::s_fSecPerFrm;
 		fDelta *= (fWidth - m_fMoveDelta) / fWidth;
 		if(fDelta < 2.0f) fDelta = 2.0f;
 		m_fMoveDelta += fDelta;
 
-		int iXLimit = CN3Base::s_CameraData.vp.Width - (int)fWidth;
+		const int iXLimit = CN3Base::s_CameraData.vp.Width - (int)fWidth;
 		ptCur.x = CN3Base::s_CameraData.vp.Width - (int)m_fMoveDelta;
 		if(ptCur.x <= iXLimit) // 다열렸다!!
 		{
@@ -156,15 +156,15 @@ void CUISkillTreeDlg::Tick()
 	else if(m_bClosingNow) // 오른쪽에서 왼쪽으로 스르륵...열려야 한다면..
 	{
 		POINT ptCur = this->GetPos();
-		RECT rc = this->GetRegion();
-		auto fWidth = (float)(rc.right - rc.left);
+		const RECT rc = this->GetRegion();
+		const auto fWidth = (float)(rc.right - rc.left);
 
 		float fDelta = 5000.0f * CN3Base::s_fSecPerFrm;
 		fDelta *= (fWidth - m_fMoveDelta) / fWidth;
 		if(fDelta < 2.0f) fDelta = 2.0f;
 		m_fMoveDelta += fDelta;
 
-		int iXLimit = CN3Base::s_CameraData.vp.Width;
+		const int iXLimit = CN3Base::s_CameraData.vp.Width;
 		ptCur.x = CN3Base::s_CameraData.vp.Width - (int)(fWidth - m_fMoveDelta);
 		if(ptCur.x >= iXLimit) // 다 닫혔다..!!
 		{
@@ -276,11 +276,11 @@ bool CUISkillTreeDlg::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 
 	__IconItemSkill* spSkill, *spSkillCopy;
 
-	DWORD dwLBitMask = 0x000f0000;
-	DWORD dwRBitMask = 0x0f000000;
-	DWORD dwBitMask = dwLBitMask | dwRBitMask;
+	const DWORD dwLBitMask = 0x000f0000;
+	const DWORD dwRBitMask = 0x0f000000;
+	const DWORD dwBitMask = dwLBitMask | dwRBitMask;
 
-	POINT ptCur = CGameProcedure::s_pLocalInput->MouseGetPos();
+	const POINT ptCur = CGameProcedure::s_pLocalInput->MouseGetPos();
 	DWORD bitMask;
 
 	switch (dwMsg & dwBitMask)
@@ -291,7 +291,7 @@ bool CUISkillTreeDlg::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 
 		case UIMSG_ICON_RUP:
 			{
-				int iRBtn = GetIndexInArea(ptCur);
+				const int iRBtn = GetIndexInArea(ptCur);
 				if (iRBtn != -1 && m_iRBtnDownOffs != -1 && m_iRBtnDownOffs == iRBtn)
 				{
 					// 들어갈 자리가 있는지 검사..
@@ -782,7 +782,7 @@ void CUISkillTreeDlg::CheckButtonTooltipRenderEnable()
 			break;
 	}
 
-	POINT ptCur = CGameProcedure::s_pLocalInput->MouseGetPos();
+	const POINT ptCur = CGameProcedure::s_pLocalInput->MouseGetPos();
 
 	for(auto i = 0; i < MAX_SKILL_KIND_OF; i++ )
 	{
@@ -992,7 +992,7 @@ void CUISkillTreeDlg::TooltipRenderEnable(__IconItemSkill* spSkill)
 	}
 	else
 	{
-		__TABLE_ITEM_BASIC*	pItem = nullptr;
+		const __TABLE_ITEM_BASIC*	pItem = nullptr;
 		pItem = CGameBase::s_pTbl_Items_Basic->Find(spSkill->pSkill->dwExhaustItem);
 		if(pItem)
 		{
@@ -1033,7 +1033,7 @@ void CUISkillTreeDlg::InitIconWnd(e_UIWND eWnd)
 void CUISkillTreeDlg::InitIconUpdate()
 {
 	int i, j, k, iDivide;
-	__TABLE_UPC_SKILL* pUSkill = nullptr;
+	const __TABLE_UPC_SKILL* pUSkill = nullptr;
 
 	// 기존 아이콘 모두 클리어..
 	for(auto i = 0; i < MAX_SKILL_KIND_OF; i++ )
@@ -1330,7 +1330,7 @@ stop:
 	spSkill->pUIIcon->SetUIType(UI_TYPE_ICON);
 	spSkill->pUIIcon->SetStyle(UISTYLE_ICON_SKILL);
 
-	CN3UIArea* pArea = nullptr;
+	const CN3UIArea* pArea = nullptr;
 	pArea = CN3UIWndBase::GetChildAreaByiOrder(UI_AREA_TYPE_SKILL_TREE, j);
 	if ( pArea )
 	{
@@ -1377,7 +1377,7 @@ void CUISkillTreeDlg::Close()
 
 	// 스르륵 닫힌다..!!
 //	SetVisible(false); // 다 닫히고 나서 해준다..
-	RECT rc = this->GetRegion();
+	const RECT rc = this->GetRegion();
 	this->SetPos(CN3Base::s_CameraData.vp.Width - (rc.right - rc.left), 10);
 	m_fMoveDelta = 0;
 	m_bOpenningNow = false;
@@ -1415,7 +1415,7 @@ RECT CUISkillTreeDlg::GetSampleRect()
 {
 	RECT rect;
 	CN3UIArea* pArea;
-	POINT ptCur = CGameProcedure::s_pLocalInput->MouseGetPos();
+	const POINT ptCur = CGameProcedure::s_pLocalInput->MouseGetPos();
 	pArea = CN3UIWndBase::GetChildAreaByiOrder(UI_AREA_TYPE_SKILL_TREE, 0);
 	rect = pArea->GetRegion();
 	float fWidth = rect.right - rect.left;

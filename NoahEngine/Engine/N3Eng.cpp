@@ -53,7 +53,7 @@ CN3Eng::~CN3Eng()
 
 	if(s_lpD3DDev)
 	{
-		int nRefCount = s_lpD3DDev->Release();
+		const int nRefCount = s_lpD3DDev->Release();
 		if(0 == nRefCount) s_lpD3DDev = nullptr;
 		else
 		{
@@ -80,7 +80,7 @@ void CN3Eng::Release()
 
 	if(s_lpD3DDev)
 	{
-		int nRefCount = s_lpD3DDev->Release();
+		const int nRefCount = s_lpD3DDev->Release();
 		if(0 == nRefCount) s_lpD3DDev = nullptr;
 		else
 		{
@@ -99,7 +99,7 @@ bool CN3Eng::Init(BOOL bWindowed, HWND hWnd, DWORD dwWidth, DWORD dwHeight, DWOR
 
 	s_hWndBase = hWnd;
 
-	int nAMC = m_lpD3D->GetAdapterModeCount(0, D3DFMT_X8R8G8B8); // 디스플레이 모드 카운트
+	const int nAMC = m_lpD3D->GetAdapterModeCount(0, D3DFMT_X8R8G8B8); // 디스플레이 모드 카운트
 	if(nAMC <= 0)
 	{
 		MessageBox(hWnd, "Can't create D3D - Invalid display mode property.", "initialization", MB_OK);
@@ -162,7 +162,7 @@ bool CN3Eng::Init(BOOL bWindowed, HWND hWnd, DWORD dwWidth, DWORD dwHeight, DWOR
 	s_DevParam.Flags = D3DPRESENTFLAG_LOCKABLE_BACKBUFFER;
 //#endif // end of _N3TOOL
 
-	int nMC = m_DeviceInfo.nModeCount;
+	const int nMC = m_DeviceInfo.nModeCount;
 	for(auto i = 0; i < nMC; i++)
 	{
 //		if(	m_DeviceInfo.pModes[i].Width == dwWidth && 
@@ -298,8 +298,8 @@ LRESULT WINAPI CN3Eng::MsgProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 
 BOOL CN3Eng::FindDepthStencilFormat(UINT iAdapter, D3DDEVTYPE DeviceType, D3DFORMAT TargetFormat, D3DFORMAT* pDepthStencilFormat) const
 {
-	int nDSC = 6;
-	D3DFORMAT DepthFmts[] = { D3DFMT_D32, D3DFMT_D24S8, D3DFMT_D24X4S4, D3DFMT_D24X8, D3DFMT_D16, D3DFMT_D15S1};
+	const int nDSC = 6;
+	const D3DFORMAT DepthFmts[] = { D3DFMT_D32, D3DFMT_D24S8, D3DFMT_D24X4S4, D3DFMT_D24X8, D3DFMT_D16, D3DFMT_D15S1};
 
 	for(int i = 0; i < nDSC; i++)
 	{
@@ -403,7 +403,7 @@ void CN3Eng::Clear(D3DCOLOR crFill, RECT* pRC)
 
 	if(pRC)
 	{
-		_D3DRECT rc3D = { pRC->left, pRC->top, pRC->right, pRC->bottom };
+		const _D3DRECT rc3D = { pRC->left, pRC->top, pRC->right, pRC->bottom };
 		s_lpD3DDev->Clear(1, &rc3D, D3DCLEAR_ZBUFFER | D3DCLEAR_TARGET, crFill, 1.0f, 0);
 	}
 	else
@@ -449,7 +449,7 @@ void CN3Eng::ClearZBuffer(const RECT* pRC)
 
 	if(pRC) 
 	{
-		D3DRECT rc3D = { pRC->left, pRC->top, pRC->right, pRC->bottom };
+		const D3DRECT rc3D = { pRC->left, pRC->top, pRC->right, pRC->bottom };
 		s_lpD3DDev->Clear(1, &rc3D, D3DCLEAR_ZBUFFER, 0, 1.0f, 0);
 	}
 	else
@@ -492,7 +492,7 @@ bool CN3Eng::Reset(BOOL bWindowed, DWORD dwWidth, DWORD dwHeight, DWORD dwBPP)
 	s_DevParam.BackBufferHeight = dwHeight;
 	s_DevParam.BackBufferFormat = BBFormat;
 
-	int nMC = m_DeviceInfo.nModeCount;
+	const int nMC = m_DeviceInfo.nModeCount;
 	for(int i = 0; i < nMC; i++)
 	{
 //		if(	m_DeviceInfo.pModes[i].Width == dwWidth && 
@@ -576,7 +576,7 @@ bool CN3Eng::RegistryClose(HKEY& hKey)
 {
 	if(nullptr == hKey) return false;
 
-	long lStatus = RegCloseKey(hKey);
+	const long lStatus = RegCloseKey(hKey);
 	hKey = nullptr;
 
 	if(ERROR_SUCCESS == lStatus) return true;
@@ -591,7 +591,7 @@ bool CN3Eng::RegistryValueGet(HKEY hKey, const std::string& szName, std::string&
 
 	DWORD dwType = REG_SZ;
 	DWORD dwBytes = 0;
-	long lStatus = RegQueryValueEx(hKey, szName.c_str(), nullptr, &dwType, (BYTE*)(&(buffer[0])), &dwBytes);
+	const long lStatus = RegQueryValueEx(hKey, szName.c_str(), nullptr, &dwType, (BYTE*)(&(buffer[0])), &dwBytes);
 	szValue = &(buffer[0]);
 
 	if(ERROR_SUCCESS == lStatus) return true;
@@ -603,7 +603,7 @@ bool CN3Eng::RegistryValueGet(HKEY hKey, const std::string& szName, void* pValue
 	if(nullptr == hKey || szName.empty() || nullptr == pValue || 0 == dwBytes) return false;
 
 	DWORD dwType = REG_BINARY;
-	long lStatus = RegQueryValueEx(hKey, szName.c_str(), nullptr, &dwType, (BYTE*)pValue, &dwBytes);
+	const long lStatus = RegQueryValueEx(hKey, szName.c_str(), nullptr, &dwType, (BYTE*)pValue, &dwBytes);
 
 	if(ERROR_SUCCESS == lStatus) return true;
 	return false;
@@ -613,8 +613,8 @@ bool CN3Eng::RegistryValueSet(HKEY hKey, const std::string& szName, std::string&
 {
 	if(nullptr == hKey || szName.empty() || szValue.empty()) return false;
 
-	DWORD dwBytes = szValue.size();
-	long lStatus = RegSetValueEx(hKey, szName.c_str(), NULL, REG_SZ, (BYTE*)(szValue.c_str()), dwBytes);
+	const DWORD dwBytes = szValue.size();
+	const long lStatus = RegSetValueEx(hKey, szName.c_str(), NULL, REG_SZ, (BYTE*)(szValue.c_str()), dwBytes);
 
 	if(ERROR_SUCCESS == lStatus) return true;
 	return false;
@@ -624,7 +624,7 @@ bool CN3Eng::RegistryValueSet(HKEY hKey, const std::string& szName, void* pValue
 {
 	if(nullptr == hKey || szName.empty() || nullptr == pValue || 0 == dwBytes) return false;
 
-	long lStatus = RegSetValueEx(hKey, szName.c_str(), NULL, REG_BINARY, (BYTE*)pValue, dwBytes);
+	const long lStatus = RegSetValueEx(hKey, szName.c_str(), NULL, REG_BINARY, (BYTE*)pValue, dwBytes);
 
 	if(ERROR_SUCCESS == lStatus) return true;
 	return false;

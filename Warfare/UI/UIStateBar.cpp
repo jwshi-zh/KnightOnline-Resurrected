@@ -43,10 +43,10 @@ CUIStateBar::CUIStateBar()
 
 CUIStateBar::~CUIStateBar()
 {
-	auto ite = m_pMagic.end();	
+	const auto ite = m_pMagic.end();	
 	for(auto it = m_pMagic.begin(); it!=ite; it++)
 	{
-		__DurationMagicImg* pMagicImg = (*it);
+		const __DurationMagicImg* pMagicImg = (*it);
 		if(pMagicImg)
 		{
 			delete pMagicImg->pIcon;
@@ -59,10 +59,10 @@ CUIStateBar::~CUIStateBar()
 
 void CUIStateBar::Release()
 {
-	auto ite = m_pMagic.end();
+	const auto ite = m_pMagic.end();
 	for(auto it = m_pMagic.begin(); it!=ite; it++)
 	{
-		__DurationMagicImg* pMagicImg = (*it);
+		const __DurationMagicImg* pMagicImg = (*it);
 		if(pMagicImg)
 		{
 			delete pMagicImg->pIcon;
@@ -148,13 +148,13 @@ void CUIStateBar::UpdateExp(int iExp, int iExpNext, bool bUpdateImmediately) con
 	if(iExpNext <= 0) return;
 	if(nullptr == m_pProgress_ExpC || nullptr == m_pProgress_ExpP) return;
 
-	int iPercentage = 100 * iExp / iExpNext;
+	const int iPercentage = 100 * iExp / iExpNext;
 
 	if(iExpNext > 10)
 	{
-		int iExpNext2 = iExpNext/10;
-		int iExp2 = iExp%iExpNext2;
-		int iPercentage2 = 100 * iExp2 / iExpNext2;
+		const int iExpNext2 = iExpNext/10;
+		const int iExp2 = iExp%iExpNext2;
+		const int iPercentage2 = 100 * iExp2 / iExpNext2;
 
 		if(bUpdateImmediately) m_pProgress_ExpC->SetCurValue(iPercentage2);	 //SetCurValue --> set경우 
 		else m_pProgress_ExpC->SetCurValue(iPercentage2, 0.7f, 50.0f);
@@ -174,7 +174,7 @@ void CUIStateBar::UpdateMSP(int iMSP, int iMSPMax, bool bUpdateImmediately)
 	if(iMSPMax <= 0) return;
 	if(nullptr == m_pProgress_MSP) return;
 
-	int iPercentage = 100 * iMSP / iMSPMax;
+	const int iPercentage = 100 * iMSP / iMSPMax;
 
 	if(bUpdateImmediately) m_pProgress_MSP->SetCurValue(iPercentage);	 //SetCurValue --> set경우 
 	else m_pProgress_MSP->SetCurValue(iPercentage, 0.3f, 100.0f);
@@ -185,7 +185,7 @@ void CUIStateBar::UpdateHP(int iHP, int iHPMax, bool bUpdateImmediately)
 	__ASSERT(iHPMax, "Max HP is 0");
 	if(iHPMax <= 0) return;
 
-	int iPercentage = 100 * iHP / iHPMax;
+	const int iPercentage = 100 * iHP / iHPMax;
 
 	if(bUpdateImmediately) m_pProgress_HP->SetCurValue(iPercentage);	 //SetCurValue --> set경우 
 	else m_pProgress_HP->SetCurValue(iPercentage, 0.3f, 100.0f);
@@ -227,11 +227,11 @@ void CUIStateBar::Render()
 	
 	__PositionInfo info;
 
-	RECT rc = m_pImage_Map->GetRegion();
-	float fWidth = rc.right - rc.left;
-	float fHeight = rc.bottom - rc.top;
-	float fCenterX = rc.left + fWidth / 2.0f;
-	float fCenterY = rc.top + fHeight / 2.0f;
+	const RECT rc = m_pImage_Map->GetRegion();
+	const float fWidth = rc.right - rc.left;
+	const float fHeight = rc.bottom - rc.top;
+	const float fCenterX = rc.left + fWidth / 2.0f;
+	const float fCenterY = rc.top + fHeight / 2.0f;
 
 	DWORD dwZ, dwFog, dwAlpha, dwCOP, dwCA1, dwSrcBlend, dwDestBlend, dwVertexShader, dwAOP, dwAA1;
 	CN3Base::s_lpD3DDev->GetRenderState(D3DRS_ZENABLE, &dwZ);
@@ -338,10 +338,10 @@ void CUIStateBar::Render()
 
 	//Render..
 	//m_pMagic.clear();
-	auto iteMagic = m_pMagic.end();
+	const auto iteMagic = m_pMagic.end();
 	for(auto itMagic = m_pMagic.begin(); itMagic!=iteMagic; itMagic++)
 	{
-		__DurationMagicImg* pMagicImg = (*itMagic);
+		const __DurationMagicImg* pMagicImg = (*itMagic);
 		pMagicImg->pIcon->Render();
 	}
 	
@@ -373,14 +373,14 @@ void CUIStateBar::TickMiniMap()
 	if(m_fMapSizeX <= 0 || m_fMapSizeZ <= 0) return;
 	if(m_vPosPlayer.x < 0 || m_vPosPlayer.x > m_fMapSizeX || m_vPosPlayer.z < 0 || m_vPosPlayer.z > m_fMapSizeZ) return;
 
-	float fOffset = (0.5f/m_fZoom);
-	float fX = (m_vPosPlayer.x / m_fMapSizeX); // 1/16 축적..
-	float fY = (m_vPosPlayer.z / m_fMapSizeZ);
+	const float fOffset = (0.5f/m_fZoom);
+	const float fX = (m_vPosPlayer.x / m_fMapSizeX); // 1/16 축적..
+	const float fY = (m_vPosPlayer.z / m_fMapSizeZ);
 //	m_pImage_Map->SetUVRect(fX - fOffset, fY - fOffset, fX + fOffset, fY + fOffset);
 	m_pImage_Map->SetUVRect((fX - fOffset), 1.0f - (fY + fOffset), (fX + fOffset), 1.0f - (fY - fOffset));
 
-	RECT rc = m_pImage_Map->GetRegion();
-	float fH = (rc.bottom - rc.top)/30.0f;
+	const RECT rc = m_pImage_Map->GetRegion();
+	const float fH = (rc.bottom - rc.top)/30.0f;
 
 	__Matrix44 mtxRot; mtxRot.RotationZ(m_fYawPlayer);
 	mtxRot.PosSet(rc.left + (rc.right - rc.left)/2.0f, rc.top + (rc.bottom - rc.top)/2.0f, 0);
@@ -399,7 +399,7 @@ void CUIStateBar::TickMiniMap()
 
 void CUIStateBar::TickMagicIcon()
 {
-	int cnt = m_pMagic.size();
+	const int cnt = m_pMagic.size();
 	auto it = m_pMagic.begin();
 	__TABLE_UPC_SKILL* pRemoveSkill = nullptr;
 	for(int i=0;i<cnt;i++,it++)
@@ -440,15 +440,15 @@ bool CUIStateBar::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 {
 	if(dwMsg==UIMSG_ICON_DBLCLK)
 	{
-		auto ite = m_pMagic.end();	
+		const auto ite = m_pMagic.end();	
 		for(auto it = m_pMagic.begin(); it!=ite; it++)
 		{
 			__DurationMagicImg* pMagicImg = (*it);
 
 			if(pSender==pMagicImg->pIcon)
 			{
-				DWORD MagicID = pMagicImg->dwSkillID;
-				__TABLE_UPC_SKILL* pSkill = CGameBase::s_pTbl_Skill->Find(MagicID);
+				const DWORD MagicID = pMagicImg->dwSkillID;
+				const __TABLE_UPC_SKILL* pSkill = CGameBase::s_pTbl_Skill->Find(MagicID);
 				if(!pSkill) return false;
 
 				if(CGameProcedure::s_pProcMain->m_pMagicSkillMng->IsPositiveMagic(MagicID))
@@ -506,7 +506,7 @@ bool CUIStateBar::ToggleMiniMap()
 {
 	if(nullptr == m_pGroup_MiniMap) return false;
 
-	bool bVisible = m_pGroup_MiniMap->IsVisible();
+	const bool bVisible = m_pGroup_MiniMap->IsVisible();
 	m_pGroup_MiniMap->SetVisible(!bVisible);
 
 	return !bVisible;
@@ -539,8 +539,8 @@ void CUIStateBar::AddMagic(__TABLE_UPC_SKILL* pSkill, float fDuration)
 	RECT rt;
 	rt.left = rt.top = 0;
 	rt.right = pTex->Width();
-	rt.bottom = pTex->Height();		
-	int PosX = CN3Base::s_CameraData.vp.Width - (rt.right)*(m_pMagic.size()+1);
+	rt.bottom = pTex->Height();
+	const int PosX = CN3Base::s_CameraData.vp.Width - (rt.right)*(m_pMagic.size()+1);
 	pIcon->SetRegion(rt);
 	pIcon->SetPos(PosX,0);
 
@@ -553,27 +553,27 @@ void CUIStateBar::DelMagic(__TABLE_UPC_SKILL* pSkill)
 	sprintf(buffer.data(),	"UI\\skillicon_%.2d_%d.dxt", pSkill->dwID%100, pSkill->dwID/100);
 
 	auto itRemove = m_pMagic.end();
-	auto ite = m_pMagic.end();
+	const auto ite = m_pMagic.end();
 	for(auto it = m_pMagic.begin(); it!=ite; it++)
 	{
-		__DurationMagicImg* pMagicImg = (*it);
+		const __DurationMagicImg* pMagicImg = (*it);
 		CN3UIDBCLButton* pIcon = pMagicImg->pIcon;
-		CN3Texture* pTex = pIcon->GetTex();
+		const CN3Texture* pTex = pIcon->GetTex();
 		if(pTex && lstrcmpi(pTex->FileName().c_str(), buffer.data())==0)
 		{
 			itRemove = it;
 		}
 		if(itRemove!=ite)
 		{
-			POINT pos = pIcon->GetPos();
-			RECT rt = pIcon->GetRegion();			
+			const POINT pos = pIcon->GetPos();
+			const RECT rt = pIcon->GetRegion();			
 			pIcon->SetPos(pos.x + (rt.right-rt.left),0);
 		}
 	}
 	if(itRemove!=ite)
 	{
-		__DurationMagicImg* pMagicImg = (*itRemove);
-		CN3UIDBCLButton* pIcon = pMagicImg->pIcon;
+		const __DurationMagicImg* pMagicImg = (*itRemove);
+		const CN3UIDBCLButton* pIcon = pMagicImg->pIcon;
 		delete pIcon;
 		delete pMagicImg;
 		m_pMagic.erase(itRemove);
@@ -582,11 +582,11 @@ void CUIStateBar::DelMagic(__TABLE_UPC_SKILL* pSkill)
 
 void CUIStateBar::ClearMagic()
 {
-	auto ite = m_pMagic.end();
+	const auto ite = m_pMagic.end();
 	for(auto it = m_pMagic.begin(); it!=ite; it++)
 	{
-		__DurationMagicImg* pMagicImg = (*it);
-		CN3UIDBCLButton* pIcon = pMagicImg->pIcon;
+		const __DurationMagicImg* pMagicImg = (*it);
+		const CN3UIDBCLButton* pIcon = pMagicImg->pIcon;
 		delete pIcon;
 		delete pMagicImg;		
 	}
@@ -597,11 +597,11 @@ DWORD CUIStateBar::MouseProc(DWORD dwFlags, const POINT &ptCur, const POINT &ptO
 {
 	DWORD dwRet = UI_MOUSEPROC_NONE;
 
-	int cnt = m_pMagic.size();
+	const int cnt = m_pMagic.size();
 	auto it = m_pMagic.begin();
 	for(int i=0;i<cnt;i++,it++)
 	{
-		__DurationMagicImg* pMagicImg = (*it);
+		const __DurationMagicImg* pMagicImg = (*it);
 
 		dwRet |= pMagicImg->pIcon->MouseProc(CGameProcedure::s_pLocalInput->MouseGetFlag(),
 									CGameProcedure::s_pLocalInput->MouseGetPos(),

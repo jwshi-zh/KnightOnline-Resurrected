@@ -22,7 +22,7 @@ CN3River::~CN3River()
 bool CN3River::Load(HANDLE hFile)
 {
 	DWORD dwNum;
-	WORD wIndex[18] = {4,0,1,4,1,5,5,1,2,5,2,6,6,2,3,6,3,7};
+	const WORD wIndex[18] = {4,0,1,4,1,5,5,1,2,5,2,6,6,2,3,6,3,7};
 
 	ReadFile(hFile, &m_iRiverCount, sizeof(m_iRiverCount), &dwNum, nullptr);
 	if (m_iRiverCount == 0)	return true;
@@ -87,7 +87,7 @@ bool CN3River::Load(HANDLE hFile)
 		}
 
 		int j,k;
-		__VertexRiver* ptVtx = pInfo->pVertices;
+		const __VertexRiver* ptVtx = pInfo->pVertices;
 		float StX,EnX,StZ,EnZ;
 		StX = ptVtx[0].x,EnX = ptVtx[4].x;
 		StZ = ptVtx[0].z,EnZ = ptVtx[pInfo->iVC/4].z;
@@ -127,7 +127,7 @@ bool CN3River::Load(HANDLE hFile)
 void CN3River::Render() const
 {
 	if (m_iRiverCount <= 0) return;
-	int iTex = (int)m_fTexIndex;
+	const int iTex = (int)m_fTexIndex;
 	__ASSERT(iTex < MAX_RIVER_TEX, "River Texture index overflow..");
 	if(iTex >= MAX_RIVER_TEX || nullptr == m_pTexRiver[iTex]) return;
 
@@ -169,7 +169,7 @@ void CN3River::Render() const
     s_lpD3DDev->SetSamplerState(1, D3DSAMP_MIPFILTER, D3DTEXF_NONE );
 
 	s_lpD3DDev->SetFVF(D3DFVF_XYZ|D3DFVF_NORMAL|D3DFVF_DIFFUSE|D3DFVF_TEX2);
-	_RIVER_INFO		*pInfo = nullptr;
+	const _RIVER_INFO		*pInfo = nullptr;
 	for (int i=0;i<m_iRiverCount;i++)
 	{
 		pInfo = m_pRiverInfo + i;
@@ -240,7 +240,7 @@ void CN3River::UpdateWaterPositions()
 {
 	if(m_iRiverCount == 0)return;
 
-	_RIVER_INFO		*pInfo = nullptr;
+	const _RIVER_INFO		*pInfo = nullptr;
 	_RIVER_DIFF		*pDiff = nullptr;
 	__VertexRiver	*pVertex;
 	int tmp;

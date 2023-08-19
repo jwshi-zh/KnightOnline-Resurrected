@@ -72,7 +72,7 @@ bool CUILogIn::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 	{
 		if(!m_bLogIn && m_pEdit_id && m_pEdit_pw)
 		{
-			CN3UIBase* pMsgBox = CGameProcedure::s_pMsgBoxMgr->GetFocusMsgBox();
+			const CN3UIBase* pMsgBox = CGameProcedure::s_pMsgBoxMgr->GetFocusMsgBox();
 			if( !(pMsgBox && pMsgBox->IsVisible()) )
 				CGameProcedure::s_pProcLogIn->MsgSend_AccountLogIn(LIC_KNIGHTONLINE);
 		}
@@ -126,8 +126,8 @@ void CUILogIn::AccountPWGet(std::string& szPW)
 
 void CUILogIn::ConnectButtonSetEnable(bool bEnable)
 {
-	eUI_STATE eState1 = (bEnable ? UI_STATE_BUTTON_NORMAL : UI_STATE_BUTTON_DISABLE);
-	eUI_STATE eState2 = (bEnable ? UI_STATE_LIST_ENABLE : UI_STATE_LIST_DISABLE);
+	const eUI_STATE eState1 = (bEnable ? UI_STATE_BUTTON_NORMAL : UI_STATE_BUTTON_DISABLE);
+	const eUI_STATE eState2 = (bEnable ? UI_STATE_LIST_ENABLE : UI_STATE_LIST_DISABLE);
 	
 	if(m_pBtn_Connect) m_pBtn_Connect->SetState(eState1);
 	if(m_pList_Server) m_pList_Server->SetState(eState2);
@@ -182,7 +182,7 @@ bool CUILogIn::ServerInfoGetCur(__GameServerInfo& GSI)
 	GSI.Init();
 	if(nullptr == m_pList_Server) return false;
 
-	int iIndex = m_pList_Server->GetCurSel();
+	const int iIndex = m_pList_Server->GetCurSel();
 	return this->ServerInfoGet(iIndex, GSI);
 }
 
@@ -193,7 +193,7 @@ void CUILogIn::ServerInfoUpdate()
 	m_pList_Server->ResetContent();
 	if(!m_ListServerInfos.empty())
 	{
-		int iSize = m_ListServerInfos.size();
+		const int iSize = m_ListServerInfos.size();
 		for(int i = 0; i < iSize; i++)
 		{
 			m_pList_Server->AddString(m_ListServerInfos[i].szName);
@@ -210,15 +210,15 @@ void CUILogIn::Tick()
 		if(m_bOpenningNow) // 위에서 아래로 스르륵...열려야 한다면..
 		{
 			POINT ptCur = m_pGroup_ServerList->GetPos();
-			RECT rc = m_pGroup_ServerList->GetRegion();
-			auto fHeight = (float)(rc.bottom - rc.top);
+			const RECT rc = m_pGroup_ServerList->GetRegion();
+			const auto fHeight = (float)(rc.bottom - rc.top);
 
 			float fDelta = 5000.0f * CN3Base::s_fSecPerFrm;
 			fDelta *= (fHeight - m_fMoveDelta) / fHeight;
 			if(fDelta < 2.0f) fDelta = 2.0f;
 			m_fMoveDelta += fDelta;
 
-			int iYLimit = 0;
+			const int iYLimit = 0;
 			ptCur.y = (int)(m_fMoveDelta - fHeight);
 			if(ptCur.y >= iYLimit) // 다열렸다!!
 			{
@@ -237,7 +237,7 @@ void CUILogIn::OpenServerList()
 
 	// 스르륵 열린다!!
 	m_pGroup_ServerList->SetVisible(true);
-	RECT rc = m_pGroup_ServerList->GetRegion();
+	const RECT rc = m_pGroup_ServerList->GetRegion();
 	m_pGroup_ServerList->SetPos(0, -(rc.bottom - rc.top));
 	
 	m_fMoveDelta = 0;
@@ -272,7 +272,7 @@ bool CUILogIn::OnKeyPress(int iKey)
 			{
 				if(nullptr == m_pList_Server) return false;
 
-				int iIndex = m_pList_Server->GetCurSel();
+				const int iIndex = m_pList_Server->GetCurSel();
 
 				if(iIndex > 0) m_pList_Server->SetCurSel(iIndex - 1);
 				int iCnt = m_pList_Server->GetCount();
@@ -282,8 +282,8 @@ bool CUILogIn::OnKeyPress(int iKey)
 			{
 				if(nullptr == m_pList_Server) return false;
 
-				int iIndex = m_pList_Server->GetCurSel();
-				int iCnt = m_pList_Server->GetCount();
+				const int iIndex = m_pList_Server->GetCurSel();
+				const int iCnt = m_pList_Server->GetCount();
 
 				if(iCnt - iIndex > 1) m_pList_Server->SetCurSel(iIndex + 1);
 			}

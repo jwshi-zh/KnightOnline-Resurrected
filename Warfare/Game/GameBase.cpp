@@ -50,7 +50,7 @@ void CGameBase::StaticMemberInit()
 	s_pTbl_QuestTalk		= new CN3TableBase<__TABLE_QUEST_TALK>;
 
 	std::string szLangTail = ".tbl";
-	int iLangID = ::GetUserDefaultLangID();
+	const int iLangID = ::GetUserDefaultLangID();
 	if(0x0404 == iLangID) szLangTail = "_TW.tbl"; // Taiwan Language
 
 	std::string szFN;
@@ -346,7 +346,7 @@ e_ItemType CGameBase::MakeResrcFileNameForUPC(	__TABLE_ITEM_BASIC* pItem,		// �
 	
 	// 총 8 자리이다.
 	e_ItemType eType	= ITEM_TYPE_UNKNOWN;
-	auto ePos	= (e_ItemPosition)pItem->byAttachPoint;	// 장착위치...
+	const auto ePos	= (e_ItemPosition)pItem->byAttachPoint;	// 장착위치...
 
 	std::string szExt; // 확장자..
 	
