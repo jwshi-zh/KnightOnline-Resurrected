@@ -8,19 +8,19 @@
 
 #include <string>
 
-//////////////////////////////////////////////////////////////////////
+// 
 
 // Wnd Info..
 enum e_UIWND				{ 
 								UIWND_INVENTORY = 0,		// Inventory Wnd..
 								UIWND_TRANSACTION, 			// Transaction Wnd..
 								UIWND_DROPITEM,				// Drop Item Wnd..
-								UIWND_PER_TRADE,			// 개인간 거래..
+								UIWND_PER_TRADE,			// Person-to-person transaction...
 								UIWND_SKILL_TREE,			// Skill Icon Info Wnd..
 								UIWND_HOTKEY,				// Hot Key Wnd..
 								UIWND_PER_TRADE_EDIT,		// Per Trade Edit Wnd..
 								UIWND_EXCHANGE_REPAIR,		// Exchange Repair Wnd..
-								UIWND_WARE_HOUSE,			// 보관함..
+								UIWND_WARE_HOUSE,			// locker..
 								UIWND_UNKNOWN,				// Wnd Unknown..
 							};
 
@@ -34,9 +34,9 @@ enum e_UIWND_DISTRICT		{
 								UIWND_DISTRICT_DROPITEM,			// Dropitem district of Drop item wnd..
 								UIWND_DISTRICT_SKILL_TREE,			// Skillicon district of Skill icon wnd..
 								UIWND_DISTRICT_SKILL_HOTKEY,		// Skillicon district of Hotkey icon wnd..
-								UIWND_DISTRICT_EX_RE_NPC,			// Exchange Repair Wnd Npc District..			
+								UIWND_DISTRICT_EX_RE_NPC,			// Exchange Repair Wnd Npc District..
 								UIWND_DISTRICT_EX_RE_INV,			// Exchange Repair Wnd Inv District..
-								UIWND_DISTRICT_TRADE_MY,			// Npc 와의 거래에서 내 영역..
+								UIWND_DISTRICT_TRADE_MY,			// My area in dealing with NPCs..
 								UIWND_DISTRICT_PER_TRADE_INV,		// Inv District of Per Trade Wnd ..
 								UIWND_DISTRICT_UNKNOWN,				// District Unknown..
 							};
@@ -46,7 +46,7 @@ enum e_UIIconState			{
 								UIICON_NOT_SELECTED_BUT_HIGHLIGHT,	// Icon Not Selected But Highlight..
 							};
 
-// Total Wnd Info.. 
+// Total Wnd Info..
 struct __UIWndIconInfo		{
 								e_UIWND				UIWnd;
 								e_UIWND_DISTRICT	UIWndDistrict;
@@ -61,7 +61,7 @@ enum e_UIIconType			{
 
 // Item Info..
 struct	__IconItemSkill		{
-//								e_UIIconType			eIconType;
+// e_UIIconType			eIconType;
 								CN3UIIcon*				pUIIcon;
 								std::string				szIconFN;
 
@@ -70,7 +70,7 @@ struct	__IconItemSkill		{
 										__TABLE_ITEM_BASIC*	pItemBasic;		// Item.. ^^
 										__TABLE_ITEM_EXT*	pItemExt;
 										int					iCount;
-										int					iDurability;	// 내구력
+										int					iDurability;	// stamina
 										};
 
 									__TABLE_UPC_SKILL*		pSkill;			// Skill.. ^^
@@ -114,13 +114,13 @@ const int UIITEM_TYPE_SONGPYUN_ID_MIN = 490000;
 const int UIITEM_COUNT_MANY = 9999;
 const int UIITEM_COUNT_FEW = 500;
 
-//////////////////////////////////////////////////////////////////////
+// 
 
 class CUIImageTooltipDlg;
 class CCountableItemEditDlg;
 
 // Class ^^
-class CN3UIWndBase  : public CN3UIBase		// 가상 함수로 자식의 Area 갯수를 파악할 수 있는 함수가 있어야 하지 않을 까???
+class CN3UIWndBase  : public CN3UIBase		// Shouldn&#39;t there be a function that can figure out the number of Areas of children with a virtual function???
 											// int GetChildCountByAreaType(eAreatype .. ) ^^
 {
 	void				PlayItemEtcSound();
@@ -137,7 +137,7 @@ public:
 protected:
 	e_UIWND						m_eUIWnd;
 
-	static int					s_iRefCount; // 참조 카운트...
+	static int					s_iRefCount; // Reference Count...
 	static CN3SndObj*			s_pSnd_Item_Etc;
 	static CN3SndObj*			s_pSnd_Item_Weapon;
 	static CN3SndObj*			s_pSnd_Item_Armor;

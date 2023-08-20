@@ -24,32 +24,32 @@ public:
 	enum {WHEEL_FL=0, WHEEL_FR=1, WHEEL_BL=2, WHEEL_BR=3, NUM_WHEEL=4};
 	struct __Wheel
 	{
-		// 바퀴 정보
-//		__Vector3			m_vPivot;	// Local 축
-		CN3SPart*				pPart;	// Shape의 바퀴 Part포인터
+		// wheel information
+		// __Vector3			m_vPivot;	// Local 축
+		CN3SPart*				pPart;	// Shape wheel part pointer
 
-		// 바퀴 정보 입력받은 후 계산해주는 값들.
-		float				fRadius;	// 바퀴의 반지름
-		float				fRotateRatio;// machine이 1.0f(rad)회전할때 바퀴가 돌아가는 각도(rad) 정도
+		// Values calculated after inputting wheel information.
+		float				fRadius;	// wheel radius
+		float				fRotateRatio;// The degree of rotation of the wheels (rad) when the machine rotates 1.0 f (rad)
 
-		// 게임 진행시 바뀌는 정보.
-		float				fRadian;	// 현재 바퀴의 돌아간 각도. (x축으로 돌린다.)
+		// Information that changes as the game progresses.
+		float				fRadian;	// The angle of rotation of the current wheel. (Rotate on the x-axis.)
 	};
 
 	std::string 	m_szID;				// id string
 
 protected:
 	__Wheel			m_Wheel[NUM_WHEEL];
-	float			m_fSpeed;			// 초당 이동속도(전후진)
-	float			m_fRotateSpeed;		// 초당 회전 각속도
-	//__Vector3		m_vDir;				// machine의 진행방향
-	float			m_fDirRadian;		// 진행방향 각도(z양의 방향이 0.0f);
+	float			m_fSpeed;			// Movement speed per second (forward and backward)
+	float			m_fRotateSpeed;		// angular velocity of rotation per second
+	// __Vector3 m_vDir; // direction of machine
+	float			m_fDirRadian;		// forward angle (0.0f in positive z direction);
 	DWORD			m_dwMachineState;
-	BOOL*			m_bSkipCalcPartMtx;		// 파트 메트릭스 계산 건너뛰기(part갯수만큼 할당됨)
-	__Vector3		m_vBalancePoint[4];		// 균형을 잡기위한 4점의 위치(전후좌우) 로컬좌표임.
+	BOOL*			m_bSkipCalcPartMtx;		// Skip part metrics calculation (allocated as much as the number of parts)
+	__Vector3		m_vBalancePoint[4];		// The position of 4 points (front, rear, left and right) for balancing is local coordinates.
 
-	float			m_fFireRadian;		// 발사각
-	float			m_fFireSpeed;		// 발사속도(세기)
+	float			m_fFireRadian;		// launch angle
+	float			m_fFireSpeed;		// Rate of fire (force)
 
 // Attributes
 public:
@@ -70,7 +70,7 @@ public:
 protected:
 	CN3SPart*		GetPartByPMeshName(const std::string& szName) const;
 	virtual void	ReCalcMatrix4AnimatedPart();
-// 머신 동작 관련
+// related to machine motion
 public:
 	void Stop() {m_dwMachineState = MS_STOP;}
 	void ToggleMoveForward(BOOL bOn) {if (bOn) m_dwMachineState |= MS_FORWARD; else m_dwMachineState &= (~MS_FORWARD);}
@@ -78,5 +78,5 @@ public:
 	void ToggleTurnRight(BOOL bOn) {if (bOn) m_dwMachineState |= MS_TURNRIGHT; else m_dwMachineState &= (~MS_TURNRIGHT);}
 	void ToggleTurnLeft(BOOL bOn) {if (bOn) m_dwMachineState |= MS_TURNLEFT; else m_dwMachineState &= (~MS_TURNLEFT);}
 
-	virtual void Fire();		// 발사
+	virtual void Fire();		// launch
 };

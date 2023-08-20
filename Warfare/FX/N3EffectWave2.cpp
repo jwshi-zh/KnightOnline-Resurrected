@@ -4,7 +4,7 @@
 
 #define ATISQRT	4.94974747f
 
-// 생성자.. 변수 디폴트값 할당..
+// Constructor.. Variable default value assignment..
 CN3EffectWave2::CN3EffectWave2()
 {
 	m_iPondMeshNum = 0;
@@ -50,10 +50,10 @@ bool CN3EffectWave2::Load(HANDLE hFile)
 
 	DWORD dwNum;
 
-	ReadFile(hFile, &m_iPondMeshNum, sizeof(int), &dwNum, nullptr);	///
+	ReadFile(hFile, &m_iPondMeshNum, sizeof(int), &dwNum, nullptr);	// 
 	if(m_iPondMeshNum<=0) {m_iPondMeshNum=0;return 1;}
 
-	m_pCPondMesh = new CPongMesh [m_iPondMeshNum];	///
+	m_pCPondMesh = new CPongMesh [m_iPondMeshNum];	// 
 
 	CPongMesh* ptmpPondMesh;
 	for (int i=0;i<m_iPondMeshNum;i++)
@@ -61,9 +61,9 @@ bool CN3EffectWave2::Load(HANDLE hFile)
 		ptmpPondMesh = &m_pCPondMesh[i];
 
 		int iVC;
-		ReadFile(hFile, &iVC, sizeof(iVC), &dwNum, nullptr);				// 점 갯수
-		ptmpPondMesh->m_iVC = iVC;	///
-		ptmpPondMesh->m_bTick2Rand = FALSE;		///
+		ReadFile(hFile, &iVC, sizeof(iVC), &dwNum, nullptr);				// number of points
+		ptmpPondMesh->m_iVC = iVC;	// 
+		ptmpPondMesh->m_bTick2Rand = FALSE;		// 
 		if(iVC<=0) 
 		{
 			ptmpPondMesh->m_pVertices= nullptr;
@@ -71,36 +71,36 @@ bool CN3EffectWave2::Load(HANDLE hFile)
 		}
 
 		int iWidthVertex;
-		ReadFile(hFile, &iWidthVertex, sizeof(iWidthVertex), &dwNum, nullptr);				// 한 라인당 점 갯수
-		ptmpPondMesh->m_iWidthVtx = iWidthVertex;		///
-		ptmpPondMesh->m_iHeightVtx = iVC/iWidthVertex;	///
+		ReadFile(hFile, &iWidthVertex, sizeof(iWidthVertex), &dwNum, nullptr);				// number of dots per line
+		ptmpPondMesh->m_iWidthVtx = iWidthVertex;		// 
+		ptmpPondMesh->m_iHeightVtx = iVC/iWidthVertex;	// 
 
 		float fWaterScaleX,fWaterScaleZ;
 		ReadFile(hFile, &fWaterScaleX, sizeof(fWaterScaleX), &dwNum, nullptr);
 		ReadFile(hFile, &fWaterScaleZ, sizeof(fWaterScaleZ), &dwNum, nullptr);
-		ptmpPondMesh->m_fWaterScaleX = fWaterScaleX;	///
-		ptmpPondMesh->m_fWaterScaleZ = fWaterScaleZ;	///
+		ptmpPondMesh->m_fWaterScaleX = fWaterScaleX;	// 
+		ptmpPondMesh->m_fWaterScaleZ = fWaterScaleZ;	// 
 
 		// XyxT2 -> XyzColorT2 Converting.
-		ptmpPondMesh->m_pVertices = new __VertexPond[iVC];	///
+		ptmpPondMesh->m_pVertices = new __VertexPond[iVC];	// 
 		ReadFile(hFile,ptmpPondMesh->m_pVertices,iVC*sizeof(__VertexPond),&dwNum, nullptr);
-		ptmpPondMesh->m_pVertices[0].y += 0.2f;				//	수치가 높으면 물결이 크게 요동친다
-		ptmpPondMesh->m_pVertices[iWidthVertex].y += 0.2f;	//	수치가 높으면 물결이 크게 요동친다
-		ptmpPondMesh->m_pfMaxHeight = ptmpPondMesh->m_pVertices[0].y -= 0.3f;		//	물결의 최대치
+		ptmpPondMesh->m_pVertices[0].y += 0.2f;				// If the number is high, the wave will fluctuate greatly.
+		ptmpPondMesh->m_pVertices[iWidthVertex].y += 0.2f;	// If the number is high, the wave will fluctuate greatly.
+		ptmpPondMesh->m_pfMaxHeight = ptmpPondMesh->m_pVertices[0].y -= 0.3f;		// maximum wave
 
-		ptmpPondMesh->m_pfVelocityArray = new float[iVC];	///
+		ptmpPondMesh->m_pfVelocityArray = new float[iVC];	// 
 		memset(ptmpPondMesh->m_pfVelocityArray,0,sizeof(float)*iVC);
 
 		
 		int iIC;
 		ReadFile(hFile, &iIC, sizeof(iIC), &dwNum, nullptr);				// IndexBuffer Count.
-		ptmpPondMesh->m_iIC = iIC;		///
-		ptmpPondMesh->m_wpIndex = new WORD [iVC*6];		///
+		ptmpPondMesh->m_iIC = iIC;		// 
+		ptmpPondMesh->m_wpIndex = new WORD [iVC*6];		// 
 
 		int j,k;
 		int iWidth = iWidthVertex,iHeight = iVC/iWidthVertex;
 		int x=0,y=iWidth;
-		WORD* indexPtr = ptmpPondMesh->m_wpIndex;	//	삼각형을 부를 위치 설정
+		WORD* indexPtr = ptmpPondMesh->m_wpIndex;	// Set where to call the triangle
 		iWidth--;
 
 		const __VertexPond* ptVtx = ptmpPondMesh->m_pVertices;
@@ -111,7 +111,7 @@ bool CN3EffectWave2::Load(HANDLE hFile)
 		{
 			for (k=0; k<iWidth; k++)
 			{
-				//	삼각형을 부를 위치 설정
+				// Set where to call the triangle
 				indexPtr[0] = x;
 				indexPtr[1] = x+1;
 				indexPtr[2] = y;
@@ -123,7 +123,7 @@ bool CN3EffectWave2::Load(HANDLE hFile)
 				x++;
 				y++;
 
-				//	연못의 최소최대 위치 구함
+				// Find the minimum and maximum position of a pond
 				if(StX>ptVtx->x) StX = ptVtx->x;
 				if(EnX<ptVtx->x) EnX = ptVtx->x;
 				if(StZ>ptVtx->z) StZ = ptVtx->z;
@@ -142,9 +142,9 @@ bool CN3EffectWave2::Load(HANDLE hFile)
 		else ptmpPondMesh->m_fRadius = EnZ-StZ;
 
 
-		ptmpPondMesh->m_bTick2Rand = TRUE;		///
+		ptmpPondMesh->m_bTick2Rand = TRUE;		// 
 
-		if(m_iMaxVtxNum<iVC) m_iMaxVtxNum=iVC;	//	가장큰 계산범위 구함
+		if(m_iMaxVtxNum<iVC) m_iMaxVtxNum=iVC;	// Find the largest calculation range
 	}	
 
 	m_pfMaxVtx = new float [m_iMaxVtxNum];
@@ -166,7 +166,7 @@ void CN3EffectWave2::Init(const std::string& TexPath)
 		m_pTexPond[i] = CN3Base::s_MngTex.Get(szFileName);
 		__ASSERT(m_pTexPond[i], "CN3EffectWave2::texture load failed");
 	}
-	m_pTexWave = s_MngTex.Get(TexPath);//"misc\\river\\blupool3.tga");		///
+	m_pTexWave = s_MngTex.Get(TexPath);// "misc\\river\\blupool3.tga");		///
 	__ASSERT(m_pTexWave, "CN3EffectWave2::texture load failed");
 }
 
@@ -182,10 +182,10 @@ void CN3EffectWave2::Tick()
 		m_fTexIndex -= 32.0f;
 	}
 
-	// 프레임이 임계값보다 작으면 버린다..
+	// If the frame is smaller than the threshold, it is discarded.
 	if ( CN3Base::s_fFrmPerSec < 30 ) return;
 	
-	// Desire Frame Rate보다 Frame이 잘 나오는 경우..
+	// If the frame comes out better than the desired frame rate..
 	if ( 30.0f <= CN3Base::s_fFrmPerSec )
 	{
 		static float ftemp = 0.0f;
@@ -197,7 +197,7 @@ void CN3EffectWave2::Tick()
 			ftemp -= 1.0f;
 		}
 	}
-	// Desire Frame보다 Frame이 잘 안나오는 경우..
+	// If the frame does not come out better than the Desire Frame..
 	else 
 	{
 		static float ftemp = 0.0f;
@@ -210,7 +210,7 @@ void CN3EffectWave2::Tick()
 		{
 			UpdateWaterPositions();
 		}
-//		TRACE("Frame not Accecl \n");
+		// TRACE("Frame not Accecl \n");
 		ftemp = j;
 	}
 }
@@ -241,7 +241,7 @@ void CN3EffectWave2::Render() const
 	// Set
 	s_lpD3DDev->SetTransform(D3DTS_WORLD, &matWorld);
 
-	// texture state 세팅 (alpha)
+	// texture state settings (alpha)
 	s_lpD3DDev->SetTexture(0,m_pTexPond[(int)m_fTexIndex]->Get());
 	s_lpD3DDev->SetTexture(1, m_pTexWave->Get());
 	s_lpD3DDev->SetTexture(2, nullptr);
@@ -275,7 +275,7 @@ void CN3EffectWave2::Render() const
 	}
 
 
-	// restore 
+	// restore
 	s_lpD3DDev->SetTransform(D3DTS_WORLD, &matOld);
 	s_lpD3DDev->SetRenderState(D3DRS_ALPHABLENDENABLE, dwAlphaEnable);
 	s_lpD3DDev->SetRenderState(D3DRS_SRCBLEND, dwSrcBlend);
@@ -296,21 +296,21 @@ void CN3EffectWave2::UpdateWaterPositions()
 {
 	CPongMesh* pPondMesh;
 
-	//	기초 데이타
+	// basic data
 	int	x, y,n,m;
 	float d;
 	float tempX,tempZ;
 	__VertexPond* pVtx,*ptmpVtx,*ptmpVtxSub,*ptmpVtxPlus;
 	float* pForceArray,*ptmpForceArray,*ptmpFArrSub,*ptmpFArrPlus;
 
-	//	계산 변수
+	// calculation variable
 	float max,min,mincal,maxcal;
 
 	for(int i=0;i<m_iPondMeshNum;i++)
 	{
 		pPondMesh = &m_pCPondMesh[i];
 
-		//	이번에 쓰이지 않을 경우 넘어감
+		// Skip if not used this time
 		if(CN3Base::s_CameraData.IsOutOfFrustum(pPondMesh->m_vCenterPo,pPondMesh->m_fRadius)==TRUE)
 		{
 			pPondMesh->m_bTick2Rand = FALSE;
@@ -318,12 +318,12 @@ void CN3EffectWave2::UpdateWaterPositions()
 		}
 		else pPondMesh->m_bTick2Rand = TRUE;
 
-//		TRACE("Pond Is Chk  ---------- %d \n",i);
-		//	기초데이타 작성
+		// TRACE("Pond Is Chk  ---------- %d \n",i);
+		// Create basic data
 		m = pPondMesh->m_iWidthVtx;
 		n = pPondMesh->m_iHeightVtx;
-//		max = 0.16f*pPondMesh->m_fWaterScaleX;
-//		min = -0.16f*pPondMesh->m_fWaterScaleX;
+		// max = 0.16f*pPondMesh->m_fWaterScaleX;
+		// min = -0.16f*pPondMesh->m_fWaterScaleX;
 		max = 0.04f*pPondMesh->m_fWaterScaleX;
 		min = -0.04f*pPondMesh->m_fWaterScaleX;
 		maxcal = max*ATISQRT;
@@ -334,7 +334,7 @@ void CN3EffectWave2::UpdateWaterPositions()
 		pVtx = pPondMesh->m_pVertices;
 		pForceArray = m_pfMaxVtx;
 		
-		//	계산 
+		// calculate
 		for (x=1; x<n-1; x++)
 		{
 			ptmpFArrSub = pForceArray;
@@ -349,13 +349,13 @@ void CN3EffectWave2::UpdateWaterPositions()
 
 			for (y=1; y<m-1; y++) 
 			{
-				 //   Kernel looks like this:
+				 // Kernel looks like this:
 				 //
-				 //    1/Root2 |    1    | 1/Root2 
-				 //   ---------+---------+---------
-				 //       1    |    0    |    1  
-				 //   ---------+---------+---------
-				 //    1/Root2 |    1    | 1/Root2 
+				 // 1/Root2 | 1 | 1/Root2
+				 // ---------+---------+---------
+				 // 1    |    0    |    1
+				 // ---------+---------+---------
+				 // 1/Root2 | 1 | 1/Root2
 				 
 				ptmpForceArray++,ptmpFArrPlus++,ptmpFArrSub++;
 				ptmpVtx++,ptmpVtxPlus++,ptmpVtxSub++;
@@ -402,17 +402,17 @@ void CN3EffectWave2::UpdateWaterPositions()
 			}
 		}
 
-//		tempX = pPondMesh->m_fWaterScaleX*pPondMesh->m_iWidthVtx*32.0f;
-//		tempZ = pPondMesh->m_fWaterScaleZ*pPondMesh->m_iHeightVtx*32.0f;
+		// tempX = pPondMesh->m_fWaterScaleX*pPondMesh->m_iWidthVtx*32.0f;
+		// tempZ = pPondMesh->m_fWaterScaleZ*pPondMesh->m_iHeightVtx*32.0f;
 		tempX = pPondMesh->m_fWaterScaleX*32.0f;
 		tempZ = pPondMesh->m_fWaterScaleZ*32.0f;
 
-		ptmpForceArray = pPondMesh->m_pfVelocityArray;	//	같은형이라 빌려씀
+		ptmpForceArray = pPondMesh->m_pfVelocityArray;	// I borrowed it because it&#39;s the same type
 		pForceArray = m_pfMaxVtx;
 		pVtx = pPondMesh->m_pVertices;
 		for (x=0; x<pPondMesh->m_iVC; x++)
 		{
-//			*ptmpForceArray += *pForceArray*0.02f;
+			// *ptmpForceArray += *pForceArray*0.02f;
 			(*ptmpForceArray) += (*pForceArray)*0.001f;
 			
 			pVtx->y += (*ptmpForceArray);

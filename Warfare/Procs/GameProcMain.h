@@ -12,15 +12,15 @@ protected:
 
 public:
 #ifdef _N3_64GRID_
-	CServerMesh		*m_pSMesh;									// 서버에게 필요한 메쉬 클래스..
+	CServerMesh		*m_pSMesh;									// The mesh class required by the server..
 #endif
-	class CUIInventory*			m_pUIInventory;			// 인벤토리
-	class CUIVarious*			m_pUIVar;				// 캐릭터 상태창, 기사단 관리 등이 페이지로 들어간 다용도 UI
-	class CUIChat*				m_pUIChatDlg;			// 채팅 입출력 대화상자..
-	class CUIMessageWnd*		m_pUIMsgDlg;			// 게임 메시지 출력 상자.
+	class CUIInventory*			m_pUIInventory;			// Inventory
+	class CUIVarious*			m_pUIVar;				// Multipurpose UI with character status window, guild management, etc. as pages
+	class CUIChat*				m_pUIChatDlg;			// Chat input/output dialog..
+	class CUIMessageWnd*		m_pUIMsgDlg;			// Game message output box.
 	class CUIStateBar*			m_pUIStateBarAndMiniMap;	// mp,hp,exp, minimap....
-	class CUICmd*				m_pUICmd;				// 왼쪽 하단의 명령버튼 창..
-	class CUITargetBar*			m_pUITargetBar;			// 타겟 상태창..
+	class CUICmd*				m_pUICmd;				// Command button at the bottom left of the window.
+	class CUITargetBar*			m_pUITargetBar;			// target status window.
 	class CUITransactionDlg*	m_pUITransactionDlg;
 	class CUIDroppedItemDlg*	m_pUIDroppedItemDlg;
 	class CSubProcPerTrade*		m_pSubProcPerTrade;
@@ -39,35 +39,35 @@ public:
 	
 
 
-	class CUIKnightsOperation*	m_pUIKnightsOp;					// 기사단 리스트 보기, 가입, 등...
-	class CUIPartyBBS*			m_pUIPartyBBS;					// 파티 지원 게시판.
-	class CUITradeSellBBS*		m_pUITradeBBS;					// 상거래 게시판
+	class CUIKnightsOperation*	m_pUIKnightsOp;					// View the list of guilds, join, etc...
+	class CUIPartyBBS*			m_pUIPartyBBS;					// Party support bulletin board.
+	class CUITradeSellBBS*		m_pUITradeBBS;					// commerce bulletin board
 	class CUIQuestMenu*			m_pUIQuestMenu;					// Quest Menu
 	class CUIQuestTalk*			m_pUIQuestTalk;					// Quest Talk
 	class CUIDead*				m_pUIDead;						// Dead UI
-	class CUITradeBBSSelector*	m_pUITradeBBSSelector;			// 상거래 게시판 종류 선택
-	class CUITradeBBSEditDlg*	m_pUITradeBBSEdit;				// 상거래 게시물 설명
+	class CUITradeBBSSelector*	m_pUITradeBBSSelector;			// Select commerce bulletin board type
+	class CUITradeBBSEditDlg*	m_pUITradeBBSEdit;				// Commerce Post Description
 
-	class CN3Shape*				m_pTargetSymbol;				// 플레이어가 타겟으로 잡은 캐릭터의 위치위에 그리면 된다..
+	class CN3Shape*				m_pTargetSymbol;				// The player draws on the location of the target character.
 
-	class CN3SndObjStream*		m_pSnd_Town, *m_pSnd_Battle;	//마을음악, 전투음악 포인터..
+	class CN3SndObjStream*		m_pSnd_Town, *m_pSnd_Battle;	// Village music, battle music pointers..
 	class CMagicSkillMng*		m_pMagicSkillMng;
 
 	class CUINpcTalk*			m_pUINpcTalk;	
 	class CUINPCChangeEvent*	m_pUINpcChange;
 	class CUIWarp*				m_pUIWarp;
-	class CWarMessage*			m_pWarMessage;					// 전쟁관련 메시지
+	class CWarMessage*			m_pWarMessage;					// war message
 	class CLightMgr*			m_pLightMgr;
 
 	   
-	//..
-	BOOL		m_bLoadComplete;							// 로딩이 완료되었나??
+	// ..
+	BOOL		m_bLoadComplete;							// Is loading complete??
 	
-	float		m_fMsgSendTimeMove;							// 최근 이동 메시지 보낸 시간..
-	float		m_fMsgSendTimeRot;							// 최근 회전 메시지 보낸 시간..
-	float		m_fPlayerYawSended; // 최근에 메시지를 보낸 시점의 플레이어 y 축 회전값.
-	float		m_fRequestGameSave;	// 최근에 게임 데이터 저장을 요청한 시간
-	__Vector3	m_vPlayerPosSended; // 최근에 메시지를 보낸 시점의 플레이어 위치.
+	float		m_fMsgSendTimeMove;							// The time the last mobile message was sent.
+	float		m_fMsgSendTimeRot;							// Time of last sent message..
+	float		m_fPlayerYawSended; // Rotation on the player&#39;s y-axis since the last message was sent.
+	float		m_fRequestGameSave;	// Last request to save game data
+	__Vector3	m_vPlayerPosSended; // The player&#39;s position at the time the last message was sent.
 
 	__Vector3	m_vMouseLBClickedPos;
 	__Vector3	m_vMouseSkillPos;
@@ -96,21 +96,21 @@ protected:
 	bool	MsgRecv_Chat(DataPack* pDataPack, int& iOffset);
 	bool	MsgRecv_UserMove(DataPack* pDataPack, int& iOffset);
 	bool	MsgRecv_Rotation(DataPack* pDataPack, int& iOffset);
-//	bool	MsgRecv_Dead(DataPack* pDataPack, int& iOffset);
+// bool	MsgRecv_Dead(DataPack* pDataPack, int& iOffset);
 	bool	MsgRecv_Regen(DataPack* pDataPack, int& iOffset);
 	void	MsgRecv_Corpse(DataPack* pDataPack, int& iOffset);
 	bool	MsgRecv_Time(DataPack* pDataPack, int& iOffset);
 	bool	MsgRecv_Weather(DataPack* pDataPack, int& iOffset);
 	
-	bool	MsgRecv_UserInAndRequest(DataPack* pDataPack, int& iOffset);		// 주위 영역의 모든 User 아이디를 카운트만큼 받는다... 글구.. 업데이트가 필요한 것만 서버에게 요청..
-	bool	MsgRecv_UserInRequested(DataPack* pDataPack, int& iOffset);					// 서버에게 요청한 유저의 아이디들을 받아서 User 처리..
+	bool	MsgRecv_UserInAndRequest(DataPack* pDataPack, int& iOffset);		// Receives all User IDs in the surrounding area as much as count... Well.. Requests only those that need to be updated to the server..
+	bool	MsgRecv_UserInRequested(DataPack* pDataPack, int& iOffset);					// Receive the ID of the user requested from the server and process User..
 	bool	MsgRecv_UserInOut(DataPack* pDataPack, int& iOffset);
 	bool	MsgRecv_UserIn(DataPack* pDataPack, int& iOffset, bool bWithFX=false);
 	bool	MsgRecv_UserOut(DataPack* pDataPack, int& iOffset);
 	void	MsgRecv_UserState(DataPack* pDataPack, int& iOffset);
 
-	bool	MsgRecv_NPCInAndRequest(DataPack* pDataPack, int& iOffset);		// 주위 영역의 모든 NPC 아이디를 카운트만큼 받는다... 글구.. 업데이트가 필요한 것만 서버에게 요청..
-	bool	MsgRecv_NPCInRequested(DataPack* pDataPack, int& iOffset);				// 서버에게 요청한 NPC 아이디들을 받아서 User 처리..
+	bool	MsgRecv_NPCInAndRequest(DataPack* pDataPack, int& iOffset);		// Receives all NPC IDs in the surrounding area by the count... Well.. Requests only those that need to be updated to the server..
+	bool	MsgRecv_NPCInRequested(DataPack* pDataPack, int& iOffset);				// Receive NPC IDs requested from the server and process User..
 	bool	MsgRecv_NPCInOut(DataPack* pDataPack, int& iOffset);
 	bool	MsgRecv_NPCIn(DataPack* pDataPack, int& iOffset);
 	bool	MsgRecv_NPCOut(DataPack* pDataPack, int& iOffset);
@@ -119,56 +119,56 @@ protected:
 	bool	MsgRecv_Attack(DataPack* pDataPack, int& iOffset);
 	bool	MsgRecv_Dead(DataPack* pDataPack, int& iOffset);
 
-	bool	MsgRecv_ItemMove(DataPack* pDataPack, int& iOffset);					// Item Move에 대한 응답..
-	bool	MsgRecv_ItemBundleDrop(DataPack* pDataPack, int& iOffset);			// Item 이 필드에 나타나는데에 대한 응답
-	bool	MsgRecv_ItemBundleOpen(DataPack* pDataPack, int& iOffset);			// 아이템 상자를 열거나 시체를 뒤진다..
-	bool	MsgRecv_ItemTradeStart(DataPack* pDataPack, int& iOffset);			// 아이템 상거래..
-	bool	MsgRecv_ItemTradeResult(DataPack* pDataPack, int& iOffset);			// 아이템 상거래 결과..
-	bool	MsgRecv_ItemDroppedGetResult(DataPack* pDataPack, int& iOffset);	// 땅에 떨어진 아이템 먹기 결과..
-	bool	MsgRecv_ItemWeightChange(DataPack* pDataPack, int& iOffset);		// 아이템 무게 변화..
+	bool	MsgRecv_ItemMove(DataPack* pDataPack, int& iOffset);					// Response to Item Move..
+	bool	MsgRecv_ItemBundleDrop(DataPack* pDataPack, int& iOffset);			// Response to Item appearing in field
+	bool	MsgRecv_ItemBundleOpen(DataPack* pDataPack, int& iOffset);			// Open item boxes or search corpses.
+	bool	MsgRecv_ItemTradeStart(DataPack* pDataPack, int& iOffset);			// Item trade...
+	bool	MsgRecv_ItemTradeResult(DataPack* pDataPack, int& iOffset);			// Item transaction results..
+	bool	MsgRecv_ItemDroppedGetResult(DataPack* pDataPack, int& iOffset);	// The result of eating an item that fell on the ground..
+	bool	MsgRecv_ItemWeightChange(DataPack* pDataPack, int& iOffset);		// Item weight changes.
 
-	bool	MsgRecv_UserLookChange(DataPack* pDataPack, int& iOffset);			// 겉모습이 바뀐다.. 아이템 착용등
+	bool	MsgRecv_UserLookChange(DataPack* pDataPack, int& iOffset);			// Appearance changes. Wearing items, etc.
 
 	void	MsgRecv_TargetHP(DataPack* pDataPack, int& iOffset);
 
-	void	MsgRecv_ZoneChange(DataPack* pDataPack, int& iOffset);			// 걍 단순한 존 체인지.
+	void	MsgRecv_ZoneChange(DataPack* pDataPack, int& iOffset);			// Just a simple zone change.
 
 	void	MsgRecv_Notice(DataPack* pDataPack, int& iOffset);
 	void	MsgRecv_PartyOrForce(DataPack* pDataPack, int& iOffset);
 	void	MsgRecv_PerTrade(DataPack* pDataPack, int& iOffset);
 
-	void	MsgRecv_SkillChange(DataPack* pDataPack, int& iOffset);			// 스킬 변화..
-	void	MsgRecv_MagicProcess(DataPack* pDataPack, int& iOffset);			// 스킬 변화..
-	void	MsgRecv_ClassChange(DataPack* pDataPack, int& iOffset);			// 직업 변화..
-	void	MsgRecv_ObjectEvent(DataPack* pDataPack, int& iOffset);			// 오브젝트 이벤트 신청에 대한 응답
+	void	MsgRecv_SkillChange(DataPack* pDataPack, int& iOffset);			// Skill change...
+	void	MsgRecv_MagicProcess(DataPack* pDataPack, int& iOffset);			// Skill change...
+	void	MsgRecv_ClassChange(DataPack* pDataPack, int& iOffset);			// job change...
+	void	MsgRecv_ObjectEvent(DataPack* pDataPack, int& iOffset);			// Response to object event request
 
-	void	MsgRecv_DurabilityChange(DataPack* pDataPack, int& iOffset);		// 내구력 변경..
-	void	MsgRecv_NpcEvent(DataPack* pDataPack, int& iOffset);				// Npc Event(Exchange, Repair both).. 
+	void	MsgRecv_DurabilityChange(DataPack* pDataPack, int& iOffset);		// Durability change...
+	void	MsgRecv_NpcEvent(DataPack* pDataPack, int& iOffset);				// Npc Event(Exchange, Repair both)..
 
-	void	MsgRecv_Knights(DataPack* pDataPack, int& iOffset);				// 기사단 조작 관련 패킷..
-	void	MsgRecv_KnightsListBasic(DataPack* pDataPack, int& iOffset);		// 기사단 기본 정보들..
+	void	MsgRecv_Knights(DataPack* pDataPack, int& iOffset);				// A packet related to the manipulation of the knights..
+	void	MsgRecv_KnightsListBasic(DataPack* pDataPack, int& iOffset);		// Knights basic information..
 	
-	void	MsgRecv_CompressedPacket(DataPack* pDataPack, int& iOffset);		// 압축된 패킷이다... 압축 풀고 루프를 돌면서 한번더 파싱해야 한다!!!
-	void	MsgRecv_ContinousPacket(DataPack* pDataPack, int& iOffset);		// 붙어서 오는 패킷이다.. 루프를 돌면서 한번더 파싱해야 한다!!!
+	void	MsgRecv_CompressedPacket(DataPack* pDataPack, int& iOffset);		// It&#39;s a compressed packet... It needs to be decompressed and parsed once again in a loop!!!
+	void	MsgRecv_ContinousPacket(DataPack* pDataPack, int& iOffset);		// It is a packet that comes attached.. You need to parse it once more while looping!!!
 
-	void	MsgRecv_ItemRepair(DataPack* pDataPack, int& iOffset);			// Item Repair Result.. 
+	void	MsgRecv_ItemRepair(DataPack* pDataPack, int& iOffset);			// Item Repair Result..
 	void	MsgRecv_ItemCountChange(DataPack* pDataPack, int& iOffset);		// Item Count Change..
 	void	MsgRecv_ItemDestroy(DataPack* pDataPack, int& iOffset);			// Item Count Change..
 
-	void	MsgRecv_WareHouse(DataPack* pDataPack, int& iOffset);			// 보관함 관련 패킷..
-	void	MsgRecv_WareHouseOpen(DataPack* pDataPack, int& iOffset);		// 보관함 오픈..
+	void	MsgRecv_WareHouse(DataPack* pDataPack, int& iOffset);			// Archive related packets..
+	void	MsgRecv_WareHouseOpen(DataPack* pDataPack, int& iOffset);		// Open the locker...
 
-	void	MsgRecv_NpcChangeOpen(DataPack* pDataPack, int& iOffset);		// Class Change와 초기화..
-	void	MsgRecv_AllPointInit(DataPack* pDataPack, int& iOffset);			// All Point 초기화..
-	void	MsgRecv_SkillPointInit(DataPack* pDataPack, int& iOffset);		// Skill Point 초기화..
-	void	MsgRecv_PointChangePriceQueryRequest(DataPack* pDataPack, int& iOffset);		// 가격에 대한 응답 패킷..
+	void	MsgRecv_NpcChangeOpen(DataPack* pDataPack, int& iOffset);		// Class Change and Initialization..
+	void	MsgRecv_AllPointInit(DataPack* pDataPack, int& iOffset);			// All Point Initialization..
+	void	MsgRecv_SkillPointInit(DataPack* pDataPack, int& iOffset);		// Reset Skill Points..
+	void	MsgRecv_PointChangePriceQueryRequest(DataPack* pDataPack, int& iOffset);		// Response packet for price..
 
-	void	MsgRecv_NoahChange(DataPack* pDataPack, int& iOffset);			// 노아 변경..
-	void	MsgRecv_WarpList(DataPack* pDataPack, int& iOffset);				// 워프 리스트..
-//	void	MsgRecv_ServerCheckAndRequestConcurrentUserCount(DataPack* pDataPack, int& iOffset);			// 서버 IP 와 포트를 받아 동접자를 체크해 본다..
-//	void	MsgRecv_ConcurrentUserCountAndSendServerCheck(DataPack* pDataPack, int& iOffset);
+	void	MsgRecv_NoahChange(DataPack* pDataPack, int& iOffset);			// Noah change..
+	void	MsgRecv_WarpList(DataPack* pDataPack, int& iOffset);				// warp list..
+// void MsgRecv_ServerCheckAndRequestConcurrentUserCount(DataPack* pDataPack, int&amp; iOffset); // Receive the server IP and port and check the concurrent users.
+// void	MsgRecv_ConcurrentUserCountAndSendServerCheck(DataPack* pDataPack, int& iOffset);
 	
-	//knights...
+	// knights...
 	void	MsgRecv_Knights_Create(DataPack* pDataPack, int& iOffset);
 	void	MsgRecv_Knights_Withdraw(DataPack* pDataPack, int& iOffset);
 	void	MsgRecv_Knights_Join(DataPack* pDataPack, int& iOffset);
@@ -194,7 +194,7 @@ public:
 	void	PlayBGM_Town();
 	void	PlayBGM_Battle();
 
-	void	DoCommercialTransaction(int iTradeID);								// 상거래..
+	void	DoCommercialTransaction(int iTradeID);								// commerce..
 
 	const __InfoPartyOrForce*	PartyOrForceConditionGet(bool& bIAmLeader, bool& bIAmMember, int& iMemberIndex, class CPlayerBase*& pTarget);
 	void						TargetSelect(int iID, bool bMustAlive);
@@ -208,37 +208,37 @@ public:
 	bool	CommandToggleUISkillTree();
 	bool	CommandToggleUIMiniMap();
 
-	void	CommandMove(e_MoveDirection eMD, bool bStartOrEnd); // 움직이는 방향(전후진, 멈춤), 움직이기 시작하는가?
+	void	CommandMove(e_MoveDirection eMD, bool bStartOrEnd); // Direction of movement (backward, forward, stop), start to move?
 	void	CommandEnableAttackContinous(bool bEnable, CPlayerBase* pTarget);
-	void	CommandCameraChange(); // 카메라 시점 바꾸기..
+	void	CommandCameraChange(); // Change the camera perspective...
 	void	CommandSitDown(bool bLimitInterval, bool bSitDown, bool bImmediately = false);
 
-	void	CommandTargetSelect_NearstEnemy(); // 가장 가까운 적 타겟 잡기..
-	void	CommandTargetSelect_NearstOurForce(); // 가장 가까운 파티 타겟잡기..
+	void	CommandTargetSelect_NearstEnemy(); // Grab the closest enemy target.
+	void	CommandTargetSelect_NearstOurForce(); // Find the nearest party target.
 
-	void	CloseUIs(); // 각종 상거래, 워프등등... UI 닫기..
+	void	CloseUIs(); // Various commerce, warp, etc... Closing the UI...
 
 	void	MsgOutput(const std::string& szMsg, D3DCOLOR crMsg);
 
 	void	InitZone(int iZone, const __Vector3& vPosPlayer);
 	void	InitUI();
-	void	InitPlayerPosition(const __Vector3& vPos); // 플레이어 위치 초기화.. 일으켜 세우고, 기본동작을 취하게 한다.
+	void	InitPlayerPosition(const __Vector3& vPos); // Initialize the player position.. Raise him up and make him take the basic action.
 
-	void	MsgSend_Continous();												// 특정 조건(?)하에서 서버에게 정기적으로 메시지를 보냄..
-	void	MsgSend_Attack(int iTargetID, float fInterval, float fDistance);	// 공격 패킷 날리기 - 테이블의 공격 주기를 같이 줘서 해킹을 막는다.
-	void	MsgSend_Move(bool bMove, bool bContinous);							// 서버에게 움직임 패킷을 날린다.. // 움직이는가 ? 주기적으로 움직이는 건가?
-	void	MsgSend_Rotation();													// 서버에게 회전 패킷을 날린다..
-	void	MsgSend_Chat(enum e_ChatMode eMode, const std::string& szChat);		// 서버에게 채팅 메시지를 날린다..
-	void	MsgSend_ChatSelectTarget(const std::string& szTargetID); // 일대일 채팅 상대 정하기.
+	void	MsgSend_Continous();												// Sends messages to the server periodically under certain conditions (?).
+	void	MsgSend_Attack(int iTargetID, float fInterval, float fDistance);	// Sending attack packets - Prevents hacking by giving the table attack cycle at the same time.
+	void	MsgSend_Move(bool bMove, bool bContinous);							// Send movement packet to server. // Is it moving? Are they moving periodically?
+	void	MsgSend_Rotation();													// Send a rotation packet to the server.
+	void	MsgSend_Chat(enum e_ChatMode eMode, const std::string& szChat);		// Send a chat message to the server.
+	void	MsgSend_ChatSelectTarget(const std::string& szTargetID); // Set up a one-on-one chat partner.
 	void	MsgSend_Regen();
-	bool	MsgSend_RequestItemBundleOpen(CPlayerNPC* pCorpse); // 아이템 상자를 열거나 시체를 뒤진다..
-	void	MsgSend_RequestTargetHP(short siIDTarget, BYTE byUpdateImmediately); // 0x00 - 점차 늘어나게끔.. 0x01 - 즉시 업데이트..
+	bool	MsgSend_RequestItemBundleOpen(CPlayerNPC* pCorpse); // Open item boxes or search corpses.
+	void	MsgSend_RequestTargetHP(short siIDTarget, BYTE byUpdateImmediately); // 0x00 - incrementally.. 0x01 - immediate update..
 	void	MsgSend_GameStart();
 	bool	MsgSend_NPCEvent(short siIDTarget);
-	void	MsgSend_NPCInRequest(int iID); // NPC 정보가 없을 경우 요청한다..
-	void	MsgSend_UserInRequest(int iID); // User 정보가 없을 경우 요청한다..
-	void	MsgSend_Warp(); // 워프?? - 존체인지가 될수도 있다..
-	void	MsgSend_ZoneChangeComplete(); // 존 체인지 완료.. (맵 로딩 끝..)
+	void	MsgSend_NPCInRequest(int iID); // If there is no NPC information, request it.
+	void	MsgSend_UserInRequest(int iID); // Request if there is no user information.
+	void	MsgSend_Warp(); // Warp?? - Could be a Zone Change.
+	void	MsgSend_ZoneChangeComplete(); // Zone change complete.. (map loading finished..)
 	void	MsgSend_StateChange(enum e_SubPacket_State eSP, int iState);
 	void	MsgSend_PerTradeReq(int iDestID, bool bNear = true);
 	void	MsgSend_SpeedCheck(bool bInit = false);
@@ -247,7 +247,7 @@ public:
 	void	MsgSend_PartyOrForceLeave(int iPartyOrForce); // iPartyOrForce 1 : Party, 2:Force
 	bool	MsgSend_PartyOrForceCreate(int iPartyOrForce, const std::string& szID); // iPartyOrForce 1 : Party, 2:Force
 
-	void	MsgSend_ObjectEvent(int iEventID, int iNPCID);		// 오브젝트에 설정되어 있는 이벤트 요청..
+	void	MsgSend_ObjectEvent(int iEventID, int iNPCID);		// Event request set in object..
 	void	MsgSend_Weather(int iWeather, int iPercent);
 	void	MsgSend_Time(int iHour, int iMin);
 	void	MsgSend_Administrator(enum e_SubPacket_Administrator eSP, const std::string& szID);
@@ -261,12 +261,12 @@ public:
 	void	MsgSend_CharacterSelect(); // virtual
 
 
-	void	ProcessPlayerInclination();				// 경사 처리..(가만히 있어도 경사가 급하면 미끄러짐..).
-	void	ProcessLocalInput(DWORD dwMouseFlags);	// 키보드 눌린것을 처리한다..
+	void	ProcessPlayerInclination();				// Slope handling.. (Slipping if the slope is steep even when standing still..).
+	void	ProcessLocalInput(DWORD dwMouseFlags);	// Handling keyboard presses.
 	void	ParseChattingCommand(const std::string& szCmd);
 	
 
-	void	UpdateUI_PartyOrForceButtons(); // 커맨드 줄에 있는 파티 버튼을 상황에 따라 업데이트 해준다.
+	void	UpdateUI_PartyOrForceButtons(); // Updates the party button on the command line as needed.
 	void	UpdateUI_MiniMap();
 	void	UpdateUI_TargetBar();
 	void	UpdateBGM();
@@ -274,14 +274,14 @@ public:
 
 	void	RenderTarget();
 	
-	void	Init();									// UI 와 UI 리소스등을 읽는다.
-	void	Release();								// Release..	
+	void	Init();									// Read UI and UI resources, etc.
+	void	Release();								// Release..
 	void	ReleaseUIs() const;
 	void	ReleaseSound();
 	
-	void	Tick();								// 잡다한 계산..
-	void	Render();							// 렌더링..
+	void	Tick();								// Miscellaneous calculations...
+	void	Render();							// rendering..
 
-	CGameProcMain();									// 생성자.
-	virtual ~CGameProcMain();							// 소멸자.
+	CGameProcMain();									// constructor.
+	virtual ~CGameProcMain();							// destructor.
 };

@@ -30,7 +30,7 @@ void CN3UITooltip::Render()
 {
 	if (!m_bVisible || !m_bSetText) return;
 	if (nullptr == m_pImageBkGnd)
-	{	// 이미지가 없으면 디폴트로 그려주자
+	{	// If there is no image, draw it by default
 		static __VertexTransformedColor	pVB[8];
 		static const WORD	pIB[16] = { 0,1,1,2,2,3,3,0,4,5,5,6,6,7,7,4 };
 		static const D3DCOLOR BkColor = 0x80000000;
@@ -52,15 +52,15 @@ void CN3UITooltip::Render()
 
 		// draw
 		s_lpD3DDev->SetFVF(FVF_TRANSFORMEDCOLOR);
-		HRESULT hr = s_lpD3DDev->DrawPrimitiveUP(D3DPT_TRIANGLEFAN, 2, pVB, sizeof(__VertexTransformedColor));	// 배경색 칠하기
+		HRESULT hr = s_lpD3DDev->DrawPrimitiveUP(D3DPT_TRIANGLEFAN, 2, pVB, sizeof(__VertexTransformedColor));	// paint the background color
 
 		__VertexTransformedColor* pTemp = pVB;
 		int i;
-		for (i = 0; i < 4; ++i) pTemp++->color = BorderColorOut;	// 바깥 테두리 색을 바꾼다.
+		for (i = 0; i < 4; ++i) pTemp++->color = BorderColorOut;	// Change the color of the outer border.
 		s_lpD3DDev->DrawIndexedPrimitiveUP(D3DPT_LINELIST, 0, 8, 8,
-			pIB, D3DFMT_INDEX16, pVB, sizeof(__VertexTransformedColor));	// 테두리 칠하기
+			pIB, D3DFMT_INDEX16, pVB, sizeof(__VertexTransformedColor));	// paint the border
 
-		// 글씨 그리기
+		// drawing letters
 		m_pBuffOutRef->Render();
 	}
 	else CN3UIStatic::Render();
@@ -70,24 +70,24 @@ void CN3UITooltip::SetText(const std::string& szText)
 {
 	if (!m_bVisible || m_bSetText) return;
 
-	// 툴팁상자 크기를 조정한다.
+	// Resize the tooltip box.
 	const int iStrLen = szText.size();
 	if (0 == iStrLen || nullptr == m_pBuffOutRef) return;
 
-	m_pBuffOutRef->ClearOnlyStringBuffer();	//우선 기존에 있던 글씨를 지운다.(정렬하지 않고)
+	m_pBuffOutRef->ClearOnlyStringBuffer();	// First, delete the existing text (without sorting).
 	SIZE size;
 	if (m_pBuffOutRef->GetTextExtent(szText, iStrLen, &size))
 	{
 		if (std::string::npos != szText.find('\n'))
-		{	// '\n'문자열중에 \n이 들어가 있으므로 multi line으로 간주
+		{	// Since \n is included in the &#39;\n&#39; string, it is considered multi-line.
 			m_pBuffOutRef->SetStyle(UISTYLE_STRING_ALIGNLEFT | UISTYLE_STRING_ALIGNTOP);
 		}
 		else if (iStrLen < 25)
-		{	// 25byte 미만이면 그냥 한줄로.
+		{	// If it is less than 25 bytes, it is just one line.
 			m_pBuffOutRef->SetStyle(UISTYLE_STRING_SINGLELINE | UISTYLE_STRING_ALIGNCENTER | UISTYLE_STRING_ALIGNVCENTER);
 		}
 		else
-		{	// single line이므로 적당한 크기를 계산한다.
+		{	// Calculate an appropriate size because it is a single line.
 			SIZE CharSize = { 0,0 };
 			if (FALSE == m_pBuffOutRef->GetTextExtent("가", 2, &CharSize)) return;
 
@@ -108,7 +108,7 @@ void CN3UITooltip::SetText(const std::string& szText)
 	}
 	m_pBuffOutRef->SetString(szText);
 
-	// 위치 조정
+	// reposition
 	POINT	ptNew = m_ptCursor;
 	ptNew.x -= (m_rcRegion.right - m_rcRegion.left) / 2;
 	ptNew.y -= (m_rcRegion.bottom - m_rcRegion.top) + 10;
@@ -117,13 +117,13 @@ void CN3UITooltip::SetText(const std::string& szText)
 	const int iRegionWidth = m_rcRegion.right - m_rcRegion.left;
 	const int iRegionHeight = m_rcRegion.bottom - m_rcRegion.top;
 
-	if (ptNew.x + iRegionWidth > vp.X + vp.Width)	// 화면 오른U으로 벗어난 경우
+	if (ptNew.x + iRegionWidth > vp.X + vp.Width)	// If you move to the right U of the screen
 		ptNew.x = vp.X + vp.Width - iRegionWidth;
-	if (ptNew.x < vp.X)	ptNew.x = vp.X;	// 화면 왼쪽으로 벗어난 경우
+	if (ptNew.x < vp.X)	ptNew.x = vp.X;	// Off the left side of the screen
 
-	if (ptNew.y + iRegionHeight > vp.Y + vp.Height)	// 화면 하단으로 벗어난 경우
+	if (ptNew.y + iRegionHeight > vp.Y + vp.Height)	// Off the bottom of the screen
 		ptNew.y = vp.Y + vp.Height - iRegionHeight;
-	if (ptNew.y < vp.Y) ptNew.y = vp.Y;	// 화면 상단으로 벗어난 경우	
+	if (ptNew.y < vp.Y) ptNew.y = vp.Y;	// Off the top of the screen
 
 	SetPos(ptNew.x, ptNew.y);
 
@@ -137,7 +137,7 @@ void CN3UITooltip::Tick()
 	static const float fDisplayTime = 0.3f;
 	if (fOldTime < fDisplayTime && m_fHoverTime >= fDisplayTime)
 	{
-		SetVisible(true);	// tool tip 표시
+		SetVisible(true);	// Display tool tip
 	}
 }
 
@@ -146,15 +146,15 @@ DWORD CN3UITooltip::MouseProc(DWORD dwFlags, const POINT& ptCur, const POINT& pt
 	DWORD dwRet = UI_MOUSEPROC_NONE;
 	if (!m_bVisible) return dwRet;
 
-	// 마우스를 움직이면 m_fHoverTime를 0으로 만들기
+	// Set m_fHoverTime to 0 when the mouse is moved
 	if (ptCur.x != ptOld.x || ptCur.y != ptOld.y)
 	{
 		m_fHoverTime = 0.0f;
 		m_bSetText = false;
-		SetVisible(false);// tool tip을 없앤다.
+		SetVisible(false);// Remove tool tip.
 	}
 	else
-	{	// 안움직이면 커서 위치 저장
+	{	// Save cursor position if not moved
 		m_ptCursor = ptCur;
 	}
 

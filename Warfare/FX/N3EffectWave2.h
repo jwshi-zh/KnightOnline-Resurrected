@@ -32,19 +32,19 @@ public:
 	class CPongMesh
 	{
 	public:
-		BOOL			m_bTick2Rand;	//	시야에 들어와 tick과rend를 실행결정
-		__VertexPond*	m_pVertices;	//	Vertices
-		float*			m_pfVelocityArray;	//	계산 저장
-		float			m_pfMaxHeight;	//	물결이 어느정도 이상 올라가지 못하게 함
-		WORD*			m_wpIndex;		//	그림을 그릴 순서
+		BOOL			m_bTick2Rand;	// Comes into view and decides to execute tick and rend
+		__VertexPond*	m_pVertices;	// Vertices
+		float*			m_pfVelocityArray;	// save calculation
+		float			m_pfMaxHeight;	// Prevents waves from rising above a certain level
+		WORD*			m_wpIndex;		// order of drawing
 		int				m_iIC;			// Index Buffer Count.
 		int				m_iVC;			// Vertex Count.
 
-		int				m_iWidthVtx,m_iHeightVtx;		// 계산에 필요
-		float			m_fWaterScaleX,m_fWaterScaleZ;	// 계산에 필요
+		int				m_iWidthVtx,m_iHeightVtx;		// required for calculation
+		float			m_fWaterScaleX,m_fWaterScaleZ;	// required for calculation
 
-		__Vector3		m_vCenterPo;	//	연못의 중간지점
-		float			m_fRadius;		//	연못의 지름
+		__Vector3		m_vCenterPo;	// midpoint of the pond
+		float			m_fRadius;		// diameter of pond
 
 		CPongMesh() {m_bTick2Rand=FALSE;m_pVertices= nullptr,m_wpIndex= nullptr;m_pfVelocityArray= nullptr;};
 		virtual ~CPongMesh() 
@@ -56,15 +56,15 @@ public:
 	};
 
 public:
-	int				m_iPondMeshNum;	//	전체 연못의 갯수
-	CPongMesh*		m_pCPondMesh;	//	연못의 정보
+	int				m_iPondMeshNum;	// total number of ponds
+	CPongMesh*		m_pCPondMesh;	// information of the pond
 
 	CN3Texture*		m_pTexPond[MAX_POND_TEX];
 	CN3Texture*		m_pTexWave;
 	float			m_fTexIndex;
 
-	int				m_iMaxVtxNum;	//	가장 많은 vertices수
-	float*			m_pfMaxVtx;		//	물결높이 계산을 위한 임시
+	int				m_iMaxVtxNum;	// highest number of vertices
+	float*			m_pfMaxVtx;		// Temporary for wave height calculation
 
 public:
 	void		Release();

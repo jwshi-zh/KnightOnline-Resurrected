@@ -5,7 +5,7 @@
 #include <string>
 
 const int NUM_CLOUD_VERTEX = 8;
-//const int NUM_CLOUD_VERTEX = 12;
+// const int NUM_CLOUD_VERTEX = 12;
 
 enum	e_CLOUDTEX {CLOUD_NONE=-1,CLOUD_WISPS=0, CLOUD_PUFFS, CLOUD_TATTERS, CLOUD_STREAKS,
 	CLOUD_DENSE, CLOUD_OVERCAST, NUM_CLOUD};
@@ -18,20 +18,20 @@ public:
 	virtual ~CN3Cloud();
 
 protected:
-	__VertexXyzColorT2	m_pVertices[NUM_CLOUD_VERTEX]; // 구름층의 버텍스
-	CN3Texture*		m_pTextures[NUM_CLOUD];				// 텍스쳐들..
-	std::string		m_szTextures[NUM_CLOUD];			// 텍스처 파일 이름들...
+	__VertexXyzColorT2	m_pVertices[NUM_CLOUD_VERTEX]; // Vertices of the Cloud Layer
+	CN3Texture*		m_pTextures[NUM_CLOUD];				// textures...
+	std::string		m_szTextures[NUM_CLOUD];			// Texture file names...
 
-	CN3ColorChange	m_Color1;							// 구름 색1
-	CN3ColorChange	m_Color2;							// 구름 색2
-	CN3ColorChange	m_Alpha;							// 구름 바뀔때 alpha값
-	e_CLOUDTEX		m_eCloud1;							// 구름 텍스쳐1
-	e_CLOUDTEX		m_eCloud2;							// 구름 텍스쳐2
-	e_CLOUDTEX		m_eCloud3;							// 구름 텍스쳐3
+	CN3ColorChange	m_Color1;							// cloud color 1
+	CN3ColorChange	m_Color2;							// cloud color 2
+	CN3ColorChange	m_Alpha;							// alpha value when clouds change
+	e_CLOUDTEX		m_eCloud1;							// cloud texture 1
+	e_CLOUDTEX		m_eCloud2;							// cloud texture 2
+	e_CLOUDTEX		m_eCloud3;							// cloud texture 3
 
-	float			m_fCloudTexTime;					// 구름 변경 남은 시간
-	e_CLOUDTEX		m_eBackupCloud;						// 2번째 구름 변경해야 할 texture종류 저장
-	float			m_fBackupTime;						// 2번째 구름 변경해야 할 시간 저장
+	float			m_fCloudTexTime;					// cloud change remaining time
+	e_CLOUDTEX		m_eBackupCloud;						// Save the texture type to be changed for the second cloud
+	float			m_fBackupTime;						// Save the time to change the 2nd cloud
 
 // Operations
 public:

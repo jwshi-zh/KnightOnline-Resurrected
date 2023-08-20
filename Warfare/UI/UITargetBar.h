@@ -8,7 +8,7 @@ public:
 	class CN3UIProgress*	m_pProgressHP;
 	class CN3UIString *		m_pStringID;
 
-	float m_fTimeSendPacketLast; // 이걸 기준으로 1초에 한번씩 타겟의 정보 요청..
+	float m_fTimeSendPacketLast; // Based on this, request information from the target once per second.
 
 public:
 	void	UpdateHP(int iHP, int iMaxHP, bool bUpdateImmediately) const;

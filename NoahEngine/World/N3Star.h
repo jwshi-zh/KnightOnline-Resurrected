@@ -14,10 +14,10 @@ public:
 public:
 	int		GetNumStar() const {return m_iCurNumStar;}
 protected:
-	int		m_iCurNumStar;		// 현재 떠있는 별의 수
-	int		m_iNextNumStar;		// 앞으로 보일 별 숫자
-	float	m_fAddTime;			// 별 하나가 추가되거나 없어지는 시간 간격
-	BOOL	m_bIncrease;		// 별이 증가할 것인가 감소할 것인가
+	int		m_iCurNumStar;		// Number of stars currently floating
+	int		m_iNextNumStar;		// number of stars to be seen
+	float	m_fAddTime;			// Time interval at which one star is added or removed
+	BOOL	m_bIncrease;		// Will the stars increase or decrease?
 	__VertexXyzColor	m_Stars[MAX_STAR];
 // Operations
 public:

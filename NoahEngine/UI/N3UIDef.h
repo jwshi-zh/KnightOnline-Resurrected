@@ -10,7 +10,7 @@ const float UI_DEFAULT_RHW = 1.0f;
 // type
 enum eUI_TYPE	{	UI_TYPE_BASE = 0,		// none
 					UI_TYPE_BUTTON,			// button
-					UI_TYPE_STATIC,			// static (배경그림과 글자가 나오는 클래스)
+					UI_TYPE_STATIC,			// static (class with background picture and text)
 					UI_TYPE_PROGRESS,		// progress
 					UI_TYPE_IMAGE,			// image
 					UI_TYPE_SCROLLBAR,		// scroll bar
@@ -18,76 +18,76 @@ enum eUI_TYPE	{	UI_TYPE_BASE = 0,		// none
 					UI_TYPE_TRACKBAR,		// track bar
 					UI_TYPE_EDIT,			// edit
 					
-					//cerberus 01,12,29
+					// cerberus 01,12,29
 					UI_TYPE_AREA,			// area
 					UI_TYPE_TOOLTIP,		// tooltip
 
 					// ecli666
 					UI_TYPE_ICON,			// icon
-					UI_TYPE_ICON_MANAGER,	// icon manager.. 
+					UI_TYPE_ICON_MANAGER,	// icon manager..
 
-					// repent 전용
+					// repent only
 					UI_TYPE_ICONSLOT,		// icon slot
 					UI_TYPE_LIST,			// Text List...
 				};
 
 // State
-enum eUI_STATE	{	UI_STATE_COMMON_NONE = 0,				// 아무렇지도 않은 그냥 평범한 상태 혹은 아이콘을 가진 윈도우가 아이콘을 선택하지 않은 상태
-					UI_STATE_COMMON_MOVE,					// 움직여야 하는 
-					UI_STATE_BUTTON_NORMAL,					// 아무렇지도 않은 그냥 평범한 상태..
-					UI_STATE_BUTTON_DOWN,					// 버튼이 눌린상태
-					UI_STATE_BUTTON_DOWN_2CHECKDOWN,		// 버튼이 임시적으로 눌린 상태(체크 버튼시 사용, 진짜로 눌린 상태가 아니다) 다음에 down상태로
-					UI_STATE_BUTTON_DOWN_2CHECKUP,			// 버튼이 임시적으로 눌린 상태(체크 버튼시 사용, 진짜로 눌린 상태가 아니다) 다음에 normal상태로
-					UI_STATE_BUTTON_ON,						// 버튼이 켜진 상태.. 
-					UI_STATE_BUTTON_DISABLE,				// 버튼이 비활성화된 상태
-					UI_STATE_BUTTON_CLICK,					// 버튼이 눌렸다 떨어진 상태 - Click.
-					UI_STATE_SCROLLBAR_NULL,				// 아무상태도 아님..
-					UI_STATE_SCROLLBAR_TOPBUTTON_DOWN,		// 위로 올리는 버튼이 눌린 상태.
-					UI_STATE_SCROLLBAR_BOTTOMBUTTON_DOWN,	// 아래로 내리는 버튼이 눌린상태.
+enum eUI_STATE	{	UI_STATE_COMMON_NONE = 0,				// It&#39;s just a normal state that doesn&#39;t matter, or a state where a window with an icon doesn&#39;t select an icon
+					UI_STATE_COMMON_MOVE,					// have to move
+					UI_STATE_BUTTON_NORMAL,					// Nothing is wrong, just a normal state..
+					UI_STATE_BUTTON_DOWN,					// button is pressed
+					UI_STATE_BUTTON_DOWN_2CHECKDOWN,		// The button is temporarily pressed (used when the check button is pressed, but not actually pressed), then in the down state
+					UI_STATE_BUTTON_DOWN_2CHECKUP,			// The button is temporarily pressed (used when the check button is pressed, but not actually pressed), then returns to the normal state
+					UI_STATE_BUTTON_ON,						// When the button is on...
+					UI_STATE_BUTTON_DISABLE,				// button is disabled
+					UI_STATE_BUTTON_CLICK,					// Button pressed and then released - Click.
+					UI_STATE_SCROLLBAR_NULL,				// no condition..
+					UI_STATE_SCROLLBAR_TOPBUTTON_DOWN,		// When the up button is pressed.
+					UI_STATE_SCROLLBAR_BOTTOMBUTTON_DOWN,	// The down button is pressed.
 					UI_STATE_EDTCTRL_ACTIVE,
 					UI_STATE_EDTCTRL_UNACTIVE,
-					UI_STATE_TRACKBAR_THUMBDRAG,			// Thumb를 드래그 하는 중이다.
-					UI_STATE_LIST_ENABLE,					// List 에서 선택 가능
-					UI_STATE_LIST_DISABLE,					// List 에서 선택 불가능
+					UI_STATE_TRACKBAR_THUMBDRAG,			// You are dragging Thumb.
+					UI_STATE_LIST_ENABLE,					// Selectable from List
+					UI_STATE_LIST_DISABLE,					// Unable to select from List
 
-					// ecli666 (아이콘을 가진 윈도우.. 아이콘 자체는 아니다..)
-//					UI_STATE_ICON_NONE,						// 아이콘을 가진 윈도우가 아이콘을 선택하지 않은 상태..
-					UI_STATE_ICON_MOVING,					// 아이콘을 가진 윈도우가 아이콘을 움직이고 있는 상태..
-//					UI_STATE_ICON_SELECTED,					// 아이콘을 가진 윈도우가 아이콘을 선택한 상태..
-					UI_STATE_ICON_WAIT_FROM_SERVER,			// 아이콘을 가진 윈도우가 아이콘을 옮기고 서버로 부터 응답을 기다리는 상태..
-					UI_STATE_ICON_DO_SUCCESS,				// 아이콘을 가진 윈도우가 서버로 부터 성공을 받은 상태..
-					UI_STATE_ICON_DO_FAIL,					// 아이콘을 가진 윈도우가 서버로 부터 실패를 받은 상태..
-					UI_STATE_ICON_DO_RECOVERY,				// 아이콘을 가진 윈도우가 서버로 부터 실패를 받아 복구해야 하는 상태..
+					// ecli666 (Windows with icons.. but not icons themselves..)
+					// UI_STATE_ICON_NONE, // A state in which the window with the icon has not selected the icon.
+					UI_STATE_ICON_MOVING,					// A state in which a window with an icon is moving the icon.
+					// UI_STATE_ICON_SELECTED, // The state that the window with the icon has selected the icon..
+					UI_STATE_ICON_WAIT_FROM_SERVER,			// A state in which a window with an icon moves the icon and waits for a response from the server.
+					UI_STATE_ICON_DO_SUCCESS,				// A state in which the window with the icon has received success from the server.
+					UI_STATE_ICON_DO_FAIL,					// A state in which the window with the icon received a failure from the server.
+					UI_STATE_ICON_DO_RECOVERY,				// A state in which the window with the icon has received a failure from the server and needs to be restored.
 				};
 
 // message
-const DWORD UIMSG_BUTTON_CLICK		= 0x00000001;		// normal 버튼 클릭
-const DWORD UIMSG_TRACKBAR_POS		= 0x00000010;		// trackbar의 pos가 변경됨
-const DWORD UIMSG_SCROLLBAR_POS		= 0x00000100;		// scrollbar의 pos가 변경됨.
-const DWORD UIMSG_EDIT_RETURN		= 0x00001000;		// Edit에서 enter가 들어옴
-const DWORD UIMSG_EDIT_TAB			= 0x00002000;		// Edit에서 Tab이 들어옴
-const DWORD UIMSG_EDIT_ESCAPE		= 0x00004000;		// Edit에서 esc이 들어옴
-const DWORD UIMSG_ICON_DOWN_FIRST	= 0x00010000;		// Icon에 왼쪽 마우스 버튼 처음으로 다운..
-const DWORD UIMSG_ICON_DOWN			= 0x00020000;		// Icon에 왼쪽 마우스 버튼 다운..
-const DWORD UIMSG_ICON_UP			= 0x00040000;		// Icon에 왼쪽 마우스 버튼 업..
-const DWORD UIMSG_ICON_DBLCLK		= 0x00080000;		// Icon에 버튼 더블 클릭
-const DWORD UIMSG_AREA_DOWN_FIRST	= 0x00100000;		// Area에 왼쪽 마우스 버튼 처음으로 다운..
+const DWORD UIMSG_BUTTON_CLICK		= 0x00000001;		// click normal button
+const DWORD UIMSG_TRACKBAR_POS		= 0x00000010;		// trackbar&#39;s pos is changed
+const DWORD UIMSG_SCROLLBAR_POS		= 0x00000100;		// The scrollbar&#39;s pos is changed.
+const DWORD UIMSG_EDIT_RETURN		= 0x00001000;		// Enter in Edit
+const DWORD UIMSG_EDIT_TAB			= 0x00002000;		// Tab comes in from Edit
+const DWORD UIMSG_EDIT_ESCAPE		= 0x00004000;		// Esc comes in from Edit
+const DWORD UIMSG_ICON_DOWN_FIRST	= 0x00010000;		// Left mouse button on Icon down first..
+const DWORD UIMSG_ICON_DOWN			= 0x00020000;		// Left mouse button down on Icon.
+const DWORD UIMSG_ICON_UP			= 0x00040000;		// Left mouse button up on Icon.
+const DWORD UIMSG_ICON_DBLCLK		= 0x00080000;		// Double-click the button on Icon
+const DWORD UIMSG_AREA_DOWN_FIRST	= 0x00100000;		// Left mouse button first down on Area..
 const DWORD UIMSG_LIST_SELCHANGE	= 0x00200000;		// List Selection Change..
 const DWORD UIMSG_LIST_DBLCLK		= 0x00400000;
-const DWORD UIMSG_ICON_RDOWN_FIRST	= 0x01000000;		// Icon에 오른쪽 마우스 버튼 처음으로 다운..
-const DWORD UIMSG_ICON_RDOWN		= 0x02000000;		// Icon에 오른쪽 마우스 버튼 다운..
-const DWORD UIMSG_ICON_RUP			= 0x04000000;		// Icon에 오른쪽 마우스 버튼 업..
-const DWORD UIMSG_ICON_RDBLCLK		= 0x08000000;		// Icon에 오른쪽 마우스 더블 클릭
-const DWORD UIMSG_STRING_LCLICK		= 0x10000000;		// string에 마우스가 왼쪽 클릭 되었을때...
-const DWORD UIMSG_STRING_LDCLICK	= 0x20000000;		// string에 마우스가 왼쪽 더블 클릭 되었을때...
+const DWORD UIMSG_ICON_RDOWN_FIRST	= 0x01000000;		// Click the right mouse button on the icon to download it for the first time.
+const DWORD UIMSG_ICON_RDOWN		= 0x02000000;		// Click the right mouse button down on the Icon.
+const DWORD UIMSG_ICON_RUP			= 0x04000000;		// Click the right mouse button on Icon.
+const DWORD UIMSG_ICON_RDBLCLK		= 0x08000000;		// Double-click the right mouse button on the icon
+const DWORD UIMSG_STRING_LCLICK		= 0x10000000;		// When the mouse is left-clicked on a string...
+const DWORD UIMSG_STRING_LDCLICK	= 0x20000000;		// When the mouse is double-clicked on the string...
 
-// 리펜트용 메세지
-const DWORD UIMSG_ICONSLOT_LBCLICK	= 0x00010000;		// icon slot에 왼쪽 마우스 버튼 클릭
-const DWORD UIMSG_ICONSLOT_RBCLICK	= 0x00020000;		// icon slot에 오른쪽 마우스 버튼 클릭
-const DWORD UIMSG_ICONSLOT_MBCLICK	= 0x00040000;		// icon slot에 왼쪽 마우스 버튼 클릭
-const DWORD UIMSG_ICONSLOT_MOUSEOVER= 0x00080000;		// icon slot에 마우스가 걸쳐 있다.
+// message for renewal
+const DWORD UIMSG_ICONSLOT_LBCLICK	= 0x00010000;		// Click the left mouse button on the icon slot
+const DWORD UIMSG_ICONSLOT_RBCLICK	= 0x00020000;		// Right-click on the icon slot
+const DWORD UIMSG_ICONSLOT_MBCLICK	= 0x00040000;		// Click the left mouse button on the icon slot
+const DWORD UIMSG_ICONSLOT_MOUSEOVER= 0x00080000;		// The mouse hovers over the icon slot.
 
-// mouse flag (localinput.h의 값과 일치해야 한다.)
+// mouse flag (must match the value of localinput.h)
 const DWORD UI_MOUSE_LBCLICK	= 0x00000001;
 const DWORD UI_MOUSE_LBCLICKED	= 0x00000002;
 const DWORD UI_MOUSE_LBDOWN		= 0x00000004;
@@ -102,66 +102,66 @@ const DWORD UI_MOUSE_MBDBLCLK	= 0x00000400;
 const DWORD UI_MOUSE_RBDBLCLK	= 0x00000800;
 
 // mouse procedure return value flag
-const DWORD UI_MOUSEPROC_NONE			= 0x00000000;	// 아무 일도 하지 않았다.
-const DWORD UI_MOUSEPROC_DONESOMETHING	= 0x00000001;	// 먼가 일을 했다.
-const DWORD UI_MOUSEPROC_CHILDDONESOMETHING	= 0x00000002;	// 자식이 먼가 일을 했다.(이 플래그가 설정되어 있으면 항상 UI_MOUSEPROC_DONESOMETHING도 설정되어있다.)
-const DWORD UI_MOUSEPROC_INREGION		= 0x00000004;	// 영역 안에 마우스 포인터가 있다.
-const DWORD UI_MOUSEPROC_PREVINREGION	= 0x00000008;	// 영역 안에 이전 틱의 마우스 포인터가 있었다.
-const DWORD UI_MOUSEPROC_DIALOGFOCUS	= 0x00000010;	// dialog가 포커스 받았다.
+const DWORD UI_MOUSEPROC_NONE			= 0x00000000;	// It didn&#39;t do anything.
+const DWORD UI_MOUSEPROC_DONESOMETHING	= 0x00000001;	// far worked
+const DWORD UI_MOUSEPROC_CHILDDONESOMETHING	= 0x00000002;	// The child did something remotely. (When this flag is set, UI_MOUSEPROC_DONESOMETHING is always also set.)
+const DWORD UI_MOUSEPROC_INREGION		= 0x00000004;	// The mouse pointer is inside the area.
+const DWORD UI_MOUSEPROC_PREVINREGION	= 0x00000008;	// The previous tick&#39;s mouse pointer was inside the area.
+const DWORD UI_MOUSEPROC_DIALOGFOCUS	= 0x00000010;	// The dialog has focus.
 
 
 // ui_string type
-const DWORD UI_STR_TYPE_LINE			= 0x00000000;	// 스트링 라인 설정 싱글라인인지 멀티라인인지..
-const DWORD UI_STR_TYPE_HALIGN			= 0x00000001;	// 스트링 수평정렬
-const DWORD UI_STR_TYPE_VALIGN			= 0x00000002;	// 스트링 수직정렬
+const DWORD UI_STR_TYPE_LINE			= 0x00000000;	// String line setting Single-line or multi-line..
+const DWORD UI_STR_TYPE_HALIGN			= 0x00000001;	// horizontal alignment of strings
+const DWORD UI_STR_TYPE_VALIGN			= 0x00000002;	// vertical alignment of strings
 
 // ui style
 const DWORD UISTYLE_NONE				= 0x00000000;
-const DWORD UISTYLE_ALWAYSTOP			= 0x00000001;	// 항상 최상위에
+const DWORD UISTYLE_ALWAYSTOP			= 0x00000001;	// always on top
 const DWORD UISTYLE_MODAL				= 0x00000002;	// modal dialog
-const DWORD UISTYLE_FOCUS_UNABLE		= 0x00000004;	// 포커스를 받을수 없는 유아이
-const DWORD UISTYLE_SHOW_ME_ALONE		= 0x00000008;	// 단지 자기 자신만 열릴수 있는 다른것은 닫혀야한다면..
-const DWORD UISTYLE_HIDE_UNABLE			= 0x00000010;	// 닫히지 않는 유아이
-const DWORD UISTYLE_USER_MOVE_HIDE		= 0x00000020;	// 유저가 움직이면 닫히는 유아이
-const DWORD UISTYLE_POS_LEFT			= 0x00000040;	// 왼쪽에 달린 유아이
-const DWORD UISTYLE_POS_RIGHT			= 0x00000080;	// 오른쪽에 달린 유아이
+const DWORD UISTYLE_FOCUS_UNABLE		= 0x00000004;	// Toddlers who can&#39;t get focus
+const DWORD UISTYLE_SHOW_ME_ALONE		= 0x00000008;	// If only it can open itself, the other must be closed.
+const DWORD UISTYLE_HIDE_UNABLE			= 0x00000010;	// children who do not close
+const DWORD UISTYLE_USER_MOVE_HIDE		= 0x00000020;	// A child that closes when the user moves
+const DWORD UISTYLE_POS_LEFT			= 0x00000040;	// toddler on the left
+const DWORD UISTYLE_POS_RIGHT			= 0x00000080;	// toddler on the right
 
-	// button
-const DWORD UISTYLE_BTN_NORMAL			= 0x00010000;	// 일반 버튼
-const DWORD UISTYLE_BTN_CHECK			= 0x00020000;	// 체크 버튼(toggle버튼)
-	// image
-const DWORD UISTYLE_IMAGE_ANIMATE		= 0x00010000;	// 에니메이션 되는 이미지이다.
-	// string
-const DWORD UISTYLE_STRING_MULTILINE	= 0x00000000;	// 여러줄로 표시된다.
-const DWORD UISTYLE_STRING_SINGLELINE	= 0x00100000;	// 한줄로만 표시된다.
-const DWORD UISTYLE_STRING_ALIGNLEFT	= 0x00200000;	// 왼쪽 정렬(default)
-const DWORD UISTYLE_STRING_ALIGNRIGHT	= 0x00400000;	// 오른쪽 정렬 (한줄일때만)
-const DWORD UISTYLE_STRING_ALIGNCENTER	= 0x00800000;	// 가운데 정렬 (한줄일때만)
-const DWORD UISTYLE_STRING_ALIGNTOP		= 0x01000000;	// 상단 정렬 (한줄일때만, default)
-const DWORD UISTYLE_STRING_ALIGNBOTTOM	= 0x02000000;	// 하단 정렬 (한줄일때만)
-const DWORD UISTYLE_STRING_ALIGNVCENTER	= 0x04000000;	// 수직가운데 정렬 (한줄일때만)
-	// edit
-const DWORD UISTYLE_EDIT_PASSWORD		= 0x10000000;	// 암호를 입력받는 edit이다.
+// button
+const DWORD UISTYLE_BTN_NORMAL			= 0x00010000;	// normal button
+const DWORD UISTYLE_BTN_CHECK			= 0x00020000;	// Check button (toggle button)
+// image
+const DWORD UISTYLE_IMAGE_ANIMATE		= 0x00010000;	// It is an animated image.
+// string
+const DWORD UISTYLE_STRING_MULTILINE	= 0x00000000;	// displayed on multiple lines.
+const DWORD UISTYLE_STRING_SINGLELINE	= 0x00100000;	// displayed in one line only.
+const DWORD UISTYLE_STRING_ALIGNLEFT	= 0x00200000;	// left aligned (default)
+const DWORD UISTYLE_STRING_ALIGNRIGHT	= 0x00400000;	// right alignment (single line only)
+const DWORD UISTYLE_STRING_ALIGNCENTER	= 0x00800000;	// Align center (single line only)
+const DWORD UISTYLE_STRING_ALIGNTOP		= 0x01000000;	// Align top (only for one line, default)
+const DWORD UISTYLE_STRING_ALIGNBOTTOM	= 0x02000000;	// Align bottom (only for single line)
+const DWORD UISTYLE_STRING_ALIGNVCENTER	= 0x04000000;	// Vertical center alignment (single line only)
+// edit
+const DWORD UISTYLE_EDIT_PASSWORD		= 0x10000000;	// It is edit to receive the password.
 const DWORD UISTYLE_EDIT_NUMBERONLY		= 0x20000000;
-	// progress
-const DWORD UISTYLE_PROGRESS_LEFT2RIGHT	= 0x10000000;	// 왼쪽에서 오른쪽으로 증가(default)
-const DWORD UISTYLE_PROGRESS_RIGHT2LEFT	= 0x20000000;	// 오른쪽에서 왼쪽으로 증가
-const DWORD UISTYLE_PROGRESS_TOP2BOTTOM	= 0x40000000;	// 위쪽에서 아래쪽으로 증가
-const DWORD UISTYLE_PROGRESS_BOTTOM2TOP	= 0x80000000;	// 아래쪽에서 위쪽으로 증가
-	// TrackBar
-const DWORD UISTYLE_TRACKBAR_HORIZONTAL	= 0x00010000;	// 가로(default)
-const DWORD UISTYLE_TRACKBAR_VERTICAL	= 0x00020000;	// 세로
-	// ScrollBar
-const DWORD UISTYLE_SCROLLBAR_HORIZONTAL= 0x00010000;	// 가로(default)
-const DWORD UISTYLE_SCROLLBAR_VERTICAL	= 0x00020000;	// 세로
+// progress
+const DWORD UISTYLE_PROGRESS_LEFT2RIGHT	= 0x10000000;	// Increase from left to right (default)
+const DWORD UISTYLE_PROGRESS_RIGHT2LEFT	= 0x20000000;	// increase from right to left
+const DWORD UISTYLE_PROGRESS_TOP2BOTTOM	= 0x40000000;	// increase from top to bottom
+const DWORD UISTYLE_PROGRESS_BOTTOM2TOP	= 0x80000000;	// increase from bottom to top
+// TrackBar
+const DWORD UISTYLE_TRACKBAR_HORIZONTAL	= 0x00010000;	// Horizontal (default)
+const DWORD UISTYLE_TRACKBAR_VERTICAL	= 0x00020000;	// length
+// ScrollBar
+const DWORD UISTYLE_SCROLLBAR_HORIZONTAL= 0x00010000;	// Horizontal (default)
+const DWORD UISTYLE_SCROLLBAR_VERTICAL	= 0x00020000;	// length
 
-	// Icon type.. ecli666..
-const DWORD UISTYLE_ICON_ITEM			= 0x00000010;	// 아이템 아이콘..
-const DWORD UISTYLE_ICON_SKILL			= 0x00000020;	// 스킬 아이콘..
-const DWORD UISTYLE_ICON_CERTIFICATION_NEED		= 0X00000100;	// 서버로 부터 인증이 필요한 아이콘..
-const DWORD UISTYLE_ICON_CERTIFICATION_NONEED	= 0X00000200;	// 서버로 부터 인증이 불필요한 아이콘..
-const DWORD UISTYLE_ICON_HIGHLIGHT				= 0x00001000;	// No highlight Icon.. 
-const DWORD UISTYLE_DURABILITY_EXHAUST			= 0x00002000;	// Durability exhausted Icon.. 
+// Icon type.. ecli666..
+const DWORD UISTYLE_ICON_ITEM			= 0x00000010;	// item icon.
+const DWORD UISTYLE_ICON_SKILL			= 0x00000020;	// skill icon.
+const DWORD UISTYLE_ICON_CERTIFICATION_NEED		= 0X00000100;	// Icon that requires authentication from the server..
+const DWORD UISTYLE_ICON_CERTIFICATION_NONEED	= 0X00000200;	// Icons that do not require authentication from the server.
+const DWORD UISTYLE_ICON_HIGHLIGHT				= 0x00001000;	// No highlight Icon..
+const DWORD UISTYLE_DURABILITY_EXHAUST			= 0x00002000;	// Durability exhausted Icon..
 const DWORD UISTYLE_DISABLE_SKILL	= 0x00004000;	// Disable Skill Icon..
 const DWORD UISTYLE_ICON_NO_HIGHLIGHT			= 0x00000000;	// Highlight Icon..
 

@@ -6,15 +6,15 @@
 #include "N3Chr.h"
 #include <deque>
 
-//	By : Ecli666 ( On 2002-07-22 오전 9:59:19 )
+// By : Ecli666 ( On 2002-07-22 9:59:19 AM )
 //
-#define SHADOW_SIZE 32			// 2의 승수만 된다..
+#define SHADOW_SIZE 32			// Only multipliers of 2.
 #define SHADOW_PLANE_SIZE 4.6f	
-#define SHADOW_COLOR 0xa;		// 16진수 한자리.. 알파
-//	~(By Ecli666 On 2002-07-22 오전 9:59:19 )
+#define SHADOW_COLOR 0xa;		// Hexadecimal single digit.. alpha
+// ~(By Ecli666 On Jul 22, 2002 9:59:19 am )
 
-const float TIME_CORPSE_REMAIN = 90.0f;	// 시체가 남는 시간..
-const float TIME_CORPSE_REMOVE = 10.0f; // 투명해지면서 없앨시간..
+const float TIME_CORPSE_REMAIN = 90.0f;	// The time the body remains...
+const float TIME_CORPSE_REMOVE = 10.0f; // Time to clear it up...
 
 class CDFont;
 class CN3SndObj;
@@ -27,95 +27,95 @@ class CPlayerBase : public CGameBase
 protected:
 	e_PlayerType				m_ePlayerType; // Player Type ... Base, NPC, OTher, MySelf
 	
-	std::deque<e_Ani>			m_AnimationDeque;		// 에니메이션 큐... 여기다 집어 넣으면 tick 을 돌면서 차례대로 한다..
-	bool						m_bAnimationChanged;	// 큐에 넣은 에니메이션이 변하는 순간만 세팅된다..
+	std::deque<e_Ani>			m_AnimationDeque;		// Animation cue... If you insert it here, ticks will be rotated in turn.
+	bool						m_bAnimationChanged;	// It is set only when the cued animation changes.
 
-	CN3Chr						m_Chr;									// 캐릭터 기본 객체...
-	__TABLE_PLAYER_LOOKS*		m_pLooksRef;							// 기본 참조 테이블 - 캐릭터에 관한 리소스 정보, 관절 위치, 사운드 파일등등..
-	__TABLE_ITEM_BASIC*			m_pItemPartBasics[PART_POS_COUNT];	// 캐릭터에 붙은 무기들..
-	__TABLE_ITEM_EXT*			m_pItemPartExts[PART_POS_COUNT];		// 캐릭터에 붙은 무기들..
-	__TABLE_ITEM_BASIC*			m_pItemPlugBasics[PLUG_POS_COUNT];	// 캐릭터에 붙은 무기들..
-	__TABLE_ITEM_EXT*			m_pItemPlugExts[PLUG_POS_COUNT];		// 캐릭터에 붙은 무기들..
+	CN3Chr						m_Chr;									// Character Basic Object...
+	__TABLE_PLAYER_LOOKS*		m_pLooksRef;							// Basic reference table - resource information about the character, joint locations, sound files and more..
+	__TABLE_ITEM_BASIC*			m_pItemPartBasics[PART_POS_COUNT];	// Weapons attached to the character.
+	__TABLE_ITEM_EXT*			m_pItemPartExts[PART_POS_COUNT];		// Weapons attached to the character.
+	__TABLE_ITEM_BASIC*			m_pItemPlugBasics[PLUG_POS_COUNT];	// Weapons attached to the character.
+	__TABLE_ITEM_EXT*			m_pItemPlugExts[PLUG_POS_COUNT];		// Weapons attached to the character.
 
-	// ID 
-	CDFont*				m_pClanFont;			// clan or knights..이름 찍는데 쓰는 Font.. -.-;
-	CDFont*				m_pIDFont;				// ID 찍는데 쓰는 Font.. -.-;
-	CDFont*				m_pInfoFont;			// 파티원 모집등.. 기타 정보 표시..
-	CDFont*				m_pBalloonFont;			// 풍선말 표시...
-	float				m_fTimeBalloon;			// 풍선말 표시 시간..
+	// ID
+	CDFont*				m_pClanFont;			// Font used for taking clan or knights.. names.. -.-;
+	CDFont*				m_pIDFont;				// Font used to take ID.. -.-;
+	CDFont*				m_pInfoFont;			// Recruiting party members, etc.. Displaying other information..
+	CDFont*				m_pBalloonFont;			// Show balloons...
+	float				m_fTimeBalloon;			// Bubble display time..
 
-	e_StateAction		m_eState;				// 행동 상태..
-	e_StateAction		m_eStatePrev;			// 직전에 세팅된 행동 상태..
-	e_StateAction		m_eStateNext;			// 직전에 세팅된 행동 상태..
-	e_StateMove			m_eStateMove;			// 움직이는 상태..
-	e_StateDying		m_eStateDying;			// 죽을때 어떻게 죽는가..??
-	float				m_fTimeDying;			// 죽는 모션을 취하는 시간..
+	e_StateAction		m_eState;				// state of action...
+	e_StateAction		m_eStatePrev;			// The action state set immediately before..
+	e_StateAction		m_eStateNext;			// The action state set immediately before..
+	e_StateMove			m_eStateMove;			// moving state...
+	e_StateDying		m_eStateDying;			// How do you die when you die..??
+	float				m_fTimeDying;			// Time to get into a dying motion...
 
 	// by tigger
-//	By : Ecli666 ( On 2002-03-29 오후 4:22:25 )
-//
-//	CN3Texture*			m_pTexShadow;			// 그림자 텍스처...
-//	__VertexXyzT1		m_vShadows[4];			// 그림자 폴리곤..
+	// By : Ecli666 ( On 2002-03-29 4:22:25 PM )
+	//
+	// CN3Texture* m_pTexShadow; // shadow texture...
+	// __VertexXyzT1 m_vShadows[4]; // shadow polygon..
 
-//	~(By Ecli666 On 2002-03-29 오후 4:22:25 )
+	// ~(By Ecli666 On Mar 29 2002 4:22:25 PM )
 	
-	D3DCOLORVALUE	m_cvDuration;			// 지속 컬러 값
-	float			m_fDurationColorTimeCur;// 현재 시간..
-	float			m_fDurationColorTime;	// 지속시간..
+	D3DCOLORVALUE	m_cvDuration;			// persistent color value
+	float			m_fDurationColorTimeCur;// current time..
+	float			m_fDurationColorTime;	// duration..
 
-	float 			m_fFlickeringFactor;	// 깜박거림..
-	float			m_fFlickeringTime;		// 깜박거림 시간..
+	float 			m_fFlickeringFactor;	// flicker...
+	float			m_fFlickeringTime;		// Blink time...
 
-	float			m_fRotRadianPerSec;		// 초당 회전 라디안값
-	float			m_fMoveSpeedPerSec;		// 초당 움직임 값.. 이값은 기본값이고 상태(걷기, 달리기, 뒤로, 저주등) 에 따라 가감해서 쓴다..
+	float			m_fRotRadianPerSec;		// Rotation radians per second
+	float			m_fMoveSpeedPerSec;		// Movement value per second.. This value is the default value and is added or subtracted depending on the state (walking, running, back, cursing, etc.).
 
-	float			m_fYawCur;				// 현재 회전값..
-	float			m_fYawToReach;			// 이 회전값을 목표로 Tick 에서 회전한다..
+	float			m_fYawCur;				// Current rotation value..
+	float			m_fYawToReach;			// It rotates in Tick aiming at this rotation value.
 
-	float			m_fYNext;				// 오브젝트 혹은 지형의 충돌 체크에 따른 높이값..
-	float			m_fGravityCur;			// 중력값..
+	float			m_fYNext;				// Height value according to object or terrain collision check.
+	float			m_fGravityCur;			// Gravity value...
 
-	float			m_fScaleToSet;			// 점차 스케일 값변화..
+	float			m_fScaleToSet;			// Gradually change the scale value..
 	float			m_fScalePrev;
 
 public:
-	class CN3ShapeExtra*	m_pShapeExtraRef;			// 이 NPC 가 성문이나 집등 오브젝트의 형태이면 이 포인터를 세팅해서 쓴,다..
+	class CN3ShapeExtra*	m_pShapeExtraRef;			// If this NPC is in the form of an object such as a gate or a house, this pointer is set and used.
 
 	int					m_iMagicAni;
-	int					m_iIDTarget;			// 타겟 ID...
-	int					m_iDroppedItemID;		// 죽은후 떨어트린 아이템
-	bool				m_bGuardSuccess;		// 방어에 성공했는지에 대한 플래그..
-	bool				m_bVisible;				// 보이는지??
+	int					m_iIDTarget;			// Target ID...
+	int					m_iDroppedItemID;		// Items dropped after death
+	bool				m_bGuardSuccess;		// A flag for whether the defense was successful.
+	bool				m_bVisible;				// can you see??
 
-	__InfoPlayerBase	m_InfoBase;				// 캐릭터 정보..
-	__Vector3			m_vPosFromServer;		// 최근에 서버에게서 받은 현재 위치..	
+	__InfoPlayerBase	m_InfoBase;				// Character information...
+	__Vector3			m_vPosFromServer;		// The current location recently received from the server.
 
-	float				m_fTimeAfterDeath;		// 죽은지 지난시간 - 5초정도면 적당한가?? 그전에 공격을 받으면 바로 죽는다.
+	float				m_fTimeAfterDeath;		// Last time since death - 5 seconds is enough?? If you get hit before that, you die immediately.
 
-	int					m_iSkillStep;			// 현재 스킬을 쓰고 있다면 0 이 아닌값이다...
-	float				m_fAttackDelta;			// 스킬이나 마법에 의해 변하는 공격 속도.. 1.0 이 기본이고 클수록 더 빨리 공격한다.
-	float				m_fMoveDelta;			// 스킬이나 마법에 의해 변하는 이동 속도 1.0 이 기본이고 클수록 더 빨리 움직인다.
-	__Vector3			m_vDirDying;			// 죽을때 밀리는 방향..
+	int					m_iSkillStep;			// Non-zero if the current skill is being used...
+	float				m_fAttackDelta;			// Attack speed that changes by skill or magic.. 1.0 is the default, and the higher it is, the faster it attacks.
+	float				m_fMoveDelta;			// Movement speed that changes by skill or magic is 1.0 by default, and the higher it is, the faster it moves.
+	__Vector3			m_vDirDying;			// The direction you move when you die.
 
-	//sound..
+	// sound..
 	bool			m_bSoundAllSet;
 	CN3SndObj*		m_pSnd_Attack_0;
-//	CN3SndObj*		m_pSnd_Attack_1;
+	// CN3SndObj* m_pSnd_Attack_1;
 	CN3SndObj*		m_pSnd_Move;
 	CN3SndObj*		m_pSnd_Struck_0;
-//	CN3SndObj*		m_pSnd_Struck_1;
-//	CN3SndObj*		m_pSnd_Dead_0;
-//	CN3SndObj*		m_pSnd_Dead_1;
+	// CN3SndObj* m_pSnd_Struck_1;
+	// CN3SndObj* m_pSnd_Dead_0;
+	// CN3SndObj* m_pSnd_Dead_1;
 	CN3SndObj*		m_pSnd_Breathe_0;
-//	CN3SndObj*		m_pSnd_Breathe_1;
+	// CN3SndObj* m_pSnd_Breathe_1;
 
 	CN3SndObj*		m_pSnd_Blow;
 
 	float			m_fCastFreezeTime;
 
-// 함수...
-//	By : Ecli666 ( On 2002-03-29 오후 1:32:12 )
-//	
+	// function...
+	// By : Ecli666 ( On 2002-03-29 1:32:12 PM )
+	// 
 	CBitset				m_bitset[SHADOW_SIZE];			// Used in Quake3.. ^^
 	__VertexT1			m_pvVertex[4];
 	unsigned short		m_pIndex[6];
@@ -130,9 +130,9 @@ public:
 
 protected:
 	void			RenderShadow(float fSunAngle);
-//	~(By Ecli666 On 2002-03-29 오후 1:32:12 )
+	// ~(By Ecli666 On Mar 29 2002 1:32:12 PM )
 
-	virtual bool	ProcessAttack(CPlayerBase* pTarget); // 공격 루틴 처리.. 타겟 포인터를 구하고 충돌체크까지 하며 충돌하면 참을 리턴..
+	virtual bool	ProcessAttack(CPlayerBase* pTarget); // Attack routine processing.. Get target pointer, check for collision, and return true if collided..
 
 public:
 	const __Matrix44*	JointMatrixGet(int nJointIndex) const { return m_Chr.MatrixGet( nJointIndex); }
@@ -144,59 +144,59 @@ public:
 	virtual void	SetSoundAndInitFont();
 	void			SetSoundPlug(__TABLE_ITEM_BASIC* pItemBasic);
 	void			ReleaseSoundAndFont();
-	void			RegenerateCollisionMesh(); // 최대 최소값을 다시 찾고 충돌메시를 다시 만든다..
-	e_StateAction	State() { return m_eState; } // 행동 상태...
-	e_StateMove		StateMove() { return m_eStateMove; } // 움직이는 상태
+	void			RegenerateCollisionMesh(); // Find the maximum and minimum values again and recreate the collision mesh.
+	e_StateAction	State() { return m_eState; } // action state...
+	e_StateMove		StateMove() { return m_eStateMove; } // moving state
 
 	e_ItemClass		ItemClass_RightHand()
 	{
-		if(m_pItemPlugBasics[PLUG_POS_RIGHTHAND]) return (e_ItemClass)(m_pItemPlugBasics[PLUG_POS_RIGHTHAND]->byClass); // 아이템 타입 - 오른손
+		if(m_pItemPlugBasics[PLUG_POS_RIGHTHAND]) return (e_ItemClass)(m_pItemPlugBasics[PLUG_POS_RIGHTHAND]->byClass); // Item Type - Right Hand
 		else return ITEM_CLASS_UNKNOWN;
 	}
 	e_ItemClass		ItemClass_LeftHand()
 	{
-		if(m_pItemPlugBasics[PLUG_POS_LEFTHAND]) return (e_ItemClass)(m_pItemPlugBasics[PLUG_POS_LEFTHAND]->byClass); // 아이템 타입 - 오른손
+		if(m_pItemPlugBasics[PLUG_POS_LEFTHAND]) return (e_ItemClass)(m_pItemPlugBasics[PLUG_POS_LEFTHAND]->byClass); // Item Type - Right Hand
 		else return ITEM_CLASS_UNKNOWN;
 	}
 	
-	e_Ani	JudgeAnimationBreath(); // 숨쉬기 모션 판단하기.. 가진 아이템과 타겟이 있는냐에 따라 다른 에니메이션 인덱스를 리턴.
-	e_Ani	JudgeAnimationWalk(); // 걷기 모드판단하기.. 가진 아이템과 타겟이 있는냐에 따라 다른 에니메이션 인덱스를 리턴.
-	e_Ani	JudgeAnimationRun(); // 걷기 모드판단하기.. 가진 아이템과 타겟이 있는냐에 따라 다른 에니메이션 인덱스를 리턴.
-	e_Ani	JudgeAnimationWalkBackward(); // 걷기 모드판단하기.. 가진 아이템과 타겟이 있는냐에 따라 다른 에니메이션 인덱스를 리턴.
-	e_Ani	JudgeAnimationAttack(); // 공격 모션 판단하기.. 가진 아이템에 따라 다른 에니메이션 인덱스를 리턴.
-	e_Ani	JudgeAnimationStruck(); // 단지 NPC 와 유저를 구별해서 에니메이션 인덱스를 리턴
-	e_Ani	JudgeAnimationGuard(); // 막는 동작 판단하기.  단지 NPC 와 유저를 구별해서 에니메이션 인덱스를 리턴
-	e_Ani	JudgeAnimationDying(); // 단지 NPC 와 유저를 구별해서 에니메이션 인덱스를 리턴
-	e_Ani	JudgetAnimationSpellMagic(); // 마법 동작 
+	e_Ani	JudgeAnimationBreath(); // Determine the breathing motion.. Returns different animation indexes depending on the item you have and whether there is a target.
+	e_Ani	JudgeAnimationWalk(); // Determining the walking mode.. Returns different animation indexes depending on the item you have and whether there is a target.
+	e_Ani	JudgeAnimationRun(); // Determining the walking mode.. Returns different animation indexes depending on the item you have and whether there is a target.
+	e_Ani	JudgeAnimationWalkBackward(); // Determining the walking mode.. Returns different animation indexes depending on the item you have and whether there is a target.
+	e_Ani	JudgeAnimationAttack(); // Determining the attack motion.. Returns different animation indexes depending on the item you have.
+	e_Ani	JudgeAnimationStruck(); // It just distinguishes between NPC and user and returns the animation index.
+	e_Ani	JudgeAnimationGuard(); // Evaluate the blocking action. It just distinguishes between NPC and user and returns the animation index.
+	e_Ani	JudgeAnimationDying(); // It just distinguishes between NPC and user and returns the animation index.
+	e_Ani	JudgetAnimationSpellMagic(); // magic action
 
-	bool			IsDead() { return ( PSA_DYING == m_eState || PSA_DEATH == m_eState ); } // 죽어있는지?
-	bool			IsAlive() { return !IsDead(); } // 살아있는지?
-	bool			IsMovingNow() { if(PSM_WALK == m_eStateMove || PSM_RUN == m_eStateMove || PSM_WALK_BACKWARD == m_eStateMove) return true; return false; } // 움직이고 있는지?
+	bool			IsDead() { return ( PSA_DYING == m_eState || PSA_DEATH == m_eState ); } // is it dead
+	bool			IsAlive() { return !IsDead(); } // Are you alive?
+	bool			IsMovingNow() { if(PSM_WALK == m_eStateMove || PSM_RUN == m_eStateMove || PSM_WALK_BACKWARD == m_eStateMove) return true; return false; } // are you moving?
 
 	void			AnimationAdd(e_Ani eAni, bool bImmediately);
 	void			AnimationClear() { m_AnimationDeque.clear(); }
 	int				AnimationCountRemain() { return m_AnimationDeque.size() + 1; }
-	bool			IsAnimationChange() { return m_bAnimationChanged; }	// 큐에 넣은 에니메이션이 변하는 순간만 세팅된다..
+	bool			IsAnimationChange() { return m_bAnimationChanged; }	// It is set only when the cued animation changes.
 
-	bool			Action(e_StateAction eState, bool bLooping, CPlayerBase* pTarget = nullptr, bool bForceSet = false); // 행동 테이블에 따른 행동을 한다..
-	bool			ActionMove(e_StateMove eMove); // 움직이기..
-	void			ActionDying(e_StateDying eSD, const __Vector3& vDir); // 죽는 방법 결정하기..
+	bool			Action(e_StateAction eState, bool bLooping, CPlayerBase* pTarget = nullptr, bool bForceSet = false); // Take action according to the action table.
+	bool			ActionMove(e_StateMove eMove); // moving...
+	void			ActionDying(e_StateDying eSD, const __Vector3& vDir); // Deciding how to die...
 
-	float			Yaw() { return m_fYawCur; } // 회전값..
+	float			Yaw() { return m_fYawCur; } // rotation value.
 	float			MoveSpeed() { return m_fMoveSpeedPerSec; }
 	__Vector3		Position() const { return m_Chr.Pos(); }
 	void			PositionSet(const __Vector3& vPos, bool bForcely) { m_Chr.PosSet(vPos); if(bForcely) m_fYNext = vPos.y; }
 	float			Distance(const __Vector3& vPos) { return (m_Chr.Pos() - vPos).Magnitude(); }
 	__Vector3		Scale() { return m_Chr.Scale(); }
 	void			ScaleSet(float fScale) { m_fScaleToSet = m_fScalePrev = fScale; m_Chr.ScaleSet(fScale, fScale, fScale); }
-	void			ScaleSetGradually(float fScale) { m_fScaleToSet = fScale; m_fScalePrev = m_Chr.Scale().y; } // 점차 스케일 변화..
+	void			ScaleSetGradually(float fScale) { m_fScaleToSet = fScale; m_fScalePrev = m_Chr.Scale().y; } // Scale changes gradually.
 	__Vector3		Direction() const;
 	__Quaternion	Rotation() { return m_Chr.Rot(); }
 	void			RotateTo(float fYaw, bool bImmediately);
-	void			RotateTo(CPlayerBase* pOther); // 이넘을 바라본다.
+	void			RotateTo(CPlayerBase* pOther); // looking at this
 	float			Height();
 	float			Radius();
-	__Vector3		HeadPosition(); // 항상 변하는 머리위치를 가져온다..
+	__Vector3		HeadPosition(); // Brings always changing head position.
 	__Vector3		RootPosition() { if(!m_Chr.m_MtxJoints.empty()) return m_Chr.m_MtxJoints[0].Pos(); return __Vector3(0,0,0); }
 	int				LODLevel() { return m_Chr.m_nLOD; }
 
@@ -204,19 +204,19 @@ public:
 	__Vector3		Min();
 	__Vector3		Center();
 
-	void			DurationColorSet(const _D3DCOLORVALUE& color, float fDurationTime); // 컬러를 정하는 시간대로 유지하면서 원래색대로 돌아간다.
+	void			DurationColorSet(const _D3DCOLORVALUE& color, float fDurationTime); // It returns to the original color while maintaining the color for the set time.
 	void			FlickerFactorSet(float fAlpha);
 
 	void			InfoStringSet(const std::string& szInfo, D3DCOLOR crFont);
 	void			BalloonStringSet(const std::string& szBalloon, D3DCOLOR crFont);
 	void			IDSet(int iID, const std::string& szID, D3DCOLOR crID);
 	virtual void	KnightsInfoSet(int iID, const std::string& szName, int iGrade, int iRank);
-	const std::string&	IDString() { return m_InfoBase.szID; } // ID 는 Character 포인터의 이름으로 대신한다.
+	const std::string&	IDString() { return m_InfoBase.szID; } // ID is replaced by the name of the Character pointer.
 	int				IDNumber() { return m_InfoBase.iID; }
 	CPlayerBase*	TargetPointerCheck(bool bMustAlive);
 
-	////////////////////
-	// 충돌 체크 함수들...
+	// 
+	// Collision checking functions...
 	bool				CheckCollisionByBox(const __Vector3& v0, const __Vector3& v1, __Vector3* pVCol, __Vector3* pVNormal);
 	bool				CheckCollisionToTargetByPlug(CPlayerBase* pTarget, int nPlug, __Vector3* pVCol);
 
@@ -229,15 +229,15 @@ public:
 	virtual CN3CPlugBase*	PlugSet(e_PlugPosition ePos, const std::string& szFN, __TABLE_ITEM_BASIC* pItemBasic, __TABLE_ITEM_EXT* pItemExt);
 	virtual void			DurabilitySet(e_ItemSlot eSlot, int iDurability);
 
-	void TickYaw();				// 회전값 처리.
-	void TickAnimation();		// 에니메이션 처리.
-	void TickDurationColor();	// 캐릭터 색깔 변화 처리.
-	void TickSound();			// Sound 처리..
+	void TickYaw();				// Rotation value handling.
+	void TickAnimation();		// animation processing.
+	void TickDurationColor();	// Handling character color changes.
+	void TickSound();			// Sound processing..
 
 	virtual void		Tick();
 	virtual void		Render(float fSunAngle);
 	virtual void		RenderCollisionMesh() { m_Chr.RenderCollisionMesh(); }
-	void				RenderChrInRect(CN3Chr* pChr, const RECT& Rect);	// Dino 추가, 지정된 사각형안에 캐릭터를 그린다. 
+	void				RenderChrInRect(CN3Chr* pChr, const RECT& Rect);	// Add Dino, draw a character in the specified rectangle.
 
 	void				Release();
 

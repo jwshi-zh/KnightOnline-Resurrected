@@ -23,7 +23,7 @@ void CCatapult::ReCalcMatrix4AnimatedPart()
 {
 	CMachineBase::ReCalcMatrix4AnimatedPart();
 
-	if (m_Thrower.bFire == TRUE)	// 발사 상태이면
+	if (m_Thrower.bFire == TRUE)	// if firing
 	{
 		const int iSize = m_Parts.size();
 		for(int i = 0; i < iSize; i++)
@@ -57,36 +57,36 @@ void CCatapult::Tick(float fFrm)
 	}
 
 	BOOL IsStoneThrown = FALSE;
-	if (m_Thrower.bFire == TRUE)	// 발사 상태이면
+	if (m_Thrower.bFire == TRUE) // if fire state
 	{
 		m_Thrower.fTime += s_fSecPerFrm;
 		float fReloadTime = m_Thrower.fTime - (m_Thrower.fReleaseTime + m_Thrower.fReloadDelayTime);
-		if (fReloadTime<0)	// 발사중이거나 delay상태중..
+		if (fReloadTime&lt;0) // firing or delaying...
 		{
 			float fVibrationTime = m_Thrower.fTime - m_Thrower.fReleaseTime;
 			if (fVibrationTime<0)
 			{
 				m_Thrower.fCurRadian = -m_Thrower.fRadianAccel*(m_Thrower.fTime*m_Thrower.fTime);
 			}
-			else // 발사후 반동으로 인해 진동중 
+			else // Vibrating due to recoil after firing
 			{
 				if (m_Thrower.bDontRenderStone == FALSE)
 				{
-					m_Thrower.bDontRenderStone = TRUE;	// 돌덩이 안그리기
+					m_Thrower.bDontRenderStone = TRUE; // don&#39;t draw boulders
 
-					// 돌 날리는 메세지 발생 해야 한다.(한번만)
+					// The stone throwing message should occur (once only)
 					IsStoneThrown = TRUE;
 				}
 
 				float fFactor = fVibrationTime*20.0f;
-				// 진동 5번만..
+				// Only 5 vibrations...
 				if ( fFactor < D3DX_PI*8) m_Thrower.fCurRadian = -m_Thrower.fLimitRadian - sinf(fFactor) * (m_Thrower.fRecoilRadian/(10*(1.0f+fVibrationTime)*(1.0f+fVibrationTime)));
 				else m_Thrower.fCurRadian = -m_Thrower.fLimitRadian;
 			}
 		}
 		else
 		{
-			m_Thrower.bDontRenderStone = TRUE;	// 돌덩이 안그리기
+			m_Thrower.bDontRenderStone = TRUE; // don&#39;t draw boulders
 
 			m_Thrower.fCurRadian = -(m_Thrower.fLimitRadian - fReloadTime*m_Thrower.fRadianSpeed2Reload);
 			if (m_Thrower.fCurRadian > 0)
@@ -100,7 +100,7 @@ void CCatapult::Tick(float fFrm)
 	}
 	CMachineBase::Tick(fFrm);
 
-	// 돌덩이 위치 계산
+	// Calculate the position of the boulder
 	if (m_Thrower.bDontRenderStone == FALSE)
 	{
 		__Matrix44& mtx = m_Thrower.pStone->m_Matrix;
@@ -114,14 +114,14 @@ void CCatapult::Tick(float fFrm)
 
 	if (IsStoneThrown)
 	{
-		__Matrix44 mtx; // 회전 행렬 구하기..
+		__Matrix44 mtx; // Get the rotation matrix...
 		mtx.Identity();
 		mtx.RotationX(m_Thrower.fLimitRadian);
 		mtx.PosSet(m_Thrower.pThrowerPart->m_vPivot);
 		mtx *= m_Matrix;
 
-		// 돌 날리는 메세지 발생
-		// tigger - 08.25 직접 메시지를 만들어서 날린다..
+		// generate stone throwing message
+		// trigger - 08.25 Create and send a direct message..
 		LocalMsg Msg;
 		Msg.s_MagicNum			= MAGIC_NUM;
 		Msg.s_iAddressLen		= CN3GameBase::s_pMsgRouter->GetThisClassLevel(ID_FX_MGR);
@@ -130,14 +130,14 @@ void CCatapult::Tick(float fFrm)
 		Msg.s_ipAddress[1]		= ID_FX_MGR;
 
 		Msg.s_iGameID			= ID_THROW_STONE;
-		Msg.s_vPos				= m_Thrower.vStoneOffset * mtx; // 위치
-		__Vector3 vVel; vVel.Set(0, sinf(m_fFireRadian), cosf(m_fFireRadian)); // 방향 계산.
-		mtx = m_Matrix;	mtx.PosSet(0,0,0);
-		Msg.s_vDir= vVel*mtx; Msg.s_vDir.Normalize();// 방향
-		Msg.s_fVelocity			= m_fFireSpeed; // 날아가는 스피드..
-		Msg.s_pShape			= m_Thrower.pStone; // 돌 Shape
+		Msg.s_vPos				= m_Thrower.vStoneOffset * mtx; // location
+		__Vector3 vVel; vVel.Set(0, sinf(m_fFireRadian), cosf(m_fFireRadian)); // Calculate direction.
+		mtx = m_Matrix; mtx.PosSet(0,0,0);
+		Msg.s_vDir= vVel*mtx; Msg.s_vDir.Normalize();// direction
+		Msg.s_fVelocity = m_fFireSpeed; // flying speed...
+		Msg.s_pShape			= m_Thrower.pStone; // stone shape
 		
-		CN3GameBase::s_pMsgRouter->m_cMsgQueue.RouteLocalMsg(Msg); // Message 보냄..
+		CN3GameBase::s_pMsgRouter->m_cMsgQueue.RouteLocalMsg(Msg); // Message sent..
 	}
 */
 }
@@ -148,8 +148,8 @@ void CCatapult::LoadMachine(FILE* stream)
 	Release();
 	CMachineBase::LoadMachine(stream);
 
-	char szThrowerName[_MAX_PATH];	// Thrower pmesh파일 이름
-	char szStoneShapeName[_MAX_PATH];	// stone shape의 이름
+	char szThrowerName[_MAX_PATH];	// Thrower pmeshfilename
+	char szStoneShapeName[_MAX_PATH];	// name of stone shape
 
 	int result;
 	float x, y, z;
@@ -167,19 +167,19 @@ void CCatapult::LoadMachine(FILE* stream)
 	m_Thrower.pStone->Load(szStoneShapeName);
 	m_Thrower.vStoneOffset.Set(x, y, z);
 
-	// 발사에 걸리는 시간 계산
+	// Calculate how long it takes to launch
 	m_Thrower.fReleaseTime = sqrtf(m_Thrower.fLimitRadian/m_Thrower.fRadianAccel);
 
-	// Thrower 찾기
+	// Find Thrower
 	m_Thrower.pThrowerPart = GetPartByPMeshName(szThrowerName);
 }
 
 void CCatapult::Fire()
 {
-	if (m_Thrower.bFire == TRUE) return;	// 이미 발사상태이다.
+	if (m_Thrower.bFire == TRUE) return;	// It is already in launch condition.
 
 	m_Thrower.bFire = TRUE;
 	m_Thrower.fTime = 0;
 	m_Thrower.fCurRadian = 0;
-	m_Thrower.bDontRenderStone = FALSE;	// 돌덩이 그리기
+	m_Thrower.bDontRenderStone = FALSE;	// stone drawing
 }

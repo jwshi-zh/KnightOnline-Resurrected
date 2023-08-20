@@ -31,19 +31,19 @@ bool CUINpcTalk::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 	{
 		if(pSender->m_szID == "btn_0")
 		{
-//			CGameProcedure::s_pProcMain->m_pUITradeList->Open(m_iIDTarget);
+			// CGameProcedure::s_pProcMain->m_pUITradeList->Open(m_iIDTarget);
 			Close();
 		}
 
 		if(pSender->m_szID == "btn_1")
 		{
-//			CGameProcedure::s_pProcMain->m_pUITradeList->Open(m_iIDTarget);
+			// CGameProcedure::s_pProcMain->m_pUITradeList->Open(m_iIDTarget);
 			Close();
 		}
 
 		if(pSender->m_szID == "btn_2")
 		{
-//			CGameProcedure::s_pProcMain->m_pUITradeList->Open(m_iIDTarget);
+			// CGameProcedure::s_pProcMain->m_pUITradeList->Open(m_iIDTarget);
 			Close();
 		}
 

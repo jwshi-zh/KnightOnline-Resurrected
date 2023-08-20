@@ -12,15 +12,15 @@ CGameEng::CGameEng()
 {
 	m_pActiveCam	= nullptr;
 
-	// 프로그램이 실행된 경로..
+	// path where the program was executed.
 	char szBuf[_MAX_PATH];
 	char szDrive[_MAX_DRIVE], szDir[_MAX_DIR];
 	::GetModuleFileName(nullptr, szBuf, _MAX_PATH);
 	_splitpath(szBuf, szDrive, szDir, nullptr, nullptr);
 	_makepath(szBuf, szDrive, szDir, nullptr, nullptr);
 
-	///////////////////////////////////////////////////////////////
-	// 기본 카메라 세팅..
+	// 
+	// Basic camera settings...
 	auto* pCamera			= new CN3Camera();
 	pCamera->m_bFogUse			= TRUE;
 	pCamera->m_Data.fFOV		= D3DXToRadian(70);
@@ -32,51 +32,51 @@ CGameEng::CGameEng()
 	m_vEyeToReach = pCamera->EyePos();
 	m_vAtToReach = pCamera->AtPos();
 
-//	m_eViewPoint = VP_BACKWARD; // 기본은 1.5인칭(플레이어 뒤에서 바라본 모습)으로 시작.
-	m_eViewPoint = VP_THIRD_PERSON; // 기본은 3인칭으로 시작.
-	m_fRotPitchFirstPerson = 0.0f; // 일인칭 시점일때 카메라 피치 각도.
-	m_fRotPitchBackward = 0.0f; // 삼인칭 시점일때 카메라 피치 각도.
-	m_fRotPitchFoward = 0.0f; // 앞에서 본 시점일때  카메라 피치 각도.
+	// m_eViewPoint = VP_BACKWARD; // Defaults to start in 1.5 person (looking from behind the player).
+	m_eViewPoint = VP_THIRD_PERSON; // The default is to start in 3rd person.
+	m_fRotPitchFirstPerson = 0.0f; // Camera pitch angle when in first person view.
+	m_fRotPitchBackward = 0.0f; // Camera pitch angle when in third person view.
+	m_fRotPitchFoward = 0.0f; // The camera pitch angle when viewed from the front.
 	m_fRotPitchThirdFirson = D3DXToRadian(25.0f);
-	m_fOffsetVPGod = 7.0f; // 위에서 본시점일때 카메라 거리..
-	m_fRotYawVPGod = 0.0f; // 위에서 바라본 시점일 경우에 카메라 회전각도..
-	m_fZoomBackwardOrFoward = 1.0f; // 1.5인칭, 앞에서 본 시점일때 카메라 Zoom 1.0f 가 기준이다.
-	// 기본 카메라 세팅..
-	///////////////////////////////////////////////////////////////
+	m_fOffsetVPGod = 7.0f; // Camera distance when viewed from above.
+	m_fRotYawVPGod = 0.0f; // The angle of rotation of the camera when viewed from above.
+	m_fZoomBackwardOrFoward = 1.0f; // 1.5 person, camera zoom 1.0f is standard when viewed from the front.
+	// Basic camera settings...
+	// 
 
-	m_fLightningTimeRemain = 0.0f; // 번개 칠때 타이머..
+	m_fLightningTimeRemain = 0.0f; // Timer when lightning strikes.
 
-	///////////////////////////////////////////////////////////////
-	// 기본 라이트 세팅
+	// 
+	// default light settings
 	/*
 	D3DCOLORVALUE crLgt;
 
 	crLgt.a = 0.0f, crLgt.r = crLgt.g = crLgt.b = 0.8f;
-	CN3Light* pLightGlobal = new CN3Light(); // 전체를 비출 라이트..
+	CN3Light* pLightGlobal = new CN3Light(); // Light to illuminate the whole..
 	pLightGlobal->m_Data.InitDirection(0, __Vector3(0,-1,0), crLgt);
 	this->LightAdd(pLightGlobal);
 
 	crLgt.a = 0.0f, crLgt.r = crLgt.g = crLgt.b = 0.5f;
-	CN3Light* pLightGlobal2 = new CN3Light(); // 반대 편에서 전체를 비출 라이트..
+	CN3Light* pLightGlobal2 = new CN3Light(); // A light that illuminates the whole from the other side..
 	pLightGlobal2->m_Data.InitDirection(1, __Vector3(0,1,0), crLgt);
 	this->LightAdd(pLightGlobal2);
 
 	crLgt.a = 0.0f, crLgt.r = crLgt.g = crLgt.b = 0.3f;
-	CN3Light* pLight = new CN3Light(); // 카메라와 붙어 다닌다...
+	CN3Light* pLight = new CN3Light(); // stick with the camera...
 	pLight->m_Data.InitPoint(2, __Vector3(0,0,0), crLgt, 32.0f);
 	this->LightAdd(pLight);
 	*/
-	// 기본 라이트 세팅
-	///////////////////////////////////////////////////////////////
+	// default light settings
+	// 
 	m_pRefLightSun = nullptr;
 	m_pRefLightSupport = nullptr;
 	m_pRefLightCam = nullptr;
 
-	m_fFPDeltaCur = 1.0f; // 현재 
-	m_fFPDeltaToReach = 1.0f; // 이값을 목표로 해서 변한다.
+	m_fFPDeltaCur = 1.0f; // today
+	m_fFPDeltaToReach = 1.0f; // It changes by targeting this value.
 
-//	m_fLightDeltaCur = 1.0f;
-//	m_fLightDeltaToReach = 1.0f; // 이값을 목표로 해서 변한다.
+	// m_fLightDeltaCur = 1.0f;
+	// m_fLightDeltaToReach = 1.0f; // Target this value and change it.
 }
 
 CGameEng::~CGameEng()
@@ -140,17 +140,17 @@ void CGameEng::SetDefaultLight(CN3Light* pSun, CN3Light* pSupport, CN3Light* pCa
 	m_pRefLightCam = pCam;
 }
 
-//////////////////////////////////////////////////////////////////////
 // 
-//////////////////////////////////////////////////////////////////////
+// 
+// 
 
-void CGameEng::Tick(const D3DCOLOR* crDiffuses,			// Diffuse 라이트 색깔.. 3 개 쓴다.
-					const D3DCOLOR* crAmbients,			// Ambient 라이트 색깔.. 3 개 쓴다.
-					const D3DCOLOR crFog,				// 안개 색깔..
-					const __Vector3& vPosPlayer,		// 플레이어 위치
-					const __Quaternion& qtPlayer,		// 회전 쿼터니언
-					float fHeightPlayer,				// 키를 인수로 넣으면 카메라와 라이트 처리..
-					float fSunRadianZ)					// 해의 Z 각도..
+void CGameEng::Tick(const D3DCOLOR* crDiffuses,			// Diffuse light color.. Write 3 pieces.
+					const D3DCOLOR* crAmbients,			// Ambient light color.. Write 3 pieces.
+					const D3DCOLOR crFog,				// Fog color...
+					const __Vector3& vPosPlayer,		// player position
+					const __Quaternion& qtPlayer,		// rotation quaternion
+					float fHeightPlayer,				// If you put the key as an argument, the camera and light handling...
+					float fSunRadianZ)					// The Z angle of the sun..
 {
 	if(nullptr == m_pActiveCam) return;
 
@@ -160,7 +160,7 @@ void CGameEng::Tick(const D3DCOLOR* crDiffuses,			// Diffuse 라이트 색깔.. 
 	__Vector3 vAxis(0,1,0);
 	qtRot.AxisAngle(vAxis, fYaw);
 	
-	if(vAxis.y < 0) // 회전축이 음수이면.
+	if(vAxis.y < 0) // If the axis of rotation is negative.
 	{
 		vAxis.y *= -1.0f;
 		fYaw *= -1.0f;
@@ -210,31 +210,31 @@ void CGameEng::Tick(const D3DCOLOR* crDiffuses,			// Diffuse 라이트 색깔.. 
 		break;
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////
-	// 카메라 충돌 체크...
-	if(VP_FIRST_PERSON == m_eViewPoint) // 일인칭때는 충돌체크 안한다.
+	// 
+	// Camera collision check...
+	if(VP_FIRST_PERSON == m_eViewPoint) // No collision checks in first person.
 	{
 		auto vUp = __Vector3(0, 1, 0);
-		m_pActiveCam->LookAt(m_vEyeToReach, m_vAtToReach, vUp); // 처다본다..
+		m_pActiveCam->LookAt(m_vEyeToReach, m_vAtToReach, vUp); // I stare..
 	}
 	else
 	{
 		__Vector3 vEyeResult = m_vEyeToReach;
 		float fNP = m_pActiveCam->m_Data.fNP;
-		CGameBase::ACT_WORLD->CheckCollisionCameraWithTerrain(vEyeResult, m_vAtToReach, fNP); // 지형과 충돌체크
-		CGameBase::ACT_WORLD->CheckCollisionCameraWithShape(vEyeResult, m_vAtToReach, fNP); // 오브젝트와 충돌체크..
+		CGameBase::ACT_WORLD->CheckCollisionCameraWithTerrain(vEyeResult, m_vAtToReach, fNP); // Terrain and Collision Check
+		CGameBase::ACT_WORLD->CheckCollisionCameraWithShape(vEyeResult, m_vAtToReach, fNP); // Collision check with object.
 		auto vUp = __Vector3(0, 1, 0);
-		m_pActiveCam->LookAt(vEyeResult, m_vAtToReach, vUp); // 처다본다..
+		m_pActiveCam->LookAt(vEyeResult, m_vAtToReach, vUp); // I stare..
 	}
-	// 카메라 충돌 체크...
-	////////////////////////////////////////////////////////////////////////////////////
+	// Camera collision check...
+	// 
 
 
-	// 파 플레인 값을 조정..
-	// ApplyCameraAndLight 에서 실제로 안개등의 값을 조절한다.
+	// Adjust the Far Plane value..
+	// In ApplyCameraAndLight, we actually adjust the value of the fog lights.
 	if(m_fFPDeltaCur != m_fFPDeltaToReach)
 	{
-		float fFPChange = (m_fFPDeltaToReach - m_fFPDeltaCur) * s_fSecPerFrm / 5.0f; // 5초동안 변하게 한다.
+		float fFPChange = (m_fFPDeltaToReach - m_fFPDeltaCur) * s_fSecPerFrm / 5.0f; // change for 5 seconds.
 		m_fFPDeltaCur += fFPChange;
 
 		if(fFPChange < 0 && m_fFPDeltaCur < m_fFPDeltaToReach) m_fFPDeltaCur = m_fFPDeltaToReach;
@@ -243,11 +243,11 @@ void CGameEng::Tick(const D3DCOLOR* crDiffuses,			// Diffuse 라이트 색깔.. 
 	float fFPToRestore = m_pActiveCam->m_Data.fFP;
 	m_pActiveCam->m_Data.fFP = s_Options.iViewDist * m_fFPDeltaCur;
 	
-	m_pActiveCam->m_FogColor = crFog; // 안개색을 맞춘다..
-	m_pActiveCam->Tick(); // 적용및 사면체등등의 값들을 계산..
+	m_pActiveCam->m_FogColor = crFog; // Match the color of the fog...
+	m_pActiveCam->Tick(); // Calculate values such as application and tetrahedron..
 
 	__Matrix44 mtxRotSun;
-	mtxRotSun.RotationZ(fSunRadianZ); // 해의 각도에 맞춘다..
+	mtxRotSun.RotationZ(fSunRadianZ); // Adjust the angle of the sun.
 
 	/*
 	it_Light itLgt = m_Lights.begin();
@@ -257,33 +257,33 @@ void CGameEng::Tick(const D3DCOLOR* crDiffuses,			// Diffuse 라이트 색깔.. 
 		CN3Light* pLight = *itLgt;
 		__ASSERT(pLight, "Light pointer is NULL!!!");
 		
-		if(0 == pLight->m_Data.nNumber) // 기본 디렉셔널 라이트
+		if(0 == pLight-&gt;m_Data.nNumber) // default directional light
 		{
-			// View Matrix 각도와 방향을 맞춘다..
-//			__Vector3 vDir(0.0f,-1.5f,1.0f);
-//			vDir.Normalize();
-//			__Matrix44 mtxVI = s_CameraData.mtxViewInverse;
-//			mtxVI.PosSet(0,0,0);
-//			pLight->m_Data.Direction = vDir * mtxVI;
+			// Align View Matrix angle and direction.
+			// __Vector3 vDir(0.0f,-1.5f,1.0f);
+			// vDir.Normalize();
+			// __Matrix44 mtxVI = s_CameraData.mtxViewInverse;
+			// mtxVI.PosSet(0,0,0);
+			// pLight->m_Data.Direction = vDir * mtxVI;
 
-			// 해와 방향을 맞춘다..
+			// Align the sun and direction.
 			__Matrix44 mtxRot; mtxRot.RotationZ(fSunRadianZ);
 			__Vector3 vDir(-1,0,1);
 			vDir *= mtxRot;
 			vDir.Normalize();
 			pLight->m_Data.Direction = vDir;
 			
-			// 라이트 컬러 적용..
+			// Apply light color..
 			pLight->m_Data.Diffuse = ::_D3DCOLOR_To_D3DCOLORVALUE(crDiffuses[0]);
 			pLight->m_Data.Ambient = ::_D3DCOLOR_To_D3DCOLORVALUE(crAmbients[0]);
 		}
 		else if(1 == pLight->m_Data.nNumber)
 		{
-			__Vector3 vDir(2,-3, 2); // 위에서 아래로 ...
+			__Vector3 vDir(2,-3, 2); // top to bottom...
 			vDir.Normalize();
 			pLight->m_Data.Direction = vDir;
 			
-			// 라이트 컬러 적용..
+			// Apply light color..
 			pLight->m_Data.Diffuse = ::_D3DCOLOR_To_D3DCOLORVALUE(crDiffuses[1]);
 			pLight->m_Data.Ambient = ::_D3DCOLOR_To_D3DCOLORVALUE(crAmbients[1]);
 		}
@@ -291,15 +291,15 @@ void CGameEng::Tick(const D3DCOLOR* crDiffuses,			// Diffuse 라이트 색깔.. 
 		{
 			__Vector3 vPos = s_CameraData.vEye;
 			vPos.y += 16.0f;
-			pLight->PosSet(vPos); // 카메라 위에 가게 한다..
+			pLight-&gt;PosSet(vPos); // let it go on top of the camera..
 			
-			// 라이트 컬러 적용..
+			// Apply light color..
 			pLight->m_Data.Diffuse = ::_D3DCOLOR_To_D3DCOLORVALUE(crDiffuses[2]);
 			pLight->m_Data.Ambient = ::_D3DCOLOR_To_D3DCOLORVALUE(crAmbients[2]);
 		}
 
 
-		// 번개 처리..
+		// handle lightning...
 		if(m_fLightningTimeRemain > 0)
 		{
 			float fLightningDelta = 0;
@@ -322,18 +322,18 @@ void CGameEng::Tick(const D3DCOLOR* crDiffuses,			// Diffuse 라이트 색깔.. 
 	*/
 	if(m_pRefLightSun)
 	{
-		// 해와 방향을 맞춘다..
+		// Align the direction with the sun.
 		__Matrix44 mtxRot; mtxRot.RotationZ(fSunRadianZ);
 		__Vector3 vDir(-1,0,1);
 		vDir *= mtxRot;
 		vDir.Normalize();
 		m_pRefLightSun->m_Data.Direction = vDir;
 		
-		// 라이트 컬러 적용..
+		// Apply light color..
 		m_pRefLightSun->m_Data.Diffuse = ::_D3DCOLOR_To_D3DCOLORVALUE(crDiffuses[0]);
 		m_pRefLightSun->m_Data.Ambient = ::_D3DCOLOR_To_D3DCOLORVALUE(crAmbients[0]);
 
-		// 번개 처리..
+		// Lightning treatment...
 		if(m_fLightningTimeRemain > 0)
 		{
 			float fLightningDelta = 0;
@@ -353,15 +353,15 @@ void CGameEng::Tick(const D3DCOLOR* crDiffuses,			// Diffuse 라이트 색깔.. 
 	}
 	if(m_pRefLightSupport)
 	{
-		__Vector3 vDir(2,-3, 2); // 위에서 아래로 ...
+		__Vector3 vDir(2,-3, 2); // top to bottom...
 		vDir.Normalize();
 		m_pRefLightSupport->m_Data.Direction = vDir;
 		
-		// 라이트 컬러 적용..
+		// Apply light color..
 		m_pRefLightSupport->m_Data.Diffuse = ::_D3DCOLOR_To_D3DCOLORVALUE(crDiffuses[1]);
 		m_pRefLightSupport->m_Data.Ambient = ::_D3DCOLOR_To_D3DCOLORVALUE(crAmbients[1]);
 
-		// 번개 처리..
+		// Lightning treatment...
 		if(m_fLightningTimeRemain > 0)
 		{
 			float fLightningDelta = 0;
@@ -383,13 +383,13 @@ void CGameEng::Tick(const D3DCOLOR* crDiffuses,			// Diffuse 라이트 색깔.. 
 	{
 		__Vector3 vPos = s_CameraData.vEye;
 		vPos.y += 16.0f;
-		m_pRefLightCam->PosSet(vPos); // 카메라 위에 가게 한다..
+		m_pRefLightCam->PosSet(vPos); // Let&#39;s go over the camera.
 		
-		// 라이트 컬러 적용..
+		// Apply light color..
 		m_pRefLightCam->m_Data.Diffuse = ::_D3DCOLOR_To_D3DCOLORVALUE(crDiffuses[2]);
 		m_pRefLightCam->m_Data.Ambient = ::_D3DCOLOR_To_D3DCOLORVALUE(crAmbients[2]);
 
-		// 번개 처리..
+		// Lightning treatment...
 		if(m_fLightningTimeRemain > 0)
 		{
 			float fLightningDelta = 0;
@@ -414,7 +414,7 @@ void CGameEng::ApplyCameraAndLight() const
 {
 	if(m_pActiveCam)
 	{
-		m_pActiveCam->Apply(); // 위의 거 대신에 하나만 쓴다...
+		m_pActiveCam->Apply(); // Instead of the above, write one...
 	}
 /*
 	for(it_Light it = m_Lights.begin(), itEnd = m_Lights.end(); it != itEnd; it++)
@@ -436,11 +436,11 @@ void CGameEng::ViewPointChange(e_ViewPoint eVP)
 
 		int iVP = (int)(m_eViewPoint) + 1;
 		if ( iVP > (VP_THIRD_PERSON) ) iVP = VP_BACKWARD;
-		m_eViewPoint = (e_ViewPoint)iVP;						// 시점 증가..
+		m_eViewPoint = (e_ViewPoint)iVP;						// Point increase...
 	}
 	else
 	{
-		m_eViewPoint = eVP;						// 시점 증가..
+		m_eViewPoint = eVP;						// Point increase...
 	}
 }
 
@@ -452,37 +452,37 @@ void CGameEng::CameraPitchAdd(float fRotXPerSec)
 	if(VP_BACKWARD == m_eViewPoint)
 	{
 		m_fRotPitchBackward += fRotXPerSec * s_fSecPerFrm;
-		if(m_fRotPitchBackward > fPitchMax) m_fRotPitchBackward = fPitchMax; // 아래 보는값
-		else if(m_fRotPitchBackward < fPitchMin) m_fRotPitchBackward = fPitchMin; // 위보는 값..
+		if(m_fRotPitchBackward > fPitchMax) m_fRotPitchBackward = fPitchMax; // value shown below
+		else if(m_fRotPitchBackward < fPitchMin) m_fRotPitchBackward = fPitchMin; // The price of the above..
 	}
 	else if(VP_FIRST_PERSON == m_eViewPoint)
 	{
 		m_fRotPitchFirstPerson += fRotXPerSec * s_fSecPerFrm;
-		if(m_fRotPitchFirstPerson > fPitchMax) m_fRotPitchFirstPerson = fPitchMax; // 아래 보는값
-		else if(m_fRotPitchFirstPerson < fPitchMin) m_fRotPitchFirstPerson = fPitchMin; // 위보는 값..
+		if(m_fRotPitchFirstPerson > fPitchMax) m_fRotPitchFirstPerson = fPitchMax; // value shown below
+		else if(m_fRotPitchFirstPerson < fPitchMin) m_fRotPitchFirstPerson = fPitchMin; // The price of the above..
 	}
 	else if(VP_FOWARD == m_eViewPoint)
 	{
 		m_fRotPitchFoward += fRotXPerSec * s_fSecPerFrm;
-		if(m_fRotPitchFoward > fPitchMax) m_fRotPitchFoward = fPitchMax; // 아래 보는값
-		else if(m_fRotPitchFoward < fPitchMin) m_fRotPitchFoward = fPitchMin; // 위보는 값..
+		if(m_fRotPitchFoward > fPitchMax) m_fRotPitchFoward = fPitchMax; // value shown below
+		else if(m_fRotPitchFoward < fPitchMin) m_fRotPitchFoward = fPitchMin; // The upside value..
 	}
-	else if(VP_THIRD_PERSON == m_eViewPoint) // 위에서 보는 건 거리만 늘였다 줄였다 한다..
+	else if(VP_THIRD_PERSON == m_eViewPoint) // From above, only the distance increases and decreases.
 	{
-		fPitchMin = D3DXToRadian(10.0f); // 젤 밑에값 한계
+		fPitchMin = D3DXToRadian(10.0f); // value limit under the gel
 
 		m_fRotPitchThirdFirson += fRotXPerSec * s_fSecPerFrm;
-		if(m_fRotPitchThirdFirson > fPitchMax) m_fRotPitchThirdFirson = fPitchMax; // 아래 보는값
-		else if(m_fRotPitchThirdFirson < fPitchMin) m_fRotPitchThirdFirson = fPitchMin; // 위보는 값..
+		if(m_fRotPitchThirdFirson > fPitchMax) m_fRotPitchThirdFirson = fPitchMax; // value shown below
+		else if(m_fRotPitchThirdFirson < fPitchMin) m_fRotPitchThirdFirson = fPitchMin; // The upside value..
 	}
 }
 
 void CGameEng::CameraYawAdd(float fRotYPerSec)
 {
-	if(VP_THIRD_PERSON == m_eViewPoint) // 위에서 보는 건 ..
+	if(VP_THIRD_PERSON == m_eViewPoint) // What you see above...
 	{
-		m_fRotYawVPGod += fRotYPerSec * s_fSecPerFrm; // 위에서 바라본 시점일 경우에 카메라 회전각도..
-		return; // 돌아간다!
+		m_fRotYawVPGod += fRotYPerSec * s_fSecPerFrm; // The angle of rotation of the camera when viewed from above.
+		return; // go back!
 	}
 }
 
@@ -491,16 +491,16 @@ void CGameEng::CameraZoom(float fDelta)
 	if(nullptr == m_pActiveCam) return;
 	if(VP_BACKWARD == m_eViewPoint || VP_FOWARD == m_eViewPoint)
 	{
-		m_fZoomBackwardOrFoward -= fDelta * s_fSecPerFrm; // 1.5인칭, 앞에서 본 시점일때 카메라 Zoom 1.0f 가 기준이다.
-		if(m_fZoomBackwardOrFoward < 0.4f) m_fZoomBackwardOrFoward = 0.4f; // 아래 보는값
+		m_fZoomBackwardOrFoward -= fDelta * s_fSecPerFrm; // 1.5 person, camera zoom 1.0f is standard when viewed from the front.
+		if(m_fZoomBackwardOrFoward < 0.4f) m_fZoomBackwardOrFoward = 0.4f; // value shown below
 		else if(m_fZoomBackwardOrFoward >= 1.6f) m_fZoomBackwardOrFoward = 1.6f;
 	}
-	else if(VP_THIRD_PERSON == m_eViewPoint) // 위에서 보는 건 거리만 늘였다 줄였다 한다..
+	else if(VP_THIRD_PERSON == m_eViewPoint) // From above, only the distance increases and decreases.
 	{
 		m_fOffsetVPGod -= 4.0f * fDelta * s_fSecPerFrm;
-		if(m_fOffsetVPGod < 2.0f) m_fOffsetVPGod = 2.0f; // 너무작아지면 멈추고..
-		else if(m_fOffsetVPGod > 10.0f) m_fOffsetVPGod = 10.0f; // 너무 커져도 멈추고..
-		return; // 돌아간다!
+		if(m_fOffsetVPGod < 2.0f) m_fOffsetVPGod = 2.0f; // Stop when it gets too small...
+		else if(m_fOffsetVPGod > 10.0f) m_fOffsetVPGod = 10.0f; // Stop when it gets too big.
+		return; // go back!
 	}
 }
 
@@ -513,16 +513,16 @@ void CGameEng::FarPlaneDeltaSet(float fFPDelta, bool bUpdateImmediately)
 	if(bUpdateImmediately) m_fFPDeltaCur = fFPDelta;
 }
 
-//void CGameEng::LightDeltaSet(float fLightDelta, bool bUpdateImmediately)
-//{
-//	if(fLightDelta < 0.25f) fLightDelta = 0.25f;
-//	if(fLightDelta > 1.0f) fLightDelta = 1.0f;
+// void CGameEng::LightDeltaSet(float fLightDelta, bool bUpdateImmediately)
+// {
+// if(fLightDelta < 0.25f) fLightDelta = 0.25f;
+// if(fLightDelta > 1.0f) fLightDelta = 1.0f;
 //
-//	m_fLightDeltaToReach = fLightDelta;
-//	if(bUpdateImmediately) m_fLightDeltaCur = fLightDelta;
-//}
+// m_fLightDeltaToReach = fLightDelta;
+// if(bUpdateImmediately) m_fLightDeltaCur = fLightDelta;
+// }
 
 void CGameEng::Lightning()
 {
-	m_fLightningTimeRemain = LIGHTNING_DURATION; // 번개 칠때 타이머..
+	m_fLightningTimeRemain = LIGHTNING_DURATION; // Timer when lightning strikes.
 }

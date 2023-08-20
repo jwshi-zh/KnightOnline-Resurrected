@@ -29,7 +29,7 @@ void CMachineMng::ReceiveReplyMsg(ReplyMsg& RPMsg)
 {
 	if ( RPMsg.s_iAddressLen > s_pMsgRouter->GetThisClassLevel(ID_MACHINE_MGR) )
 	{
-		//..
+		// ..
 	}
 	else if ( RPMsg.s_iAddressLen == s_pMsgRouter->GetThisClassLevel(ID_MACHINE_MGR) )
 	{
@@ -37,7 +37,7 @@ void CMachineMng::ReceiveReplyMsg(ReplyMsg& RPMsg)
 		switch( RPMsg.s_iGameID )
 		{
 		case ID_MACHINE_IN:
-			//..		Add Player..
+			// ..		Add Player..
 			AddMachine(RPMsg);
 			break;
 
@@ -88,14 +88,14 @@ void CMachineMng::ReceiveReplyMsg(ReplyMsg& RPMsg)
 				pMachine->SetFireSpeed(RPMsg.s_fFireSpeed);
 				pMachine->Fire();
 
-//				g_Facade.m_pSndMgr->Looping(SND3DOBJ_CATAPULTTHROW1 + g_Facade.m_pSndMgr->m_IdxCatapultThrow, false);
-//				g_Facade.m_pSndMgr->SetPos(SND3DOBJ_CATAPULTTHROW1 + g_Facade.m_pSndMgr->m_IdxCatapultThrow, (D3DVECTOR)pMachine->Pos());
-//				g_Facade.m_pSndMgr->Play(SND3DOBJ_CATAPULTTHROW1 + g_Facade.m_pSndMgr->m_IdxCatapultThrow);
-//				g_Facade.m_pSndMgr->m_IdxCatapultThrow++;
-//				if(g_Facade.m_pSndMgr->m_IdxCatapultThrow == g_Facade.m_pSndMgr->m_NumCatapultThrow) g_Facade.m_pSndMgr->m_IdxCatapultThrow = 0;
+				// g_Facade.m_pSndMgr->Looping(SND3DOBJ_CATAPULTTHROW1 + g_Facade.m_pSndMgr->m_IdxCatapultThrow, false);
+				// g_Facade.m_pSndMgr->SetPos(SND3DOBJ_CATAPULTTHROW1 + g_Facade.m_pSndMgr->m_IdxCatapultThrow, (D3DVECTOR)pMachine->Pos());
+				// g_Facade.m_pSndMgr->Play(SND3DOBJ_CATAPULTTHROW1 + g_Facade.m_pSndMgr->m_IdxCatapultThrow);
+				// g_Facade.m_pSndMgr->m_IdxCatapultThrow++;
+				// if(g_Facade.m_pSndMgr->m_IdxCatapultThrow == g_Facade.m_pSndMgr->m_NumCatapultThrow) g_Facade.m_pSndMgr->m_IdxCatapultThrow = 0;
 			}
 			break;		
-		case ID_MACHINE_POSITION:	// 투석기 위치 재설정
+		case ID_MACHINE_POSITION: // Reset Catapult Position
 			pMachine = GetMachine(RPMsg.s_pStrID);
 			if (pMachine)
 			{
@@ -109,11 +109,11 @@ void CMachineMng::ReceiveReplyMsg(ReplyMsg& RPMsg)
 
 void CMachineMng::AddMachine(ReplyMsg& RPMsg)
 {
-//	if (lstrlen(RPMsg.s_cprscID) == 0) return;
+	// if (lstrlen(RPMsg.s_cprscID) == 0) return;
 
 	char szFileName[_MAX_PATH] = "misc\\machines\\catapult.mcn";
-	FILE* stream = fopen(szFileName, "r"); //text파일로 만든다 
-#if _DEBUG
+	FILE* stream = fopen(szFileName, &quot;r&quot;); // create a text file
+	#if _DEBUG
 	char szErr[512];
 	if(NULL == stream)
 	{
@@ -122,8 +122,8 @@ void CMachineMng::AddMachine(ReplyMsg& RPMsg)
 	}
 #endif
 
-	char szMachineType[64];		// machine 종류
-	int result = fscanf(stream, "Machine_Type = %s\n", szMachineType);			__ASSERT(result != EOF, "잘못된 Machine 세팅 파일");
+char szMachineType[64]; // machine type
+int result = fscanf(stream, &quot;Machine_Type = %s\n&quot;, szMachineType); __ASSERT(result != EOF, &quot;Invalid Machine Settings File&quot;);
 	CMachineBase* pMachine = NULL;
 
 	if (lstrcmpi(szMachineType, "catapult") == 0)

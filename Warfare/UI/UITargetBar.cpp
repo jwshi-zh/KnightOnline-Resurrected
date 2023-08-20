@@ -33,7 +33,7 @@ void CUITargetBar::UpdateHP(int iHP, int iHPMax, bool bUpdateImmediately) const
 	const int iPercentage = iHP * 100 / iHPMax;
 
 	if(bUpdateImmediately) m_pProgressHP->SetCurValue(iPercentage);
-	else m_pProgressHP->SetCurValue(iPercentage, 0.5f, 50.0f);				// 1초뒤에 초당 50 의 속도로 변하게 한다.
+	else m_pProgressHP->SetCurValue(iPercentage, 0.5f, 50.0f);				// After 1 second it changes at a rate of 50 per second.
 	return;
 }
 
@@ -52,7 +52,7 @@ bool CUITargetBar::Load(HANDLE hFile)
 	m_pStringID = (CN3UIString*)GetChildByID("text_target");	__ASSERT(m_pStringID, "NULL UI Component!!");
 	
 	if(m_pProgressHP) m_pProgressHP->SetRange(0, 100);
-	if(m_pStringID) // 폰트를 바꾼다.
+	if(m_pStringID) // change the font
 	{
 		std::string szFontID; ::_LoadStringFromResource(IDS_FONT_ID, szFontID);
 

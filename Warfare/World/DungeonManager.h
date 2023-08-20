@@ -7,14 +7,12 @@ class CDungeonManager : public CN3WorldBase
 {
 	friend class CN3WorldManager;
 
-	//..
+	// ..
 	CPvsMgr	m_pvsmgr;
 
 	// Function..
 	void InitWorld(int iZoneID, const __Vector3& vPosPlayer);
 	void Tick();
-
-//////////////////////////////////////////////////////////////////////
 
 	CN3Terrain* GetTerrainRef();
 	CN3SkyMng* GetSkyRef();
@@ -38,12 +36,12 @@ class CDungeonManager : public CN3WorldBase
 	float GetHeightWithShape(float fX, float fZ, __Vector3* pvNormal = nullptr); 
 	CN3Shape* ShapeGetByIDWithShape(int iID);
 	CN3Shape* PickWithShape(int iXScreen, int iYScreen, bool bMustHaveEvent, __Vector3* pvPick = nullptr);
-	bool CheckCollisionWithShape(	const __Vector3& vPos,				 // 충돌 위치
-														const __Vector3& vDir,				   // 방향 벡터
-														float fSpeedPerSec,					    // 초당 움직이는 속도
-														__Vector3* pvCol = nullptr,			 // 충돌 지점
-														__Vector3* pvNormal = nullptr,		 // 충돌한면의 법선벡터
-														__Vector3* pVec = nullptr);			// 충돌한 면 의 폴리곤 __Vector3[3]
+	bool CheckCollisionWithShape(	const __Vector3& vPos,				 // crash location
+														const __Vector3& vDir,				   // direction vector
+														float fSpeedPerSec,					    // moving speed per second
+														__Vector3* pvCol = nullptr,			 // crash point
+														__Vector3* pvNormal = nullptr,		 // The normal vector of the colliding face
+														__Vector3* pVec = nullptr);			// Polygon of collided face __Vector3[3]
 
 	// Rendering..
 	void RenderTerrain();

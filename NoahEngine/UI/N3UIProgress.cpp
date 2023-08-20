@@ -13,7 +13,7 @@ CN3UIProgress::CN3UIProgress()
 	m_iValueToReach = 0;
 	m_fCurValue = 0;
 	m_fChangeSpeedPerSec = 0;
-	m_fTimeToDelay = 0;					// 지연시간..
+	m_fTimeToDelay = 0;					// delay time...
 }
 
 CN3UIProgress::~CN3UIProgress()
@@ -32,16 +32,6 @@ void CN3UIProgress::Release()
 	m_fChangeSpeedPerSec = 0;
 }
 
-//void CN3UIProgress::Render()
-//{
-//	if(!m_bVisible) return;
-//	
-//	CN3UIBase::Render();
-//
-//	if(m_pBkGndImgRef) m_pBkGndImgRef->Render();
-//	if(m_pFrGndImgRef) m_pFrGndImgRef->Render();
-//}
-
 void CN3UIProgress::SetCurValue(int iValue, float fTimeToDelay, float fChangeSpeedPerSec)
 {
 	if (iValue<m_iMinValue) iValue = m_iMinValue;
@@ -52,10 +42,10 @@ void CN3UIProgress::SetCurValue(int iValue, float fTimeToDelay, float fChangeSpe
 	if (m_iValueToReach == iValue) return;
 	
 	m_iValueToReach = iValue;
-	m_fTimeToDelay = fTimeToDelay; // 지연시간..
+	m_fTimeToDelay = fTimeToDelay; // delay time...
 	m_fChangeSpeedPerSec = fChangeSpeedPerSec;
 	
-	if(0.0f == fTimeToDelay  && 0.0f == fChangeSpeedPerSec) // 지연 시간이 없으면 바로 세팅..
+	if(0.0f == fTimeToDelay  && 0.0f == fChangeSpeedPerSec) // If there is no delay, set right away..
 	{
 		m_fCurValue = (float)iValue;
 		UpdateFrGndImage();
@@ -142,7 +132,7 @@ void CN3UIProgress::UpdateFrGndImage() const
 }
 
 void CN3UIProgress::SetFrGndUVFromFrGndImage()
-// m_pFrGndImgRef로부터 uv좌표를 얻어와서 m_frcFrGndImgUV를 세팅한다.
+// Get the uv coordinates from m_pFrGndImgRef and set m_frcFrGndImgUV.
 {
 	__ASSERT(m_pFrGndImgRef, "not found foreground image in N3UIProgress");
 	if (nullptr == m_pFrGndImgRef) return;
@@ -154,11 +144,11 @@ bool CN3UIProgress::Load(HANDLE hFile)
 {
 	if (false == CN3UIBase::Load(hFile)) return false;
 
-	// m_ImageRef 설정하기
+	// Setting m_ImageRef
 	for(auto itor = m_Children.begin(); m_Children.end() != itor; ++itor)
 	{
 		CN3UIBase* pChild = (*itor);
-		if (UI_TYPE_IMAGE != pChild->UIType()) continue;	// image만 골라내기
+		if (UI_TYPE_IMAGE != pChild->UIType()) continue;	// Pick out only images
 		const int iImageType = (int)(pChild->GetReserved());
 		if (iImageType == IMAGETYPE_BKGND)
 		{
@@ -179,20 +169,20 @@ void CN3UIProgress::operator = (const CN3UIProgress& other)
 {
 	CN3UIBase::operator = (other);
 
-	m_frcFrGndImgUV = other.m_frcFrGndImgUV;				// m_FrGndImgRef 의 uv좌표
-	m_iMaxValue = other.m_iMaxValue;					// 최대
-	m_iMinValue = other.m_iMinValue;					// 최소
-	m_fCurValue = other.m_fCurValue;					// 현재 값 - 부드럽게 점차 값을 올려가려고 float 로 했다..
-	m_fChangeSpeedPerSec = other.m_fChangeSpeedPerSec;			// 현재값이 변해야 되는 속도.. Unit SpeedPerSec
-	m_iValueToReach = other.m_iValueToReach;				// 도달해야 될값 - 부드럽게 값이 올라가는 경우에 필요하다..
-	m_fTimeToDelay = other.m_fTimeToDelay;					// 지연시간..
-	m_iStepValue = other.m_iStepValue;					// 변화값 StepIt()을 통한 변화되는 값
+	m_frcFrGndImgUV = other.m_frcFrGndImgUV;				// uv coordinates of m_FrGndImgRef
+	m_iMaxValue = other.m_iMaxValue;					// maximum
+	m_iMinValue = other.m_iMinValue;					// Ieast
+	m_fCurValue = other.m_fCurValue;					// Current value - I set it as a float to gradually increase the value.
+	m_fChangeSpeedPerSec = other.m_fChangeSpeedPerSec;			// The speed at which the current value must change. Unit SpeedPerSec
+	m_iValueToReach = other.m_iValueToReach;				// Value to be reached - Necessary when the value rises smoothly.
+	m_fTimeToDelay = other.m_fTimeToDelay;					// delay time...
+	m_iStepValue = other.m_iStepValue;					// Changed value Changed value through StepIt()
 
-	// m_ImageRef 설정하기
+	// Setting m_ImageRef
 	for(UIListItor itor = m_Children.begin(); m_Children.end() != itor; ++itor)
 	{
 		CN3UIBase* pChild = (*itor);
-		if (UI_TYPE_IMAGE != pChild->UIType()) continue;	// image만 골라내기
+		if (UI_TYPE_IMAGE != pChild->UIType()) continue;	// Pick out only images
 		int iImageType = (int)(pChild->GetReserved());
 		if (iImageType == IMAGETYPE_BKGND)
 		{
@@ -208,11 +198,11 @@ void CN3UIProgress::operator = (const CN3UIProgress& other)
 
 bool CN3UIProgress::Save(HANDLE hFile)
 {
-	int iCur = (int)m_fCurValue;	// 이전 상태 기억해 놓기
-	SetCurValue(m_iMaxValue);	// foreground가 꽉 채운 이미지 만들기
-	bool bRet = CN3UIBase::Save(hFile);	// 저장하기
+	int iCur = (int)m_fCurValue;	// remember the previous state
+	SetCurValue(m_iMaxValue);	// Creating an image with a full foreground
+	bool bRet = CN3UIBase::Save(hFile);	// save
 
-	SetCurValue((int)m_fCurValue);	// 이전 상태로 되돌리기
+	SetCurValue((int)m_fCurValue);	// revert to previous state
 
 	return bRet;
 }
@@ -222,20 +212,20 @@ void CN3UIProgress::CreateImages()
 	m_pBkGndImgRef = new CN3UIImage();
 	m_pBkGndImgRef->Init(this);
 	m_pBkGndImgRef->SetRegion(m_rcRegion);
-	m_pBkGndImgRef->SetReserved(IMAGETYPE_BKGND);	// 이 이미지가 배경이미지임을 지정해줌
+	m_pBkGndImgRef->SetReserved(IMAGETYPE_BKGND);	// Specifies that this image is the background image
 
 	m_pFrGndImgRef = new CN3UIImage();
 	m_pFrGndImgRef->Init(this);
 	m_pFrGndImgRef->SetRegion(m_rcRegion);
-	m_pFrGndImgRef->SetReserved(IMAGETYPE_FRGND);	// 이 이미지가 foreground 이미지임을 지정해줌
+	m_pFrGndImgRef->SetReserved(IMAGETYPE_FRGND);	// Specifies that this image is the foreground image
 
-	// 임시로 넣기
+	// put temporarily
 	m_iMaxValue = 100;
 	m_iMinValue = 0;
 	m_fCurValue = 70;
 }
 
-void CN3UIProgress::DeleteBkGndImage()	// Back ground이미지는 필요 없는 경우가 있다.
+void CN3UIProgress::DeleteBkGndImage()	// Background images may not be necessary.
 {
 	if (m_pBkGndImgRef)	{ delete m_pBkGndImgRef; m_pBkGndImgRef = NULL;}
 }
@@ -248,7 +238,7 @@ void CN3UIProgress::Tick()
 
 	if(m_fTimeToDelay > 0)
 	{
-		m_fTimeToDelay -= s_fSecPerFrm; // 시간 지연
+		m_fTimeToDelay -= s_fSecPerFrm; // time delay
 		if(m_fTimeToDelay < 0) m_fTimeToDelay = 0;
 		return;
 	}
@@ -258,13 +248,13 @@ void CN3UIProgress::Tick()
 	
 	if(m_fCurValue < m_iValueToReach)
 	{
-		m_fCurValue += m_fChangeSpeedPerSec * s_fSecPerFrm; // 초당 30 퍼센트 올라가게 조정..
+		m_fCurValue += m_fChangeSpeedPerSec * s_fSecPerFrm; // Adjust it to go up 30 percent per second.
 		if(m_fCurValue > m_iValueToReach) m_fCurValue = (float)m_iValueToReach;
 		UpdateFrGndImage();
 	}
 	else if(m_fCurValue > m_iValueToReach)
 	{
-		m_fCurValue -= m_fChangeSpeedPerSec * s_fSecPerFrm; // 초당 30 퍼센트 올라가게 조정..
+		m_fCurValue -= m_fChangeSpeedPerSec * s_fSecPerFrm; // Adjust it to go up 30 percent per second.
 		if(m_fCurValue < m_iValueToReach) m_fCurValue = (float)m_iValueToReach;
 		UpdateFrGndImage();
 	}

@@ -21,27 +21,27 @@ CPortalVolume::CPortalVolume()	: m_fOffs(0.001f), m_fHeightOffs(0.01f), m_fVolOf
 
 	unsigned short*		pIdx = m_pIndex;
 
-	// 아랫면.
+	// bottom side.
 	*pIdx++ = 0;  *pIdx++ = 1;  *pIdx++ = 3;
 	*pIdx++ = 2;  *pIdx++ = 3;  *pIdx++ = 1;
 
-	// 앞면..
+	// obverse..
 	*pIdx++ = 7;  *pIdx++ = 3;  *pIdx++ = 6;
 	*pIdx++ = 2;  *pIdx++ = 6;  *pIdx++ = 3;
 
-	// 왼쪽..
+	// left..
 	*pIdx++ = 4;  *pIdx++ = 0;  *pIdx++ = 7;
 	*pIdx++ = 3;  *pIdx++ = 7;  *pIdx++ = 0;
 
-	// 오른쪽..
+	// right..
 	*pIdx++ = 6;  *pIdx++ = 2;  *pIdx++ = 5;
 	*pIdx++ = 1;  *pIdx++ = 5;  *pIdx++ = 2;
 
-	// 뒷면..
+	// The back..
 	*pIdx++ = 5;  *pIdx++ = 1;  *pIdx++ = 4;
 	*pIdx++ = 0;  *pIdx++ = 4;  *pIdx++ = 1;
 
-	// 윗면..	
+	// top side..
 	*pIdx++ = 4;  *pIdx++ = 7;  *pIdx++ = 5;
 	*pIdx++ = 6;  *pIdx++ = 5;  *pIdx++ = 7;
 
@@ -160,7 +160,7 @@ void CPortalVolume::RenderShape()
 		pSI->m_pShape->m_bDontRender = false;
 		pSI->m_pShape->Render();
 
-		// 로딩할때 미리 계산해 놓은 월드 행렬 적용..
+		// Apply pre-calculated world matrix when loading..
 		__Matrix44 mtxBackup;
 		CN3Base::s_lpD3DDev->GetTransform(D3DTS_WORLD, &mtxBackup);
 		CN3Base::s_lpD3DDev->SetTransform(D3DTS_WORLD, &pSI->m_pShape->m_Matrix);
@@ -244,7 +244,7 @@ void CPortalVolume::RenderCollision()
 	{
 		pCI = *ciit++;
 
-		// 행렬 계산..
+		// matrix calculations..
 		__Matrix44 mtxWorld;
 		mtxWorld.Identity();
 
@@ -270,7 +270,7 @@ void CPortalVolume::RenderCollision()
 	}
 }
 
-//////////////////////////////////////////////////////////////////////
+// 
 
 bool CPortalVolume::Load(HANDLE hFile)
 {
@@ -278,11 +278,11 @@ bool CPortalVolume::Load(HANDLE hFile)
 
 	char szDrive[_MAX_DRIVE], szDir[_MAX_DIR], szFName[_MAX_FNAME], szExt[_MAX_EXT];
 
-	// 자신의 데이터 로드..
+	// Load your own data...
 	DWORD dwNum;
 	std::string strSrc, strDest;
 
-	// 링크된 갯수를 로드..	일단 읽구 버린다..
+	// Load the number of links.. Read it once and throw it away..
 	int iLinkedCount = 0, iTID, iEWT;
 	ReadFile(hFile, &iLinkedCount, sizeof(int), &dwNum, nullptr);
 	for(auto i = 0; i < iLinkedCount; i++ )
@@ -291,7 +291,7 @@ bool CPortalVolume::Load(HANDLE hFile)
 		ReadFile(hFile, &iEWT, sizeof(int), &dwNum, nullptr);
 	}
 
-	// 링크된 Shape 갯수 로드..
+	// Load the number of linked Shapes..
 	int iCount = 0;
 	ReadFile(hFile, &iCount, sizeof(int), &dwNum, nullptr);
 	for (auto i = 0; i < iCount; i++)
@@ -299,7 +299,7 @@ bool CPortalVolume::Load(HANDLE hFile)
 		auto*	pSI = new ShapeInfo;
 		ReadFile(hFile, &pSI->m_iID, sizeof(int), &dwNum, nullptr);
 
-		// 문자열 길이..
+		// string length...
 		strSrc = CPvsMgr::ReadDecryptString(hFile);
 		_splitpath(strSrc.c_str(), szDrive, szDir, szFName, szExt);
 		strDest = szFName;	strDest +=  szExt;
@@ -309,7 +309,7 @@ bool CPortalVolume::Load(HANDLE hFile)
 		ReadFile(hFile, &pSI->m_iEventType, sizeof(int), &dwNum, nullptr);	
 		ReadFile(hFile, &pSI->m_iNPC_ID, sizeof(int), &dwNum, nullptr);	
 		ReadFile(hFile, &pSI->m_iNPC_Status, sizeof(int), &dwNum, nullptr);	
-		if (pSI->m_iEventID || pSI->m_iEventType || pSI->m_iNPC_ID || pSI->m_iNPC_Status ) // 이벤트가 있으면
+		if (pSI->m_iEventID || pSI->m_iEventType || pSI->m_iNPC_ID || pSI->m_iNPC_Status ) // if there is an event
 			pSI->m_pShape = CPvsMgr::s_MngShapeExt.Get(m_pManager->GetIndoorFolderPath() + strDest);
 		else
 			pSI->m_pShape = CPvsMgr::s_MngShape.Get(m_pManager->GetIndoorFolderPath() + strDest);
@@ -380,7 +380,7 @@ bool CPortalVolume::Load(HANDLE hFile)
 }
 
 
-/////////////////////////////////////////////////////////////////////////////////
+// 
 
 bool CPortalVolume::CheckCollisionCameraWithTerrain(__Vector3& vEyeResult, const __Vector3& vAt, float fNP)
 {
@@ -659,7 +659,7 @@ BOOL CPortalVolume::PickWideWithTerrain(int x, int y, __Vector3& vPick)
 				__Vector3 vEdge2 = C - A;
 				__Vector3 pVec;	
 				pVec.Cross(vEdge1, vEdge2);	pVec.Normalize();	pVec.y = 0.0f;	
-				if (pVec.Magnitude() < m_fPickIncline)	// 기울기..
+				if (pVec.Magnitude() < m_fPickIncline)	// inclination..
 					return TRUE;
 				else
 				{
@@ -677,7 +677,7 @@ CN3Shape* CPortalVolume::PickWithShape(int iXScreen, int iYScreen, bool bMustHav
 	__Vector3 vPos, vDir;
 	::_Convert2D_To_3DCoordinate(iXScreen, iYScreen, s_CameraData.mtxView, s_CameraData.mtxProjection, s_CameraData.vp, vPos, vDir);
 
-	// 거리순으로 정렬..
+	// Sort by distance.
 	std::vector<ShapeInfo*> Shapes;
 	ShapeInfo* pSI = nullptr;
 	CPortalVolume* pVol = nullptr;
@@ -701,7 +701,7 @@ CN3Shape* CPortalVolume::PickWithShape(int iXScreen, int iYScreen, bool bMustHav
 	for(int i = 0; i < iSC; i++)
 	{
 		ShapeInfo* pShr = Shapes[i];
-		if(bMustHaveEvent && Shapes[i]->m_iEventID <= 0) continue; // 이벤트가 있어야 한다면...
+		if(bMustHaveEvent && Shapes[i]->m_iEventID <= 0) continue; // If there must be an event...
 		Shapes[i]->m_pShape->PosSet(Shapes[i]->Pos());
 		Shapes[i]->m_pShape->RotSet(Shapes[i]->Rot());
 		Shapes[i]->m_pShape->ScaleSet(Shapes[i]->Scale());
@@ -747,14 +747,14 @@ CN3Shape* CPortalVolume::ShapeGetByIDWithShape(int iID)
 	return nullptr;
 }
 
-bool CPortalVolume::CheckCollisionWithShape(	const __Vector3& vPos,				 // 충돌 위치
-																				const __Vector3& vDir,				   // 방향 벡터
-																				float fSpeedPerSec,					    // 초당 움직이는 속도
-																				__Vector3* pvCol,						 // 충돌 지점
-																				__Vector3* pvNormal,				  // 충돌한면의 법선벡터
-																				__Vector3* pVec)						// 충돌한 면 의 폴리곤 __Vector3[3]
+bool CPortalVolume::CheckCollisionWithShape(	const __Vector3& vPos,				 // crash location
+																				const __Vector3& vDir,				   // direction vector
+																				float fSpeedPerSec,					    // moving speed per second
+																				__Vector3* pvCol,						 // crash point
+																				__Vector3* pvNormal,				  // The normal vector of the colliding face
+																				__Vector3* pVec)						// polygon of the collided face __Vector3[3]
 {
-	const __Vector3 vPosNext = vPos + (vDir * fSpeedPerSec); // 다음 위치
+	const __Vector3 vPosNext = vPos + (vDir * fSpeedPerSec); // next location
 	const float fMcs = (vPosNext - vPos).Magnitude();
 
 	bool bCollision = false;

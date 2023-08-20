@@ -15,7 +15,7 @@
 
 CUIPartyBBS::CUIPartyBBS()
 {
-//	m_pList_Infos			= NULL;		
+	// m_pList_Infos			= NULL;
 	m_pBtn_PageUp			= nullptr;
 	m_pBtn_PageDown			= nullptr;
 	m_pBtn_Refresh			= nullptr;
@@ -47,7 +47,7 @@ bool CUIPartyBBS::Load(HANDLE hFile)
 {
 	if(CN3UIBase::Load(hFile)==false) return false;
 
-//	m_pList_Infos = (CN3UIList*)(this->GetChildByID("List_Friends"));					__ASSERT(m_pList_Infos, "NULL UI Component!!!");
+	// m_pList_Infos = (CN3UIList*)(this->GetChildByID("List_Friends"));					__ASSERT(m_pList_Infos, "NULL UI Component!!!");
 	m_pBtn_PageUp = (CN3UIButton*)(this->GetChildByID("btn_page_up"));					__ASSERT(m_pBtn_PageUp, "NULL UI Component!!!");
 	m_pBtn_PageDown = (CN3UIButton*)(this->GetChildByID("btn_page_down"));				__ASSERT(m_pBtn_PageDown, "NULL UI Component!!!");
 	m_pBtn_Refresh = (CN3UIButton*)(this->GetChildByID("btn_refresh"));					__ASSERT(m_pBtn_Refresh, "NULL UI Component!!!");
@@ -68,7 +68,7 @@ bool CUIPartyBBS::Load(HANDLE hFile)
 		m_pText[i] = (CN3UIString*)(this->GetChildByID(szBuf));
 	}
 
-	m_iCurPage = 0; // 현재 페이지..
+	m_iCurPage = 0; // Current page...
 
 	return true;
 }
@@ -85,7 +85,7 @@ bool CUIPartyBBS::SelectedString(CN3UIBase* pSender, int& iID) const
 				return false;
 
 			iID = iIndex;
-//			SetStringColor( iID, 0xffff0000);
+			// SetStringColor( iID, 0xffff0000);
 			return true;
 		}
 	}
@@ -130,19 +130,19 @@ bool CUIPartyBBS::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 		{
 			std::string szMsg;
 			::_LoadStringFromResource(IDS_PARTY_BBS_REGISTER, szMsg);
-			CGameProcedure::MessageBoxPost(szMsg, "", MB_YESNO, BEHAVIOR_PARTY_BBS_REGISTER); // 기사단 해체 물어보기..
+			CGameProcedure::MessageBoxPost(szMsg, "", MB_YESNO, BEHAVIOR_PARTY_BBS_REGISTER); // Ask about disbanding the Knights...
 		}
 		else if(pSender == m_pBtn_RegisterCancel)
 		{
 			std::string szMsg;
 			::_LoadStringFromResource(IDS_PARTY_BBS_REGISTER_CANCEL, szMsg);
-			CGameProcedure::MessageBoxPost(szMsg, "", MB_YESNO, BEHAVIOR_PARTY_BBS_REGISTER_CANCEL); // 기사단 해체 물어보기..
+			CGameProcedure::MessageBoxPost(szMsg, "", MB_YESNO, BEHAVIOR_PARTY_BBS_REGISTER_CANCEL); // Ask about disbanding the Knights...
 		}
 		else if(pSender == m_pBtn_Whisper)
 		{
 			RequestWhisper();
 		}
-		else if(pSender == m_pBtn_Party) // 파티 신청
+		else if(pSender == m_pBtn_Party) // party request
 		{
 			RequestParty();
 		}
@@ -160,7 +160,7 @@ bool CUIPartyBBS::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 
 void CUIPartyBBS::MsgSend_RefreshData(int iCurPage)
 {
-	if(m_bProcessing) return; //전에 보낸 패킷 응답이 없으면
+	if(m_bProcessing) return; // If there is no response to the packet sent before
 
 	const float fTime = CN3Base::TimeGet();
 	if( fTime - m_fTime < 3.0f )
@@ -185,7 +185,7 @@ void CUIPartyBBS::MsgRecv_RefreshData(DataPack* pDataPack, int& iOffset)
 
 	const BYTE byType = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
 	const BYTE byResult = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
-	if(byResult != 0x01) return; //실패했다면
+	if(byResult != 0x01) return; // if you failed
 
 	switch( byType )
 	{
@@ -236,7 +236,7 @@ void CUIPartyBBS::MsgRecv_RefreshData(DataPack* pDataPack, int& iOffset)
 
 void CUIPartyBBS::MsgSend_Register()
 {
-	if(m_bProcessing) return; //전에 보낸 패킷 응답이 없으면
+	if(m_bProcessing) return; // If there is no response to the packet sent before
 
 	BYTE byBuff[4];
 	int iOffset=0;
@@ -250,7 +250,7 @@ void CUIPartyBBS::MsgSend_Register()
 
 void CUIPartyBBS::MsgSend_RegisterCancel()
 {
-	if(m_bProcessing) return; //전에 보낸 패킷 응답이 없으면
+	if(m_bProcessing) return; // If there is no response to the packet sent before
 
 	BYTE byBuff[4];
 	int iOffset=0;
@@ -265,7 +265,7 @@ void CUIPartyBBS::MsgSend_RegisterCancel()
 
 void CUIPartyBBS::RefreshPage()
 {
-	if(m_pText_Page) m_pText_Page->SetStringAsInt(m_iCurPage+1); // 페이지 표시..
+	if(m_pText_Page) m_pText_Page->SetStringAsInt(m_iCurPage+1); // Show page...
 
 	ResetContent();
 
@@ -308,12 +308,12 @@ void CUIPartyBBS::PartyStringSet(BYTE byType)
 		::_LoadStringFromResource(IDS_WANT_PARTY_MEMBER, szMsg);
 		sprintf(szBuff, szMsg.c_str(), iLMin, iLMax);
 		CGameProcedure::s_pPlayer->InfoStringSet(szBuff, 0xff00ff00);
-		CGameProcedure::s_pProcMain->MsgSend_StateChange(N3_SP_STATE_CHANGE_RECRUIT_PARTY, 0x02); // 파티 요청.. 취소
+		CGameProcedure::s_pProcMain->MsgSend_StateChange(N3_SP_STATE_CHANGE_RECRUIT_PARTY, 0x02); // Party request.. canceled
 	}
 	else
 	{
 		CGameProcedure::s_pPlayer->InfoStringSet("", 0);
-		CGameProcedure::s_pProcMain->MsgSend_StateChange(N3_SP_STATE_CHANGE_RECRUIT_PARTY, 0x01); // 파티 요청..
+		CGameProcedure::s_pProcMain->MsgSend_StateChange(N3_SP_STATE_CHANGE_RECRUIT_PARTY, 0x01); // party request...
 	}
 }
 
@@ -447,7 +447,7 @@ void CUIPartyBBS::RequestWhisper()
 		{
 			const __InfoPartyBBS IPB = (*it);
 			if(0 != lstrcmpi(IPB.szID.c_str(), CGameProcedure::s_pPlayer->m_InfoBase.szID.c_str()))
-			{//나 자신에게는 귓속말을 못하게 한다...
+			{// Don&#39;t let yourself whisper...
 				CGameProcedure::s_pProcMain->MsgSend_ChatSelectTarget(IPB.szID);
 			}
 			break;
@@ -470,12 +470,12 @@ void CUIPartyBBS::RequestParty()
 			__InfoPartyBBS IPB = (*it);
 
 			if(0 != lstrcmpi(IPB.szID.c_str(), CGameProcedure::s_pPlayer->m_InfoBase.szID.c_str()))
-			{//나 자신에게는 파티 신청을 못하게 한다...
+			{	// I forbid myself to request a party...
 				std::string szMsg;
 				if(CGameProcedure::s_pProcMain->MsgSend_PartyOrForceCreate(0, IPB.szID))
-					::_LoadStringFromResource(IDS_PARTY_INVITE, szMsg); // 파티
+					::_LoadStringFromResource(IDS_PARTY_INVITE, szMsg); // party
 				else  
-					::_LoadStringFromResource(IDS_PARTY_INVITE_FAILED, szMsg); // 파티 초대 실패
+					::_LoadStringFromResource(IDS_PARTY_INVITE_FAILED, szMsg); // Party invite failed
 				CGameProcedure::s_pProcMain->MsgOutput(IPB.szID + szMsg, 0xffffff00);
 				break;
 			}
@@ -489,7 +489,7 @@ void CUIPartyBBS::SetVisible(bool bVisible)
 	if(bVisible)
 		CGameProcedure::s_pUIMgr->SetVisibleFocusedUI(this);
 	else
-		CGameProcedure::s_pUIMgr->ReFocusUI();//this_ui
+		CGameProcedure::s_pUIMgr->ReFocusUI();// this_ui
 }
 
 bool CUIPartyBBS::OnKeyPress(int iKey)

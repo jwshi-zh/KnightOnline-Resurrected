@@ -60,7 +60,7 @@ std::string CUIMessageBoxManager::MessageBoxPost(const std::string& szMsg, const
 	pMB->SetPos(pt.x, pt.y);
 	pMB->SetVisible(true);
 
-	m_pMsgBoxLatestRef = pMB; // 마지막에 띄운 대화상자.. Z 정렬을 위해서 이 포인터를 세팅해준다..
+	m_pMsgBoxLatestRef = pMB; // The dialog box that popped up last... Set this pointer for Z alignment.
 
 	it		= m_UBMs.begin();
 	it_e	= m_UBMs.end();
@@ -103,14 +103,14 @@ void CUIMessageBoxManager::Render()
 		if(pMB == nullptr || pMB == m_pMsgBoxLatestRef) continue;
 		if(!pMB->IsVisible()) continue;
 		CUIManager::RenderStateSet();
-		pMB->Render(); // 메시지 박스 렌더링..
+		pMB->Render(); // Render message box...
 		CUIManager::RenderStateRestore();
 	}
 
 	if(m_pMsgBoxLatestRef && m_pMsgBoxLatestRef->IsVisible())
 	{
 		CUIManager::RenderStateSet();
-		m_pMsgBoxLatestRef->Render(); // 메시지 박스 렌더링..
+		m_pMsgBoxLatestRef->Render(); // Render message box...
 		CUIManager::RenderStateRestore();
 	}
 }

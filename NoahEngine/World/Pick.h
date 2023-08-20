@@ -13,20 +13,20 @@ public:
 	CN3Mesh m_MeshBox; // Picking Box
 
 protected:
-    __Vector3		m_vPickRayDir;			// 충돌 체크할 직선의 방향
-    __Vector3		m_vPickRayOrig;			// 충돌 체크할 직선의 시작점
+    __Vector3		m_vPickRayDir;			// Direction of the straight line to be checked for collision
+    __Vector3		m_vPickRayOrig;			// The starting point of the straight line to be checked for collision
 
 // Operations
 public:
 	BOOL PickByBox(__Vector3 &vMin, __Vector3 &vMax, __Vector3& vIntersect);
-	void			SetPickXY(long x, long y); // 클라이언트 좌표를 넣어준다..
+	void			SetPickXY(long x, long y); // Enter the client coordinates.
 
-	// [in] v0, v1, v2 세점의 좌표
-	// [out] t가 클수록 직선과 평면과 만나는 점이 멀다.	t*dir + orig 를 구하면 만나는 점을 구할 수 있다.
-	// [out] uv 좌표  v0 (0,0), v1(1,0), v2(0,1) <괄호안은 (U, V)좌표> 이런식으로 어느 점에 가깝나 나타낸 것
-	// v0 + (v1-v0)*u + (v2-v0)*v 를 구하면 만나는 점을 구할 수 있다.
-	// [out] vPos 마우스로 찍은 곳의 3D 좌표
-	// 리턴 값이 FALSE이면 세점이 이루는 삼각형 안에서 만나지 않는다는 뜻, t u v vPos 모두 무효한 값이므로 쓰면 안된다.
+	// [in] Coordinates of the three points v0, v1, v2
+	// [out] The larger t is, the farther the line meets the plane. If you find t*dir + orig, you can find the intersection point.
+	// [out] uv coordinates v0 (0,0), v1 (1,0), v2 (0,1) < (U, V) coordinates in parentheses&gt; Indicates which point is closest to this way
+	// The intersection point can be obtained by calculating v0 + (v1-v0)*u + (v2-v0)*v.
+	// [out] 3D coordinates of the location taken with the vPos mouse
+	// If the return value is FALSE, it means that the three points do not meet within the triangle, and tuv vPos are all invalid values and should not be used.
 	bool IntersectTriangle(__Vector3& v0, __Vector3& v1, __Vector3& v2, float& t, float& u, float& v, __Vector3* pVPos) const
 	{
 		return ::_IntersectTriangle( m_vPickRayOrig, m_vPickRayDir, v0, v1, v2, t, u, v, pVPos );

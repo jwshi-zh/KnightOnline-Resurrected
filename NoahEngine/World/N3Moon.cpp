@@ -43,7 +43,7 @@ void CN3Moon::Init(const std::string& szTexFN)
 
 void CN3Moon::Render(__Matrix44& matView, __Matrix44& matProj)
 {
-	// 달이 그려지는 화면 좌표 계산하기 (2D로 그리는 이유는 달이 왜곡되어서 보이는것을 막기 위해)
+	// Calculate the screen coordinates where the moon is drawn (the reason for drawing in 2D is to prevent the moon from being distorted)
 	__Matrix44 matWorld;
 	matWorld.RotationZ(m_fCurRadian);
 	__Matrix44 matFinal;
@@ -60,7 +60,7 @@ void CN3Moon::Render(__Matrix44& matView, __Matrix44& matProj)
 	const int Y = s_CameraData.vp.Y;
 	const float fRHW = 1.0f/vOut.w;
 	vMoon.z = vOut.z*fRHW;
-	if (vMoon.z < 0.0f || vMoon.z > 1.0f) return;		// 화면 뒤에 그려진다.
+	if (vMoon.z < 0.0f || vMoon.z > 1.0f) return;		// drawn behind the screen.
 	// Mapping Screen Coordinate.
 	vMoon.x = X + int((vOut.x*fRHW + 1.0f)*Width*0.5f);
 	vMoon.y = Y + int((-vOut.y*fRHW + 1.0f)*Height*0.5f);
@@ -69,9 +69,9 @@ void CN3Moon::Render(__Matrix44& matView, __Matrix44& matProj)
 	const int iMoonSize = (Width * m_fMoonRatio) / 2;
 	SetRect(&rcMoon, vMoon.x-iMoonSize, vMoon.y-iMoonSize, vMoon.x+iMoonSize, vMoon.y+iMoonSize);
 	// clipping with screen.
-	if ( rcMoon.right < X|| rcMoon.bottom < Y || rcMoon.left > X+Width || rcMoon.top > Y+Height) return;	// 화면 밖에 그려진다.
+	if ( rcMoon.right < X|| rcMoon.bottom < Y || rcMoon.left > X+Width || rcMoon.top > Y+Height) return;	// drawn off screen.
 
-	// 2D로 그리기
+	// Draw in 2D
 	m_pVertices[0].x = rcMoon.left;		m_pVertices[0].y = rcMoon.top;
 	m_pVertices[1].x = rcMoon.right;	m_pVertices[1].y = rcMoon.top;
 	m_pVertices[2].x = rcMoon.right;	m_pVertices[2].y = rcMoon.bottom;

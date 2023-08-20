@@ -20,13 +20,13 @@ enum e_ErrorCharacterCreate {	ERROR_CHARACTER_CREATE_SUCCESS = 0,
 
 typedef struct __TABLE_NEW_CHR
 {
-	DWORD		dwID;	// NPC 고유 ID
-	std::string	szName;	// 종족이름..
+	DWORD		dwID;	// NPC unique ID
+	std::string	szName;	// tribal name.
 	int			iStr;
 	int			iSta;
 	int			iDex;
 	int			iInt;
-	int			iMAP; // 마법 공격력 Magic Attack Point
+	int			iMAP; // Magic Attack Power Magic Attack Point
 	int			iBonus;
 } TABLE_NEW_CHR;
 
@@ -37,9 +37,9 @@ class CGameProcCharacterCreate : public CGameProcedure
 public:
 	class CUICharacterCreate*		m_pUICharacterCreate;
 	RECT							m_rcChr;
-	CN3TableBase<__TABLE_NEW_CHR>	m_Tbl_InitValue; // 사운드 소스 정보 테이블..
+	CN3TableBase<__TABLE_NEW_CHR>	m_Tbl_InitValue; // Sound source information table..
 	
-//	int						m_InitValue[TRIBE_NUM][CVAL_NUM];
+	// int m_InitValue[TRIBE_NUM][CVAL_NUM];
 
 protected:
 	bool ProcessPacket(DataPack* pDataPack, int& iOffset);

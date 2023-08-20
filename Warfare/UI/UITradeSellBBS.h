@@ -8,14 +8,14 @@
 #include "UITradeExplanation.h"
 #include <list>
 
-struct __InfoTradeSellBBS // 파티 지원 게시판 구조체..
+struct __InfoTradeSellBBS // Party support bulletin board structure..
 {
-	std::string szID;			// 파티 이름 문자열
-	std::string szTitle;		// 제목
-	std::string szExplanation;	// 설명
-	int			iPrice;			// 가격
-	short		sIndex;			// 등록 인덱스
-	short		sID;			// 캐릭터 아이디
+	std::string szID;			// party name string
+	std::string szTitle;		// title
+	std::string szExplanation;	// explanation
+	int			iPrice;			// price
+	short		sIndex;			// registration index
+	short		sID;			// character id
 
 	void Init()
 	{
@@ -35,7 +35,7 @@ struct __InfoTradeSellBBS // 파티 지원 게시판 구조체..
 class CUITradeSellBBS : public CN3UIBase  
 {
 protected:
-//	class CN3UIList*		m_pList_Infos;
+	// class CN3UIList*		m_pList_Infos;
 
 	class CN3UIButton*		m_pBtn_PageUp;
 	class CN3UIButton*		m_pBtn_PageDown;
@@ -60,8 +60,8 @@ protected:
 	std::list<__InfoTradeSellBBS>	m_Datas;
 	__InfoTradeSellBBS				m_ITSB;
 
-	int			m_iCurPage; // 현재 페이지..
-	int			m_iMaxPage;	// 총 페이지..
+	int			m_iCurPage; // Current page...
+	int			m_iMaxPage;	// total page..
 	bool		m_bProcessing;
 	BYTE		m_byBBSKind;
 	int			m_iCurIndex;

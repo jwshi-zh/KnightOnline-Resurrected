@@ -75,7 +75,7 @@ bool CUIItemExchange::Load(HANDLE hFile)
 
 void CUIItemExchange::Render()
 {
-	if (!m_bVisible) return;	// 보이지 않으면 자식들을 render하지 않는다.
+	if (!m_bVisible) return;	// If not visible, don&#39;t render the children.
 	const POINT ptCur = CGameProcedure::s_pLocalInput->MouseGetPos();
 	m_pUITooltipDlg->DisplayTooltipsDisable();
 
@@ -199,7 +199,7 @@ void CUIItemExchange::CancelIconDrop(__IconItemSkill* spItem)
 
 bool CUIItemExchange::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 {
-// Temp Define 
+// Temp Define
 #define FAIL_RETURN {	\
 		CN3UIWndBase::AllHighLightIconFree();	\
 		SetState(UI_STATE_COMMON_NONE);	\
@@ -209,13 +209,13 @@ bool CUIItemExchange::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 	CN3UIArea* pArea;
 	if (!m_bVisible) return false;
 
-	// 내가 가졌던 아이콘이 아니면..
+	// If it&#39;s not the icon I had...
 	if ( CN3UIWndBase::m_sSelectedIconInfo.UIWndSelect.UIWnd != m_eUIWnd )
 		FAIL_RETURN
 	if ( CN3UIWndBase::m_sSelectedIconInfo.UIWndSelect.UIWndDistrict != UIWND_DISTRICT_EX_RE_INV )
 		FAIL_RETURN
 
-	// 내가 가졌던 아이콘이면.. npc영역인지 검사한다..
+	// If it&#39;s an icon I had... it checks if it&#39;s an npc area.
 	int i; bool bFound = false;
 	for(i = 0; i < MAX_ITEM_EX_RE_NPC; i++ )
 	{
@@ -229,7 +229,7 @@ bool CUIItemExchange::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 
 	if (!bFound)	FAIL_RETURN
 
-	// 아이템이 꽉 차있는지 검사한다..
+	// Check if the item is full.
 	bFound = false;
 	for(auto i = 0; i < MAX_ITEM_EX_RE_NPC; i++ )
 	{
@@ -240,10 +240,10 @@ bool CUIItemExchange::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 		}
 	}
 
-	// 아이템이 꽉 차있지 않다면.. 가장 첫번째 빈 슬롯을 검사한다..
+	// If the item is not full, check the first empty slot.
 	if (!bFound)	FAIL_RETURN
 
-	// 받아들인다..
+	// accept...
 	m_pMyInvWnd[CN3UIWndBase::m_sSelectedIconInfo.UIWndSelect.iOrder] = nullptr;
 
 	spItem->pUIIcon->SetRegion(pArea->GetRegion());
@@ -251,10 +251,10 @@ bool CUIItemExchange::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 
 	m_pMyNpcWnd[i] = spItem;
 
-	// 백업 정보..
+	// Backup information...
 	m_pMyNpcWndOriginIndex[i] = CN3UIWndBase::m_sSelectedIconInfo.UIWndSelect.iOrder;
 
-	// 수리비용 업그레이드..
+	// Upgrading repair costs.
 	m_pTotalPrice += CalcRepairGold(spItem);
 	UpdateGoldValue();
 
@@ -272,7 +272,7 @@ void CUIItemExchange::UpdateGoldValue()
 	
 	if ( pStrGold )
 	{
-		// 돈 업데이트..	
+		// money update.
 		sprintf(szGold, "%d", m_pTotalPrice);
 		pStrGold->SetString(szGold);
 	}		
@@ -283,7 +283,7 @@ void CUIItemExchange::UpdateUserTotalGold(int iGold)
 	char szGold[32];
 	CN3UIString* pStatic = nullptr;
 
-	// 돈 업데이트..
+	// money update.
 	CGameBase::s_pPlayer->m_InfoExt.iGold = iGold;
 	sprintf(szGold, "%d", iGold);
 	pStatic = (CN3UIString* )CGameProcedure::s_pProcMain->m_pUIInventory->GetChildByID("text_gold"); __ASSERT(pStatic, "NULL UI Component!!");
@@ -329,7 +329,7 @@ bool CUIItemExchange::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 	e_UIWND_DISTRICT eUIWnd;
 	int iOrder;
 
-const DWORD dwBitMask = 0x000f0000;
+	const DWORD dwBitMask = 0x000f0000;
 
 	switch (dwMsg & dwBitMask)
 	{
@@ -364,9 +364,9 @@ const DWORD dwBitMask = 0x000f0000;
 			break;
 
 		case UIMSG_ICON_UP:
-			// 아이콘 매니저 윈도우들을 돌아 다니면서 검사..
+			// Walk around and inspect the Icon Manager windows.
 			if ( !CGameProcedure::s_pUIMgr->BroadcastIconDropMsg(CN3UIWndBase::m_sSelectedIconInfo.pItemSelect) )
-				// 아이콘 위치 원래대로..
+				// Set the icon position back to normal.
 				IconRestore();				
 			break;
 	}
@@ -380,7 +380,7 @@ DWORD CUIItemExchange::MouseProc(DWORD dwFlags, const POINT& ptCur, const POINT&
 	if (!m_bVisible) return dwRet;
 	if (CN3UIWndBase::m_sRecoveryJobInfo.m_bWaitFromServer) { dwRet |= CN3UIBase::MouseProc(dwFlags, ptCur, ptOld);  return dwRet; }
 
-	// 드래그 되는 아이콘 갱신..
+	// Renew dragged icon..
 	if ( (GetState() == UI_STATE_ICON_MOVING) && 
 			(CN3UIWndBase::m_sSelectedIconInfo.UIWndSelect.UIWnd == UIWND_EXCHANGE_REPAIR) )
 	{
@@ -395,10 +395,10 @@ void CUIItemExchange::Open()
 {
 	SetVisible(true);
 
-	// 보호코드가 필요하다.. 예를 들면, 인벤토리, npc와의 상거래, 개인 거래 금지..
+	// A protection code is required. For example, inventory, commerce with NPCs, and personal transactions are prohibited..
 
 
-	// 기타 작업..
+	// other work...
 	int i;
 	for(auto i = 0; i < MAX_ITEM_EX_RE_NPC; i++ )
 	{
@@ -413,13 +413,13 @@ void CUIItemExchange::Open()
 	m_pTotalPrice = 0;
 	UpdateGoldValue();
 
-	// 인벤토리 inv 영역의 아이템을 이 윈도우의 inv영역으로 옮긴다..
+	// Move items from the inv area of the inventory to the inv area of this window.
 	ItemMoveFromInvToThis();
 }
 
 void CUIItemExchange::UserPressOK()
 {
-	// 갯수 세기..
+	// Count the number of...
 	int iCount = 0;
 	for(auto i = 0; i < MAX_ITEM_EX_RE_NPC; i++ )
 	{
@@ -429,26 +429,26 @@ void CUIItemExchange::UserPressOK()
 	if (iCount == 0) 
 		UserPressCancel();
 
-	// 서버에게 보내고.. 
-	BYTE byBuff[16];											// 패킷 버퍼..
-	int iOffset=0;											// 패킷 오프셋..
+	// send it to the server.
+	BYTE byBuff[16];											// Packet buffer...
+	int iOffset=0;											// Packet Offset...
 
-	CAPISocket::MP_AddByte(byBuff, iOffset, N3_ITEM_REPAIR_REQUEST);			// 게임 스타트 패킷 커멘드..
-	CAPISocket::MP_AddShort(byBuff, iOffset, iCount);		// 아이디 길이 패킷에 넣기..
+	CAPISocket::MP_AddByte(byBuff, iOffset, N3_ITEM_REPAIR_REQUEST);			// Game start packet commands..
+	CAPISocket::MP_AddShort(byBuff, iOffset, iCount);		// ID Length Packet..
 	for(auto i = 0; i < iCount; i++ )
 	{
-		CAPISocket::MP_AddByte(byBuff, iOffset, m_pMyNpcWndOriginIndex[i]);		// 아이디 길이 패킷에 넣기..
-		CAPISocket::MP_AddDword(byBuff, iOffset, m_pMyNpcWnd[i]->pItemBasic->dwID+m_pMyNpcWnd[i]->pItemExt->dwID);	// 아이디 문자열 패킷에 넣기..
+		CAPISocket::MP_AddByte(byBuff, iOffset, m_pMyNpcWndOriginIndex[i]);		// ID Length Packet..
+		CAPISocket::MP_AddDword(byBuff, iOffset, m_pMyNpcWnd[i]->pItemBasic->dwID+m_pMyNpcWnd[i]->pItemExt->dwID);	// Put the ID string in the packet..
 	}
 	CGameProcedure::s_pSocket->Send(byBuff, iOffset);	
 
-	// 응답을 기다림..
+	// waiting for reply...
 	CN3UIWndBase::m_sRecoveryJobInfo.m_bWaitFromServer = true;
 }
 
 void CUIItemExchange::ReceiveResultFromServer(int iResult, int iUserGold)
 {
-	// 성공이면 npc영역의 Durability를 최대값으로..
+	// If successful, the durability of the npc area is set to the maximum value.
 	if(iResult == 0x01)
 	{
 		for(auto i = 0; i < MAX_ITEM_EX_RE_NPC; i++ )
@@ -457,19 +457,19 @@ void CUIItemExchange::ReceiveResultFromServer(int iResult, int iUserGold)
 			{
 				m_pMyNpcWnd[i]->iDurability = m_pMyNpcWnd[i]->pItemBasic->siMaxDurability+m_pMyNpcWnd[i]->pItemExt->siMaxDurability;
 
-				// 아이콘 상태가 UISTYLE_DURABILITY_EXHAUST 이면..
+				// If the icon state is UISTYLE_DURABILITY_EXHAUST...
 				m_pMyNpcWnd[i]->pUIIcon->SetStyle(m_pMyNpcWnd[i]->pUIIcon->GetStyle() & (~UISTYLE_DURABILITY_EXHAUST));
 			}
 		}
 	}
 
-	// 돈 업데이트..
+	// money update.
 	UpdateUserTotalGold(iUserGold);
 
-	// 응답 기다림 해제..
+	// Disable wait for response..
 	CN3UIWndBase::m_sRecoveryJobInfo.m_bWaitFromServer = false;
 
-	// 이 윈도우의 npc 영역의 아이템을 이 윈도우의 inv 영역으로 옮긴다..
+	// Move the item in the npc area of this window to the inv area of this window.
 	const CN3UIArea* pArea = nullptr;
 	for(auto i = 0; i < MAX_ITEM_EX_RE_NPC; i++ )
 	{
@@ -487,7 +487,7 @@ void CUIItemExchange::ReceiveResultFromServer(int iResult, int iUserGold)
 		}
 	}
 
-	// 창을 닫는다..	
+	// close the window...
 	Close();
 }
 
@@ -495,7 +495,7 @@ void CUIItemExchange::UserPressCancel()
 {
 	const CN3UIArea* pArea = nullptr;
 
-	// 이 윈도우의 npc 영역의 아이템을 이 윈도우의 inv 영역으로 옮긴다..
+	// Move the item in the npc area of this window to the inv area of this window.
 	int i;
 	for(auto i = 0; i < MAX_ITEM_EX_RE_NPC; i++ )
 	{
@@ -513,7 +513,7 @@ void CUIItemExchange::UserPressCancel()
 		}
 	}
 
-	// 창을 닫는다..	
+	// close the window...
 	Close();
 }
 
@@ -521,7 +521,7 @@ void CUIItemExchange::Close()
 {
 	SetVisible(false);
 
-	// 이 윈도우의 inv 영역의 아이템을 이 인벤토리 윈도우의 inv영역으로 옮긴다..	
+	// Move the items in the inv area of this window to the inv area of this inventory window.
 	ItemMoveFromThisToInv();
 }
 

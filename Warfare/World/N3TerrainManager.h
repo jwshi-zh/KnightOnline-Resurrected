@@ -6,17 +6,17 @@ class CN3TerrainManager : public CN3WorldBase
 {
 	friend class CN3WorldManager;
 
-	class CN3Terrain*		m_pTerrain;										  // 지형 클래스
-	class CN3ShapeMgr*		m_pShapes;										// 물체 클래스
-	class CN3SkyMng*		m_pSky;											  // 하늘 클래스
-	class CBirdMng*			m_pBirdMng;									     // 하늘에 날라다니는 새들 관리..
-//	class CGrassMng*		m_pGrasses;									  // 풀 그림
+	class CN3Terrain*		m_pTerrain;										  // terrain class
+	class CN3ShapeMgr*		m_pShapes;										// object class
+	class CN3SkyMng*		m_pSky;											  // sky class
+	class CBirdMng*			m_pBirdMng;									     // Managing birds flying in the sky.
+	// class CGrassMng* m_pGrasses; // full picture
 
 	// Function..
 	void InitWorld(int iZoneID, const __Vector3& vPosPlayer);
 	void Tick();
 
-//////////////////////////////////////////////////////////////////////
+	// 
 	CN3Terrain* GetTerrainRef();
 	CN3SkyMng* GetSkyRef();
 
@@ -39,12 +39,12 @@ class CN3TerrainManager : public CN3WorldBase
 	float GetHeightWithShape(float fX, float fZ, __Vector3* pvNormal = nullptr); 
 	CN3Shape* ShapeGetByIDWithShape(int iID);
 	CN3Shape* PickWithShape(int iXScreen, int iYScreen, bool bMustHaveEvent, __Vector3* pvPick = nullptr);
-	bool CheckCollisionWithShape(	const __Vector3& vPos,				 // 충돌 위치
-														const __Vector3& vDir,				   // 방향 벡터
-														float fSpeedPerSec,					    // 초당 움직이는 속도
-														__Vector3* pvCol = nullptr,			 // 충돌 지점
-														__Vector3* pvNormal = nullptr,		 // 충돌한면의 법선벡터
-														__Vector3* pVec = nullptr);			// 충돌한 면 의 폴리곤 __Vector3[3]
+	bool CheckCollisionWithShape(	const __Vector3& vPos,				 // crash location
+														const __Vector3& vDir,				   // direction vector
+														float fSpeedPerSec,					    // moving speed per second
+														__Vector3* pvCol = nullptr,			 // crash point
+														__Vector3* pvNormal = nullptr,		 // The normal vector of the colliding face
+														__Vector3* pVec = nullptr);			// Polygon of collided face __Vector3[3]
 
 	// Sky..
 	D3DCOLOR GetSkyColorWithSky();

@@ -21,41 +21,41 @@ class CUICharacterSelect;
 
 struct __CharacterSelectInfo
 {
-	std::string szID; // 캐릭터 아이디 문자열 str
-	e_Race		eRace; // 종족 b
-	e_Class		eClass; // 직업 b
-	int			iLevel ; // 레벨 b
-	int			iFace; // 얼굴모양 b
-	int			iHair; // 머리모양 b
-	int			iZone; //zone number
-	DWORD		dwItemUpper; // 상체 dw
+	std::string szID; // character id string str
+	e_Race		eRace; // race b
+	e_Class		eClass; // job b
+	int			iLevel ; // level b
+	int			iFace; // face shape b
+	int			iHair; // hair style b
+	int			iZone; // zone number
+	DWORD		dwItemUpper; // upper body dw
 	int			iItemUpperDurability;
-	DWORD		dwItemLower; // 하체 dw
+	DWORD		dwItemLower; // lower body dw
 	int			iItemLowerDurability;
-	DWORD		dwItemHelmet; // 투구 dw
+	DWORD		dwItemHelmet; // helmet dw
 	int			iItemHelmetDurability;
-	DWORD		dwItemCloak; // 어깨(망토) dw
+	DWORD		dwItemCloak; // shoulder (cloak) dw
 	int			iItemCloakDurability;
-	DWORD		dwItemGloves; // 장갑 dw
+	DWORD		dwItemGloves; // gloves dw
 	int			iItemGlovesDurability;
-	DWORD		dwItemShoes; // 신발 dw
+	DWORD		dwItemShoes; // shoes dw
 	int			iItemShoesDurability;
 
 	void clear()
 	{
 		szID			= "";
-		eRace			= RACE_UNKNOWN; // 종족 b
-		eClass			= CLASS_UNKNOWN; // 직업 b
-		iLevel			= 0; // 레벨 b
-		iFace			= 0; // 얼굴모양 b
-		iHair			= 0; // 머리모양 b
-		iZone			= 0; //zone number
-		dwItemUpper		= 0; // 상체 dw
-		dwItemLower		= 0; // 하체 dw
-		dwItemHelmet	= 0; // 투구 dw
-		dwItemCloak		= 0; // 어깨(망토) dw
-		dwItemGloves		= 0; // 장갑 dw
-		dwItemShoes		= 0; // 신발 dw
+		eRace			= RACE_UNKNOWN; // race b
+		eClass			= CLASS_UNKNOWN; // job b
+		iLevel			= 0; // level b
+		iFace			= 0; // face shape b
+		iHair			= 0; // hair style b
+		iZone			= 0; // zone number
+		dwItemUpper		= 0; // upper body dw
+		dwItemLower		= 0; // lower body dw
+		dwItemHelmet	= 0; // helmet dw
+		dwItemCloak		= 0; // shoulder (cloak) dw
+		dwItemGloves		= 0; // gloves dw
+		dwItemShoes		= 0; // shoes dw
 	}
 
 	
@@ -71,7 +71,7 @@ public:
 	class CN3Shape*			m_pActiveBg;
 
 	class CN3Chr*			m_pChrs[MAX_AVAILABLE_CHARACTER];
-	__CharacterSelectInfo	m_InfoChrs[MAX_AVAILABLE_CHARACTER]; // 이미 만들어진 캐릭터 정보..
+	__CharacterSelectInfo	m_InfoChrs[MAX_AVAILABLE_CHARACTER]; // Character information that has already been created.
 
 	class CN3Camera*		m_pCamera;
 	class CN3Light*			m_pLights[8];

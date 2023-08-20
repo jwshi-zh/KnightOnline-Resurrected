@@ -12,7 +12,7 @@ public:
 	BOOL						m_bIsRender;
 	POINT						m_ti_LBPoint;
 	CN3Terrain*					m_pRefTerrain;
-	bool						m_IsBlunt[4];	//Left, Top, Right, Bottom...
+	bool						m_IsBlunt[4];	// Left, Top, Right, Bottom...
 	CN3Texture*					m_pRefColorTex;
 
 protected:
@@ -24,18 +24,18 @@ protected:
 	
 	std::list<FANINFO>					m_FanInfoList;
 	
-	//for level1
+	// for level1
 	int*						m_pTileTexIndx[2];
 	bool*						m_pIsTileFull;
 
-	//lightmap...
+	// lightmap...
 	LPDIRECT3DVERTEXBUFFER9		m_pLightMapVB;
 	CN3Texture**				m_pRefLightMapTex;
 	int							m_NumLightMapTex;
 
-	//Tile지원 안하는 카드들을 위한 설정.
-	//LPDIRECT3DVERTEXBUFFER9		m_pFoolishTileVB;
-	//int							m_NumFoolishTile;
+	// Settings for cards that do not support Tile.
+	// LPDIRECT3DVERTEXBUFFER9		m_pFoolishTileVB;
+	// int							m_NumFoolishTile;
 
 public:
 	inline float	UVConvert(float uv);

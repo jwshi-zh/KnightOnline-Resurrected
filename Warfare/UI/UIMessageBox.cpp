@@ -67,9 +67,9 @@ bool CUIMessageBox::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 {
 	if(nullptr == pSender) return false;
 
-	//s_CameraData.vp;  //불러 오는 과정을 살펴본다 
-	//DWORD mm = s_CameraData.vp.Height;
-	//DWORD ss = s_CameraData.vp.Width;	
+	// s_CameraData. vp; //look at the calling process
+	// DWORD mm = s_CameraData.vp.Height;
+	// DWORD ss = s_CameraData.vp.Width;
 
 	if (dwMsg == UIMSG_BUTTON_CLICK)
 	{
@@ -81,7 +81,7 @@ bool CUIMessageBox::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 
 		if (pSender == m_pBtn_OK || pSender == m_pBtn_Yes)
 		{
-			//this_ui
+			// this_ui
 			if(m_pParentUI)
 				m_pParentUI->CallBackProc(m_iChildID,1);
 
@@ -89,7 +89,7 @@ bool CUIMessageBox::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 			{
 				case BEHAVIOR_EXIT :
 					{
-						if(CGameProcedure::s_pProcActive == pProcMain) // 지금 메인 프로시저이면..
+						if(CGameProcedure::s_pProcActive == pProcMain) // If this is the main procedure...
 						{
 							pProcMain->ReleaseSound();
 							::PostQuitMessage(0);
@@ -99,37 +99,37 @@ bool CUIMessageBox::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 							::PostQuitMessage(0);
 						}
 					}
-					break; // 끝낸다.. 
+					break; // finish...
 				case BEHAVIOR_RESTART_GAME :
 					{
-						if(CGameProcedure::s_pProcActive == pProcMain) // 지금 메인 프로시저이면..
+						if(CGameProcedure::s_pProcActive == pProcMain) // If this is the main procedure...
 						{
 							const std::string szIP = CGameProcedure::s_pSocket->GetCurrentIP();
 							const DWORD dwPort = CGameProcedure::s_pSocket->GetCurrentPort();
 							
-							CGameProcedure::s_bNeedReportConnectionClosed = false; // 서버접속이 끊어진걸 보고해야 하는지..
+							CGameProcedure::s_bNeedReportConnectionClosed = false; // Should I report that the connection to the server has been lost?
 							CGameProcedure::s_pSocket->Disconnect();
-							Sleep(2000); // 2초 딜레이.. 서버가 처리할 시간을 준다.
+							Sleep(2000); // 2 second delay.. to give the server time to process.
 							CGameProcedure::s_pSocket->Connect(CGameProcedure::s_hWndBase, szIP.c_str(), dwPort);
-							CGameProcedure::s_bNeedReportConnectionClosed = true; // 서버접속이 끊어진걸 보고해야 하는지..
+							CGameProcedure::s_bNeedReportConnectionClosed = true; // Should I report that the connection to the server has been lost?
 
 							CGameProcedure::MsgSend_GameServerLogIn();
-							CGameProcedure::ProcActiveSet((CGameProcedure*)CGameProcedure::s_pProcCharacterSelect); // 다시 캐릭터 고르자..
+							CGameProcedure::ProcActiveSet((CGameProcedure*)CGameProcedure::s_pProcCharacterSelect); // Let&#39;s choose a character again.
 						}
 					}
 					break;
-				case BEHAVIOR_REGENERATION :			pProcMain->MsgSend_Regen(); break;// 부활 메시지 날리기..
+				case BEHAVIOR_REGENERATION :			pProcMain->MsgSend_Regen(); break;// Sending a resurrection message...
 				case BEHAVIOR_PARTY_PERMIT :			pProcMain->MsgSend_PartyOrForcePermit(0, true); break;
 				case BEHAVIOR_PARTY_DISBAND :			pProcMain->MsgSend_PartyOrForceLeave(0); break;
 				case BEHAVIOR_FORCE_PERMIT :			pProcMain->MsgSend_PartyOrForcePermit(1, true); break;
 				case BEHAVIOR_FORCE_DISBAND :			pProcMain->MsgSend_PartyOrForceLeave(1); break;
 				case BEHAVIOR_REQUEST_BINDPOINT :		if(pShape) pProcMain->MsgSend_ObjectEvent(pShape->m_iEventID, 0); 	break;
 				case BEHAVIOR_KNIGHTS_CREATE:			pProcMain->m_pUICreateClanName->MsgSend_MakeClan(); break;
-				case BEHAVIOR_KNIGHTS_DESTROY :			pProcMain->m_pUIKnightsOp->MsgSend_KnightsDestroy(); break; // 기사단 뽀개기..
-				case BEHAVIOR_KNIGHTS_WITHDRAW :		pProcMain->m_pUIKnightsOp->MsgSend_KnightsWithdraw(); break; // 기사단 탈퇴하기..
-				case BEHAVIOR_PERSONAL_TRADE_PERMIT :	pProcMain->m_pSubProcPerTrade->ProcessProceed(PER_TRADE_RESULT_MY_AGREE);	break;	// 내가 허락..
+				case BEHAVIOR_KNIGHTS_DESTROY :			pProcMain->m_pUIKnightsOp->MsgSend_KnightsDestroy(); break; // Knights slap..
+				case BEHAVIOR_KNIGHTS_WITHDRAW :		pProcMain->m_pUIKnightsOp->MsgSend_KnightsWithdraw(); break; // Leaving the Knights...
+				case BEHAVIOR_PERSONAL_TRADE_PERMIT :	pProcMain->m_pSubProcPerTrade->ProcessProceed(PER_TRADE_RESULT_MY_AGREE);	break;	// i allow...
 				case BEHAVIOR_MGAME_LOGIN:				pProcLogIn->MsgSend_AccountLogIn(LIC_MGAME); break;
-				case BEHAVIOR_DELETE_CHR: // 캐릭터 지우기..
+				case BEHAVIOR_DELETE_CHR: // Erase character...
 					{
 						std::string szKey;
 						if(m_pEdit_Common) szKey = m_pEdit_Common->GetString();
@@ -139,12 +139,12 @@ bool CUIMessageBox::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 				case BEHAVIOR_CLAN_JOIN: 
 					pProcMain->MsgSend_KnightsJoinReq(true);
 					break;
-				case BEHAVIOR_PARTY_BBS_REGISTER:			if(pProcMain->m_pUIPartyBBS)pProcMain->m_pUIPartyBBS->MsgSend_Register(); break;// 파티 게시판에 등록
-				case BEHAVIOR_PARTY_BBS_REGISTER_CANCEL:	if(pProcMain->m_pUIPartyBBS)pProcMain->m_pUIPartyBBS->MsgSend_RegisterCancel(); break;// 파티 게시판에 등록 해제
+				case BEHAVIOR_PARTY_BBS_REGISTER:			if(pProcMain->m_pUIPartyBBS)pProcMain->m_pUIPartyBBS->MsgSend_Register(); break;// Register on the party bulletin board
+				case BEHAVIOR_PARTY_BBS_REGISTER_CANCEL:	if(pProcMain->m_pUIPartyBBS)pProcMain->m_pUIPartyBBS->MsgSend_RegisterCancel(); break;// Unregister on the party bulletin board
 				case BEHAVIOR_EXECUTE_OPTION:
 					{
-						::ShellExecute(nullptr, "open", "Option.exe", nullptr, nullptr, SW_SHOWNORMAL); // 홈페이지로 이동..
-						PostQuitMessage(0);	// 종료...
+						::ShellExecute(nullptr, "open", "Option.exe", nullptr, nullptr, SW_SHOWNORMAL); // Go to homepage..
+						PostQuitMessage(0);	// end...
 					}
 					break;
 				default: break;
@@ -152,7 +152,7 @@ bool CUIMessageBox::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 		}
 		else if (pSender == m_pBtn_No || pSender == m_pBtn_Cancel)
 		{
-			//this_ui
+			// this_ui
 			if(m_pParentUI)
 				m_pParentUI->CallBackProc(m_iChildID,2);
 
@@ -164,8 +164,8 @@ bool CUIMessageBox::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 			{
 			case BEHAVIOR_PARTY_PERMIT:				pProcMain->MsgSend_PartyOrForcePermit(0, false); break;
 			case BEHAVIOR_FORCE_PERMIT:				pProcMain->MsgSend_PartyOrForcePermit(1, false); break;
-			case BEHAVIOR_PERSONAL_TRADE_PERMIT :	pProcMain->m_pSubProcPerTrade->LeavePerTradeState(PER_TRADE_RESULT_MY_DISAGREE);	break;	// 내가 거절..
-			case BEHAVIOR_PERSONAL_TRADE_FMT_WAIT:	pProcMain->m_pSubProcPerTrade->LeavePerTradeState(PER_TRADE_RESULT_MY_CANCEL);	break;	// 내가 취소..
+			case BEHAVIOR_PERSONAL_TRADE_PERMIT :	pProcMain->m_pSubProcPerTrade->LeavePerTradeState(PER_TRADE_RESULT_MY_DISAGREE);	break;	// i refuse...
+			case BEHAVIOR_PERSONAL_TRADE_FMT_WAIT:	pProcMain->m_pSubProcPerTrade->LeavePerTradeState(PER_TRADE_RESULT_MY_CANCEL);	break;	// i cancel...
 			case BEHAVIOR_CLAN_JOIN: pProcMain->MsgSend_KnightsJoinReq(false); break;
 			}
 		}

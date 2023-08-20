@@ -31,13 +31,13 @@ class CN3UIBase : public CN3BaseFileAccess
 {
 #ifdef _N3TOOL
 friend class CN3UIBase;
-friend class CHierarchyView;	// 툴에서 child list를 접근하기 위해서.
-friend class CPropertyView;	// 툴에서 각 변수들을 접근하기 위해서 
-friend class CUIEView;	// 툴에서 child list를 접근하기 위해서.
+friend class CHierarchyView;	// To access the child list in the tool.
+friend class CPropertyView;	// To access each variable in the tool
+friend class CUIEView;	// To access the child list in the tool.
 #endif
 
 public:
-	std::string m_szID;			// UI id
+	std::string m_szID;			// User id
 	std::string	m_szToolTip;	// tooltip text
 	void		SetID(LPCTSTR pszID) {m_szID = pszID;}
 	const std::string GetID() const {return m_szID;}
@@ -45,28 +45,28 @@ public:
 
 	static CN3UITooltip*	s_pTooltipCtrl;		// tool tip
 	
-	CN3UIBase*	m_pChildUI;		// UI 부속이 아니라 다른 UI를 자식으로 갖는다..
+	CN3UIBase*	m_pChildUI;		// It is not part of the UI, but has other UI as children.
 	CN3UIBase*	m_pParentUI;
 
 protected:
-	static std::string	s_szStringTmp;		// 임시 문자열.. 포인터를 넘기기 위해서이다..
+	static std::string	s_szStringTmp;		// Temporary string.. to pass a pointer..
 
 	int			m_iChildID;
 	CN3UIBase*	m_pParent;		// parent pointer
 	UIList		m_Children;		// children pointer list
 	eUI_TYPE	m_eType;		// UI Type - button, image .....
-	eUI_STATE	m_eState;		// UI state
+	eUI_STATE	m_eState;		// UI states
 	DWORD		m_dwStyle;		// style
-	DWORD		m_dwReserved;	// 기타 임시로 넣고 싶은 정보를 넣으면 된다.
+	DWORD		m_dwReserved;	// You can enter any other information you want to put in temporarily.
 
-	RECT		m_rcRegion;		// UI - screen coordinates (screen : main window client area) 중의 : 부모에 대한 상대좌표가 아니다.
-	RECT		m_rcMovable;	// UI를 드래그 하여 움직이게 할 수 있는 영역 - (screen : main window client area)           ~~~~~~~
+	RECT		m_rcRegion;		// Of the UI - screen coordinates (screen: main window client area): Coordinates not relative to the parent.
+	RECT		m_rcMovable;	// Area where UI can be moved by dragging - (screen : main window client area) ~~~~~~~
 
-	bool		m_bVisible;		// 화면에 보이는가 (부모가 보이지 않으면 자식들은 render 하지 않는다.)
-	CN3SndObj*	m_pSnd_OpenUI;	// UI가 화면에 보이는 순간 내는 소리
-	CN3SndObj*	m_pSnd_CloseUI;	// UI가 화면에서 사라지는 순간 내는 소리
+	bool		m_bVisible;		// Is it visible on the screen (if the parent is not visible, the children do not render)
+	CN3SndObj*	m_pSnd_OpenUI;	// The sound that the UI makes when it is visible on the screen
+	CN3SndObj*	m_pSnd_CloseUI;	// The sound made when the UI disappears from the screen
 
-	static CN3UIEdit*		s_pFocusedEdit;		// 현재 포커스를 가지고 있는 Edit, NULL이면 아무도 포커스를 가지고 있지 않다.
+	static CN3UIEdit*		s_pFocusedEdit;		// Edit that currently has focus, if NULL no one has focus.
 	
 public:
 	CN3UIBase();
@@ -87,25 +87,25 @@ public:
 	static CN3UITooltip*	GetTooltipCtrl() {return s_pTooltipCtrl;}
 	DWORD			GetStyle()	{return m_dwStyle;}
 
-	void			SetUIType(eUI_TYPE eUIType) { m_eType = eUIType; }	// by ecli666 툴에 기능 넣기 귀찮아서.. ^^
+	void			SetUIType(eUI_TYPE eUIType) { m_eType = eUIType; }	// by ecli666 It&#39;s annoying to add functions to the tool.. ^^
 // Operations
 public:	
 	bool			IsIn(int x, int y) const;
 	void			AddChild(CN3UIBase* pChild) { m_Children.push_front(pChild); }
-	void			RemoveChild(CN3UIBase* pChild); // 자식 리스트에서 포인터만 없어지고 실제로 delete 되지는 않는다.
-	void			SetParent(CN3UIBase* pParent);	// 부모를 바꾼다.
+	void			RemoveChild(CN3UIBase* pChild); // In the child list, only the pointer disappears and is not actually deleted.
+	void			SetParent(CN3UIBase* pParent);	// change parents
 	int				GetWidth() { return m_rcRegion.right - m_rcRegion.left; }
 	int				GetHeight() { return m_rcRegion.bottom - m_rcRegion.top; }
 	POINT			GetPos() const;
-	virtual void	SetPos(int x, int y);	// 위치 지정(chilren의 위치도 같이 바꾸어준다.) 내부적으로 MoveOffset함수를 부른다.
-	void			SetPosCenter();	// 화면 정가운데로 맞추어준다..(chilren의 위치도 같이 바꾸어준다.) 내부적으로 MoveOffset함수를 부른다.
+	virtual void	SetPos(int x, int y);	// Position designation (the position of chilren is also changed.) Calls the MoveOffset function internally.
+	void			SetPosCenter();	// Align it to the center of the screen. (The position of chilren is also changed.) Call the MoveOffset function internally.
 	CN3UIBase*		GetChildByID(const std::string& szID);
 
-	virtual void	SetRegion(const RECT& pRect) { m_rcRegion = pRect; }	// 영역 지정
-	virtual BOOL	MoveOffset(int iOffsetX, int iOffsetY);	// offset만큼 이동해준다.(region, children, move rect 이동)
-	virtual void	SetSize(int iWidth, int iHeight);	// 크기 지정
+	virtual void	SetRegion(const RECT& pRect) { m_rcRegion = pRect; }	// zoning
+	virtual BOOL	MoveOffset(int iOffsetX, int iOffsetY);	// It moves as much as the offset. (Move region, children, move rect)
+	virtual void	SetSize(int iWidth, int iHeight);	// sizing
 	virtual void	SetState(eUI_STATE eState) { m_eState = eState; }
-	virtual void	SetStyle(DWORD dwStyle) {m_dwStyle = dwStyle;}	// style지정
+	virtual void	SetStyle(DWORD dwStyle) {m_dwStyle = dwStyle;}	// style designation
 	virtual void	SetVisible(bool bVisible);
 
 	virtual void	SetVisibleWithNoSound(bool bVisible, bool bWork = false, bool bReFocus = false);
@@ -113,17 +113,17 @@ public:
 	virtual void	CallBackProc(int iID, DWORD dwFlag);
 	virtual void	ShowWindow(int iID = -1, CN3UIBase* pParent = nullptr);
 	virtual bool	Load(HANDLE hFile);
-	virtual bool	ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg); // 메시지를 받는다.. 보낸놈, msg
+	virtual bool	ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg); // Receives a message. Sender, msg
 	virtual DWORD	MouseProc(DWORD dwFlags, const POINT& ptCur, const POINT& ptOld);
 	virtual void	Tick();
 	virtual void	Render();
-	virtual void	Release(); // 자식 포인터까지 delete 한다..
+	virtual void	Release(); // Delete the child pointer as well.
 	virtual void	Init(CN3UIBase* pParent);
 	virtual bool	OnKeyPress(int iKey) { return false; }
 	virtual bool	OnKeyPressed(int iKey) { return false; }
 
-	static	bool	EnableTooltip(const std::string& szFN);	// tooltip UI를 초기화 해준다.
-	static	void	DestroyTooltip();	// tooltip ui에 관련된 것을 해제해준다.
+	static	bool	EnableTooltip(const std::string& szFN);	// Initializes the tooltip UI.
+	static	void	DestroyTooltip();	// Releases related to tooltip ui.
 
 	int				GetChildrenCount() { return m_Children.size(); }
 	CN3UIBase*		GetChildByIndex(int iIndex)

@@ -7,32 +7,32 @@
 class CUIMessageWnd : public CN3UIBase  
 {
 protected:
-	CN3UIString*	m_pChatOut;		// 채팅이 출력되는 UIString 참조포인터(실제 m_Child로 관리), 글씨체와 초기 영역만 참조한다.
-	CN3UIScrollBar* m_pScrollbar;	// scrollbar 참조포인터(실제 m_Child로 관리)
+	CN3UIString*	m_pChatOut;		// UIString reference pointer where chatting is output (actually managed as m_Child), only references font and initial area.
+	CN3UIScrollBar* m_pScrollbar;	// scrollbar reference pointer (actually managed by m_Child)
 
-	deque<__ChatInfo*>		m_ChatBuffer;		// 채팅 packet기준으로 된 buffer
-	deque<__ChatInfo*>		m_LineBuffer;		// Line 기준으로 된 buffer
+	deque<__ChatInfo*>		m_ChatBuffer;		// Buffer based on chat packets
+	deque<__ChatInfo*>		m_LineBuffer;		// Line-based buffer
 	
-	int				m_iChatLineCount;	// 채팅창에 출력되는 line의 수(채팅창 사이즈가 변했을때 다시 계산해주자.)
-	RECT			m_rcChatOutRegion;	// 채팅이 출력되는 영역
-	CN3UIString**	m_ppUILines;		// 채팅이 출력되는 UIString 배열포인터(채팅창 사이즈가 변하므로 배열도 변한다.
+	int				m_iChatLineCount;	// The number of lines displayed in the chat window (recalculate when the size of the chat window changes.)
+	RECT			m_rcChatOutRegion;	// Area where chat is displayed
+	CN3UIString**	m_ppUILines;		// UIString array pointer where the chat is displayed (as the size of the chat window changes, the array also changes.
 
 protected:
-	void			SetTopLine(int iTopLine) const;		// 맨 윗줄을 지정해준다.
-	void			AddLineBuffer(const std::string& szString, D3DCOLOR color);	// line 버퍼를 만들어준다.(너무 길면 알아서 2줄로 만들어준다.)
-	void			RecalcLineBuffer();		// 채팅창 사이즈가 변했을때 호출해주면 line buffer를 다시 계산해서 넣어준다.
+	void			SetTopLine(int iTopLine) const;		// Specifies the top row.
+	void			AddLineBuffer(const std::string& szString, D3DCOLOR color);	// Creates a line buffer. (If it is too long, it automatically creates two lines.)
+	void			RecalcLineBuffer();		// If called when the size of the chat window changes, the line buffer is recalculated and inserted.
 	void			CreateLines();
 
 // Operations
 public:
 	bool OnKeyPress(int iKey);
-	BOOL	MoveOffset(int iOffsetX, int iOffsetY);	// offsetY만큼 이동해준다.(region, children, move rect 이동)
+	BOOL	MoveOffset(int iOffsetX, int iOffsetY);	// It moves as much as offsetY. (region, children, move rect)
 	bool	ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg);
 	void	Release();
 	bool	Load(HANDLE hFile);
-	void	SetRegion(const RECT& Rect);	// 영역 지정(사이즈가 변할때 호출된다. 단순 이동은 호출되지 않는다.(단순이동은 MoveOffset이 호출))
+	void	SetRegion(const RECT& Rect);	// Area designation (called when the size changes. Simple movement is not called. (MoveOffset is called for simple movement))
 
-	void	AddMsg(const std::string& szString, D3DCOLOR color = 0xffffffff);		// 채팅 메세지를 저장하고 알맞은 형태로 화면에 출력해준다.
+	void	AddMsg(const std::string& szString, D3DCOLOR color = 0xffffffff);		// Saves the chat message and displays it on the screen in an appropriate format.
 
 	CUIMessageWnd();
 	virtual ~CUIMessageWnd();

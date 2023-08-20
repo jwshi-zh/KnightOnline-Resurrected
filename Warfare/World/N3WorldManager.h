@@ -21,10 +21,10 @@ public:
 
 	bool IsIndoor() const {	return m_bIndoor;	}
 	
-	//..
+	// ..
 	CN3WorldBase* GetActiveWorld() 
 	{
-//		__ASSERT(0, "No Acitive World!!");
+// __ASSERT(0, "No Acitive World!!");
 		return m_pActiveWorld;	
 	}
 };

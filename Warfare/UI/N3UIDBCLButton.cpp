@@ -17,7 +17,7 @@ DWORD CN3UIDBCLButton::MouseProc(DWORD dwFlags, const POINT& ptCur, const POINT&
 	DWORD dwRet = UI_MOUSEPROC_NONE;
 
 	const RECT rect = GetRegion();
-	if(!::PtInRect(&rect, ptCur))		// 영역 밖이면
+	if(!::PtInRect(&rect, ptCur))		// out of range
 	{
 		dwRet |= CN3UIBase::MouseProc(dwFlags, ptCur, ptOld);
 		return dwRet;
@@ -25,7 +25,7 @@ DWORD CN3UIDBCLButton::MouseProc(DWORD dwFlags, const POINT& ptCur, const POINT&
 
 	if (dwFlags & UI_MOUSE_LBDBLCLK)
 	{
-		m_pParent->ReceiveMessage(this, UIMSG_ICON_DBLCLK); // 부모에게 버튼 클릭 통지..
+		m_pParent->ReceiveMessage(this, UIMSG_ICON_DBLCLK); // Notify parent on button click..
 		dwRet |= UI_MOUSEPROC_DONESOMETHING;
 		return dwRet;
 	}

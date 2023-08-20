@@ -22,7 +22,7 @@ void CN3Star::Release()
 
 void CN3Star::Tick()
 {
-	// 별이 점점 늘어나고 줄어드는것 조정하기
+	// Adjusting the growing and shrinking stars
 	static float fSec = 0.0f;
 	if (0.0f == m_fAddTime) return;
 

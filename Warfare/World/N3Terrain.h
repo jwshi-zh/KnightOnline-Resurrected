@@ -7,62 +7,62 @@
 
 #include <string>
 
-//class CN3Terrain : public CGameBase
+// class CN3Terrain : public CGameBase
 class CN3Terrain : public CN3BaseFileAccess
 {
 public:
-	//common..
+	// common..
 	__Material			m_Material;
 	D3DSHADEMODE		m_ShadeMode;
 	D3DFILLMODE			m_FillMode;
 	int					m_iLodLevel;
 			
-	//Patch...
+	// Patch...
 	CN3TerrainPatch**	m_ppPatch;
 	POINT				m_pat_LBPos;
 	POINT				m_pat_PrevLBPos;
-	RECT				m_pat_BoundRect;	//LBPos에 대한 상대좌표..
+	RECT				m_pat_BoundRect;	// Relative coordinates for LBPos..
 	int					m_iNumPatch;
-	int					m_pat_Center2Side;	//중심점에서 한쪽변까지의 길이..
+	int					m_pat_Center2Side;	// The length from the center point to one side.
 	int					m_iDistanceTable[DISTANCE_TABLE_SIZE][DISTANCE_TABLE_SIZE];
 	
-	//MapInfo..
+	// MapInfo..
 	MAPDATA*			m_pMapData;
-	int					m_ti_MapSize;				// 셀이 몇개 들어가나.. 4096Meter -> 1024 + 1
-	int					m_pat_MapSize;				// 패치 갯수.. 사이즈에 따라 틀리다..
+	int					m_ti_MapSize;				// How many cells go in... 4096Meter -&gt; 1024 + 1
+	int					m_pat_MapSize;				// The number of patches.. depends on the size..
 	__Vector3*			m_pNormal;
 
-	//LightMap Info..
+	// LightMap Info..
 	POINT				m_pat_CenterPos;
 	std::map<DWORD, CN3Texture*>		m_LightMapPatch[3][3];
 	
-	//bool**			m_ppIsLightMap;
-	//CN3Texture***		m_pppLightMapTex;
+	// bool**			m_ppIsLightMap;
+	// CN3Texture***		m_pppLightMapTex;
 
-	//Patch
+	// Patch
 	float**				m_ppPatchRadius;
 	float**				m_ppPatchMiddleY;
 
-	//Tile..
+	// Tile..
 	POINT				m_ti_CenterPos;
 	POINT				m_ti_PrevCenterPos;
 
-	//Texture...
-	int					m_NumTileTex;				// Tile Texture 갯수
+	// Texture...
+	int					m_NumTileTex;				// Number of Tile Textures
 	CN3Texture*			m_pTileTex;
 
-	//ColorMap..
+	// ColorMap..
 	CN3Texture**		m_ppColorMapTex;
-	int					m_iNumColorMap;				// 컬러맵은 분할 저장되어 있다.. 갯수 = 
+	int					m_iNumColorMap;				// The color map is divided and stored. Number =
 
-	//컬러맵위에 덧 씌우는 무늬맵..
+	// The pattern map overlaid on the color map.
 	CN3Texture			m_pBaseTex;
 
-	//타일방향..
+	// tile direction.
 	float m_fTileDirU[8][4];
 	float m_fTileDirV[8][4];
 
-	//Grass Attr;
+	// Grass Attr;
 	char				m_pGrassTextureName[MAX_GRASS][MAX_PATH];
 	char				m_pGrassFileName[MAX_PATH];
 	unsigned char*		m_pGrassAttr;
@@ -84,10 +84,10 @@ protected:
 	void	TestAvailableTile();
 	void	MakeDistanceTable();
 
-	inline	int	Log2(int x);	//2의 승수 전용....
-	int Real2Tile(float x){ return ((int)x / TILE_SIZE); } // 실좌표 -> 타일좌표...(절대좌표)
-	int Tile2Patch(int x) { return (x / PATCH_TILE_SIZE); } // 타일좌표 -> 패치좌표...(절대좌표계)
-	int Real2Patch(float fX) { return ( ((int)fX / TILE_SIZE) / PATCH_TILE_SIZE ); } // 실좌표 -> 패치좌표..(절대좌표계)
+	inline	int	Log2(int x);	// Multipliers of 2 only....
+	int Real2Tile(float x){ return ((int)x / TILE_SIZE); } // Real coordinates -&gt; Tile coordinates... (absolute coordinates)
+	int Tile2Patch(int x) { return (x / PATCH_TILE_SIZE); } // Tile coordinates -&gt; Patch coordinates... (absolute coordinate system)
+	int Real2Patch(float fX) { return ( ((int)fX / TILE_SIZE) / PATCH_TILE_SIZE ); } // Real coordinates -&gt; patch coordinates.. (absolute coordinate system)
 		
 	void	LoadTileInfo(HANDLE hFile);
 	bool	CheckRenderablePatch();
@@ -114,7 +114,7 @@ public:
 	CN3Terrain();
 	virtual ~CN3Terrain();
 
-public:	//additional........
+public:	// additional........
 	bool			GetTileTexInfo(float x, float z, TERRAINTILETEXINFO& TexInfo1, TERRAINTILETEXINFO& TexInfo2);
 	CN3Texture*		GetTileTex(int x, int z);
 	MAPDATA			GetMapData(int x, int z);
@@ -122,17 +122,17 @@ public:	//additional........
 	bool			LoadColorMap(const std::string& szFN);
 	void			GetNormal(float x, float z, __Vector3& vNormal);
 	bool			IsInTerrain(float x, float z);
-	//..
+	// ..
 	BOOL			Pick(int x, int y, __Vector3& vPick);
 	BOOL			PickWide(int x, int y, __Vector3& vPick);
 	void			CalcCollisionTerrainByOTPlayer(__Vector3, __Vector3, __Vector3& );
 
-	bool			CheckIncline(const __Vector3& vPos, const __Vector3& vDir, float fIncline); // 현재 위치와 방향에서의 경사값이 인수로 들어온것보다 크면(못올라갈 곳이면) true, 작으면 false
-	bool			CheckCollisionCamera(__Vector3& vEye, const __Vector3& vAt, float fNP); // vEye 에 계산된 값도 들어온다.. 카메라 Near Plane을 넣으면 계산.
+	bool			CheckIncline(const __Vector3& vPos, const __Vector3& vDir, float fIncline); // true if the slope value from the current position and direction is greater than the value entered as a factor (if it is a place where you cannot climb), false if it is less
+	bool			CheckCollisionCamera(__Vector3& vEye, const __Vector3& vAt, float fNP); // The calculated value for vEye is also entered. Calculated by inserting the camera Near Plane.
 	BOOL			CheckCollisionByHeight(const __Vector3& vPos, float fUnitSize, float& fHeight)
 	{
 		fHeight = this->GetHeight(vPos.x, vPos.z);
-		if(vPos.y < fHeight + fUnitSize) return TRUE; // 현재 높이가 지형높이 + 크기 보다 작다면 
+		if(vPos.y < fHeight + fUnitSize) return TRUE; // If the current height is less than the terrain height + size
 		return FALSE;
 	}
 	bool			CheckCollision(__Vector3& vPos, __Vector3& vDir, float fVelocity, __Vector3* vpCol);

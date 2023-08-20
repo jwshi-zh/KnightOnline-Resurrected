@@ -27,7 +27,7 @@ CN3TerrainPatch::CN3TerrainPatch()
 	m_pTileTexIndx[1] = nullptr;
 	m_pIsTileFull = nullptr;
 
-	//lightmap...
+	// lightmap...
 	m_pLightMapVB = nullptr;
 	m_pRefLightMapTex = nullptr;
 	m_NumLightMapTex = 0;
@@ -35,7 +35,7 @@ CN3TerrainPatch::CN3TerrainPatch()
 
 
 //
-//	소멸자
+// destructor
 //
 CN3TerrainPatch::~CN3TerrainPatch()
 {
@@ -144,7 +144,7 @@ void CN3TerrainPatch::Init(CN3Terrain* pTerrain)
 
 
 //
-//	Set Level....
+// Set Level....
 //
 void CN3TerrainPatch::SetLevel(int level)
 {
@@ -198,7 +198,7 @@ void CN3TerrainPatch::Tick()
 	
 	int ix, iz;
 	int tx, tz;
-	int cx, cz;	//cell center point...
+	int cx, cz;	// cell center point...
 		
 	FANINFO FaceInfo;
 	
@@ -215,9 +215,9 @@ void CN3TerrainPatch::Tick()
 		int TileCount = 0;
 		float u1[4], u2[4], v1[4], v2[4];
 
-		///////////////////////////////////
-		//unitUV
-		//				
+		// 
+		// unitUV
+		// 
 		for(ix=0; ix<PATCH_TILE_SIZE;ix++)
 		{
 			for(iz=0; iz<PATCH_TILE_SIZE;iz++)
@@ -234,7 +234,7 @@ void CN3TerrainPatch::Tick()
 				m_pTileTexIndx[1][TileCount] = MapData.Tex2Idx;
 				m_pIsTileFull[TileCount] = MapData.bIsTileFull;
 
-				if( m_pTileTexIndx[0][TileCount]<0 || m_pTileTexIndx[0][TileCount]>m_pRefTerrain->m_NumTileTex || m_pIsTileFull[TileCount]==false)	// 타일이 없는 경우..컬러맵을 찍어야 돼...
+				if( m_pTileTexIndx[0][TileCount]<0 || m_pTileTexIndx[0][TileCount]>m_pRefTerrain->m_NumTileTex || m_pIsTileFull[TileCount]==false)	// If there is no tile...you need to take a colormap...
 				{
 					u1[0] = u1[1] = UVConvert((float)(tx%UNITUV) / (float)UNITUV);
 					u1[2] = u1[3] = UVConvert(u1[0] + (1.0f/(float)UNITUV));
@@ -242,11 +242,11 @@ void CN3TerrainPatch::Tick()
 					v1[0] = v1[3] = UVConvert((float)(UNITUV - (tz%UNITUV)) / (float)UNITUV);
 					v1[1] = v1[2] = UVConvert(v1[0] - (1.0f/(float)UNITUV));
 
-					//u1[0] =	u1[1] = (float)(tx%UNITUV) / (float)UNITUV;
-					//u1[2] = u1[3] = u1[0] + (1.0f/(float)UNITUV);
+					// u1[0] =	u1[1] = (float)(tx%UNITUV) / (float)UNITUV;
+					// u1[2] = u1[3] = u1[0] + (1.0f/(float)UNITUV);
 
-					//v1[0] = v1[3] = (float)(UNITUV - (tz%UNITUV)) / (float)UNITUV;
-					//v1[1] = v1[2] = v1[0] - (1.0f/(float)UNITUV);
+					// v1[0] = v1[3] = (float)(UNITUV - (tz%UNITUV)) / (float)UNITUV;
+					// v1[1] = v1[2] = v1[0] - (1.0f/(float)UNITUV);
 
 					u2[0] =	u2[1] = 0.0f;
 					u2[2] = u2[3] = 1.0f;
@@ -254,7 +254,7 @@ void CN3TerrainPatch::Tick()
 					v2[0] = v2[3] = 0.0f;
 					v2[1] = v2[2] = 1.0f;
 				}
-				else	// 타일을 찍는 경우...
+				else	// When it comes to tile...
 				{
 					u1[0] = m_pRefTerrain->m_fTileDirU[dir1][2];
 					u1[1] = m_pRefTerrain->m_fTileDirU[dir1][0];
@@ -302,7 +302,7 @@ void CN3TerrainPatch::Tick()
 					VertexIdx+=4;
 					TileCount++;
 
-					//set lightmap vb...
+					// set lightmap vb...
 					if(m_pRefTerrain->GetLightMap(tx, tz))
 					{
 						m_pRefLightMapTex[m_NumLightMapTex] = m_pRefTerrain->GetLightMap(tx, tz);
@@ -352,7 +352,7 @@ void CN3TerrainPatch::Tick()
 					VertexIdx+=4;
 					TileCount++;
 
-					//set lightmap vb...
+					// set lightmap vb...
 					if(m_pRefTerrain->GetLightMap(tx, tz))
 					{
 						m_pRefLightMapTex[m_NumLightMapTex] = m_pRefTerrain->GetLightMap(tx, tz);
@@ -385,7 +385,7 @@ void CN3TerrainPatch::Tick()
 		return;
 	}
 
-	float tu,tv;	//center u,v...
+	float tu,tv;	// center u,v...
 	if(m_iLevel==2)
 	{
 		m_FanInfoList.clear();
@@ -404,7 +404,7 @@ void CN3TerrainPatch::Tick()
 				cx = ix*m_CellSize + HalfCell + m_ti_LBPoint.x;
 				cz = iz*m_CellSize + HalfCell + m_ti_LBPoint.y;
 
-				//cell의 가운데 점...
+				// The middle point of the cell...
 				tx = cx;
 				tz = cz;
 
@@ -417,10 +417,10 @@ void CN3TerrainPatch::Tick()
 										0.0f, 1.0f, 0.0f,
 										UVConvert(tu),
 										UVConvert(tv));
-										//tu, tv);
+										// you, tv);
 				VertexIdx++;
 				
-				//LB Point..
+				// LB Point..
 				tx = cx - HalfCell;
 				tz = cz - HalfCell;
 				pVertices[VertexIdx].Set( (float)(tx * TILE_SIZE),
@@ -429,7 +429,7 @@ void CN3TerrainPatch::Tick()
 											0.0f, 1.0f, 0.0f,
 											UVConvert(tu - HalfUV),
 											UVConvert(tv + HalfUV));
-											//tu - HalfUV, tv + HalfUV);
+											// tu - HalfUV, tv + HalfUV);
 				VertexIdx++;
 				
 				// LM Point...
@@ -444,13 +444,13 @@ void CN3TerrainPatch::Tick()
 													0.0f, 1.0f, 0.0f,
 													UVConvert(tu - HalfUV),
 													UVConvert((float)(UNITUV - (tz%UNITUV)) / (float)UNITUV));
-													//(tu - HalfUV), ((float)(UNITUV - (tz%UNITUV)) / (float)UNITUV));
+													// (tu - HalfUV), ((float)(UNITUV - (tz%UNITUV)) / (float)UNITUV));
 						VertexIdx++;
 						FaceCount++;
 					}
 				}
 
-				//LT.......
+				// LT.......
 				tz = cz + HalfCell;
 				pVertices[VertexIdx].Set( (float)(tx * TILE_SIZE),
 											m_pRefTerrain->GetMapData(tx,tz).fHeight,
@@ -458,7 +458,7 @@ void CN3TerrainPatch::Tick()
 											0.0f, 1.0f, 0.0f,
 											UVConvert(tu - HalfUV),
 											UVConvert(tv - HalfUV));
-											//(tu - HalfUV), (tv - HalfUV));
+											// (tu - HalfUV), (tv - HalfUV));
 				VertexIdx++;
 				FaceCount++;
 				
@@ -474,13 +474,13 @@ void CN3TerrainPatch::Tick()
 													0.0f, 1.0f, 0.0f,
 													UVConvert((float)(tx%UNITUV) / (float)UNITUV),
 													UVConvert(tv - HalfUV));
-													//((float)(tx%UNITUV) / (float)UNITUV), (tv - HalfUV));
+													// ((float)(tx%UNITUV) / (float)UNITUV), (tv - HalfUV));
 						VertexIdx++;
 						FaceCount++;
 					}
 				}
 
-				//RT.......
+				// RT.......
 				tx = cx + HalfCell;
 				pVertices[VertexIdx].Set( (float)(tx * TILE_SIZE),
 											m_pRefTerrain->GetMapData(tx,tz).fHeight,
@@ -488,7 +488,7 @@ void CN3TerrainPatch::Tick()
 											0.0f, 1.0f, 0.0f,
 											UVConvert(tu + HalfUV),
 											UVConvert(tv - HalfUV));
-											//(tu + HalfUV), (tv - HalfUV));
+											// (tu + HalfUV), (tv - HalfUV));
 				VertexIdx++;
 				FaceCount++;
 
@@ -497,7 +497,7 @@ void CN3TerrainPatch::Tick()
 				{
 					for(int i=0;i<3;i++)
 					{
-						//tx = cx + HalfCell;
+						// tx = cx + HalfCell;
 						tz--;
 						pVertices[VertexIdx].Set( (float)(tx * TILE_SIZE),
 													m_pRefTerrain->GetMapData(tx,tz).fHeight,
@@ -505,14 +505,14 @@ void CN3TerrainPatch::Tick()
 													0.0f, 1.0f, 0.0f,
 													UVConvert(tu + HalfUV),
 													UVConvert((float)(UNITUV - (tz%UNITUV)) / (float)UNITUV));
-													//(tu + HalfUV), ((float)(UNITUV - (tz%UNITUV)) / (float)UNITUV));
+													// (tu + HalfUV), ((float)(UNITUV - (tz%UNITUV)) / (float)UNITUV));
 						VertexIdx++;
 						FaceCount++;
 					}
 				}
 
-				//RB......
-				//tx = cx + HalfCell;
+				// RB......
+				// tx = cx + HalfCell;
 				tz = cz - HalfCell;
 				pVertices[VertexIdx].Set( (float)(tx * TILE_SIZE),
 											m_pRefTerrain->GetMapData(tx,tz).fHeight,
@@ -520,7 +520,7 @@ void CN3TerrainPatch::Tick()
 											0.0f, 1.0f, 0.0f,
 											UVConvert(tu + HalfUV),
 											UVConvert(tv + HalfUV));
-											//(tu + HalfUV), (tv + HalfUV));
+											// (tu + HalfUV), (tv + HalfUV));
 				VertexIdx++;
 				FaceCount++;
 
@@ -536,13 +536,13 @@ void CN3TerrainPatch::Tick()
 													0.0f, 1.0f, 0.0f,
 													UVConvert((float)(tx%UNITUV) / (float)UNITUV),
 													UVConvert(tv + HalfUV));
-													//((float)(tx%UNITUV) / (float)UNITUV), (tv + HalfUV));
+													// ((float)(tx%UNITUV) / (float)UNITUV), (tv + HalfUV));
 						VertexIdx++;
 						FaceCount++;
 					}
 				}
 
-				//LB Point..
+				// LB Point..
 				tx = cx - HalfCell;
 				pVertices[VertexIdx].Set( (float)(tx * TILE_SIZE),
 											m_pRefTerrain->GetMapData(tx,tz).fHeight,
@@ -550,7 +550,7 @@ void CN3TerrainPatch::Tick()
 											0.0f, 1.0f, 0.0f,
 											UVConvert(tu - HalfUV),
 											UVConvert(tv + HalfUV));
-											//(tu - HalfUV), (tv + HalfUV));
+											// (tu - HalfUV), (tv + HalfUV));
 				VertexIdx++;
 				FaceCount++;
 				FaceInfo.NumFace = FaceCount;
@@ -563,7 +563,7 @@ void CN3TerrainPatch::Tick()
 		return;
 	}
 
-	if(m_iLevel>2)	// level3 이상..	
+	if(m_iLevel>2)	// level 3 or higher..
 	{
 		m_FanInfoList.clear();
 		__VertexT1* pVertices;
@@ -581,7 +581,7 @@ void CN3TerrainPatch::Tick()
 				cx = ix*m_CellSize + HalfCell + m_ti_LBPoint.x;
 				cz = iz*m_CellSize + HalfCell + m_ti_LBPoint.y;
 
-				//cell의 가운데 점...
+				// The middle point of the cell...
 				tx = cx;
 				tz = cz;
 
@@ -594,10 +594,10 @@ void CN3TerrainPatch::Tick()
 										0.0f, 1.0f, 0.0f,
 										UVConvert(tu),
 										UVConvert(tv));
-										//(tu), (tv));
+										// (you), (tv));
 				VertexIdx++;
 				
-				//LB Point..
+				// LB Point..
 				tx = cx - HalfCell;
 				tz = cz - HalfCell;
 
@@ -607,8 +607,8 @@ void CN3TerrainPatch::Tick()
 											0.0f, 1.0f, 0.0f,
 											UVConvert(tu - HalfUV),
 											UVConvert(tv + HalfUV));
-											//(tu - HalfUV),
-											//(tv + HalfUV));
+											// (tu - HalfUV),
+											// (tv + HalfUV));
 				VertexIdx++;
 				
 				// LM Point...
@@ -621,14 +621,14 @@ void CN3TerrainPatch::Tick()
 												0.0f, 1.0f, 0.0f,
 												UVConvert(tu - HalfUV),
 												UVConvert(tv));
-												//(tu - HalfUV),
-												//(tv));
+												// (tu - HalfUV),
+												// (tv));
 					VertexIdx++;
 					FaceCount++;
 				}
 
-				//LT.......
-				//tx = cx - HalfCell;
+				// LT.......
+				// tx = cx - HalfCell;
 				tz = cz + HalfCell;
 				pVertices[VertexIdx].Set( (float)(tx * TILE_SIZE),
 											m_pRefTerrain->GetMapData(tx,tz).fHeight,
@@ -636,7 +636,7 @@ void CN3TerrainPatch::Tick()
 											0.0f, 1.0f, 0.0f,
 											UVConvert(tu - HalfUV),
 											UVConvert(tv - HalfUV));
-											//(tu - HalfUV), (tv - HalfUV));
+											// (tu - HalfUV), (tv - HalfUV));
 				VertexIdx++;
 				FaceCount++;
 				
@@ -650,12 +650,12 @@ void CN3TerrainPatch::Tick()
 												0.0f, 1.0f, 0.0f,
 												UVConvert(tu),
 												UVConvert(tv - HalfUV));
-												//(tu), (tv - HalfUV));
+												// (tu), (tv - HalfUV));
 					VertexIdx++;
 					FaceCount++;
 				}
 
-				//RT.......
+				// RT.......
 				tx = cx + HalfCell;		
 				pVertices[VertexIdx].Set( (float)(tx * TILE_SIZE),
 											m_pRefTerrain->GetMapData(tx,tz).fHeight,
@@ -663,7 +663,7 @@ void CN3TerrainPatch::Tick()
 											0.0f, 1.0f, 0.0f,
 											UVConvert(tu + HalfUV),
 											UVConvert(tv - HalfUV));
-											//(tu + HalfUV), (tv - HalfUV));
+											// (tu + HalfUV), (tv - HalfUV));
 				VertexIdx++;
 				FaceCount++;
 
@@ -677,13 +677,13 @@ void CN3TerrainPatch::Tick()
 												0.0f, 1.0f, 0.0f,
 												UVConvert(tu + HalfUV),
 												UVConvert(tv));
-												//(tu + HalfUV), (tv));
+												// (tu + HalfUV), (tv));
 					VertexIdx++;
 					FaceCount++;
 				}
 
-				//RB......
-				//tx = cx + HalfCell;
+				// RB......
+				// tx = cx + HalfCell;
 				tz = cz - HalfCell;
 				pVertices[VertexIdx].Set( (float)(tx * TILE_SIZE),
 											m_pRefTerrain->GetMapData(tx,tz).fHeight,
@@ -691,7 +691,7 @@ void CN3TerrainPatch::Tick()
 											0.0f, 1.0f, 0.0f,
 											UVConvert(tu + HalfUV),
 											UVConvert(tv + HalfUV));
-											//(tu + HalfUV), (tv + HalfUV));
+											// (tu + HalfUV), (tv + HalfUV));
 				VertexIdx++;
 				FaceCount++;
 
@@ -705,12 +705,12 @@ void CN3TerrainPatch::Tick()
 												0.0f, 1.0f, 0.0f,
 												UVConvert(tu),
 												UVConvert(tv + HalfUV));
-												//(tu), (tv + HalfUV));
+												// (tu), (tv + HalfUV));
 					VertexIdx++;
 					FaceCount++;
 				}
 
-				//LB Point..
+				// LB Point..
 				tx = cx - HalfCell;
 				pVertices[VertexIdx].Set( (float)(tx * TILE_SIZE),
 											m_pRefTerrain->GetMapData(tx,tz).fHeight,
@@ -718,7 +718,7 @@ void CN3TerrainPatch::Tick()
 											0.0f, 1.0f, 0.0f,
 											UVConvert(tu - HalfUV),
 											UVConvert(tv + HalfUV));
-											//(tu - HalfUV), (tv + HalfUV));
+											// (tu - HalfUV), (tv + HalfUV));
 				VertexIdx++;
 				FaceCount++;
 				FaceInfo.NumFace = FaceCount;
@@ -767,7 +767,7 @@ void CN3TerrainPatch::Render()
 			hr = CN3Base::s_lpD3DDev->DrawPrimitive( D3DPT_TRIANGLEFAN, vc, fc);
 			vc += it->NumVertex;
 #if _DEBUG
-			CN3Base::s_RenderInfo.nTerrain_Polygon += it->NumVertex; // Rendering Information 갱신..
+			CN3Base::s_RenderInfo.nTerrain_Polygon += it->NumVertex; // Updating Rendering Information..
 #endif			
 		}		
 		return;
@@ -789,7 +789,7 @@ void CN3TerrainPatch::Render()
 
 			hr = CN3Base::s_lpD3DDev->SetTexture( 2, nullptr);
 
-			if( (m_pTileTexIndx[0][i]<0) || m_pTileTexIndx[0][i] >= m_pRefTerrain->m_NumTileTex || (m_pIsTileFull[i]==false) )	// 0: 컬러맵, 1:무늬 or 0:부분타일 1:NONE...
+			if( (m_pTileTexIndx[0][i]<0) || m_pTileTexIndx[0][i] >= m_pRefTerrain->m_NumTileTex || (m_pIsTileFull[i]==false) )	// 0: color map, 1: pattern or 0: partial tile 1: NONE...
 			{
 				hr = CN3Base::s_lpD3DDev->SetTexture( 0, m_pRefColorTex->Get());
 				hr = CN3Base::s_lpD3DDev->SetTexture( 1, m_pRefTerrain->m_pBaseTex.Get());
@@ -805,7 +805,7 @@ void CN3TerrainPatch::Render()
 			}
 			else if(m_pTileTexIndx[0][i] >= 0 && m_pTileTexIndx[0][i] < m_pRefTerrain->m_NumTileTex)
 			{
-				if(m_pTileTexIndx[1][i]>=0 && m_pTileTexIndx[1][i] < m_pRefTerrain->m_NumTileTex)	//0: tile, 1: tile..
+				if(m_pTileTexIndx[1][i]>=0 && m_pTileTexIndx[1][i] < m_pRefTerrain->m_NumTileTex)	// 0: tile, 1: tile..
 				{
 					hr = CN3Base::s_lpD3DDev->SetTexture( 0, m_pRefTerrain->m_pTileTex[m_pTileTexIndx[0][i]].Get());
 					hr = CN3Base::s_lpD3DDev->SetTexture( 1, m_pRefTerrain->m_pTileTex[m_pTileTexIndx[1][i]].Get());
@@ -821,7 +821,7 @@ void CN3TerrainPatch::Render()
 						hr = CN3Base::s_lpD3DDev->SetTextureStageState( 2, D3DTSS_COLORARG2, D3DTA_DIFFUSE);
 					}
 				}
-				else	//0: tile, 1:NONE...
+				else	// 0: tile, 1:NONE...
 				{
 					hr = CN3Base::s_lpD3DDev->SetTexture( 0, m_pRefTerrain->m_pTileTex[m_pTileTexIndx[0][i]].Get());
 					hr = CN3Base::s_lpD3DDev->SetTextureStageState( 0, D3DTSS_COLOROP, D3DTOP_MODULATE);
@@ -867,7 +867,7 @@ void CN3TerrainPatch::Render()
 		}
 
 #if _DEBUG
-		CN3Base::s_RenderInfo.nTerrain_Tile_Polygon += TotalTile * 2; // Rendering Information 갱신..
+		CN3Base::s_RenderInfo.nTerrain_Tile_Polygon += TotalTile * 2; // Updating Rendering Information..
 #endif
 
 		// Render Light Map...
@@ -903,12 +903,12 @@ void CN3TerrainPatch::Render()
 
 
 //
-//	한픽셀씩 축소시킨 커러맵 쓸때 uv바꿔주는 함수..
-//	필요없게 됐다..-.- 걍 텍스쳐 스테이지 스테이트에서 mirror쓰면 된다..ㅡ.ㅡ
+// A function that changes the uv when using a color map reduced by one pixel..
+// It is no longer needed..-.- Just use mirror in the texture stage state..ㅡ.ㅡ
 //
 inline float CN3TerrainPatch::UVConvert(float uv)
 {
-	//return ( (uv*((float)COLORMAPTEX_SIZE - 2.0f) + 1.0f) / (float)COLORMAPTEX_SIZE);
+	// return ( (uv*((float)COLORMAPTEX_SIZE - 2.0f) + 1.0f) / (float)COLORMAPTEX_SIZE);
 	return uv;
 }
 

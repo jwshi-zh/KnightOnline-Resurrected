@@ -40,19 +40,19 @@ LRESULT CALLBACK OYBLowLevelKeyboardProc (INT nCode, WPARAM wParam, LPARAM lPara
 			{        
 				case HC_ACTION:        
 				{   
-					// Check to see if the CTRL key is pressed            
+					// Check to see if the CTRL key is pressed
 					bControlKeyDown = GetAsyncKeyState (VK_CONTROL) >> ((sizeof(SHORT) * 8) - 1);                        
-					// Disable CTRL+ESC            
+					// Disable CTRL+ESC
 					if ((vkCode == 0x01) && bControlKeyDown)                
 						return 1;            
-					// Disable ALT+TAB            
+					// Disable ALT+TAB
 					if ((vkCode == 0x0F) && bFlags)                
 						return 1;            
-					// Disable ALT+ESC            
+					// Disable ALT+ESC
 					if ((vkCode == 0x01) && bFlags)
 						return 1;			
-					//Disable WINDOWS keys			
-					if ((vkCode == VK_LWIN) || (vkCode == VK_RWIN))				
+					// Disable WINDOWS keys
+					if ((vkCode == VK_LWIN) || (vkCode == VK_RWIN))
 						return 1;					
 						break;        
 				}        
@@ -64,26 +64,26 @@ LRESULT CALLBACK OYBLowLevelKeyboardProc (INT nCode, WPARAM wParam, LPARAM lPara
 		case WNT4:
 		case W2K:
 
-			// By returning a non-zero value from the hook procedure, the    
-			// message does not get passed to the target window    
+			// By returning a non-zero value from the hook procedure, the
+			// message does not get passed to the target window
 			pkbhs = (KBDLLHOOKSTRUCT *) lParam;    
 			switch (nCode)    
 			{        
 				case HC_ACTION:        
 				{            
-					// Check to see if the CTRL key is pressed            
+					// Check to see if the CTRL key is pressed
 					bControlKeyDown = GetAsyncKeyState (VK_CONTROL) >> ((sizeof(SHORT) * 8) - 1);                        
-					// Disable CTRL+ESC            
+					// Disable CTRL+ESC
 					if (pkbhs->vkCode == VK_ESCAPE && bControlKeyDown)                
 						return 1;            
-					// Disable ALT+TAB            
+					// Disable ALT+TAB
 					if (pkbhs->vkCode == VK_TAB && pkbhs->flags & LLKHF_ALTDOWN)                
 						return 1;            
-					// Disable ALT+ESC            
+					// Disable ALT+ESC
 					if (pkbhs->vkCode == VK_ESCAPE && pkbhs->flags & LLKHF_ALTDOWN)			    
 						return 1;			
-					//Disable WINDOWS keys			
-					if(pkbhs->vkCode == VK_LWIN || pkbhs->vkCode == VK_RWIN)				
+					// Disable WINDOWS keys
+					if (pkbhs-&gt;vkCode == VK_LWIN || pkbhs-&gt;vkCode == VK_RWIN)
 						return 1;					
 						break;        
 				}        
@@ -103,11 +103,11 @@ LRESULT CALLBACK WndProcMain(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
     {
 	case WM_COMMAND:
 		{
-			const WORD wNotifyCode = HIWORD(wParam); // notification code 
+			const WORD wNotifyCode = HIWORD(wParam); // notification code
 			const CN3UIEdit* pEdit = CN3UIEdit::GetFocusedEdit();
 			if(EN_CHANGE == wNotifyCode && pEdit)
 			{
-				WORD wID = LOWORD(wParam);         // item, control, or accelerator identifier 
+				WORD wID = LOWORD(wParam);         // item, control, or accelerator identifier
 				const HWND hwndCtl = (HWND)lParam;
 				if(hwndCtl == CN3UIEdit::s_hWndEdit)
 				{
@@ -149,16 +149,16 @@ LRESULT CALLBACK WndProcMain(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 				}
 			}
 
-//#ifndef _DEBUG //this_reui
-//			int iVK = (int)wParam;
-//			if(	VK_RETURN == iVK &&
-//				CGameProcedure::s_pProcMain &&
-//				CGameProcedure::s_pProcActive == CGameProcedure::s_pProcMain )
-//			{
-//				CUIChat* pUIChat = CGameProcedure::s_pProcMain->m_pUIChatDlg;
-//				if(pUIChat) pUIChat->SetFocus();
-//			}
-//#endif
+// #ifndef _DEBUG //this_reui
+			// int iVK = (int)wParam;
+			// if(	VK_RETURN == iVK &&
+			// CGameProcedure::s_pProcMain &&
+			// CGameProcedure::s_pProcActive == CGameProcedure::s_pProcMain )
+			// {
+				// CUIChat* pUIChat = CGameProcedure::s_pProcMain->m_pUIChatDlg;
+				// if(pUIChat) pUIChat->SetFocus();
+			// }
+// #endif
 		}
 		break;
 
@@ -169,11 +169,11 @@ LRESULT CALLBACK WndProcMain(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 			case FD_CONNECT:
 				TRACE("Socket connected..\n");
 				break;
-	//			case FD_ACCEPT:
-	//				break;
+			// case FD_ACCEPT:
+				// break;
 			case FD_CLOSE:
 				{
-	//					MessageBox(::GetActiveWindow(), "socket closed", "error", MB_OK);
+					// MessageBox(::GetActiveWindow(), "socket closed", "error", MB_OK);
 					if(CGameProcedure::s_bNeedReportConnectionClosed) 
 						CGameProcedure::ReportServerConnectionClosed(true);
 					TRACE("Socket closed..\n");
@@ -193,9 +193,9 @@ LRESULT CALLBACK WndProcMain(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 
 		case WM_ACTIVATE:
 			{
-				const int iActive = LOWORD(wParam);           // activation flag 
-				int iMinimized = (BOOL) HIWORD(wParam); // minimized flag 
-				HWND hwndPrevious = (HWND) lParam;       // window handle 
+				const int iActive = LOWORD(wParam);           // activation flag
+				int iMinimized = (BOOL) HIWORD(wParam); // minimized flag
+				HWND hwndPrevious = (HWND) lParam;       // window handle
 
 				switch(iActive)
 				{
@@ -212,7 +212,7 @@ LRESULT CALLBACK WndProcMain(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 					if(false == CGameProcedure::s_bWindowed)
 					{
 						CLogWriter::Write("WA_INACTIVE.");
-						PostQuitMessage(0); // 창모드 아니면 팅긴다??
+						PostQuitMessage(0); // Windowed mode or tingin??
 					}
 					break;
 				}
@@ -223,7 +223,7 @@ LRESULT CALLBACK WndProcMain(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 		case WM_DESTROY:
 		case WM_QUIT:
 			
-			// 소켓을 최우선적으로 끊는다..
+			// Close the socket first.
 			CGameProcedure::s_pSocket->Disconnect();
 			CGameProcedure::s_pSocketSub->Disconnect();
 
@@ -235,16 +235,16 @@ LRESULT CALLBACK WndProcMain(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 				{
 					const float fDelta = ((short)HIWORD(wParam)) * 0.05f;
 					CGameProcedure::s_pEng->CameraZoom(fDelta);
-//					CGameProcedure::s_pProcMain->ControlViewVDegree((short)HIWORD(wParam));
+					// CGameProcedure::s_pProcMain->ControlViewVDegree((short)HIWORD(wParam));
 				}
 			}
 			break;
 	}
 
-//	if ( CGameProcedure::s_pIME && CGameProcedure::s_pIME->IMEMessageProc(message, wParam, lParam))
-//	{
-//		return 0;
-//	}
+	// if ( CGameProcedure::s_pIME && CGameProcedure::s_pIME->IMEMessageProc(message, wParam, lParam))
+	// {
+		// return 0;
+	// }
 	
 	return DefWindowProc(hWnd, message, wParam, lParam);
 }
@@ -273,14 +273,14 @@ LRESULT CALLBACK WndProcSub(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 	return DefWindowProc(hWnd, message, wParam, lParam);
 }
 
-/////////////////////////////////////////////////////////////////////////////////
+// 
 //
-/////////////////////////////////////////////////////////////////////////////////
+// 
 HWND CreateMainWindow(HINSTANCE hInstance)
 {
 	WNDCLASS    wc;
 
-//  only register the window class once - use hInstance as a flag. 
+	// only register the window class once - use hInstance as a flag.
 	wc.style         = 0;
 	wc.lpfnWndProc   = (WNDPROC)WndProcMain;
 	wc.cbClsExtra    = 0;
@@ -306,7 +306,7 @@ HWND CreateSubWindow(HINSTANCE hInstance)
 {
 	WNDCLASS    wc;
 
-//  only register the window class once - use hInstance as a flag. 
+	// only register the window class once - use hInstance as a flag.
 	wc.style         = 0;
 	wc.lpfnWndProc   = (WNDPROC)WndProcSub;
 	wc.cbClsExtra    = 0;
@@ -339,10 +339,10 @@ DWORD WINAPI CheckSpeedHackProc( LPVOID lpParameter )
 		fTime2 = CN3Base::TimeGet();
 		if(fTime2 - fTime > 1.1f)
 		{
-			int iiiii = 0;
+			int iii = 0;
 			CLogWriter::Write("Speedhack detected");
 			exit(-1);
-//			CGameProcedure::s_bUseSpeedHack = true;
+			// CGameProcedure::s_bUseSpeedHack = true;
 		}
 	}
 }
@@ -357,13 +357,13 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 {
 
 
-	//////////////////////////////
-	// 스피드 핵 체킹용...
-//	DWORD dwCSHID;
-//	HANDLE hThreadCheckSpeedHack = ::CreateThread(NULL, 0, CheckSpeedHackProc, NULL, CREATE_SUSPENDED, &dwCSHID);
-//	::SetThreadPriority(hThreadCheckSpeedHack, THREAD_PRIORITY_NORMAL);
-	// 스피드 핵 체킹용...
-	//////////////////////////////
+	// 
+	// For speed hack checking...
+	// DWORD dwCSHID;
+	// HANDLE hThreadCheckSpeedHack = ::CreateThread(NULL, 0, CheckSpeedHackProc, NULL, CREATE_SUSPENDED, &dwCSHID);
+	// ::SetThreadPriority(hThreadCheckSpeedHack, THREAD_PRIORITY_NORMAL);
+	// For speed hack checking...
+	// 
 
 
 
@@ -372,7 +372,7 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 	GetCurrentDirectory(_MAX_PATH, szPath);
 	CN3Base::PathSet(szPath);
 
-	// 세팅 읽기..
+	// Read settings...
 	char szIniPath[_MAX_PATH] = "";
 	lstrcpy(szIniPath, CN3Base::PathGet().c_str());
 	lstrcat(szIniPath, "Option.Ini");
@@ -414,76 +414,76 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 	if(CN3Base::s_Options.iEffectSndDist > 48) CN3Base::s_Options.iEffectSndDist = 48;
 
 	const int iSndEnable = GetPrivateProfileInt("Sound", "Enable", 1, szIniPath);
-	CN3Base::s_Options.bSndEnable = (iSndEnable) ? true : false; // 사운드...
+	CN3Base::s_Options.bSndEnable = (iSndEnable) ? true : false; // sound...
 
 	const int iSndDuplicate = GetPrivateProfileInt("Sound", "Duplicate", 0, szIniPath);
-	CN3Base::s_Options.bSndDuplicated = (iSndDuplicate) ? true : false; // 사운드...
+	CN3Base::s_Options.bSndDuplicated = (iSndDuplicate) ? true : false; // sound...
 
 	const int iWindowCursor = GetPrivateProfileInt("Cursor", "WindowCursor", 1, szIniPath);
 	CN3Base::s_Options.bWindowCursor = (iWindowCursor) ? true : false; // cursor...
 
-	// 두번째 소켓으로 쓸 서브 윈도우 만들기..
+	// Creating a subwindow to be used as the second socket..
 	const HWND hWndSub = CreateSubWindow(hInstance);
-	::ShowWindow(hWndSub, SW_HIDE); // 감추기..
+	::ShowWindow(hWndSub, SW_HIDE); // hide...
 	
-	// 메인 윈도우를 만들고..
+	// Create the main window...
 	const HWND hWndMain = CreateMainWindow(hInstance);
 	if(nullptr == hWndMain || nullptr == hWndSub)
 	{
 		CLogWriter::Write("Cannot create window.");
 		exit(-1);
 	}
-    ::ShowWindow(hWndMain, nCmdShow); // 보여준다..
+    ::ShowWindow(hWndMain, nCmdShow); // show...
 	::SetActiveWindow(hWndMain);
 
-	// Launcher 업그레이드..
-	FILE* pFile = fopen("Launcher2.exe", "r"); // 업그레이드 할게 있음 해 준다..
+	// Launcher upgrade...
+	FILE* pFile = fopen("Launcher2.exe", "r"); // I have something to upgrade..
 	if(pFile)
 	{
 		fclose(pFile);
-		if(::DeleteFile("Launcher.exe")) // 원래 걸 지우고..
+		if(::DeleteFile("Launcher.exe")) // Erase the original...
 		{
-			::rename("Launcher2.exe", "Launcher.exe"); // 이름을 바꾸어 준다..
+			::rename("Launcher2.exe", "Launcher.exe"); // change name..
 		}
 	}
 
-	// 프로그램 인수 처리..
-	if(lpCmdLine && lstrlen(lpCmdLine) > 0 && lstrlen(lpCmdLine) < 64) // 인수로 뭔가 들어오면..
+	// Handling program arguments..
+	if(lpCmdLine && lstrlen(lpCmdLine) > 0 && lstrlen(lpCmdLine) < 64) // When something comes in...
 	{
 		char szService[64], szAccountTmp[64], szPWTmp[64];
 		sscanf(lpCmdLine, "%s %s %s", szService, szAccountTmp, szPWTmp);
 
-		if(0 == lstrcmpi(szService, "MGame")) // 엠게임 계정 로그인...
+		if(0 == lstrcmpi(szService, "MGame")) // Log in to your Mgame account...
 			CGameProcedure::s_eLogInClassification = LIC_MGAME;
-		else if(0 == lstrcmpi(szService, "Daum")) // 다음 계정 로그인...
+		else if(0 == lstrcmpi(szService, "Daum")) // Log in to the following account...
 			CGameProcedure::s_eLogInClassification = LIC_DAUM;
 		else 
 			CGameProcedure::s_eLogInClassification = LIC_KNIGHTONLINE;
-		CGameProcedure::s_szAccount = szAccountTmp; // 계정
-		CGameProcedure::s_szPassWord = szPWTmp; // 비번.
+		CGameProcedure::s_szAccount = szAccountTmp; // account
+		CGameProcedure::s_szPassWord = szPWTmp; // off duty.
 
-		if(0 == lstrcmpi(szService, "$#$%&^@!#$%#@^%&#%$&^운영팀전용게임")) // 운영팀 전용 게임...
+		if(0 == lstrcmpi(szService, "$#$%&^@!#$%#@^%&#%$&^운영팀전용게임")) // A game dedicated to the management team...
 			CGameProcedure::s_bWindowed = true;
 		else
 			CGameProcedure::s_bWindowed = false;
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////
-	// Static Member 생성...
-	CGameProcedure::StaticMemberInit(hInstance, hWndMain, hWndSub);		// 파괴는 WM_DESTROY 에서 한다..
-	CGameProcedure::ProcActiveSet((CGameProcedure*)CGameProcedure::s_pProcLogIn);	// 로그인 프로시져부터 시작..
+	// 
+	// Create Static Member...
+	CGameProcedure::StaticMemberInit(hInstance, hWndMain, hWndSub);		// Destruction is done in WM_DESTROY.
+	CGameProcedure::ProcActiveSet((CGameProcedure*)CGameProcedure::s_pProcLogIn);	// Start with the login procedure..
 
 	// and its installation, called in InitInstance()
-/*	switch ( CGameProcedure::s_eVersion )
+	/*	switch ( CGameProcedure::s_eVersion )
 	{
 		case W95:
 		case W98:
 		case WME:
-//			ghookdata = SetWindowsHookEx(WH_KEYBOARD, OYBLowLevelKeyboardProc, AfxGetInstanceHandle(), 0); 
+			// ghookdata = SetWindowsHookEx(WH_KEYBOARD, OYBLowLevelKeyboardProc, AfxGetInstanceHandle(), 0);
 			break;
 		case WNT4:
 		case W2K:
-//			ghookdata = SetWindowsHookEx(WH_KEYBOARD_LL, OYBLowLevelKeyboardProc, AfxGetInstanceHandle(), 0); 
+			// ghookdata = SetWindowsHookEx(WH_KEYBOARD_LL, OYBLowLevelKeyboardProc, AfxGetInstanceHandle(), 0);
 			break;
 	}
 */
@@ -553,22 +553,22 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 
 				for(int i = 0; i < 4; i++)
 					if(szDebugs[i])
-						TextOut(hDC, 0, i*18, szDebugs[i], lstrlen(szDebugs[i])); // 화면에 렌더링 정보 표시..
+						TextOut(hDC, 0, i*18, szDebugs[i], lstrlen(szDebugs[i])); // Display rendering information on screen..
 #endif // #if _DEBUG
 
 
-//#ifndef _DEBUG
-//				static HDC hDC = GetDC(hWndMain);
-//				static char szDebug[256] = "";
-//				static float fTimePrev = CN3Base::TimeGet();
-//				float fTime = CN3Base::TimeGet();
-//				if(fTime > fTimePrev + 0.5f)
-//				{
-//					sprintf(szDebug, "%f", CN3Base::s_fFrmPerSec);
-//					fTimePrev = fTime;
-//				}
-//				TextOut(hDC, 0, 0, szDebug, lstrlen(szDebug)); // 화면에 렌더링 정보 표시..
-//#endif
+				// #ifndef _DEBUG
+				// static HDC hDC = GetDC(hWndMain);
+				// static char szDebug[256] = "";
+				// static float fTimePrev = CN3Base::TimeGet();
+				// float fTime = CN3Base::TimeGet();
+				// if(fTime > fTimePrev + 0.5f)
+				// {
+					// sprintf(szDebug, "%f", CN3Base::s_fFrmPerSec);
+					// fTimePrev = fTime;
+				// }
+				// TextOut(hDC, 0, 0, szDebug, lstrlen(szDebug)); // Display rendering information on the screen..
+				// #endif
             }
 		}
     }
@@ -579,18 +579,18 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 
 
 
-	//////////////////////////////
-	// 스피드 핵 체킹용...
-//	::TerminateThread(hThreadCheckSpeedHack, 0);
-//	hThreadCheckSpeedHack = 0;
-//	dwCSHID = 0;
-	// 스피드 핵 체킹용...
-	//////////////////////////////
+	// 
+	// For speed hack checking...
+	// ::TerminateThread(hThreadCheckSpeedHack, 0);
+	// hThreadCheckSpeedHack = 0;
+	// dwCSHID = 0;
+	// For speed hack checking...
+	// 
 
 
 
 
-	CGameProcedure::StaticMemberRelease(); // 모두 해제......
+	CGameProcedure::StaticMemberRelease(); // unlock all......
 
 	return msg.wParam;
 }

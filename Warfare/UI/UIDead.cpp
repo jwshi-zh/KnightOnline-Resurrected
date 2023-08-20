@@ -125,7 +125,7 @@ DWORD CUIDead::MouseProc(DWORD dwFlags, const POINT &ptCur, const POINT &ptOld)
 	DWORD dwRet = UI_MOUSEPROC_NONE;
 	if (!m_bVisible) return dwRet;
 
-	// UI 움직이는 코드
+	// UI moving code
 	if (UI_STATE_COMMON_MOVE == m_eState)
 	{
 		if (dwFlags&UI_MOUSE_LBCLICKED)
@@ -140,25 +140,25 @@ DWORD CUIDead::MouseProc(DWORD dwFlags, const POINT &ptCur, const POINT &ptOld)
 		return dwRet;
 	}
 
-	if(false == IsIn(ptCur.x, ptCur.y))	// 영역 밖이면
+	if(false == IsIn(ptCur.x, ptCur.y))	// out of range
 	{
 		if(false == IsIn(ptOld.x, ptOld.y))
 		{
-			return dwRet;// 이전 좌표도 영역 밖이면 
+			return dwRet;// If the previous coordinates are also outside the domain
 		}
-		dwRet |= UI_MOUSEPROC_PREVINREGION;	// 이전 좌표는 영역 안이었다.
+		dwRet |= UI_MOUSEPROC_PREVINREGION;	// The previous coordinates were inside the area.
 	}
 	else
 	{
-		// tool tip 관련
+		// tool tip related
 		if (s_pTooltipCtrl) s_pTooltipCtrl->SetText(m_szToolTip);
 	}
-	dwRet |= UI_MOUSEPROC_INREGION;	// 이번 좌표는 영역 안이다.
+	dwRet |= UI_MOUSEPROC_INREGION;	// This coordinate is inside the area.
 
 	if(m_pChildUI && m_pChildUI->IsVisible())
 		return dwRet;
 
-	// child에게 메세지 전달
+	// Send message to child
 	for(auto itor = m_Children.begin(); m_Children.end() != itor; ++itor)
 	{
 		CN3UIBase* pChild = (*itor);
@@ -178,17 +178,17 @@ DWORD CUIDead::MouseProc(DWORD dwFlags, const POINT &ptCur, const POINT &ptOld)
 		}
 
 		if (UI_MOUSEPROC_DONESOMETHING & dwChildRet)
-		{	// 이경우에는 먼가 포커스를 받은 경우이다.
-			// (아래 코드는 dialog를 관리하는 곳에서 해야 한다. 따라서 막아놓음)
-//			m_Children.erase(itor);			// 우선 리스트에서 지우고
-//			m_Children.push_front(pChild);	// 맨앞에 넣는다. 그리는 순서를 맨 나중에 그리도록 하려고
+		{	// In this case, it is a case where the distance is focused.
+			// (The code below must be done in the place where the dialog is managed. Therefore, it is blocked)
+			// m_Children.erase(itor); // first remove from list
+			// m_Children. push_front(pChild); // put in front I want to draw the drawing order last
 
 			dwRet |= (UI_MOUSEPROC_CHILDDONESOMETHING|UI_MOUSEPROC_DONESOMETHING);
 			return dwRet;
 		}
 	}
 
-	// UI 움직이는 코드
+	// UI moving code
 	if (UI_STATE_COMMON_MOVE != m_eState && 
 			PtInRect(&m_rcMovable, ptCur) && (dwFlags&UI_MOUSE_LBCLICK) )
 	{
@@ -206,7 +206,7 @@ void CUIDead::CallBackProc(int iID, DWORD dwFlag)
 
 	if(iID == CHILD_UI_REVIVE_MSG)
 	{
-		if(dwFlag == 1)//OK
+		if(dwFlag == 1)// OK
 		{
 			MsgSend_Revival(REVIVAL_TYPE_LIFE_STONE);
 		}
@@ -223,17 +223,17 @@ void CUIDead::MsgSend_Revival(BYTE byType)
 {
 	if(m_bProcessing) return;
 
-	if(CGameProcedure::s_pPlayer->m_iSendRegeneration >= 2) return; // 한번 보내면 다시 죽을때까지 안보내는 플래그
+	if(CGameProcedure::s_pPlayer->m_iSendRegeneration >= 2) return; // Once sent, a flag that will not be seen until it dies again
 
 	BYTE byBuff[4];
 	int iOffset=0;
 
 	CAPISocket::MP_AddByte(byBuff, iOffset, N3_REGENE);
 	CAPISocket::MP_AddByte(byBuff, iOffset, byType);
-	CGameProcedure::s_pSocket->Send(byBuff, iOffset); // 보낸다..
+	CGameProcedure::s_pSocket->Send(byBuff, iOffset); // send..
 
 	CLogWriter::Write("Send Regeneration");
-	CGameProcedure::s_pPlayer->m_iSendRegeneration = 2; // 한번 보내면 다시 죽을때까지 안보내는 플래그
+	CGameProcedure::s_pPlayer->m_iSendRegeneration = 2; // Once sent, a flag that will not be seen until it dies again
 	TRACE("보냄 - 다시 살아나기\n");
 
 	m_bProcessing = true;
@@ -248,15 +248,15 @@ void CUIDead::MsgRecv_Revival(DataPack *pDataPack, int &iOffset)
 	vPosPlayer.z = (CAPISocket::Parse_GetWord(pDataPack->m_pData, iOffset))/10.0f;
 	vPosPlayer.y = (CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset))/10.0f;
 	
-	CGameProcedure::s_pProcMain->InitPlayerPosition(vPosPlayer); // 플레이어 위치 초기화.. 일으켜 세우고, 기본동작을 취하게 한다.
-	CGameProcedure::s_pPlayer->RegenerateCollisionMesh(); // 충돌 메시를 다시 만든다..
+	CGameProcedure::s_pProcMain->InitPlayerPosition(vPosPlayer); // Initialize the player position.. Raise him up and make him take the basic action.
+	CGameProcedure::s_pPlayer->RegenerateCollisionMesh(); // Recreate the collision mesh.
 
-	CGameProcedure::s_pPlayer->m_iSendRegeneration = 0; // 한번 보내면 다시 죽을때까지 안보내는 플래그
-	CGameProcedure::s_pPlayer->m_fTimeAfterDeath = 0; // 한번 보내면 다시 죽을때까지 안보내는 플래그
+	CGameProcedure::s_pPlayer->m_iSendRegeneration = 0; // Once sent, a flag that will not be seen until it dies again
+	CGameProcedure::s_pPlayer->m_fTimeAfterDeath = 0; // Once sent, a flag that will not be seen until it dies again
 	TRACE("받음 - 다시 살아나기(%.1f, %.1f)\n", vPosPlayer.x, vPosPlayer.z);
 
 	//
-	//마법 & 효과 초기화..
+	// Magic &amp; Effect Reset..
 	if(CGameProcedure::s_pProcMain->m_pUIStateBarAndMiniMap) 
 		CGameProcedure::s_pProcMain->m_pUIStateBarAndMiniMap->ClearMagic();
 	if(CGameProcedure::s_pProcMain->m_pMagicSkillMng) 
@@ -281,7 +281,7 @@ void CUIDead::SetVisible(bool bVisible)
 	if(bVisible)
 		CGameProcedure::s_pUIMgr->SetVisibleFocusedUI(this);
 	else
-		CGameProcedure::s_pUIMgr->ReFocusUI();//this_ui
+		CGameProcedure::s_pUIMgr->ReFocusUI();// this_ui
 }
 
 void CUIDead::SetVisibleWithNoSound(bool bVisible, bool bWork, bool bReFocus)

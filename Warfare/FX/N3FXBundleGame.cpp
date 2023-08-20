@@ -50,13 +50,13 @@ void CN3FXBundleGame::Trigger(int iSourceID, int iTargetID, int iTargetJoint, in
 		m_vDestPos = pSource->Position() + pSource->Direction();		
 	}
 
-	//CPlayerBase* pTarget = CGameProcedure::s_pProcMain->CharacterGetByID(iTargetID, false);
+	// CPlayerBase* pTarget = CGameProcedure::s_pProcMain->CharacterGetByID(iTargetID, false);
 	if(pTarget && pTarget!=pSource)
 	{
 		if(m_bDependScale)
 		{
-			//m_vTargetScale.x = m_vTargetScale.z = pTarget->Radius() * 2.0f;
-			//m_vTargetScale.y = pTarget->Height();
+			// m_vTargetScale.x = m_vTargetScale.z = pTarget->Radius() * 2.0f;
+			// m_vTargetScale.y = pTarget->Height();
 			const float width = pTarget->Radius() * 2.0f;
 			if(width > pTarget->Height()) m_fTargetScale = width;
 			else m_fTargetScale = pTarget->Height();
@@ -74,7 +74,7 @@ void CN3FXBundleGame::Trigger(int iSourceID, int iTargetID, int iTargetJoint, in
 			const __Vector3 vMin = pTarget->Min();
 			const __Vector3 vMax = pTarget->Max();
 			m_vDestPos = vMin + ((vMax-vMin)*0.5f);
-			//m_vDestPos = pTarget->Position();
+			// m_vDestPos = pTarget->Position();
 			
 			if(iTargetJoint==-1)
 			{
@@ -83,7 +83,7 @@ void CN3FXBundleGame::Trigger(int iSourceID, int iTargetID, int iTargetJoint, in
 	
 				m_vDestPos = vMin + ((vMax-vMin)*0.5f);	
 				m_vDestPos.y = vMin.y;
-				//m_vDestPos = pTarget->Position();	
+				// m_vDestPos = pTarget->Position();
 			}
 			else if(iTargetJoint>-1)
 			{
@@ -92,8 +92,8 @@ void CN3FXBundleGame::Trigger(int iSourceID, int iTargetID, int iTargetJoint, in
 				else pTarget->JointPosGet(iTargetJoint, m_vDestPos);
 			}
 		}
-	//	m_vDir = pTarget->Direction();
-	//	m_vDir.Normalize();
+	// m_vDir = pTarget->Direction();
+	// m_vDir.Normalize();
 	}
 
 	m_fDistance = (m_vDestPos - m_vPos).Magnitude();
@@ -151,7 +151,7 @@ bool CN3FXBundleGame::Tick()
 
 	if(m_dwState==FX_BUNDLE_STATE_LIVE)
 	{
-	//	if(m_fLife>=m_fLife0) Stop();		
+	// if(m_fLife>=m_fLife0) Stop();
 
 		if(!m_bRegion)
 		{
@@ -171,7 +171,7 @@ bool CN3FXBundleGame::Tick()
 	
 				m_vDestPos = vMin + ((vMax-vMin)*0.5f);	
 				m_vDestPos.y = vMin.y;
-				//m_vDestPos = pTarget->Position();	
+				// m_vDestPos = pTarget->Position();
 			}
 			else if(pTarget && m_iTargetJoint>-1)
 			{
@@ -246,11 +246,11 @@ bool CN3FXBundleGame::Tick()
 					m_vPos += m_vDir*CN3Base::s_fSecPerFrm*m_fVelocity;
 					
 					float fTerrainY = s_pTerrain->GetHeight(m_vPos.x, m_vPos.z);
-					if(m_vPos.y <= fTerrainY) m_vPos.y = fTerrainY + 0.3f;	//땅을 타고 날라가라..
+					if(m_vPos.y &lt;= fTerrainY) m_vPos.y = fTerrainY + 0.3f; // Ride the ground and fly..
 					break;
 					*/
 				}
-				//break;
+				// break;
 			}
 		case FX_BUNDLE_MOVE_DIR_FLEXABLETARGET:
 			{
@@ -283,14 +283,14 @@ bool CN3FXBundleGame::Tick()
 				
 				m_vPos += m_vDir*CN3Base::s_fSecPerFrm*m_fVelocity;
 
-				//float fTerrainY = s_pTerrain->GetHeight(m_vPos.x, m_vPos.z);
-				//if(m_vPos.y <= fTerrainY) m_vPos.y = fTerrainY + 0.3f;	//땅을 타고 날라가라..
+				// float fTerrainY = s_pTerrain->GetHeight(m_vPos.x, m_vPos.z);
+				// if(m_vPos.y &lt;= fTerrainY) m_vPos.y = fTerrainY + 0.3f; // Ride the ground and fly..
 				break;
 			}
 
 		case FX_BUNDLE_MOVE_NONE:
 			{
-				//m_vDir.Set(0,0,1);
+				// m_vDir.Set(0,0,1);
 				m_vDir.y = 0.0f;
 				m_vDir.Normalize();
 				m_vPos = m_vDestPos;
@@ -308,7 +308,7 @@ bool CN3FXBundleGame::Tick()
 			}
 		case FX_BUNDLE_REGION_POISON:
 			{
-				CN3Camera* pCamera = CGameProcedure::s_pEng->CameraGetActive();		// 활성화된 카메라 얻기..
+				CN3Camera* pCamera = CGameProcedure::s_pEng->CameraGetActive();		// Get the camera activated...
 
 				const __Vector3 vEyePos = pCamera->EyePos();
 				const __Vector3 vEyeAt  = pCamera->AtPos();
@@ -457,9 +457,9 @@ bool CN3FXBundleGame::Load(HANDLE hFile)
 			{
 				m_pPart[i] = new FXPARTWITHSTARTTIME;
 				
-				//char FName[80];
+				// char FName[80];
 				float fStartTime;
-				//ReadFile(hFile, FName, 80, &dwRWC, NULL);
+				// ReadFile(hFile, FName, 80, &dwRWC, NULL);
 
 				ReadFile(hFile, &(fStartTime), sizeof(float), &dwRWC, nullptr);
 
@@ -469,7 +469,7 @@ bool CN3FXBundleGame::Load(HANDLE hFile)
 				m_pPart[i]->pPart->m_pRefBundle = this;
 				m_pPart[i]->pPart->m_pRefPrevPart = nullptr;
 				m_pPart[i]->pPart->m_iType = FX_PART_TYPE_PARTICLE;
-				//m_pPart[i]->pPart->LoadFromFile(FName);
+				// m_pPart[i]->pPart->LoadFromFile(FName);
 				m_pPart[i]->pPart->Load(hFile);
 			}
 
@@ -477,9 +477,9 @@ bool CN3FXBundleGame::Load(HANDLE hFile)
 			{
 				m_pPart[i] = new FXPARTWITHSTARTTIME;
 				
-				//char FName[80];
+				// char FName[80];
 				float fStartTime;
-				//ReadFile(hFile, FName, 80, &dwRWC, NULL);
+				// ReadFile(hFile, FName, 80, &dwRWC, NULL);
 				
 				ReadFile(hFile, &(fStartTime), sizeof(float), &dwRWC, nullptr);
 
@@ -489,7 +489,7 @@ bool CN3FXBundleGame::Load(HANDLE hFile)
 				m_pPart[i]->pPart->m_pRefBundle = this;
 				m_pPart[i]->pPart->m_pRefPrevPart = nullptr;
 				m_pPart[i]->pPart->m_iType = FX_PART_TYPE_BOARD;
-				//m_pPart[i]->pPart->LoadFromFile(FName);
+				// m_pPart[i]->pPart->LoadFromFile(FName);
 				m_pPart[i]->pPart->Load(hFile);
 			}
 
@@ -497,9 +497,9 @@ bool CN3FXBundleGame::Load(HANDLE hFile)
 			{
 				m_pPart[i] = new FXPARTWITHSTARTTIME;
 				
-				//char FName[80];
+				// char FName[80];
 				float fStartTime;
-				//ReadFile(hFile, FName, 80, &dwRWC, NULL);
+				// ReadFile(hFile, FName, 80, &dwRWC, NULL);
 				
 				ReadFile(hFile, &(fStartTime), sizeof(float), &dwRWC, nullptr);
 
@@ -509,16 +509,16 @@ bool CN3FXBundleGame::Load(HANDLE hFile)
 				m_pPart[i]->pPart->m_pRefBundle = this;
 				m_pPart[i]->pPart->m_pRefPrevPart = nullptr;
 				m_pPart[i]->pPart->m_iType = FX_PART_TYPE_MESH;
-				//m_pPart[i]->pPart->LoadFromFile(FName);
+				// m_pPart[i]->pPart->LoadFromFile(FName);
 				m_pPart[i]->pPart->Load(hFile);
 			}
 			else if(iType == FX_PART_TYPE_BOTTOMBOARD)
 			{
 				m_pPart[i] = new FXPARTWITHSTARTTIME;
 				
-				//char FName[80];
+				// char FName[80];
 				float fStartTime;
-				//ReadFile(hFile, FName, 80, &dwRWC, NULL);
+				// ReadFile(hFile, FName, 80, &dwRWC, NULL);
 				
 				ReadFile(hFile, &(fStartTime), sizeof(float), &dwRWC, nullptr);
 
@@ -528,7 +528,7 @@ bool CN3FXBundleGame::Load(HANDLE hFile)
 				m_pPart[i]->pPart->m_pRefBundle = this;
 				m_pPart[i]->pPart->m_pRefPrevPart = nullptr;
 				m_pPart[i]->pPart->m_iType = FX_PART_TYPE_BOTTOMBOARD;
-				//m_pPart[i]->pPart->LoadFromFile(FName);
+				// m_pPart[i]->pPart->LoadFromFile(FName);
 				m_pPart[i]->pPart->Load(hFile);
 			}
 		}
@@ -547,9 +547,9 @@ bool CN3FXBundleGame::Load(HANDLE hFile)
 			{
 				m_pPart[i] = new FXPARTWITHSTARTTIME;
 				
-				//char FName[80];
+				// char FName[80];
 				float fStartTime;
-				//ReadFile(hFile, FName, 80, &dwRWC, NULL);
+				// ReadFile(hFile, FName, 80, &dwRWC, NULL);
 
 				ReadFile(hFile, &(fStartTime), sizeof(float), &dwRWC, nullptr);
 
@@ -559,7 +559,7 @@ bool CN3FXBundleGame::Load(HANDLE hFile)
 				m_pPart[i]->pPart->m_pRefBundle = this;
 				m_pPart[i]->pPart->m_pRefPrevPart = nullptr;
 				m_pPart[i]->pPart->m_iType = FX_PART_TYPE_PARTICLE;
-				//m_pPart[i]->pPart->LoadFromFile(FName);
+				// m_pPart[i]->pPart->LoadFromFile(FName);
 				m_pPart[i]->pPart->Load(hFile);
 			}
 
@@ -567,9 +567,9 @@ bool CN3FXBundleGame::Load(HANDLE hFile)
 			{
 				m_pPart[i] = new FXPARTWITHSTARTTIME;
 				
-				//char FName[80];
+				// char FName[80];
 				float fStartTime;
-				//ReadFile(hFile, FName, 80, &dwRWC, NULL);
+				// ReadFile(hFile, FName, 80, &dwRWC, NULL);
 				
 				ReadFile(hFile, &(fStartTime), sizeof(float), &dwRWC, nullptr);
 
@@ -579,7 +579,7 @@ bool CN3FXBundleGame::Load(HANDLE hFile)
 				m_pPart[i]->pPart->m_pRefBundle = this;
 				m_pPart[i]->pPart->m_pRefPrevPart = nullptr;
 				m_pPart[i]->pPart->m_iType = FX_PART_TYPE_BOARD;
-				//m_pPart[i]->pPart->LoadFromFile(FName);
+				// m_pPart[i]->pPart->LoadFromFile(FName);
 				m_pPart[i]->pPart->Load(hFile);
 			}
 
@@ -587,9 +587,9 @@ bool CN3FXBundleGame::Load(HANDLE hFile)
 			{
 				m_pPart[i] = new FXPARTWITHSTARTTIME;
 				
-				//char FName[80];
+				// char FName[80];
 				float fStartTime;
-				//ReadFile(hFile, FName, 80, &dwRWC, NULL);
+				// ReadFile(hFile, FName, 80, &dwRWC, NULL);
 				
 				ReadFile(hFile, &(fStartTime), sizeof(float), &dwRWC, nullptr);
 
@@ -599,16 +599,16 @@ bool CN3FXBundleGame::Load(HANDLE hFile)
 				m_pPart[i]->pPart->m_pRefBundle = this;
 				m_pPart[i]->pPart->m_pRefPrevPart = nullptr;
 				m_pPart[i]->pPart->m_iType = FX_PART_TYPE_MESH;
-				//m_pPart[i]->pPart->LoadFromFile(FName);
+				// m_pPart[i]->pPart->LoadFromFile(FName);
 				m_pPart[i]->pPart->Load(hFile);
 			}
 			else if(iType == FX_PART_TYPE_BOTTOMBOARD)
 			{
 				m_pPart[i] = new FXPARTWITHSTARTTIME;
 				
-				//char FName[80];
+				// char FName[80];
 				float fStartTime;
-				//ReadFile(hFile, FName, 80, &dwRWC, NULL);
+				// ReadFile(hFile, FName, 80, &dwRWC, NULL);
 				
 				ReadFile(hFile, &(fStartTime), sizeof(float), &dwRWC, nullptr);
 
@@ -618,7 +618,7 @@ bool CN3FXBundleGame::Load(HANDLE hFile)
 				m_pPart[i]->pPart->m_pRefBundle = this;
 				m_pPart[i]->pPart->m_pRefPrevPart = nullptr;
 				m_pPart[i]->pPart->m_iType = FX_PART_TYPE_BOTTOMBOARD;
-				//m_pPart[i]->pPart->LoadFromFile(FName);
+				// m_pPart[i]->pPart->LoadFromFile(FName);
 				m_pPart[i]->pPart->Load(hFile);
 			}
 		}

@@ -12,14 +12,14 @@
 
 enum e_NpcTrade {	UI_BLACKSMITH = 1, UI_STORE, UI_INN	};
 
-//////////////////////////////////////////////////////////////////////
+// 
 
 class CUITransactionDlg   : public CN3UIWndBase  
 {
 	friend class CUIInventory;
 
 public:
-// 직접 접근해야 할 객체 참조 포인터
+	// Object reference pointer to be accessed directly
 	__IconItemSkill*		m_pMyTrade[MAX_ITEM_TRADE_PAGE][MAX_ITEM_TRADE];
 	__IconItemSkill*		m_pMyTradeInv[MAX_ITEM_INVENTORY];
 	CN3UIString*			m_pStrMyGold;
@@ -33,11 +33,11 @@ public:
 	CN3UIImage*				m_pUIBlackSmith;
 	CN3UIImage*				m_pUIStore;
 
-	//this_ui_add_start
+	// this_ui_add_start
 	CN3UIButton*			m_pBtnClose;
 	CN3UIButton*			m_pBtnPageUp;
 	CN3UIButton*			m_pBtnPageDown;
-	//this_ui_add_end
+	// this_ui_add_end
 
 
 protected:
@@ -51,12 +51,12 @@ public:
 	virtual				~CUITransactionDlg();
 	void				Release();
 
-	//this_ui_add_start
+	// this_ui_add_start
 	bool				OnKeyPress(int iKey);
 	bool				Load(HANDLE hFile);
 	void				SetVisibleWithNoSound(bool bVisible, bool bWork = false, bool bReFocus = false);
 	void				SetVisible(bool bVisible);
-	//this_ui_add_end
+	// this_ui_add_end
 
 	virtual DWORD		MouseProc(DWORD dwFlags, const POINT& ptCur, const POINT& ptOld);
 	virtual bool		ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg);
@@ -80,7 +80,7 @@ public:
 	void				SendToServerBuyMsg(int itemID, byte pos, int iCount);
 	void				SendToServerMoveMsg(int itemID, byte startpos, byte destpos);
 
-	// 물건 구입이 서버에게 보내기전 성공..
+	// Successful item purchase before sending to server..
 	void				ReceiveItemDropByTradeSuccess();
 
 	CN3UIBase*			GetChildButtonByName(const std::string& szFN);
@@ -96,7 +96,7 @@ public:
 	void				ReceiveResultTradeMoveSuccess();
 	void				ReceiveResultTradeMoveFail();
 
-	// 타이틀 표시..
+	// Show title...
 	void				ShowTitle(e_NpcTrade eNT);
 
 	void				GoldUpdate() const;

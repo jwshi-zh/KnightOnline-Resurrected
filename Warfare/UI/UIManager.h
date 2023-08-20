@@ -12,17 +12,17 @@ protected:
 		DWORD dwZEnable, dwAlphaBlend, dwSrcBlend, dwDestBlend, dwFog;
 		DWORD dwMagFilter, dwMinFilter, dwMipFilter;
 #ifdef _DEBUG
-		BOOL	bSet;	// 이미 값이 3D device의 값으로 세팅이 되었는지 판단.
+		BOOL	bSet;	// Determine whether the value has already been set as the value of the 3D device.
 #endif
 	};
 	
 	static __RenderStateForUI s_sRSFU;	// RenderStateForUI
 	DWORD		m_dwMouseFlagsCur;
-	bool		m_bEnableOperation;		// UI 조작이 가능한 상태인가?
+	bool		m_bEnableOperation;		// Is UI manipulation possible?
 	CN3UIBase*	m_pUIFocused;
 
 public:
-	bool		m_bDoneSomething;		// UI 에서 조작을 했다...
+	bool		m_bDoneSomething;		// I did the manipulation in the UI...
 
 public:
 	void UserMoveHideUIs();
@@ -30,16 +30,16 @@ public:
 	static void	RenderStateRestore();
 	static void	RenderStateSet();
 
-	void	EnableOperationSet(bool bEnable) { m_bEnableOperation = bEnable; } // UI 조작 가능/불가능..
-	bool	EnableOperation() const { return m_bEnableOperation; } // UI 조작이 가능한 상태인가?
+	void	EnableOperationSet(bool bEnable) { m_bEnableOperation = bEnable; } // UI controls available/disabled..
+	bool	EnableOperation() const { return m_bEnableOperation; } // Is UI manipulation possible?
 
 	void		Release();
 	void		Tick();
 	DWORD		MouseProc(DWORD dwFlags, const POINT& ptCur, const POINT& ptOld);
 	DWORD		GetCurMouseFlags() { return m_dwMouseFlagsCur; }
-	CN3UIBase*	GetFocusedUI() { return m_pUIFocused; } // 찍은 UI 가져오기..
-	void		SetFocusedUI(CN3UIBase* pUI); // 찍은 UI 가져오기..
-	CN3UIBase*	GetTopUI(bool bVisible); // 최상위에 있는 UI 가져오기.
+	CN3UIBase*	GetFocusedUI() { return m_pUIFocused; } // Import the taken UI..
+	void		SetFocusedUI(CN3UIBase* pUI); // Import the taken UI..
+	CN3UIBase*	GetTopUI(bool bVisible); // Get the UI on top.
 	void		SetVisibleFocusedUI(CN3UIBase* pUI);
 	CN3UIBase*	ReFocusUI();
 	void		Render();

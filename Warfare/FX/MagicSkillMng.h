@@ -13,22 +13,22 @@ public:
 	CN3TableBase<struct __TABLE_UPC_SKILL_TYPE_2>*	m_pTbl_Type_2;
 	CN3TableBase<struct __TABLE_UPC_SKILL_TYPE_3>*	m_pTbl_Type_3;
 	CN3TableBase<struct __TABLE_UPC_SKILL_TYPE_4>*	m_pTbl_Type_4;
-//	CN3TableBase<struct __TABLE_UPC_SKILL_TYPE_5>*	m_pTbl_Type_5;
-//	CN3TableBase<struct __TABLE_UPC_SKILL_TYPE_6>*	m_pTbl_Type_6;
-//	CN3TableBase<struct __TABLE_UPC_SKILL_TYPE_7>*	m_pTbl_Type_7;
-//	CN3TableBase<struct __TABLE_UPC_SKILL_TYPE_8>*	m_pTbl_Type_8;
-//	CN3TableBase<struct __TABLE_UPC_SKILL_TYPE_9>*	m_pTbl_Type_9;
-//	CN3TableBase<struct __TABLE_UPC_SKILL_TYPE_10>*	m_pTbl_Type_10;
+	// CN3TableBase<struct __TABLE_UPC_SKILL_TYPE_5>*	m_pTbl_Type_5;
+	// CN3TableBase<struct __TABLE_UPC_SKILL_TYPE_6>*	m_pTbl_Type_6;
+	// CN3TableBase<struct __TABLE_UPC_SKILL_TYPE_7>*	m_pTbl_Type_7;
+	// CN3TableBase<struct __TABLE_UPC_SKILL_TYPE_8>*	m_pTbl_Type_8;
+	// CN3TableBase<struct __TABLE_UPC_SKILL_TYPE_9>*	m_pTbl_Type_9;
+	// CN3TableBase<struct __TABLE_UPC_SKILL_TYPE_10>*	m_pTbl_Type_10;
 
 	std::map<int, DWORD>	m_MySelf;
 
 	int						m_iTarget;
 	__Vector3				m_vTargetPos;
 
-	//나를 타겟으로 잡은 몬스터처리 관련..
-	std::map<int, DWORD>	m_MobList;	//	int m_iMobID; DWORD m_dwMobMagicID;
+	// Regarding the handling of monsters that targeted me..
+	std::map<int, DWORD>	m_MobList;	// int m_iMobID; DWORD m_dwMobMagicID;
 	
-	//related type4.....
+	// related type4.....
 	std::multimap<int, DWORD>	m_ListBuffTypeID;
 
 	int						m_iBuffType;
@@ -52,28 +52,28 @@ public:
 	int						m_iDeseaseR;
 	int						m_iPoisonR;
 
-	//combo...
+	// combo...
 	int						m_iComboSkillID;
 	int						m_iCurrStep;
 	int						m_iNumStep;
 	float					m_fComboTime;
 		
-	//recast time...
+	// recast time...
 	float					m_fRecastTime;
 	float					m_fDelay;
 		
-	//related region magic...
-	DWORD					m_dwRegionMagicState;	//0:마침..1:지역선택중..2:지역선택했음.
-	__TABLE_UPC_SKILL		m_dwRegionSkill;		//선택된 지역스킬..
+	// related region magic...
+	DWORD					m_dwRegionMagicState;	// 0:Finish..1:Selecting a region..2:Selecting a region.
+	__TABLE_UPC_SKILL		m_dwRegionSkill;		// Selected area skill...
 
-	//related non-casting action magic...
-	DWORD					m_dwCastingStateNonAction;	//0:아무것도 없는 평온한 상태 1: 캐스팅중
+	// related non-casting action magic...
+	DWORD					m_dwCastingStateNonAction;	// 0: A calm state with nothing 1: Casting
 	float					m_fCastTimeNonAction;
 	DWORD					m_dwNonActionMagicID;
 	int						m_iNonActionMagicTarget;
 	float					m_fRecastTimeNonAction;
 
-	//지역마법..
+	// local magic...
 	int						m_iMyRegionTargetFXID;
 
 
@@ -98,7 +98,7 @@ protected:
 	void	EffectingType3(DWORD dwMagicID);
 	bool	EffectingType1(DWORD dwMagicID, int iSourceID, int iTargetID, short* pData);
 
-	int		AddIdx(DWORD dwMagicID, int iNum=1);	//return value is index...
+	int		AddIdx(DWORD dwMagicID, int iNum=1);	// return value is index...
 	void	RemoveIdx(int idx);
 
 	void	SuccessCast(__TABLE_UPC_SKILL* pSkill, CPlayerBase* pTarget);
@@ -109,7 +109,7 @@ public:
 	void	StunMySelf(__TABLE_UPC_SKILL_TYPE_3* pType3);
 	void	StopCastingByRatio();
 	void	ClearDurationalMagic();
-	D3DCOLOR	TraceColorGet(__TABLE_UPC_SKILL* pSkill); // 스킬의 종류에 따라 검기의 색을 정한다..
+	D3DCOLOR	TraceColorGet(__TABLE_UPC_SKILL* pSkill); // Depending on the type of skill, the color of the sword is determined.
 
 	bool	IsPositiveMagic(DWORD dwMagicID);
 	bool	IsCasting() const;

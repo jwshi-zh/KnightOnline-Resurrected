@@ -24,7 +24,7 @@ CLightMgr::~CLightMgr()
 
 void CLightMgr::Release()
 {
-	/////////////////////////////////////////////
+	// 
 	// Release...
 	std::list<CN3Light*>::iterator it;
 	for(it=m_Lights.begin(); it!=m_Lights.end(); it++)
@@ -38,39 +38,39 @@ void CLightMgr::Release()
 		if(m_pActiveLight[i]) delete m_pActiveLight[i];
 		m_pActiveLight[i] = nullptr;
 	}
-	//	Release..
-	/////////////////////////////////////////////
+	// Release..
+	// 
 		
-	///////////////////////////////////////////////////////////////
-	// 기본 라이트 세팅
+	// 
+	// default light settings
 	D3DCOLORVALUE crLgt;
 
 	crLgt.a = 0.0f, crLgt.r = crLgt.g = crLgt.b = 0.8f;
-	auto* pLightGlobal = new CN3Light(); // 전체를 비출 라이트..
+	auto* pLightGlobal = new CN3Light(); // A light that illuminates the whole...
 	auto vGlobalDirection = __Vector3(0, -1, 0);
 	pLightGlobal->m_Data.InitDirection(LGT_DEFAULT0, vGlobalDirection, crLgt);
 	m_pActiveLight[LGT_DEFAULT0] = pLightGlobal;
 
 
 	crLgt.a = 0.0f, crLgt.r = crLgt.g = crLgt.b = 0.5f;
-	auto* pLightGlobal2 = new CN3Light(); // 반대 편에서 전체를 비출 라이트..
+	auto* pLightGlobal2 = new CN3Light(); // A light that illuminates the whole from the other side..
 	auto vGlobal2Direction = __Vector3(0, 1, 0);
 	pLightGlobal2->m_Data.InitDirection(LGT_DEFAULT1, vGlobal2Direction, crLgt);
 	m_pActiveLight[LGT_DEFAULT1] = pLightGlobal2;
 
 	crLgt.a = 0.0f, crLgt.r = crLgt.g = crLgt.b = 0.3f;
-	auto* pLight = new CN3Light(); // 카메라와 붙어 다닌다...
+	auto* pLight = new CN3Light(); // Sticking with the camera...
 	auto vDirection = __Vector3(0, 0, 0);
 	pLight->m_Data.InitPoint(LGT_DEFAULT2, vDirection, crLgt, 32.0f);
 	m_pActiveLight[LGT_DEFAULT2] = pLight;
-	// 기본 라이트 세팅
-	///////////////////////////////////////////////////////////////	
+	// default light settings
+	// 
 }
 
 void CLightMgr::Tick()
 {
 	int i;
-	//거리에 따라 추려내고...
+	// Sort by distance...
 	int NumSlotEmpty = 0;
 	float LimitLeft, LimitRight, LimitUp, LimitDown;
 	LimitLeft = CN3Base::s_CameraData.vEye.x - LIGHT_VALIDRANGE;
@@ -124,7 +124,7 @@ void CLightMgr::Tick()
 		else it++;
 	}
 
-	//tick돌려라..
+	// turn the tick...
 	for(auto i =0;i<LGT_MAX;i++)
 	{
 		if(m_pActiveLight[i])

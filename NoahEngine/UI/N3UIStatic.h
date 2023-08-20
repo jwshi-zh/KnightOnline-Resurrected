@@ -9,30 +9,29 @@ public:
 	virtual ~CN3UIStatic();
 // Attributes
 protected:
-	CN3UIString*	m_pBuffOutRef;		// CN3UIString 참조 포인터 (실제는 child리스트에서 관리)
-	CN3UIImage*		m_pImageBkGnd;		// 배경 이미지 참조 포인터 (실제는 child리스트에서 관리)
-	CN3SndObj*		m_pSnd_Click;	// static이 눌리는 순간 내는 소리
+	CN3UIString*	m_pBuffOutRef;		// CN3UIString reference pointer (actually managed in child list)
+	CN3UIImage*		m_pImageBkGnd;		// Background image reference pointer (actually managed in child list)
+	CN3SndObj*		m_pSnd_Click;	// Sound produced when static is pressed
 	
 // Operations
 public:
 	virtual const std::string& GetString();
 	virtual void	SetString(const std::string& szString);
 	virtual void	Release();
-//	virtual void	Render();
 	virtual bool	Load(HANDLE);
 	virtual void	SetRegion(const RECT& Rect);
 	virtual DWORD	MouseProc(DWORD dwFlags, const POINT& ptCur, const POINT& ptOld);
 protected:
 
 #ifdef _N3TOOL
-// 툴에서만 사용하는 함수
+// Functions used only by tools
 public:
 	virtual	void	operator = (const CN3UIStatic& other);
 	virtual bool	Save(HANDLE hFile);
-	void			CreateImageAndString();		// 배경 이미지 및 string 생성하기
+	void			CreateImageAndString();		// Creating a background image and string
 	CN3UIImage*		GetImageBkGnd() const {return m_pImageBkGnd;}
 	CN3UIString*	GetUIString() const {return m_pBuffOutRef;}
-	void			DeleteImage();		// 이미지를 사용하지 않는 static일 경우 호출하면 지워진다.
+	void			DeleteImage();		// If the static image is not used, it is deleted when called.
 	void			SetSndClick(const std::string& strFileName);
 	std::string		GetSndFName_Click() const;
 #endif

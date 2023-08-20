@@ -33,11 +33,11 @@ bool CN3UITrackBar::Load(HANDLE hFile)
 {
 	if (false == CN3UIBase::Load(hFile)) return false;
 
-	// ImageRef 설정하기
+	// Setting ImageRef
 	for(auto itor = m_Children.begin(); m_Children.end() != itor; ++itor)
 	{
 		CN3UIBase* pChild = (*itor);
-		if (UI_TYPE_IMAGE != pChild->UIType()) continue;	// image만 골라내기
+		if (UI_TYPE_IMAGE != pChild->UIType()) continue;	// Pick out only images
 		const int iImageType = (int)(pChild->GetReserved());
 		if (IMAGETYPE_BKGND == iImageType)
 		{
@@ -54,7 +54,7 @@ bool CN3UITrackBar::Load(HANDLE hFile)
 void CN3UITrackBar::SetRegion(const RECT& Rect)
 {
 	CN3UIBase::SetRegion(Rect);
-	if(m_pBkGndImageRef) m_pBkGndImageRef->SetRegion(m_rcRegion);	// 배경이미지는 같은 영역으로
+	if(m_pBkGndImageRef) m_pBkGndImageRef->SetRegion(m_rcRegion);	// The background image is in the same area
 	const RECT rcThumb = m_pThumbImageRef->GetRegion();
 
 	const int iThumbWidth = rcThumb.right - rcThumb.left;
@@ -64,15 +64,15 @@ void CN3UITrackBar::SetRegion(const RECT& Rect)
 	if (iBkWidth<=0 || iBkHeight<=0) return;
 	
 	if ( iThumbWidth<=0 && iThumbHeight<=0 )
-	{	// thumb 이미지는 설정되어 있지 않다면 임으로 적당하게 설정
+	{	// If the thumb image is not set, set it appropriately
 		RECT rc;
 		if (UISTYLE_TRACKBAR_VERTICAL == m_dwStyle)
-		{	// 세로
+		{	// length
 			rc.left = Rect.left;		rc.top = Rect.top + iBkHeight*0.3f;
 			rc.right = Rect.right;	rc.bottom = rc.top + iBkHeight*0.3f;
 		}
 		else
-		{	// 가로
+		{	// width
 			rc.left = Rect.left + iBkWidth*0.3f;		rc.top = Rect.top;
 			rc.right = rc.left + iBkWidth*0.3f;			rc.bottom = Rect.bottom;
 		}
@@ -85,27 +85,27 @@ DWORD CN3UITrackBar::MouseProc(DWORD dwFlags, const POINT& ptCur, const POINT& p
 {
 	DWORD dwRet = UI_MOUSEPROC_NONE;
 	if (!m_bVisible) return dwRet;
-	if (false == IsIn(ptCur.x, ptCur.y))	// 영역 밖이면
+	if (false == IsIn(ptCur.x, ptCur.y))	// out of range
 	{
 		SetState(UI_STATE_COMMON_NONE);
 		return dwRet;
 	}
-	dwRet |= UI_MOUSEPROC_INREGION;	// 이번좌표가 영역 안이다.
+	dwRet |= UI_MOUSEPROC_INREGION;	// This coordinate is inside the area.
 
 	if (UI_STATE_TRACKBAR_THUMBDRAG == m_eState)
 	{
-		if(dwFlags & UI_MOUSE_LBCLICKED)  // 왼쪽버튼 떼는 순간
+		if(dwFlags & UI_MOUSE_LBCLICKED)  // When the left button is released
 		{
-			SetState(UI_STATE_COMMON_NONE);		// drag 해제
+			SetState(UI_STATE_COMMON_NONE);		// release drag
 			dwRet |= UI_MOUSEPROC_DONESOMETHING;
 			return dwRet;
 		}
 		else if (dwFlags & UI_MOUSE_LBDOWN)
 		{
-			// thumb을 움직인다.
+			// move the thumb
 			if (UISTYLE_TRACKBAR_VERTICAL == m_dwStyle)	UpDownThumbPos(ptCur.y - ptOld.y);
 			else UpDownThumbPos(ptCur.x - ptOld.x);
-			// 부모에게 메세지를 보내자
+			// send a message to parents
 			if (m_pParent) m_pParent->ReceiveMessage(this, UIMSG_TRACKBAR_POS);
 			dwRet |= UI_MOUSEPROC_DONESOMETHING;
 			return dwRet;
@@ -113,26 +113,26 @@ DWORD CN3UITrackBar::MouseProc(DWORD dwFlags, const POINT& ptCur, const POINT& p
 	}
 	else
 	{
-		if(dwFlags & UI_MOUSE_LBCLICK)  // 왼쪽버튼 눌르는 순간
+		if(dwFlags & UI_MOUSE_LBCLICK)  // When the left button is pressed
 		{
-			if (m_pThumbImageRef->IsIn(ptCur.x, ptCur.y))	// thumb을 눌렀다.
+			if (m_pThumbImageRef->IsIn(ptCur.x, ptCur.y))	// thumb pressed
 			{
 				SetState(UI_STATE_TRACKBAR_THUMBDRAG);
 				dwRet |= UI_MOUSEPROC_DONESOMETHING;
 				return dwRet;
 			}
-			else	// thumb위부분 또는 아래 부분(좌 또는 우 여백)을 눌렀따.
+			else	// The upper or lower part of the thumb (left or right margin) is pressed.
 			{
 				const RECT rcThumb = m_pThumbImageRef->GetRegion();
 				if (UISTYLE_TRACKBAR_VERTICAL == m_dwStyle)
 				{
-					if (ptCur.y <= rcThumb.top) SetCurrentPos(m_iCurPos-m_iPageSize);// 윗부분 클릭
-					else SetCurrentPos(m_iCurPos+m_iPageSize);// 아래 부분 클릭
+					if (ptCur.y <= rcThumb.top) SetCurrentPos(m_iCurPos-m_iPageSize);// click on top
+					else SetCurrentPos(m_iCurPos+m_iPageSize);// click below
 				}
 				else
 				{
-					if (ptCur.x <= rcThumb.left) SetCurrentPos(m_iCurPos-m_iPageSize);// 왼쪽 부분 클릭
-					else SetCurrentPos(m_iCurPos+m_iPageSize);// 오른쪽 부분 클릭
+					if (ptCur.x <= rcThumb.left) SetCurrentPos(m_iCurPos-m_iPageSize);// left click
+					else SetCurrentPos(m_iCurPos+m_iPageSize);// right click
 				}
 				if (m_pParent) m_pParent->ReceiveMessage(this, UIMSG_TRACKBAR_POS);
 				dwRet |= UI_MOUSEPROC_DONESOMETHING;
@@ -143,13 +143,6 @@ DWORD CN3UITrackBar::MouseProc(DWORD dwFlags, const POINT& ptCur, const POINT& p
 	dwRet |= CN3UIBase::MouseProc(dwFlags, ptCur, ptOld);
 	return dwRet;
 }
-
-//void CN3UITrackBar::Render()
-//{
-//	if(!m_bVisible) return;
-//	if (m_pBkGndImageRef) m_pBkGndImageRef->Render();
-//	if (m_pThumbImageRef) m_pThumbImageRef->Render();
-//}
 
 void CN3UITrackBar::SetRange(int iMin, int iMax)
 {
@@ -169,7 +162,7 @@ void CN3UITrackBar::SetCurrentPos(int iPos)
 	UpdateThumbPos();
 }
 
-// Pos수치로 Thumb의 위치를 조정
+// Adjust Thumb position with Pos value
 void CN3UITrackBar::UpdateThumbPos() const
 {
 	if (nullptr == m_pThumbImageRef) return;
@@ -190,60 +183,60 @@ void CN3UITrackBar::UpdateThumbPos() const
 	}
 }
 
-// thumb을 pixel단위로 위치 조정하고 thumb의 위치를 바탕으로 pos 수치를 계산하여 넣음
+// Adjust the position of the thumb in pixel units and calculate and insert the pos value based on the position of the thumb
 void CN3UITrackBar::UpDownThumbPos(int iDiff)
 {
 	if (nullptr == m_pThumbImageRef) return;
 	const RECT rcThumb = m_pThumbImageRef->GetRegion();
 
-	if (UISTYLE_TRACKBAR_VERTICAL == m_dwStyle)		// 아래 움직일 대
+	if (UISTYLE_TRACKBAR_VERTICAL == m_dwStyle)		// when moving down
 	{
 		const int iRegionHeight = m_rcRegion.bottom - m_rcRegion.top;
 		const int iThumbHeight = rcThumb.bottom - rcThumb.top;
 		if (0==iRegionHeight || 0==iThumbHeight) return;
 
-		// 옮긴후 thumb의 위치 percentage 구하기
+		// Finding the percentage of the position of the thumb after moving
 		const float fPercentage = ((rcThumb.top-m_rcRegion.top)+iDiff) / (((float)(iRegionHeight)) - iThumbHeight);
 
-		if (fPercentage>1.0f)	// 너무 아래로 내렸다.
+		if (fPercentage>1.0f)	// Dropped too low.
 		{
 			m_pThumbImageRef->SetPos(rcThumb.left, rcThumb.bottom-iThumbHeight);
-			m_iCurPos = m_iMaxPos;		// SetCurrentPos함수를 호출하면 thumb위치를 다시 계산하기 때문에 직접 바꾸어줌.
+			m_iCurPos = m_iMaxPos;		// When calling the SetCurrentPos function, the thumb position is recalculated, so it is changed directly.
 		}
-		else if (fPercentage<0.0f)	// 너무 위로 올렸다.
+		else if (fPercentage<0.0f)	// Raised too high.
 		{
 			m_pThumbImageRef->SetPos(rcThumb.left, rcThumb.top);
-			m_iCurPos = m_iMinPos;// SetCurrentPos함수를 호출하면 thumb위치를 다시 계산하기 때문에 직접 바꾸어줌.
+			m_iCurPos = m_iMinPos;// When calling the SetCurrentPos function, the thumb position is recalculated, so it is changed directly.
 		}
 		else
 		{
 			m_pThumbImageRef->SetPos(rcThumb.left, rcThumb.top+iDiff);
-			m_iCurPos = m_iMinPos + (m_iMaxPos-m_iMinPos)*fPercentage;// SetCurrentPos함수를 호출하면 thumb위치를 다시 계산하기 때문에 직접 바꾸어줌.
+			m_iCurPos = m_iMinPos + (m_iMaxPos-m_iMinPos)*fPercentage;// When calling the SetCurrentPos function, the thumb position is recalculated, so it is changed directly.
 		}
 	}
-	else											// 좌우로 움직일 때
+	else											// when moving left and right
 	{
 		const int iRegionWidth = m_rcRegion.right - m_rcRegion.left;
 		const int iThumbWidth = rcThumb.right - rcThumb.left;
 		if (0==iRegionWidth || 0==iThumbWidth) return;
 
-		// 옮긴후 thumb의 위치 percentage 구하기
+		// Finding the percentage of the position of the thumb after moving
 		const float fPercentage = ((rcThumb.left-m_rcRegion.left)+iDiff) / (((float)(iRegionWidth)) - iThumbWidth);
 
-		if (fPercentage>1.0f)	// 너무 오른쪽으로 밀었다.
+		if (fPercentage>1.0f)	// pushed too far to the right.
 		{
 			m_pThumbImageRef->SetPos(rcThumb.right-iThumbWidth, rcThumb.top);
-			m_iCurPos = m_iMaxPos;// SetCurrentPos함수를 호출하면 thumb위치를 다시 계산하기 때문에 직접 바꾸어줌.
+			m_iCurPos = m_iMaxPos;// When calling the SetCurrentPos function, the thumb position is recalculated, so it is changed directly.
 		}
-		else if (fPercentage<0.0f)	// 너무 왼쪽으로 밀었다
+		else if (fPercentage<0.0f)	// pushed too far left
 		{
 			m_pThumbImageRef->SetPos(rcThumb.left, rcThumb.top);
-			m_iCurPos = m_iMinPos;// SetCurrentPos함수를 호출하면 thumb위치를 다시 계산하기 때문에 직접 바꾸어줌.
+			m_iCurPos = m_iMinPos;// When calling the SetCurrentPos function, the thumb position is recalculated, so it is changed directly.
 		}
 		else
 		{
 			m_pThumbImageRef->SetPos(rcThumb.left+iDiff, rcThumb.top);
-			m_iCurPos = m_iMinPos + (m_iMaxPos-m_iMinPos)*fPercentage;// SetCurrentPos함수를 호출하면 thumb위치를 다시 계산하기 때문에 직접 바꾸어줌.
+			m_iCurPos = m_iMinPos + (m_iMaxPos-m_iMinPos)*fPercentage;// When calling the SetCurrentPos function, the thumb position is recalculated, so it is changed directly.
 		}
 	}
 }
@@ -253,16 +246,16 @@ void CN3UITrackBar::operator = (const CN3UITrackBar& other)
 {
 	CN3UIBase::operator = (other);
 
-	m_iMaxPos = other.m_iMaxPos;									// 최대
-	m_iMinPos = other.m_iMinPos;									// 최소
-	m_iCurPos = other.m_iCurPos;									// 현재 값
-	m_iPageSize = other.m_iPageSize;								// page단위 이동할때 이동값
+	m_iMaxPos = other.m_iMaxPos;									// maximum
+	m_iMinPos = other.m_iMinPos;									// Ieast
+	m_iCurPos = other.m_iCurPos;									// current value
+	m_iPageSize = other.m_iPageSize;								// Movement value when moving by page unit
 
-	// ImageRef 설정하기
+	// Setting ImageRef
 	for(UIListItor itor = m_Children.begin(); m_Children.end() != itor; ++itor)
 	{
 		CN3UIBase* pChild = (*itor);
-		if (UI_TYPE_IMAGE != pChild->UIType()) continue;	// image만 골라내기
+		if (UI_TYPE_IMAGE != pChild->UIType()) continue;	// Pick out only images
 		int iImageType = (int)(pChild->GetReserved());
 		if (IMAGETYPE_BKGND == iImageType)
 		{
@@ -286,7 +279,7 @@ void CN3UITrackBar::CreateImages()
 	m_pThumbImageRef->Init(this);
 	m_pThumbImageRef->SetReserved(IMAGETYPE_THUMB);
 
-	SetRegion(m_rcRegion);	// 영역 다시 설정
+	SetRegion(m_rcRegion);	// realm reset
 }
 
 void CN3UITrackBar::DeleteBkImage()

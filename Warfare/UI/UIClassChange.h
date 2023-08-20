@@ -9,7 +9,7 @@
 
 enum e_ClassChangeState {	UISTATE_NORMAL = 1, UISTATE_WARNING	};
 
-//////////////////////////////////////////////////////////////////////
+// 
 
 
 class CUIClassChange : public CN3UIBase  

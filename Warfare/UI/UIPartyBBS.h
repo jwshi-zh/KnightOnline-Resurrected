@@ -6,7 +6,7 @@
 #include "N3UIBase.h"
 #include <list>
 
-class CUIPartyBBS : public CN3UIBase // 파티에 관한 UI, 부대와 같은 클래스로 쓴다..
+class CUIPartyBBS : public CN3UIBase // It is used as the same class as the UI for the party and the troops.
 {
 protected:
 	class CN3UIButton*		m_pBtn_PageUp;
@@ -23,8 +23,8 @@ protected:
 	class CN3UIString*		m_pText[69];
 
 	std::list<__InfoPartyBBS>	m_Datas; // BBS Data
-	int			m_iCurPage; // 현재 페이지..
-	int			m_iMaxPage;	// 총 페이지..
+	int			m_iCurPage; // Current page...
+	int			m_iMaxPage;	// total page..
 	int			m_iCurIndex;
 	bool		m_bProcessing;
 	float		m_fTime;

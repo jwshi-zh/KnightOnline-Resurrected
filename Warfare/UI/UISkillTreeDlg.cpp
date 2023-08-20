@@ -21,9 +21,9 @@
 
 CUISkillTreeDlg::CUISkillTreeDlg()
 {
-	m_bOpenningNow = false; // 열리고 있다..
-	m_bClosingNow = false;	// 닫히고 있다..
-	m_fMoveDelta = 0.0f; // 부드럽게 열리고 닫히게 만들기 위해서 현재위치 계산에 부동소수점을 쓴다..
+	m_bOpenningNow = false; // is opening...
+	m_bClosingNow = false;	// it&#39;s closing...
+	m_fMoveDelta = 0.0f; // Floating point is used to calculate the current position to make it open and close smoothly.
 
 	m_iRBtnDownOffs = -1;
 
@@ -69,9 +69,9 @@ void CUISkillTreeDlg::Release()
 {
 	CN3UIBase::Release();
 
-	m_bOpenningNow = false; // 열리고 있다..
-	m_bClosingNow = false;	// 닫히고 있다..
-	m_fMoveDelta = 0.0f; // 부드럽게 열리고 닫히게 만들기 위해서 현재위치 계산에 부동소수점을 쓴다..
+	m_bOpenningNow = false; // is opening...
+	m_bClosingNow = false;	// it&#39;s closing...
+	m_fMoveDelta = 0.0f; // Floating point is used to calculate the current position to make it open and close smoothly.
 
 	int i, j, k;
 
@@ -132,7 +132,7 @@ void CUISkillTreeDlg::UpdateDisableCheck()
 
 void CUISkillTreeDlg::Tick()
 {
-	if(m_bOpenningNow) // 오른쪽에서 왼쪽으로 스르륵...열려야 한다면..
+	if(m_bOpenningNow) // Swipe from right to left...if you need to open...
 	{
 		POINT ptCur = this->GetPos();
 		const RECT rc = this->GetRegion();
@@ -145,7 +145,7 @@ void CUISkillTreeDlg::Tick()
 
 		const int iXLimit = CN3Base::s_CameraData.vp.Width - (int)fWidth;
 		ptCur.x = CN3Base::s_CameraData.vp.Width - (int)m_fMoveDelta;
-		if(ptCur.x <= iXLimit) // 다열렸다!!
+		if(ptCur.x <= iXLimit) // It&#39;s all open!!
 		{
 			ptCur.x = iXLimit;
 			m_bOpenningNow = false;
@@ -153,7 +153,7 @@ void CUISkillTreeDlg::Tick()
 
 		this->SetPos(ptCur.x, ptCur.y);
 	}
-	else if(m_bClosingNow) // 오른쪽에서 왼쪽으로 스르륵...열려야 한다면..
+	else if(m_bClosingNow) // Swipe from right to left...if you need to open...
 	{
 		POINT ptCur = this->GetPos();
 		const RECT rc = this->GetRegion();
@@ -166,12 +166,12 @@ void CUISkillTreeDlg::Tick()
 
 		const int iXLimit = CN3Base::s_CameraData.vp.Width;
 		ptCur.x = CN3Base::s_CameraData.vp.Width - (int)(fWidth - m_fMoveDelta);
-		if(ptCur.x >= iXLimit) // 다 닫혔다..!!
+		if(ptCur.x >= iXLimit) // Everything is closed..!!
 		{
 			ptCur.x = iXLimit;
 			m_bClosingNow = false;
 
-			this->SetVisibleWithNoSound(false, false, true); // 다 닫혔으니 눈에서 안보이게 한다.
+			this->SetVisibleWithNoSound(false, false, true); // It&#39;s all closed so you can&#39;t see it.
 		}
 
 		this->SetPos(ptCur.x, ptCur.y);
@@ -184,10 +184,10 @@ DWORD CUISkillTreeDlg::MouseProc(DWORD dwFlags, const POINT& ptCur, const POINT&
 {
 	DWORD dwRet = UI_MOUSEPROC_NONE;
 	if ( !IsVisible() ) { dwRet |= CN3UIBase::MouseProc(dwFlags, ptCur, ptOld);  return dwRet; }
-	// 실제로 쓰진 않는다..
+	// don&#39;t actually use it...
 	if (CN3UIWndBase::m_sRecoveryJobInfo.m_bWaitFromServer) { dwRet |= CN3UIBase::MouseProc(dwFlags, ptCur, ptOld);  return dwRet; }
 
-	// 드래그 되는 아이콘 갱신..
+	// Renew dragged icon..
 	if ( GetState() == UI_STATE_ICON_MOVING ) 
 	{
 		if(CN3UIWndBase::m_sSkillSelectInfo.pSkillDoneInfo)
@@ -225,12 +225,12 @@ bool CUISkillTreeDlg::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 	{
 		if(pSender->m_szID == "btn_close")
 			Close();
-		//..
+		// ..
 		if(pSender->m_szID == "btn_left")
 			PageLeft();
 		if(pSender->m_szID == "btn_right")
 			PageRight();
-		//..
+		// ..
 		if(pSender->m_szID == "btn_0")
 			PointPushUpButton(1);
 		if(pSender->m_szID == "btn_1")
@@ -247,7 +247,7 @@ bool CUISkillTreeDlg::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 			PointPushUpButton(7);
 		if(pSender->m_szID == "btn_7")
 			PointPushUpButton(8);
-		//..
+		// ..
 		if(pSender->m_szID == "btn_public")
 			SetPageInIconRegion(0, 0);
 		if( (pSender->m_szID == "btn_ranger0") || (pSender->m_szID == "btn_blade0") || (pSender->m_szID == "btn_mage0") || 
@@ -294,7 +294,7 @@ bool CUISkillTreeDlg::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 				const int iRBtn = GetIndexInArea(ptCur);
 				if (iRBtn != -1 && m_iRBtnDownOffs != -1 && m_iRBtnDownOffs == iRBtn)
 				{
-					// 들어갈 자리가 있는지 검사..
+					// Check to see if there&#39;s room.
 					CUIHotKeyDlg* pDlg = CGameProcedure::s_pProcMain->m_pUIHotKeyDlg;
 					int iIndex;
 					if (pDlg->GetEmptySlotIndex(iIndex))
@@ -306,7 +306,7 @@ bool CUISkillTreeDlg::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 						spSkillCopy->pSkill = spSkill->pSkill;
 						spSkillCopy->szIconFN = spSkill->szIconFN;
 
-						// 아이콘 로드하기.. ^^
+						// Load the icon.. ^^
 						spSkillCopy->pUIIcon = new CN3UIIcon;
 						spSkillCopy->pUIIcon->Init(this);
 						spSkillCopy->pUIIcon->SetTex(spSkill->szIconFN);
@@ -335,12 +335,12 @@ bool CUISkillTreeDlg::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 			// Get Item..
 			spSkill = GetHighlightIconItem((CN3UIIcon* )pSender);
 
-			// 복사본을 만든다.. 
+			// make a copy...
 			spSkillCopy = new __IconItemSkill();
 			spSkillCopy->pSkill = spSkill->pSkill;
 			spSkillCopy->szIconFN = spSkill->szIconFN;
 
-			// 아이콘 로드하기.. ^^
+			// Load the icon.. ^^
 			spSkillCopy->pUIIcon = new CN3UIIcon;
 			spSkillCopy->pUIIcon->Init(this);
 			spSkillCopy->pUIIcon->SetTex(spSkill->szIconFN);
@@ -372,21 +372,21 @@ bool CUISkillTreeDlg::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 			break;
 
 		case UIMSG_ICON_UP:
-			// Hot Key 윈도우를 돌아 다니면서 검사..
+			// Inspect while moving around the Hot Key window.
 			{
 				CUIHotKeyDlg* pDlg = CGameProcedure::s_pProcMain->m_pUIHotKeyDlg;
 				if ( !IsIn(ptCur.x, ptCur.y) && pDlg->IsIn(ptCur.x, ptCur.y) )
 				{
 					if (!pDlg->IsSelectedSkillInRealIconArea())
 					{
-						// 리소스 Free..
+						// Resource Free..
 						spSkill = CN3UIWndBase::m_sSkillSelectInfo.pSkillDoneInfo;
 						if (spSkill)
 						{
-							// 매니저에서 제거..
+							// Removed from manager..
 							RemoveChild(spSkill->pUIIcon);
 
-							// 리소스 제거..
+							// Remove resource...
 							spSkill->pUIIcon->Release();
 							delete spSkill->pUIIcon;
 							spSkill->pUIIcon = nullptr;
@@ -397,14 +397,14 @@ bool CUISkillTreeDlg::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 				}
 				else
 				{
-					// 리소스 Free..
+					// Resource Free..
 					spSkill = CN3UIWndBase::m_sSkillSelectInfo.pSkillDoneInfo;
 					if (spSkill)
 					{
-						// 매니저에서 제거..
+						// Removed from manager..
 						RemoveChild(spSkill->pUIIcon);
 
-						// 리소스 제거..
+						// Remove resource...
 						spSkill->pUIIcon->Release();
 						delete spSkill->pUIIcon;
 						spSkill->pUIIcon = nullptr;
@@ -449,7 +449,7 @@ void CUISkillTreeDlg::PointPushUpButton(int iValue)
 	iCurKindOfBackup	= m_iCurKindOf;
 	iCurSkillPageBackup	= m_iCurSkillPage;
 
-	int iSkillExtra;			// 스킬창의 값..
+	int iSkillExtra;			// The value of the skill window...
 	int iSkillPoint;
 	std::string str;
 	CN3UIString* pStrName, *pStrName2;
@@ -465,7 +465,7 @@ void CUISkillTreeDlg::PointPushUpButton(int iValue)
 		return;
 	}
 
-	if ((iValue == 1) ||(iValue == 2) || (iValue == 3) ||(iValue == 4))	//.. 
+	if ((iValue == 1) ||(iValue == 2) || (iValue == 3) ||(iValue == 4))	// ..
 	{
 		std::string szMsg;
 		::_LoadStringFromResource(IDS_SKILL_POINT_NOT_YET, szMsg);
@@ -473,14 +473,14 @@ void CUISkillTreeDlg::PointPushUpButton(int iValue)
 		return;
 	}
 
-	// 전직하지 않은 상태면.. 전문스킬은 올릴수 없다..
+	// If you haven&#39;t changed jobs... you can&#39;t raise your professional skills...
 	switch (iValue)
 	{
 		case 5:	case 6:	case 7: case 8:
 			{
 				switch ( CGameBase::s_pPlayer->m_InfoBase.eNation )
 				{
-					case NATION_KARUS:			// 카루스..
+					case NATION_KARUS:			// Karus...
 						switch ( CGameBase::s_pPlayer->m_InfoBase.eClass )
 						{
 							case CLASS_KA_WARRIOR:
@@ -497,7 +497,7 @@ void CUISkillTreeDlg::PointPushUpButton(int iValue)
 						}
 						break;
 				
-					case NATION_ELMORAD:		// 엘모라도..
+					case NATION_ELMORAD:		// Elmorado...
 						switch ( CGameBase::s_pPlayer->m_InfoBase.eClass )
 						{
 							case CLASS_EL_WARRIOR:
@@ -522,7 +522,7 @@ void CUISkillTreeDlg::PointPushUpButton(int iValue)
 	{
 		switch ( CGameBase::s_pPlayer->m_InfoBase.eNation )
 		{
-			case NATION_KARUS:			// 카루스..
+			case NATION_KARUS:			// Karus...
 				switch ( CGameBase::s_pPlayer->m_InfoBase.eClass )
 				{
 					case CLASS_KA_SORCERER:
@@ -538,7 +538,7 @@ void CUISkillTreeDlg::PointPushUpButton(int iValue)
 				}
 				break;
 
-			case NATION_ELMORAD:		// 엘모라도..
+			case NATION_ELMORAD:		// Elmorado...
 				switch ( CGameBase::s_pPlayer->m_InfoBase.eClass )
 				{
 					case CLASS_EL_MAGE:
@@ -560,7 +560,7 @@ void CUISkillTreeDlg::PointPushUpButton(int iValue)
 	{
 		switch ( CGameBase::s_pPlayer->m_InfoBase.eNation )
 		{
-			case NATION_KARUS:			// 카루스..
+			case NATION_KARUS:			// Karus...
 				switch ( CGameBase::s_pPlayer->m_InfoBase.eClass )
 				{
 					case CLASS_KA_BERSERKER:
@@ -574,7 +574,7 @@ void CUISkillTreeDlg::PointPushUpButton(int iValue)
 				}
 				break;
 
-			case NATION_ELMORAD:		// 엘모라도..
+			case NATION_ELMORAD:		// Elmorado...
 				switch ( CGameBase::s_pPlayer->m_InfoBase.eClass )
 				{
 					case CLASS_EL_BLADE:
@@ -594,7 +594,7 @@ void CUISkillTreeDlg::PointPushUpButton(int iValue)
 	{
 		switch ( CGameBase::s_pPlayer->m_InfoBase.eNation )
 		{
-			case NATION_KARUS:			// 카루스..
+			case NATION_KARUS:			// Karus...
 				switch ( CGameBase::s_pPlayer->m_InfoBase.eClass )
 				{
 					case CLASS_KA_HUNTER:
@@ -608,7 +608,7 @@ void CUISkillTreeDlg::PointPushUpButton(int iValue)
 				}
 				break;
 
-			case NATION_ELMORAD:		// 엘모라도..
+			case NATION_ELMORAD:		// Elmorado...
 				switch ( CGameBase::s_pPlayer->m_InfoBase.eClass )
 				{
 					case CLASS_EL_RANGER:
@@ -663,7 +663,7 @@ void CUISkillTreeDlg::PointPushUpButton(int iValue)
 	str = pStrName2->GetString();
 	iSkillPoint = atoi(str.c_str());
 
-	// 자기 자신 레벨보다 높일수 없다..
+	// You can&#39;t raise it higher than your own level.
 	if ( iSkillPoint >= CGameBase::s_pPlayer->m_InfoBase.iLevel )
 	{
 		std::string szMsg;
@@ -672,14 +672,14 @@ void CUISkillTreeDlg::PointPushUpButton(int iValue)
 		return;
 	}
 
-	// 써버에게 보내고.. 숫자 업데이트..	
+	// Send to server.. Update number..
 	BYTE byBuff[4];
 	int iOffset = 0;
 	CAPISocket::MP_AddByte(byBuff, iOffset, N3_SKILL_CHANGE);
 	CAPISocket::MP_AddByte(byBuff, iOffset, (BYTE)iValue);
 	CGameProcedure::s_pSocket->Send(byBuff, iOffset);
 
-	// 스킬 포인트 업데이트..
+	// Skill point update...
 	iSkillExtra--;
 	pStrName->SetStringAsInt(iSkillExtra);
 	m_iSkillInfo[0] = iSkillExtra;
@@ -716,7 +716,7 @@ void CUISkillTreeDlg::PointPushUpButton(int iValue)
 			break;
 	}
 
-	switch(iValue)		// 스킬 아이콘 업데이트..
+	switch(iValue)		// Skill icon update..
 	{
 		case 5:
 		case 6:
@@ -731,7 +731,7 @@ void CUISkillTreeDlg::PointPushUpButton(int iValue)
 
 void CUISkillTreeDlg::Render()
 {
-	if (!m_bVisible) return;	// 보이지 않으면 자식들을 render하지 않는다.
+	if (!m_bVisible) return;	// If not visible, don&#39;t render the children.
 	__IconItemSkill* spSkill = nullptr;
 
 	TooltipRenderDisable();
@@ -1035,7 +1035,7 @@ void CUISkillTreeDlg::InitIconUpdate()
 	int i, j, k, iDivide;
 	const __TABLE_UPC_SKILL* pUSkill = nullptr;
 
-	// 기존 아이콘 모두 클리어..
+	// Clear all existing icons..
 	for(auto i = 0; i < MAX_SKILL_KIND_OF; i++ )
 		for( j = 0; j < MAX_SKILL_PAGE_NUM; j++ )
 			for( k = 0; k < MAX_SKILL_IN_PAGE; k++ )
@@ -1043,10 +1043,10 @@ void CUISkillTreeDlg::InitIconUpdate()
 				{
 					__IconItemSkill* spSkill = m_pMySkillTree[i][j][k];
 
-					// 매니저에서 제거..
+					// Removed from manager..
 					RemoveChild(spSkill->pUIIcon);
 
-					// 리소스 제거..
+					// Remove resource...
 					spSkill->pUIIcon->Release();
 					delete spSkill->pUIIcon;
 					spSkill->pUIIcon = nullptr;
@@ -1056,7 +1056,7 @@ void CUISkillTreeDlg::InitIconUpdate()
 				}
 
 
-	// 아이디 = 직업 코드*1000 + 001부터.. (직업 코드+1)*100 + 001까지..
+	// ID = Occupation code *1000 + 001 to.. (Occupation code + 1) * 100 + 001..
 	int iSkillIDFirst, iSkillIndexFirst, iSkillIndexLast, iModulo;
 	iSkillIDFirst = CGameBase::s_pPlayer->m_InfoBase.eClass*1000+1;
 	iSkillIndexFirst = CGameBase::s_pTbl_Skill->IDToIndex(iSkillIDFirst);
@@ -1065,7 +1065,7 @@ void CUISkillTreeDlg::InitIconUpdate()
 	if ( iSkillIndexFirst == -1 ) 
 	{
 		PageButtonInitialize();
-		return;		// 첫번째 스킬이 없으면.. 안된다..
+		return;		// If you don&#39;t have the first skill... you can&#39;t.
 	}
 
 	if ( CGameBase::s_pPlayer->m_InfoBase.eClass != CLASS_EL_DRUID )
@@ -1088,31 +1088,31 @@ void CUISkillTreeDlg::InitIconUpdate()
 		if ( pUSkill == nullptr) continue;
 		if ( pUSkill->dwID >= UIITEM_TYPE_SONGPYUN_ID_MIN) continue;
 
-		// 조건이 충족 되는지 확인한다..
+		// Check if the condition is met.
 		iModulo = pUSkill->iNeedSkill % 10;
 		switch ( iModulo )
 		{
-			case 0:																				// Base Skill.. 레벨 점보만으로 판단한다..
-				if ( pUSkill->iNeedLevel <= CGameBase::s_pPlayer->m_InfoBase.iLevel )		// 내 레벨보다 같거나 작으면..
+			case 0:																				// Base Skill.. Judging only by level jumbo..
+				if ( pUSkill->iNeedLevel <= CGameBase::s_pPlayer->m_InfoBase.iLevel )		// If it&#39;s equal to or lower than my level...
 					AddSkillToPage(pUSkill);
 				break;
 
-			case 5:																				// 전문 Skill.. 직업마다 다르다..
+			case 5:																				// Professional Skill.. Each job is different..
 				if ( pUSkill->iNeedLevel <= m_iSkillInfo[5] )
 					AddSkillToPage(pUSkill, 1);
 				break;
 
-			case 6:																				// 전문 Skill.. 직업마다 다르다..
+			case 6:																				// Professional Skill.. Each job is different..
 				if ( pUSkill->iNeedLevel <= m_iSkillInfo[6] )
 					AddSkillToPage(pUSkill, 2);
 				break;
 
-			case 7:																				// 전문 Skill.. 직업마다 다르다..
+			case 7:																				// Professional Skill.. Each job is different..
 				if ( pUSkill->iNeedLevel <= m_iSkillInfo[7] )
 					AddSkillToPage(pUSkill, 3);
 				break;
 
-			case 8:																				// 전문 Skill.. 직업마다 다르다..
+			case 8:																				// Professional Skill.. Each job is different..
 				if ( pUSkill->iNeedLevel <= m_iSkillInfo[8] )
 					AddSkillToPage(pUSkill, 4);
 				break;
@@ -1127,7 +1127,7 @@ void CUISkillTreeDlg::PageButtonInitialize()
 	SetPageInIconRegion(0, 0);		
 	SetPageInCharRegion();		
 	
-	// 서버에게 받은 값으로 세팅.. m_iSkillInfo[MAX_SKILL_FROM_SERVER];										// 서버로 받는 슬롯 정보..	
+	// Set the value received from the server.. m_iSkillInfo[MAX_SKILL_FROM_SERVER]; // Slot information received from the server..
 	CN3UIString* pStrName = (CN3UIString* )GetChildByID("string_skillpoint"); __ASSERT(pStrName, "NULL UI Component!!");
 	pStrName->SetStringAsInt(m_iSkillInfo[0]);
 	pStrName = (CN3UIString* )GetChildByID("string_0"); __ASSERT(pStrName, "NULL UI Component!!");
@@ -1197,7 +1197,7 @@ void CUISkillTreeDlg::ButtonVisibleStateSet()
 			pButton = (CN3UIButton* )GetChildByID("btn_cleric3");	ASSET_0
 			break;
 
-	// Karus..
+	// War..
 		case NATION_KARUS:
 			pButton = (CN3UIButton* )GetChildByID("btn_hunter0");		ASSET_0
 			pButton = (CN3UIButton* )GetChildByID("btn_hunter1");		ASSET_0
@@ -1289,7 +1289,7 @@ void CUISkillTreeDlg::AddSkillToPage(__TABLE_UPC_SKILL* pUSkill, int iOffset)
 	int i, j;
 	bool bFound = false;
 
-	// m_pMySkillTree[iOffset]에 같은 아이디가 있는지 살펴본다..
+	// Check whether m_pMySkillTree[iOffset] has the same ID.
 	for(i = 0; i < MAX_SKILL_PAGE_NUM; i++ )
 		for(j = 0; j < MAX_SKILL_IN_PAGE; j++ )
 		{
@@ -1300,7 +1300,7 @@ void CUISkillTreeDlg::AddSkillToPage(__TABLE_UPC_SKILL* pUSkill, int iOffset)
 			}
 		}
 
-	// m_pMySkillTree[iOffset]에 들어갈 수 있는지 살펴본다..
+	// See if you can get into m_pMySkillTree[iOffset].
 	for(i = 0; i < MAX_SKILL_PAGE_NUM; i++ )
 		for(j = 0; j < MAX_SKILL_IN_PAGE; j++ )
 		{
@@ -1317,12 +1317,12 @@ stop:
 	auto* spSkill = new __IconItemSkill();
 	spSkill->pSkill = pUSkill;
 
-	// 아이콘 이름 만들기.. ^^
+	// Creating an icon name.. ^^
 	std::vector<char> buffer(256, NULL);
 	sprintf(buffer.data(),	"UI\\skillicon_%.2d_%d.dxt", pUSkill->dwID%100, pUSkill->dwID/100);
 	spSkill->szIconFN = buffer.data();
 
-	// 아이콘 로드하기.. ^^
+	// Load the icon.. ^^
 	spSkill->pUIIcon = new CN3UIIcon;
 	spSkill->pUIIcon->Init(this);
 	spSkill->pUIIcon->SetTex(spSkill->szIconFN);
@@ -1338,13 +1338,13 @@ stop:
 		spSkill->pUIIcon->SetMoveRect(pArea->GetRegion());
 	}
 
-	// 아이콘 정보 저장..
+	// Save icon info..
 	m_pMySkillTree[iOffset][i][j] = spSkill;
 }
 
 void CUISkillTreeDlg::Open()
 {
-	// 스르륵 열린다!!
+	// It&#39;s open!!
 	SetVisible(true);
 	this->SetPos(CN3Base::s_CameraData.vp.Width, 10);
 	m_fMoveDelta = 0;
@@ -1356,15 +1356,15 @@ void CUISkillTreeDlg::Open()
 
 void CUISkillTreeDlg::Close()
 {
-	// 리소스 Free..
+	// Resource Free..
 	__IconItemSkill* spSkill = nullptr;
 	spSkill = CN3UIWndBase::m_sSkillSelectInfo.pSkillDoneInfo;
 	if (spSkill)
 	{
-		// 매니저에서 제거..
+		// Removed from manager..
 		RemoveChild(spSkill->pUIIcon);
 
-		// 리소스 제거..
+		// Remove resource...
 		spSkill->pUIIcon->Release();
 		delete spSkill->pUIIcon;
 		spSkill->pUIIcon = nullptr;
@@ -1375,15 +1375,15 @@ void CUISkillTreeDlg::Close()
 	SetState(UI_STATE_COMMON_NONE);
 	CN3UIWndBase::AllHighLightIconFree();
 
-	// 스르륵 닫힌다..!!
-//	SetVisible(false); // 다 닫히고 나서 해준다..
+	// It closes slowly..!!
+	// SetVisible(false); // Do this after everything is closed.
 	const RECT rc = this->GetRegion();
 	this->SetPos(CN3Base::s_CameraData.vp.Width - (rc.right - rc.left), 10);
 	m_fMoveDelta = 0;
 	m_bOpenningNow = false;
 	m_bClosingNow = true;
 
-	if(m_pSnd_CloseUI) m_pSnd_CloseUI->Play(); // 닫는 소리..
+	if(m_pSnd_CloseUI) m_pSnd_CloseUI->Play(); // closing sound...
 
 	m_iRBtnDownOffs = -1;
 }
@@ -1426,7 +1426,7 @@ RECT CUISkillTreeDlg::GetSampleRect()
 	return rect;
 }
 
-void CUISkillTreeDlg::SetPageInIconRegion(int iKindOf, int iPageNum)		// 아이콘 역역에서 현재 페이지 설정..
+void CUISkillTreeDlg::SetPageInIconRegion(int iKindOf, int iPageNum)		// Set the current page in the icon area..
 {
 	if ( (iKindOf >= MAX_SKILL_KIND_OF) || (iPageNum >= MAX_SKILL_PAGE_NUM) )
 		return;
@@ -1471,7 +1471,7 @@ void CUISkillTreeDlg::SetPageInIconRegion(int iKindOf, int iPageNum)		// 아이�
 		}
 	}
 
-	// 아이콘 설명 문자열 업데이트.. 현재 스킬 종류와 현재 스킬 페이지중 아이콘이 보이면 String보이게.. 아니면 안보이게..
+	// Icon Explanation String update.. If the icon is visible in the current skill type and current skill page, String is visible.. Otherwise, it is not visible..
 	CN3UIString* pStrName;
 	std::string str; 
 	char	cstr[4];
@@ -1504,7 +1504,7 @@ void CUISkillTreeDlg::SetPageInIconRegion(int iKindOf, int iPageNum)		// 아이�
 
 void CUISkillTreeDlg::AllClearImageByName(const std::string& szFN, bool bTrueOrNot)
 {
-//	CN3UIImage* pImage;
+	// CN3UIImage* pImage;
 	CN3UIBase* pBase;
 	CN3UIButton* pButton;
 
@@ -1530,19 +1530,19 @@ void CUISkillTreeDlg::AllClearImageByName(const std::string& szFN, bool bTrueOrN
 	}
 }
 
-void CUISkillTreeDlg::SetPageInCharRegion()						// 문자 역역에서 현재 페이지 설정..
+void CUISkillTreeDlg::SetPageInCharRegion()						// Set current page in text area..
 {
 	AllClearImageByName("public", false);
 
 	switch ( CGameBase::s_pPlayer->m_InfoBase.eNation )
 	{
-		case NATION_KARUS:			// 카루스..
+		case NATION_KARUS:			// Karus...
 			AllClearImageByName("hunter", false);
 			AllClearImageByName("berserker", false);
 			AllClearImageByName("sorcerer", false);
 			AllClearImageByName("shaman", false);
 
-			// 직업.. 
+			// job..
 			switch ( CGameBase::s_pPlayer->m_InfoBase.eClass )
 			{
 				case CLASS_KA_WARRIOR:
@@ -1570,13 +1570,13 @@ void CUISkillTreeDlg::SetPageInCharRegion()						// 문자 역역에서 현재 �
 			}
 			break;
 
-		case NATION_ELMORAD:		// 엘모라도..
+		case NATION_ELMORAD:		// Elmorado...
 			AllClearImageByName("ranger", false);
 			AllClearImageByName("blade", false);
 			AllClearImageByName("mage", false);
 			AllClearImageByName("cleric", false);
 
-			// 직업.. 
+			// job..
 			switch ( CGameBase::s_pPlayer->m_InfoBase.eClass )
 			{
 				case CLASS_EL_WARRIOR:
@@ -1642,7 +1642,7 @@ CN3UIButton* CUISkillTreeDlg::GetChildButtonByName(const std::string& szFN)
 	return nullptr;
 }
 
-//this_ui_add_start
+// this_ui_add_start
 bool CUISkillTreeDlg::OnKeyPress(int iKey)
 {
 	switch(iKey)
@@ -1670,7 +1670,7 @@ void CUISkillTreeDlg::SetVisibleWithNoSound(bool bVisible, bool bWork, bool bReF
 		if(bVisible)
 			CGameProcedure::s_pUIMgr->SetVisibleFocusedUI(this);
 		else
-			CGameProcedure::s_pUIMgr->ReFocusUI();//this_ui
+			CGameProcedure::s_pUIMgr->ReFocusUI();// this_ui
 	}
 }
 
@@ -1680,6 +1680,6 @@ void CUISkillTreeDlg::SetVisible(bool bVisible)
 	if(bVisible)
 		CGameProcedure::s_pUIMgr->SetVisibleFocusedUI(this);
 	else
-		CGameProcedure::s_pUIMgr->ReFocusUI();//this_ui
+		CGameProcedure::s_pUIMgr->ReFocusUI();// this_ui
 }
-//this_ui_add_end
+// this_ui_add_end

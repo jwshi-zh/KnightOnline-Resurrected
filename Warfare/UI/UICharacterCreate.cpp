@@ -61,7 +61,7 @@ bool CUICharacterCreate::Load(HANDLE hFile)
 {
 	CN3UIBase::Load(hFile);
 
-	// 캐릭터 초기화..
+	// Character reset...
 	__InfoPlayerBase* pInfoBase = &(CGameBase::s_pPlayer->m_InfoBase);
 	__InfoPlayerMySelf* pInfoExt = &(CGameBase::s_pPlayer->m_InfoExt);
 
@@ -184,7 +184,7 @@ bool CUICharacterCreate::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 		__InfoPlayerBase* pInfoBase = &(CGameBase::s_pPlayer->m_InfoBase);
 		__InfoPlayerMySelf* pInfoExt = &(CGameBase::s_pPlayer->m_InfoExt);
 
-		//종족 고르기..
+		// Choosing a race...
 		const e_Nation eNation = pInfoBase->eNation;
 		const e_Race eRacePrev = pInfoBase->eRace;
 		bool bNeedUpdateRaceButtons = false;
@@ -230,10 +230,10 @@ bool CUICharacterCreate::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 			}
 		}
 
-		if(	bNeedUpdateRaceButtons ) // 몬가 바뀌었으면..
+		if(	bNeedUpdateRaceButtons ) // If the mon has changed...
 		{
-			if(eRacePrev != pInfoBase->eRace) // 종족을 바꿨을때만..
-				CGameProcedure::s_pProcCharacterCreate->SetChr(); // 캐릭터 세팅..
+			if(eRacePrev != pInfoBase->eRace) // Only when you change race...
+				CGameProcedure::s_pProcCharacterCreate->SetChr(); // Character setting...
 			this->UpdateRaceAndClassButtons(pInfoBase->eRace);
 		}
 
@@ -242,15 +242,15 @@ bool CUICharacterCreate::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 
 		if ( pSender->m_szID == "btn_cancel" )
 		{
-			CGameProcedure::ProcActiveSet((CGameProcedure*)CGameProcedure::s_pProcCharacterSelect); // 캐릭터 선택 프로시저로 한다..
+			CGameProcedure::ProcActiveSet((CGameProcedure*)CGameProcedure::s_pProcCharacterSelect); // This is done through the character selection process.
 			return true;
 		}
 		else if ( pSender->m_szID == "btn_create" && m_pEdit_Name)
 		{
-			CGameBase::s_pPlayer->IDSet(0, m_pEdit_Name->GetString(), 0); // 이름을 넣어주고...
-			return CGameProcedure::s_pProcCharacterCreate->MsgSendCharacterCreate(); // 캐릭터 만들기 메시지 보내기...
+			CGameBase::s_pPlayer->IDSet(0, m_pEdit_Name->GetString(), 0); // put your name...
+			return CGameProcedure::s_pProcCharacterCreate->MsgSendCharacterCreate(); // Create a character Send a message...
 		}
-		else if ( pSender == m_pBtn_Face_Left ) // 얼굴
+		else if ( pSender == m_pBtn_Face_Left ) // face
 		{
 			pInfoExt->iFace--;
 			if(pInfoExt->iFace < 0) pInfoExt->iFace = 0;
@@ -260,7 +260,7 @@ bool CUICharacterCreate::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 			pInfoExt->iFace++;
 			if(pInfoExt->iFace > 3) pInfoExt->iFace = 3;
 		}
-		else if ( pSender == m_pBtn_Hair_Left ) // 머리카락..
+		else if ( pSender == m_pBtn_Hair_Left ) // hair..
 		{
 			pInfoExt->iHair--;
 			if(pInfoExt->iHair < 0) pInfoExt->iHair = 0;
@@ -271,30 +271,30 @@ bool CUICharacterCreate::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 			if(pInfoExt->iHair > 2) pInfoExt->iHair = 2;
 		}
 
-		if(	iFacePrev != pInfoExt->iFace ) CGameBase::s_pPlayer->InitFace(); // 얼굴이 바뀌면..
-		if(	iHairPrev != pInfoExt->iHair ) CGameBase::s_pPlayer->InitHair(); // 머리카락이 바뀌면..
+		if(	iFacePrev != pInfoExt->iFace ) CGameBase::s_pPlayer->InitFace(); // When the face changes...
+		if(	iHairPrev != pInfoExt->iHair ) CGameBase::s_pPlayer->InitHair(); // When your hair changes...
 
-		//직업 고르기..
+		// Choosing a job...
 		bool bNeedUpdateClassButton = false;
-		if ( pSender == m_pBtn_Classes[0] ) // 전사
+		if ( pSender == m_pBtn_Classes[0] ) // Warrior
 		{
 			if(	NATION_KARUS == eNation ) pInfoBase->eClass = CLASS_KA_WARRIOR;
 			else if(NATION_ELMORAD == eNation) pInfoBase->eClass = CLASS_EL_WARRIOR;
 			bNeedUpdateClassButton = true;
 		}
-		else if ( pSender == m_pBtn_Classes[1] ) // 로그
+		else if ( pSender == m_pBtn_Classes[1] ) // Log
 		{
 			if(	NATION_KARUS == eNation ) pInfoBase->eClass = CLASS_KA_ROGUE;
 			else if(NATION_ELMORAD == eNation) pInfoBase->eClass = CLASS_EL_ROGUE;
 			bNeedUpdateClassButton = true;
 		}
-		else if ( pSender == m_pBtn_Classes[2] ) // 마법사
+		else if ( pSender == m_pBtn_Classes[2] ) // Wizard
 		{
 			if(	NATION_KARUS == eNation ) pInfoBase->eClass = CLASS_KA_WIZARD;
 			else if(NATION_ELMORAD == eNation) pInfoBase->eClass = CLASS_EL_WIZARD;
 			bNeedUpdateClassButton = true;
 		}
-		else if ( pSender == m_pBtn_Classes[3] ) // 사제
+		else if ( pSender == m_pBtn_Classes[3] ) // Priests
 		{
 			if(	NATION_KARUS == eNation ) pInfoBase->eClass = CLASS_KA_PRIEST;
 			else if(NATION_ELMORAD == eNation) pInfoBase->eClass = CLASS_EL_PRIEST;
@@ -304,8 +304,8 @@ bool CUICharacterCreate::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 		if(bNeedUpdateClassButton)
 			this->UpdateClassButtons(pInfoBase->eClass);
 
-		//수치 올리기..
-		if ( pSender->m_szID == "btn_str_right" ) // 힘
+		// Raise the numbers...
+		if ( pSender->m_szID == "btn_str_right" ) // strength
 		{
 			if(m_iBonusPoint>0)
 			{
@@ -316,7 +316,7 @@ bool CUICharacterCreate::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 				if(m_pStr_Bonus) m_pStr_Bonus->SetStringAsInt(m_iBonusPoint);
 			}
 		}
-		else if ( pSender->m_szID == "btn_sta_right" ) // 체력
+		else if ( pSender->m_szID == "btn_sta_right" ) // health
 		{
 			if(m_iBonusPoint>0)
 			{
@@ -327,7 +327,7 @@ bool CUICharacterCreate::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 				if(m_pStr_Bonus) m_pStr_Bonus->SetStringAsInt(m_iBonusPoint);
 			}
 		}
-		else if ( pSender->m_szID == "btn_dex_right" ) // 민첩
+		else if ( pSender->m_szID == "btn_dex_right" ) // Agility
 		{
 			if(m_iBonusPoint>0)
 			{
@@ -338,7 +338,7 @@ bool CUICharacterCreate::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 				if(m_pStr_Bonus) m_pStr_Bonus->SetStringAsInt(m_iBonusPoint);				
 			}
 		}
-		else if ( pSender->m_szID == "btn_int_right" ) // 지능
+		else if ( pSender->m_szID == "btn_int_right" ) // Intellect
 		{
 			if(m_iBonusPoint>0)
 			{
@@ -349,7 +349,7 @@ bool CUICharacterCreate::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 				if(m_pStr_Bonus) m_pStr_Bonus->SetStringAsInt(m_iBonusPoint);
 			}
 		}
-		else if ( pSender->m_szID == "btn_map_right" ) // 마력
+		else if ( pSender->m_szID == "btn_map_right" ) // horsepower
 		{
 			if(m_iBonusPoint>0)
 			{
@@ -364,8 +364,8 @@ bool CUICharacterCreate::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 		const __TABLE_NEW_CHR* pTbl = CGameProcedure::s_pProcCharacterCreate->m_Tbl_InitValue.Find(pInfoBase->eRace);
 		if(pTbl)
 		{
-			//수치 내리기..
-			if ( pSender->m_szID == "btn_str_left" ) // 힘
+			// lower the numbers...
+			if ( pSender->m_szID == "btn_str_left" ) // strength
 			{
 				if( m_iBonusPoint < m_iMaxBonusPoint && pInfoExt->iStrength > pTbl->iStr )
 				{
@@ -376,7 +376,7 @@ bool CUICharacterCreate::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 					if(m_pStr_Bonus) m_pStr_Bonus->SetStringAsInt(m_iBonusPoint);
 				}
 			}
-			else if ( pSender->m_szID == "btn_sta_left" ) // 체력
+			else if ( pSender->m_szID == "btn_sta_left" ) // health
 			{
 				if( m_iBonusPoint < m_iMaxBonusPoint && pInfoExt->iStamina > pTbl->iSta )
 				{
@@ -387,7 +387,7 @@ bool CUICharacterCreate::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 					if(m_pStr_Bonus) m_pStr_Bonus->SetStringAsInt(m_iBonusPoint);
 				}
 			}
-			else if ( pSender->m_szID == "btn_dex_left" ) // 민첩
+			else if ( pSender->m_szID == "btn_dex_left" ) // Agility
 			{
 				if( m_iBonusPoint < m_iMaxBonusPoint && pInfoExt->iDexterity > pTbl->iDex )
 				{
@@ -398,7 +398,7 @@ bool CUICharacterCreate::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 					if(m_pStr_Bonus) m_pStr_Bonus->SetStringAsInt(m_iBonusPoint);
 				}
 			}
-			else if ( pSender->m_szID == "btn_int_left" ) // 지능
+			else if ( pSender->m_szID == "btn_int_left" ) // Intellect
 			{
 				if( m_iBonusPoint < m_iMaxBonusPoint && pInfoExt->iIntelligence > pTbl->iInt )
 				{
@@ -409,7 +409,7 @@ bool CUICharacterCreate::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 					if(m_pStr_Bonus) m_pStr_Bonus->SetStringAsInt(m_iBonusPoint);
 				}
 			}
-			else if ( pSender->m_szID == "btn_map_left" ) // 마력
+			else if ( pSender->m_szID == "btn_map_left" ) // horsepower
 			{
 				if( m_iBonusPoint < m_iMaxBonusPoint && pInfoExt->iMagicAttak > pTbl->iMAP )
 				{
@@ -485,32 +485,32 @@ DWORD CUICharacterCreate::MouseProc(DWORD dwFlags, const POINT& ptCur, const POI
 	return CN3UIBase::MouseProc(dwFlags, ptCur, ptOld);
 }
 
-void CUICharacterCreate::UpdateRaceAndClassButtons(e_Race eRace) // 종족에 따라 직업 버튼 다시 설정..
+void CUICharacterCreate::UpdateRaceAndClassButtons(e_Race eRace) // Reset the job button according to the race..
 {
-	eUI_STATE eUIStateRaces[4] = {	UI_STATE_BUTTON_NORMAL, // 종족 0
+	eUI_STATE eUIStateRaces[4] = {	UI_STATE_BUTTON_NORMAL, // race 0
 									UI_STATE_BUTTON_NORMAL,
 									UI_STATE_BUTTON_NORMAL,
 									UI_STATE_BUTTON_NORMAL };
 
-	eUI_STATE eUIStateClasses[4] = {	UI_STATE_BUTTON_DISABLE, // 직업 0
+	eUI_STATE eUIStateClasses[4] = {	UI_STATE_BUTTON_DISABLE, // job 0
 										UI_STATE_BUTTON_DISABLE,
 										UI_STATE_BUTTON_DISABLE,
 										UI_STATE_BUTTON_DISABLE  };
 
 	switch(eRace)
 	{
-		case RACE_EL_BABARIAN: // 전사만 가능
+		case RACE_EL_BABARIAN: // warrior only
 			eUIStateRaces[0] = UI_STATE_BUTTON_DOWN;
 			eUIStateClasses[0] = UI_STATE_BUTTON_NORMAL;
 			break;
-		case RACE_EL_MAN: // 모든 직업 가능
+		case RACE_EL_MAN: // all jobs available
 			eUIStateRaces[1] = UI_STATE_BUTTON_DOWN;
 			eUIStateClasses[0] = UI_STATE_BUTTON_NORMAL;
 			eUIStateClasses[1] = UI_STATE_BUTTON_NORMAL;
 			eUIStateClasses[2] = UI_STATE_BUTTON_NORMAL;
 			eUIStateClasses[3] = UI_STATE_BUTTON_NORMAL;
 			break;
-		case RACE_EL_WOMEN: // 모든 직업 가능
+		case RACE_EL_WOMEN: // all jobs available
 			eUIStateRaces[2] = UI_STATE_BUTTON_DOWN;
 			eUIStateClasses[0] = UI_STATE_BUTTON_NORMAL;
 			eUIStateClasses[1] = UI_STATE_BUTTON_NORMAL;
@@ -518,20 +518,20 @@ void CUICharacterCreate::UpdateRaceAndClassButtons(e_Race eRace) // 종족에 �
 			eUIStateClasses[3] = UI_STATE_BUTTON_NORMAL;
 			break;
 		
-		case RACE_KA_ARKTUAREK: // 전사만 가능
+		case RACE_KA_ARKTUAREK: // warrior only
 			eUIStateRaces[0] = UI_STATE_BUTTON_DOWN;
 			eUIStateClasses[0] = UI_STATE_BUTTON_NORMAL;
 			break;
-		case RACE_KA_TUAREK: // 로그, 사제 가능
+		case RACE_KA_TUAREK: // Rogue, Priest available
 			eUIStateRaces[1] = UI_STATE_BUTTON_DOWN;
 			eUIStateClasses[1] = UI_STATE_BUTTON_NORMAL;
 			eUIStateClasses[3] = UI_STATE_BUTTON_NORMAL;
 			break;
-		case RACE_KA_WRINKLETUAREK: // 마법사만 가능..
+		case RACE_KA_WRINKLETUAREK: // Wizards only...
 			eUIStateRaces[2] = UI_STATE_BUTTON_DOWN;
 			eUIStateClasses[2] = UI_STATE_BUTTON_NORMAL;
 			break;
-		case RACE_KA_PURITUAREK: // 사제만 가능..
+		case RACE_KA_PURITUAREK: // Priest only..
 			eUIStateRaces[3] = UI_STATE_BUTTON_DOWN;
 			eUIStateClasses[3] = UI_STATE_BUTTON_NORMAL;
 			break;
@@ -540,7 +540,7 @@ void CUICharacterCreate::UpdateRaceAndClassButtons(e_Race eRace) // 종족에 �
 			break;
 	}
 
-	// 기본 요건들 초기화..
+	// Reset basic requirements..
 	__InfoPlayerBase*	pInfoBase = &(CGameBase::s_pPlayer->m_InfoBase);	
 	pInfoBase->eRace = eRace;
 	pInfoBase->eClass = CLASS_UNKNOWN;
@@ -560,7 +560,7 @@ void CUICharacterCreate::UpdateRaceAndClassButtons(e_Race eRace) // 종족에 �
 
 void CUICharacterCreate::UpdateClassButtons(e_Class eClass)
 {
-	eUI_STATE eUIStates[MAX_CLASS_SELECT] = {	UI_STATE_BUTTON_NORMAL, // 직업 0
+	eUI_STATE eUIStates[MAX_CLASS_SELECT] = {	UI_STATE_BUTTON_NORMAL, // job 0
 								UI_STATE_BUTTON_NORMAL,
 								UI_STATE_BUTTON_NORMAL,
 								UI_STATE_BUTTON_NORMAL  };
@@ -572,26 +572,26 @@ void CUICharacterCreate::UpdateClassButtons(e_Class eClass)
 	case CLASS_EL_WARRIOR:
 	case CLASS_KA_WARRIOR:
 		eUIStates[0] = UI_STATE_BUTTON_DOWN;
-		bVisibles[0] = true; // 힘
-		bVisibles[1] = true; // 체력
+		bVisibles[0] = true; // strength
+		bVisibles[1] = true; // health
 		break;
 	case CLASS_EL_ROGUE:
 	case CLASS_KA_ROGUE:
 		eUIStates[1] = UI_STATE_BUTTON_DOWN;
-		bVisibles[0] = true; // 힘
-		bVisibles[2] = true; // 민첩
+		bVisibles[0] = true; // strength
+		bVisibles[2] = true; // Agility
 		break;
 	case CLASS_EL_WIZARD:
 	case CLASS_KA_WIZARD:
 		eUIStates[2] = UI_STATE_BUTTON_DOWN;
-		bVisibles[3] = true; // 지능
-		bVisibles[4] = true; // 마력
+		bVisibles[3] = true; // Intellect
+		bVisibles[4] = true; // horsepower
 		break;
 	case CLASS_EL_PRIEST:
 	case CLASS_KA_PRIEST:
 		eUIStates[3] = UI_STATE_BUTTON_DOWN;
-		bVisibles[0] = true; // 힘
-		bVisibles[3] = true; // 지능
+		bVisibles[0] = true; // strength
+		bVisibles[3] = true; // Intellect
 		break;
 	}
 	

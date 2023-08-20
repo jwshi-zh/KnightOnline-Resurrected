@@ -6,7 +6,7 @@
 #include "N3UIString.h"
 #include "N3UIEdit.h"
 
-//////////////////////////////////////////////////////////////////////
+// 
 
 class CUICreateClanName : public CN3UIBase  
 {

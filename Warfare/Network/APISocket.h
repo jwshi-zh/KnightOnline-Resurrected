@@ -6,7 +6,7 @@
 #include <string>
 
 #define WM_SOCKETMSG	(WM_USER+1)
-#define RECEIVE_BUF_SIZE	262144 // 최대 버퍼..
+#define RECEIVE_BUF_SIZE	262144 // max buffer..
 
 #ifdef _CRYPTION
 #include "JvCryption.h"
@@ -75,7 +75,7 @@ public:
 			if (sc) CopyMemory(pData+fc, m_pBuffer, sc);
 		}
 	}
-	int		GetOutData(BYTE *pData) //HeadPos, 변화
+	int		GetOutData(BYTE *pData) // HeadPos, change
 	{
 		const int len = GetValidCount();
 		int fc, sc;
@@ -104,8 +104,8 @@ public:
 		if (m_iTailPos==m_iBufSize) m_iTailPos = 0;
 	}
 	BYTE&	GetHeadData() const {return m_pBuffer[m_iHeadPos];}
-	//1 Byte Operation;
-	//false : 모든데이터 다빠짐, TRUE: 정상적으로 진행중
+	// 1 Byte Operation;
+	// false: all data is lost, TRUE: normally in progress
 	BOOL	HeadIncrease(int increasement=1)
 	{
 		__ASSERT(increasement<=GetValidCount(),"1");
@@ -126,10 +126,10 @@ public:
 		return count;
 	}
 protected:
-	//over flow 먼저 점검한 후 IndexOverFlow 점검
+	// Check over flow first, then check IndexOverFlow
 	BOOL	IsOverFlowCondition(int &len) {return (len >= m_iBufSize-GetValidCount()) ? TRUE: FALSE;}
 	BOOL	IsIndexOverFlow(int &len) {return (len+m_iTailPos>=m_iBufSize) ? TRUE:FALSE;}
-	void	BufferResize() //overflow condition 일때 size를 현재의 두배로 늘림
+	void	BufferResize() // Double the current size when overflow condition
 	{
 		const int prevBufSize = m_iBufSize;
 		m_iBufSize <<= 1;
@@ -161,9 +161,9 @@ public:
 
 #ifdef _CRYPTION
 protected:
-	static BOOL			s_bCryptionFlag;			//0 : 비암호화 , 1 : 암호화
-//	static _int64		s_PublicKey;
-//	static _int64		s_PrivateKey;				// = 0x1234567890123456;
+	static BOOL			s_bCryptionFlag;			// 0: non-encryption, 1: encryption
+	// static _int64		s_PublicKey;
+	// static _int64		s_PrivateKey;				// = 0x1234567890123456;
 	static CJvCryption	s_JvCrypt;
 	static WORD			s_wSendVal;
 	static WORD			s_wRcvVal;
@@ -228,8 +228,8 @@ protected:
 #ifdef _DEBUG
 	__SocketStatisics m_Statistics_Send_Sum[255];
 	__SocketStatisics m_Statistics_Recv_Sum[255];
-//	std::vector<__SocketStatisics> m_Statistics_Send[255];
-//	std::vector<__SocketStatisics> m_Statistics_Recv[255];
+	// std::vector<__SocketStatisics> m_Statistics_Send[255];
+	// std::vector<__SocketStatisics> m_Statistics_Recv[255];
 #endif
 
 
@@ -240,7 +240,7 @@ public:
 	int					m_iSendByteCount;
 	std::queue< DataPack* >	m_qRecvPkt;
 
-	BOOL	m_bEnableSend; // 보내기 가능..?
+	BOOL	m_bEnableSend; // Can you send..?
 public:
 	int		Connect(HWND hWnd, const char* pszIP, DWORD port);
 	void	Disconnect();
@@ -256,7 +256,7 @@ public:
 	void	Send(BYTE* pData, int nSize);
 
 
-	//패킷 만들기 함수
+	// Packet making function
 	static	void	MP_AddByte(BYTE *dest, int& iOffset, BYTE byte) { CopyMemory(dest+iOffset, &byte, 1); iOffset ++; }
 	static	void	MP_AddShort(BYTE *dest, int& iOffset, short value) { CopyMemory(dest+iOffset, &value, 2); iOffset += 2; }
 	static	void	MP_AddWord(BYTE *dest, int& offset, WORD value) { CopyMemory(dest+offset, &value, 2); offset += 2; }
@@ -272,7 +272,7 @@ public:
 
 	}
 
-	//패킷 Parsing 함수
+	// Packet Parsing Function
 	static	BYTE&		Parse_GetByte(const BYTE* buf, int &iOffset) { iOffset ++; return *(BYTE*)(buf+iOffset-1); }
 	static	short&		Parse_GetShort(const BYTE* buf, int& iOffset) { iOffset += 2; return *(short*)(buf+iOffset-2); }
 	static  WORD&		Parse_GetWord(const BYTE* buf, int &iOffset) { iOffset += 2; return *(PWORD)(buf+iOffset-2); }

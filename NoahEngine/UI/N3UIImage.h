@@ -6,7 +6,7 @@ class N3Texture;
 class CN3UIImage : public CN3UIBase  
 {
 #ifdef _N3TOOL
-friend class CPropertyView;	// 툴에서 각 변수들을 접근하기 위해서 
+	friend class CPropertyView;	// To access each variable in the tool
 #endif
 
 public:
@@ -18,40 +18,40 @@ public:
 	__FLOAT_RECT*			GetUVRect() {return &m_frcUVRect;}
 protected:
 	LPDIRECT3DVERTEXBUFFER9 m_pVB;			// vertex buffer
-	CN3Texture*				m_pTexRef;		// texture 참조 포인터 (s_TexMng에서 관리하므로 참조포인터이다.)
-	std::string				m_szTexFN;		// 텍스처 이름.. 따로 갖고 있는 이유는 툴에서 텍스처 부르기가 실패할 경우를 대비해서이다.
-	__FLOAT_RECT			m_frcUVRect;	// uv 좌표를 저장
-	D3DCOLOR				m_Color;		// 칼라(배경 이미지가 없을경우 사용된다.)
+	CN3Texture*				m_pTexRef;		// texture reference pointer (as it is managed by s_TexMng, it is a reference pointer)
+	std::string				m_szTexFN;		// The texture name.. The reason for having it separately is in case the tool fails to load the texture.
+	__FLOAT_RECT			m_frcUVRect;	// save the uv coordinates
+	D3DCOLOR				m_Color;		// Color (used when there is no background image)
 
-	float					m_fAnimFrame;	// 1초당 그려지는 이미지의 수
-	int						m_iAnimCount;	// Animate되는 이미지 수(Load할 때 child의 숫자로 파악)
-	int						m_fCurAnimFrame;	// 현재 그려질 animate frame index (소수는 버리고 사용하자)
-	CN3UIImage**			m_pAnimImagesRef;	// Animate 될 자식 이미지들 참조 포인터들
+	float					m_fAnimFrame;	// Number of images drawn per second
+	int						m_iAnimCount;	// The number of images to be animated (determined by the number of children when loading)
+	int						m_fCurAnimFrame;	// Animate frame index to be drawn currently (throw away the decimal and use it)
+	CN3UIImage**			m_pAnimImagesRef;	// Reference pointers to child images to be animated
 
-//	Operations
+// Operations
 public:
 	D3DCOLOR	GetColor() const { return m_Color; }
 
-	CN3Texture*		GetTex() const { return m_pTexRef; }	// Texture 포인터 얻기
-	void			SetTex(const std::string& szFN);		// Texture 지정
-	void			SetUVRect(float left, float top, float right, float bottom);	// image의 uv좌표 지정
-	void			SetColor(D3DCOLOR color);				// 칼라 지정
+	CN3Texture*		GetTex() const { return m_pTexRef; }	// Get Texture Pointer
+	void			SetTex(const std::string& szFN);		// Specify Texture
+	void			SetUVRect(float left, float top, float right, float bottom);	// Designation of uv coordinates of image
+	void			SetColor(D3DCOLOR color);				// color designation
 
-	virtual void	SetRegion(const RECT& Rect);					// 영역 지정
+	virtual void	SetRegion(const RECT& Rect);					// zoning
 	virtual BOOL	MoveOffset(int iOffsetX, int iOffsetY);
 	virtual void	Release();								// Release
 	virtual void	Tick();									// Tick
-	virtual void	Render();								// 그리기
+	virtual void	Render();								// drawing
 	virtual void	RenderIconWrapper();
-	virtual void	Init(CN3UIBase* pParent);				// 초기화
+	virtual void	Init(CN3UIBase* pParent);				// reset
 	virtual bool	Load(HANDLE hFile);
 
 	virtual void	operator = (const CN3UIImage& other);
 
 protected:
-	bool			CreateVB();								// 4개의 vertex를 가진 vertex buffer 생성
-	virtual void	SetVB();								// vertex buffer 다시 세팅
-// tool에서 사용하는 함수들
+	bool			CreateVB();								// Create a vertex buffer with 4 vertices
+	virtual void	SetVB();								// Resetting the vertex buffer
+// Functions used by the tool
 #ifdef _N3TOOL
 public:
 	virtual bool	Save(HANDLE hFile);

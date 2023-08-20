@@ -16,11 +16,11 @@ public:
 	void			SetClickRect(const RECT& Rect) {m_rcClick = Rect;}
 	RECT			GetClickRect() const {return m_rcClick;}
 protected:
-	CN3UIImage*		m_ImageRef[NUM_BTN_STATE];	// 버튼의 각 상태별 image의 참조 포인터(참조인 이유는  children list로 관리하므로 참조만 한다.)
-	RECT			m_rcClick;					// click되는 영역
+	CN3UIImage*		m_ImageRef[NUM_BTN_STATE];	// Reference pointer of image for each state of button
+	RECT			m_rcClick;					// Area to be clicked
 
-	CN3SndObj*		m_pSnd_On;		// 버튼 위에 마우스가 올라가는 순간 내는 소리
-	CN3SndObj*		m_pSnd_Click;	// 버튼이 눌리는 순간 내는 소리
+	CN3SndObj*		m_pSnd_On;		// Sound made when the mouse hovers over a button
+	CN3SndObj*		m_pSnd_Click;	// Sound when a button is pressed
 
 // Operations
 public:
@@ -33,7 +33,7 @@ public:
 	virtual void	Render();
 
 #ifdef _N3TOOL
-// 툴에서 사용하기 위한 함수
+// Functions for use in tools
 public:
 	virtual void	operator = (const CN3UIButton& other);
 	virtual bool	Save(HANDLE hFile);

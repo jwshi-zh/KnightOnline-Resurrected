@@ -28,17 +28,17 @@ bool CUITradeList::Load(HANDLE hFile)
 {
 	if(CN3UIBase::Load(hFile)==false) return false;
 
-	m_pScrollbar = (CN3UIScrollBar*)GetChildByID("scroll");//	__ASSERT(m_pScrollbar, "NULL UI Component!!");
+	m_pScrollbar = (CN3UIScrollBar*)GetChildByID("scroll");// __ASSERT(m_pScrollbar, "NULL UI Component!!");
 
-	m_pStr_List[0] = (CN3UIString*)GetChildByID("string_list0");//	__ASSERT(m_pStr_List[0], "NULL UI Component!!");
-	m_pStr_List[1] = (CN3UIString*)GetChildByID("string_list1");//	__ASSERT(m_pStr_List[1], "NULL UI Component!!");
-	m_pStr_List[2] = (CN3UIString*)GetChildByID("string_list2");//	__ASSERT(m_pStr_List[2], "NULL UI Component!!");
-	m_pStr_List[3] = (CN3UIString*)GetChildByID("string_list3");//	__ASSERT(m_pStr_List[3], "NULL UI Component!!");
-	m_pStr_List[4] = (CN3UIString*)GetChildByID("string_list4");//	__ASSERT(m_pStr_List[4], "NULL UI Component!!");
-	m_pStr_List[5] = (CN3UIString*)GetChildByID("string_list5");//	__ASSERT(m_pStr_List[5], "NULL UI Component!!");
-	m_pStr_List[6] = (CN3UIString*)GetChildByID("string_list6");//	__ASSERT(m_pStr_List[6], "NULL UI Component!!");
-	m_pStr_List[7] = (CN3UIString*)GetChildByID("string_list7");//	__ASSERT(m_pStr_List[7], "NULL UI Component!!");
-	m_pStr_List[8] = (CN3UIString*)GetChildByID("string_list8");//	__ASSERT(m_pStr_List[8], "NULL UI Component!!");
+	m_pStr_List[0] = (CN3UIString*)GetChildByID("string_list0");// __ASSERT(m_pStr_List[0], "NULL UI Component!!");
+	m_pStr_List[1] = (CN3UIString*)GetChildByID("string_list1");// __ASSERT(m_pStr_List[1], "NULL UI Component!!");
+	m_pStr_List[2] = (CN3UIString*)GetChildByID("string_list2");// __ASSERT(m_pStr_List[2], "NULL UI Component!!");
+	m_pStr_List[3] = (CN3UIString*)GetChildByID("string_list3");// __ASSERT(m_pStr_List[3], "NULL UI Component!!");
+	m_pStr_List[4] = (CN3UIString*)GetChildByID("string_list4");// __ASSERT(m_pStr_List[4], "NULL UI Component!!");
+	m_pStr_List[5] = (CN3UIString*)GetChildByID("string_list5");// __ASSERT(m_pStr_List[5], "NULL UI Component!!");
+	m_pStr_List[6] = (CN3UIString*)GetChildByID("string_list6");// __ASSERT(m_pStr_List[6], "NULL UI Component!!");
+	m_pStr_List[7] = (CN3UIString*)GetChildByID("string_list7");// __ASSERT(m_pStr_List[7], "NULL UI Component!!");
+	m_pStr_List[8] = (CN3UIString*)GetChildByID("string_list8");// __ASSERT(m_pStr_List[8], "NULL UI Component!!");
 
 	return true;
 }
@@ -53,7 +53,7 @@ bool CUITradeList::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 
 	else if (dwMsg == UIMSG_SCROLLBAR_POS)
 	{
-		// 스크롤바에 맞는 채팅 Line 설정
+		// Set chat line for scroll bar
 		const int iCurLinePos = m_pScrollbar->GetCurrentPos();
 		SetTopLine(iCurLinePos);
 	}
@@ -71,13 +71,13 @@ void CUITradeList::Open(int iIDTarget)
 	const __TABLE_PLAYER_LOOKS* pPlayer = nullptr;
 	const __TABLE_ITEM_BASIC* pItem = nullptr;
 
-	// 아이디 = 직업 코드*1000 + 001부터.. (직업 코드+1)*100 + 001까지..
+	// ID = Occupation code *1000 + 001 to.. (Occupation code + 1) * 100 + 001..
 	int i, iIDFirst, iIDIndexFirst, iIDIndexLast, iDivide, iTotalCount;
 	iIDFirst = iIDTarget*1000+1;
 	iIDIndexFirst = CGameBase::s_pTbl_Exchange_Quest->IDToIndex(iIDFirst);
 
 	if ( iIDIndexFirst == -1 ) 
-		return;		// 아무런 리스트도 가지고 있지 않다..
+		return;		// I don&#39;t have any lists...
 
 	iTotalCount = CGameBase::s_pTbl_Exchange_Quest->GetSize();
 	iIDIndexLast = 0;
@@ -101,7 +101,7 @@ void CUITradeList::Open(int iIDTarget)
 	
 	if (!iIDIndexLast) iIDIndexLast = iTotalCount;
 
-	// 메시지 박스 텍스트 표시..
+	// Show message box text..
 	char pszID[32];
 	for(auto i = iIDIndexFirst; i < iIDIndexFirst + 40; i++ )
 	{
@@ -139,9 +139,9 @@ void CUITradeList::Close()
 }
 
 void CUITradeList::SetTopLine(int iTopLine) const
-// 맨 윗줄을 지정해준다.
+// Specifies the top row.
 {
-	// 0 ~ 10 사이값.. 먼저 총 갯수를 센다..
+	// A value between 0 and 10.. First count the total number..
 	int i = 0, iTotalCount, iFirstIndex, iLastIndex;
 	for(; i < 40; i++)
 	{

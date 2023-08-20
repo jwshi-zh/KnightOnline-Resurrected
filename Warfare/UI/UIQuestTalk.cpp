@@ -95,5 +95,5 @@ void CUIQuestTalk::SetVisible(bool bVisible)
 	if(bVisible)
 		CGameProcedure::s_pUIMgr->SetVisibleFocusedUI(this);
 	else
-		CGameProcedure::s_pUIMgr->ReFocusUI();//this_ui
+		CGameProcedure::s_pUIMgr->ReFocusUI();// this_ui
 }

@@ -17,11 +17,11 @@ protected:
 
 // Operations
 public:
-//	void			ReceiveReplyMsg(ReplyMsg& RPMsg);
+// void			ReceiveReplyMsg(ReplyMsg& RPMsg);
 	virtual void	Release();
 	void			Render();
 	void			Tick();
 protected:
-//	void			AddMachine(ReplyMsg& RPMsg);
+// void			AddMachine(ReplyMsg& RPMsg);
 	CMachineBase*	GetMachine(const std::string& szID);
 };

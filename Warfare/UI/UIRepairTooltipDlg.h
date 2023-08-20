@@ -8,12 +8,10 @@
 
 #define MAX_REPAIR_TOOLTIP_COUNT 4
 
-//////////////////////////////////////////////////////////////////////
-
 class CUIRepairTooltipDlg      : public CN3UIBase  
 {
-	CN3UIString*		m_pStr[MAX_REPAIR_TOOLTIP_COUNT];				// 스트륑.. ^^
-	D3DCOLOR			m_pStrColor[MAX_REPAIR_TOOLTIP_COUNT];		// 스트륑 색깔.. ^^
+	CN3UIString*		m_pStr[MAX_REPAIR_TOOLTIP_COUNT];				// Stroop.. ^^
+	D3DCOLOR			m_pStrColor[MAX_REPAIR_TOOLTIP_COUNT];		// Stroop color.. ^^
 	int					m_iPosXBack, m_iPosYBack;
 	__IconItemSkill*	m_spItemBack;
 

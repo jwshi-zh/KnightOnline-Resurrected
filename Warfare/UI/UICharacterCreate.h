@@ -9,7 +9,7 @@ class CN3UIImage;
 
 const int MAX_RACE_SELECT = 4;
 const int MAX_CLASS_SELECT = 4;
-const int MAX_STATS = 5; // 힘, 체력, 민첩, 지능, 마력
+const int MAX_STATS = 5; // strength, stamina, agility, intelligence, mana
 
 class CUICharacterCreate : public CN3UIBase
 {

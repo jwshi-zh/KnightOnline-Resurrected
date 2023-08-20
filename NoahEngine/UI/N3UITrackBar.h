@@ -12,20 +12,19 @@ public:
 public:
 	enum eIMAGE_TYPE{IMAGETYPE_BKGND=0, IMAGETYPE_THUMB, NUM_IMAGETYPE};
 protected:
-	CN3UIImage*		m_pBkGndImageRef;		// 배경 이미지 referance (메모리 할당은 children list로 관리)
-	CN3UIImage*		m_pThumbImageRef;		// 가운데 드레그 하여 옮길 수 있는 이미지 referance
+	CN3UIImage*		m_pBkGndImageRef;		// Background image referance (memory allocation managed by children list)
+	CN3UIImage*		m_pThumbImageRef;		// Image referance that can be moved by dragging in the middle
 
-	int				m_iMaxPos;									// 최대
-	int				m_iMinPos;									// 최소
-	int				m_iCurPos;									// 현재 값
-	int				m_iPageSize;								// page단위 이동할때 이동값
+	int				m_iMaxPos;									// maximum
+	int				m_iMinPos;									// Ieast
+	int				m_iCurPos;									// current value
+	int				m_iPageSize;								// Movement value when moving by page unit
 // Operations
 public:
 	virtual void	Release();
 	virtual bool	Load(HANDLE hFile);
 	virtual void	SetRegion(const RECT& Rect);
 	virtual DWORD	MouseProc(DWORD dwFlags, const POINT& ptCur, const POINT& ptOld);
-//	virtual void	Render();
 
 	void			SetRange(int iMin, int iMax);
 	void			SetRangeMax(int iMax) {SetRange(m_iMinPos, iMax);}
@@ -37,15 +36,15 @@ public:
 	int				GetMaxPos() const {return m_iMaxPos;}
 	int				GetMinPos() const {return m_iMinPos;}
 protected:
-	void			UpdateThumbPos() const;							// m_iCurPos를 계산하여 Thumb위치 다시 계산하여 바꾸기
-	void			UpDownThumbPos(int iDiff);					// Thumb위치를 아래 위로 iDiff pixel만큼 움직인 후 m_iCurPos 갱신하기
+	void			UpdateThumbPos() const;							// Calculate m_iCurPos to recompute and replace Thumb position
+	void			UpDownThumbPos(int iDiff);					// Update m_iCurPos after moving the Thumb position up and down by iDiff pixels
 
 #ifdef _N3TOOL
-// tool에서 쓰이는 함수
+// Functions used by tools
 public:
 	virtual void	operator = (const CN3UITrackBar& other);
-	void			CreateImages();			// 이미지 생성
-	void			DeleteBkImage();		// 배경이미지 삭제
+	void			CreateImages();			// create image
+	void			DeleteBkImage();		// Delete background image
 	CN3UIImage*		GetBkGndImgRef() const {return m_pBkGndImageRef;}
 	CN3UIImage*		GetThumbImgRef() const {return m_pThumbImageRef;}
 #endif

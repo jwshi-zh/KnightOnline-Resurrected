@@ -197,7 +197,7 @@ bool CUIClassChange::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 					break;
 			}
 
-			CGameProcedure::s_pProcMain->m_pUIVar->UpdateAllStates(pInfoBase, pInfoExt); // 상태창 수치를 모두 적용
+			CGameProcedure::s_pProcMain->m_pUIVar->UpdateAllStates(pInfoBase, pInfoExt); // Apply all status window values
 
 			BYTE byBuff[4];
 			int iOffset = 0;
@@ -208,7 +208,7 @@ bool CUIClassChange::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 
 			CGameProcedure::s_pProcMain->m_pUISkillTreeDlg->InitIconUpdate();
 
-			// 전직하는 순간..  핫키 정보를 모두 없앤다..
+			// The moment you change jobs.. all hotkey information is deleted..
 			CGameProcedure::s_pProcMain->m_pUIHotKeyDlg->ClassChangeHotkeyFlush();
 			Close();
 		}
@@ -237,7 +237,7 @@ void CUIClassChange::RestorePrevClass() const
 	pInfoBase->eClass = m_eClass;
 	CGameProcedure::s_pProcMain->m_pUISkillTreeDlg->InitIconUpdate();
 
-	CGameProcedure::s_pProcMain->m_pUIVar->UpdateAllStates(pInfoBase, pInfoExt); // 상태창 수치를 모두 적용
+	CGameProcedure::s_pProcMain->m_pUIVar->UpdateAllStates(pInfoBase, pInfoExt); // Apply all status window values
 }
 
 void CUIClassChange::ChangeToWarningState()
@@ -271,11 +271,11 @@ void CUIClassChange::ChangeToNormalState()
 }
 
 
-//this_ui_add_start
+// this_ui_add_start
 void CUIClassChange::SetVisibleWithNoSound(bool bVisible, bool bWork, bool bReFocus)
 {
 	CN3UIBase::SetVisibleWithNoSound(bVisible, bWork, bReFocus);
 
 	m_eClassChangeState	= UISTATE_NORMAL;
 }
-//this_ui_add_end
+// this_ui_add_end

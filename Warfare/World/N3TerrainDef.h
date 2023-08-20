@@ -3,17 +3,17 @@
 #include <list>
 #include <map>
 
-const int PATCH_TILE_SIZE = 8;		//	패치 하나에 타일이 8x8개 들어간다.
-const int TILE_SIZE = 4;			//	타일하나당 길이 4m
-const int MAX_LOD_LEVEL = 10;		//	LOD수준이 가장 높은 단계 가장 Detail...
-const int MIN_LOD_LEVEL = 0;		//	LOD수준이 가장 낮은 단계 가장 Rough...
-const int MAX_PATCH_LEVEL = 3;		//	2 ^ 3 = 8.
-const int PATCH_PIXEL_SIZE = 32;	//	패치하나에 들어가는 픽셀수..
-const int UNITUV = 32;				//	컬러맵 텍스쳐 한장에 들어가는 타일수..
-const int LIGHTMAP_TEX_SIZE = 16;	//	타일 하나당 들어가는 라이트맵 텍스쳐 크기.
-const int TILE_PIXEL_SIZE = 128;	//	타일하나의 실제 픽셀 사이즈.
-const int COLORMAPTEX_SIZE = 128;	//	컬러맵 텍스쳐의 픽셀크기..128x128
-const int DISTANCE_TABLE_SIZE = 64; //	셀단위의 거리 테이블 크기(64 x 64)..
+const int PATCH_TILE_SIZE = 8;		// Each patch contains 8x8 tiles.
+const int TILE_SIZE = 4;			// 4m long per tile
+const int MAX_LOD_LEVEL = 10;		// Level with the highest LOD level Most Detail...
+const int MIN_LOD_LEVEL = 0;		// The lowest LOD level, the roughest...
+const int MAX_PATCH_LEVEL = 3;		// 2 ^ 3 = 8.
+const int PATCH_PIXEL_SIZE = 32;	// The number of pixels in one patch.
+const int UNITUV = 32;				// The number of tiles that fit into one colormap texture.
+const int LIGHTMAP_TEX_SIZE = 16;	// Lightmap texture size per tile.
+const int TILE_PIXEL_SIZE = 128;	// The actual pixel size of a tile.
+const int COLORMAPTEX_SIZE = 128;	// Pixel size of colormap texture..128x128
+const int DISTANCE_TABLE_SIZE = 64; // Distance table size in cells (64 x 64)..
 const int MAX_GRASS	= 8;
 const int MAX_TERRAIN_SOUND_EFFECT = 4;
 
@@ -23,14 +23,14 @@ enum { DIR_LT = 0, DIR_CT = 1, DIR_RT = 2,
 		DIR_WARP = 9 }; 
 
 // Structure Definitions..
-typedef struct __MapData			// 맵데이터...
+typedef struct __MapData			// map data...
 {
-	float	fHeight;				//타일텍스쳐가 꽉차는지 아닌지..
-	DWORD	bIsTileFull	: 1;		//지형의 높이값..
-	DWORD	Tex1Dir		: 5;		//첫번째 타일 텍스쳐 찍는 방향.
-	DWORD	Tex2Dir		: 5;		//두번째 타일 텍스쳐 찍는 방향.
-	DWORD	Tex1Idx		: 10;		//첫번째 타일 텍스쳐의 인덱스.
-	DWORD	Tex2Idx		: 10;		//두번째 타일 텍스쳐의 인덱스.
+	float	fHeight;				// Whether the tile texture is full or not..
+	DWORD	bIsTileFull	: 1;		// The height of the terrain...
+	DWORD	Tex1Dir		: 5;		// Direction for taking the first tile texture.
+	DWORD	Tex2Dir		: 5;		// The direction to take the second tile texture.
+	DWORD	Tex1Idx		: 10;		// Index of the first tile texture.
+	DWORD	Tex2Idx		: 10;		// Index of the second tile texture.
 	
 	__MapData()
 	{

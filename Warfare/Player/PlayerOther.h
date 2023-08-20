@@ -7,7 +7,7 @@ class CPlayerOther : public CPlayerNPC
 {
 	friend class CPlayerOtherMgr;
 public:
-	__InfoPlayerOther	m_InfoExt;					// 캐릭터 정보 확장..
+	__InfoPlayerOther	m_InfoExt;					// Expansion of character information..
 	bool				m_bSit;
 
 public:

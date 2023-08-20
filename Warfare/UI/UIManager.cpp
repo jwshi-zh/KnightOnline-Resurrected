@@ -19,10 +19,10 @@ CUIManager::__RenderStateForUI CUIManager::s_sRSFU; // RenderStateForUI
 CUIManager::CUIManager()
 {
 	m_dwMouseFlagsCur = 0;
-	m_bEnableOperation = true;					// UI 조작이 가능한 상태인가?
+	m_bEnableOperation = true;					// Is UI manipulation possible?
 	m_pUIFocused = nullptr;
 
-	m_bDoneSomething = false;					// UI 에서 조작을 했다...
+	m_bDoneSomething = false;					// I did the manipulation in the UI...
 }
 
 CUIManager::~CUIManager()
@@ -39,13 +39,13 @@ DWORD CUIManager::MouseProc(DWORD dwFlags, const POINT& ptCur, const POINT& ptOl
 	m_dwMouseFlagsCur = UI_MOUSEPROC_NONE;
 	if (!m_bVisible || !m_bEnableOperation) return m_dwMouseFlagsCur;
 
-	if (s_pTooltipCtrl)	s_pTooltipCtrl->MouseProc(dwFlags, ptCur, ptOld);	// 툴팁에게 마우스 메세지 전달.
+	if (s_pTooltipCtrl)	s_pTooltipCtrl->MouseProc(dwFlags, ptCur, ptOld);	// Send mouse messages to tooltips.
 
-	// child에게 메세지 전달
+	// Send message to child
 	for(auto itor = m_Children.begin(); m_Children.end() != itor; )
 	{
 		CN3UIBase* pChild = (*itor);
-		// 상거래 중이면 아이콘 매니저 윈도우만 작동..
+		// When in commerce, only the icon manager window works.
 		if ( CGameProcedure::s_pProcMain && CGameProcedure::s_pProcMain->m_pUITransactionDlg && 
 			(CGameProcedure::s_pProcMain->m_pUITransactionDlg->IsVisible()))// && (pChild->UIType() != UI_TYPE_ICON_MANAGER) )
 		{	
@@ -55,7 +55,7 @@ DWORD CUIManager::MouseProc(DWORD dwFlags, const POINT& ptCur, const POINT& ptOl
 					{	++itor; continue;	}
 			}
 		}
-		// 보관함에 보관중이면 아이콘 매니저 윈도우만 작동..
+		// If it is stored in the library, only the icon manager window works.
 		if ( CGameProcedure::s_pProcMain && CGameProcedure::s_pProcMain->m_pUIWareHouseDlg && 
 			(CGameProcedure::s_pProcMain->m_pUIWareHouseDlg->IsVisible()))// && (pChild->UIType() != UI_TYPE_ICON_MANAGER) )
 		{	
@@ -65,7 +65,7 @@ DWORD CUIManager::MouseProc(DWORD dwFlags, const POINT& ptCur, const POINT& ptOl
 					{	++itor; continue;	}
 			}
 		}
-		// 개인간 거래중이면 아이콘 매니저 윈도우만 작동.. 돈 액수나 화살 갯수등을 입력하는 중이면.. 입력 윈도우만 작동..
+		// When trading between individuals, only the icon manager window works.. When inputting the amount of money or the number of arrows.. Only the input window works.
 		if ( CGameProcedure::s_pProcMain && CGameProcedure::s_pProcMain->m_pSubProcPerTrade &&
 			(CGameProcedure::s_pProcMain->m_pSubProcPerTrade->m_ePerTradeState != PER_TRADE_STATE_NONE) )
 		{	
@@ -86,20 +86,20 @@ DWORD CUIManager::MouseProc(DWORD dwFlags, const POINT& ptCur, const POINT& ptOl
 		{
 			const DWORD dwRet = pChild->m_pChildUI->MouseProc(dwFlags, ptCur, ptOld);
 			if (UI_MOUSEPROC_DONESOMETHING & dwRet)
-			{	// 이경우에는 먼가 포커스를 받은 경우이다.
+			{	// In this case, it is a case where the distance is focused.
 				pChild->MouseProc(0, ptCur, ptOld);
 				m_dwMouseFlagsCur |= (UI_MOUSEPROC_DONESOMETHING|UI_MOUSEPROC_CHILDDONESOMETHING);
 
-				SetFocusedUI(pChild);//this_ui
+				SetFocusedUI(pChild);// this_ui
 
 				return m_dwMouseFlagsCur;
 			}
 			else if ( (	UI_MOUSE_LBCLICK & dwFlags) && (UI_MOUSEPROC_INREGION & dwRet) )
-			{	// 영역 안을 클릭 했을때 먼가 일을 했다고 하고 리턴해버린다.
+			{	// When you click inside the area, it says that the remote has worked and returns.
 				pChild->MouseProc(0, ptCur, ptOld);
 				m_dwMouseFlagsCur |= (UI_MOUSEPROC_DIALOGFOCUS);
 				
-				SetFocusedUI(pChild);//this_ui
+				SetFocusedUI(pChild);// this_ui
 
 				return m_dwMouseFlagsCur;
 			}
@@ -107,33 +107,33 @@ DWORD CUIManager::MouseProc(DWORD dwFlags, const POINT& ptCur, const POINT& ptOl
 
 		const DWORD dwChildRet = pChild->MouseProc(dwFlags, ptCur, ptOld);
 		if (UI_MOUSEPROC_DONESOMETHING & dwChildRet)
-		{	// 이경우에는 먼가 포커스를 받은 경우이다.
+		{	// In this case, it is the case where the distance is focused.
 			m_dwMouseFlagsCur |= (UI_MOUSEPROC_DONESOMETHING|UI_MOUSEPROC_CHILDDONESOMETHING);
 
-			SetFocusedUI(pChild);//this_ui
+			SetFocusedUI(pChild);// this_ui
 
 			return m_dwMouseFlagsCur;
 		}
 		else if ( (	UI_MOUSE_LBCLICK & dwFlags) && (UI_MOUSEPROC_INREGION & dwChildRet) )
-		{	// 영역 안을 클릭 했을때 먼가 일을 했다고 하고 리턴해버린다.
+		{	// When you click inside the area, it says that the remote has worked and returns.
 			m_dwMouseFlagsCur |= (UI_MOUSEPROC_DIALOGFOCUS);
 			
-			SetFocusedUI(pChild);//this_ui
+			SetFocusedUI(pChild);// this_ui
 
 			return m_dwMouseFlagsCur;
 		}
 		else ++itor;
-		//else if (UI_MOUSE_LBCLICKED|UI_MOUSE_MBCLICK|UI_MOUSE_MBCLICKED|UI_MOUSE_RBCLICK|UI_MOUSE_RBCLICKED)
+		// else if (UI_MOUSE_LBCLICKED|UI_MOUSE_MBCLICK|UI_MOUSE_MBCLICKED|UI_MOUSE_RBCLICK|UI_MOUSE_RBCLICKED)
 
 		m_dwMouseFlagsCur |= dwChildRet;
 	}
 
-//	if(UI_MOUSE_LBCLICK & dwFlags) m_pUIFocused = NULL; // 포커스 받은 UI 기록.. 아무것도 안하면.. 널이다..
+	// if(UI_MOUSE_LBCLICK &amp; dwFlags) m_pUIFocused = NULL; // Record the focused UI.. If nothing is done.. null..
 
 	return m_dwMouseFlagsCur;
 }
 
-void CUIManager::ReorderChildList()	// 다이알로그 순서 재배치
+void CUIManager::ReorderChildList()	// Rearrange dialog order
 {
 	const int iChildCount = m_Children.size();
 	if (iChildCount<=0) return;
@@ -145,7 +145,7 @@ void CUIManager::ReorderChildList()	// 다이알로그 순서 재배치
 		CN3UIBase* pChild = (*itor);
 		if (pChild->GetStyle() & UISTYLE_ALWAYSTOP)
 		{
-			itor = m_Children.erase(itor);			// 우선 리스트에서 지우고
+			itor = m_Children.erase(itor);			// First off the list
 			ppBuffer[iAlwaysTopChildCount++] = pChild;
 		}
 		else ++itor;
@@ -153,7 +153,7 @@ void CUIManager::ReorderChildList()	// 다이알로그 순서 재배치
 	int i;
 	for (i=iAlwaysTopChildCount-1; i>=0; --i)
 	{
-		m_Children.push_front(ppBuffer[i]);	// 맨앞에 넣는다. 그리는 순서를 맨 나중에 그리도록 하고 메세지를 맨 먼저 받게 하려고
+		m_Children.push_front(ppBuffer[i]);	// put in front I want to make the order of drawing last and receive messages first.
 	}
 	delete [] ppBuffer;
 }
@@ -168,7 +168,7 @@ void CUIManager::Render()
 {
 	this->RenderStateSet();
 
-	CN3UIBase::Render();	// 자식들 render
+	CN3UIBase::Render();	// children render
 	if (s_pTooltipCtrl) s_pTooltipCtrl->Render();	// tooltip render
 
 	this->RenderStateRestore();
@@ -198,7 +198,7 @@ void CUIManager::RenderStateSet()
 	if (TRUE != s_sRSFU.dwAlphaBlend) s_lpD3DDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	if (D3DBLEND_SRCALPHA != s_sRSFU.dwSrcBlend) s_lpD3DDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	if (D3DBLEND_INVSRCALPHA != s_sRSFU.dwDestBlend) s_lpD3DDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-	if (FALSE != s_sRSFU.dwFog) s_lpD3DDev->SetRenderState(D3DRS_FOGENABLE   , FALSE);	// 2d도 fog를 먹는다 ㅡ.ㅡ;
+	if (FALSE != s_sRSFU.dwFog) s_lpD3DDev->SetRenderState(D3DRS_FOGENABLE   , FALSE);	// 2d also eats fog ㅡ.ㅡ;
 	if (D3DTEXF_POINT != s_sRSFU.dwMagFilter ) s_lpD3DDev->SetSamplerState(0, D3DSAMP_MAGFILTER,   D3DTEXF_POINT);
 	if (D3DTEXF_POINT != s_sRSFU.dwMinFilter ) s_lpD3DDev->SetSamplerState(0, D3DSAMP_MINFILTER,   D3DTEXF_POINT);
 	if (D3DTEXF_NONE != s_sRSFU.dwMipFilter ) s_lpD3DDev->SetSamplerState(0, D3DSAMP_MIPFILTER,   D3DTEXF_NONE);
@@ -227,16 +227,16 @@ bool CUIManager::BroadcastIconDropMsg(__IconItemSkill* spItem)
 	bool bFound = false;
 	const POINT ptCur = CGameProcedure::s_pLocalInput->MouseGetPos();
 
-	// 윈도우들을 돌아 다니면서 검사..
+	// Check the windows...
 	for(auto itor = m_Children.begin(); m_Children.end() != itor; ++itor)
 	{
 		if ( bFound ) break;
 		CN3UIBase* pChild = (*itor);
 		if ( pChild->UIType() == UI_TYPE_ICON_MANAGER )
 		{
-			// 해당 윈도우가 보이고(활성화 되어 있고), 그 윈도우 영역 안에 있으면..
+			// If the window is visible (activated) and is within the window area...
 			if ( ((CN3UIWndBase* )pChild)->IsVisible() && ((CN3UIWndBase* )pChild)->IsIn(ptCur.x, ptCur.y) )
-				// 해당 윈도우에 아이콘 드롭 메시지 함수를 호출..
+				// Call the icon drop message function on the window.
 				if ( ((CN3UIWndBase* )pChild)->ReceiveIconDrop(spItem, ptCur) )
 					return true;
 				else
@@ -244,7 +244,7 @@ bool CUIManager::BroadcastIconDropMsg(__IconItemSkill* spItem)
 		}
 	}
 
-	// 어느 누구의 영역에도 속하지 않으면.. 해당 아이콘을 가진 윈도우에게 Cancel 메시지를 날려 준다..
+	// If it does not belong to anyone&#39;s area, a Cancel message is sent to the window with the corresponding icon.
 	if ( !bFound )
 	{
 		switch ( CN3UIWndBase::m_sSelectedIconInfo.UIWndSelect.UIWnd )
@@ -303,9 +303,9 @@ void CUIManager::SetFocusedUI(CN3UIBase* pUI)
 	}
 	if(it == itEnd) return;
 
-	it = m_Children.erase(it);			// 우선 리스트에서 지우고
-	m_Children.push_front(pUI);	// 맨앞에 넣는다. 그리는 순서를 맨 나중에 그리도록 하고 메세지를 맨 먼저 받게 하려고
-	ReorderChildList();	// child list 재정렬(항상 위에 뜨는 dialog 때문에 다시 정렬한다.)
+	it = m_Children.erase(it);			// First off the list
+	m_Children.push_front(pUI);	// put in front I want to make the order of drawing last and receive messages first.
+	ReorderChildList();	// Reorder the child list (reorder because of the dialog that always floats on top)
 
 	m_pUIFocused = this->GetTopUI(true);
 }
@@ -391,9 +391,9 @@ void CUIManager::SetVisibleFocusedUI(CN3UIBase *pUI)
 
 	if(!(dwUIStyle & UISTYLE_FOCUS_UNABLE))
 	{
-		it = m_Children.erase(it);			// 우선 리스트에서 지우고
-		m_Children.push_front(pUI);	// 맨앞에 넣는다. 그리는 순서를 맨 나중에 그리도록 하고 메세지를 맨 먼저 받게 하려고
-		ReorderChildList();	// child list 재정렬(항상 위에 뜨는 dialog 때문에 다시 정렬한다.)
+		it = m_Children.erase(it);			// First off the list
+		m_Children.push_front(pUI);	// put in front I want to make the order of drawing last and receive messages first.
+		ReorderChildList();	// Reorder the child list (reorder because of the dialog that always floats on top)
 	}
 
 	m_pUIFocused = this->GetEnableFocusTopUI(true);
@@ -411,9 +411,9 @@ CN3UIBase* CUIManager::GetEnableFocusTopUI(bool bVisible)
 	for(; it != itEnd; it++)
 	{
 		CN3UIBase* pUI = *(it);
-		if(pUI && pUI->IsVisible() &&	//보이고
-			!(pUI->GetStyle() & UISTYLE_FOCUS_UNABLE) && //포커스가 가능하고
-			!(pUI->GetStyle() & UISTYLE_HIDE_UNABLE)) //닫힐수 있는
+		if(pUI && pUI->IsVisible() &&	// visible
+			!(pUI->GetStyle() & UISTYLE_FOCUS_UNABLE) && // can focus
+			!(pUI->GetStyle() & UISTYLE_HIDE_UNABLE)) // can be closed
 			return pUI;
 	}
 	

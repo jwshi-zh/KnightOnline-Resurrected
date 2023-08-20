@@ -15,7 +15,7 @@ protected:
 	CN3UITrackBar*	m_pTrackBarRef;
 	CN3UIButton*	m_pBtnRef[NUM_BTN_TYPE];
 
-	int				m_iLineSize;		// 버튼을 눌렀을때 trackbar가 움직여지는 크기
+	int				m_iLineSize;		// How much the trackbar moves when a button is pressed
 
 // Operations
 public:
@@ -23,7 +23,7 @@ public:
 	virtual bool	Load(HANDLE hFile);
 	virtual void	SetRegion(const RECT& Rect);
 	virtual void	SetStyle(DWORD dwStyle);
-	virtual bool	ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg); // 메시지를 받는다.. 보낸놈, msg
+	virtual bool	ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg); // Receives a message. Sender, msg
 
 	void			SetRange(int iMin, int iMax) const {if(m_pTrackBarRef) m_pTrackBarRef->SetRange(iMin,iMax);}
 	void			SetRangeMax(int iMax) {if(m_pTrackBarRef) m_pTrackBarRef->SetRangeMax(iMax);}
@@ -37,10 +37,10 @@ public:
 	int				GetMaxPos() const {if (m_pTrackBarRef) return m_pTrackBarRef->GetMaxPos(); return 0;}
 
 #ifdef _N3TOOL
-// tool에서 사용하는 함수들
+// Functions used by the tool
 public:
 	virtual void	operator = (const CN3UIScrollBar& other);
-	void			CreateTrackBarAndBtns();			// trackbar와 button 생성
+	void			CreateTrackBarAndBtns();			// Creating trackbars and buttons
 	CN3UITrackBar*	GetTrackBarRef() const {return m_pTrackBarRef;}
 	CN3UIButton*	GetBtnRef(eBTN_TYPE eBtnType) const {return m_pBtnRef[eBtnType];}
 #endif

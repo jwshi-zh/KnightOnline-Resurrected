@@ -22,14 +22,14 @@ bool CUIInn::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 {
 	if (dwMsg == UIMSG_BUTTON_CLICK)					
 	{
-		if(pSender->m_szID == "btn_warehouse")	//창고이용..
+		if(pSender->m_szID == "btn_warehouse")	// warehouse use...
 		{
 			MsgSend_OpenWareHouse();
 			SetVisible(false);
 			return true;
 		}
 
-		if(pSender->m_szID == "btn_makeclan")	//clan 생성..
+		if(pSender->m_szID == "btn_makeclan")	// Create a clan...
 		{
 			const __InfoPlayerBase* pInfo = &(CGameProcedure::s_pPlayer->m_InfoBase);
 			const __InfoPlayerMySelf* pInfoExt = &(CGameProcedure::s_pPlayer->m_InfoExt);
@@ -85,8 +85,8 @@ void CUIInn::Message(int iMessageID)
 
 void CUIInn::MsgSend_OpenWareHouse()
 {
-	BYTE byBuff[2];		// 패킷 버퍼..
-	int iOffset=0;		// 패킷 오프셋..
+	BYTE byBuff[2];		// Packet buffer...
+	int iOffset=0;		// Packet Offset...
 
 	CAPISocket::MP_AddByte(byBuff, iOffset, N3_WAREHOUSE);		
 	CAPISocket::MP_AddByte(byBuff, iOffset, N3_SP_WARE_OPEN);
@@ -99,7 +99,7 @@ void CUIInn::SetVisible(bool bVisible)
 	if(bVisible)
 		CGameProcedure::s_pUIMgr->SetVisibleFocusedUI(this);
 	else
-		CGameProcedure::s_pUIMgr->ReFocusUI();//this_ui
+		CGameProcedure::s_pUIMgr->ReFocusUI();// this_ui
 }
 
 bool CUIInn::OnKeyPress(int iChar)

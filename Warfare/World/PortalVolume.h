@@ -11,21 +11,21 @@ enum e_ExtBool	{ TYPE_UNKNOWN = 0, TYPE_TRUE };
 class CPvsMgr;
 class CPortalVolume;
 
-//////////////////////////////////////////////////////////////////
+// 
 typedef struct tagShapeInfo	: public CN3Transform	
 {
 	int									m_iID;
 	std::string						m_strShapeFile;
 
-	int									m_iBelong;				// 소속 - 0:소속 없음 1:엘모라드 2:카루스 3:?? ....
+	int									m_iBelong;				// Affiliation - 0: No Affiliation 1: Elmorad 2: Carus 3:?? ....
 	int									m_iEventID;				 // Event ID
 	int									m_iEventType;		  // Event Type
-	int									m_iNPC_ID;			   // NPC 로 쓰는 오브젝트일 경우 NPC ID
-	int									m_iNPC_Status;	    // NPC 로 쓰는 오브젝트일 경우 Default Status
+	int									m_iNPC_ID;			   // NPC ID for objects used as NPCs
+	int									m_iNPC_Status;	    // Default Status for objects used as NPCs
 
 	CN3Shape*					m_pShape;
 
-	//..
+	// ..
 	tagShapeInfo()
 	{
 		m_iID = -1;
@@ -62,7 +62,7 @@ typedef struct tagVisPartIndex {
 typedef struct tagShapePart
 {
 	int									m_iID;
-	std::list<__VPI>			 m_viIndex;									// Visible Index List..				
+	std::list<__VPI>			 m_viIndex;									// Visible Index List..
 
 	tagShapePart()
 	{
@@ -122,24 +122,24 @@ class CPortalVolume	: public CN3Transform
 
 	e_ExtBool	m_eRenderType;
 
-	const float m_fOffs;				// 일반적인 옵셋..
-	const float m_fHeightOffs;		// 높이 옵셋..
-	const float m_fVolOffs;			  // Volume 법위 옵셋..
-	const float m_fPickIncline;		// 픽킹 기울기 체크..
-	const float m_fCameraOffs;		// 카메라 높이..
+	const float m_fOffs;				// Normal offset...
+	const float m_fHeightOffs;		// height offset.
+	const float m_fVolOffs;			  // Volume offset offset.
+	const float m_fPickIncline;		// Picking tilt check..
+	const float m_fCameraOffs;		// camera height.
 	
-	//////////////////////////////////////////////////////////////////////////////////////
+	// 
 	std::list<ShapeInfo* > m_plShapeInfoList;
-	std::list<IDAndPriority>	m_piVisibleIDList;						// 로드에 필요한 중간 데이터..		
+	std::list<IDAndPriority>	m_piVisibleIDList;						// Intermediate data required for loading..
 	std::list<ShapePart* > m_lpShapePartList;	
 	std::list<__ColIndex* >	m_lpShapeColPartList;
 	std::list<VisPortalPriority>	m_pVisiblePvsList;		
-	//////////////////////////////////////////////////////////////////////////////////////
+	// 
 
 	__Vector3					  m_pvVertex[8];
 	unsigned short			   m_pIndex[36];
 
-	int									m_iPriority;							//.. 100 정도로 초기화..
+	int									m_iPriority;							// .. initialized to 100..
 
 private:
 	void DeleteAllPvsObj();
@@ -150,7 +150,7 @@ private:
 	void RenderShape();
 	void RenderCollision();
 
-	////////////////////////////////////////////////////////////////
+	// 
 	bool CheckCollisionCameraWithTerrain(__Vector3& vEyeResult, const __Vector3& vAt, float fNP);
 	bool CheckCollisionCameraWithShape(__Vector3& vEyeResult, const __Vector3& vAt, float fNP);
 	bool GetHeightWithTerrain(float fx, float fz, float& fy);
@@ -159,12 +159,12 @@ private:
 	BOOL PickWideWithTerrain(int x, int y, __Vector3& vPick);
 	CN3Shape* PickWithShape(int iXScreen, int iYScreen, bool bMustHaveEvent, __Vector3* pvPick = nullptr);
 	CN3Shape* ShapeGetByIDWithShape(int iID);
-	bool CheckCollisionWithShape(	const __Vector3& vPos,				 // 충돌 위치
-														const __Vector3& vDir,				   // 방향 벡터
-														float fSpeedPerSec,					    // 초당 움직이는 속도
-														__Vector3* pvCol,						 // 충돌 지점
-														__Vector3* pvNormal,				  // 충돌한면의 법선벡터
-														__Vector3* pVec);						// 충돌한 면 의 폴리곤 __Vector3[3]
+	bool CheckCollisionWithShape(	const __Vector3& vPos,				 // crash location
+														const __Vector3& vDir,				   // direction vector
+														float fSpeedPerSec,					    // moving speed per second
+														__Vector3* pvCol,						 // crash point
+														__Vector3* pvNormal,				  // The normal vector of the colliding face
+														__Vector3* pVec);						// Polygon of collided face __Vector3[3]
 
 public:
 	CPortalVolume();

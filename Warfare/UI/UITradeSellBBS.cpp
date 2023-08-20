@@ -21,7 +21,7 @@
 
 CUITradeSellBBS::CUITradeSellBBS()
 {
-//	m_pList_Infos			= NULL;
+	// m_pList_Infos			= NULL;
 	m_pBtn_PageUp			= nullptr;
 	m_pBtn_PageDown			= nullptr;
 	m_pBtn_Refresh			= nullptr;
@@ -55,7 +55,7 @@ bool CUITradeSellBBS::Load(HANDLE hFile)
 {
 	if(CN3UIBase::Load(hFile)==false) return false;
 
-//	m_pList_Infos			= (CN3UIList*)(this->GetChildByID("List_Friends"));		__ASSERT(m_pList_Infos, "NULL UI Component!!!");
+	// m_pList_Infos			= (CN3UIList*)(this->GetChildByID("List_Friends"));		__ASSERT(m_pList_Infos, "NULL UI Component!!!");
 	m_pBtn_PageUp			= (CN3UIButton*)(this->GetChildByID("btn_page_up"));	__ASSERT(m_pBtn_PageUp, "NULL UI Component!!!");
 	m_pBtn_PageDown			= (CN3UIButton*)(this->GetChildByID("btn_page_down"));	__ASSERT(m_pBtn_PageDown, "NULL UI Component!!!");
 	m_pBtn_Refresh			= (CN3UIButton*)(this->GetChildByID("btn_refresh"));	__ASSERT(m_pBtn_Refresh, "NULL UI Component!!!");
@@ -79,7 +79,7 @@ bool CUITradeSellBBS::Load(HANDLE hFile)
 		m_pText[i] = (CN3UIString*)(this->GetChildByID(szBuf));
 	}
 
-	m_iCurPage = 0; // 현재 페이지..
+	m_iCurPage = 0; // Current page...
 
 	const __TABLE_UI_RESRC*	pTblUI	= nullptr;
 	pTblUI = CGameBase::s_pTbl_UI->Find(NATION_ELMORAD);
@@ -111,7 +111,7 @@ bool CUITradeSellBBS::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 		{
 			const float fTime = CN3Base::TimeGet();
 			if( fTime - m_fTime < 3.0f )
-				return true;//너무 자주 새데이터 요청을 못하게 함 3초에 한번정도로 제약을 둠.
+				return true;// Do not request new data too often. Limit it to once every 3 seconds.
 			m_fTime = fTime;
 
 			this->MsgSend_RefreshData(m_iCurPage);
@@ -202,13 +202,13 @@ void CUITradeSellBBS::MsgRecv_TradeBBS(DataPack *pDataPack, int &iOffset)
 
 			switch(bySubResult)
 			{
-			case 1://1: 일반적인 실패
+			case 1:// 1: Common failure
 				::_LoadStringFromResource(IDS_TRADE_BBS_FAIL1, szMsg);
 				break;
-			case 2://2: 돈이 없어서 실패
+			case 2:// 2: Failure due to lack of money
 				::_LoadStringFromResource(IDS_TRADE_BBS_FAIL2, szMsg);
 				break;
-			case 3://3: 항목이 없어서 실패
+			case 3:// 3: Failed due to missing item
 				::_LoadStringFromResource(IDS_TRADE_BBS_FAIL4, szMsg);
 				break;
 			}
@@ -234,20 +234,20 @@ void CUITradeSellBBS::MsgRecv_TradeBBS(DataPack *pDataPack, int &iOffset)
 
 			switch(bySubResult)
 			{
-			case 1://1: 일반적인 실패
+			case 1:// 1: Common failure
 				::_LoadStringFromResource(IDS_TRADE_BBS_FAIL5, szMsg);
 				break;
-			case 2://2: 돈이 없어서 실패
+			case 2:// 2: Failure due to lack of money
 				::_LoadStringFromResource(IDS_TRADE_BBS_FAIL2, szMsg);
 				break;
-			case 3://3: 항목이 없어서 실패
+			case 3:// 3: Failure due to missing item
 				::_LoadStringFromResource(IDS_TRADE_BBS_FAIL4, szMsg);
 				break;
 			}
 
 			CGameProcedure::s_pProcMain->MsgOutput(szMsg, 0xffff0000);
 		}
-		return; //실패했다면
+		return; // if you failed
 	}
 
 	if(bySubType == N3_SP_TYPE_BBS_OPEN)
@@ -295,8 +295,8 @@ void CUITradeSellBBS::MsgRecv_RefreshData(DataPack *pDataPack, int &iOffset)
 		if(iLen>0) CAPISocket::Parse_GetString(pDataPack->m_pData, iOffset, Info.szTitle, iLen);
 		iLen = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
 		if(iLen>0) CAPISocket::Parse_GetString(pDataPack->m_pData, iOffset, Info.szExplanation, iLen);
-		Info.iPrice = CAPISocket::Parse_GetDword(pDataPack->m_pData, iOffset);		//아이템에 제시한 가격
-		Info.sIndex = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);		//등록된 인덱스
+		Info.iPrice = CAPISocket::Parse_GetDword(pDataPack->m_pData, iOffset);		// price quoted for the item
+		Info.sIndex = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);		// registered index
 
 		if( Info.sID != -1 )
 			m_Datas.push_back(Info);
@@ -316,7 +316,7 @@ void CUITradeSellBBS::MsgRecv_RefreshData(DataPack *pDataPack, int &iOffset)
 
 void CUITradeSellBBS::RefreshPage()
 {
-	if(m_pString_Page) m_pString_Page->SetStringAsInt(m_iCurPage+1); // 페이지 표시..
+	if(m_pString_Page) m_pString_Page->SetStringAsInt(m_iCurPage+1); // Show page...
 
 	ResetContent();
 
@@ -334,7 +334,7 @@ void CUITradeSellBBS::RefreshPage()
 
 void CUITradeSellBBS::MsgSend_RefreshData(int iCurPage)
 {
-	if(m_bProcessing) return; //전에 보낸 패킷 응답이 없으면
+	if(m_bProcessing) return; // If there is no response to the packet sent before
 
 	BYTE byBuff[10];
 	int iOffset=0;
@@ -351,7 +351,7 @@ void CUITradeSellBBS::MsgSend_RefreshData(int iCurPage)
 
 void CUITradeSellBBS::MsgSend_Register()
 {
-	if(m_bProcessing) return; //전에 보낸 패킷 응답이 없으면
+	if(m_bProcessing) return; // If there is no response to the packet sent before
 	if(!CGameProcedure::s_pProcMain->m_pUITradeBBSEdit) return;
 	short sLen = 0;
 	std::string szTitle;
@@ -385,7 +385,7 @@ void CUITradeSellBBS::MsgSend_Register()
 
 void CUITradeSellBBS::MsgSend_RegisterCancel(short sIndex)
 {
-	if(m_bProcessing) return; //전에 보낸 패킷 응답이 없으면
+	if(m_bProcessing) return; // If there is no response to the packet sent before
 
 	BYTE byBuff[10];
 	int iOffset=0;
@@ -405,7 +405,7 @@ void CUITradeSellBBS::CallBackProc(int iID, DWORD dwFlag)
 
 	if(iID == CHILD_UI_SELL_MSG)
 	{
-		if(dwFlag == 1)//OK
+		if(dwFlag == 1)// OK
 		{
 			if(CGameProcedure::s_pProcMain->m_pUITradeBBSEdit)
 				CGameProcedure::s_pProcMain->m_pUITradeBBSEdit->ShowWindow(CHILD_UI_EXPLANATION_EDIT,this);
@@ -413,28 +413,28 @@ void CUITradeSellBBS::CallBackProc(int iID, DWORD dwFlag)
 	}
 	else if(iID == CHILD_UI_TRADE_MSG)
 	{
-		if(dwFlag == 1)//OK
+		if(dwFlag == 1)// OK
 		{
 			MsgSend_PerTrade();
 		}
 	}
 	else if(iID == CHILD_UI_EXPLANATION_EDIT)
 	{
-		if(dwFlag == 1)//OK
+		if(dwFlag == 1)// OK
 		{
 			MsgSend_Register();
 		}
-		else //CANCEL
+		else // CANCEL
 		{
 		}
 	}
 	else if(iID == CHILD_UI_EXPLANATION)
 	{
-		if(dwFlag == 1)//pageup
+		if(dwFlag == 1)// shut up
 		{
 			RefreshExplanation(true);
 		}
-		else if(dwFlag == 2)//pagedown
+		else if(dwFlag == 2)// pagedown
 		{
 			RefreshExplanation(false);
 		}
@@ -444,7 +444,7 @@ void CUITradeSellBBS::CallBackProc(int iID, DWORD dwFlag)
 
 void CUITradeSellBBS::OnButtonRegister()
 {
-	if(m_bProcessing) return; //전에 보낸 패킷 응답이 없으면
+	if(m_bProcessing) return; // If there is no response to the packet sent before
 
 	if(m_byBBSKind == N3_SP_TRADE_BBS_BUY)
 	{
@@ -476,7 +476,7 @@ void CUITradeSellBBS::OnButtonRegister()
 
 void CUITradeSellBBS::OnButtonRegisterCancel()
 {
-	if(m_bProcessing) return; //전에 보낸 패킷 응답이 없으면
+	if(m_bProcessing) return; // If there is no response to the packet sent before
 	if(m_iCurIndex <= -1) return;
 
 	auto it = m_Datas.begin();
@@ -489,17 +489,17 @@ void CUITradeSellBBS::OnButtonRegisterCancel()
 			__InfoTradeSellBBS ITSB = (*it);
 
 			if(0 == lstrcmpi(ITSB.szID.c_str(), CGameProcedure::s_pPlayer->m_InfoBase.szID.c_str()))
-			{//자기것만 등록해제하게..
+			{// Just unregister yourself.
 				MsgSend_RegisterCancel(ITSB.sIndex);
 				break;
 			}
 			else if(AUTHORITY_MANAGER == CGameProcedure::s_pProcMain->s_pPlayer->m_InfoBase.iAuthority)
-			{//운영자에게는 해제 권한을 준다...(도배나 욕설등의 게시물 삭제를 위해서...)
+			{// Give the operator permission to cancel... (For deleting posts such as wallpapering or abusive language...)
 				MsgSend_RegisterCancel(ITSB.sIndex);
 				break;
 			}
 		}
-	}//for(
+	}// for(
 }
 
 void CUITradeSellBBS::OnButtonWhisper()
@@ -515,7 +515,7 @@ void CUITradeSellBBS::OnButtonWhisper()
 		{
 			const __InfoTradeSellBBS ITSB = (*it);
 			if(0 != lstrcmpi(ITSB.szID.c_str(), CGameProcedure::s_pPlayer->m_InfoBase.szID.c_str()))
-			{//나 자신에게는 귓속말을 못하게 한다...
+			{// Don&#39;t let yourself whisper...
 				CGameProcedure::s_pProcMain->MsgSend_ChatSelectTarget(ITSB.szID);
 			}
 			break;
@@ -529,12 +529,12 @@ void CUITradeSellBBS::SetVisible(bool bVisible)
 	if(bVisible)
 		CGameProcedure::s_pUIMgr->SetVisibleFocusedUI(this);
 	else
-		CGameProcedure::s_pUIMgr->ReFocusUI();//this_ui
+		CGameProcedure::s_pUIMgr->ReFocusUI();// this_ui
 }
 
 void CUITradeSellBBS::OnButtonTrade()
 {
-	if(m_bProcessing) return; //전에 보낸 패킷 응답이 없으면
+	if(m_bProcessing) return; // If there is no response to the packet sent before
 
 	if(m_iCurIndex <= -1) return;
 
@@ -563,7 +563,7 @@ void CUITradeSellBBS::OnButtonTrade()
 				break;
 			}
 		}
-	}//for(
+	}// for(
 }
 
 void CUITradeSellBBS::RefreshExplanation(bool bPageUp)
@@ -594,7 +594,7 @@ void CUITradeSellBBS::RefreshExplanation(bool bPageUp)
 			m_UIExplanation.SetExplanation(m_iCurIndex,ITSB.szExplanation);
 			break;
 		}
-	}//for(
+	}// for(
 }
 
 void CUITradeSellBBS::OnListExplanation()
@@ -614,14 +614,14 @@ void CUITradeSellBBS::OnListExplanation()
 			m_UIExplanation.SetExplanation(m_iCurIndex,ITSB.szExplanation);
 			break;
 		}
-	}//for(
+	}// for(
 }
 
 void CUITradeSellBBS::MsgSend_PerTrade()
 {
-	if(m_bProcessing) return; //전에 보낸 패킷 응답이 없으면
+	if(m_bProcessing) return; // If there is no response to the packet sent before
 	if(0 == lstrcmpi(m_ITSB.szID.c_str(), CGameProcedure::s_pPlayer->m_InfoBase.szID.c_str()))
-		return; //자기 자신에게는 거래를 하지 못하게
+		return; // Don&#39;t do business with yourself
 
 	BYTE byBuff[10];
 

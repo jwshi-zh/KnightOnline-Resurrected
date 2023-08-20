@@ -11,9 +11,9 @@ public:
 // Attributes
 public:
 protected:
-	float			m_fHoverTime;	// 마우스가 한곳에서 정지하여 있는 시간(누적)
-	bool			m_bSetText;		// 이미 text가 설정되었는가?
-	POINT			m_ptCursor;		// 커서의 위치
+	float			m_fHoverTime;	// Time the mouse is stationary in one place (cumulative)
+	bool			m_bSetText;		// Is text already set?
+	POINT			m_ptCursor;		// cursor position
 
 // Operations
 public:

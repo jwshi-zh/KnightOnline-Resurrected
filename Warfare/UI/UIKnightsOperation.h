@@ -37,7 +37,7 @@ protected:
 	CN3UIEdit*		m_pEdit_KnightsName;
 
 public:
-	void	ChangeUIByDuty(enum e_KnightsDuty eDuty) const; // 권한에 따라 UI 변경..
+	void	ChangeUIByDuty(enum e_KnightsDuty eDuty) const; // UI change according to permission..
 	void	Open(enum e_KnightsDuty eDuty);
 	void	Close();
 
@@ -57,8 +57,8 @@ public:
 	void	MsgSend_KnightsCreate();
 	void	MsgSend_KnightsDestroy();
 	void	MsgSend_KnightsJoin();
-	void	MsgSend_KnightsWithdraw(); // 탈퇴. 
-	void	MsgSend_KnightsList(int iPage); // 페이지 단위로 기사단들 정보 요청.. 10 개씩 온다.
+	void	MsgSend_KnightsWithdraw(); // secession.
+	void	MsgSend_KnightsList(int iPage); // Knights request information by page.. Comes in 10 pieces.
 
 	void	EnableKnightsUIs(bool bEnable);
 	

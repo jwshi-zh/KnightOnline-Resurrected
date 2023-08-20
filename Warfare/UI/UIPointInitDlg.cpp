@@ -84,7 +84,7 @@ void CUIPointInitDlg::PushOkButton() const
 	CGameProcedure::s_pSocket->Send(byBuff, iOffset);
 }
 
-//this_ui_add_start
+// this_ui_add_start
 bool CUIPointInitDlg::OnKeyPress(int iKey)
 {
 	switch(iKey)
@@ -117,4 +117,4 @@ void CUIPointInitDlg::InitDlg(bool bAllpoint, int iGold)
 	}
 }
 
-//this_ui_add_end
+// this_ui_add_end

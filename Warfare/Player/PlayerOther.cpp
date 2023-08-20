@@ -20,7 +20,7 @@ CPlayerOther::~CPlayerOther()
 void CPlayerOther::Tick()
 {
 	if( m_bSit )
-		CPlayerBase::Tick();  // 회전, 지정된 에니메이션 Tick 및 색깔 지정 처리.. 등등..
+		CPlayerBase::Tick();  // Rotation, handling specified animation ticks and color assignments.. etc..
 	else
 		CPlayerNPC::Tick();
 }
@@ -33,14 +33,14 @@ bool CPlayerOther::Init(e_Race eRace, int iFace, int iHair, DWORD* pdwItemIDs, i
 	m_InfoExt.iFace = iFace;
 	m_InfoExt.iHair = iHair;
 
-	// 이제 패킷에 따라 캐릭터를 치장..(?) 시켜준다.. 아이템장착, 무기 장착등...
-	__TABLE_PLAYER_LOOKS* pLooks = s_pTbl_UPC_Looks->Find(eRace);	// 테이블에서 기본 스킨 ..
+	// Now, according to the packet, the character is decorated..(?).. Item mounting, weapon mounting, etc...
+	__TABLE_PLAYER_LOOKS* pLooks = s_pTbl_UPC_Looks->Find(eRace);	// Default skin from table..
 	if(nullptr == pLooks) 
 	{
 		CLogWriter::Write("CPlayerOther::Init() Basic Resource Pointer is NULL Race(%d)", eRace);
 		return false;
 	}
-	this->InitChr(pLooks); // 관절 세팅..
+	this->InitChr(pLooks); // Joint setting...
 
 	for(int i = 0; i < MAX_ITEM_SLOT_OPC; i++)
 	{
@@ -55,16 +55,16 @@ bool CPlayerOther::Init(e_Race eRace, int iFace, int iHair, DWORD* pdwItemIDs, i
 		{
 			if(0 == i) { ePart = PART_POS_UPPER;			szFN = pLooks->szPartFNs[0]; }
 			else if(1 == i) { ePart = PART_POS_LOWER;		szFN = pLooks->szPartFNs[1]; }
-//			else if(2 == i) { ePart = PART_POS_HAIR_HELMET; szFN = pLooks->szPartFNs[5]; }
+			// else if(2 == i) { ePart = PART_POS_HAIR_HELMET; szFN = pLooks-&gt;szPartFNs[5]; }
 			else if(3 == i) { ePart = PART_POS_HANDS;		szFN = pLooks->szPartFNs[3]; }
 			else if(4 == i) { ePart = PART_POS_FEET;		szFN = pLooks->szPartFNs[4]; }
-			else if(5 == i) { } // 망토
-//			else if(6 == i) { ePlug = PLUG_POS_RIGHTHAND; }
-//			else if(7 == i) { ePlug = PLUG_POS_LEFTHAND; }
+			else if(5 == i) { } // Cloak
+			// else if(6 == i) { ePlug = PLUG_POS_RIGHTHAND; }
+			// else if(7 == i) { ePlug = PLUG_POS_LEFTHAND; }
 		}
 		else
 		{
-			pItem = s_pTbl_Items_Basic->Find(pdwItemIDs[i]/1000*1000);	// 유저 플레이어 아이템 얻기..
+			pItem = s_pTbl_Items_Basic->Find(pdwItemIDs[i]/1000*1000);	// Getting user player items..
 			if(pItem && pItem->byExtIndex >= 0 && pItem->byExtIndex < MAX_ITEM_EXTENSION)
 				pItemExt = s_pTbl_Items_Exts[pItem->byExtIndex]->Find(pdwItemIDs[i]%1000);
 			if(nullptr == pItem || nullptr == pItemExt)
@@ -74,14 +74,14 @@ bool CPlayerOther::Init(e_Race eRace, int iFace, int iHair, DWORD* pdwItemIDs, i
 			}
 
 
-			e_ItemType eType = CGameProcedure::MakeResrcFileNameForUPC(pItem, &szFN, nullptr, ePart, ePlug); // 리소스 파일 이름을 만들고..
+			e_ItemType eType = CGameProcedure::MakeResrcFileNameForUPC(pItem, &szFN, nullptr, ePart, ePlug); // Create a resource file name and...
 
 			if(0 == i) { ePart = PART_POS_UPPER;			eSlot = ITEM_SLOT_UPPER; }
 			else if(1 == i) { ePart = PART_POS_LOWER;		eSlot = ITEM_SLOT_LOWER; }
 			else if(2 == i) { ePart = PART_POS_HAIR_HELMET; eSlot = ITEM_SLOT_HEAD; }
 			else if(3 == i) { ePart = PART_POS_HANDS;		eSlot = ITEM_SLOT_GLOVES; }
 			else if(4 == i) { ePart = PART_POS_FEET;		eSlot = ITEM_SLOT_SHOES; }
-			else if(5 == i) { } // 망토
+			else if(5 == i) { } // Cloak
 			else if(6 == i) { ePlug = PLUG_POS_RIGHTHAND;	eSlot = ITEM_SLOT_HAND_RIGHT; }
 			else if(7 == i) { ePlug = PLUG_POS_LEFTHAND;	eSlot = ITEM_SLOT_HAND_LEFT; }
 		}
@@ -90,7 +90,7 @@ bool CPlayerOther::Init(e_Race eRace, int iFace, int iHair, DWORD* pdwItemIDs, i
 		{
 			this->PartSet(ePart, szFN, pItem, pItemExt);
 		}
-		else if(PART_POS_HAIR_HELMET == ePart) // 머리카락 혹은 헬멧이면..
+		else if(PART_POS_HAIR_HELMET == ePart) // If it&#39;s hair or a helmet...
 		{
 			this->PartSet(ePart, szFN, pItem, pItemExt);
 		}
@@ -106,10 +106,10 @@ bool CPlayerOther::Init(e_Race eRace, int iFace, int iHair, DWORD* pdwItemIDs, i
 			this->DurabilitySet(eSlot, piItenDurabilities[i]);
 	}
 
-	// 얼굴은 따로하자..
+	// Let&#39;s separate the face.
 	this->InitFace();
 	const CN3CPart* pPartHairHelmet = this->Part(PART_POS_HAIR_HELMET);
-	if(pPartHairHelmet->FileName().empty()) // 헬멧에 해당되는게 없으면.. 머리카락 붙이기..
+	if(pPartHairHelmet->FileName().empty()) // If there is nothing applicable to the helmet... sticking hair...
 		this->InitHair();
 
 	return true;
@@ -118,7 +118,7 @@ bool CPlayerOther::Init(e_Race eRace, int iFace, int iHair, DWORD* pdwItemIDs, i
 void CPlayerOther::InitFace()
 {
 	const __TABLE_PLAYER_LOOKS* pItem = s_pTbl_UPC_Looks->Find(m_InfoBase.eRace);
-	if(pItem && !pItem->szPartFNs[PART_POS_FACE].empty()) // 아이템이 있고 얼굴 이름이 있으면..
+	if(pItem && !pItem->szPartFNs[PART_POS_FACE].empty()) // If there is an item and a face name...
 	{
 		char szBuff[256] = "", szDir[128] = "", szFName[128] = "", szExt[16] = "";
 		::_splitpath(pItem->szPartFNs[PART_POS_FACE].c_str(), nullptr, szDir, szFName, szExt);
@@ -130,7 +130,7 @@ void CPlayerOther::InitFace()
 void CPlayerOther::InitHair()
 {
 	const __TABLE_PLAYER_LOOKS* pItem = s_pTbl_UPC_Looks->Find(m_InfoBase.eRace);
-	if(pItem && !pItem->szPartFNs[PART_POS_HAIR_HELMET].empty()) // 아이템이 있고 얼굴 이름이 있으면..
+	if(pItem && !pItem->szPartFNs[PART_POS_HAIR_HELMET].empty()) // If there is an item and a face name...
 	{
 		char szBuff[256] = "", szDir[128] = "", szFName[128] = "", szExt[16] = "";
 		::_splitpath(pItem->szPartFNs[PART_POS_HAIR_HELMET].c_str(), nullptr, szDir, szFName, szExt);
@@ -168,7 +168,7 @@ void CPlayerOther::KnightsInfoSet(int iID, const std::string& szName, int iGrade
 			m_pClanFont->RestoreDeviceObjects();
 		}
 
-		m_pClanFont->SetText(m_InfoExt.szKnights.c_str(), D3DFONT_BOLD); // 폰트에 텍스트 지정.
+		m_pClanFont->SetText(m_InfoExt.szKnights.c_str(), D3DFONT_BOLD); // Assign text to fonts.
 		m_pClanFont->SetFontColor(KNIGHTS_FONT_COLOR);
 	}
 }
@@ -183,12 +183,12 @@ void CPlayerOther::SetSoundAndInitFont()
 		if(!m_pClanFont)
 		{
 			std::string szFontID; ::_LoadStringFromResource(IDS_FONT_ID, szFontID);
-			m_pClanFont = new CDFont(szFontID, 12); // 좀 작게 만든다..
+			m_pClanFont = new CDFont(szFontID, 12); // make it a bit smaller...
 			m_pClanFont->InitDeviceObjects( s_lpD3DDev );
 			m_pClanFont->RestoreDeviceObjects();
 		}
 
-		m_pClanFont->SetText(m_InfoExt.szKnights.c_str(), D3DFONT_BOLD); // 폰트에 텍스트 지정.
+		m_pClanFont->SetText(m_InfoExt.szKnights.c_str(), D3DFONT_BOLD); // Assign text to fonts.
 		m_pClanFont->SetFontColor(KNIGHTS_FONT_COLOR);
 	}
 }

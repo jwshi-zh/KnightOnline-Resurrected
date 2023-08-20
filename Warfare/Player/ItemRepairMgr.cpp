@@ -35,7 +35,7 @@ void CItemRepairMgr::Tick()
 
 	const POINT ptCur			= CGameProcedure::s_pLocalInput->MouseGetPos();
 
-	// 위치를 구해서 
+	// find a location
 	int i;	int iArm = 0x00; int iOrder = -1; __IconItemSkill* spItem = nullptr;
 	for (auto i = 0; i < ITEM_SLOT_COUNT; i++)
 	{
@@ -68,13 +68,13 @@ void CItemRepairMgr::Tick()
 		}
 	}
 
-	// 아이콘 위에 있으면..  
+	// If you are on the icon...
 	int iRepairGold = 0;
 	if (spItem)
 	{
 		iRepairGold = CalcRepairGold(spItem);
 
-		// 수리 가격 툴팁 표시..
+		// Show repair price tooltip..
 		if (pDlg)
 		{
 			pDlg->m_bBRender		= true;
@@ -84,23 +84,23 @@ void CItemRepairMgr::Tick()
 			pDlg->m_iBRequiredGold	= iRepairGold;
 		}
 
-		// 내가 가진 돈 보다 수리 비용이 비싸면.. 
+		// If the repair cost is more than the money I have...
 		if (iRepairGold > s_pPlayer->m_InfoExt.iGold)
 		{
-			// 빨갛게 표시.. 
+			// marked red...
 			if (pDlg)
 				pDlg->m_bBHaveEnough = false;
 		}
 		else
 		{
-			//아이면 원래 색깔..
+			// If child, the original color..
 			if (pDlg)
 				pDlg->m_bBHaveEnough = true;
 		}
 	}
 
-	const DWORD dwMouseFlags	= CGameProcedure::s_pLocalInput->MouseGetFlag();	// 마우스 버튼 플래그 - LocalInput.h 참조
-	if (dwMouseFlags & MOUSE_LBCLICK)		// 왼쪽 버튼을 누르면..
+	const DWORD dwMouseFlags	= CGameProcedure::s_pLocalInput->MouseGetFlag();	// Mouse button flags - see LocalInput.h
+	if (dwMouseFlags & MOUSE_LBCLICK)		// Press the left button...
 	{
 		m_pspItemBack	= spItem;
 		m_iArm			= iArm;
@@ -111,28 +111,28 @@ void CItemRepairMgr::Tick()
 		if (m_pspItemBack && spItem && (m_pspItemBack == spItem) )
 		{
 			// Send To Server..
-			if (iRepairGold > 0)										// 수리 가격이 있으면..
+			if (iRepairGold > 0)										// If there is a repair price...
 			{
-				// 내가 가진 돈 보다 수리 비용이 비싸면.. 
+				// If the repair cost is more than the money I have...
 				if (iRepairGold > s_pPlayer->m_InfoExt.iGold)
 				{
-					// 서버에게 보내지 않고 메시지 표시.. 
+					// Display message without sending to server..
 					std::string szMsg; ::_LoadStringFromResource(IDS_REPAIR_LACK_GOLD, szMsg);
 					CGameProcedure::s_pProcMain->MsgOutput(szMsg, 0xffff00ff);
 				}
 				else
 				{
-					BYTE byBuff[8];															// 패킷 버퍼..
-					int iOffset=0;															// 패킷 오프셋..
+					BYTE byBuff[8];															// Packet buffer...
+					int iOffset=0;															// Packet Offset...
 
-					CAPISocket::MP_AddByte(byBuff, iOffset,  N3_ITEM_REPAIR_REQUEST);			// 게임 스타트 패킷 커멘드..
-					CAPISocket::MP_AddByte(byBuff, iOffset,  iArm);							// 아이디 길이 패킷에 넣기..
-					CAPISocket::MP_AddByte(byBuff, iOffset,  iOrder);							// 아이디 길이 패킷에 넣기..
-					CAPISocket::MP_AddDword(byBuff, iOffset, spItem->pItemBasic->dwID+spItem->pItemExt->dwID);	// 아이디 문자열 패킷에 넣기..
+					CAPISocket::MP_AddByte(byBuff, iOffset,  N3_ITEM_REPAIR_REQUEST);			// Game start packet commands..
+					CAPISocket::MP_AddByte(byBuff, iOffset,  iArm);							// ID Length Packet..
+					CAPISocket::MP_AddByte(byBuff, iOffset,  iOrder);							// ID Length Packet..
+					CAPISocket::MP_AddDword(byBuff, iOffset, spItem->pItemBasic->dwID+spItem->pItemExt->dwID);	// Put the ID string in the packet..
 
 					CGameProcedure::s_pSocket->Send(byBuff, iOffset);	
 
-					// 응답을 기다림..
+					// waiting for reply...
 					CN3UIWndBase::m_sRecoveryJobInfo.m_bWaitFromServer = true;
 
 					// Change To Cursor..
@@ -150,34 +150,34 @@ void CItemRepairMgr::ReceiveResultFromServer(int iResult, int iUserGold)
 	if (!pInv) return;
 	if (!m_pspItemBack) return;
 
-	// 성공이면 npc영역의 Durability를 최대값으로..
+	// If successful, the durability of the npc area is set to the maximum value.
 	if(iResult == 0x01)
 	{
 		m_pspItemBack->iDurability = m_pspItemBack->pItemBasic->siMaxDurability+m_pspItemBack->pItemExt->siMaxDurability;
 
 		switch (m_iArm)
 		{
-			case 0x01: // 장착하고 있는 아이템
+			case 0x01: // equipped item
 				pInv->m_pMySlot[m_iiOrder] = m_pspItemBack;
-				s_pPlayer->DurabilitySet((e_ItemSlot)m_iiOrder, m_pspItemBack->iDurability); // 내구력을 복구 해준다..
+				s_pPlayer->DurabilitySet((e_ItemSlot)m_iiOrder, m_pspItemBack->iDurability); // Restores durability.
 				break;
 
-			case 0x02: // 인벤토리에 있는 아이템..
+			case 0x02: // Items in your inventory...
 				pInv->m_pMyInvWnd[m_iiOrder] = m_pspItemBack;
 				break;
 		}
 
-		// 아이콘 상태가 UISTYLE_DURABILITY_EXHAUST 이면..
+		// If the icon state is UISTYLE_DURABILITY_EXHAUST...
 		m_pspItemBack->pUIIcon->SetStyle(m_pspItemBack->pUIIcon->GetStyle() & (~UISTYLE_DURABILITY_EXHAUST));
 		
 		if (pDlg)	pDlg->m_iBRequiredGold	= 0;
 		pInv->PlayRepairSound();
 	}
 
-	// 돈 업데이트..
+	// money update.
 	UpdateUserTotalGold(iUserGold);
 
-	// 응답 기다림 해제..
+	// Disable wait for response..
 	CN3UIWndBase::m_sRecoveryJobInfo.m_bWaitFromServer = false;
 
 	// Change To Cursor..
@@ -188,7 +188,7 @@ void CItemRepairMgr::UpdateUserTotalGold(int iGold)
 {
 	char szGold[32];
 
-	// 돈 업데이트..
+	// money update.
 	s_pPlayer->m_InfoExt.iGold = iGold;
 	sprintf(szGold, "%d", iGold);
 	CN3UIString* pStatic = (CN3UIString*)CGameProcedure::s_pProcMain->m_pUIInventory->GetChildByID("text_gold"); __ASSERT(pStatic, "NULL UI Component!!");

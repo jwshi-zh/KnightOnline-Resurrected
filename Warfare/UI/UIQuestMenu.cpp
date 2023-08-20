@@ -69,7 +69,7 @@ bool CUIQuestMenu::Load(HANDLE hFile)
 
 void CUIQuestMenu::Render()
 {
-	if (!m_bVisible) return;	// 보이지 않으면 자식들을 render하지 않는다.
+	if (!m_bVisible) return;	// If not visible, don&#39;t render the children.
 
 	for(auto itor = m_ReSizeChildren.rbegin(); m_ReSizeChildren.rend() != itor; ++itor)
 	{
@@ -90,7 +90,7 @@ DWORD CUIQuestMenu::MouseProc(DWORD dwFlags, const POINT &ptCur, const POINT &pt
 	DWORD dwRet = UI_MOUSEPROC_NONE;
 	if (!m_bVisible) return dwRet;
 
-	// UI 움직이는 코드
+	// UI moving code
 	if (UI_STATE_COMMON_MOVE == m_eState)
 	{
 		if (dwFlags&UI_MOUSE_LBCLICKED)
@@ -105,25 +105,25 @@ DWORD CUIQuestMenu::MouseProc(DWORD dwFlags, const POINT &ptCur, const POINT &pt
 		return dwRet;
 	}
 
-	if(false == IsIn(ptCur.x, ptCur.y))	// 영역 밖이면
+	if(false == IsIn(ptCur.x, ptCur.y))	// out of range
 	{
 		if(false == IsIn(ptOld.x, ptOld.y))
 		{
-			return dwRet;// 이전 좌표도 영역 밖이면 
+			return dwRet;// If the previous coordinates are also outside the domain
 		}
-		dwRet |= UI_MOUSEPROC_PREVINREGION;	// 이전 좌표는 영역 안이었다.
+		dwRet |= UI_MOUSEPROC_PREVINREGION;	// The previous coordinates were inside the area.
 	}
 	else
 	{
-		// tool tip 관련
+		// tool tip related
 		if (s_pTooltipCtrl) s_pTooltipCtrl->SetText(m_szToolTip);
 	}
-	dwRet |= UI_MOUSEPROC_INREGION;	// 이번 좌표는 영역 안이다.
+	dwRet |= UI_MOUSEPROC_INREGION;	// This coordinate is inside the area.
 
 	if(m_pChildUI && m_pChildUI->IsVisible())
 		return dwRet;
 
-	// child에게 메세지 전달
+	// Send message to child
 	for(auto itor = m_ReSizeChildren.begin(); m_ReSizeChildren.end() != itor; ++itor)
 	{
 		CN3UIBase* pChild = (*itor);
@@ -143,17 +143,17 @@ DWORD CUIQuestMenu::MouseProc(DWORD dwFlags, const POINT &ptCur, const POINT &pt
 		}
 
 		if (UI_MOUSEPROC_DONESOMETHING & dwChildRet)
-		{	// 이경우에는 먼가 포커스를 받은 경우이다.
-			// (아래 코드는 dialog를 관리하는 곳에서 해야 한다. 따라서 막아놓음)
-//			m_Children.erase(itor);			// 우선 리스트에서 지우고
-//			m_Children.push_front(pChild);	// 맨앞에 넣는다. 그리는 순서를 맨 나중에 그리도록 하려고
+		{	// In this case, it is a case where the distance is focused.
+			// (The code below must be done in the place where the dialog is managed. Therefore, it is blocked)
+			// m_Children.erase(itor); // first remove from list
+			// m_Children. push_front(pChild); // put in front I want to draw the drawing order last
 
 			dwRet |= (UI_MOUSEPROC_CHILDDONESOMETHING|UI_MOUSEPROC_DONESOMETHING);
 			return dwRet;
 		}
 	}
 
-	// UI 움직이는 코드
+	// UI moving code
 	if (UI_STATE_COMMON_MOVE != m_eState && 
 			PtInRect(&m_rcMovable, ptCur) && (dwFlags&UI_MOUSE_LBCLICK) )
 	{
@@ -196,11 +196,11 @@ BOOL CUIQuestMenu::MoveOffset(int iOffsetX, int iOffsetY)
 	m_rcCImage.left += iOffsetX;		m_rcCImage.top += iOffsetY;
 	m_rcCImage.right += iOffsetX;		m_rcCImage.bottom += iOffsetY;
 
-	// ui 영역
+	// ui area
 	m_rcRegion.left += iOffsetX;		m_rcRegion.top += iOffsetY;
 	m_rcRegion.right += iOffsetX;		m_rcRegion.bottom += iOffsetY;
 
-	// movable 영역
+	// movable area
 	if(	m_rcMovable.right - m_rcMovable.left != 0 &&
 		m_rcMovable.bottom - m_rcMovable.top != 0 )
 	{
@@ -208,7 +208,7 @@ BOOL CUIQuestMenu::MoveOffset(int iOffsetX, int iOffsetY)
 		m_rcMovable.right += iOffsetX;		m_rcMovable.bottom += iOffsetY;
 	}
 
-	// children 좌표 갱신
+	// update children coordinates
 	// Child UI...
 	for(auto itor = m_ReSizeChildren.begin(); m_ReSizeChildren.end() != itor; ++itor)
 	{
@@ -298,7 +298,7 @@ void CUIQuestMenu::Open(DataPack *pDataPack, int &iOffset)
 		m_pTextMenu[0]->SetString(szMenu[0]);
 	}
 
-	//string 생성
+	// create string
 	for(int i=1;i<m_iMenuCnt;i++)
 	{
 		m_pTextMenu[i] = new CN3UIString;
@@ -318,7 +318,7 @@ void CUIQuestMenu::Open(DataPack *pDataPack, int &iOffset)
 		}
 	}
 
-	//ui resize
+	// ui resize
 	rcText = m_pTextMenu[m_iMenuCnt-1]->GetRegion();
 
 	rcImage = m_pImageRight->GetRegion();
@@ -352,7 +352,7 @@ void CUIQuestMenu::Open(DataPack *pDataPack, int &iOffset)
 	m_pImageBCenter->SetRegion(rcTemp);
 
 
-	//이건 기본 유아이의 영역을 다시 설정해줌...
+	// This resets the default toddler&#39;s area...
 	const int iWidth = CN3Base::s_CameraData.vp.Width;
 	const int iHeight = CN3Base::s_CameraData.vp.Height;
 	int iX = 0, iY = 0;
@@ -383,5 +383,5 @@ void CUIQuestMenu::SetVisible(bool bVisible)
 	if(bVisible)
 		CGameProcedure::s_pUIMgr->SetVisibleFocusedUI(this);
 	else
-		CGameProcedure::s_pUIMgr->ReFocusUI();//this_ui
+		CGameProcedure::s_pUIMgr->ReFocusUI();// this_ui
 }

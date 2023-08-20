@@ -13,14 +13,14 @@ CUIPartyOrForce::CUIPartyOrForce()
 {
 	for(int i = 0; i < MAX_PARTY_OR_FORCE; i++)
 	{
-		m_pProgress_HPs[i]		= nullptr;	// 부대원갯수 만큼... HP Gauge
-		m_pProgress_HPReduce[i] = nullptr;	// 부대원갯수 만큼... HP Reduce
-		m_pProgress_ETC[i]		= nullptr;	// 부대원갯수 만큼... 상태이상
-		m_pStatic_IDs[i]		= nullptr;	// 부대원갯수 만큼... 이름들..
+		m_pProgress_HPs[i]		= nullptr;	// As much as the number of members... HP Gauge
+		m_pProgress_HPReduce[i] = nullptr;	// As much as the number of members... HP Reduce
+		m_pProgress_ETC[i]		= nullptr;	// As much as the number of members... Abnormal status
+		m_pStatic_IDs[i]		= nullptr;	// As many as the number of members... Names...
 		m_pAreas[i]				= nullptr;
 	}
 
-	m_iIndexSelected = -1; // 현재 선택된 멤버인덱스..
+	m_iIndexSelected = -1; // Currently selected member index..
 }
 
 CUIPartyOrForce::~CUIPartyOrForce()
@@ -32,13 +32,13 @@ void CUIPartyOrForce::Release()
 	CN3UIBase::Release();
 
 	m_Members.clear();
-	m_iIndexSelected = -1; // 현재 선택된 멤버인덱스..
+	m_iIndexSelected = -1; // Currently selected member index..
 	for(int i = 0; i < MAX_PARTY_OR_FORCE; i++)
 	{
-		m_pProgress_HPs[i]		= nullptr;	// 부대원갯수 만큼... HP Gauge
-		m_pProgress_HPReduce[i] = nullptr;	// 부대원갯수 만큼... HP Reduce
-		m_pProgress_ETC[i]		= nullptr;	// 부대원갯수 만큼... 상태이상
-		m_pStatic_IDs[i]		= nullptr;	// 부대원갯수 만큼... 이름들..
+		m_pProgress_HPs[i]		= nullptr;	// As much as the number of members... HP Gauge
+		m_pProgress_HPReduce[i] = nullptr;	// As much as the number of members... HP Reduce
+		m_pProgress_ETC[i]		= nullptr;	// As much as the number of members... Abnormal status
+		m_pStatic_IDs[i]		= nullptr;	// As many as the number of members... Names...
 		m_pAreas[i]				= nullptr;
 	}
 
@@ -49,7 +49,7 @@ bool CUIPartyOrForce::Load(HANDLE hFile)
 	if(CN3UIBase::Load(hFile)==false) return false;
 
 	char szID[128] = "";
-	for(int i = 0; i < MAX_PARTY_OR_FORCE; i++) // 빈곳을 찾자..
+	for(int i = 0; i < MAX_PARTY_OR_FORCE; i++) // Let&#39;s find an empty place.
 	{
 		sprintf(szID, "progress_hp_%d", i); // 
 		m_pProgress_HPs[i] = (CN3UIProgress*)(this->GetChildByID(szID)); __ASSERT(m_pProgress_HPs[i], "NULL UI Component!!!");
@@ -99,11 +99,11 @@ bool CUIPartyOrForce::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 		auto it = m_Members.begin(), itEnd = m_Members.end();
 		for(int i = 0; it != itEnd && i < MAX_PARTY_OR_FORCE; it++, i++)
 		{
-//			if(m_pStatic_IDs[i] && pSender == m_pStatic_IDs[i])
+			// if(m_pStatic_IDs[i] && pSender == m_pStatic_IDs[i])
 			if(pSender == m_pAreas[i])
 			{
 				pIP = &(*it);
-				m_iIndexSelected = i; // 현재 선택된 멤버인덱스..
+				m_iIndexSelected = i; // Currently selected member index..
 				break;
 			}
 		}
@@ -138,7 +138,7 @@ void CUIPartyOrForce::Render()
 	rc.right = (rc1.right > rc2.right) ? rc1.right : rc2.right;
 	rc.bottom = (rc1.bottom > rc2.bottom) ? rc1.bottom : rc2.bottom;
 
-	CN3Base::RenderLines(rc, 0xff00ff00); // 선택 표시..
+	CN3Base::RenderLines(rc, 0xff00ff00); // Show selection...
 }
 
 bool CUIPartyOrForce::TargetByIndex(int iIndex)
@@ -149,7 +149,7 @@ bool CUIPartyOrForce::TargetByIndex(int iIndex)
 	for(int i = 0; i < iIndex; i++) it++;
 
 	const __InfoPartyOrForce* pIP = &(*it);
-	m_iIndexSelected = iIndex; // 현재 선택된 멤버인덱스..
+	m_iIndexSelected = iIndex; // Currently selected member index..
 
 	if(pIP) CGameProcedure::s_pProcMain->TargetSelect(pIP->iID, true);
 
@@ -250,7 +250,7 @@ bool CUIPartyOrForce::MemberRemove(int iID)
 void CUIPartyOrForce::MemberDestroy()
 {
 	m_Members.clear();
-	for(int i = 0; i < MAX_PARTY_OR_FORCE; i++) // 빈곳을 찾자..
+	for(int i = 0; i < MAX_PARTY_OR_FORCE; i++) // Let&#39;s find an empty place.
 	{
 		if(m_pProgress_HPs[i])		m_pProgress_HPs[i]->SetVisible(false);
 		if(m_pProgress_HPReduce[i]) m_pProgress_HPReduce[i]->SetVisible(false);
@@ -262,14 +262,14 @@ void CUIPartyOrForce::MemberDestroy()
 	this->MemberInfoReInit();
 }
 
-void CUIPartyOrForce::MemberInfoReInit() // 파티원 구성이 변경될때.. 순서 및 각종 정보 업데이트..
+void CUIPartyOrForce::MemberInfoReInit() // When the composition of party members is changed.. Updating the order and various information..
 {
 	auto it = m_Members.begin(), itEnd = m_Members.end();
 	int i;
 
 	for(i = 0; it != itEnd && i < MAX_PARTY_OR_FORCE; it++, i++)
 	{
-		const __InfoPartyOrForce* pIP = &(*it); // 디버깅 하기 쉬우라고 이렇게 했다..
+		const __InfoPartyOrForce* pIP = &(*it); // I did this to make debugging easier.
 		if(pIP->iHPMax <= 0)
 		{
 			__ASSERT(0, "Invalid Party memeber HP");
@@ -279,17 +279,17 @@ void CUIPartyOrForce::MemberInfoReInit() // 파티원 구성이 변경될때.. �
 		if(m_pProgress_HPs[i])
 		{
 			m_pProgress_HPs[i]->SetCurValue(pIP->iHP * 100 / pIP->iHPMax);
-//			m_pProgress_HPs[i]->SetVisible(true);
+			// m_pProgress_HPs[i]-&gt;SetVisible(true);
 		}
 		if(m_pProgress_HPReduce[i])
 		{
 			m_pProgress_HPReduce[i]->SetCurValue(pIP->iHP * 100 / pIP->iHPMax);
-//			m_pProgress_HPReduce[i]->SetVisible(false);
+			// m_pProgress_HPReduce[i]-&gt;SetVisible(false);
 		}
 		if(m_pProgress_ETC[i])
 		{
 			m_pProgress_ETC[i]->SetCurValue(pIP->iHP * 100 / pIP->iHPMax);
-//			m_pProgress_ETC[i]->SetVisible(false);
+			// m_pProgress_ETC[i]-&gt;SetVisible(false);
 		}
 		if(m_pStatic_IDs[i])
 		{
@@ -306,8 +306,8 @@ void CUIPartyOrForce::MemberInfoReInit() // 파티원 구성이 변경될때.. �
 		if(m_pStatic_IDs[i])		m_pStatic_IDs[i]->SetVisible(false);
 	}
 
-	if(m_Members.empty()) this->SetVisible(false); // 멤버가 없으면 숨긴다.
-	else this->SetVisible(true); // 멤버가 있으면 보인다.
+	if(m_Members.empty()) this->SetVisible(false); // Hide if there are no members.
+	else this->SetVisible(true); // If there is a member, it is visible.
 }
 
 const __InfoPartyOrForce* CUIPartyOrForce::MemberInfoGetSelected()
@@ -326,7 +326,7 @@ void CUIPartyOrForce::MemberHPChange(int iID, int iHP, int iHPMax)
 	auto it = m_Members.begin(), itEnd = m_Members.end();
 	for(int i = 0; it != itEnd && i < MAX_PARTY_OR_FORCE; it++, i++)
 	{
-		__InfoPartyOrForce* pIP = &(*it); // 디버깅 하기 쉬우라고 이렇게 했다..
+		__InfoPartyOrForce* pIP = &(*it); // I did this to make debugging easier.
 		if(pIP->iID == iID)
 		{
 			pIP->iHP = iHP;
@@ -345,7 +345,7 @@ void CUIPartyOrForce::MemberStatusChange(int iID, e_PartyStatus ePS, bool bSuffe
 	auto it = m_Members.begin(), itEnd = m_Members.end();
 	for(int i = 0; it != itEnd && i < MAX_PARTY_OR_FORCE; it++, i++)
 	{
-		__InfoPartyOrForce* pIP = &(*it); // 디버깅 하기 쉬우라고 이렇게 했다..
+		__InfoPartyOrForce* pIP = &(*it); // I did this to make debugging easier.
 		if(pIP->iID == iID)
 		{
 			if(PARTY_STATUS_DOWN_HP == ePS)	pIP->bSufferDown_HP = bSuffer;
@@ -360,7 +360,7 @@ void CUIPartyOrForce::MemberLevelChange(int iID, int iLevel)
 	auto it = m_Members.begin(), itEnd = m_Members.end();
 	for(int i = 0; it != itEnd && i < MAX_PARTY_OR_FORCE; it++, i++)
 	{
-		__InfoPartyOrForce* pIP = &(*it); // 디버깅 하기 쉬우라고 이렇게 했다..
+		__InfoPartyOrForce* pIP = &(*it); // I did this to make debugging easier.
 		if(pIP->iID == iID)
 		{
 			pIP->iLevel = iLevel;
@@ -374,7 +374,7 @@ void CUIPartyOrForce::MemberClassChange(int iID, e_Class eClass)
 	auto it = m_Members.begin(), itEnd = m_Members.end();
 	for(int i = 0; it != itEnd && i < MAX_PARTY_OR_FORCE; it++, i++)
 	{
-		__InfoPartyOrForce* pIP = &(*it); // 디버깅 하기 쉬우라고 이렇게 했다..
+		__InfoPartyOrForce* pIP = &(*it); // I did this to make debugging easier.
 		if(pIP->iID == iID)
 		{
 			pIP->eClass = eClass;
@@ -398,7 +398,7 @@ void CUIPartyOrForce::Tick()
 	auto it = m_Members.begin(), itEnd = m_Members.end();
 	for(int i = 0; it != itEnd && i < MAX_PARTY_OR_FORCE; it++, i++)
 	{
-		const __InfoPartyOrForce* pIP = &(*it); // 디버깅 하기 쉬우라고 이렇게 했다..
+		const __InfoPartyOrForce* pIP = &(*it); // I did this to make debugging easier.
 		if(m_pProgress_HPs[i])
 		{
 			if( pIP->bSufferDown_HP || pIP->bSufferDown_Etc )
@@ -445,9 +445,9 @@ bool CUIPartyOrForce::OnKeyPress(int iKey)
 	switch(iKey)
 	{
 	case DIK_ESCAPE:
-		{	//hotkey가 포커스 잡혀있을때는 다른 ui를 닫을수 없으므로 DIK_ESCAPE가 들어오면 포커스를 다시잡고
-			//열려있는 다른 유아이를 닫아준다.
-			CGameProcedure::s_pUIMgr->ReFocusUI();//this_ui
+		{	// When the hotkey is focused, other UI cannot be closed, so when DIK_ESCAPE comes in, focus again
+			// Close other open children.
+			CGameProcedure::s_pUIMgr->ReFocusUI();// this_ui
 			CN3UIBase* pFocus = CGameProcedure::s_pUIMgr->GetFocusedUI();
 			if(pFocus && pFocus != this) pFocus->OnKeyPress(iKey);
 		}

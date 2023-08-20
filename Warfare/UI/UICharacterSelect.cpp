@@ -40,14 +40,14 @@ bool CUICharacterSelect::Load(HANDLE hFile)
 	m_pBtnExit = this->GetChildByID("bt_exit");		__ASSERT(m_pBtnExit, "NULL UI Component!!");
 	m_pBtnDelete = this->GetChildByID("bt_delete");	__ASSERT(m_pBtnDelete, "NULL UI Component!!");
 
-	// 위치를 화면 해상도에 맞게 바꾸기...
+	// Change the position to fit the screen resolution...
 	POINT pt;
 	RECT rc = this->GetRegion();
 	const float fRatio = (float)s_CameraData.vp.Width / (rc.right - rc.left);
-//	if(pBtnLeft) { pt = pBtnLeft->GetPos(); pt.x *= fRatio; pt.y *= fRatio; pBtnLeft->SetPos(pt.x, pt.y); }
-//	if(pBtnRight) { pt = pBtnRight->GetPos(); pt.x *= fRatio; pt.y *= fRatio; pBtnRight->SetPos(pt.x, pt.y); }
-//	if(pBtnExit) { pt = pBtnExit->GetPos(); pt.x *= fRatio; pt.y *= fRatio; pBtnExit->SetPos(pt.x, pt.y); }
-//	if(pBtnDelete) { pt = pBtnDelete->GetPos(); pt.x *= fRatio; pt.y *= fRatio; pBtnDelete->SetPos(pt.x, pt.y); }
+	// if(pBtnLeft) { pt = pBtnLeft->GetPos(); pt.x *= fRatio; pt.y *= fRatio; pBtnLeft->SetPos(pt.x, pt.y); }
+	// if(pBtnRight) { pt = pBtnRight->GetPos(); pt.x *= fRatio; pt.y *= fRatio; pBtnRight->SetPos(pt.x, pt.y); }
+	// if(pBtnExit) { pt = pBtnExit->GetPos(); pt.x *= fRatio; pt.y *= fRatio; pBtnExit->SetPos(pt.x, pt.y); }
+	// if(pBtnDelete) { pt = pBtnDelete->GetPos(); pt.x *= fRatio; pt.y *= fRatio; pBtnDelete->SetPos(pt.x, pt.y); }
 	if(m_pBtnLeft) { pt = m_pBtnLeft->GetPos(); pt.x *= fRatio; pt.y = s_CameraData.vp.Height - 10 - m_pBtnLeft->GetHeight(); m_pBtnLeft->SetPos(pt.x, pt.y); }
 	if(m_pBtnRight) { pt = m_pBtnRight->GetPos(); pt.x *= fRatio; pt.y = s_CameraData.vp.Height - 10 - m_pBtnRight->GetHeight(); m_pBtnRight->SetPos(pt.x, pt.y); }
 	if(m_pBtnExit) { pt = m_pBtnExit->GetPos(); pt.x *= fRatio; pt.y = s_CameraData.vp.Height - 10 - m_pBtnExit->GetHeight(); m_pBtnExit->SetPos(pt.x, pt.y); }
@@ -71,7 +71,7 @@ bool CUICharacterSelect::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 
 	if( dwMsg == UIMSG_BUTTON_CLICK )
 	{
-		if ( pSender->m_szID == "bt_left" )	// Karus
+		if ( pSender->m_szID == "bt_left" )	// Wars
 		{
 			// Rotate Left..
 			CGameProcedure::s_pProcCharacterSelect->DoJobLeft();
@@ -85,7 +85,7 @@ bool CUICharacterSelect::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 		else
 		if ( pSender->m_szID == "bt_exit" )	// Elmorad
 		{
-//			CGameProcedure::ProcActiveSet((CGameProcedure*)CGameProcedure::s_pProcLogIn); // 로그인으로 돌아간다..
+			// CGameProcedure::ProcActiveSet((CGameProcedure*)CGameProcedure::s_pProcLogIn); // return to login..
 			std::string szMsg; ::_LoadStringFromResource(IDS_CONFIRM_EXIT_GAME, szMsg);
 			CGameProcedure::MessageBoxPost(szMsg, "", MB_YESNO, BEHAVIOR_EXIT);
 		}
@@ -163,7 +163,7 @@ DWORD CUICharacterSelect::MouseProc(DWORD dwFlags, const POINT &ptCur, const POI
 	DWORD dwRet = UI_MOUSEPROC_NONE;
 	if (!m_bVisible) return dwRet;
 
-	// UI 움직이는 코드
+	// UI moving code
 	if (UI_STATE_COMMON_MOVE == m_eState)
 	{
 		if (dwFlags&UI_MOUSE_LBCLICKED)
@@ -178,36 +178,36 @@ DWORD CUICharacterSelect::MouseProc(DWORD dwFlags, const POINT &ptCur, const POI
 		return dwRet;
 	}
 
-	if(false == IsIn(ptCur.x, ptCur.y))	// 영역 밖이면
+	if(false == IsIn(ptCur.x, ptCur.y))	// out of range
 	{
 		if(false == IsIn(ptOld.x, ptOld.y))
 		{
-			return dwRet;// 이전 좌표도 영역 밖이면 
+			return dwRet;// If the previous coordinates are also outside the domain
 		}
 	}
 	else
 	{
-		// tool tip 관련
+		// tool tip related
 		if (s_pTooltipCtrl) s_pTooltipCtrl->SetText(m_szToolTip);
 	}
 
 	if(m_pChildUI && m_pChildUI->IsVisible())
 		return dwRet;
 
-	// child에게 메세지 전달
+	// Send message to child
 	for(auto itor = m_Children.begin(); m_Children.end() != itor; ++itor)
 	{
 		CN3UIBase* pChild = (*itor);
 		const DWORD dwChildRet = pChild->MouseProc(dwFlags, ptCur, ptOld);
 		if (UI_MOUSEPROC_DONESOMETHING & dwChildRet)
-		{	// 이경우에는 먼가 포커스를 받은 경우이다.
+		{	// In this case, it is a case where the distance is focused.
 
 			dwRet |= (UI_MOUSEPROC_CHILDDONESOMETHING|UI_MOUSEPROC_DONESOMETHING);
 			return dwRet;
 		}
 	}
 
-	// UI 움직이는 코드
+	// UI moving code
 	if (UI_STATE_COMMON_MOVE != m_eState && 
 			PtInRect(&m_rcMovable, ptCur) && (dwFlags&UI_MOUSE_LBCLICK) )
 	{

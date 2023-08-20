@@ -13,7 +13,7 @@
 
 CN3TerrainManager::CN3TerrainManager()
 {
-	// N3Terrain..
+	// N3 Terrain..
 	m_pTerrain = new CN3Terrain;
 
 	// Shape..
@@ -25,13 +25,13 @@ CN3TerrainManager::CN3TerrainManager()
 	// Bird..
 	m_pBirdMng = new CBirdMng();
 
-//	// Grass..
-//	m_pGrasses = new CGrassMng();
+	// // Grass..
+	// m_pGrasses = new CGrassMng();
 }
 
 CN3TerrainManager::~CN3TerrainManager()
 {
-	// N3Terrain..
+	// N3 Terrain..
 	delete m_pTerrain;  m_pTerrain = nullptr;
 
 	// Shape..
@@ -47,13 +47,13 @@ CN3TerrainManager::~CN3TerrainManager()
 	delete m_pBirdMng; m_pBirdMng = nullptr;
 
 	// Grass..
-//	CLogWriter::Write("CN3TerrainManager::~CN3TerrainManager -> Pre delete m_pGrasses"); // TmpLog1122
-//	delete m_pGrasses; m_pGrasses = NULL;
+	// CLogWriter::Write("CN3TerrainManager::~CN3TerrainManager -> Pre delete m_pGrasses"); // TmpLog1122
+	// delete m_pGrasses; m_pGrasses = NULL;
 
 	CLogWriter::Write("CN3TerrainManager::~CN3TerrainManager -> delete finished"); // TmpLog1122
 }
 
-/////////////////////////////////////////////////////////////////////
+// 
 
 void CN3TerrainManager::InitWorld(int iZoneID, const __Vector3& vPosPlayer)
 {
@@ -61,13 +61,13 @@ void CN3TerrainManager::InitWorld(int iZoneID, const __Vector3& vPosPlayer)
 	if(nullptr == pZone) { CLogWriter::Write("Null Zone Data : %d", iZoneID); return; }
 
 	CLogWriter::Write("CN3TerrainManager::InitWorld Pre Load\t%d", m_pTerrain); // TmpLog_11_22
-	m_pTerrain->LoadFromFile(pZone->szTerrainFN);		// 지형..로드..
+	m_pTerrain->LoadFromFile(pZone->szTerrainFN);		// terrain.. load..
 	CLogWriter::Write("CN3TerrainManager::InitWorld Pre Load ColorMap"); // TmpLog_11_22
-	m_pTerrain->LoadColorMap(pZone->szColorMapFN);		// 컬러맵 로드..
+	m_pTerrain->LoadColorMap(pZone->szColorMapFN);		// Load colormap...
 	CLogWriter::Write("CN3TerrainManager::InitWorld Pre Release Shapes\t%d", m_pShapes); // TmpLog_11_22
 	m_pShapes->Release();
 	CLogWriter::Write("CN3TerrainManager::InitWorld Pre Load Shapes"); // TmpLog_11_22
-	m_pShapes->LoadFromFile(pZone->szObjectPostDataFN);	// 오브젝트 데이터 로드..
+	m_pShapes->LoadFromFile(pZone->szObjectPostDataFN);	// Load object data...
 	
 	char szFName[_MAX_PATH];
 	_splitpath(pZone->szTerrainFN.c_str(), nullptr, nullptr, szFName, nullptr);
@@ -78,18 +78,18 @@ void CN3TerrainManager::InitWorld(int iZoneID, const __Vector3& vPosPlayer)
 	CLogWriter::Write("CN3TerrainManager::InitWorld Pre Load Birds\t%d", m_pBirdMng); // TmpLog_11_22
 	m_pBirdMng->LoadFromFile(szFullPathName);
 
-//	CLogWriter::Write("CN3TerrainManager::InitWorld Pre Load Grasses\t%d", m_pGrasses); // TmpLog_11_22
-//	m_pGrasses->Init(vPosPlayer);
+// CLogWriter::Write("CN3TerrainManager::InitWorld Pre Load Grasses\t%d", m_pGrasses); // TmpLog_11_22
+// m_pGrasses->Init(vPosPlayer);
 	CLogWriter::Write("CN3TerrainManager::InitWorld Pre Load Sky\t%d", m_pSky); // TmpLog_11_22
-	m_pSky->LoadFromFile(pZone->szSkySetting); // 하늘, 구름, 태양, 날씨 변화등 정보 및 텍스처 로딩..
-	m_pSky->SunAndMoonDirectionFixByHour(pZone->iFixedSundDirection); // 해, 달 방향을 고정하든가 혹은 0 이면 고정하지 않는다.
+	m_pSky->LoadFromFile(pZone->szSkySetting); // Loading information and textures such as sky, clouds, sun, and weather changes..
+	m_pSky->SunAndMoonDirectionFixByHour(pZone->iFixedSundDirection); // The direction of the sun and moon is fixed, or if it is 0, it is not fixed.
 }
 
 void CN3TerrainManager::Tick()
 {
 	m_pTerrain->Tick();
 	m_pShapes->Tick();
-//	m_pGrasses->Tick((CGameProcedure* )CGameProcedure::s_pProcMain);
+// m_pGrasses->Tick((CGameProcedure* )CGameProcedure::s_pProcMain);
 	m_pSky->Tick();
 	m_pBirdMng->Tick();
 }
@@ -121,7 +121,7 @@ void CN3TerrainManager::RenderSky()
 
 void CN3TerrainManager::RenderGrass()
 {
-//	if (m_pGrasses)		m_pGrasses->Render();
+// if (m_pGrasses)		m_pGrasses->Render();
 }
 
 void CN3TerrainManager::RenderBirdMgr()
@@ -134,7 +134,7 @@ void CN3TerrainManager::RenderSkyWeather()
 	if (m_pSky)		m_pSky->RenderWeather();
 }
 
-//////////////////////////////////////////////////////////////////////////////////
+// 
 
 // Terrain..
 bool CN3TerrainManager::CheckCollisionCameraWithTerrain(__Vector3& vEyeResult, const __Vector3& vAt, float fNP)
@@ -247,12 +247,12 @@ CN3Shape* CN3TerrainManager::PickWithShape(int iXScreen, int iYScreen, bool bMus
 		return nullptr;
 }
 
-bool CN3TerrainManager::CheckCollisionWithShape(	  const __Vector3& vPos,				 // 충돌 위치
-																						const __Vector3& vDir,				   // 방향 벡터
-																						float fSpeedPerSec,					    // 초당 움직이는 속도
-																						__Vector3* pvCol,						 // 충돌 지점
-																						__Vector3* pvNormal,				  // 충돌한면의 법선벡터
-																						__Vector3* pVec)						// 충돌한 면 의 폴리곤 __Vector3[3]
+bool CN3TerrainManager::CheckCollisionWithShape(	  const __Vector3& vPos,				 // crash location
+																						const __Vector3& vDir,				   // direction vector
+																						float fSpeedPerSec,					    // moving speed per second
+																						__Vector3* pvCol,						 // crash point
+																						__Vector3* pvNormal,				  // The normal vector of the colliding face
+																						__Vector3* pVec)						// Polygon of collided face __Vector3[3]
 {
 	if (m_pShapes) 
 		return m_pShapes->CheckCollision( vPos, vDir, fSpeedPerSec, pvCol, pvNormal, pVec);
@@ -327,7 +327,7 @@ CN3Sun*	CN3TerrainManager::GetSunPointerWithSky()
 // Grass..
 void CN3TerrainManager::InitWithGrass(__Vector3 CamPo)
 {
-//	if (m_pGrasses)	m_pGrasses->Init(CamPo);
+	// if (m_pGrasses)	m_pGrasses->Init(CamPo);
 }
 
 

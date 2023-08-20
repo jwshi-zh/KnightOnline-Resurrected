@@ -64,7 +64,7 @@ void CUIPartyBBSSelector::MsgSend_PartyBBSKind(BYTE byKind)
 	BYTE byBuff[4];											
 	int iOffset=0;											
 
-	CAPISocket::MP_AddByte(byBuff, iOffset, 1);		// 패킷도 정해야 할듯
-	CAPISocket::MP_AddByte(byBuff, iOffset, byKind);		// 파티구함인지 파티원 구함인지...
-	CGameProcedure::s_pSocket->Send(byBuff, iOffset);		// 패킷을 보냄..
+	CAPISocket::MP_AddByte(byBuff, iOffset, 1);		// I guess I need to set the packet
+	CAPISocket::MP_AddByte(byBuff, iOffset, byKind);		// Looking for a party or looking for a party member...
+	CGameProcedure::s_pSocket->Send(byBuff, iOffset);		// Send packets..
 }

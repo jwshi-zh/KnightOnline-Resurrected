@@ -69,7 +69,7 @@ void CGameProcCharacterSelect::Release()
 
 void CGameProcCharacterSelect::Init()
 {
-//..
+	// ..
 	m_pCamera = nullptr;
 	for(auto i = 0; i < 8; i++ ) m_pLights[i] = nullptr;
 	for(auto i = 0; i < MAX_AVAILABLE_CHARACTER; i++ )	{ m_pChrs[i] = nullptr; }
@@ -86,14 +86,14 @@ void CGameProcCharacterSelect::Init()
 	m_pUICharacterSelect = nullptr;
 
 	m_pSnd_Rotate = nullptr;
-//..
+	// ..
 
 	CGameProcedure::Init();
-//	CGameProcedure::s_pEng->BackupReleaseLighting();
+	// CGameProcedure::s_pEng->BackupReleaseLighting();
 
 	CN3Base::s_SndMgr.ReleaseObj(&m_pSnd_Rotate);
 	m_pSnd_Rotate = CN3Base::s_SndMgr.CreateObj(ID_SOUND_CHR_SELECT_ROTATE);
-	s_pUIMgr->EnableOperationSet(false); // 기존의 캐릭터 정보 패킷이 들어올때까지 UI 를 Disable 시킨다...
+	s_pUIMgr->EnableOperationSet(false); // Disable the UI until the existing character information packet comes in...
 
 	m_pCamera = new CN3Camera();
 	for(auto i = 0; i < 8; i++ ) m_pLights[i] = new CN3Light();
@@ -106,12 +106,12 @@ void CGameProcCharacterSelect::Init()
 
 	CGameProcedure::s_iChrSelectIndex = 0;
 
-const e_Nation eNation = s_pPlayer->m_InfoBase.eNation;
-const __TABLE_UI_RESRC* pTbl = s_pTbl_UI->Find(eNation);
+	const e_Nation eNation = s_pPlayer->m_InfoBase.eNation;
+	const __TABLE_UI_RESRC* pTbl = s_pTbl_UI->Find(eNation);
 
 	m_pUICharacterSelect = new CUICharacterSelect();
 	m_pUICharacterSelect->Init(s_pUIMgr);
-	m_pUICharacterSelect->LoadFromFile(pTbl->szCharacterSelect); // UI Manager 에 넣지 않고 따로 처리한다... 이유가 있다..
+	m_pUICharacterSelect->LoadFromFile(pTbl->szCharacterSelect); // It is processed separately without putting it in the UI Manager... There is a reason...
 	m_pUICharacterSelect->SetPos(0,0);
 	s_pUIMgr->SetFocusedUI((CN3UIBase*)m_pUICharacterSelect);
 
@@ -128,13 +128,13 @@ const __TABLE_UI_RESRC* pTbl = s_pTbl_UI->Find(eNation);
 
 	m_vEyeBackup = m_vEye;
 
-	// 배경..
+	// background..
 	m_pActiveBg = new CN3Shape;	
 	memset(&m_lgt[0], 0, sizeof(D3DLIGHT9));	
 	memset(&m_lgt[1], 0, sizeof(D3DLIGHT9));	
 	memset(&m_lgt[2], 0, sizeof(D3DLIGHT9));	
 
-	// 0가운데.. 1왼쪽..
+	// 0 in the middle.. 1 on the left..
 	m_lgt[2].Type = m_lgt[1].Type = m_lgt[0].Type = D3DLIGHT_SPOT;
 	m_lgt[2].Attenuation0 = m_lgt[1].Attenuation0 = m_lgt[0].Attenuation0 = 0.1f;
 	m_lgt[2].Attenuation1 = m_lgt[1].Attenuation1 = m_lgt[0].Attenuation1 = 0.0f;
@@ -157,18 +157,18 @@ const __TABLE_UI_RESRC* pTbl = s_pTbl_UI->Find(eNation);
 			m_pLights[1]->LoadFromFile("ChrSelect\\ka_light_1.n3light");	
 			m_pLights[2]->LoadFromFile("ChrSelect\\ka_light_2.n3light");	
 
-			m_lgt[0].Position = m_vEye;	// 카루스
-			m_lgt[0].Position.y += 2.0f;	// 카루스
+			m_lgt[0].Position = m_vEye;	// carus
+			m_lgt[0].Position.y += 2.0f;	// carus
 			vTemp.Set(0.0f, 0.0f, 3.5f);	vTemp -= m_lgt[0].Position;
 			m_lgt[0].Direction = vTemp;
 			m_lgt[0].Phi   = 0.6f;
 
-			m_lgt[1].Position = __Vector3(5.87f, 2.4f, 4.73f);	// 카루스
+			m_lgt[1].Position = __Vector3(5.87f, 2.4f, 4.73f);	// carus
 			vTemp.Set(2.32f, 0.0f, 2.54f);	vTemp -= m_lgt[1].Position;
 			m_lgt[1].Direction = vTemp;
 			m_lgt[1].Phi   = 0.6f;
 
-			m_lgt[2].Position = __Vector3(-5.87f, 2.4f, 4.73f);	// 카루스
+			m_lgt[2].Position = __Vector3(-5.87f, 2.4f, 4.73f);	// carus
 			vTemp.Set(-2.32f, 0.0f, 2.54f);	vTemp -= m_lgt[2].Position;
 			m_lgt[2].Direction = vTemp;
 			m_lgt[2].Phi   = 0.6f;
@@ -182,30 +182,30 @@ const __TABLE_UI_RESRC* pTbl = s_pTbl_UI->Find(eNation);
 			m_pLights[1]->LoadFromFile("ChrSelect\\el_light_1.n3light");	
 			m_pLights[2]->LoadFromFile("ChrSelect\\el_light_2.n3light");	
 
-			m_lgt[0].Position = m_vEye;	// 카루스
-			m_lgt[0].Position.y += 2.0f;	// 카루스
+			m_lgt[0].Position = m_vEye;	// carus
+			m_lgt[0].Position.y += 2.0f;	// carus
 			vTemp.Set(0.0f, -0.1f, 3.0f);	vTemp -= m_lgt[0].Position;
 			m_lgt[0].Direction = vTemp;
 			m_lgt[0].Phi   = 0.45f;
 
-			m_lgt[1].Position = __Vector3(5.6f, 2.4f, 4.68f);	// 카루스
+			m_lgt[1].Position = __Vector3(5.6f, 2.4f, 4.68f);	// carus
 			vTemp.Set(2.2f, -0.1f, 2.36f);	vTemp -= m_lgt[1].Position;
 			m_lgt[1].Direction = vTemp;
 			m_lgt[1].Phi   = 0.45f;
 
-			m_lgt[2].Position = __Vector3(-5.6f, 2.4f, 4.68f);	// 카루스
+			m_lgt[2].Position = __Vector3(-5.6f, 2.4f, 4.68f);	// carus
 			vTemp.Set(-2.4f, -0.1f, 2.23f);	vTemp -= m_lgt[2].Position;
 			m_lgt[2].Direction = vTemp;
 			m_lgt[2].Phi   = 0.45f;
 			break;
 	}
 
-	this->MsgSend_RequestAllCharacterInfo(); // 캐릭터 정보 요청..
+	this->MsgSend_RequestAllCharacterInfo(); // Character information request.
 }
 
 void CGameProcCharacterSelect::Tick()
 {
-	CGameProcedure::Tick();	// 키, 마우스 입력 등등..
+	CGameProcedure::Tick();	// keys, mouse input, etc.
 
 	__Vector3 vDir = CN3Base::s_CameraData.vAt - CN3Base::s_CameraData.vEye; vDir.Normalize();
 	const __Vector3 vEye = CN3Base::s_CameraData.vEye;
@@ -213,14 +213,14 @@ void CGameProcCharacterSelect::Tick()
 	CN3SndObj::SetListenerPos(&vEye);
 	CN3SndObj::SetListenerOrientation(&vDir, &vUp);
 
-// 배경..
+	// background..
 	m_pActiveBg->Tick();
 
-	if(s_pUIMgr->m_bDoneSomething == false && s_pUIMgr->EnableOperation()) // 패킷을 받기 전에 아무짓도 못하게 한다.
+	if(s_pUIMgr->m_bDoneSomething == false && s_pUIMgr->EnableOperation()) // Don&#39;t do anything before receiving the packet.
 	{
 		s_pUIMgr->SetFocusedUI(m_pUICharacterSelect);
-		const int nMFlags = s_pLocalInput->MouseGetFlag();					// Mouse 상태 플래그..
-		if(nMFlags & MOUSE_LBCLICK) // 누르는 순간..
+		const int nMFlags = s_pLocalInput->MouseGetFlag();					// Mouse state flags..
+		if(nMFlags & MOUSE_LBCLICK) // The moment you press...
 		{
 			if (m_eCurProcess == PROCESS_ROTATEING)
 				goto NowRotating;
@@ -240,13 +240,12 @@ void CGameProcCharacterSelect::Tick()
 
 NowRotating:
 
-// 라이트..
-	for(int i = 0; i < 8; i++) s_pEng->s_lpD3DDev->LightEnable(i, FALSE); // 일단 라이트 다 끄고..
+	for(int i = 0; i < 8; i++) s_pEng->s_lpD3DDev->LightEnable(i, FALSE); // Once all the lights are off...
 	
 	for(auto i = 0; i < 2; i++)
 	{
 		m_pLights[i]->Tick(m_pLights[i]->m_fFrmCur);
-		m_pLights[i]->Apply(); // 라이트 적용
+		m_pLights[i]->Apply(); // apply light
 	}
 	
 	CheckJobState();
@@ -261,8 +260,8 @@ NowRotating:
 void CGameProcCharacterSelect::Render()
 {
 	const D3DCOLOR crEnv = 0x00000000;
-	s_pEng->Clear(crEnv); // 배경은 검은색
-	s_pEng->s_lpD3DDev->BeginScene();			// 씬 렌더 ㅅ작...
+	s_pEng->Clear(crEnv); // the background is black
+	s_pEng->s_lpD3DDev->BeginScene();			// Scene renders...
 
 	__Matrix44 mtxWorld;
 	mtxWorld.Identity();
@@ -278,10 +277,8 @@ void CGameProcCharacterSelect::Render()
 	m_pCamera->Tick();
 	m_pCamera->Apply();
 
-// 배경..
 	m_pActiveBg->Render();
 
-// 캐릭터..
 	if ( m_pChrs[0] )
 	{
 		m_pChrs[0]->m_nLOD = 0;
@@ -302,11 +299,11 @@ void CGameProcCharacterSelect::Render()
 	m_pUICharacterSelect->Render();
 	CUIManager::RenderStateRestore();
 
-	CGameProcedure::Render(); // UI 나 그밖의 기본적인 것들 렌더링..
+	CGameProcedure::Render(); // Rendering UI and other basic stuff..
 
 	if (m_bFadeOutRender) FadeOutRender();
 
-	s_pEng->s_lpD3DDev->EndScene();			// 씬 렌더 시작...
+	s_pEng->s_lpD3DDev->EndScene();			// Start scene render...
 	s_pEng->Present(CN3Base::s_hWndBase);
 }
 
@@ -333,7 +330,7 @@ void CGameProcCharacterSelect::AddChr(e_ChrPos eCP, __CharacterSelectInfo* pInfo
 	else
 		m_pChrs[iPosIndex]->Release();
 
-	__TABLE_PLAYER_LOOKS* pLooks = s_pTbl_UPC_Looks->Find(pInfo->eRace);	// User Player Character Skin 구조체 포인터..
+	__TABLE_PLAYER_LOOKS* pLooks = s_pTbl_UPC_Looks->Find(pInfo->eRace);	// User Player Character Skin structure pointer..
 	__ASSERT(pLooks, "Table 에서 기본 리소스 찾기 실패.");
 
 	m_pChrs[iPosIndex]->PartAlloc(PART_POS_COUNT);
@@ -343,52 +340,52 @@ void CGameProcCharacterSelect::AddChr(e_ChrPos eCP, __CharacterSelectInfo* pInfo
 	switch ( pInfo->eRace )
 	{
 		case RACE_EL_BABARIAN:
-			// 남자 바바리안은 직업이 하나..
-			szJointFN	= "ChrSelect\\upc_el_ba_wa.n3joint"; // 관절 세팅..
-			szAniFN		= "ChrSelect\\upc_el_ba_wa.n3anim"; // 에니메이션 파일 이름.. :-D;
+			// A male barbarian has only one job...
+			szJointFN	= "ChrSelect\\upc_el_ba_wa.n3joint"; // Joint setting...
+			szAniFN		= "ChrSelect\\upc_el_ba_wa.n3anim"; // Animation file name.. :-D;
 			szPlug0FN	= "ChrSelect\\wea_el_great_sword.n3cplug";
 			szPlug1FN	= "";
 			break;
 		case RACE_EL_WOMEN:
-			// 엘모 여자는 직업이 현재 세개(전사, 로그, 성직자).. 성직자는 그래픽이 없다..
+			// Elmo woman currently has three jobs (warrior, rogue, priest).. The priest has no graphics..
 			switch ( pInfo->eClass )
 			{
 				case CLASS_EL_WARRIOR:
 				case CLASS_EL_BLADE:
 				case CLASS_EL_PROTECTOR:
 					szJointFN	= "ChrSelect\\upc_el_rf_wa.n3joint";
-					szAniFN		= "ChrSelect\\upc_el_rf_wa.n3anim"; // 에니메이션 파일 이름.. :-D;
-					szPlug0FN	= "ChrSelect\\wea_el_long_sword_left.n3cplug"; // 왼손에 검을 찬다..
+					szAniFN		= "ChrSelect\\upc_el_rf_wa.n3anim"; // Animation file name.. :-D;
+					szPlug0FN	= "ChrSelect\\wea_el_long_sword_left.n3cplug"; // I wear a sword in my left hand...
 					szPlug1FN	= "";
 					break;
 				case CLASS_EL_ROGUE:
 				case CLASS_EL_RANGER:
 				case CLASS_EL_ASSASIN:
-					szJointFN	= "ChrSelect\\upc_el_rf_rog.n3joint"; // 관절 세팅..
-					szAniFN		= "ChrSelect\\upc_el_rf_wa.n3anim"; // 에니메이션 파일 이름.. :-D;
+					szJointFN	= "ChrSelect\\upc_el_rf_rog.n3joint"; // Joint setting...
+					szAniFN		= "ChrSelect\\upc_el_rf_wa.n3anim"; // Animation file name.. :-D;
 					szPlug0FN	= "ChrSelect\\wea_el_rf_rog_bow.n3cplug";
 					szPlug1FN	= "ChrSelect\\wea_el_quiver.n3cplug";
 					break;
 				case CLASS_EL_WIZARD:
 				case CLASS_EL_MAGE:
 				case CLASS_EL_ENCHANTER:
-					szJointFN	= "ChrSelect\\upc_el_rf_wiz.n3joint"; // 관절 세팅..
-					szAniFN		= "ChrSelect\\upc_el_rf_wa.n3anim"; // 에니메이션 파일 이름.. :-D;
+					szJointFN	= "ChrSelect\\upc_el_rf_wiz.n3joint"; // Joint setting...
+					szAniFN		= "ChrSelect\\upc_el_rf_wa.n3anim"; // Animation file name.. :-D;
 					szPlug0FN	= "ChrSelect\\upc_el_rf_wiz.n3cplug";
 					szPlug1FN	= "";
 					break;
 				case CLASS_EL_PRIEST:	
 				case CLASS_EL_CLERIC:
 				case CLASS_EL_DRUID:
-					szJointFN	= "ChrSelect\\upc_el_rf_pri.n3joint"; // 관절 세팅..
-					szAniFN		= "ChrSelect\\upc_el_rf_wa.n3anim"; // 에니메이션 파일 이름.. :-D;
+					szJointFN	= "ChrSelect\\upc_el_rf_pri.n3joint"; // Joint setting...
+					szAniFN		= "ChrSelect\\upc_el_rf_wa.n3anim"; // Animation file name.. :-D;
 					szPlug0FN	= "ChrSelect\\wea_el_wand.n3cplug";
 					szPlug1FN	= "";
 					break;
 			}
 			break;
 		case RACE_EL_MAN:
-			// 엘모 남자는 현재 직업이 세개..(로그, 성직자, 전사)
+			// Elmo Man currently has three jobs.. (Rogue, Cleric, Warrior)
 			switch ( pInfo->eClass )
 			{
 				case CLASS_EL_WARRIOR:
@@ -425,7 +422,7 @@ void CGameProcCharacterSelect::AddChr(e_ChrPos eCP, __CharacterSelectInfo* pInfo
 			}
 			break;
 		case RACE_KA_ARKTUAREK:
-			// 카루스 직업 하나.. 온리 전사..
+			// Karus has one job.. only warrior..
 			szJointFN	= "ChrSelect\\upc_ka_at_wa.n3joint";
 			szAniFN		= "ChrSelect\\upc_ka_at_wa.n3anim";
 			szPlug0FN	= "ChrSelect\\wea_ka_great_axe.n3cplug";
@@ -459,8 +456,8 @@ void CGameProcCharacterSelect::AddChr(e_ChrPos eCP, __CharacterSelectInfo* pInfo
 			szPlug1FN	= "";
 			break;
 		case RACE_KA_PURITUAREK:
-			szJointFN	= "ChrSelect\\upc_el_rf_pri.n3joint"; // 관절 세팅..
-			szAniFN		= "ChrSelect\\upc_el_rf_wa.n3anim"; // 에니메이션 파일 이름.. :-D;
+			szJointFN	= "ChrSelect\\upc_el_rf_pri.n3joint"; // Joint setting...
+			szAniFN		= "ChrSelect\\upc_el_rf_wa.n3anim"; // Animation file name.. :-D;
 			szPlug0FN	= "ChrSelect\\wea_ka_mace.n3cplug";
 			szPlug1FN	= "";
 			break;
@@ -468,26 +465,26 @@ void CGameProcCharacterSelect::AddChr(e_ChrPos eCP, __CharacterSelectInfo* pInfo
 			return;
 	}
 
-	m_pChrs[iPosIndex]->JointSet(szJointFN); // 관절 세팅..
-	m_pChrs[iPosIndex]->AniCtrlSet(szAniFN); // 에니메이션 파일 이름.. :-D;
+	m_pChrs[iPosIndex]->JointSet(szJointFN); // Joint setting...
+	m_pChrs[iPosIndex]->AniCtrlSet(szAniFN); // Animation file name.. :-D;
 	m_pChrs[iPosIndex]->PlugSet(0, szPlug0FN);
 	m_pChrs[iPosIndex]->PlugSet(1, szPlug1FN);
 
-	// 상체..
+	// upper body..
 	this->AddChrPart(m_pChrs[iPosIndex], pLooks, PART_POS_UPPER, pInfo->dwItemUpper, pInfo->iItemUpperDurability);
-	// 하체
+	// lower body
 	__TABLE_ITEM_BASIC* pItemUpper = this->s_pTbl_Items_Basic->Find(pInfo->dwItemUpper);
-	if(pItemUpper && pItemUpper->byIsRobeType) m_pChrs[iPosIndex]->PartSet(PART_POS_LOWER, ""); // 하체일 경우 상체에 로브를 입었으면 ..
-	else this->AddChrPart(m_pChrs[iPosIndex], pLooks, PART_POS_LOWER, pInfo->dwItemLower, pInfo->iItemLowerDurability); //아님 입히고...
-	// 팔
+	if(pItemUpper && pItemUpper->byIsRobeType) m_pChrs[iPosIndex]->PartSet(PART_POS_LOWER, ""); // In the case of the lower body, if you wear a robe on the upper body ..
+	else this->AddChrPart(m_pChrs[iPosIndex], pLooks, PART_POS_LOWER, pInfo->dwItemLower, pInfo->iItemLowerDurability); // Or wear...
+	// eight
 	this->AddChrPart(m_pChrs[iPosIndex], pLooks, PART_POS_HANDS, pInfo->dwItemGloves, pInfo->iItemGlovesDurability);
-	// 다리
+	// leg
 	this->AddChrPart(m_pChrs[iPosIndex], pLooks, PART_POS_FEET, pInfo->dwItemShoes, pInfo->iItemShoesDurability);
 
 	char szBuff[256] = "";
 	std::string szResrcFN;
 
-	// 얼굴 - 
+	// face -
 	if(!pLooks->szPartFNs[PART_POS_FACE].empty())
 	{
 		char szBuff[256] = "", szDir[128] = "", szFName[128] = "", szExt[16] = "";
@@ -496,13 +493,13 @@ void CGameProcCharacterSelect::AddChr(e_ChrPos eCP, __CharacterSelectInfo* pInfo
 		m_pChrs[iPosIndex]->PartSet(PART_POS_FACE, szBuff);
 	}
 
-	// 머리카락 혹은 헬멧 - 
+	// hair or helmet -
 	__TABLE_ITEM_BASIC* pItemHelmet = this->s_pTbl_Items_Basic->Find(pInfo->dwItemHelmet);
-	if(pItemHelmet && pItemHelmet->dwIDResrc) // 헬멧아이템의 리소스(그림이 있는거면..)
+	if(pItemHelmet && pItemHelmet->dwIDResrc) // The resource of the helmet item (if there is a picture...)
 	{
 		this->AddChrPart(m_pChrs[iPosIndex], pLooks, PART_POS_HAIR_HELMET, pInfo->dwItemHelmet, pInfo->iItemHelmetDurability);
 	}
-	else if(!pLooks->szPartFNs[PART_POS_HAIR_HELMET].empty()) // 아이템이 없으면 기본 머리..
+	else if(!pLooks->szPartFNs[PART_POS_HAIR_HELMET].empty()) // If there is no item, the default head..
 	{
 		char szBuff[256] = "", szDir[128] = "", szFName[128] = "", szExt[16] = "";
 		::_splitpath(pLooks->szPartFNs[PART_POS_HAIR_HELMET].c_str(), nullptr, szDir, szFName, szExt);
@@ -511,7 +508,7 @@ void CGameProcCharacterSelect::AddChr(e_ChrPos eCP, __CharacterSelectInfo* pInfo
 	}
 	else 
 	{
-		m_pChrs[iPosIndex]->PartSet(PART_POS_HAIR_HELMET, ""); // 헬멧도 아니고 머리카락도 없으면.. 대머리다!
+		m_pChrs[iPosIndex]->PartSet(PART_POS_HAIR_HELMET, ""); // No helmet, no hair... bald!
 	}
 
 
@@ -529,7 +526,7 @@ void CGameProcCharacterSelect::AddChr(e_ChrPos eCP, __CharacterSelectInfo* pInfo
 					break;
 
 				case 1:
-					m_pChrs[1]->PosSet(1.86f, -1.16f, 2.1f);		// ok..		
+					m_pChrs[1]->PosSet(1.86f, -1.16f, 2.1f);		// ok..
 					qt.RotationAxis(0.0f, 1.0f, 0.0f, D3DXToRadian(42.0f));
 					m_pChrs[1]->RotSet(qt);
 					break;
@@ -601,7 +598,7 @@ void CGameProcCharacterSelect::AddChrPart(	CN3Chr* pChr,
 	e_PlugPosition ePlugPosTmp = PLUG_POS_UNKNOWN;
 
 	CGameProcedure::MakeResrcFileNameForUPC(pItem, &szResrcFN, nullptr, ePartPosTmp, ePlugPosTmp);
-	if(szResrcFN.empty()) pPart = pChr->PartSet(ePartPos, pLooks->szPartFNs[ePartPos]);	// 기본 파트
+	if(szResrcFN.empty()) pPart = pChr->PartSet(ePartPos, pLooks->szPartFNs[ePartPos]);	// basic part
 	else pPart = pChr->PartSet(ePartPos, szResrcFN);
 	if(pPart && pItem && pItem->siMaxDurability > 0)
 	{
@@ -629,7 +626,7 @@ void CGameProcCharacterSelect::MsgRecv_DeleteChr(DataPack* pDataPack, int& iOffs
 		}
 
 		if ( (m_pChrs[0] == nullptr) && (m_pChrs[1] == nullptr) && (m_pChrs[2] == nullptr) )
-			CGameProcedure::ProcActiveSet((CGameProcedure*)s_pProcNationSelect); // 국가 선택으로 간다..
+			CGameProcedure::ProcActiveSet((CGameProcedure*)s_pProcNationSelect); // Go to country selection.
 	}
 }
 
@@ -638,7 +635,7 @@ int	CGameProcCharacterSelect::MsgRecv_VersionCheck(DataPack* pDataPack, int& iOf
 	const int iVersion = CGameProcedure::MsgRecv_VersionCheck(pDataPack, iOffset);
 	if(iVersion == CURRENT_VERSION)
 	{
-		this->MsgSend_CharacterSelect(); // 게임 서버에 로그인..
+		this->MsgSend_CharacterSelect(); // Log in to the game server..
 	}
 
 	return iVersion;
@@ -649,7 +646,7 @@ bool CGameProcCharacterSelect::MsgRecv_CharacterSelect(DataPack* pDataPack, int&
 {
 	const bool bSuccess = CGameProcedure::MsgRecv_CharacterSelect(pDataPack, iOffset);
 
-	if(bSuccess) this->CharacterSelect(); // 캐릭터를 일으킨다..
+	if(bSuccess) this->CharacterSelect(); // make the character...
 	else this->CharacterSelectFailed();
 
 	return bSuccess;
@@ -658,7 +655,7 @@ bool CGameProcCharacterSelect::MsgRecv_CharacterSelect(DataPack* pDataPack, int&
 void CGameProcCharacterSelect::ProcessOnReturn()
 {
 	if(!m_bReceivedCharacterSelect) return;
-	//엔터키 눌렸을때 라이트 때문에 깜빡이는것 없애기 위해...
+	// To get rid of flickering because of the light when the enter key is pressed...
 
 	if ( m_eCurProcess != PROCESS_ROTATEING )
 	{
@@ -697,8 +694,8 @@ void CGameProcCharacterSelect::ProcessOnReturn()
 		}
 
 		s_SndMgr.ReleaseStreamObj(&(CGameProcedure::s_pSnd_BGM));
-		CGameProcedure::ProcActiveSet((CGameProcedure*)s_pProcMain); // 캐릭터 고르기에 성공하면.. 메인으로 가자!!
-//		CGameProcedure::s_pEng->RestoreLighting();
+		CGameProcedure::ProcActiveSet((CGameProcedure*)s_pProcMain); // If you succeed in choosing a character... let&#39;s go to the main!!
+// CGameProcedure::s_pEng->RestoreLighting();
 		this->s_pUILoading->Render("Loading data...", 0);
 	}
 }
@@ -862,7 +859,7 @@ void CGameProcCharacterSelect::MsgSend_DeleteChr(const std::string& szKey) const
 {
 	if(szKey.empty() || szKey.size() >= 32) return;
 
-	// 현재 상태가 캐릭터를 선택하지 않은 상태..
+	// The current state is the state where the character is not selected..
 	if ( m_eCurProcess != PROCESS_PRESELECT )
 		return;
 
@@ -877,14 +874,14 @@ void CGameProcCharacterSelect::MsgSend_DeleteChr(const std::string& szKey) const
 
 	BYTE byBuff[64];
 	int iOffset = 0;
-	CAPISocket::MP_AddByte(byBuff, iOffset, N3_DELETE_CHARACTER);		// 커멘드.
-	CAPISocket::MP_AddByte(byBuff, iOffset, (BYTE)iIndex);				// 인덱스 - b
-	CAPISocket::MP_AddShort(byBuff, iOffset, (BYTE)m_InfoChrs[iIndex].szID.size());		// 아이디 길이
-	CAPISocket::MP_AddString(byBuff, iOffset, m_InfoChrs[iIndex].szID); // 아이디 문자열
-	CAPISocket::MP_AddShort(byBuff, iOffset, szKey.size());				// 주민등록번호 길이
-	CAPISocket::MP_AddString(byBuff, iOffset, szKey);					// 주민등록번호 문자열
+	CAPISocket::MP_AddByte(byBuff, iOffset, N3_DELETE_CHARACTER);		// command.
+	CAPISocket::MP_AddByte(byBuff, iOffset, (BYTE)iIndex);				// index - b
+	CAPISocket::MP_AddShort(byBuff, iOffset, (BYTE)m_InfoChrs[iIndex].szID.size());		// id length
+	CAPISocket::MP_AddString(byBuff, iOffset, m_InfoChrs[iIndex].szID); // id string
+	CAPISocket::MP_AddShort(byBuff, iOffset, szKey.size());				// Social Security Number Length
+	CAPISocket::MP_AddString(byBuff, iOffset, szKey);					// social security number string
 	
-	s_pSocket->Send(byBuff, iOffset);								// 보낸다
+	s_pSocket->Send(byBuff, iOffset);								// send
 }
 
 void CGameProcCharacterSelect::CheckJobState()
@@ -1017,13 +1014,13 @@ void CGameProcCharacterSelect::CharacterSelect()
 		}
 	}
 
-	m_bReceivedCharacterSelect = true; // 캐릭터 고르기 완료..
-	s_pUIMgr->EnableOperationSet(false); // 일단 고르면 UI 안되게 한다...
+	m_bReceivedCharacterSelect = true; // Character selection complete.
+	s_pUIMgr->EnableOperationSet(false); // Once selected, disable the UI...
 }
 
 void CGameProcCharacterSelect::CharacterSelectFailed()
 {
-	m_bReceivedCharacterSelect = false; // 캐릭터 고르기 실패..
+	m_bReceivedCharacterSelect = false; // Failed character selection.
 	std::string szErr; ::_LoadStringFromResource(IDS_ERR_CHARACTER_SELECT, szErr);
 	CGameProcedure::MessageBoxPost(szErr, "", MB_OK, BEHAVIOR_EXIT);
 	s_pUIMgr->EnableOperationSet(true);
@@ -1071,8 +1068,8 @@ void CGameProcCharacterSelect::DoSelectedChrProc()
 	else
 	{
 		s_SndMgr.ReleaseStreamObj(&(CGameProcedure::s_pSnd_BGM));
-		CGameProcedure::ProcActiveSet((CGameProcedure*)s_pProcMain); // 캐릭터 받았고.. 에니메이션도 끝났으면 메인으로 넘어가자..!!
-//		CGameProcedure::s_pEng->RestoreLighting();
+		CGameProcedure::ProcActiveSet((CGameProcedure*)s_pProcMain); // After receiving the character.. and the animation is over, let&#39;s move on to the main..!!
+// CGameProcedure::s_pEng->RestoreLighting();
 	}
 }
 
@@ -1273,43 +1270,43 @@ void CGameProcCharacterSelect::DecreseLightFactor()
 
 void CGameProcCharacterSelect::MsgRecv_AllCharacterInfo(DataPack* pDataPack, int& iOffset)
 {
-	const int iResult = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // 결과..
+	const int iResult = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // result..
 	if(0x1 == iResult)
 	{
 		for(int i = 0; i < MAX_AVAILABLE_CHARACTER; i++)
 		{
-			const int iIDLength				= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // 캐릭터 아이디 길이 s,
-			CAPISocket::Parse_GetString(pDataPack->m_pData, iOffset, m_InfoChrs[i].szID, iIDLength);// 캐릭터 아이디 문자열 str
+			const int iIDLength				= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // character id length s,
+			CAPISocket::Parse_GetString(pDataPack->m_pData, iOffset, m_InfoChrs[i].szID, iIDLength);// character id string str
 
-			m_InfoChrs[i].eRace			= (e_Race)(CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset)); // 종족 b
-			m_InfoChrs[i].eClass		= (e_Class)(CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset)); // 직업 b
-			m_InfoChrs[i].iLevel		= CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // 레벨 b
-			m_InfoChrs[i].iFace			= CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // 얼굴모양 b
-			m_InfoChrs[i].iHair			= CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // 머리모양 b
+			m_InfoChrs[i].eRace			= (e_Race)(CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset)); // race b
+			m_InfoChrs[i].eClass		= (e_Class)(CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset)); // job b
+			m_InfoChrs[i].iLevel		= CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // level b
+			m_InfoChrs[i].iFace			= CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // face shape b
+			m_InfoChrs[i].iHair			= CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // hair style b
 			m_InfoChrs[i].iZone			= CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // zone number
 
-			m_InfoChrs[i].dwItemHelmet				= CAPISocket::Parse_GetDword(pDataPack->m_pData, iOffset); // 투구 dw
-			m_InfoChrs[i].iItemHelmetDurability		= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // 내구성값
-			m_InfoChrs[i].dwItemUpper				= CAPISocket::Parse_GetDword(pDataPack->m_pData, iOffset); // 상체 dw
-			m_InfoChrs[i].iItemUpperDurability		= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // 내구성값
-			m_InfoChrs[i].dwItemCloak				= CAPISocket::Parse_GetDword(pDataPack->m_pData, iOffset); // 어깨(망토) dw
-			m_InfoChrs[i].iItemCloakDurability		= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // 내구성값
-			m_InfoChrs[i].dwItemLower				= CAPISocket::Parse_GetDword(pDataPack->m_pData, iOffset); // 하체 dw
-			m_InfoChrs[i].iItemLowerDurability		= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // 내구성값
-			m_InfoChrs[i].dwItemGloves				= CAPISocket::Parse_GetDword(pDataPack->m_pData, iOffset); // 장갑 dw
-			m_InfoChrs[i].iItemGlovesDurability		= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // 내구성값
-			m_InfoChrs[i].dwItemShoes				= CAPISocket::Parse_GetDword(pDataPack->m_pData, iOffset); // 신발 dw
-			m_InfoChrs[i].iItemShoesDurability		= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // 내구성값
+			m_InfoChrs[i].dwItemHelmet				= CAPISocket::Parse_GetDword(pDataPack->m_pData, iOffset); // helmet dw
+			m_InfoChrs[i].iItemHelmetDurability		= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // durability value
+			m_InfoChrs[i].dwItemUpper				= CAPISocket::Parse_GetDword(pDataPack->m_pData, iOffset); // upper body dw
+			m_InfoChrs[i].iItemUpperDurability		= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // durability value
+			m_InfoChrs[i].dwItemCloak				= CAPISocket::Parse_GetDword(pDataPack->m_pData, iOffset); // shoulder (cloak) dw
+			m_InfoChrs[i].iItemCloakDurability		= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // durability value
+			m_InfoChrs[i].dwItemLower				= CAPISocket::Parse_GetDword(pDataPack->m_pData, iOffset); // lower body dw
+			m_InfoChrs[i].iItemLowerDurability		= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // durability value
+			m_InfoChrs[i].dwItemGloves				= CAPISocket::Parse_GetDword(pDataPack->m_pData, iOffset); // gloves dw
+			m_InfoChrs[i].iItemGlovesDurability		= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // durability value
+			m_InfoChrs[i].dwItemShoes				= CAPISocket::Parse_GetDword(pDataPack->m_pData, iOffset); // shoes dw
+			m_InfoChrs[i].iItemShoesDurability		= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // durability value
 		}
 
-		// 캐릭터 추가..
+		// Add character...
 		if ( m_InfoChrs[0].szID.size() > 0 )		AddChr(POS_CENTER, &(m_InfoChrs[0]));
 		if ( m_InfoChrs[1].szID.size() > 0 )		AddChr(POS_LEFT, &(m_InfoChrs[1]));
 		if ( m_InfoChrs[2].szID.size() > 0 )		AddChr(POS_RIGHT, &(m_InfoChrs[2]));
 	}
 	else
 	{
-		this->MsgSend_RequestAllCharacterInfo(); // 다시 정보 요청..
+		this->MsgSend_RequestAllCharacterInfo(); // requesting information again.
 		return;
 	}
 }
@@ -1318,14 +1315,14 @@ void CGameProcCharacterSelect::MsgSend_RequestAllCharacterInfo()
 {
 	BYTE byBuff[4];
 	int iOffset = 0;
-	CAPISocket::MP_AddByte(byBuff, iOffset, N3_ALL_CHARACTER_INFO_REQUEST);	// 커멘드.
-	s_pSocket->Send(byBuff, iOffset);								// 보낸다
+	CAPISocket::MP_AddByte(byBuff, iOffset, N3_ALL_CHARACTER_INFO_REQUEST);	// command.
+	s_pSocket->Send(byBuff, iOffset);								// send
 }
 
 void CGameProcCharacterSelect::MsgSend_CharacterSelect() // virtual
 {
 	CGameProcedure::MsgSend_CharacterSelect();
-	s_pUIMgr->EnableOperationSet(false); // UI 를 조작 못하게 한다..
+	s_pUIMgr->EnableOperationSet(false); // Prevent manipulation of the UI.
 }
 
 bool CGameProcCharacterSelect::ProcessPacket(DataPack* pDataPack, int& iOffset)
@@ -1334,12 +1331,12 @@ bool CGameProcCharacterSelect::ProcessPacket(DataPack* pDataPack, int& iOffset)
 	if(false == CGameProcedure::ProcessPacket(pDataPack, iOffset)) iOffset = iOffsetPrev;
 	else return true;
 
-	const int iCmd = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);	// 커멘드 파싱..
-	switch ( iCmd )										// 커멘드에 다라서 분기..
+	const int iCmd = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);	// Command parsing...
+	switch ( iCmd )										// Branch according to the command..
 	{
-		case N3_ALL_CHARACTER_INFO_REQUEST:				// 캐릭터 선택 메시지..
+		case N3_ALL_CHARACTER_INFO_REQUEST:				// Character selection message...
 			this->MsgRecv_AllCharacterInfo(pDataPack, iOffset);
-			s_pUIMgr->EnableOperationSet(true); // 캐릭터 정보가 다오면 UI 조작하게 한다..
+			s_pUIMgr->EnableOperationSet(true); // When the character information is received, let the UI be manipulated.
 			return true;
 		case N3_DELETE_CHARACTER:
 			this->MsgRecv_DeleteChr(pDataPack, iOffset);
@@ -1354,9 +1351,9 @@ void CGameProcCharacterSelect::CharacterSelectOrCreate()
 	CGameProcedure::MessageBoxClose(-1);
 
 	const int iIndex = CGameProcedure::s_iChrSelectIndex;
-	if(nullptr == m_pChrs[iIndex]) // 캐릭터가 없으면..
+	if(nullptr == m_pChrs[iIndex]) // Without a character...
 	{
-		CGameProcedure::ProcActiveSet((CGameProcedure*)s_pProcCharacterCreate); // 캐릭터 생성 프로시저를 호출한다..
+		CGameProcedure::ProcActiveSet((CGameProcedure*)s_pProcCharacterCreate); // Call the character creation procedure.
 	}
 	else
 	{

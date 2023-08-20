@@ -9,17 +9,17 @@ class CN3UIString : public CN3UIBase
 {
 	friend class CN3UIEdit;
 #ifdef _N3TOOL
-friend class CPropertyView;	// 툴에서 각 변수들을 접근하기 위해서 
+friend class CPropertyView;	// To access each variable in the tool
 #endif
 
 protected:
-	CDFont*			m_pDFont;			// DFont(실제 글자를 화면에 찍어주는 클래스다)
-	POINT			m_ptDrawPos;		// 실제 화면에 표시될 글자의 제일 왼쪽 상단 좌표
+	CDFont*			m_pDFont;			// DFont (class that prints actual text on the screen)
+	POINT			m_ptDrawPos;		// The coordinates of the top left of the text to be displayed on the actual screen
 	std::string 	m_szString;			// string buffer
-	D3DCOLOR		m_Color;			// 글자 색
-	int				m_iLineCount;		// 현재 세팅된 글씨들의 line수
-	std::vector<int>	m_NewLineIndices;	// multiline일경우 새로운 라인의 인덱스들
-	int				m_iStartLine;		// multiline일경우 글씨가 찍히는 시작 라인번호
+	D3DCOLOR		m_Color;			// text color
+	int				m_iLineCount;		// The number of lines of currently set characters
+	std::vector<int>	m_NewLineIndices;	// In case of multiline, indices of new lines
+	int				m_iStartLine;		// In the case of multiline, the starting line number where text is printed
 	uint32_t		m_iPadding;
 
 public:
@@ -39,10 +39,10 @@ public:
 	virtual void	Render();
 	virtual void	Release();	
 	virtual void	Init(CN3UIBase* pParent);
-	virtual BOOL	MoveOffset(int iOffsetX, int iOffsetY);// 글씨찍는 위치도 바뀌어 준다.
+	virtual BOOL	MoveOffset(int iOffsetX, int iOffsetY);// The location of the writing also changes.
 	virtual bool	Load(HANDLE hFile);
-	void			ClearOnlyStringBuffer() { m_szString = ""; }	// string 버퍼만 지운다.
-	void			SetStartLine(int iLine);	// multiline일경우 시작하는 라인 변경하기
+	void			ClearOnlyStringBuffer() { m_szString = ""; }	// Clear only the string buffer.
+	void			SetStartLine(int iLine);	// Change the starting line for multiline
 
 	virtual void	operator = (const CN3UIString& other);
 
@@ -57,8 +57,8 @@ public:
 
 	virtual void	SetString(const std::string& szString);
 	virtual void	SetStringAsInt(int iVal);
-	void			SetString_NoWordWrap(const std::string& szString);	// 글자 정렬 하지 않는다.
-	virtual void	SetFont(const std::string& szFontName, DWORD dwHeight, BOOL bBold, BOOL bItalic); // dwHeight는 point size이다.
+	void			SetString_NoWordWrap(const std::string& szString);	// Do not align letters.
+	virtual void	SetFont(const std::string& szFontName, DWORD dwHeight, BOOL bBold, BOOL bItalic); // dwHeight is the point size.
 	BOOL			GetTextExtent(const const std::string& szString, int iStrLen, SIZE* pSize ) const
 	{
 		if (m_pDFont) return m_pDFont->GetTextExtent(szString, iStrLen, pSize);

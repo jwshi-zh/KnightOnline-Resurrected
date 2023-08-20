@@ -26,7 +26,7 @@ CUIStateBar::CUIStateBar()
 	m_pProgress_ExpC = nullptr;
 	m_pProgress_ExpP = nullptr;
 
-	// 미니맵...
+	// mini map...
 	m_pGroup_MiniMap = nullptr;
 	m_pImage_Map = nullptr;
 	m_pBtn_ZoomIn = nullptr;
@@ -80,7 +80,7 @@ void CUIStateBar::Release()
 	m_pProgress_ExpC = nullptr;
 	m_pProgress_ExpP = nullptr;
 
-	// 미니맵...
+	// mini map...
 	m_pGroup_MiniMap = nullptr;
 	m_pImage_Map = nullptr;
 	m_pBtn_ZoomIn = nullptr;
@@ -156,15 +156,15 @@ void CUIStateBar::UpdateExp(int iExp, int iExpNext, bool bUpdateImmediately) con
 		const int iExp2 = iExp%iExpNext2;
 		const int iPercentage2 = 100 * iExp2 / iExpNext2;
 
-		if(bUpdateImmediately) m_pProgress_ExpC->SetCurValue(iPercentage2);	 //SetCurValue --> set경우 
+		if(bUpdateImmediately) m_pProgress_ExpC->SetCurValue(iPercentage2);	 // SetCurValue --&gt; if set
 		else m_pProgress_ExpC->SetCurValue(iPercentage2, 0.7f, 50.0f);
 	}
 	else
 	{
-		m_pProgress_ExpC->SetCurValue(0);	 //SetCurValue --> set경우 
+		m_pProgress_ExpC->SetCurValue(0);	 // SetCurValue --&gt; if set
 	}
 
-	if(bUpdateImmediately) m_pProgress_ExpP->SetCurValue(iPercentage);	 //SetCurValue --> set경우 
+	if(bUpdateImmediately) m_pProgress_ExpP->SetCurValue(iPercentage);	 // SetCurValue --&gt; if set
 	else m_pProgress_ExpP->SetCurValue(iPercentage, 0.3f, 100.0f);
 }
 
@@ -176,7 +176,7 @@ void CUIStateBar::UpdateMSP(int iMSP, int iMSPMax, bool bUpdateImmediately)
 
 	const int iPercentage = 100 * iMSP / iMSPMax;
 
-	if(bUpdateImmediately) m_pProgress_MSP->SetCurValue(iPercentage);	 //SetCurValue --> set경우 
+	if(bUpdateImmediately) m_pProgress_MSP->SetCurValue(iPercentage);	 // SetCurValue --&gt; if set
 	else m_pProgress_MSP->SetCurValue(iPercentage, 0.3f, 100.0f);
 }
 
@@ -187,7 +187,7 @@ void CUIStateBar::UpdateHP(int iHP, int iHPMax, bool bUpdateImmediately)
 
 	const int iPercentage = 100 * iHP / iHPMax;
 
-	if(bUpdateImmediately) m_pProgress_HP->SetCurValue(iPercentage);	 //SetCurValue --> set경우 
+	if(bUpdateImmediately) m_pProgress_HP->SetCurValue(iPercentage);	 // SetCurValue --&gt; if set
 	else m_pProgress_HP->SetCurValue(iPercentage, 0.3f, 100.0f);
 }
 
@@ -199,7 +199,7 @@ void CUIStateBar::UpdatePosition(const __Vector3 &vPos, float fYaw)
 	sprintf(szPos, "%.1f, %.1f", vPos.x, vPos.z);
 	m_pText_Position->SetString(szPos);
 
-	// 미니맵.
+	// minimap.
 	m_vPosPlayer = vPos;
 	m_fYawPlayer = fYaw;
 }
@@ -210,7 +210,7 @@ void CUIStateBar::Render()
 
 	CN3UIBase::Render();
 
-	if(nullptr == m_pGroup_MiniMap || false == m_pGroup_MiniMap->IsVisible()) return; // 미니맵이 안켜져 있음 돌아간다..
+	if(nullptr == m_pGroup_MiniMap || false == m_pGroup_MiniMap->IsVisible()) return; // The minimap is not turned on, so I&#39;m going back.
 	if(nullptr == m_pImage_Map) return;
 	if(m_fMapSizeX <= 0 || m_fMapSizeZ <= 0) return;
 
@@ -255,7 +255,7 @@ void CUIStateBar::Render()
 	CN3Base::s_lpD3DDev->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
 	CN3Base::s_lpD3DDev->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_DIFFUSE);
 
-	CN3Base::s_lpD3DDev->SetFVF(FVF_TRANSFORMEDCOLOR); // 플레이어의 위치및 방향 표시..
+	CN3Base::s_lpD3DDev->SetFVF(FVF_TRANSFORMEDCOLOR); // Displays the player&#39;s position and direction.
 
 	__Vector3 vPos;
 	auto it = m_Positions.begin(), itEnd = m_Positions.end();
@@ -264,8 +264,8 @@ void CUIStateBar::Render()
 		info = *it;
 		
 		vPos = m_vPosPlayer - info.vPos;
-//		vPos.x = (float)((int)(fCenterX - m_fZoom * fWidth * (vPos.x / m_fMapSizeX)));
-//		vPos.z = (float)((int)(fCenterY + m_fZoom * fHeight * (vPos.z / m_fMapSizeZ)));
+		// vPos.x = (float)((int)(fCenterX - m_fZoom * fWidth * (vPos.x / m_fMapSizeX)));
+		// vPos.z = (float)((int)(fCenterY + m_fZoom * fHeight * (vPos.z / m_fMapSizeZ)));
 		vPos.x = fCenterX - m_fZoom * fWidth * (vPos.x / m_fMapSizeX);
 		vPos.y = fCenterY + m_fZoom * fHeight * (vPos.z / m_fMapSizeZ);
 
@@ -298,14 +298,14 @@ void CUIStateBar::Render()
 
 	CN3Base::s_lpD3DDev->DrawPrimitiveUP(D3DPT_TRIANGLELIST, 2, m_vArrows, sizeof(__VertexTransformedColor));
 
-	it = m_PositionsTop.begin(), itEnd = m_PositionsTop.end(); // 나중에 그릴 점덜...
+	it = m_PositionsTop.begin(), itEnd = m_PositionsTop.end(); // Something to draw later...
 	for(; it != itEnd; it++)
 	{
 		info = *it;
 		
 		vPos = m_vPosPlayer - info.vPos;
-//		vPos.x = (float)((int)(fCenterX - m_fZoom * fWidth * (vPos.x / m_fMapSizeX)));
-//		vPos.z = (float)((int)(fCenterY + m_fZoom * fHeight * (vPos.z / m_fMapSizeZ)));
+		// vPos.x = (float)((int)(fCenterX - m_fZoom * fWidth * (vPos.x / m_fMapSizeX)));
+		// vPos.z = (float)((int)(fCenterY + m_fZoom * fHeight * (vPos.z / m_fMapSizeZ)));
 		vPos.x = fCenterX - m_fZoom * fWidth * (vPos.x / m_fMapSizeX);
 		vPos.y = fCenterY + m_fZoom * fHeight * (vPos.z / m_fMapSizeZ);
 
@@ -336,8 +336,8 @@ void CUIStateBar::Render()
 		CN3Base::s_lpD3DDev->DrawPrimitiveUP(D3DPT_TRIANGLEFAN, 2, vPositions, sizeof(__VertexTransformedColor));
 	}
 
-	//Render..
-	//m_pMagic.clear();
+	// Render..
+	// m_pMagic.clear();
 	const auto iteMagic = m_pMagic.end();
 	for(auto itMagic = m_pMagic.begin(); itMagic!=iteMagic; itMagic++)
 	{
@@ -363,8 +363,8 @@ void CUIStateBar::Tick()
 
 	CN3UIBase::Tick();
 
-	TickMiniMap(); // 맵 이미지...
-	TickMagicIcon(); // 아이콘 처리..
+	TickMiniMap(); // map image...
+	TickMagicIcon(); // Handling icons..
 }
 
 void CUIStateBar::TickMiniMap()
@@ -374,9 +374,9 @@ void CUIStateBar::TickMiniMap()
 	if(m_vPosPlayer.x < 0 || m_vPosPlayer.x > m_fMapSizeX || m_vPosPlayer.z < 0 || m_vPosPlayer.z > m_fMapSizeZ) return;
 
 	const float fOffset = (0.5f/m_fZoom);
-	const float fX = (m_vPosPlayer.x / m_fMapSizeX); // 1/16 축적..
+	const float fX = (m_vPosPlayer.x / m_fMapSizeX); // 1/16 accumulation..
 	const float fY = (m_vPosPlayer.z / m_fMapSizeZ);
-//	m_pImage_Map->SetUVRect(fX - fOffset, fY - fOffset, fX + fOffset, fY + fOffset);
+	// m_pImage_Map->SetUVRect(fX - fOffset, fY - fOffset, fX + fOffset, fY + fOffset);
 	m_pImage_Map->SetUVRect((fX - fOffset), 1.0f - (fY + fOffset), (fX + fOffset), 1.0f - (fY - fOffset));
 
 	const RECT rc = m_pImage_Map->GetRegion();
@@ -385,7 +385,7 @@ void CUIStateBar::TickMiniMap()
 	__Matrix44 mtxRot; mtxRot.RotationZ(m_fYawPlayer);
 	mtxRot.PosSet(rc.left + (rc.right - rc.left)/2.0f, rc.top + (rc.bottom - rc.top)/2.0f, 0);
 
-	// 화살표 세팅...
+	// arrow setting...
 	m_vArrows[0].Set(0, -fH, UI_DEFAULT_Z, UI_DEFAULT_RHW, 0xff00ff00);
 	m_vArrows[1].Set(0, fH/2.0f, UI_DEFAULT_Z, UI_DEFAULT_RHW, 0xff00ff00);
 	m_vArrows[2].Set(-fH, fH, UI_DEFAULT_Z, UI_DEFAULT_RHW, 0xff00ff00);
@@ -394,7 +394,7 @@ void CUIStateBar::TickMiniMap()
 	m_vArrows[4] = m_vArrows[2]; m_vArrows[4].x = -m_vArrows[4].x;
 	m_vArrows[5] = m_vArrows[1];
 
-	for(int i = 0; i < 6; i++) m_vArrows[i] *= mtxRot; // 위치 및 회전 변환..
+	for(int i = 0; i < 6; i++) m_vArrows[i] *= mtxRot; // Position and rotation conversion..
 }
 
 void CUIStateBar::TickMagicIcon()
@@ -455,7 +455,7 @@ bool CUIStateBar::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 				{
 					if(pSkill->dw1stTableType==3 || pSkill->dw2ndTableType==3) pMagicImg->fDuration = 0.0f;
 
-					//없애라..
+					// get rid of it...
 					BYTE byBuff[32];
 					int iOffset=0;
 					CAPISocket::MP_AddByte(byBuff, iOffset, (BYTE)N3_MAGIC);
@@ -472,7 +472,7 @@ bool CUIStateBar::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 					CAPISocket::MP_AddShort(byBuff, iOffset, 0);
 					CAPISocket::MP_AddShort(byBuff, iOffset, 0);
 
-					CGameProcedure::s_pSocket->Send(byBuff, iOffset); // 보낸다..					
+					CGameProcedure::s_pSocket->Send(byBuff, iOffset); // send..
 				}
 			}
 		}	
@@ -618,9 +618,9 @@ bool CUIStateBar::OnKeyPress(int iKey)
 	switch(iKey)
 	{
 	case DIK_ESCAPE:
-		{	//hotkey가 포커스 잡혀있을때는 다른 ui를 닫을수 없으므로 DIK_ESCAPE가 들어오면 포커스를 다시잡고
-			//열려있는 다른 유아이를 닫아준다.
-			CGameProcedure::s_pUIMgr->ReFocusUI();//this_ui
+		{	// When the hotkey is focused, other UI cannot be closed, so when DIK_ESCAPE comes in, focus again
+			// Close other open children.
+			CGameProcedure::s_pUIMgr->ReFocusUI();// this_ui
 			CN3UIBase* pFocus = CGameProcedure::s_pUIMgr->GetFocusedUI();
 			if(pFocus && pFocus != this) pFocus->OnKeyPress(iKey);
 		}

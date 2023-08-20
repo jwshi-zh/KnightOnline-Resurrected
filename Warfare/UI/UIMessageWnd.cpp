@@ -17,7 +17,7 @@ CUIMessageWnd::CUIMessageWnd()
 
 CUIMessageWnd::~CUIMessageWnd()
 {
-	if (m_ppUILines) {delete [] m_ppUILines; m_ppUILines = nullptr;}	// m_ppUILines[n]의 포인터는 메모리 할당되어 있어도 부모가 해제될때 자동으로 해제하므로 안지워야 한다.
+	if (m_ppUILines) {delete [] m_ppUILines; m_ppUILines = nullptr;}	// The pointer of m_ppUILines[n] should not be deleted because it is automatically released when the parent is freed even if the memory is allocated.
 
 	for(auto itor = m_ChatBuffer.begin(); m_ChatBuffer.end() != itor; ++itor)
 	{
@@ -41,7 +41,7 @@ void CUIMessageWnd::Release()
 	m_pChatOut = nullptr;
 	m_pScrollbar = nullptr;
 	m_iChatLineCount = 0;
-	if (m_ppUILines) {delete [] m_ppUILines; m_ppUILines = nullptr;}	// m_ppUILines[n]의 포인터는 메모리 할당되어 있어도 부모가 해제될때 자동으로 해제하므로 안지워야 한다.
+	if (m_ppUILines) {delete [] m_ppUILines; m_ppUILines = nullptr;}	// The pointer of m_ppUILines[n] should not be deleted because it is automatically released when the parent is freed even if the memory is allocated.
 	ZeroMemory(&m_rcChatOutRegion, sizeof(m_rcChatOutRegion));
 
 	for(auto itor = m_ChatBuffer.begin(); m_ChatBuffer.end() != itor; ++itor)
@@ -62,15 +62,15 @@ void CUIMessageWnd::Release()
 BOOL CUIMessageWnd::MoveOffset(int iOffsetX, int iOffsetY)
 {
 	if (0 == iOffsetX && 0 == iOffsetY) return FALSE;
-	// ui 영역
+	// ui area
 	m_rcRegion.left += iOffsetX;		m_rcRegion.top += iOffsetY;
 	m_rcRegion.right += iOffsetX;		m_rcRegion.bottom += iOffsetY;
 
-	// movable 영역
+	// movable area
 	m_rcMovable.left += iOffsetX;		m_rcMovable.top += iOffsetY;
 	m_rcMovable.right += iOffsetX;		m_rcMovable.bottom += iOffsetY;
 
-	// children 좌표 갱신
+	// update children coordinates
 	// Child UI...
 	for(auto itor = m_Children.begin(); m_Children.end() != itor; ++itor)
 	{
@@ -79,7 +79,7 @@ BOOL CUIMessageWnd::MoveOffset(int iOffsetX, int iOffsetY)
 		pCUI->MoveOffset(iOffsetX, iOffsetY);
 	}
 
-	//여기에 채팅창 옮기는 것도 넣어라...
+	// Also, move the chat window here...
 	const RECT rt = CGameProcedure::s_pProcMain->m_pUIChatDlg->GetRegion();
 	const POINT pt = this->GetPos();
 	if( (pt.x != rt.right) || ( pt.y != rt.top) )
@@ -105,8 +105,8 @@ bool CUIMessageWnd::Load(HANDLE hFile)
 }
 
 
-//////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////
+// 
+// 
 
 bool CUIMessageWnd::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 {
@@ -114,7 +114,7 @@ bool CUIMessageWnd::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 
 	if (dwMsg == UIMSG_SCROLLBAR_POS)
 	{
-		// 스크롤바에 맞는 채팅 Line 설정
+		// Set chat line for scroll bar
 		const int iCurLinePos = m_pScrollbar->GetCurrentPos();
 		SetTopLine(iCurLinePos);
 	}
@@ -163,13 +163,13 @@ void CUIMessageWnd::AddMsg(const std::string& szString, D3DCOLOR color)
 	__ASSERT(m_pScrollbar, "");
 	if (0 >= iStrLen) return;
 
-	// ChatBuffer에 넣기
+	// Put into ChatBuffer
 	auto* pChatInfo = new __ChatInfo;
 	pChatInfo->szChat = szString;
 	pChatInfo->color = color;
 	m_ChatBuffer.push_back(pChatInfo);
 	
-	if (m_ChatBuffer.size() > 255)	// 255개가 넘으면 앞에서부터 지우기
+	if (m_ChatBuffer.size() > 255)	// If there are more than 255, erase from the front.
 	{
 		const __ChatInfo* pTemp = m_ChatBuffer.front();
 		if (pTemp) delete pTemp;
@@ -177,16 +177,16 @@ void CUIMessageWnd::AddMsg(const std::string& szString, D3DCOLOR color)
 		m_ChatBuffer.pop_front();
 	}
 
-	// line buffer 에 넣기
+	// put in line buffer
 	AddLineBuffer(szString, color);
 	
-	// Line buffer 갯수 조절
-	int iCurLinePos = m_pScrollbar->GetCurrentPos();	// 현재 scroll bar가 가리키고 있는 line
+	// Adjusting the number of line buffers
+	int iCurLinePos = m_pScrollbar->GetCurrentPos();	// The line currently pointed by the scroll bar
 	const BOOL bAutoScroll = (m_pScrollbar->GetMaxPos() == iCurLinePos) ? TRUE : FALSE;
 
-	while (m_LineBuffer.size() > MAX_CHAT_LINES && 0 < iCurLinePos)	// MAX_CHAT_LINES은 최대 line의 수 (단 스크롤바가 0인 곳에 있으면 line을 지우지 않으므로 500개를 넘길 수 있다)
+	while (m_LineBuffer.size() > MAX_CHAT_LINES && 0 < iCurLinePos)	// MAX_CHAT_LINES is the maximum number of lines (however, if the scroll bar is at 0, lines are not deleted, so 500 can be exceeded)
 	{
-		// 한줄 지우기
+		// delete one line
 		const __ChatInfo* pTemp = m_LineBuffer.front();
 		if (pTemp) delete pTemp;
 		m_LineBuffer.pop_front();
@@ -196,16 +196,16 @@ void CUIMessageWnd::AddMsg(const std::string& szString, D3DCOLOR color)
 	const int iLineBufferSize = m_LineBuffer.size();
 	int iMaxScrollPos = iLineBufferSize-m_iChatLineCount;
 	if (iMaxScrollPos<0) iMaxScrollPos = 0;
-	m_pScrollbar->SetRange(0, iMaxScrollPos);	// scroll bar range 설정
+	m_pScrollbar->SetRange(0, iMaxScrollPos);	// Set scroll bar range
 
-	// 자동으로 스크롤이면
+	// If it scrolls automatically
 	if ( bAutoScroll) iCurLinePos = iMaxScrollPos;
 	if (iCurLinePos < 0) iCurLinePos = 0;
 
-	// 스크롤바 현재 위치 재설정
+	// Reset scrollbar current position
 	m_pScrollbar->SetCurrentPos(iCurLinePos);
 
-	// 스크롤바에 맞는 채팅 Line 설정
+	// Set chat line for scroll bar
 	SetTopLine(iCurLinePos);
 }
 
@@ -216,13 +216,13 @@ void CUIMessageWnd::AddLineBuffer(const std::string& szString, D3DCOLOR color)
 	__ASSERT(m_pChatOut, "");
 	const int iStrLen = szString.size();
 
-	// line buffer 넣기
+	// Add line buffer
 	SIZE size;
 	if (FALSE == m_pChatOut->GetTextExtent(szString, iStrLen, &size)) {__ASSERT(0,"no device context"); return;}
 
 	const int iRegionWidth = m_rcChatOutRegion.right - m_rcChatOutRegion.left;
 
-	// 글자 자르는 코드, 영역 밖으로 벗어나는 글자는 자르고 밑에 줄에..
+	// Code for cutting characters, characters that go out of range are cut and placed on the line below.
 	int iCX=0;
 	int iCount = 0;
 	int iLineStart = 0;
@@ -240,7 +240,7 @@ void CUIMessageWnd::AddLineBuffer(const std::string& szString, D3DCOLOR color)
 				const int iLineLength = iCount - iLineStart + 1;
 				std::string szLine;
 				pLineInfo->szChat = szString.substr(iLineStart, iLineLength);
-			}	// 연속된 \n일 경우 pszLine = NULL이 될 수 있다.
+			}	// In case of continuous \n, pszLine = NULL.
 
 			++iCount;
 			iLineStart = iCount;
@@ -249,14 +249,14 @@ void CUIMessageWnd::AddLineBuffer(const std::string& szString, D3DCOLOR color)
 		else
 		{
 			int iCC=0;
-			if (0x80 & szString[iCount])	iCC = 2;	// 2BYTE 문자
-			else							iCC = 1;	// 1BYTE 문자
+			if (0x80 & szString[iCount])	iCC = 2;	// 2BYTE characters
+			else							iCC = 1;	// 1 BYTE character
 
 			const BOOL bFlag = m_pChatOut->GetTextExtent(&(szString[iCount]), iCC, &size);
 			__ASSERT(bFlag, "cannot get size of dfont");
-			if ((iCX+size.cx) > iRegionWidth)	// 가로 길이가 넘었으면
+			if ((iCX+size.cx) > iRegionWidth)	// If the width exceeds
 			{
-				// 한 라인 더 추가하기
+				// Add one more line
 
 				const int iLineLength = iCount - iLineStart;
 				if (iLineLength>0)
@@ -275,13 +275,13 @@ void CUIMessageWnd::AddLineBuffer(const std::string& szString, D3DCOLOR color)
 				iLineStart = iCount;
 				iCX = 0;
 			}
-			// 글자 더하기
+			// add letters
 			iCount += iCC;
 			iCX += size.cx;
 		}
 	}
 
-	// 맨 마지막 출 처리
+	// last exit processing
 	const int iLineLength = iStrLen - iLineStart;
 	if (iLineLength>0)
 	{
@@ -302,7 +302,7 @@ void CUIMessageWnd::SetTopLine(int iTopLine) const
 	else if (iTopLine > iLineBufferSize) iTopLine = iLineBufferSize;
 	
 	int i;
-	// 앞줄서부터 차례로 임시버퍼에 저장하고 string 길이 측정
+	// Store in a temporary buffer in order from the previous row and measure the length of the string
 	auto** ppLineInfos  = new __ChatInfo*[m_iChatLineCount];
 	ZeroMemory(ppLineInfos, sizeof(__ChatInfo*)*m_iChatLineCount);
 
@@ -314,8 +314,8 @@ void CUIMessageWnd::SetTopLine(int iTopLine) const
 	}
 
 	__ASSERT(m_ppUILines, "null pointer");
-	// 앞에서부터 맞게 차례로 각각 버퍼에 넣기
-	const int iRealLine = i;	// 실제 출력되는 줄 수
+	// Put each in the buffer in order, starting from the front.
+	const int iRealLine = i;	// Number of lines actually printed
 	int iRealLineCount = 0;
 	for (i=0; i<iRealLine; ++i)
 	{
@@ -327,14 +327,14 @@ void CUIMessageWnd::SetTopLine(int iTopLine) const
 	for (i=iRealLineCount; i<m_iChatLineCount; ++i)
 	{
 		if (nullptr == m_ppUILines[i]) continue;
-		m_ppUILines[i]->SetString("");	// 나머지는 빈칸 만들기
+		m_ppUILines[i]->SetString("");	// leave the rest blank
 	}
 	delete [] ppLineInfos;
 }
 
-void CUIMessageWnd::RecalcLineBuffer()	// 채팅창 사이즈가 변했을때 호출해주면 line buffer를 다시 계산해서 넣어준다.
+void CUIMessageWnd::RecalcLineBuffer()	// If called when the size of the chat window changes, the line buffer is recalculated and inserted.
 {
-	// line buffer 초기화하기
+	// Initializing the line buffer
 	for(auto itor = m_LineBuffer.begin(); m_LineBuffer.end() != itor; ++itor)
 	{
 		const __ChatInfo* pLineBuff = (*itor);
@@ -342,17 +342,17 @@ void CUIMessageWnd::RecalcLineBuffer()	// 채팅창 사이즈가 변했을때 �
 	}
 	m_LineBuffer.clear();
 
-	// Line buffer 다시 넣기
+	// Reload the line buffer
 	for(auto itor = m_ChatBuffer.begin(); m_ChatBuffer.end() != itor; ++itor)
 	{
 		const __ChatInfo* pChatBuff = (*itor);
 		if (pChatBuff) AddLineBuffer(pChatBuff->szChat, pChatBuff->color);
 	}
 
-	// Line buffer 갯수 조절
-	while (m_LineBuffer.size() > MAX_CHAT_LINES)	// MAX_CHAT_LINES은 최대 line의 수
+	// Adjusting the number of line buffers
+	while (m_LineBuffer.size() > MAX_CHAT_LINES)	// MAX_CHAT_LINES is the maximum number of lines
 	{
-		// 한줄 지우기
+		// delete one line
 		const __ChatInfo* pLineBuff = m_LineBuffer.front();
 		if (pLineBuff) delete pLineBuff;
 		m_LineBuffer.pop_front();
@@ -361,22 +361,22 @@ void CUIMessageWnd::RecalcLineBuffer()	// 채팅창 사이즈가 변했을때 �
 	const int iLineBufferSize = m_LineBuffer.size();
 	int iMaxScrollPos = iLineBufferSize-m_iChatLineCount;
 	if (iMaxScrollPos<0) iMaxScrollPos = 0;
-	m_pScrollbar->SetRange(0, iMaxScrollPos);	// scroll bar range 설정
+	m_pScrollbar->SetRange(0, iMaxScrollPos);	// Set scroll bar range
 
-	// 스크롤바 현재 위치 재설정
+	// Reset scrollbar current position
 	m_pScrollbar->SetCurrentPos(iMaxScrollPos);
 
-	// 스크롤바에 맞는 채팅 Line 설정
+	// Set chat line for scroll bar
 	SetTopLine(iMaxScrollPos);
 }
 
 void CUIMessageWnd::SetRegion(const RECT& Rect)
 {
 	CN3UIBase::SetRegion(Rect);
-	// 자식들을 적당히 배치한다.
-	// m_rcChatOutRegion = ;	// 채팅 출력 영역을 다시 지정해준다.
-	//CreateLines();	// 채팅 라인을 몇줄 들어갈지 계산하고 다시 만든다.
-	//RecalcLineBuffer();	// 라인 버퍼를 다 지우고 다시 만들어주고 글씨를 표시한다.
+	// Arrange your children appropriately.
+	// m_rcChatOutRegion = ; // Specifies the chat output area again.
+	// CreateLines(); // Calculate how many chat lines will fit and recreate them.
+	// RecalcLineBuffer(); // Clear the line buffer, recreate it, and display the text.
 }
 
 
@@ -385,9 +385,9 @@ bool CUIMessageWnd::OnKeyPress(int iKey)
 	switch(iKey)
 	{
 	case DIK_ESCAPE:
-		{	//hotkey가 포커스 잡혀있을때는 다른 ui를 닫을수 없으므로 DIK_ESCAPE가 들어오면 포커스를 다시잡고
-			//열려있는 다른 유아이를 닫아준다.
-			CGameProcedure::s_pUIMgr->ReFocusUI();//this_ui
+		{	// When the hotkey is focused, other UI cannot be closed, so when DIK_ESCAPE comes in, focus again
+			// Close other open children.
+			CGameProcedure::s_pUIMgr->ReFocusUI();// this_ui
 			CN3UIBase* pFocus = CGameProcedure::s_pUIMgr->GetFocusedUI();
 			if(pFocus && pFocus != this) pFocus->OnKeyPress(iKey);
 		}

@@ -29,16 +29,16 @@ void CUIRepairTooltipDlg::Release()
 
 void CUIRepairTooltipDlg::InitPos()
 {
-	m_pStr[0] = (CN3UIString* )GetChildByID("string_repairgold");				//이름 
+	m_pStr[0] = (CN3UIString* )GetChildByID("string_repairgold");				// name
 	__ASSERT(m_pStr[0], "NULL UI Component!!");
 	m_pStr[0]->SetString("0");	
-	m_pStr[1] = (CN3UIString* )GetChildByID("string_dur_max");					//이름 
+	m_pStr[1] = (CN3UIString* )GetChildByID("string_dur_max");					// name
 	__ASSERT(m_pStr[1], "NULL UI Component!!");
 	m_pStr[1]->SetString("0");	
-	m_pStr[2] = (CN3UIString* )GetChildByID("string_dur_current");				//이름 
+	m_pStr[2] = (CN3UIString* )GetChildByID("string_dur_current");				// name
 	__ASSERT(m_pStr[2], "NULL UI Component!!");
 	m_pStr[2]->SetString("0");	
-	m_pStr[3] = (CN3UIString* )GetChildByID("string_title");					//이름 
+	m_pStr[3] = (CN3UIString* )GetChildByID("string_title");					// name
 	__ASSERT(m_pStr[3], "NULL UI Component!!");
 	m_pStr[3]->SetString("0");	
 	BackupStrColor();

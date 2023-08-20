@@ -8,7 +8,7 @@ class CN3UIString;
 class CN3UIList : public CN3UIBase  
 {
 protected:
-	int						m_iCurSel;		// 현재 선택..
+	int						m_iCurSel;		// Current selection...
 	std::list<CN3UIString*>	m_ListString;	// String List
 	class CN3UIScrollBar*	m_pScrollBarRef;
 

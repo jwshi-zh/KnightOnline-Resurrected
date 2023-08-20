@@ -38,73 +38,73 @@ DWORD CN3UIIcon::MouseProc(DWORD dwFlags, const POINT& ptCur, const POINT& ptOld
 
 	rect = GetMoveRect();
 
-	if(!::PtInRect(&rect, ptCur))		// 영역 밖이면
+	if(!::PtInRect(&rect, ptCur))		// out of range
 	{
 		dwRet |= CN3UIBase::MouseProc(dwFlags, ptCur, ptOld);
 		return dwRet;
 	}
 
-	if((dwFlags & UI_MOUSE_LBCLICK) && !(dwFlags & UI_MOUSE_RBDOWN))  // 왼쪽버튼 눌르는 순간
+	if((dwFlags & UI_MOUSE_LBCLICK) && !(dwFlags & UI_MOUSE_RBDOWN))  // When the left button is pressed
 	{
 		m_pParent->SetState(UI_STATE_ICON_MOVING);
-		m_pParent->ReceiveMessage(this, UIMSG_ICON_DOWN_FIRST); // 부모에게 버튼 클릭 통지..
+		m_pParent->ReceiveMessage(this, UIMSG_ICON_DOWN_FIRST); // Notify parent on button click..
 		dwRet |= UI_MOUSEPROC_DONESOMETHING;
 		return dwRet;
 	}
 
-	if((dwFlags & UI_MOUSE_LBCLICKED) && !(dwFlags & UI_MOUSE_RBDOWN)) // 왼쪽버튼을 떼는 순간
+	if((dwFlags & UI_MOUSE_LBCLICKED) && !(dwFlags & UI_MOUSE_RBDOWN)) // When the left button is released
 	{
-		if(m_pParent && m_pParent->GetState() == UI_STATE_ICON_MOVING) // 이전 상태가 버튼을 Down 상태이면
+		if(m_pParent && m_pParent->GetState() == UI_STATE_ICON_MOVING) // If the previous state is the Down state of the button
 		{
 			m_pParent->SetState(UI_STATE_COMMON_NONE);
-			m_pParent->ReceiveMessage(this, UIMSG_ICON_UP); // 부모에게 버튼 클릭 통지..
+			m_pParent->ReceiveMessage(this, UIMSG_ICON_UP); // Notify parent on button click..
 			dwRet |= UI_MOUSEPROC_DONESOMETHING;
 			return dwRet;
 		}
 	}
 
-	if ((dwFlags & UI_MOUSE_RBCLICK)  && !(dwFlags & UI_MOUSE_LBDOWN))	// 오른쪽
+	if ((dwFlags & UI_MOUSE_RBCLICK)  && !(dwFlags & UI_MOUSE_LBDOWN))	// right
 	{
-		m_pParent->ReceiveMessage(this, UIMSG_ICON_RDOWN_FIRST); // 부모에게 버튼 클릭 통지..
+		m_pParent->ReceiveMessage(this, UIMSG_ICON_RDOWN_FIRST); // Notify parent on button click..
 		dwRet |= UI_MOUSEPROC_DONESOMETHING;
 		return dwRet;
 	}
 
-	if((dwFlags & UI_MOUSE_RBCLICKED)  && !(dwFlags & UI_MOUSE_LBDOWN))// 오른쪽 버튼을 떼는 순간
+	if((dwFlags & UI_MOUSE_RBCLICKED)  && !(dwFlags & UI_MOUSE_LBDOWN))// when the right button is released
 	{
-		m_pParent->ReceiveMessage(this, UIMSG_ICON_RUP); // 부모에게 버튼 클릭 통지..
+		m_pParent->ReceiveMessage(this, UIMSG_ICON_RUP); // Notify parent on button click..
 		dwRet |= UI_MOUSEPROC_DONESOMETHING;
 		return dwRet;
 	}
 
-	if (dwFlags & UI_MOUSE_LBDOWN)	// 왼쪽
+	if (dwFlags & UI_MOUSE_LBDOWN)	// left
 	{
-		m_pParent->ReceiveMessage(this, UIMSG_ICON_DOWN); // 부모에게 버튼 클릭 통지..
+		m_pParent->ReceiveMessage(this, UIMSG_ICON_DOWN); // Notify parent on button click..
 		dwRet |= UI_MOUSEPROC_DONESOMETHING;
 		return dwRet;
 	}
 /*
 	else
 	{
-		if(m_pParent && m_pParent->GetState() == UI_STATE_ICON_MOVING) // 이전 상태가 버튼을 Down 상태이면
+		if(m_pParent &amp;&amp; m_pParent-&gt;GetState() == UI_STATE_ICON_MOVING) // If the previous state is the button Down state
 		{
-			m_pParent->ReceiveMessage(this, UIMSG_ICON_UP); // 부모에게 버튼 클릭 통지..
+			m_pParent-&gt;ReceiveMessage(this, UIMSG_ICON_UP); // Notify parent when button is clicked..
 			dwRet |= UI_MOUSEPROC_DONESOMETHING;
 			return dwRet;
 		}
 	}
 */
 
-	if (dwFlags & UI_MOUSE_LBDBLCLK)	// 왼쪽 더블 클릭
+	if (dwFlags & UI_MOUSE_LBDBLCLK)	// left double click
 	{
-		m_pParent->ReceiveMessage(this, UIMSG_ICON_DBLCLK); // 부모에게 버튼 클릭 통지..
+		m_pParent->ReceiveMessage(this, UIMSG_ICON_DBLCLK); // Notify parent on button click..
 		dwRet |= UI_MOUSEPROC_DONESOMETHING;
 		return dwRet;
 	}
 
-	if (dwFlags & UI_MOUSE_RBDBLCLK)	// 오른쪽 더블 클릭
+	if (dwFlags & UI_MOUSE_RBDBLCLK)	// right double click
 	{
-		m_pParent->ReceiveMessage(this, UIMSG_ICON_RDBLCLK); // 부모에게 버튼 클릭 통지..
+		m_pParent->ReceiveMessage(this, UIMSG_ICON_RDBLCLK); // Notify parent on button click..
 		dwRet |= UI_MOUSEPROC_DONESOMETHING;
 		return dwRet;
 	}

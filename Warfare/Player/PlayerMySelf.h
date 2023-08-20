@@ -3,58 +3,58 @@
 #include <list>
 #include "PlayerBase.h"
 
-//////////////////////////////////////////////////////////////////////
+// 
 class CPlayerMySelf : public CPlayerBase
 {
 protected:
-	bool			m_bRunning; // 뛰는지..
-	float			m_fAttackTimeRecent;	// 최근에 공격한 시간..
+	bool			m_bRunning; // Are you running?
+	float			m_fAttackTimeRecent;	// Last attack time.
 
-	__Vector3		m_vCollisionOffsets[3]; // 허리 부분 2개의 충돌 체크 + 머리 부분 1개의 충돌 체크..
+	__Vector3		m_vCollisionOffsets[3]; // 2 collision checks for the waist + 1 collision check for the head..
 
 public:	
 	__InfoPlayerMySelf	m_InfoExt;
-	CN3Chr				m_ChrInv;				// 캐릭터 기본 객체...
-	bool				m_bMoveContinous;		// 계속 움직이는지..
-	bool				m_bAttackContinous;		// 계속 공격하는 상태인지..
-	bool				m_bSitDown;				// 앉아있는 상태인지....
-	bool				m_bRecruitParty;		// 파티 모집중??
+	CN3Chr				m_ChrInv;				// Character Basic Object...
+	bool				m_bMoveContinous;		// Do you keep moving?
+	bool				m_bAttackContinous;		// Are you still under attack?
+	bool				m_bSitDown;				// Are you sitting...
+	bool				m_bRecruitParty;		// Looking for a party??
 
-	bool				m_bStun;				// 기절..
-	float				m_fStunTime;			// 기절한 시간..
+	bool				m_bStun;				// faint..
+	float				m_fStunTime;			// embarrassing time...
 
-	int					m_iSendRegeneration;	// 한번 보내면 다시 죽을때까지 안보내는 플래그 0 일때는 메시지 박스를 띄운다..
-	bool				m_bTempMoveTurbo;		// 개발을 위해 임시로 넣은 코드.. 무지 빠르게 움직이게 한다.. Tick 참조.
+	int					m_iSendRegeneration;	// If it is sent once, it will not be seen until it dies again. When the flag is 0, a message box is displayed.
+	bool				m_bTempMoveTurbo;		// Temporary code put in for development.. Makes it run really fast.. See Tick.
 
-	DWORD				m_dwMagicID;			// 쓰고 있는 마법..
-	float				m_fCastingTime;			// 마법 주문 거는 시간..
+	DWORD				m_dwMagicID;			// The magic you&#39;re using...
+	float				m_fCastingTime;			// Time to cast a spell...
 	
-	class CN3Shape*		m_pObjectTarget;		// 타겟 오브젝트 포인터..
+	class CN3Shape*		m_pObjectTarget;		// target object pointer.
 
-	bool				m_bTargetOrPosMove;		// 타겟이나 지점 이동 여부
-	int					m_iMoveTarget;			// 타겟 아이디
-	__Vector3			m_vTargetPos;			// 이동할 지점 위치
+	bool				m_bTargetOrPosMove;		// whether to move target or point
+	int					m_iMoveTarget;			// target id
+	__Vector3			m_vTargetPos;			// point to move to
 	void				SetMoveTargetID(int iID);
 	void				SetMoveTargetPos(__Vector3 vPos);
 
 public:	
 	void			TargetOrPosMove();
-	void			Stun(float fTime); // 일정한 시간동안 기절 시키기.
-	void			StunRelease(); // 기절 풀기..
+	void			Stun(float fTime); // To stun for a certain amount of time.
+	void			StunRelease(); // Get rid of fainting..
 
-	float			MoveSpeedCalculationAndCheckCollision(); // 속도를 구하고 그 속도로 충돌 체크를 한다. 리턴값이 0 이면 충돌이다..
+	float			MoveSpeedCalculationAndCheckCollision(); // Get the speed and do a collision check with that speed. If the return value is 0, it is a collision.
 
-	void			InitFace(); // 갖고 있는 정보로 얼굴을 초기화 한다..
-	void			InitHair(); // 갖고 있는 정보로 머리카락을 초기화 한다..
+	void			InitFace(); // Initialize the face with the information you have.
+	void			InitHair(); // Initialize the hair with the information you have.
 	void			KnightsInfoSet(int iID, const std::string& szName, int iGrade, int iRank);
 	void			SetSoundAndInitFont();
 
 	float			AttackableDistance(CPlayerBase* pTarget);
 	float			DistanceExceptRadius(CPlayerBase* pTarget);
-	bool			IsAttackableTarget(CPlayerBase* pTarget, bool bMesureAngle = true); // 공격 가능한 범위에 있는지..
+	bool			IsAttackableTarget(CPlayerBase* pTarget, bool bMesureAngle = true); // Are you within attack range?
 	bool			IsRunning() const { return m_bRunning; }
-	bool			CheckCollision();		// 움직이는 처리와 충돌체크를 한다. 충돌되는게 있으면 움직이지 않는다.
-	//.. 
+	bool			CheckCollision();		// It does motion processing and collision checking. If something collides with it, it doesn&#39;t move.
+	// ..
 	bool			InitChr(__TABLE_PLAYER_LOOKS* pTblUPC);
 	CN3CPart*		PartSet(e_PartPosition ePos, const std::string& szFN, __TABLE_ITEM_BASIC* pItemBasic, __TABLE_ITEM_EXT* pItemExt);
 	CN3CPlugBase*	PlugSet(e_PlugPosition ePos, const std::string& szFN, __TABLE_ITEM_BASIC* pItemBasic, __TABLE_ITEM_EXT* pItemExt);
@@ -63,7 +63,7 @@ public:
 	void			Render(float fSunAngle);
 
 	__Vector3		NextPos(float fTimeAfter) const;
-	void			RotAdd(const float fRotRadianPerSec);			// y 축을 기준으로 초당 회전하는 속도를 넣어준다.
+	void			RotAdd(const float fRotRadianPerSec);			// Enter the rotation speed per second around the y-axis.
 	
 	bool			ToggleAttackContinous();
 	bool			ToggleRunMode();

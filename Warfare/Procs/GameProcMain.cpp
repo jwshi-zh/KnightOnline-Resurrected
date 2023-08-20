@@ -81,22 +81,22 @@ enum e_ChatCmd { 	CMD_WHISPER, CMD_TOWN, CMD_TRADE, CMD_EXIT, CMD_PARTY,
 					CMD_GAME_SAVE, 
 					CMD_COUNT,
 					CMD_UNKNOWN = 0xffffffff };
-static std::string s_szCmdMsg[CMD_COUNT]; // 게임상 명령어
+static std::string s_szCmdMsg[CMD_COUNT]; // in-game commands
 
-CGameProcMain::CGameProcMain()				// r기본 생성자.. 각 변수의 역활은 헤더 참조..
+CGameProcMain::CGameProcMain()				// r Default constructor.. Refer to the header for the role of each variable..
 {	
 	m_fLBClickTime = 0.0f;
 	m_bLoadComplete	= FALSE;
 	m_fRequestGameSave = 300.0f;
 
-	//sound obj...
+	// sound obj...
 	m_pSnd_Town = nullptr;
 	m_pSnd_Battle = nullptr;
 
 	m_iJoinReqClan = 0;
 	m_iJoinReqClanRequierID = 0;
 
-	//UI
+	// UI
 	m_pUIMsgDlg = new CUIMessageWnd;
 	m_pUIChatDlg = new CUIChat();
 	m_pUIStateBarAndMiniMap = new CUIStateBar();
@@ -116,8 +116,8 @@ CGameProcMain::CGameProcMain()				// r기본 생성자.. 각 변수의 역활은
 	m_pUISkillTreeDlg = new CUISkillTreeDlg();
 	m_pUIHotKeyDlg = new CUIHotKeyDlg();
 	m_pUINpcTalk = new CUINpcTalk();
-	m_pUIKnightsOp = new CUIKnightsOperation();			// 기사단 리스트 보기, 가입, 등...
-	m_pUIPartyBBS = new CUIPartyBBS(); // 파티 지원 시스템 게시판??..
+	m_pUIKnightsOp = new CUIKnightsOperation();			// View the list of guilds, join, etc...
+	m_pUIPartyBBS = new CUIPartyBBS(); // Party support system bulletin board??..
 	m_pUIWareHouseDlg = new CUIWareHouseDlg();
 	m_pUINpcChange = new CUINPCChangeEvent();	
 	m_pUIWarp = new CUIWarp();
@@ -132,7 +132,7 @@ CGameProcMain::CGameProcMain()				// r기본 생성자.. 각 변수의 역활은
 
 	m_pSubProcPerTrade = new CSubProcPerTrade();
 	m_pMagicSkillMng = new CMagicSkillMng(this);
-	m_pTargetSymbol = new CN3Shape(); // 플레이어가 타겟으로 잡은 캐릭터의 위치위에 그리면 된다..
+	m_pTargetSymbol = new CN3Shape(); // The player draws on the location of the target character.
 	m_pWarMessage = new CWarMessage;
 
 	m_pLightMgr = new CLightMgr;
@@ -142,7 +142,7 @@ CGameProcMain::~CGameProcMain()
 {
 	CGameProcMain::Release();
 
-	//UI
+	// UI
 	delete m_pUIMsgDlg;
 	delete m_pUIChatDlg;
 	delete m_pUIStateBarAndMiniMap;
@@ -179,7 +179,7 @@ CGameProcMain::~CGameProcMain()
 	delete m_pSubProcPerTrade;
 	delete m_pMagicSkillMng;
 	delete m_pWarMessage;
-	delete m_pTargetSymbol; // 플레이어가 타겟으로 잡은 캐릭터의 위치위에 그리면 된다..
+	delete m_pTargetSymbol; // The player draws on the location of the target character.
 
 	delete m_pLightMgr;
 }
@@ -216,8 +216,8 @@ void CGameProcMain::ReleaseUIs() const
 	m_pUISkillTreeDlg->Release();
 	m_pUIHotKeyDlg->Release();
 	m_pUINpcTalk->Release();
-//	m_pUITradeList->Release();
-	m_pUIKnightsOp->Release();			// 기사단 리스트 보기, 가입, 등...
+	// m_pUITradeList->Release();
+	m_pUIKnightsOp->Release();			// View the list of guilds, join, etc...
 	m_pUIPartyBBS->Release();
 	m_pUIWareHouseDlg->Release();
 	m_pUINpcChange->Release();
@@ -234,7 +234,7 @@ void CGameProcMain::Init()
 	m_pLightMgr->Release();
 	s_pEng->SetDefaultLight(m_pLightMgr->Light(0), m_pLightMgr->Light(1), m_pLightMgr->Light(2));
 
-	for(auto i = IDS_CMD_WHISPER ; i <= IDS_CMD_GAME_SAVE ; i++ ) //명령어 로딩...
+	for(auto i = IDS_CMD_WHISPER ; i <= IDS_CMD_GAME_SAVE ; i++ ) // Command loading...
 	{
 		::_LoadStringFromResource(i, s_szCmdMsg[i - IDS_CMD_WHISPER]);
 	}
@@ -242,14 +242,14 @@ void CGameProcMain::Init()
 	s_SndMgr.ReleaseStreamObj(&(CGameProcedure::s_pSnd_BGM));
 
 	if(m_pWarMessage) m_pWarMessage->InitFont();
-	this->InitUI(); // 국가에 따라 다른 UI 로딩...
-	this->InitZone(s_pPlayer->m_InfoExt.iZoneCur, s_pPlayer->Position()); // 존 로딩..
+	this->InitUI(); // Different UI loading for different countries...
+	this->InitZone(s_pPlayer->m_InfoExt.iZoneCur, s_pPlayer->Position()); // John Loading...
 
-	//sound obj...
+	// sound obj...
 	if(m_pSnd_Battle== nullptr)
 	{
 		int iIDSndBattle = ((NATION_KARUS == s_pPlayer->m_InfoBase.eNation) ? ID_SOUND_BGM_KA_BATTLE : ID_SOUND_BGM_EL_BATTLE);
-		m_pSnd_Battle = s_pEng->s_SndMgr.CreateStreamObj(iIDSndBattle);	// 전투음악 ID
+		m_pSnd_Battle = s_pEng->s_SndMgr.CreateStreamObj(iIDSndBattle);	// Battle Music ID
 		if(m_pSnd_Battle) 
 		{
 			m_pSnd_Battle->Looping(true);
@@ -258,7 +258,7 @@ void CGameProcMain::Init()
 	}
 	if(m_pSnd_Town== nullptr)
 	{
-		m_pSnd_Town = s_pEng->s_SndMgr.CreateStreamObj(ID_SOUND_BGM_TOWN);	// 마을음악 ID
+		m_pSnd_Town = s_pEng->s_SndMgr.CreateStreamObj(ID_SOUND_BGM_TOWN);	// Village Music ID
 		if(m_pSnd_Town)
 		{
 			m_pSnd_Town->Looping(true);
@@ -268,15 +268,15 @@ void CGameProcMain::Init()
 
 	if(s_pUILoading) s_pUILoading->Render("Loading Character Data...", 0);
 
-	// 경로 기억..
+	// remember the path...
 	char szPathOld[_MAX_PATH], szPathFind[_MAX_PATH];
 	::GetCurrentDirectory(_MAX_PATH, szPathOld);
 
 	_finddata_t fi;
 	long hFind = -1;
 
-	// 리소스 다 읽기..
-	// 에니메이션 다 읽기..
+	// Read all resources...
+	// Read all the anime...
 	lstrcpy(szPathFind, szPathOld);
 	lstrcat(szPathFind, "\\Chr");
 	::SetCurrentDirectory(szPathFind);
@@ -297,8 +297,8 @@ void CGameProcMain::Init()
 
 	if(s_pUILoading) s_pUILoading->Render("Loading Character Data... 10 %", 10);
 
-	// 리소스 다 읽기..
-	// 텍스처 다 읽기..
+	// Read all resources...
+	// Read all textures.
 	lstrcpy(szPathFind, szPathOld);
 	lstrcat(szPathFind, "\\Item");
 	::SetCurrentDirectory(szPathFind);
@@ -319,8 +319,8 @@ void CGameProcMain::Init()
 
 	if(s_pUILoading) s_pUILoading->Render("Loading Character Data... 25 %", 25);
 	
-	// 리소스 다 읽기..
-	// 조인트 다 읽기..
+	// Read all resources...
+	// Read all the joints...
 	lstrcpy(szPathFind, szPathOld);
 	lstrcat(szPathFind, "\\Chr");
 	::SetCurrentDirectory(szPathFind);
@@ -341,8 +341,8 @@ void CGameProcMain::Init()
 
 	if(s_pUILoading) s_pUILoading->Render("Loading Character Data... 50 %", 50);
 
-	// 리소스 다 읽기..
-	// 스킨 읽기..
+	// Read all resources...
+	// Read the skin...
 	lstrcpy(szPathFind, szPathOld);
 	lstrcat(szPathFind, "\\Item");
 	::SetCurrentDirectory(szPathFind);
@@ -363,8 +363,8 @@ void CGameProcMain::Init()
 
 	if(s_pUILoading) s_pUILoading->Render("Loading Character Data... 75 %", 75);
 	
-	// 리소스 다 읽기..
-	// PMesh 읽기..
+	// Read all resources...
+	// Reading PMesh...
 	lstrcpy(szPathFind, szPathOld);
 	lstrcat(szPathFind, "\\Item");
 	::SetCurrentDirectory(szPathFind);
@@ -386,19 +386,19 @@ void CGameProcMain::Init()
 	if(s_pUILoading) s_pUILoading->Render("Loading Character Data... 100 %", 100);
 
 	this->MsgSend_GameStart();
-	// 경로 돌리기..
+	// turn the path...
 	::SetCurrentDirectory(szPathOld);
 
 }
 
-void CGameProcMain::InitPlayerPosition(const __Vector3& vPos) // 플레이어 위치 초기화.. 일으켜 세우고, 기본동작을 취하게 한다.
+void CGameProcMain::InitPlayerPosition(const __Vector3& vPos) // Initialize the player position.. Raise him up and make him take the basic action.
 {
 	__Vector3 vPosFinal = vPos;
-	const float fYTerrain = ACT_WORLD->GetHeightWithTerrain(vPos.x, vPos.z);	// 지형의 높이값 얻기..
-	const float fYObject = ACT_WORLD->GetHeightNearstPosWithShape(vPos, 1.0f); // 오브젝트에서 가장 가까운 높이값 얻기..
+	const float fYTerrain = ACT_WORLD->GetHeightWithTerrain(vPos.x, vPos.z);	// Get the height of the terrain...
+	const float fYObject = ACT_WORLD->GetHeightNearstPosWithShape(vPos, 1.0f); // Get the height closest to the object.
 	if (!s_pWorldMgr->IsIndoor())
 	{
-		if (T_Abs(vPos.y - fYObject) < T_Abs(vPos.y - fYTerrain)) vPosFinal.y = fYObject; // 좀더 가까운 곳에 놓는다..
+		if (T_Abs(vPos.y - fYObject) < T_Abs(vPos.y - fYTerrain)) vPosFinal.y = fYObject; // put it closer...
 		else vPosFinal.y = fYTerrain;
 	}
 	else
@@ -409,23 +409,23 @@ void CGameProcMain::InitPlayerPosition(const __Vector3& vPos) // 플레이어 �
 			vPosFinal.y = fYTerrain;
 	}
 
-	s_pPlayer->PositionSet(vPosFinal, true);	// 캐릭터 위치 셋팅..	
+	s_pPlayer->PositionSet(vPosFinal, true);	// Set character position...
 	s_pPlayer->m_vPosFromServer = vPos;
-	m_vPlayerPosSended = vPos;					// 최근에 보낸 위치 세팅..
-	m_fMsgSendTimeMove = 0;						// 시간을 기록한다..
+	m_vPlayerPosSended = vPos;					// Recently sent location settings..
+	m_fMsgSendTimeMove = 0;						// record the time...
 
-	this->CommandSitDown(false, false, true); // 일으켜 세운다.. 앉아있는 상태에서 워프하면.. 버그가 있다..
-	this->TargetSelect(-1, false); // 타겟 해제..
-	this->UpdateCameraAndLight(); // 카메라와 라이트 다시 계산..
+	this->CommandSitDown(false, false, true); // Stand up.. If you warp while sitting... there is a bug..
+	this->TargetSelect(-1, false); // untarget..
+	this->UpdateCameraAndLight(); // Camera and light recalculation..
 
-	s_pPlayer->Action(PSA_BASIC, true, nullptr, true); // 강제로 기본 자세..
+	s_pPlayer->Action(PSA_BASIC, true, nullptr, true); // Forced default posture..
 }
 
 void CGameProcMain::Tick()
 {
-	CGameProcedure::Tick();	// 키, 마우스 입력 등등..
+	CGameProcedure::Tick();	// keys, mouse input, etc.
 
-	if ( FALSE == m_bLoadComplete ) return;				// 로딩이 안되었으면.. 돌아간다.
+	if ( FALSE == m_bLoadComplete ) return;				// If it doesn&#39;t load... go back.
 	if(!s_pSocket->IsConnected()) return;
 
 #ifdef _DEBUG
@@ -457,15 +457,15 @@ void CGameProcMain::Tick()
 	}
 #endif
 
-	const DWORD dwMouseFlags = s_pLocalInput->MouseGetFlag();	// 마우스 버튼 플래그 - LocalInput.h 참조
-	this->ProcessLocalInput(dwMouseFlags);					// 키보드나 마우스 입력은 UI 다음에 처리...
+	const DWORD dwMouseFlags = s_pLocalInput->MouseGetFlag();	// Mouse button flags - see LocalInput.h
+	this->ProcessLocalInput(dwMouseFlags);					// Keyboard or mouse input is processed after the UI...
 
-	MsgSend_Continous();									// 일정 시간마다 움직임과 회전값, 공격등을 체크해서 패킷 만들어 보냄..
+	MsgSend_Continous();									// It checks the movement, rotation value, attack, etc. at regular intervals and creates and sends packets.
 
-	s_pPlayer->Tick();									// 플레이어 틱(갱신)
+	s_pPlayer->Tick();									// Player Tick (Update)
 	s_pWorldMgr->Tick();
-	s_pOPMgr->Tick(s_pPlayer->Position());				// 다른 유저 관리자 틱(갱신)
-//	s_pFX->Tick(); //내부에서 카메라 값을 쓸 경우 위치가 오차가 생겨 Render()함수 안으로 옮김...
+	s_pOPMgr->Tick(s_pPlayer->Position());				// Tick another user manager (update)
+	// s_pFX-&gt;Tick(); //If the camera value is used internally, an error occurs in the position, so move it into the Render() function...
 
 	const __Vector3 ListenerPos = s_pPlayer->Position();
 	const __Vector3 ListenerDir = s_pPlayer->Direction();
@@ -475,24 +475,24 @@ void CGameProcMain::Tick()
 	CN3SndObj::SetListenerPos(&ListenerPos);
 	CN3SndObj::SetListenerOrientation(&ListenerDir, &ListenerUp);
 
-	this->UpdateUI_MiniMap(); // 미니맵 업데이트..
-	this->UpdateUI_TargetBar(); // 타겟바 처리..
-	this->UpdateBGM(); // 배경음악을 상황에 따라 처리..
-	this->UpdateCameraAndLight(); // 카메라와 라이트 처리..
+	this->UpdateUI_MiniMap(); // Minimap update...
+	this->UpdateUI_TargetBar(); // Target bar processing...
+	this->UpdateBGM(); // Background music is processed according to the situation.
+	this->UpdateCameraAndLight(); // Camera and light processing.
 	
-//	ProcessPlayerInclination();							// 경사 처리..(가만히 있어도 경사가 급하면 미끄러짐..).
+	// ProcessPlayerInclination(); // Slope handling.. (Slipping if the slope is steep even when standing still..).
 #ifdef _N3_64GRID_
-	m_SMesh.Tick(s_pPlayer, &m_Terrain);				// 서버 메시 틱.(갱신)
+	m_SMesh.Tick(s_pPlayer, &m_Terrain);				// Server mesh ticks. (Updates)
 #endif
 
-	m_pUIStateBarAndMiniMap->UpdatePosition(s_pPlayer->Position(), s_pPlayer->Yaw()); // 위치 업데이트.
+	m_pUIStateBarAndMiniMap->UpdatePosition(s_pPlayer->Position(), s_pPlayer->Yaw()); // location update.
 
 	if(m_pMagicSkillMng) m_pMagicSkillMng->Tick();
 	if(m_pWarMessage) m_pWarMessage->Tick();
 	if(m_pLightMgr) m_pLightMgr->Tick();
 	
-	////////////////////////////////////////////////////////////////////////////////////
-	// 아무 패킷도 안보냈으면 2초에 한번 N3_TIME_NOTIFY 보낸다..
+	// 
+	// If no packets have been sent, N3_TIME_NOTIFY is sent once every 2 seconds.
 	const float fTime = CN3Base::TimeGet();
 	static float fTimePrev = fTime;
 	
@@ -513,97 +513,97 @@ void CGameProcMain::Tick()
 		s_pSocket->m_iSendByteCount = 0;
 		fTimeInterval1 = 0;
 	}
-	// 아무 패킷도 안보냈으면 2초에 한번 N3_TIME_NOTIFY 보낸다..
-	////////////////////////////////////////////////////////////////////////////////////
+	// If no packets have been sent, N3_TIME_NOTIFY is sent once every 2 seconds.
+	// 
 
-	////////////////////////////////////////////////////////////////////////////////////
-	// 타이머 비슷한 루틴..
+	// 
+	// Timer-like routine..
 	static float fInterval2 = 0, fInterval3 = 0, fInterval4 = 0, fInterval5 = 0;
 	fInterval2 += fTime - fTimePrev;
 	fInterval3 += fTime - fTimePrev;
 	fInterval4 += fTime - fTimePrev;
 	fInterval5 += fTime - fTimePrev;
 	m_fRequestGameSave += fTime - fTimePrev;
-	if(fInterval2 > 1200.0f) // 저장 요청..
+	if(fInterval2 > 1200.0f) // save request...
 	{
-		BYTE byBuff[4];												// 버퍼.. 
-		int iOffset=0;												// 옵셋..
-		s_pSocket->MP_AddByte(byBuff, iOffset, N3_REQUEST_GAME_SAVE);	// 저장 요청 커멘드..
-		s_pSocket->Send(byBuff, iOffset);				// 보냄..
+		BYTE byBuff[4];												// buffer..
+		int iOffset=0;												// Offset...
+		s_pSocket->MP_AddByte(byBuff, iOffset, N3_REQUEST_GAME_SAVE);	// Save request command..
+		s_pSocket->Send(byBuff, iOffset);				// sent...
 
 		fInterval2 = 0.0f;
 	}
-	if(fInterval3 > 10.0f) // 스피드핵 체크.. 
+	if(fInterval3 > 10.0f) // Speed hack check..
 	{
-		MsgSend_SpeedCheck();										// 스피드핵 체크 하기
+		MsgSend_SpeedCheck();										// Check speed hack
 
 		fInterval3 = 0.0f;
 	}
-	if(s_pPlayer->m_InfoBase.iLevel < 12 && fInterval4 > 20.0f) // 시간이 지나면 팁 하나씩 표시..
+	if(s_pPlayer->m_InfoBase.iLevel < 12 && fInterval4 > 20.0f) // Show tips one by one as time passes.
 	{
 		std::string szMsg;
 		::_LoadStringFromResource(IDS_HELP_TIP_ALL, szMsg);
-		this->m_pUIMsgDlg->AddMsg(szMsg, 0xffffff00); // 헬프 표시..
+		this->m_pUIMsgDlg->AddMsg(szMsg, 0xffffff00); // Show Help...
 		::_LoadStringFromResource(IDS_HELP_TIP1 + rand()%30, szMsg);
-		this->m_pUIMsgDlg->AddMsg(szMsg, 0xffffff00); // 헬프 표시..
+		this->m_pUIMsgDlg->AddMsg(szMsg, 0xffffff00); // Show Help...
 		fInterval4 = 0;
 	}
-	if(fInterval5 > 5.0f) // 시간이 지나면 팁 하나씩 표시..
+	if(fInterval5 > 5.0f) // Show tips one by one as time passes.
 	{
-//		m_pUIChatDlg->ChangeChattingMode(N3_CHAT_CONTINUE); // 채팅모드 강제로 바꾸기...
+	// m_pUIChatDlg-&gt;ChangeChattingMode(N3_CHAT_CONTINUE); // Forcibly change chat mode...
 		m_pUIChatDlg->ShowContinueMsg();
 		fInterval5 = 0;
 	}
 	fTimePrev = fTime;
-	// 타이머 비슷한 루틴..
-	////////////////////////////////////////////////////////////////////////////////////
+	// Timer-like routine..
+	// 
 }
 
 void CGameProcMain::Render()
 {
-	if ( FALSE == m_bLoadComplete )	return; 		// 로딩이 끝났냐??
+	if ( FALSE == m_bLoadComplete )	return; 		// Is loading finished??
 
 	const D3DCOLOR crSky = ACT_WORLD->GetSkyColorWithSky();
-	s_pEng->Clear(crSky); // 안개 색깔을 넣어서 클리어.. -> 하늘색깔로 클리어 해야 하늘이 제대로 나온다..
-	s_pEng->s_lpD3DDev->BeginScene();			// 씬 렌더 ㅅ작...
+	s_pEng->Clear(crSky); // Clear with fog color.. -&gt; Clear with sky color to see the sky properly..
+	s_pEng->s_lpD3DDev->BeginScene();			// Scene renders...
 	
-	ACT_WORLD->RenderSky();								// 하늘 렌더링..
-	const float fSunAngle = ACT_WORLD->GetSunAngleByRadinWithSky(); // 해의 각도를 가져오고..
+	ACT_WORLD->RenderSky();								// Sky render...
+	const float fSunAngle = ACT_WORLD->GetSunAngleByRadinWithSky(); // Get the angle of the sun...
 
 	const DWORD dwFilter = D3DTEXF_LINEAR;
-	CN3Base::s_lpD3DDev->SetSamplerState( 0, D3DSAMP_MINFILTER, dwFilter );		// 텍스쳐를 줄여서 찍었을 경우 픽셀이 깨진것처럼 보이는 것 방지
-	CN3Base::s_lpD3DDev->SetSamplerState( 0, D3DSAMP_MAGFILTER, dwFilter );		// 텍스쳐를 늘여서 찍었을 경우 픽셀이 깨진것처럼 보이는 것 방지
-	CN3Base::s_lpD3DDev->SetSamplerState( 0, D3DSAMP_MIPFILTER, dwFilter );		// 텍스쳐를 줄여서 찍었을 경우 픽셀이 깨진것처럼 보이는 것 방지
-	CN3Base::s_lpD3DDev->SetSamplerState( 1, D3DSAMP_MINFILTER, dwFilter );		// 텍스쳐를 줄여서 찍었을 경우 픽셀이 깨진것처럼 보이는 것 방지
-	CN3Base::s_lpD3DDev->SetSamplerState( 1, D3DSAMP_MAGFILTER, dwFilter );		// 텍스쳐를 늘여서 찍었을 경우 픽셀이 깨진것처럼 보이는 것 방지
-	CN3Base::s_lpD3DDev->SetSamplerState( 1, D3DSAMP_MIPFILTER, dwFilter );		// 텍스쳐를 줄여서 찍었을 경우 픽셀이 깨진것처럼 보이는 것 방지
+	CN3Base::s_lpD3DDev->SetSamplerState( 0, D3DSAMP_MINFILTER, dwFilter );		// Prevents pixels from looking broken when the texture is reduced
+	CN3Base::s_lpD3DDev->SetSamplerState( 0, D3DSAMP_MAGFILTER, dwFilter );		// Prevent pixels from appearing broken when the texture is stretched
+	CN3Base::s_lpD3DDev->SetSamplerState( 0, D3DSAMP_MIPFILTER, dwFilter );		// Prevents pixels from looking broken when the texture is reduced
+	CN3Base::s_lpD3DDev->SetSamplerState( 1, D3DSAMP_MINFILTER, dwFilter );		// Prevents pixels from looking broken when the texture is reduced
+	CN3Base::s_lpD3DDev->SetSamplerState( 1, D3DSAMP_MAGFILTER, dwFilter );		// Prevent pixels from appearing broken when the texture is stretched
+	CN3Base::s_lpD3DDev->SetSamplerState( 1, D3DSAMP_MIPFILTER, dwFilter );		// Prevents pixels from looking broken when the texture is reduced
 
-	ACT_WORLD->RenderTerrain();						// 지형 렌더..
-	ACT_WORLD->RenderShape();						// 물체 렌더..
-	s_pOPMgr->Render(fSunAngle);				// 다른 플레이어 렌더..
-	s_pPlayer->Render(fSunAngle);			// 플레이어 렌더..
+	ACT_WORLD->RenderTerrain();						// Terrain render...
+	ACT_WORLD->RenderShape();						// object render..
+	s_pOPMgr->Render(fSunAngle);				// Another player render...
+	s_pPlayer->Render(fSunAngle);			// Player render...
 
 #ifdef _DEBUG
 	auto vColPos = s_pPlayer->Position();
-	ACT_WORLD->RenderCollisionWithShape(vColPos);				// 충돌 메쉬 렌더..
+	ACT_WORLD->RenderCollisionWithShape(vColPos);				// Collision mesh render...
 #endif
 
 #ifdef _N3_64GRID_
-	m_SMesh.Render();							// 서버 메쉬 렌더..
+	m_SMesh.Render();							// Server mesh render...
 #endif
 
-	this->RenderTarget();						// 타겟으로 잡은 캐릭터 혹은 오브젝트 렌더링..
+	this->RenderTarget();						// Render the target character or object.
 
-	ACT_WORLD->RenderGrass();						//	풀 렌더 (asm)
+	ACT_WORLD->RenderGrass();						// full render (asm)
 	s_pFX->Tick();
 	s_pFX->Render();
 	ACT_WORLD->RenderBirdMgr();
 
-	CN3Base::s_AlphaMgr.Render(); // 알파 정렬된 폴리곤들 렌더링..
+	CN3Base::s_AlphaMgr.Render(); // Render alpha-sorted polygons.
 	
-	ACT_WORLD->RenderSkyWeather();							// 하늘 렌더링..
+	ACT_WORLD->RenderSkyWeather();							// Sky render...
 	
-	CGameProcedure::Render(); // UI 나 그밖의 기본적인 것들 렌더링..
+	CGameProcedure::Render(); // Render UI and other basic stuff..
 	if(m_pWarMessage) m_pWarMessage->RenderMessage();
 	if(s_pGameCursor) s_pGameCursor->Render();
 
@@ -615,8 +615,8 @@ void CGameProcMain::RenderTarget()
 {
 	if(nullptr == m_pTargetSymbol) return;
 
-	// 플레이어가 타겟으로 잡은 캐릭터의 위치위에 그리면 된다..
-	CPlayerBase* pTarget = s_pOPMgr->CharacterGetByID(s_pPlayer->m_iIDTarget, false);//시체로 판정되기 전까지의 캐릭은 포커스를 준다.
+	// The player draws on the location of the target character.
+	CPlayerBase* pTarget = s_pOPMgr->CharacterGetByID(s_pPlayer->m_iIDTarget, false);// Until it is judged as a corpse, the character gives focus.
 	if(nullptr == pTarget && nullptr == s_pPlayer->m_pObjectTarget) return;
 
 	float fScale = 1;
@@ -641,7 +641,7 @@ void CGameProcMain::RenderTarget()
 	m_pTargetSymbol->ScaleSet(fScale, fYScale, fScale);
 	m_pTargetSymbol->PosSet(vPos);
 	m_pTargetSymbol->Tick();
-	if(m_pTargetSymbol->Part(1)) // 바닥의 심벌을 땅바닥 위로 맞춘다..
+	if(m_pTargetSymbol->Part(1)) // Set the bottom cymbals above the ground.
 	{
 		const CN3PMesh* pPMesh = m_pTargetSymbol->Part(1)->Mesh();
 		if(pPMesh && pPMesh->GetMaxNumVertices() == 4)
@@ -671,9 +671,9 @@ bool CGameProcMain::ProcessPacket(DataPack* pDataPack, int& iOffset)
 	if(false == CGameProcedure::ProcessPacket(pDataPack, iOffset)) iOffset = iOffsetPrev;
 	else return true;
 
-	const int iCmd = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);		// 커멘드 파싱..
+	const int iCmd = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);		// Command parsing...
 
-	switch ( iCmd )										// 커멘드에 다라서 분기..
+	switch ( iCmd )										// Branch according to the command..
 	{
 
 
@@ -697,7 +697,7 @@ bool CGameProcMain::ProcessPacket(DataPack* pDataPack, int& iOffset)
 #endif
 
 
-		case N3_MYINFO:									// 나의 정보 메시지..
+		case N3_MYINFO:									// My info message...
 			this->MsgRecv_MyInfo_All(pDataPack, iOffset);
 			return true;
 		case N3_HP_CHANGE:
@@ -709,7 +709,7 @@ bool CGameProcMain::ProcessPacket(DataPack* pDataPack, int& iOffset)
 		case N3_EXP_CHANGE:
 			this->MsgRecv_MyInfo_EXP(pDataPack, iOffset);
 			return true;
-		case N3_REALM_POINT_CHANGE: // 국가 기여도..
+		case N3_REALM_POINT_CHANGE: // National Contribution..
 			this->MsgRecv_MyInfo_RealmPoint(pDataPack, iOffset);
 			return true;
 		case N3_LEVEL_CHANGE:
@@ -718,7 +718,7 @@ bool CGameProcMain::ProcessPacket(DataPack* pDataPack, int& iOffset)
 		case N3_POINT_CHANGE:
 			this->MsgRecv_MyInfo_PointChange(pDataPack, iOffset);
 			return true;
-		case  N3_CHAT:														// 채팅 메시지..	
+		case  N3_CHAT:														// chat message...
 			this->MsgRecv_Chat(pDataPack, iOffset);
 			return true;
 		case N3_WARP:
@@ -730,18 +730,18 @@ bool CGameProcMain::ProcessPacket(DataPack* pDataPack, int& iOffset)
 				const float fYObject = ACT_WORLD->GetHeightWithShape(fX, fZ);
 				if(fYObject > fY) fY = fYObject;
 
-				this->InitPlayerPosition(__Vector3(fX, fY, fZ)); // 플레이어 위치 초기화.. 일으켜 세우고, 기본동작을 취하게 한다.
+				this->InitPlayerPosition(__Vector3(fX, fY, fZ)); // Initialize the player position.. Raise him up and make him take the basic action.
 			}
 			return true;
 		case N3_MOVE:
 			this->MsgRecv_UserMove(pDataPack, iOffset);
 			return true;
-		case N3_ROTATE:												// 회전 커멘드..
+		case N3_ROTATE:												// Rotate command...
 			this->MsgRecv_Rotation(pDataPack, iOffset);
 			return true;
 		case N3_REGENE:
 			{
-//				if(m_pUIDead) m_pUIDead->MsgRecv_Revival(pDataPack, iOffset);
+				// if(m_pUIDead) m_pUIDead->MsgRecv_Revival(pDataPack, iOffset);
 				this->MsgRecv_Regen(pDataPack, iOffset);
 				std::string szMsg; ::_LoadStringFromResource(IDS_REGENERATION, szMsg);
 				MessageBoxClose(szMsg);
@@ -757,35 +757,35 @@ bool CGameProcMain::ProcessPacket(DataPack* pDataPack, int& iOffset)
 		case N3_WEATHER:
 			this->MsgRecv_Weather(pDataPack, iOffset);
 			return true;
-		case N3_USER_INOUT:												// 다른 유저 인/아웃..
+		case N3_USER_INOUT:												// Other users in/out.
 			this->MsgRecv_UserInOut(pDataPack, iOffset);
 			return true;
-		case N3_UPDATE_REGION_UPC:										// 첨에 로그온하면 그 주변 지역의 캐릭터들 업데이트...
+		case N3_UPDATE_REGION_UPC:										// The first time you log on, the characters in the surrounding area are updated...
 			this->MsgRecv_UserInAndRequest(pDataPack, iOffset);
 			return true;
-		case N3_REQUEST_USER_IN:										// 서버에 요청한 UserIn 에 대한 자세한 정보 받기..
+		case N3_REQUEST_USER_IN:										// Get detailed information about the UserIn requested from the server.
 			this->MsgRecv_UserInRequested(pDataPack, iOffset);						// 
 			return true;
-		case N3_UPDATE_REGION_NPC:										// 첨에 로그온하면 그 주변 지역의 캐릭터들 업데이트...
+		case N3_UPDATE_REGION_NPC:										// The first time you log on, the characters in the surrounding area are updated...
 			this->MsgRecv_NPCInAndRequest(pDataPack, iOffset);
 			return true;
-		case N3_REQUEST_NPC_IN:											// 서버에 요청한 UserIn 에 대한 자세한 정보 받기..
+		case N3_REQUEST_NPC_IN:											// Get detailed information about the UserIn requested from the server.
 			this->MsgRecv_NPCInRequested(pDataPack, iOffset);						// 
 			return true;
-		case N3_NPC_INOUT:												// NPC 인/아웃..
+		case N3_NPC_INOUT:												// NPC in/out...
 			this->MsgRecv_NPCInOut(pDataPack, iOffset);
 			return true;
 		case N3_ATTACK:
 			this->MsgRecv_Attack(pDataPack, iOffset);
 			return true;
-		case N3_NPC_MOVE:												// NPC 움직임 패킷..
+		case N3_NPC_MOVE:												// NPC movement packets..
 			this->MsgRecv_NPCMove(pDataPack, iOffset);
 			return true;
 		case N3_TARGET_HP:
 			this->MsgRecv_TargetHP(pDataPack, iOffset);
 			return true;
 		case N3_ITEM_MOVE:
-			this->MsgRecv_ItemMove(pDataPack, iOffset);				// Item Move에 대한 응답..
+			this->MsgRecv_ItemMove(pDataPack, iOffset);				// Response to Item Move..
 			return true;
 		case N3_ITEM_BUNDLE_DROP:
 			this->MsgRecv_ItemBundleDrop(pDataPack, iOffset);
@@ -800,7 +800,7 @@ bool CGameProcMain::ProcessPacket(DataPack* pDataPack, int& iOffset)
 			this->MsgRecv_ItemTradeResult(pDataPack, iOffset);
 			return true;
 		case N3_ITEM_DROPPED_GET:
-			this->MsgRecv_ItemDroppedGetResult(pDataPack, iOffset);					// 땅에 떨어진 아이템 먹기 결과..
+			this->MsgRecv_ItemDroppedGetResult(pDataPack, iOffset);					// The result of eating an item that fell on the ground..
 			return true;
 		case N3_ITEM_TRADE_REPAIR:
 			this->MsgRecv_NpcEvent(pDataPack, iOffset);
@@ -822,7 +822,7 @@ bool CGameProcMain::ProcessPacket(DataPack* pDataPack, int& iOffset)
 			return true;
 		case N3_ZONE_CHANGE:
 			this->MsgRecv_ZoneChange(pDataPack, iOffset);
-			this->MsgSend_ZoneChangeComplete(); // Zone Loading 완료 패킷 보냄..
+			this->MsgSend_ZoneChangeComplete(); // Zone Loading completion packet sent..
 			return true;
 		case N3_STATE_CHANGE:
 			this->MsgRecv_UserState(pDataPack, iOffset);
@@ -851,8 +851,8 @@ bool CGameProcMain::ProcessPacket(DataPack* pDataPack, int& iOffset)
 		case N3_CHAT_SELECT_TARGET:
 			{
 				std::string szID, szMsg;
-				const int iLen = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);		// ID 문자열 길이..
-				CAPISocket::Parse_GetString(pDataPack->m_pData, iOffset, szID, iLen);	// ID 문자열..
+				const int iLen = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);		// ID string length..
+				CAPISocket::Parse_GetString(pDataPack->m_pData, iOffset, szID, iLen);	// ID string..
 
 				e_ChatMode eCM = N3_CHAT_UNKNOWN;
 				if(szID.empty())
@@ -867,12 +867,12 @@ bool CGameProcMain::ProcessPacket(DataPack* pDataPack, int& iOffset)
 				}
 				
 				this->MsgOutput(szID + szMsg, 0xffffff00);
-				m_pUIChatDlg->ChangeChattingMode(eCM); // 자동으로 귓속말 모드로 바꾸어 준다..
+				m_pUIChatDlg->ChangeChattingMode(eCM); // Automatically switch to whisper mode.
 			}
 			return true;
-		case N3_CONCURRENT_USER_COUNT: // 동시 접속자수 ...
+		case N3_CONCURRENT_USER_COUNT: // Number of concurrent users...
 			{
-				const int iUserCount = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);		// ID 문자열 길이..
+				const int iUserCount = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);		// ID string length..
 
 				std::string szFmt; ::_LoadStringFromResource(IDS_FMT_CONCURRENT_USER_COUNT, szFmt);
 				char szBuff[128] = "";
@@ -889,14 +889,14 @@ bool CGameProcMain::ProcessPacket(DataPack* pDataPack, int& iOffset)
 		case N3_KNIGHTS_LIST_BASIC:
 			this->MsgRecv_KnightsListBasic(pDataPack, iOffset);
 			return true;
-		case N3_COMPRESSED_PACKET: // 압축된 데이터 이다... 한번 더 파싱해야 한다!!!
+		case N3_COMPRESSED_PACKET: // This is compressed data... needs to be parsed one more time!!!
 			this->MsgRecv_CompressedPacket(pDataPack, iOffset);
 			return true;
-		case N3_CONTINOUS_PACKET: // 압축된 데이터 이다... 한번 더 파싱해야 한다!!!
+		case N3_CONTINOUS_PACKET: // This is compressed data... needs to be parsed one more time!!!
 			this->MsgRecv_ContinousPacket(pDataPack, iOffset);
 			return true;
-		case N3_WAREHOUSE:	// 보관함..
-			this->MsgRecv_WareHouse(pDataPack, iOffset);			// 보관함 관련 패킷..
+		case N3_WAREHOUSE:	// locker..
+			this->MsgRecv_WareHouse(pDataPack, iOffset);			// Archive related packets..
 			return true;
 		case N3_FRIEND_INFO:
 			if(m_pUIVar->m_pPageFriends) m_pUIVar->m_pPageFriends->MsgRecv_MemberInfo(pDataPack, iOffset);
@@ -907,13 +907,13 @@ bool CGameProcMain::ProcessPacket(DataPack* pDataPack, int& iOffset)
 		case N3_WARP_LIST:
 			this->MsgRecv_WarpList(pDataPack, iOffset);
 			return true;
-//		case N3_SERVER_CHECK:
-//			this->MsgRecv_ServerCheckAndRequestConcurrentUserCount(pDataPack, iOffset);
-//			return true;
-//		case N3_SERVER_CONCURRENT_CONNECT:
-//			this->MsgRecv_ConcurrentUserCountAndSendServerCheck(pDataPack, iOffset);
-//			return true;
-		case N3_CORPSE_CHAR: //regen을 하여 주위 유저에게 시체임을 알린다.
+		// case N3_SERVER_CHECK:
+		// this->MsgRecv_ServerCheckAndRequestConcurrentUserCount(pDataPack, iOffset);
+		// return true;
+		// case N3_SERVER_CONCURRENT_CONNECT:
+		// this->MsgRecv_ConcurrentUserCountAndSendServerCheck(pDataPack, iOffset);
+		// return true;
+		case N3_CORPSE_CHAR: // Regen to notify nearby users that it is a corpse.
 			this->MsgRecv_Corpse(pDataPack, iOffset);
 			return true;
 		case N3_PARTY_BBS:
@@ -928,26 +928,26 @@ bool CGameProcMain::ProcessPacket(DataPack* pDataPack, int& iOffset)
 		case N3_QUEST_TALK:
 			if(m_pUIQuestTalk) m_pUIQuestTalk->Open(pDataPack, iOffset);
 			return true;
-//		case N3_CLAN:
-//			this->MsgRecv_Clan(pDataPack, iOffset);
+		// case N3_CLAN:
+		// this->MsgRecv_Clan(pDataPack, iOffset);
 			return true;
 	}
 	
 	return false;
 }
 
-// 키보드와 마우스 눌린것을 처리한다..
+// Handles keyboard and mouse clicks.
 void CGameProcMain::ProcessLocalInput(DWORD dwMouseFlags)
 {
-	// Loading이 된 후..
+	// After loading...
 	if ( FALSE == m_bLoadComplete ) return; 
 
-	if (m_pSubProcPerTrade->m_ePerTradeState != PER_TRADE_STATE_NONE) 	/* 개인간 상거래 중이면.. */
+	if (m_pSubProcPerTrade->m_ePerTradeState != PER_TRADE_STATE_NONE) 	/* If a person-to-person transaction is in progress.. */
 		return;
 
-	//////////////////////////////////////////
+	// 
 	//
-	// 마우스 처리.
+	// mouse handling.
 	//
 	const POINT ptPrev = s_pLocalInput->MouseGetPosOld();
 	const POINT ptCur = s_pLocalInput->MouseGetPos();
@@ -987,7 +987,7 @@ void CGameProcMain::ProcessLocalInput(DWORD dwMouseFlags)
 		OnMouseLDBtnPress(ptCur, ptPrev);
 	}
 
-	// 마우스에 따른 카메라 회전...
+	// Camera rotation based on mouse...
 	float fRotY = 0, fRotX = 0;
 	if(0 == ptCur.x) fRotY = -2.0f;
 	else if((CN3Base::s_CameraData.vp.Width - 1) == ptCur.x) fRotY = 2.0f;
@@ -1001,12 +1001,12 @@ void CGameProcMain::ProcessLocalInput(DWORD dwMouseFlags)
 	if(fRotX && VP_THIRD_PERSON != s_pEng->ViewPoint()) s_pEng->CameraPitchAdd(fRotX);
 
 	//
-	// 마우스 처리.
+	// mouse handling.
 	//
-	//////////////////////////////////////////
+	// 
 
-	//////////////////////////////////////////
-	// 핫키
+	// 
+	// hotkey
 	int iHotKey = -1;
 	if( s_pLocalInput->IsKeyPress(KM_HOTKEY1) ) iHotKey = 0;
 	else if( s_pLocalInput->IsKeyPress(KM_HOTKEY2) ) iHotKey = 1;
@@ -1023,53 +1023,53 @@ void CGameProcMain::ProcessLocalInput(DWORD dwMouseFlags)
 	{
 		m_pUIHotKeyDlg->EffectTriggerByHotKey(iHotKey);
 	}
-	// 핫키
-	//////////////////////////////////////////
+	// hotkey
+	// 
 
-	if(s_pLocalInput->IsKeyPress(KM_CAMERA_CHANGE))												// 시점 변환..
+	if(s_pLocalInput->IsKeyPress(KM_CAMERA_CHANGE))												// point of view change..
 	{
-		this->CommandCameraChange(); // 카메라 시점 바꾸기..
+		this->CommandCameraChange(); // Change the camera perspective...
 	}
 
-	// 삼인칭일때 홈, 엔드키로 카메로 올리고 내리기..
+	// When in third person, raise and lower the camera with the home and end keys.
 	if(s_pEng->ViewPoint() == VP_THIRD_PERSON)
 	{
 		float fPitch = 0;
-		if(s_pLocalInput->IsKeyDown(DIK_HOME)) fPitch = D3DXToRadian(45.0f);		// home 키가 눌리면..
-		else if(s_pLocalInput->IsKeyDown(DIK_END)) fPitch = D3DXToRadian(-45.0f);	// End 키가 눌리면..
+		if(s_pLocalInput->IsKeyDown(DIK_HOME)) fPitch = D3DXToRadian(45.0f);		// When the home key is pressed...
+		else if(s_pLocalInput->IsKeyDown(DIK_END)) fPitch = D3DXToRadian(-45.0f);	// When the End key is pressed...
 		if(fPitch) s_pEng->CameraPitchAdd(fPitch);
 	}
 
-	if (!IsUIKeyOperated() && nullptr == CN3UIBase::GetFocusedEdit() )			// 채팅모드가 아닐때 
+	if (!IsUIKeyOperated() && nullptr == CN3UIBase::GetFocusedEdit() )			// When not in chat mode
 	{
 #ifdef _DEBUG
-		if ( s_pLocalInput->IsKeyDown(DIK_Q) ) s_pPlayer->m_bTempMoveTurbo = true; // 엄청 빨리 움직이게 한다..  // 임시 함수.. 나중에 없애자..
-		else s_pPlayer->m_bTempMoveTurbo = false; // 엄청 빨리 움직이게 한다..  // 임시 함수.. 나중에 없애자..
+		if ( s_pLocalInput->IsKeyDown(DIK_Q) ) s_pPlayer->m_bTempMoveTurbo = true; // Makes it move super fast. // Temporary function.. Let&#39;s get rid of it later..
+		else s_pPlayer->m_bTempMoveTurbo = false; // Makes it move super fast. // Temporary function.. Let&#39;s get rid of it later..
 #endif
-		if(s_pPlayer->m_InfoBase.iAuthority == AUTHORITY_MANAGER) //게임 운영자는 이 기능을 사용할수 있다.
+		if(s_pPlayer->m_InfoBase.iAuthority == AUTHORITY_MANAGER) // Game operators can use this function.
 		{
-			if ( s_pLocalInput->IsKeyDown(DIK_Q) ) s_pPlayer->m_bTempMoveTurbo = true; // 엄청 빨리 움직이게 한다..  // 임시 함수.. 나중에 없애자..
-			else s_pPlayer->m_bTempMoveTurbo = false; // 엄청 빨리 움직이게 한다..  // 임시 함수.. 나중에 없애자..
+			if ( s_pLocalInput->IsKeyDown(DIK_Q) ) s_pPlayer->m_bTempMoveTurbo = true; // Makes it move super fast. // Temporary function.. Let&#39;s get rid of it later..
+			else s_pPlayer->m_bTempMoveTurbo = false; // Makes it move super fast. // Temporary function.. Let&#39;s get rid of it later..
 		}
 
 		if(s_pLocalInput->IsKeyPress(KM_TOGGLE_ATTACK))
-			this->CommandToggleAttackContinous();		// 자동 공격..}
+			this->CommandToggleAttackContinous();		// auto attack..}
 		if(s_pLocalInput->IsKeyPress(KM_TOGGLE_RUN))
-			this->CommandToggleWalkRun();				// 걷기 / 뛰기 토글	
+			this->CommandToggleWalkRun();				// Toggle walk/run
 		if(s_pLocalInput->IsKeyPress(KM_TARGET_NEARST_ENEMY))
-			this->CommandTargetSelect_NearstEnemy();	// 가장 가까운 적 타겟 잡기..
+			this->CommandTargetSelect_NearstEnemy();	// Grab the closest enemy target.
 		if(s_pLocalInput->IsKeyPress(KM_TARGET_NEARST_PARTY))
-			this->CommandTargetSelect_NearstOurForce(); // 가장 가까운 파티 타겟잡기..
+			this->CommandTargetSelect_NearstOurForce(); // Find the nearest party target.
 
-		const float fRotKeyDelta = D3DXToRadian(60); // 초당 60 도 돌기..
+		const float fRotKeyDelta = D3DXToRadian(60); // Rotates 60 degrees per second.
 		if(s_pLocalInput->IsKeyDown(KM_ROTATE_LEFT) || s_pLocalInput->IsKeyDown(DIK_LEFT))	
 		{
-			if(s_pPlayer->IsAlive()) s_pPlayer->RotAdd(-fRotKeyDelta); // 초당 180 도 왼쪽으로 돌기.
+			if(s_pPlayer->IsAlive()) s_pPlayer->RotAdd(-fRotKeyDelta); // Turn left 180 degrees per second.
 			if(m_pUIDroppedItemDlg->IsVisible()) m_pUIDroppedItemDlg->LeaveDroppedState();	
 		}
 		if(s_pLocalInput->IsKeyDown(KM_ROTATE_RIGHT) || s_pLocalInput->IsKeyDown(DIK_RIGHT))	
 		{
-			if(s_pPlayer->IsAlive()) s_pPlayer->RotAdd(fRotKeyDelta); // 초당 180 도 오른쪽으로 돌기.
+			if(s_pPlayer->IsAlive()) s_pPlayer->RotAdd(fRotKeyDelta); // Turn right 180 degrees per second.
 			if(m_pUIDroppedItemDlg->IsVisible()) m_pUIDroppedItemDlg->LeaveDroppedState();	
 		}
 		
@@ -1086,9 +1086,9 @@ void CGameProcMain::ProcessLocalInput(DWORD dwMouseFlags)
 						CommandToggleAttackContinous();
 				}
 				else
-					bStart = true;// 누르는 순간이면
+					bStart = true;// at the moment of pressing
 			}
-			this->CommandMove(MD_FOWARD, bStart); // 앞으로 이동..
+			this->CommandMove(MD_FOWARD, bStart); // move forward...
 		}
 		else if(s_pLocalInput->IsKeyDown(KM_MOVE_BACKWARD) || s_pLocalInput->IsKeyDown(DIK_DOWN))
 		{
@@ -1103,9 +1103,9 @@ void CGameProcMain::ProcessLocalInput(DWORD dwMouseFlags)
 						CommandToggleAttackContinous();
 				}
 				else
-					bStart = true;// 누르는 순간이면
+					bStart = true;// at the moment of pressing
 			}
-			this->CommandMove(MD_BACKWARD, bStart); // 뒤로 이동..
+			this->CommandMove(MD_BACKWARD, bStart); // go back...
 		}
 		else if(s_pLocalInput->IsKeyPress(KM_TOGGLE_MOVE_CONTINOUS))
 		{
@@ -1113,7 +1113,7 @@ void CGameProcMain::ProcessLocalInput(DWORD dwMouseFlags)
 		}
 
 		if(	s_pLocalInput->IsKeyPressed(KM_MOVE_FOWARD) || s_pLocalInput->IsKeyPressed(DIK_UP) || 
-			s_pLocalInput->IsKeyPressed(KM_MOVE_BACKWARD) || s_pLocalInput->IsKeyPressed(DIK_DOWN) ) // 전진/후진 키를 떼는 순간. 
+			s_pLocalInput->IsKeyPressed(KM_MOVE_BACKWARD) || s_pLocalInput->IsKeyPressed(DIK_DOWN) ) // The moment you release the forward/reverse key.
 		{
 			this->CommandMove(MD_STOP, true);
 		}
@@ -1142,16 +1142,16 @@ void CGameProcMain::ProcessLocalInput(DWORD dwMouseFlags)
 
 	} // end of if ( !m_UIChatDlg.IsChatMode() )
 
-	// ..... 나머지 키보드 처리..
+	// ..... handle the rest of the keyboard..
 #if _DEBUG
-	if(s_pLocalInput->IsKeyPress(DIK_F12)) // 디버깅 테스트..
-		s_pEng->Lightning(); // 번개 치기..
+	if(s_pLocalInput->IsKeyPress(DIK_F12)) // Debugging test...
+		s_pEng->Lightning(); // lightning strike...
 #endif
 }
 
-void CGameProcMain::ProcessPlayerInclination()											// 경사에 서 있을때..
+void CGameProcMain::ProcessPlayerInclination()											// When standing on a slope...
 {
-/*	float fFrm = GetIndepTimeFrame();
+	/*	float fFrm = GetIndepTimeFrame();
 
 	__Vector3 vNorm, vNormXZ; 
 	s_pTerrain->GetNormal( s_pEng->m_matPlayer.Pos().x, s_pEng->m_matPlayer.Pos().z, vNorm );
@@ -1168,53 +1168,53 @@ void CGameProcMain::ProcessPlayerInclination()											// 경사에 서 있을
 	}*/
 }
 
-//////////////////////////////////////////////////////////////////////
 // 
-//////////////////////////////////////////////////////////////////////
+// 
+// 
 
-void CGameProcMain::MsgSend_Continous()						// 특정 조건(?)하에서 서버에게 정기적으로 메시지를 보냄..
+void CGameProcMain::MsgSend_Continous()						// Sends messages to the server periodically under certain conditions (?).
 {
 	const float fTime = s_pEng->TimeGet();
 
-	if ( fTime >= m_fMsgSendTimeMove + PACKET_INTERVAL_MOVE )					// 1초가 지났으면..	
+	if ( fTime >= m_fMsgSendTimeMove + PACKET_INTERVAL_MOVE )					// If 1 second has passed...
 	{
 		const __Vector3 vPos = s_pPlayer->Position();
-		if(m_vPlayerPosSended != vPos) this->MsgSend_Move(true, true); // 조금이라도 움직였으면 움직임 패킷 보냄..
+		if(m_vPlayerPosSended != vPos) this->MsgSend_Move(true, true); // If there is any movement, a movement packet is sent.
 	}
 
-	if( false == s_pPlayer->m_bMoveContinous && fTime >= m_fMsgSendTimeRot + PACKET_INTERVAL_ROTATE ) // 플레이어가 정지해 있고.. 2초가 지났으면..
+	if( false == s_pPlayer->m_bMoveContinous && fTime >= m_fMsgSendTimeRot + PACKET_INTERVAL_ROTATE ) // If the player is still... and 2 seconds have passed...
 	{
 		const float fYaw = s_pPlayer->Yaw();
-		if( fYaw != m_fPlayerYawSended ) MsgSend_Rotation(); // 조금이라도 회전했으면 회전 패킷 보냄
+		if( fYaw != m_fPlayerYawSended ) MsgSend_Rotation(); // Send rotation packet if rotated even slightly
 	}
 }
 
 
 
-//////////////////////////////////////////////////////////////////////
 // 
-//////////////////////////////////////////////////////////////////////
+// 
+// 
 
-void CGameProcMain::MsgSend_Attack(int iTargetID, float fInterval, float fDistance) // 공격 패킷 날리기 - 테이블의 공격 주기를 같이 줘서 해킹을 막는다.
+void CGameProcMain::MsgSend_Attack(int iTargetID, float fInterval, float fDistance) // Sending attack packets - Prevents hacking by giving the table&#39;s attack cycle the same.
 {
-	if(s_pPlayer->m_fTimeAfterDeath > 0 || s_pPlayer->IsDead())	return; // 죽은 넘이다..
+	if(s_pPlayer->m_fTimeAfterDeath > 0 || s_pPlayer->IsDead())	return; // It&#39;s dead..
 
-	BYTE byBuff[32];												// 버퍼.. 
-	int iOffset=0;													// 옵셋..
+	BYTE byBuff[32];												// buffer..
+	int iOffset=0;													// Offset...
 
 	const BYTE bySuccess = true;
 
-	CAPISocket::MP_AddByte(byBuff, iOffset, N3_ATTACK);						// 공격 커멘드..
-	CAPISocket::MP_AddByte(byBuff, iOffset, 0x01);							// ??? 데미지??
-	CAPISocket::MP_AddByte(byBuff, iOffset, bySuccess);						// 성공 여부.. - 일단 성공으로 보낸다.
+	CAPISocket::MP_AddByte(byBuff, iOffset, N3_ATTACK);						// attack command.
+	CAPISocket::MP_AddByte(byBuff, iOffset, 0x01);							// ??? damage??
+	CAPISocket::MP_AddByte(byBuff, iOffset, bySuccess);						// Success or not.. - First of all, send it to success.
 
 	fInterval += 0.1f;
 
-	CAPISocket::MP_AddShort(byBuff, iOffset, iTargetID );					// 상대방 아이디..
-	CAPISocket::MP_AddShort(byBuff, iOffset, (int)(fInterval * 100));	// 공격한 시간
-	CAPISocket::MP_AddShort(byBuff, iOffset, (int)(fDistance * 10));	// 공격한 거리
+	CAPISocket::MP_AddShort(byBuff, iOffset, iTargetID );					// Opponent ID.
+	CAPISocket::MP_AddShort(byBuff, iOffset, (int)(fInterval * 100));	// time of attack
+	CAPISocket::MP_AddShort(byBuff, iOffset, (int)(fDistance * 10));	// distance attacked
 
-	s_pSocket->Send(byBuff, iOffset);										// 보냄..
+	s_pSocket->Send(byBuff, iOffset);										// sent...
 }
 
 void CGameProcMain::MsgSend_Move(bool bMove, bool bContinous)
@@ -1224,14 +1224,14 @@ void CGameProcMain::MsgSend_Move(bool bMove, bool bContinous)
 	
 	BYTE byMoveFlag = 0;
 
-	if(true == bMove) // 움직이기 시작할때나 움직일때는
+	if(true == bMove) // When you start moving or when you move
 	{
-		if(s_pPlayer->m_fTimeAfterDeath > 0 || s_pPlayer->IsDead())	return; // 죽은 넘이다..
+		if(s_pPlayer->m_fTimeAfterDeath > 0 || s_pPlayer->IsDead())	return; // It&#39;s dead..
 
-		vPos = s_pPlayer->NextPos(PACKET_INTERVAL_MOVE); // 다음 1초후의 위치를 계산해서.
+		vPos = s_pPlayer->NextPos(PACKET_INTERVAL_MOVE); // By calculating the position one second later.
 		byMoveFlag |= 0x01;
 	}
-	else // 정지시에는 
+	else // at stop
 	{
 		s_pPlayer->m_bTargetOrPosMove	= false;
 		s_pPlayer->m_iMoveTarget		= -1;
@@ -1239,43 +1239,43 @@ void CGameProcMain::MsgSend_Move(bool bMove, bool bContinous)
 		fSpeed = 0;
 	}
 
-	if(true == bContinous) // 정기적으로 움직이는 거라면..
+	if(true == bContinous) // If you are moving regularly...
 	{
 		byMoveFlag |= 0x02;
 	}
 
-	BYTE byBuff[64];											// 버퍼 설정..
-	int iOffset=0;											// 옵셋..
+	BYTE byBuff[64];											// Buffer settings...
+	int iOffset=0;											// Offset...
 
-	CAPISocket::MP_AddByte(byBuff, iOffset, N3_MOVE);			// 커멘드..
-	CAPISocket::MP_AddWord(byBuff, iOffset, vPos.x*10);			// 다음 위치
+	CAPISocket::MP_AddByte(byBuff, iOffset, N3_MOVE);			// command...
+	CAPISocket::MP_AddWord(byBuff, iOffset, vPos.x*10);			// next location
 	CAPISocket::MP_AddWord(byBuff, iOffset, vPos.z*10);
 	CAPISocket::MP_AddShort(byBuff, iOffset, vPos.y*10);
-	CAPISocket::MP_AddWord(byBuff, iOffset, fSpeed*10);			// 속도 
-	CAPISocket::MP_AddByte(byBuff, iOffset, byMoveFlag );		// 움직임 플래그..
-	s_pSocket->Send(byBuff, iOffset);							// 패킷을 보냄..
+	CAPISocket::MP_AddWord(byBuff, iOffset, fSpeed*10);			// speed
+	CAPISocket::MP_AddByte(byBuff, iOffset, byMoveFlag );		// movement flag.
+	s_pSocket->Send(byBuff, iOffset);							// Send packets..
 
-	m_vPlayerPosSended = s_pPlayer->Position(); // 최근에 보낸 위치 세팅..
+	m_vPlayerPosSended = s_pPlayer->Position(); // Recently sent location settings..
 	
-	if(true == bMove) m_fMsgSendTimeMove = CN3Base::TimeGet(); // 시간을 기록한다..
+	if(true == bMove) m_fMsgSendTimeMove = CN3Base::TimeGet(); // record the time...
 }
 
 void CGameProcMain::MsgSend_Rotation()
 {
-	if(s_pPlayer->IsDead()) return; // 죽은 넘이 어딜 감히!!
+	if(s_pPlayer->IsDead()) return; // How dare you die!
 
 	BYTE byBuff[8];
 	int iOffset=0;
 
-	const float fYaw = s_pPlayer->Yaw(); // 방향..
+	const float fYaw = s_pPlayer->Yaw(); // direction..
 	
 	CAPISocket::MP_AddByte(byBuff, iOffset, N3_ROTATE);
 	CAPISocket::MP_AddShort(byBuff, iOffset, fYaw*100);
 
 	s_pSocket->Send(byBuff, iOffset);
 
-	m_fPlayerYawSended = fYaw; // 회전값을 기록
-	m_fMsgSendTimeRot = CN3Base::TimeGet(); // 시간을 기록한다..
+	m_fPlayerYawSended = fYaw; // record the rotation
+	m_fMsgSendTimeRot = CN3Base::TimeGet(); // record the time...
 }
 
 
@@ -1293,7 +1293,7 @@ void CGameProcMain::MsgSend_Chat(e_ChatMode eMode, const std::string& szChat)
 	CAPISocket::MP_AddString(byBuff, iOffset, szChat);
 
 	__ASSERT(iOffset<512, "Send Buffer OverFlow");
-	s_pSocket->Send(byBuff, iOffset); // 보낸다..
+	s_pSocket->Send(byBuff, iOffset); // send..
 }
 
 void CGameProcMain::MsgSend_ChatSelectTarget(const std::string& szTargetID)
@@ -1312,19 +1312,19 @@ void CGameProcMain::MsgSend_ChatSelectTarget(const std::string& szTargetID)
 
 void CGameProcMain::MsgSend_Regen()
 {
-	if(s_pPlayer->m_iSendRegeneration >= 2) return; // 한번 보내면 다시 죽을때까지 안보내는 플래그
+	if(s_pPlayer->m_iSendRegeneration >= 2) return; // Once sent, a flag that will not be seen until it dies again
 
 	BYTE byBuff[4];
 	int iOffset=0;
 
 	CAPISocket::MP_AddByte(byBuff, iOffset, N3_REGENE);
-	CAPISocket::MP_AddByte(byBuff, iOffset, 1); //1: 마을로 살아나기..
+	CAPISocket::MP_AddByte(byBuff, iOffset, 1); // 1: Survive as a village...
 	
 	CLogWriter::Write("Send Regeneration");
 
-	s_pSocket->Send(byBuff, iOffset); // 보낸다..
+	s_pSocket->Send(byBuff, iOffset); // send..
 
-	s_pPlayer->m_iSendRegeneration = 2; // 한번 보내면 다시 죽을때까지 안보내는 플래그
+	s_pPlayer->m_iSendRegeneration = 2; // Once sent, a flag that will not be seen until it dies again
 	TRACE("보냄 - 다시 살아나기\n");
 }
 
@@ -1338,7 +1338,7 @@ bool CGameProcMain::MsgSend_RequestItemBundleOpen(CPlayerNPC* pCorpse)
 	const int iItemBundleID = pCorpse->m_iDroppedItemID;
 	m_pUIDroppedItemDlg->m_iItemBundleID = pCorpse->m_iDroppedItemID;
 		
-	s_pOPMgr->CorpseRemove(pCorpse, false); // 점점 투명하게 없앤다..
+	s_pOPMgr->CorpseRemove(pCorpse, false); // It becomes more and more transparent...
 	
 	BYTE byBuff[8];
 	int iOffset=0;
@@ -1346,7 +1346,7 @@ bool CGameProcMain::MsgSend_RequestItemBundleOpen(CPlayerNPC* pCorpse)
 	CAPISocket::MP_AddByte(byBuff, iOffset, N3_ITEM_BUNDLE_OPEN_REQUEST);
 	CAPISocket::MP_AddDword(byBuff, iOffset, iItemBundleID);
 
-	s_pSocket->Send(byBuff, iOffset); // 보낸다..
+	s_pSocket->Send(byBuff, iOffset); // send..
 
 	return true;
 }
@@ -1357,11 +1357,11 @@ void CGameProcMain::MsgSend_PartyOrForcePermit(int iPartyOrForce, bool bYesNo)
 	int iOffset=0;
 
 	CAPISocket::MP_AddByte(byBuff, iOffset, N3_PARTY_OR_FORCE);
-//	CAPISocket::MP_AddByte(byBuff, iOffset, iPartyOrForce);
+// CAPISocket::MP_AddByte(byBuff, iOffset, iPartyOrForce);
 	CAPISocket::MP_AddByte(byBuff, iOffset, N3_SP_PARTY_OR_FORCE_PERMIT);
 	CAPISocket::MP_AddByte(byBuff, iOffset, bYesNo);
 
-	s_pSocket->Send(byBuff, iOffset); // 보낸다..
+	s_pSocket->Send(byBuff, iOffset); // send..
 }
 
 bool CGameProcMain::MsgSend_PartyOrForceCreate(int iPartyOrForce, const std::string& szID)
@@ -1372,7 +1372,7 @@ bool CGameProcMain::MsgSend_PartyOrForceCreate(int iPartyOrForce, const std::str
 	int iMemberIndex = -1;
 	CPlayerBase* pTarget = nullptr;
 	this->PartyOrForceConditionGet(bIAmLeader, bIAmMember, iMemberIndex, pTarget);
-	if(true == bIAmMember && false == bIAmLeader) return false; // 내가 파티에 들어 있고 리더가 아니면 실패..
+	if(true == bIAmMember && false == bIAmLeader) return false; // If I&#39;m in the party and I&#39;m not the leader, I&#39;ll fail...
 
 	BYTE byBuff[32];
 	int iOffset=0;
@@ -1386,14 +1386,14 @@ bool CGameProcMain::MsgSend_PartyOrForceCreate(int iPartyOrForce, const std::str
 	m_pUIPartyOrForce->m_iPartyOrForce = iPartyOrForce;
 
 	CAPISocket::MP_AddByte(byBuff, iOffset, N3_PARTY_OR_FORCE);
-//	CAPISocket::MP_AddByte(byBuff, iOffset, iPartyOrForce);
+	// CAPISocket::MP_AddByte(byBuff, iOffset, iPartyOrForce);
 	CAPISocket::MP_AddByte(byBuff, iOffset, eCmdParty);
 	CAPISocket::MP_AddShort(byBuff, iOffset, szID.size());
 	CAPISocket::MP_AddString(byBuff, iOffset, szID);
 
-	s_pSocket->Send(byBuff, iOffset); // 보낸다..
+	s_pSocket->Send(byBuff, iOffset); // send..
 	
-	if(m_pUIPartyOrForce->MemberCount() <= 0) // 처음 생성하는 경우...
+	if(m_pUIPartyOrForce->MemberCount() <= 0) // If this is your first time creating...
 	{
 		m_pUIPartyOrForce->MemberAdd(
 			s_pPlayer->IDNumber(),
@@ -1401,7 +1401,7 @@ bool CGameProcMain::MsgSend_PartyOrForceCreate(int iPartyOrForce, const std::str
 			s_pPlayer->m_InfoBase.iLevel, 
 			s_pPlayer->m_InfoBase.eClass, 
 			s_pPlayer->m_InfoBase.iHP, 
-			s_pPlayer->m_InfoBase.iHPMax);  // 내건 미리 넣어 놓는다..
+			s_pPlayer->m_InfoBase.iHPMax);  // I put mine in advance.
 	}
 
 	TRACE ("Party or Force 생성 신청 - Target ID(%s)\n", szID.c_str());
@@ -1411,7 +1411,7 @@ bool CGameProcMain::MsgSend_PartyOrForceCreate(int iPartyOrForce, const std::str
 
 void CGameProcMain::MsgSend_PartyOrForceLeave(int iPartyOrForce)
 {
-	if(m_pUIPartyOrForce->MemberCount() <= 0) return; // 파티원이 없다..
+	if(m_pUIPartyOrForce->MemberCount() <= 0) return; // No party members...
 
 	CPlayerBase* pTarget = nullptr;
 	bool bIAmLeader, bIAmMember;
@@ -1422,25 +1422,25 @@ void CGameProcMain::MsgSend_PartyOrForceLeave(int iPartyOrForce)
 	int iOffset=0;
 
 	CAPISocket::MP_AddByte(byBuff, iOffset, N3_PARTY_OR_FORCE);
-//	CAPISocket::MP_AddByte(byBuff, iOffset, iPartyOrForce);
-	if(bIAmLeader) // 내가 리더일경우..
+	// CAPISocket::MP_AddByte(byBuff, iOffset, iPartyOrForce);
+	if(bIAmLeader) // If I&#39;m a leader...
 	{
-		if(iMemberIndex > 0 && pTarget) // 파티원이다.. 쫓아내자..
+		if(iMemberIndex > 0 && pTarget) // It&#39;s a party member.. Let&#39;s kick it out..
 		{
 			CAPISocket::MP_AddByte(byBuff, iOffset, N3_SP_PARTY_OR_FORCE_REMOVE);
 			CAPISocket::MP_AddShort(byBuff, iOffset, pTarget->IDNumber());
 		}
-		else // 타겟이 파티원이 아니면 파티 뽀개기..
+		else // If the target is not a party member, break the party..
 		{
 			CAPISocket::MP_AddByte(byBuff, iOffset, N3_SP_PARTY_OR_FORCE_DESTROY);
 		}
 	}
-	else if(bIAmMember) // 리더가 아니면 탈퇴 메시지를 보낸다..
+	else if(bIAmMember) // If you are not a leader, send a withdrawal message.
 	{
 		CAPISocket::MP_AddByte(byBuff, iOffset, N3_SP_PARTY_OR_FORCE_REMOVE);
 		CAPISocket::MP_AddShort(byBuff, iOffset, s_pPlayer->IDNumber());
 	}
-	s_pSocket->Send(byBuff, iOffset); // 보낸다..
+	s_pSocket->Send(byBuff, iOffset); // send..
 }
 
 void CGameProcMain::MsgSend_ObjectEvent(int iEventID, int iNPCID)
@@ -1452,7 +1452,7 @@ void CGameProcMain::MsgSend_ObjectEvent(int iEventID, int iNPCID)
 	CAPISocket::MP_AddShort(byBuff, iOffset, iEventID);	// Index
 	CAPISocket::MP_AddShort(byBuff, iOffset, iNPCID);	// Parameter
 
-	s_pSocket->Send(byBuff, iOffset); // 보낸다..
+	s_pSocket->Send(byBuff, iOffset); // send..
 }
 
 void CGameProcMain::MsgSend_Weather(int iWeather, int iPercent)
@@ -1463,9 +1463,9 @@ void CGameProcMain::MsgSend_Weather(int iWeather, int iPercent)
 	BYTE byBuff[8];
 	int iOffset=0;
 
-	CAPISocket::MP_AddByte(byBuff, iOffset, N3_WEATHER); // -> byte - 기후.... 0x01 - 맑음.. 0x02 -  비 0x03
-	CAPISocket::MP_AddByte(byBuff, iOffset, iWeather); // -> byte - 기후.... 0x01 - 맑음.. 0x02 -  비 0x03
-	CAPISocket::MP_AddShort(byBuff, iOffset, (short)iPercent); // short -> 맑은날 안개, 비, 눈 의 양 퍼센트로 
+	CAPISocket::MP_AddByte(byBuff, iOffset, N3_WEATHER); // -&gt; byte - Climate.... 0x01 - Sunny.. 0x02 - Rain 0x03
+	CAPISocket::MP_AddByte(byBuff, iOffset, iWeather); // -&gt; byte - Climate.... 0x01 - Sunny.. 0x02 - Rain 0x03
+	CAPISocket::MP_AddShort(byBuff, iOffset, (short)iPercent); // short -&gt; sunny day amount of fog, rain and snow as a percentage
 
 	s_pSocket->Send(byBuff, iOffset);
 }
@@ -1492,7 +1492,7 @@ void CGameProcMain::MsgSend_Administrator(e_SubPacket_Administrator eSP, const s
 	BYTE byBuff[64];
 	int iOffset=0;
 
-	CAPISocket::MP_AddByte(byBuff, iOffset, N3_ADMINISTRATOR); // 관리자 전용패킷..
+	CAPISocket::MP_AddByte(byBuff, iOffset, N3_ADMINISTRATOR); // Administrator-only packets..
 	CAPISocket::MP_AddByte(byBuff, iOffset, eSP);
 	CAPISocket::MP_AddShort(byBuff, iOffset, szID.size());
 	CAPISocket::MP_AddString(byBuff, iOffset, szID);	
@@ -1505,7 +1505,7 @@ void CGameProcMain::MsgSend_KnightsJoinReq(bool bJoin)
 	BYTE byBuff[8];
 	int iOffset=0;
 
-	CAPISocket::MP_AddByte(byBuff, iOffset, N3_KNIGHTS); // 관리자 전용패킷..
+	CAPISocket::MP_AddByte(byBuff, iOffset, N3_KNIGHTS); // Administrator-only packets..
 	CAPISocket::MP_AddByte(byBuff, iOffset, N3_SP_KNIGHTS_JOIN_REQ);
 	CAPISocket::MP_AddByte(byBuff, iOffset, (BYTE)bJoin);
 	CAPISocket::MP_AddShort(byBuff, iOffset, (short)m_iJoinReqClanRequierID);
@@ -1519,7 +1519,7 @@ void CGameProcMain::MsgSend_KnightsJoin(int iTargetID)
 	BYTE byBuff[4];
 	int iOffset=0;
 
-	CAPISocket::MP_AddByte(byBuff, iOffset, N3_KNIGHTS); // 관리자 전용패킷..
+	CAPISocket::MP_AddByte(byBuff, iOffset, N3_KNIGHTS); // Administrator-only packets..
 	CAPISocket::MP_AddByte(byBuff, iOffset, N3_SP_KNIGHTS_JOIN);
 	CAPISocket::MP_AddShort(byBuff, iOffset, (short)iTargetID);
 	
@@ -1533,10 +1533,10 @@ void CGameProcMain::MsgSend_KnightsLeave(std::string& szName)
 
 	const int iLen = szName.size();
 
-	CAPISocket::MP_AddByte(byBuff, iOffset, N3_KNIGHTS); // 관리자 전용패킷..
+	CAPISocket::MP_AddByte(byBuff, iOffset, N3_KNIGHTS); // Administrator-only packets..
 	CAPISocket::MP_AddByte(byBuff, iOffset, N3_SP_KNIGHTS_MEMBER_REMOVE);
 	CAPISocket::MP_AddShort(byBuff, iOffset, (short)iLen);
-	CAPISocket::MP_AddString(byBuff, iOffset, szName);	// 아이디 문자열 패킷에 넣기..
+	CAPISocket::MP_AddString(byBuff, iOffset, szName);	// Put the ID string in the packet..
 	s_pSocket->Send(byBuff, iOffset);
 }
 
@@ -1557,23 +1557,23 @@ void CGameProcMain::MsgSend_KnightsAppointViceChief(std::string& szName)
 
 	const int iLen = szName.size();
 
-	CAPISocket::MP_AddByte(byBuff, iOffset, N3_KNIGHTS); // 관리자 전용패킷..
+	CAPISocket::MP_AddByte(byBuff, iOffset, N3_KNIGHTS); // Administrator-only packets..
 	CAPISocket::MP_AddByte(byBuff, iOffset, N3_SP_KNIGHTS_APPOINT_VICECHIEF);
 	CAPISocket::MP_AddShort(byBuff, iOffset, (short)iLen);
-	CAPISocket::MP_AddString(byBuff, iOffset, szName);	// 아이디 문자열 패킷에 넣기..
+	CAPISocket::MP_AddString(byBuff, iOffset, szName);	// Put the ID string in the packet..
 	s_pSocket->Send(byBuff, iOffset);
 }
 
 bool CGameProcMain::MsgRecv_MyInfo_All(DataPack* pDataPack, int& iOffset)
 {
 	const int iZone = s_pPlayer->m_InfoExt.iZoneCur;
-	s_pPlayer->Release(); // 일단 몽창 다 해제 하고....
+	s_pPlayer->Release(); // Once you&#39;ve unlocked it all...
 	s_pPlayer->m_InfoExt.iZoneCur = iZone;
 
 	const int iID = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
 	const int iLen = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
 	std::string szID; CAPISocket::Parse_GetString(pDataPack->m_pData, iOffset, szID, iLen);
-	s_pPlayer->IDSet(iID, szID, D3DCOLOR_XRGB(100, 210, 255)); // 밝은 파란색과 하늘색 중간..
+	s_pPlayer->IDSet(iID, szID, D3DCOLOR_XRGB(100, 210, 255)); // Between light blue and light blue...
 
 	const float fX	= (CAPISocket::Parse_GetWord(pDataPack->m_pData, iOffset))/10.0f;
 	const float fZ	= (CAPISocket::Parse_GetWord(pDataPack->m_pData, iOffset))/10.0f;
@@ -1582,19 +1582,19 @@ bool CGameProcMain::MsgRecv_MyInfo_All(DataPack* pDataPack, int& iOffset)
 	s_pPlayer->m_InfoBase.eNation	= (e_Nation)CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
 	s_pPlayer->m_InfoBase.eRace		= (e_Race)CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
 	s_pPlayer->m_InfoBase.eClass	= (e_Class)CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
-	s_pPlayer->m_InfoExt.iFace		= CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // 얼굴 모양..
-	s_pPlayer->m_InfoExt.iHair		= CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // 머리카락
+	s_pPlayer->m_InfoExt.iFace		= CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // face shape..
+	s_pPlayer->m_InfoExt.iHair		= CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // hair
 
-	__TABLE_PLAYER_LOOKS* pLooks = s_pTbl_UPC_Looks->Find(s_pPlayer->m_InfoBase.eRace);	// User Player Character Skin 구조체 포인터..
+	__TABLE_PLAYER_LOOKS* pLooks = s_pTbl_UPC_Looks->Find(s_pPlayer->m_InfoBase.eRace);	// User Player Character Skin structure pointer..
 	if(nullptr == pLooks) CLogWriter::Write("CGameProcMain::MsgRecv_MyInfo_All : failed find character resource data (Race : %d)", s_pPlayer->m_InfoBase.eRace);
 	__ASSERT(pLooks, "failed find character resource data");
-	s_pPlayer->InitChr(pLooks); // 관절 세팅..
+	s_pPlayer->InitChr(pLooks); // Joint setting...
 
 	s_pPlayer->m_InfoExt.iRank		= CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
 	s_pPlayer->m_InfoExt.iTitle		= CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
 	s_pPlayer->m_InfoBase.iLevel	= CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
 	s_pPlayer->m_InfoExt.iLevelPrev = s_pPlayer->m_InfoBase.iLevel;
-	s_pPlayer->m_InfoExt.iBonusPointRemain = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // 남은 보너스 포인트..
+	s_pPlayer->m_InfoExt.iBonusPointRemain = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // Remaining bonus points...
 
 	s_pPlayer->m_InfoExt.iExpNext	= CAPISocket::Parse_GetDword(pDataPack->m_pData, iOffset); 
 	s_pPlayer->m_InfoExt.iExp		= CAPISocket::Parse_GetDword(pDataPack->m_pData, iOffset); 
@@ -1602,15 +1602,15 @@ bool CGameProcMain::MsgRecv_MyInfo_All(DataPack* pDataPack, int& iOffset)
 	s_pPlayer->m_InfoExt.iCity		= CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
 	
 	std::string szKnightsName;
-	const int iKnightsID				= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // 소속 기사단 ID
-	const auto eKnightsDuty	= (e_KnightsDuty)CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // 기사단에서의 권한..
-	const int iKnightNameLen = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // 소속 기사단 이름 길이.
+	const int iKnightsID				= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // Affiliated Knight ID
+	const auto eKnightsDuty	= (e_KnightsDuty)CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // Authority in the Knights...
+	const int iKnightNameLen = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // The length of the name of the Knights Templar.
 	CAPISocket::Parse_GetString(pDataPack->m_pData, iOffset, szKnightsName, iKnightNameLen);
-	const int iKnightsGrade			= CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // 소속 기사단 등급
-	const int	iKnightsRank			= CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // 소속 기사단 순위
+	const int iKnightsGrade			= CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // Affiliation Knight Rank
+	const int	iKnightsRank			= CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // Affiliated Knight Rank
 	
-	// 기사단 관련 세팅..
-	s_pPlayer->m_InfoExt.eKnightsDuty = eKnightsDuty; // 기사단에서의 권한..
+	// Knights related settings...
+	s_pPlayer->m_InfoExt.eKnightsDuty = eKnightsDuty; // Authority in the Knights...
 	s_pPlayer->KnightsInfoSet(iKnightsID, szKnightsName, iKnightsGrade, iKnightsRank);
 	m_pUIVar->UpdateKnightsInfo();
 	
@@ -1633,9 +1633,9 @@ bool CGameProcMain::MsgRecv_MyInfo_All(DataPack* pDataPack, int& iOffset)
 	s_pPlayer->m_InfoExt.iMagicAttak_Delta	= CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
 	
 	s_pPlayer->m_InfoExt.iAttack			= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
-//	s_pPlayer->m_InfoExt.iAttack_Delta		= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
+	// s_pPlayer->m_InfoExt.iAttack_Delta		= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
 	s_pPlayer->m_InfoExt.iGuard				= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
-//	s_pPlayer->m_InfoExt.iGuard_Delta		= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
+	// s_pPlayer->m_InfoExt.iGuard_Delta		= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
 	s_pPlayer->m_InfoExt.iRegistFire		= CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
 	s_pPlayer->m_InfoExt.iRegistCold		= CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
 	s_pPlayer->m_InfoExt.iRegistLight		= CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
@@ -1644,56 +1644,56 @@ bool CGameProcMain::MsgRecv_MyInfo_All(DataPack* pDataPack, int& iOffset)
 	s_pPlayer->m_InfoExt.iRegistPoison		= CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
 
 	s_pPlayer->m_InfoExt.iGold				= CAPISocket::Parse_GetDword(pDataPack->m_pData, iOffset);
-	s_pPlayer->m_InfoBase.iAuthority		= CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); //권한.. 
+	s_pPlayer->m_InfoBase.iAuthority		= CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // authority..
 
-	// 스킬 UI 갱신..
+	// Skill UI update..
 	for(auto i = 0; i < 9; i++ )
 	{
 		m_pUISkillTreeDlg->m_iSkillInfo[i] = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
 	}
 	m_pUISkillTreeDlg->InitIconUpdate();
 	m_pUIHotKeyDlg->ReleaseItem();
-	m_pUIHotKeyDlg->InitIconUpdate();			// 핫키가 유효한지 검사하고 유효하면 레지스트리에서 읽어온다..
+	m_pUIHotKeyDlg->InitIconUpdate();			// Checks if the hotkey is valid, and if so, reads it from the registry.
 
-	// 장착하고 있는 거..
+	// What you&#39;re wearing...
 	int iItemIDInSlots[ITEM_SLOT_COUNT]; memset(iItemIDInSlots, -1, sizeof(iItemIDInSlots));
 	int iItemDurabilityInSlots[ITEM_SLOT_COUNT]; memset(iItemDurabilityInSlots, -1, sizeof(iItemDurabilityInSlots));
 	int iItemCountInSlots[ITEM_SLOT_COUNT]; memset(iItemCountInSlots, -1, sizeof(iItemCountInSlots));
 
-	for(auto i = 0; i < ITEM_SLOT_COUNT; i++ )				// 슬롯 갯수마큼..
+	for(auto i = 0; i < ITEM_SLOT_COUNT; i++ )				// As for the number of slots.
 	{
 		iItemIDInSlots[i]			= CAPISocket::Parse_GetDword(pDataPack->m_pData, iOffset);
 		iItemDurabilityInSlots[i]	= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
 		iItemCountInSlots[i]		= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
 	}
 
-	m_fMsgSendTimeMove		= 0;						// Network ReQuest 타이머 초기화..
+	m_fMsgSendTimeMove		= 0;						// Network ReQuest timer reset..
 	m_fMsgSendTimeRot		= 0;
-	m_fPlayerYawSended		= 0;						// 최근에 메시지를 보낸 시점의 플레이어 y 축 회전값.
-	m_vPlayerPosSended		= s_pPlayer->Position();	// 최근에 메시지를 보낸 시점의 플레이어 위치.
+	m_fPlayerYawSended		= 0;						// Rotation on the player&#39;s y-axis since the last message was sent.
+	m_vPlayerPosSended		= s_pPlayer->Position();	// The player&#39;s position at the time the last message was sent.
 
-	// 상태창 수치를 모두 적용
-	if(m_pUIVar->m_pPageState) m_pUIVar->m_pPageState->UpdateID(szID); // 이름 적용.
+	// Apply all status window values
+	if(m_pUIVar->m_pPageState) m_pUIVar->m_pPageState->UpdateID(szID); // Apply name.
 	m_pUIVar->UpdateAllStates(&(s_pPlayer->m_InfoBase), &(s_pPlayer->m_InfoExt));
 
-	//__KnightsInfoBase* pKIB = m_pUIKnightsOp->KnightsInfoFind(s_pPlayer->m_InfoExt.iKnightsID);
-	//if(pKIB) m_pUIVar->m_pPageKnights->UpdateKnightsName(pKIB->szName);
+	// __KnightsInfoBase* pKIB = m_pUIKnightsOp->KnightsInfoFind(s_pPlayer->m_InfoExt.iKnightsID);
+	// if(pKIB) m_pUIVar->m_pPageKnights->UpdateKnightsName(pKIB->szName);
 	
-	// 상태 바 갱신
+	// status bar update
 	m_pUIStateBarAndMiniMap->UpdateExp(s_pPlayer->m_InfoExt.iExp, s_pPlayer->m_InfoExt.iExpNext, true);
 	m_pUIStateBarAndMiniMap->UpdateHP(s_pPlayer->m_InfoBase.iHP, s_pPlayer->m_InfoBase.iHPMax, true);
 	m_pUIStateBarAndMiniMap->UpdateMSP(s_pPlayer->m_InfoExt.iMSP, s_pPlayer->m_InfoExt.iMSPMax, true);
 
-	m_pUIPartyOrForce->MemberInfoReInit(); // 파티 창.. 갱신..
+	m_pUIPartyOrForce->MemberInfoReInit(); // party window.. update..
 	
-	__TABLE_ITEM_BASIC* pItem = nullptr;								// 아이템 테이블 구조체 포인터..	
-	__TABLE_ITEM_EXT* pItemExt = nullptr;								// 아이템 테이블 구조체 포인터..	
+	__TABLE_ITEM_BASIC* pItem = nullptr;								// Item table structure pointer..
+	__TABLE_ITEM_EXT* pItemExt = nullptr;								// Item table structure pointer..
 
 	int iItemIDInInventorys[MAX_ITEM_INVENTORY]; memset(iItemIDInInventorys, -1, sizeof(iItemIDInInventorys));
 	int iItemCountInInventorys[MAX_ITEM_INVENTORY]; memset(iItemCountInInventorys, -1, sizeof(iItemCountInInventorys));
 	int iItemDurabilityInInventorys[MAX_ITEM_INVENTORY]; memset(iItemDurabilityInInventorys, -1, sizeof(iItemDurabilityInInventorys));
 
-	for(auto i = 0; i < MAX_ITEM_INVENTORY; i++ )				// 슬롯 갯수마큼..
+	for(auto i = 0; i < MAX_ITEM_INVENTORY; i++ )				// As for the number of slots.
 	{
 		iItemIDInInventorys[i]			= CAPISocket::Parse_GetDword(pDataPack->m_pData, iOffset);
 		iItemDurabilityInInventorys[i]	= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
@@ -1703,13 +1703,13 @@ bool CGameProcMain::MsgRecv_MyInfo_All(DataPack* pDataPack, int& iOffset)
 	m_pUIInventory->ReleaseItem();
 
 	std::string szResrcFN, szIconFN;
-	for(auto i = 0; i < ITEM_SLOT_COUNT; i++ )				// 슬롯 갯수마큼..
+	for(auto i = 0; i < ITEM_SLOT_COUNT; i++ )				// As for the number of slots.
 	{
 		if(0 == iItemIDInSlots[i]) continue;
 
-		pItem = s_pTbl_Items_Basic->Find(iItemIDInSlots[i]/1000*1000);	// 열 데이터 얻기..
+		pItem = s_pTbl_Items_Basic->Find(iItemIDInSlots[i]/1000*1000);	// Get column data...
 		if(pItem && pItem->byExtIndex >= 0 && pItem->byExtIndex < MAX_ITEM_EXTENSION)
-			pItemExt = s_pTbl_Items_Exts[pItem->byExtIndex]->Find(iItemIDInSlots[i]%1000);	// 열 데이터 얻기..
+			pItemExt = s_pTbl_Items_Exts[pItem->byExtIndex]->Find(iItemIDInSlots[i]%1000);	// Get column data...
 		else
 			pItemExt = nullptr;
 
@@ -1717,12 +1717,12 @@ bool CGameProcMain::MsgRecv_MyInfo_All(DataPack* pDataPack, int& iOffset)
 		{
 			__ASSERT(0, "NULL Item!!!");
 			CLogWriter::Write("MyInfo - slot - Unknown Item %d, IDNumber", iItemIDInSlots[i]);
-			continue; // 아이템이 없으면..
+			continue; // If there are no items...
 		}
 
 		e_PartPosition ePart;
 		e_PlugPosition ePlug;
-		const e_ItemType eType = CGameProcedure::MakeResrcFileNameForUPC(pItem, &szResrcFN, &szIconFN, ePart, ePlug); // 아이템에 따른 파일 이름을 만들어서
+		const e_ItemType eType = CGameProcedure::MakeResrcFileNameForUPC(pItem, &szResrcFN, &szIconFN, ePart, ePlug); // Create a file name according to the item
 		if(ITEM_TYPE_UNKNOWN == eType) CLogWriter::Write("MyInfo - slot - Unknown Item");
 		__ASSERT(ITEM_TYPE_UNKNOWN != eType, "Unknown Item Type");
 		const auto eSlot = (e_ItemSlot)i;
@@ -1739,19 +1739,19 @@ bool CGameProcMain::MsgRecv_MyInfo_All(DataPack* pDataPack, int& iOffset)
 				__ASSERT(ITEM_TYPE_ICONONLY == eType, "Invalid Item");
 			}
 			break;
-		case ITEM_SLOT_UPPER: // Parts - 상체
-		case ITEM_SLOT_LOWER: // Parts - 하체
-		case ITEM_SLOT_GLOVES: // 장갑
-		case ITEM_SLOT_SHOES: // 신발
-		case ITEM_SLOT_HEAD: // 머리카락 ?? -> 투구 ??
+		case ITEM_SLOT_UPPER: // Parts - Upper Body
+		case ITEM_SLOT_LOWER: // Parts - lower body
+		case ITEM_SLOT_GLOVES: // Gloves
+		case ITEM_SLOT_SHOES: // shoes
+		case ITEM_SLOT_HEAD: // hair ?? -&gt; Helmet ??
 			{
 				if(ITEM_TYPE_PART != eType)  CLogWriter::Write("MyInfo - slot - Invalid Item");
 				__ASSERT(ITEM_TYPE_PART == eType, "Invalid Item");
-				s_pPlayer->PartSet(ePart, szResrcFN, pItem, pItemExt);	// 파트를 셋팅..
+				s_pPlayer->PartSet(ePart, szResrcFN, pItem, pItemExt);	// Set the part...
 			}
 			break;
-		case ITEM_SLOT_HAND_RIGHT: // 오른손
-		case ITEM_SLOT_HAND_LEFT: // 왼손
+		case ITEM_SLOT_HAND_RIGHT: // right hand
+		case ITEM_SLOT_HAND_LEFT: // left hand
 			{
 				if(ITEM_TYPE_PLUG != eType) CLogWriter::Write("MyInfo - slot - Invalid Item");
 				__ASSERT(ITEM_TYPE_PLUG == eType, "Invalid Item");
@@ -1759,10 +1759,10 @@ bool CGameProcMain::MsgRecv_MyInfo_All(DataPack* pDataPack, int& iOffset)
 				e_PlugPosition ePlugPos;
 				if(ITEM_SLOT_HAND_RIGHT == eSlot) ePlugPos = PLUG_POS_RIGHTHAND;
 				else ePlugPos = PLUG_POS_LEFTHAND;
-				s_pPlayer->PlugSet(ePlugPos, szResrcFN, pItem, pItemExt);	// 파트를 셋팅..
+				s_pPlayer->PlugSet(ePlugPos, szResrcFN, pItem, pItemExt);	// Set the part...
 			}
 			break;
-		case ITEM_SLOT_SHOULDER: // 망토
+		case ITEM_SLOT_SHOULDER: // Cloak
 			{
 			}
 			break;
@@ -1772,47 +1772,47 @@ bool CGameProcMain::MsgRecv_MyInfo_All(DataPack* pDataPack, int& iOffset)
 			break;
 		}
 
-		s_pPlayer->DurabilitySet(eSlot, iItemDurabilityInSlots[eSlot]);	// 무기 낡음 처리..
+		s_pPlayer->DurabilitySet(eSlot, iItemDurabilityInSlots[eSlot]);	// Dealing with old weapons...
 
 		auto* spItem = new __IconItemSkill;
 		spItem->pItemBasic	= pItem;
 		spItem->pItemExt	= pItemExt;
-		spItem->szIconFN	= szIconFN; // 아이콘 파일 이름 복사..
+		spItem->szIconFN	= szIconFN; // Copy icon filename..
 		spItem->iCount		= iItemCountInSlots[i];
 		spItem->iDurability = iItemDurabilityInSlots[i];
 
-		// 인벤토리 슬롯에 넣는다.
+		// Put it in your inventory slot.
 		m_pUIInventory->m_pMySlot[i] = spItem;
 		TRACE("Init Inv Msg Slot %d \n", iItemIDInSlots[i]);
 	}
 
-	// 인벤토리..
+	// Inventory..
 	int iItemCount = 0;
-	for(auto i = 0; i < MAX_ITEM_INVENTORY; i++ )				// 인벤토리 갯수만큼..	
+	for(auto i = 0; i < MAX_ITEM_INVENTORY; i++ )				// As for the number of inventories.
 	{
 		if(!iItemIDInInventorys[i]) continue;
 
-		pItem = s_pTbl_Items_Basic->Find(iItemIDInInventorys[i]/1000*1000);	// 열 데이터 얻기..
+		pItem = s_pTbl_Items_Basic->Find(iItemIDInInventorys[i]/1000*1000);	// Get column data...
 		pItemExt = nullptr;
 		if(pItem && pItem->byExtIndex >= 0 && pItem->byExtIndex < MAX_ITEM_EXTENSION)
-			pItemExt = s_pTbl_Items_Exts[pItem->byExtIndex]->Find(iItemIDInInventorys[i]%1000);	// 열 데이터 얻기..
+			pItemExt = s_pTbl_Items_Exts[pItem->byExtIndex]->Find(iItemIDInInventorys[i]%1000);	// Get column data...
 		if (nullptr == pItem || nullptr == pItemExt )
 		{
 			__ASSERT(0, "NULL Item");
 			CLogWriter::Write("MyInfo - Inv - Unknown Item %d, IDNumber", iItemIDInInventorys[i]);
-			continue; // 아이템이 없으면..
+			continue; // If there are no items...
 		}
 
 		e_PartPosition ePart;
 		e_PlugPosition ePlug;
-		const e_ItemType eType = CGameProcedure::MakeResrcFileNameForUPC(pItem, nullptr, &szIconFN, ePart, ePlug); // 아이템에 따른 파일 이름을 만들어서
+		const e_ItemType eType = CGameProcedure::MakeResrcFileNameForUPC(pItem, nullptr, &szIconFN, ePart, ePlug); // Create a file name according to the item
 		if(ITEM_TYPE_UNKNOWN == eType) CLogWriter::Write("MyInfo - slot - Unknown Item");
 		__ASSERT(ITEM_TYPE_UNKNOWN != eType, "Unknown Item");
 
 		auto* spItem = new __IconItemSkill;
 		spItem->pItemBasic	= pItem;
 		spItem->pItemExt	= pItemExt;
-		spItem->szIconFN = szIconFN; // 아이콘 파일 이름 복사..
+		spItem->szIconFN = szIconFN; // Copy icon filename..
 		spItem->iCount	= iItemCountInInventorys[i];
 		spItem->iDurability = iItemDurabilityInInventorys[i];
 
@@ -1826,70 +1826,70 @@ bool CGameProcMain::MsgRecv_MyInfo_All(DataPack* pDataPack, int& iOffset)
 	if (m_pUISkillTreeDlg) m_pUISkillTreeDlg->UpdateDisableCheck();
 	if (m_pUIHotKeyDlg) m_pUIHotKeyDlg->UpdateDisableCheck();
 
-	if(s_pPlayer->Part(PART_POS_UPPER)->FileName().empty()) // 아무것도 세팅안되어 있으면 파일 이름이 없다..
-		s_pPlayer->PartSet(PART_POS_UPPER, pLooks->szPartFNs[PART_POS_UPPER], nullptr, nullptr);	// 상체..
-	if(s_pPlayer->Part(PART_POS_LOWER)->FileName().empty()) // 아무것도 세팅안되어 있으면 파일 이름이 없다..
-		s_pPlayer->PartSet(PART_POS_LOWER, pLooks->szPartFNs[PART_POS_LOWER], nullptr, nullptr);	// 하체..
-	if(s_pPlayer->Part(PART_POS_HANDS)->FileName().empty()) // 아무것도 세팅안되어 있으면 파일 이름이 없다..
-		s_pPlayer->PartSet(PART_POS_HANDS,  pLooks->szPartFNs[PART_POS_HANDS], nullptr, nullptr);	// 팔..
-	if(s_pPlayer->Part(PART_POS_FEET)->FileName().empty()) // 아무것도 세팅안되어 있으면 파일 이름이 없다..
-		s_pPlayer->PartSet(PART_POS_FEET,  pLooks->szPartFNs[PART_POS_FEET], nullptr, nullptr);	// 다리..
-	if(s_pPlayer->Part(PART_POS_FACE)->FileName().empty()) // 아무것도 세팅안되어 있으면 파일 이름이 없다..
+	if(s_pPlayer->Part(PART_POS_UPPER)->FileName().empty()) // If nothing is set, there is no file name.
+		s_pPlayer->PartSet(PART_POS_UPPER, pLooks->szPartFNs[PART_POS_UPPER], nullptr, nullptr);	// upper body..
+	if(s_pPlayer->Part(PART_POS_LOWER)->FileName().empty()) // If nothing is set, there is no file name.
+		s_pPlayer->PartSet(PART_POS_LOWER, pLooks->szPartFNs[PART_POS_LOWER], nullptr, nullptr);	// lower body..
+	if(s_pPlayer->Part(PART_POS_HANDS)->FileName().empty()) // If nothing is set, there is no file name.
+		s_pPlayer->PartSet(PART_POS_HANDS,  pLooks->szPartFNs[PART_POS_HANDS], nullptr, nullptr);	// eight..
+	if(s_pPlayer->Part(PART_POS_FEET)->FileName().empty()) // If nothing is set, there is no file name.
+		s_pPlayer->PartSet(PART_POS_FEET,  pLooks->szPartFNs[PART_POS_FEET], nullptr, nullptr);	// leg..
+	if(s_pPlayer->Part(PART_POS_FACE)->FileName().empty()) // If nothing is set, there is no file name.
 		s_pPlayer->InitFace();
-	if(s_pPlayer->Part(PART_POS_HAIR_HELMET)->FileName().empty()) // 아무것도 세팅안되어 있으면 파일 이름이 없다..
+	if(s_pPlayer->Part(PART_POS_HAIR_HELMET)->FileName().empty()) // If nothing is set, there is no file name.
 		s_pPlayer->InitHair();
 
 	s_pPlayer->InventoryChrAnimationInitialize();
 	s_pPlayer->SetSoundAndInitFont();
 
-//	s_pPlayer->SettingCollisionCheckPoint();
+	// s_pPlayer->SettingCollisionCheckPoint();
 
-	////////////////////////////////////////////////////////////
-	// 기본값 읽기..
+	// 
+	// Read default...
 	int iRun = 1;
-//	if(false == CGameProcedure::RegGetSetting("UserRun", &iRun, 4)) iRun = 1; // 걷고 뛰는 상태를 레지스트리에서 읽고.. 기본값은 뛰는 상태이다..
-//	if(1 == iRun)
-	this->CommandToggleWalkRun(); // 뛰게 만든다..
+ 	// if(false == CGameProcedure::RegGetSetting(&quot;UserRun&quot;, &amp;iRun, 4)) iRun = 1; // Read the walking and running state from the registry. The default is the running state.
+	// if(1 == iRun)
+	this->CommandToggleWalkRun(); // makes me run...
 
 	e_ViewPoint eVP = VP_THIRD_PERSON;
-	if(false == CGameProcedure::RegGetSetting("CameraMode", &eVP, 4)) eVP = VP_THIRD_PERSON; // 카메라 상태 기록
+	if(false == CGameProcedure::RegGetSetting("CameraMode", &eVP, 4)) eVP = VP_THIRD_PERSON; // record camera status
 	s_pEng->ViewPointChange(eVP);
-	// 기본값 읽기..
-	////////////////////////////////////////////////////////////
+	// Read default...
+	// 
 
-	this->InitPlayerPosition(__Vector3(fX, fY, fZ)); // 플레이어 위치 초기화.. 일으켜 세우고, 기본동작을 취하게 한다.
+	this->InitPlayerPosition(__Vector3(fX, fY, fZ)); // Initialize the player position.. Raise him up and make him take the basic action.
 
 	// berserk temp
-	//s_pPlayer->PlugSet(PLUG_POS_BACK, "item/babacloak.n3cplug_cloak", NULL);	// 파트를 셋팅..
+	// s_pPlayer-&gt;PlugSet(PLUG_POS_BACK, &quot;item/babacloak.n3cplug_cloak&quot;, NULL); // set the part..
 	// end berserk temp
 
 	// berserk
-	//s_pPlayer->AttachCloak();
+	// s_pPlayer->AttachCloak();
 
-	//..
-	s_pOPMgr->Release();							// 다른 유저 관리 클래스 초기화..
+	// ..
+	s_pOPMgr->Release();							// Initialize other user management classes..
 	
-	m_bLoadComplete = TRUE;						// 로딩 끝..
+	m_bLoadComplete = TRUE;						// End of loading...
 
 	return true;
 }
 
 bool CGameProcMain::MsgRecv_Chat(DataPack* pDataPack, int& iOffset)
 {
-	std::string szChat;				// 버퍼..
-	const auto eCM	=	(e_ChatMode)CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);	// 채팅 타입
-	const auto eNation =	(e_Nation)CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);	// 보낸사람 국가
-	const int iID =			CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);			// 보낸사람
-	const int iChatLen =		CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);			// 채팅 문자열 길이..
+	std::string szChat;				// buffer..
+	const auto eCM	=	(e_ChatMode)CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);	// chat type
+	const auto eNation =	(e_Nation)CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);	// sender country
+	const int iID =			CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);			// Sender
+	const int iChatLen =		CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);			// Chat string length..
 	CAPISocket::Parse_GetString(pDataPack->m_pData, iOffset, szChat, iChatLen );
 	
 	if(eCM == N3_CHAT_CONTINUE_DELETE)
-	{//지속 공지 삭제...
+	{// Delete persistent notice...
 		m_pUIChatDlg->DeleteContinueMsg();
 		return true;
 	}
 	else if(eCM == N3_CHAT_TITLE_DELETE)
-	{//타이틀 공지 삭제...
+	{// Remove title notice...
 		m_pUIChatDlg->SetNoticeTitle("", 0xffffffff);
 		return true;
 	}
@@ -1901,7 +1901,7 @@ bool CGameProcMain::MsgRecv_Chat(DataPack* pDataPack, int& iOffset)
 	case N3_CHAT_PRIVATE:	crChat = D3DCOLOR_ARGB(255,192,192,0);		break;
 	case N3_CHAT_PARTY:		crChat = D3DCOLOR_ARGB(255,0,192,192);		break;
 	case N3_CHAT_FORCE:		crChat = D3DCOLOR_ARGB(255,0,192,192);		break;
-	//case N3_CHAT_SHOUT:	crChat = D3DCOLOR_ARGB(255,255,0,0);		break;
+	// case N3_CHAT_SHOUT:	crChat = D3DCOLOR_ARGB(255,255,0,0);		break;
 	case N3_CHAT_SHOUT:		crChat = D3DCOLOR_ARGB(255,0xf8,0x66,0x05);	break;
 	case N3_CHAT_CLAN:		crChat = D3DCOLOR_ARGB(255,0,255,0);		break;
 	case N3_CHAT_PUBLIC:	crChat = D3DCOLOR_ARGB(255,255,255,0);		break;
@@ -1927,7 +1927,7 @@ bool CGameProcMain::MsgRecv_Chat(DataPack* pDataPack, int& iOffset)
 	}
 
 
-	// 통역 서비스...           ㅡ,.ㅡ a
+	// Interpretation service... ㅡ,.ㅡ a
 	if( N3_CHAT_NORMAL == eCM || 
 		N3_CHAT_PRIVATE == eCM || 
 		N3_CHAT_SHOUT == eCM )
@@ -1938,29 +1938,29 @@ bool CGameProcMain::MsgRecv_Chat(DataPack* pDataPack, int& iOffset)
 			const bool bIamManager = (0 == s_pPlayer->m_InfoBase.iAuthority) ? true : false;
 			const bool bTalkerIsManager = (pTalker && 0 == pTalker->m_InfoBase.iAuthority)  ? true : false;
 				
-			if(!(bIamManager || bTalkerIsManager)) // 내가 운영자가 아니고 상대방도 운영자가 아니면
+			if(!(bIamManager || bTalkerIsManager)) // If I am not an operator and the other party is not an operator
 			{
 				int i = szChat.find(':');
 				if(i >= 0)
 				{
 					for(; i < iChatLen; i++)
 					{
-						szChat[i] = '!' + rand()%10; // 이상한 말로 바꾼다..
+						szChat[i] = '!' + rand()%10; // Change it to a strange word.
 					}
 				}
 			}
 		}
 	}
 	
-	// 풍선말 넣기..
+	// Inject balloons...
 	CPlayerBase* pBPC = nullptr;
 	if(iID == s_pPlayer->IDNumber()) pBPC = s_pPlayer;
 	else pBPC = s_pOPMgr->CharacterGetByID(iID, false);
 	if(pBPC && s_pPlayer->Distance(pBPC->Position()) < 4.0f &&
-		(N3_CHAT_NORMAL == eCM || N3_CHAT_SHOUT == eCM) ) // 보통 채팅 혹은 외치기일때만..
+		(N3_CHAT_NORMAL == eCM || N3_CHAT_SHOUT == eCM) ) // Usually only when chatting or shouting..
 		pBPC->BalloonStringSet(szChat, crChat);
 
-	// 채팅창에 넣기..
+	// Put it in the chat window.
 	m_pUIChatDlg->AddChatMsg(eCM, szChat, crChat);
 
 	return true;
@@ -1969,52 +1969,52 @@ bool CGameProcMain::MsgRecv_Chat(DataPack* pDataPack, int& iOffset)
 bool CGameProcMain::MsgRecv_UserMove(DataPack* pDataPack, int& iOffset)
 {
 	const int iID			= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
-	const float fX		= (CAPISocket::Parse_GetWord(pDataPack->m_pData, iOffset))/10.0f; // 출발하거나 이동중일때에는 다음 위치. 정지할때는 현재 위치를 받는다.
+	const float fX		= (CAPISocket::Parse_GetWord(pDataPack->m_pData, iOffset))/10.0f; // Next location when departing or moving. When stopped, it receives the current position.
 	const float fZ		= (CAPISocket::Parse_GetWord(pDataPack->m_pData, iOffset))/10.0f;
 	const float fY		= (CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset))/10.0f;
-	const float fSpeed	= (CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset))/10.0f; // 출발하거나 이동중일때에는 움직이는 속도. 정지할때는 0 이 온다.
-	const BYTE byMoveFlag = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // 움직이는 플래그.. 0 정지 1 출발, 2 계속 움직임
+	const float fSpeed	= (CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset))/10.0f; // Movement speed when starting or moving. When stopped, 0 comes.
+	const BYTE byMoveFlag = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // Moving flag.. 0 stop 1 start, 2 keep moving
 
-	// 함수가 와야 할 부분.. ^^
-	// 아이디, 플레이어 상태 1, 플레이어 상태 2, 현재 xzy 위치, 현재 xzy 방향, 1초뒤 x, z, y dnlcl..
+	// The part where the function should come.. ^^
+	// ID, player state 1, player state 2, current xzy position, current xzy direction, x, z, y in 1 second dnlcl..
 
-	if(0xff == byMoveFlag) // 강제위치 업데이트 패킷이다..
+	if(0xff == byMoveFlag) // This is a forced location update packet.
 	{
-		if(iID == s_pPlayer->IDNumber())	// 내 매시지면..
+		if(iID == s_pPlayer->IDNumber())	// If my mash...
 		{
-			this->InitPlayerPosition(__Vector3(fX, fY, fZ)); // 플레이어 위치 초기화.. 일으켜 세우고, 기본동작을 취하게 한다.
+			this->InitPlayerPosition(__Vector3(fX, fY, fZ)); // Initialize the player position.. Raise him up and make him take the basic action.
 		}
 		else
 		{
-			CPlayerNPC* pBPC = s_pOPMgr->CharacterGetByID(iID, true);	// 다른 플레이어를 얻어서..
+			CPlayerNPC* pBPC = s_pOPMgr->CharacterGetByID(iID, true);	// Get another player...
 			if (nullptr == pBPC)
 			{
-				this->MsgSend_UserInRequest(iID); // User 정보가 없을 경우 요청한다..
+				this->MsgSend_UserInRequest(iID); // Request if there is no user information.
 				return false;
 			}
 			else if(pBPC->IsDead())
 				return false;
 			
-			pBPC->MoveTo(fX, fY, fZ, 0, 0);	// 현재 위치..
+			pBPC->MoveTo(fX, fY, fZ, 0, 0);	// Current location..
 			pBPC->PositionSet(__Vector3(fX, fY, fZ), true);
 		}
 		return false;
 	}
 
-	if(iID == s_pPlayer->IDNumber())	// 내 매시지면..
+	if(iID == s_pPlayer->IDNumber())	// If my mash...
 	{
 		s_pPlayer->m_vPosFromServer.Set(fX, fY, fZ);
 		return false;
 	}
 
-	CPlayerOther* pUPC = s_pOPMgr->UPCGetByID(iID, true);	// 다른 플레이어를 얻어서..
+	CPlayerOther* pUPC = s_pOPMgr->UPCGetByID(iID, true);	// Get another player...
 	if (nullptr == pUPC) return false;
 
-//	if(0.0f != fSpeed) TRACE("Move - %4.1f ( %d : Mode %d ) %.2f초\n", fSpeed, iID, byMoveFlag, CN3Base::TimeGet());
-//	else TRACE("Stop - %4.1f ( %d : Mode %d )  %.2f초\n", fSpeed, iID, byMoveFlag, CN3Base::TimeGet());
+	// if(0.0f != fSpeed) TRACE("Move - %4.1f ( %d : Mode %d ) %.2f초\n", fSpeed, iID, byMoveFlag, CN3Base::TimeGet());
+	// else TRACE(&quot;Stop - %4.1f ( %d : Mode %d ) %.2f초\n&quot;, fSpeed, iID, byMoveFlag, CN3Base::TimeGet());
 
-	//	서버로 부터터 받은 정보로 업데이트..
-	pUPC->MoveTo(fX, fY, fZ, fSpeed, byMoveFlag);	// 현재 위치..
+	// Update with the information received from the server.
+	pUPC->MoveTo(fX, fY, fZ, fSpeed, byMoveFlag);	// Current location..
 
 	return true;
 }
@@ -2027,10 +2027,10 @@ bool CGameProcMain::MsgRecv_Rotation(DataPack* pDataPack, int& iOffset)
 	if(s_pPlayer->IDNumber() == iID) return false;
 
 	CPlayerNPC* pBPC = nullptr;
-	pBPC = s_pOPMgr->CharacterGetByID(iID, true);	// 다른 유저 얻어서..
+	pBPC = s_pOPMgr->CharacterGetByID(iID, true);	// Get another user...
 	if (nullptr == pBPC ) return false;
 
-	pBPC->RotateTo(fYaw, false);	// 서버로 부터 받은 x, y, z값으로 
+	pBPC->RotateTo(fYaw, false);	// With the x, y, z values received from the server
 
 	return true;
 }
@@ -2039,16 +2039,16 @@ bool CGameProcMain::MsgRecv_Rotation(DataPack* pDataPack, int& iOffset)
 bool CGameProcMain::MsgRecv_Dead(DataPack* pDataPack, int& iOffset)
 {
 	int iID	= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
-//	TRACE("Dead message Receive.. !!!!!!!! %d \n", iID);
+	// TRACE("Dead message Receive.. !!!!!!!! %d \n", iID);
 
 	if ( iID == s_pPlayer->IDNumber() )
 	{
-		s_pPlayer->Action(PSA_PRE_DYING, true, NULL, true); // 플레이어 죽이기.
+		s_pPlayer-&gt;Action(PSA_PRE_DYING, true, NULL, true); // Kill the player.
 	}
 	else
 	{
-		CPlayerOther* pReadyToDead = s_pOPMgr->PlayerGetByID(iID, true); // 살아 있는 넘들중에서 검색해보고..
-		if(pReadyToDead) // 있으면 죽기직전으로 만든다.
+		CPlayerOther* pReadyToDead = s_pOPMgr-&gt;PlayerGetByID(iID, true); // Search among the living..
+		if(pReadyToDead) // If there is, make it about to die.
 		{
 			pReadyToDead->Acttion(PSA_PRE_DYING, true, NULL, true);
 		}
@@ -2066,15 +2066,15 @@ bool CGameProcMain::MsgRecv_Regen(DataPack* pDataPack, int& iOffset)
 	vPosPlayer.z = (CAPISocket::Parse_GetWord(pDataPack->m_pData, iOffset))/10.0f;
 	vPosPlayer.y = (CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset))/10.0f;
 	
-	this->InitPlayerPosition(vPosPlayer); // 플레이어 위치 초기화.. 일으켜 세우고, 기본동작을 취하게 한다.
-	s_pPlayer->RegenerateCollisionMesh(); // 충돌 메시를 다시 만든다..
+	this->InitPlayerPosition(vPosPlayer); // Initialize the player position.. Raise him up and make him take the basic action.
+	s_pPlayer->RegenerateCollisionMesh(); // Recreate the collision mesh.
 
-	s_pPlayer->m_iSendRegeneration = 0; // 한번 보내면 다시 죽을때까지 안보내는 플래그
-	s_pPlayer->m_fTimeAfterDeath = 0; // 한번 보내면 다시 죽을때까지 안보내는 플래그
+	s_pPlayer->m_iSendRegeneration = 0; // Once sent, a flag that will not be seen until it dies again
+	s_pPlayer->m_fTimeAfterDeath = 0; // Once sent, a flag that will not be seen until it dies again
 	TRACE("받음 - 다시 살아나기(%.1f, %.1f)\n", vPosPlayer.x, vPosPlayer.z);
 
 	//
-	//마법 & 효과 초기화..
+	// Magic &amp; Effect Reset..
 	if(m_pUIStateBarAndMiniMap) m_pUIStateBarAndMiniMap->ClearMagic();
 	if(m_pMagicSkillMng) m_pMagicSkillMng->ClearDurationalMagic();
 	if(CGameProcedure::s_pFX) s_pFX->StopMine();
@@ -2102,13 +2102,13 @@ bool CGameProcMain::MsgRecv_Time(DataPack* pDataPack, int& iOffset)
 
 bool CGameProcMain::MsgRecv_Weather(DataPack* pDataPack, int& iOffset)
 {
-	int iWeather = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // -> byte - 기후.... 0x01 - 맑음.. 0x02 -  비 0x03
-	int iPercent = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // short -> 맑은날 안개, 비, 눈 의 양 퍼센트로 
+	int iWeather = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // -&gt; byte - Climate.... 0x01 - Sunny.. 0x02 - Rain 0x03
+	int iPercent = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // short -&gt; sunny day amount of fog, rain and snow as a percentage
 
 	
-	////////////////////////////////////////////////////
-	// 스피드 핵 체크용 시간....
-/*	float fTimeFromServer = CAPISocket::Parse_GetFloat(pDataPack->m_pData, iOffset); // float -> 정기적으로 주는 시간...
+	// 
+	// Time for a speed hack check....
+	/* float fTimeFromServer = CAPISocket::Parse_GetFloat(pDataPack-&gt;m_pData, iOffset); // float -&gt; periodic time...
 	float fTimeLocal = CN3Base::TimeGet();
 	
 	static float fTimeFromServerPrev = fTimeFromServer;
@@ -2117,10 +2117,10 @@ bool CGameProcMain::MsgRecv_Weather(DataPack* pDataPack, int& iOffset)
 	if(fTimeFromServer != 0.0f)
 	{
 		float fTDS = fTimeFromServer - fTimeFromServerPrev;
-		if(fTDS > 355.0f && fTDS < 365.0f) // 6분에 한번 주게끔 되어 있다..
+		if (fTDS &gt; 355.0f &amp;&amp; fTDS &lt; 365.0f) // It is supposed to be given once every 6 minutes..
 		{
 			float fTDL = fTimeLocal - fTimeLocalPrev;
-			if(fTDL < (fTDS * 0.8f) || fTDL > (fTDS * 1.2f)) // 로컬 타임이 서버 타임보다 20퍼센트 이상 크면..
+			if(fTDL &lt; (fTDS * 0.8f) || fTDL &gt; (fTDS * 1.2f)) // If the local time is more than 20% greater than the server time...
 			{
 				iTSH++; // Try Speed Hacking ... ++
 			}
@@ -2129,34 +2129,34 @@ bool CGameProcMain::MsgRecv_Weather(DataPack* pDataPack, int& iOffset)
 				iTSH = 0;
 			}
 
-			if(iTSH >= 3) CGameProcedure::s_bUseSpeedHack = true; // 스피드 해킹....
+			if(iTSH &gt;= 3) CGameProcedure::s_bUseSpeedHack = true; // speed hack...
 		}
 
 		fTimeFromServerPrev = fTimeFromServer;
 		fTimeLocalPrev = fTimeLocal;
 	}
-	// 스피드 핵 체크용 시간....
-	////////////////////////////////////////////////////
+	// Time for speed hack check...
+	// 
 */
 	
 	if(iPercent < 20) iPercent = 20;
 	if(iPercent > 100) iPercent = 100;
 	const float fPercent = iPercent / 100.0f;
 
-//enum {	GEW_CLEAR=0,		// 맑음
-//		GEW_DRIZZLE_RAIN=1,		// 가랑비
-//		GEW_RAINY=2,			// 적당량의 비
-//		GEW_HEAVY_RAIN=3,		// 폭우
-//		GEW_SNOW1=11,			// 포근한 눈
-//		GEW_SNOW2=12,			// 적당한 눈
-//		GEW_HEAVY_SNOW=13		// 폭설
+	// enum { GEW_CLEAR=0, // clear
+	// GEW_DRIZZLE_RAIN=1, // drizzle
+	// GEW_RAINY=2, // Moderate amount of rain
+	// GEW_HEAVY_RAIN=3, // heavy rain
+	// GEW_SNOW1=11, // Cozy Snow
+	// GEW_SNOW2=12, // suitable snow
+	// GEW_HEAVY_SNOW=13 // heavy snow
 	TRACE("받음 - 날씨(%d - %d)\n", iWeather, iPercent);
 
-	ACT_WORLD->SetWeatherWithSky((CN3SkyMng::eSKY_WEATHER)iWeather,iPercent);	// 하늘 변화하기
+	ACT_WORLD->SetWeatherWithSky((CN3SkyMng::eSKY_WEATHER)iWeather,iPercent);	// changing sky
 	float fDelta = 1.0f;
-	if(0x1 == iWeather) fDelta = 0.5f + (1.0f-fPercent)*0.5f; // 맑은 날씨. 퍼센트는 안개...
-	else if(0x02 == iWeather) fDelta = 0.25f + (1.0f - fPercent)*0.75f; // 비옴 .
-	else if(0x03 == iWeather) fDelta = 0.25f + (1.0f - fPercent)*0.75f; // 눈옴..
+	if(0x1 == iWeather) fDelta = 0.5f + (1.0f-fPercent)*0.5f; // sunshine. Percent is fog...
+	else if(0x02 == iWeather) fDelta = 0.25f + (1.0f - fPercent)*0.75f; // rain .
+	else if(0x03 == iWeather) fDelta = 0.25f + (1.0f - fPercent)*0.75f; // It&#39;s snowing..
 
 	s_pEng->FarPlaneDeltaSet(fDelta, false);
 
@@ -2166,13 +2166,13 @@ bool CGameProcMain::MsgRecv_Weather(DataPack* pDataPack, int& iOffset)
 bool CGameProcMain::MsgRecv_UserInOut(DataPack* pDataPack, int& iOffset)
 {
 	const int iType = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
-	if ( 0x01 == iType ) // 유저 들어올때.(원래 게임상의 유저 지역 업뎃하면서 갱신..)
+	if ( 0x01 == iType ) // When a user enters. (Updated while updating the user&#39;s area in the original game..)
 		this->MsgRecv_UserIn(pDataPack, iOffset, false);
-	else if ( 0x02 == iType ) // User 나갈때.
+	else if ( 0x02 == iType ) // When User exits.
 		this->MsgRecv_UserOut(pDataPack, iOffset);
-	else if ( 0x03 == iType ) // 유저 들어올때 (죽었다 살아나거나, game start하는 유저들.)
+	else if ( 0x03 == iType ) // When a user enters (dead and resurrected, or a user who starts a game.)
 		this->MsgRecv_UserIn(pDataPack, iOffset, true);
-	else if ( 0x04 == iType ) // 유저 들어올때 (warp)
+	else if ( 0x04 == iType ) // When a user enters (warp)
 		this->MsgRecv_UserIn(pDataPack, iOffset, false);
 	
 	return true;
@@ -2186,62 +2186,62 @@ bool CGameProcMain::MsgRecv_UserIn(DataPack* pDataPack, int& iOffset, bool bWith
 	const int iNameLen	= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
 	CAPISocket::Parse_GetString(pDataPack->m_pData, iOffset, szName, iNameLen );
 
-	const auto eNation =				(e_Nation)CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // 소속 국가. 0 이면 없다. 1
+	const auto eNation =				(e_Nation)CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // Country of Affiliation. If 0, none. One
 
-	// 기사단 관련
-	const int iKnightsID =					CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // 기사단 ID
-	auto eKnightsDuty =	(e_KnightsDuty)CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // 소속 국가. 0 이면 없다. 1
-	const int iKnightNameLen = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // 소속 기사단 이름 길이.
+	// related to knights
+	const int iKnightsID =					CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // Templar ID
+	auto eKnightsDuty =	(e_KnightsDuty)CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // Country of Affiliation. If 0, none. One
+	const int iKnightNameLen = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // The length of the name of the Knights Templar.
 	std::string szKnightsName;
 	CAPISocket::Parse_GetString(pDataPack->m_pData, iOffset, szKnightsName, iKnightNameLen);
-	const int iKnightsGrade = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);			// 등급
-	const int iKnightsRank = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);			// 순위
+	const int iKnightsGrade = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);			// Rating
+	const int iKnightsRank = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);			// ranking
 
-	const int iLevel =					CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // 레벨...
+	const int iLevel =					CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // level...
 	const auto eRace =					(e_Race)CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
 	const auto eClass =				(e_Class)CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
 	const float fXPos	=					(CAPISocket::Parse_GetWord(pDataPack->m_pData, iOffset))/10.0f;
 	const float fZPos	=					(CAPISocket::Parse_GetWord(pDataPack->m_pData, iOffset))/10.0f;
 	float fYPos	=					(CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset))/10.0f;
 
-	const float fYTerrain = ACT_WORLD->GetHeightWithTerrain(fXPos, fZPos);	// 지형의 높이값 얻기..
-	const float fYObject = ACT_WORLD->GetHeightNearstPosWithShape(__Vector3(fXPos, fYPos, fZPos), 1.0f); // 오브젝트에서 가장 가까운 높이값 얻기..
+	const float fYTerrain = ACT_WORLD->GetHeightWithTerrain(fXPos, fZPos);	// Get the height of the terrain...
+	const float fYObject = ACT_WORLD->GetHeightNearstPosWithShape(__Vector3(fXPos, fYPos, fZPos), 1.0f); // Get the height closest to the object.
 	if (fYObject > fYTerrain) fYPos = fYObject;
 	else fYPos = fYTerrain;
 
-	const int iFace = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // 머리카락..
-	const int iHair = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // 얼굴 모양
+	const int iFace = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // hair..
+	const int iHair = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // face shape
 
-	const int iStatus = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // 1 - 서있기.. 2 - 앉아있기.. 3 ... 죽어있다..
-	const int iStatusSize = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // 0 - 보통 크기, 1 - 커져 있다. 2 - 작아졌다..
+	const int iStatus = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // 1 - Standing.. 2 - Sitting.. 3 ... Dying..
+	const int iStatusSize = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // 0 - normal size, 1 - large. 2 - It got smaller..
 
-	const int iRecruitParty = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // 1 - 보통. 2 - 파티 구함..
-	const BYTE byAuthority = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // 권한...
+	const int iRecruitParty = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // 1 - Moderate. 2 - Looking for a party...
+	const BYTE byAuthority = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // authority...
 
-	DWORD	dwItemIDs[MAX_ITEM_SLOT_OPC];  // 착용 아이템 - 다른 플레이어(NPC 포함) 0 ~ 4 상체,하체,헬멧,팔,발 5 망토 6 오른손 7 왼손
-	int		iItemDurabilities[MAX_ITEM_SLOT_OPC]; // 착용 아이템의 내구력..
+	DWORD	dwItemIDs[MAX_ITEM_SLOT_OPC];  // Equipped items - Other players (including NPCs) 0 ~ 4 upper body, lower body, helmet, arm, foot 5 cloak 6 right hand 7 left hand
+	int		iItemDurabilities[MAX_ITEM_SLOT_OPC]; // Durability of worn items..
 	for(int i = 0; i < MAX_ITEM_SLOT_OPC; i++)
 	{
-		dwItemIDs[i] = CAPISocket::Parse_GetDword(pDataPack->m_pData, iOffset);			// 착용하고 있는 아이템들의 ID
-		iItemDurabilities[i] = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);	// 착용하고 있는 아이템들의 현재 내구력
+		dwItemIDs[i] = CAPISocket::Parse_GetDword(pDataPack->m_pData, iOffset);			// The ID of the item being worn
+		iItemDurabilities[i] = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);	// The current durability of the items you are wearing
 	}
 
 	if ( iID == s_pPlayer->IDNumber()) 
-		return false; 									// 내 패킷이면 .. // 무시한다..
+		return false; 									// If it&#39;s my packet .. // Ignore it..
 
 	CPlayerOther* pUPC = s_pOPMgr->UPCGetByID(iID, false);
-	if(pUPC) // 이미 아이디 같은 캐릭이 있으면..
+	if(pUPC) // If you already have a character with the same ID...
 	{
 		CLogWriter::Write("User In - Duplicated ID (%d, %s) Pos(%.2f,%.2f,%.2f)", iID, szName.c_str(), fXPos, fYPos, fZPos);
 		TRACE("User In - Duplicated ID (%d, %s) Pos(%.2f,%.2f,%.2f)\n", iID, szName.c_str(), fXPos, fYPos, fZPos);
 
-		pUPC->Action(PSA_BASIC, true, nullptr, true); // 강제로 살리고..
+		pUPC->Action(PSA_BASIC, true, nullptr, true); // forced to live...
 		pUPC->m_fTimeAfterDeath = 0;
 		pUPC->PositionSet(__Vector3(fXPos, fYPos, fZPos), true);
 		return false;
 	}
 
-	const D3DCOLOR crID = (eNation != s_pPlayer->m_InfoBase.eNation) ? D3DCOLOR_XRGB(255,96,96) : D3DCOLOR_XRGB(128,128,255); // 국가에 따라 다른색 적용
+	const D3DCOLOR crID = (eNation != s_pPlayer->m_InfoBase.eNation) ? D3DCOLOR_XRGB(255,96,96) : D3DCOLOR_XRGB(128,128,255); // Apply different colors depending on the country
 
 	pUPC = new CPlayerOther();
 	pUPC->IDSet(iID, szName, crID);
@@ -2253,51 +2253,51 @@ bool CGameProcMain::MsgRecv_UserIn(DataPack* pDataPack, int& iOffset, bool bWith
 	pUPC->RotateTo(D3DXToRadian(rand()%360), true);
 	pUPC->KnightsInfoSet(iKnightsID, szKnightsName, iKnightsGrade, iKnightsRank);
 
-	//__KnightsInfoBase* pKIB = m_pUIKnightsOp->KnightsInfoFind(iKightsID);
-	//if(pKIB) pUPC->KnightsNameSet(pKIB->szName, 0xffff0000);
+	// __KnightsInfoBase* pKIB = m_pUIKnightsOp->KnightsInfoFind(iKightsID);
+	// if(pKIB) pUPC->KnightsNameSet(pKIB->szName, 0xffff0000);
 
-	pUPC->PositionSet(__Vector3(fXPos, fYPos, fZPos), true);			// 다른 플레이어 현재 위치 셋팅..
-	pUPC->MoveTo(fXPos, fYPos, fZPos, 0, 0);					// 현재 위치..
+	pUPC->PositionSet(__Vector3(fXPos, fYPos, fZPos), true);			// Set another player&#39;s current location.
+	pUPC->MoveTo(fXPos, fYPos, fZPos, 0, 0);					// Current location..
 	pUPC->RotateTo(D3DXToRadian(rand()%360), true);
-	s_pOPMgr->UPCAdd(pUPC);										// 캐릭터 추가...
+	s_pOPMgr->UPCAdd(pUPC);										// Add character...
 
-	//if(bWithFX)
+	// if(bWithFX)
 	if(bWithFX && pUPC->m_InfoBase.iAuthority != AUTHORITY_MANAGER)
 	{
 		if(eNation==NATION_KARUS) CGameProcedure::s_pFX->TriggerBundle(iID, -1, FXID_REGEN_KARUS, iID, -1);
 		else if(eNation==NATION_ELMORAD) CGameProcedure::s_pFX->TriggerBundle(iID, -1, FXID_REGEN_ELMORAD, iID, -1);
 	}
 
-	// 앉아 있기.., 서있기 결정..
-	if(1 == iStatus) // 서있기..
+	// Sitting.. standing..
+	if(1 == iStatus) // to stand...
 	{
 		pUPC->Action(PSA_BASIC, true, nullptr, true);
 		pUPC->ActionMove(PSM_STOP);
 	}
-	else if(2 == iStatus) // 앉아 있기..
+	else if(2 == iStatus) // to sit...
 	{
 		pUPC->Action(PSA_SITDOWN, true, nullptr, true);
 		pUPC->ActionMove(PSM_STOP);
 	}
-	else if(3 == iStatus) // 죽어 있다..
+	else if(3 == iStatus) // is dead...
 	{
-		s_pOPMgr->MoveToCorpsesForcely(pUPC, false); // 시체로 옮긴다..
+		s_pOPMgr->MoveToCorpsesForcely(pUPC, false); // transfer to the body.
 	}
 
 	if(0x01 == iStatusSize)
 	{
-		pUPC->ScaleSetGradually(1.0f); // 보통 크기..
-		pUPC->FlickerFactorSet(1.0f); // 부활되서 반투명.. 깜박거린다..
+		pUPC->ScaleSetGradually(1.0f); // normal size..
+		pUPC->FlickerFactorSet(1.0f); // Resurrected, translucent... flickering...
 	}
-	else if(0x02 == iStatusSize) pUPC->ScaleSetGradually(2.0f); // 커졌다..
-	else if(0x03 == iStatusSize) pUPC->ScaleSetGradually(0.5f);// 작아졌다.
-	else if(0x04 == iStatusSize) pUPC->FlickerFactorSet(0.7f); // 부활되서 반투명.. 깜박거린다..
+	else if(0x02 == iStatusSize) pUPC->ScaleSetGradually(2.0f); // got bigger...
+	else if(0x03 == iStatusSize) pUPC->ScaleSetGradually(0.5f);// got smaller
+	else if(0x04 == iStatusSize) pUPC->FlickerFactorSet(0.7f); // Resurrected, translucent... flickering...
 
 	if(1 == iRecruitParty)
 	{
 		pUPC->InfoStringSet("", 0);
 	}
-	else if(2 == iRecruitParty) // 파티 구함..
+	else if(2 == iRecruitParty) // Looking for a party...
 	{
 		const int iLevel = pUPC->m_InfoBase.iLevel;
 		int iLMin = iLevel - 8;
@@ -2319,23 +2319,23 @@ bool CGameProcMain::MsgRecv_UserOut(DataPack* pDataPack, int& iOffset)
 {
 	const int iID	= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
 
-	//죽은 상태의 캐릭터를 시체로 만든다.
+	// Turns a dead character into a corpse.
 	CPlayerNPC* pUPC = s_pOPMgr->UPCGetByID(iID, false);
 	if( pUPC == nullptr) return false;
 	if( pUPC->IsDead() )
-	{//캐릭터가 죽은 상태에서 UserOut을 하게 되면 시체로 바꿔준다.
+	{// If you perform a UserOut while the character is dead, it will be replaced with a corpse.
 		s_pOPMgr->CorpseAdd(iID);
 		return true;
 	}
 
-	return s_pOPMgr->UPCDelete(iID);					// 캐릭터 제거...	
+	return s_pOPMgr->UPCDelete(iID);					// Remove character...
 }
 
-// 주위 영역의 모든 아이디를 카운트만큼 받는다... 글구.. 업데이트가 필요한 것만 서버에게 요청..
+// Receives all IDs in the surrounding area as much as the count... Well.. Requests only those that need to be updated to the server..
 bool CGameProcMain::MsgRecv_UserInAndRequest(DataPack* pDataPack, int& iOffset)
 {
 	const int iUPCCountReceived = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
-//	TRACE("UPC region update : %d\n", iUPCCountReceived);
+	// TRACE("UPC region update : %d\n", iUPCCountReceived);
 	
 	if(0 == iUPCCountReceived) return false;
 	if(iUPCCountReceived < 0 || iUPCCountReceived >= 1000)
@@ -2348,25 +2348,25 @@ bool CGameProcMain::MsgRecv_UserInAndRequest(DataPack* pDataPack, int& iOffset)
 	}
 
 	int iID = 0;
-	m_SetUPCID.clear(); // 싹 지우고...
+	m_SetUPCID.clear(); // Wipe it off...
 	auto itIDEnd = m_SetUPCID.end();
 
 	for(auto i = 0; i < iUPCCountReceived; i++ )
 	{
 		iID = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
-//		TRACE("               ID : %d\n", iID);
-		if(iID == s_pPlayer->IDNumber()) continue; // 내 아이디이다.. 고로 넣으면 안된다.
+		// TRACE("               ID : %d\n", iID);
+		if(iID == s_pPlayer->IDNumber()) continue; // It&#39;s my ID.. so don&#39;t put it there.
 
 		m_SetUPCID.insert(iID);
 	}
 
-	if(m_SetUPCID.empty()) // 새로 받은게 한개도 없다면 몽땅 날린다..
+	if(m_SetUPCID.empty()) // If you don&#39;t get anything new, you lose them all.
 	{
 		s_pOPMgr->ReleaseUPCs();
 		return false;
 	}
 
-	// 새로 받은 아이디와 리스트에 있는 UPC ID 를 검색해서..
+	// Search for the newly received ID and the UPC ID in the list.
 	CPlayerOther* pUPC = nullptr;
 	auto itUPC = s_pOPMgr->m_UPCs.begin(), itUPCEnd = s_pOPMgr->m_UPCs.end();
 	for(; itUPC != itUPCEnd; )
@@ -2375,14 +2375,14 @@ bool CGameProcMain::MsgRecv_UserInAndRequest(DataPack* pDataPack, int& iOffset)
 		iID = pUPC->IDNumber();
 		
 		auto itID = m_SetUPCID.find(iID);
-		if(itID != itIDEnd) // 새로 들어온 리스트에 있으면.. 
+		if(itID != itIDEnd) // If you are on the new list...
 		{
-			m_SetUPCID.erase(itID); // 요청할 리스트에서 빼고..
+			m_SetUPCID.erase(itID); // Take it off the request list.
 			itUPC++;
 		}
-		else  // 새로 들어온곳에 없으면 지운다..
+		else  // If it doesn&#39;t exist in the new location, delete it.
 		{
-//			TRACE("           delete : %d\n", iID);
+			// TRACE("           delete : %d\n", iID);
 
 			if(pUPC && pUPC->IsDead()) 
 			{
@@ -2396,26 +2396,26 @@ bool CGameProcMain::MsgRecv_UserInAndRequest(DataPack* pDataPack, int& iOffset)
 		}
 	}
 
-	////////////////////////////////////////////////////////////////////////////
-	// 바로 요청 패킷을 만들어 보낸다..
+	// 
+	// Create and send request packets.
 	const int iNewUPCCount = m_SetUPCID.size();
 	if(iNewUPCCount > 0)
 	{
-		int iOffset=0;														// 버퍼의 오프셋..
-		std::vector<BYTE> byBuff(iNewUPCCount * 2 + 10, 0);					// 패킷 버퍼..
-		CAPISocket::MP_AddByte(&(byBuff[0]), iOffset, N3_REQUEST_USER_IN);	// 커멘드.
-		CAPISocket::MP_AddShort(&(byBuff[0]), iOffset, iNewUPCCount);		// 아이디 갯수..
+		int iOffset=0;														// Offset of buffer..
+		std::vector<BYTE> byBuff(iNewUPCCount * 2 + 10, 0);					// Packet buffer...
+		CAPISocket::MP_AddByte(&(byBuff[0]), iOffset, N3_REQUEST_USER_IN);	// command.
+		CAPISocket::MP_AddShort(&(byBuff[0]), iOffset, iNewUPCCount);		// number of ids.
 		
 		auto itID = m_SetUPCID.begin(); itIDEnd = m_SetUPCID.end();
 		for(auto i = 0; itID != itIDEnd; itID++, i++)
 		{
 			iID = *itID;
-			CAPISocket::MP_AddShort(&(byBuff[0]), iOffset, iID);			// 자세한 정보가 필요한 아이디들..
+			CAPISocket::MP_AddShort(&(byBuff[0]), iOffset, iID);			// IDs for which detailed information is required.
 		}
-		s_pSocket->Send(&(byBuff[0]), iOffset); // 보낸다
+		s_pSocket->Send(&(byBuff[0]), iOffset); // send
 	}
-	// 바로 요청 패킷을 만들어 보낸다..
-	////////////////////////////////////////////////////////////////////////////
+	// Create and send request packets.
+	// 
 
 	return true;
 }
@@ -2438,10 +2438,10 @@ bool CGameProcMain::MsgRecv_UserInRequested(DataPack* pDataPack, int& iOffset)
 	const float fTime = CN3Base::TimeGet();
 #endif
 
-	//	int iOffset2 = iOffset;
+	// int iOffset2 = iOffset;
 	for(auto i = 0; i < iPlayerCount; i++ )
 	{
-		this->MsgRecv_UserIn(pDataPack, iOffset); // 플레이어 갯수 만큼 유저 인...
+		this->MsgRecv_UserIn(pDataPack, iOffset); // The number of users equal to the number of players...
 	}
 
 #ifdef _DEBUG
@@ -2455,11 +2455,11 @@ bool CGameProcMain::MsgRecv_UserInRequested(DataPack* pDataPack, int& iOffset)
 bool CGameProcMain::MsgRecv_NPCInOut(DataPack* pDataPack, int& iOffset)
 {
 	const BYTE byType		= CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
-	if ( byType == 0x01 ) // NPC 들어올때
+	if ( byType == 0x01 ) // When an NPC enters
 	{
-		return this->MsgRecv_NPCIn(pDataPack, iOffset); // NPC In 처리
+		return this->MsgRecv_NPCIn(pDataPack, iOffset); // NPC In Handling
 	}
-	else // NPC 나갈때.
+	else // when the NPC leaves.
 	{
 		return this->MsgRecv_NPCOut(pDataPack, iOffset);
 	}
@@ -2469,43 +2469,43 @@ bool CGameProcMain::MsgRecv_NPCInOut(DataPack* pDataPack, int& iOffset)
 
 bool CGameProcMain::MsgRecv_NPCIn(DataPack* pDataPack, int& iOffset)
 {
-	const int		iID			= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // Server에서 관리하는 고유 ID
-	const int		iIDResrc	= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // 리소스 ID
-	int		iType		= CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);	// NPC Type - 0x05 : 상인
-	int		iItemTrdeID	= CAPISocket::Parse_GetDword(pDataPack->m_pData, iOffset);	// 아이템 거래할 그룹 ID 서버에 요청할 ID
-	const int		iScale		= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // 스케일 100 은 1.0 
-	const int		iItemID0	= CAPISocket::Parse_GetDword(pDataPack->m_pData, iOffset); // 리소스 ID
-	const int		iItemID1	= CAPISocket::Parse_GetDword(pDataPack->m_pData, iOffset); // 리소스 ID
+	const int		iID			= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // Unique ID managed by Server
+	const int		iIDResrc	= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // resource ID
+	int		iType		= CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);	// NPC Type - 0x05 : Merchant
+	int		iItemTrdeID	= CAPISocket::Parse_GetDword(pDataPack->m_pData, iOffset);	// Group ID to trade items ID to request to the server
+	const int		iScale		= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // scale 100 is 1.0
+	const int		iItemID0	= CAPISocket::Parse_GetDword(pDataPack->m_pData, iOffset); // resource ID
+	const int		iItemID1	= CAPISocket::Parse_GetDword(pDataPack->m_pData, iOffset); // resource ID
 	const int 	iNameLen	= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
-	std::string szName;									// NPC 아이디..
+	std::string szName;									// NPC ID.
 	if(iNameLen > 0) CAPISocket::Parse_GetString(pDataPack->m_pData, iOffset, szName, iNameLen );
 	else szName = "";
 
-//#ifdef _DEBUG
-//	CLogWriter::Write("NPC In - ID(%d) Name(%s) Time(%.1f)", iID, szName.c_str(), CN3Base::TimeGet()); // 캐릭 세팅..
-//#endif
+	// #ifdef _DEBUG
+	// CLogWriter::Write("NPC In - ID(%d) Name(%s) Time(%.1f)", iID, szName.c_str(), CN3Base::TimeGet()); // 캐릭 세팅..
+	// #endif
 
-	const auto eNation = (e_Nation)CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // 소속 국가. 0 이면 없다. 1
+	const auto eNation = (e_Nation)CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // Country of Affiliation. If 0, none. One
 	const int iLevel		= CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
 
 	const float fXPos	= (CAPISocket::Parse_GetWord(pDataPack->m_pData, iOffset))/10.0f;
 	const float fZPos	= (CAPISocket::Parse_GetWord(pDataPack->m_pData, iOffset))/10.0f;
 	float fYPos	= (CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset))/10.0f;
 
-	const float fYTerrain = ACT_WORLD->GetHeightWithTerrain(fXPos, fZPos);	// 지형의 높이값 얻기..
-	const float fYObject = ACT_WORLD->GetHeightNearstPosWithShape(__Vector3(fXPos, fYPos, fZPos), 1.0f); // 오브젝트에서 가장 가까운 높이값 얻기..
+	const float fYTerrain = ACT_WORLD->GetHeightWithTerrain(fXPos, fZPos);	// Get the height of the terrain...
+	const float fYObject = ACT_WORLD->GetHeightNearstPosWithShape(__Vector3(fXPos, fYPos, fZPos), 1.0f); // Get the height closest to the object.
 	if (fYObject > fYTerrain) fYPos = fYObject;
 	else fYPos = fYTerrain;
 
-	const DWORD dwStatus =	CAPISocket::Parse_GetDword(pDataPack->m_pData, iOffset); // 상태... 여러가지로 or 연산해서 쓴다. 0 문 열림, 1 닫힘. 2, 4, 8, 16 ....
-	const DWORD dwType =		CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // 타입... 0 이면 캐릭터 타입 NPC, 1 이면 오브젝트 타입 NPC
+	const DWORD dwStatus =	CAPISocket::Parse_GetDword(pDataPack->m_pData, iOffset); // State... Write in various ways or calculations. 0 door open, 1 closed. 2, 4, 8, 16 ....
+	const DWORD dwType =		CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // Type... If 0, character type NPC, if 1, object type NPC
 
 	CPlayerNPC* pNPC = s_pOPMgr->NPCGetByID(iID, false);
-	if(pNPC) // 이미 아이디 같은 캐릭이 있으면..
+	if(pNPC) // If you already have a character with the same ID...
 	{
 		CLogWriter::Write("NPC In - Duplicated ID (%d, %s) Pos(%.2f,%.2f,%.2f)", iID, szName.c_str(), fXPos, fYPos, fZPos);
 		TRACE("NPC In - Duplicated ID (%d, %s) Pos(%.2f,%.2f,%.2f)\n", iID, szName.c_str(), fXPos, fYPos, fZPos);
-		pNPC->Action(PSA_BASIC, true, nullptr, true); // 강제로 살리고..
+		pNPC->Action(PSA_BASIC, true, nullptr, true); // forced to live...
 		pNPC->m_fTimeAfterDeath = 0;
 		pNPC->PositionSet(__Vector3(fXPos, fYPos, fZPos), true);
 		return false;
@@ -2514,21 +2514,21 @@ bool CGameProcMain::MsgRecv_NPCIn(DataPack* pDataPack, int& iOffset)
 	const D3DCOLOR crID = (eNation != s_pPlayer->m_InfoBase.eNation) ? D3DCOLOR_XRGB(255,128,128) : D3DCOLOR_XRGB(192,192,255);
 
 	pNPC = new CPlayerNPC();
-	pNPC->IDSet(iID, szName, crID);				// 초기화.. 및 ID 세팅.
+	pNPC->IDSet(iID, szName, crID);				// Initialization.. and ID setting.
 	pNPC->m_InfoBase.eNation = eNation;
-	pNPC->m_InfoBase.eRace = RACE_NPC;			// NPC 라는 걸 알린다.
+	pNPC->m_InfoBase.eRace = RACE_NPC;			// Announce that you are an NPC.
 	pNPC->m_InfoBase.iLevel = iLevel;
-	pNPC->m_InfoBase.iAuthority = AUTHORITY_NPC;// 권한 NPC는 권한이 없고..
+	pNPC->m_InfoBase.iAuthority = AUTHORITY_NPC;// Privilege NPCs do not have privileges..
 	
-	s_pOPMgr->NPCAdd(pNPC);						// 캐릭터 추가...
+	s_pOPMgr->NPCAdd(pNPC);						// Add character...
 
-	// 이제 패킷에 따라 캐릭터를 치장..(?) 시켜준다.. 아이템장착, 무기 장착등...
+	// Now, according to the packet, the character is decorated..(?).. Item mounting, weapon mounting, etc...
 	CN3Shape* pShape = nullptr;
 	__TABLE_PLAYER_LOOKS* pLooks = nullptr;
 	if(0 == dwType)
 	{
-		pLooks = s_pTbl_NPC_Looks->Find(iIDResrc);	// 기본 스킨..
-		if(nullptr == pLooks) // 캐릭터 기본 모습 테이블이 없으면... 
+		pLooks = s_pTbl_NPC_Looks->Find(iIDResrc);	// default skin...
+		if(nullptr == pLooks) // If there is no character basic appearance table...
 		{
 			pLooks = s_pTbl_NPC_Looks->GetIndexedData(0);
 			char szBuff[256];
@@ -2539,7 +2539,7 @@ bool CGameProcMain::MsgRecv_NPCIn(DataPack* pDataPack, int& iOffset)
 	}
 	else
 	{
-		pShape = ACT_WORLD->ShapeGetByIDWithShape(iIDResrc); // Object NPC 에서 찾아 본다...
+		pShape = ACT_WORLD->ShapeGetByIDWithShape(iIDResrc); // Look for Object NPCs...
 		if(nullptr == pShape)
 		{
 			char szBuff[256];
@@ -2552,7 +2552,7 @@ bool CGameProcMain::MsgRecv_NPCIn(DataPack* pDataPack, int& iOffset)
 		
 	if(pLooks)
 	{
-		pNPC->InitChr(pLooks);	// 관절 세팅..
+		pNPC->InitChr(pLooks);	// Joint setting...
 		pNPC->ScaleSet(iScale / 100.0f);
 
 		std::string szPartFN;
@@ -2567,7 +2567,7 @@ bool CGameProcMain::MsgRecv_NPCIn(DataPack* pDataPack, int& iOffset)
 			__TABLE_ITEM_BASIC* pItem0 = s_pTbl_Items_Basic->Find(iItemID0/1000*1000);
 			__TABLE_ITEM_EXT* pItemExt0 = nullptr;
 			if(pItem0 && pItem0->byExtIndex >= 0 && pItem0->byExtIndex < MAX_ITEM_EXTENSION)
-				pItemExt0 = s_pTbl_Items_Exts[pItem0->byExtIndex]->Find(iItemID0%1000);	// 열 데이터 얻기..
+				pItemExt0 = s_pTbl_Items_Exts[pItem0->byExtIndex]->Find(iItemID0%1000);	// Get column data...
 			if(pItem0 && pItemExt0)
 			{
 				e_PartPosition ePart;
@@ -2587,7 +2587,7 @@ bool CGameProcMain::MsgRecv_NPCIn(DataPack* pDataPack, int& iOffset)
 			__TABLE_ITEM_BASIC* pItem1 = s_pTbl_Items_Basic->Find(iItemID1/1000*1000);
 			__TABLE_ITEM_EXT* pItemExt1 = nullptr;
 			if(pItem1 && pItem1->byExtIndex >= 0 && pItem1->byExtIndex < MAX_ITEM_EXTENSION)
-				pItemExt1 = s_pTbl_Items_Exts[pItem1->byExtIndex]->Find(iItemID1%1000);	// 열 데이터 얻기..
+				pItemExt1 = s_pTbl_Items_Exts[pItem1->byExtIndex]->Find(iItemID1%1000);	// Get column data...
 			if(pItem1 && pItemExt1)
 			{
 				e_PartPosition ePart;
@@ -2605,15 +2605,15 @@ bool CGameProcMain::MsgRecv_NPCIn(DataPack* pDataPack, int& iOffset)
 	else if(pShape && (pShape->Type() & OBJ_SHAPE_EXTRA))
 	{
 		auto* pSE = (CN3ShapeExtra*)pShape;
-		pNPC->m_pShapeExtraRef = pSE; // 참조 오브젝트 세팅..
-		pSE->m_bVisible = true; // 강제로 렌더링하지 않게 하는 플래그 해제..
+		pNPC->m_pShapeExtraRef = pSE; // Setting the reference object...
+		pSE->m_bVisible = true; // Disable the flag that forces it not to render..
 		
 		bool bShouldBeRotate = true;
 		__Vector3 vAxis(0,1,0);
 		float fRadian = 0, fRadian2 = 0;
 		bool bVisible = false;
 
-		if(OBJECT_TYPE_DOOR_LEFTRIGHT == pSE->m_iEventType) // 좌우열림 성문
+		if(OBJECT_TYPE_DOOR_LEFTRIGHT == pSE->m_iEventType) // left and right open gates
 		{
 			vAxis.Set(0,1,0);
 			fRadian = D3DXToRadian(80);
@@ -2624,38 +2624,38 @@ bool CGameProcMain::MsgRecv_NPCIn(DataPack* pDataPack, int& iOffset)
 			vAxis.Set(0,0,1);
 			fRadian = D3DXToRadian(90);
 			fRadian2 = 0;
-		} // 상하열림 성문
+		} // upper and lower opening gates
 		else if(OBJECT_TYPE_LEVER_TOPDOWN == pSE->m_iEventType)
 		{
 			vAxis.Set(1,0,0);
 			fRadian = D3DXToRadian(45);
 			fRadian2 = D3DXToRadian(-45);
-		} // 상하 레버
+		} // up and down lever
 		else if(OBJECT_TYPE_FLAG == pSE->m_iEventType)
 		{
 			bShouldBeRotate = false;
 		}
 
-		if(0x01 == dwStatus) // 보이게 만들거나 좌우로 열려 있는 경우..
+		if(0x01 == dwStatus) // If you make it visible or open left and right...
 		{
-			if(bShouldBeRotate) // 열기
+			if(bShouldBeRotate) // Heat
 			{
-				pSE->RotateTo(0, vAxis, fRadian, 1, true); // 바로 열기.
-				pSE->RotateTo(1, vAxis, -fRadian, 1, true); // 바로 열기.
+				pSE->RotateTo(0, vAxis, fRadian, 1, true); // open right away.
+				pSE->RotateTo(1, vAxis, -fRadian, 1, true); // open right away.
 			}
-			else // 보이기
+			else // show
 			{
 				pSE->m_bVisible = true;
 			}
 		}
-		else if(0x00 == dwStatus) // 안보이게 만들거나 닫혀있다..
+		else if(0x00 == dwStatus) // made invisible or closed.
 		{
-			if(bShouldBeRotate) // 닫기
+			if(bShouldBeRotate) // close
 			{
-				pSE->RotateTo(0, vAxis, fRadian2, 1, true); // 바로 열기.
-				pSE->RotateTo(1, vAxis, -fRadian2, 1, true); // 바로 열기.
+				pSE->RotateTo(0, vAxis, fRadian2, 1, true); // open right away.
+				pSE->RotateTo(1, vAxis, -fRadian2, 1, true); // open right away.
 			}
-			else // 안보이기.
+			else // not to be seen
 			{
 				pSE->m_bVisible = false;
 			}
@@ -2668,8 +2668,8 @@ bool CGameProcMain::MsgRecv_NPCIn(DataPack* pDataPack, int& iOffset)
 		CLogWriter::Write(szBuff);
 	}
 
-	pNPC->PositionSet(__Vector3(fXPos, fYPos, fZPos), true);	// 현재 위치 셋팅..
-	pNPC->MoveTo(fXPos, fYPos, fZPos, 0, 0);					// 현재 위치..
+	pNPC->PositionSet(__Vector3(fXPos, fYPos, fZPos), true);	// Set your current location...
+	pNPC->MoveTo(fXPos, fYPos, fZPos, 0, 0);					// Current location..
 	pNPC->RotateTo(D3DXToRadian(rand()%360), false);
 	pNPC->Action(PSA_BASIC, true, nullptr, true);
 	pNPC->ActionMove(PSM_STOP);
@@ -2679,12 +2679,12 @@ bool CGameProcMain::MsgRecv_NPCIn(DataPack* pDataPack, int& iOffset)
 
 bool CGameProcMain::MsgRecv_NPCOut(DataPack* pDataPack, int& iOffset)
 {
-	const int  iID		= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // Server에서 관리하는 고유 ID
-	return s_pOPMgr->NPCDelete(iID);										// 캐릭터 제거...	
+	const int  iID		= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // Unique ID managed by Server
+	return s_pOPMgr->NPCDelete(iID);										// Remove character...
 }
 
 
-// 주위 영역의 모든 아이디를 카운트만큼 받는다... 글구.. 업데이트가 필요한 것만 서버에게 요청..
+// Receives all IDs in the surrounding area as much as the count... Well.. Requests only those that need to be updated to the server..
 bool CGameProcMain::MsgRecv_NPCInAndRequest(DataPack* pDataPack, int& iOffset)
 {
 	const int iNPCCountReceived = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
@@ -2701,7 +2701,7 @@ bool CGameProcMain::MsgRecv_NPCInAndRequest(DataPack* pDataPack, int& iOffset)
 	}
 
 	int iID = 0;
-	m_SetNPCID.clear(); // 싹 지우고...
+	m_SetNPCID.clear(); // Wipe it off...
 	auto itIDEnd = m_SetNPCID.end();
 
 	for(auto i = 0; i < iNPCCountReceived; i++ )
@@ -2711,13 +2711,13 @@ bool CGameProcMain::MsgRecv_NPCInAndRequest(DataPack* pDataPack, int& iOffset)
 		TRACE("               ID : %d\n", iID);
 	}
 
-	if(m_SetNPCID.empty()) // 새로 받은게 한개도 없다면 몽땅 날린다..
+	if(m_SetNPCID.empty()) // If you don&#39;t get anything new, you lose them all.
 	{
 		s_pOPMgr->ReleaseNPCs();
 		return false;
 	}
 
-	// 새로 받은 아이디와 리스트에 있는 NPC ID 를 검색해서..
+	// Search for the new ID and the NPC ID in the list.
 	CPlayerNPC* pNPC = nullptr;
 	auto itNPC = s_pOPMgr->m_NPCs.begin(), itNPCEnd = s_pOPMgr->m_NPCs.end();
 	for(; itNPC != itNPCEnd; )
@@ -2726,12 +2726,12 @@ bool CGameProcMain::MsgRecv_NPCInAndRequest(DataPack* pDataPack, int& iOffset)
 		iID = pNPC->IDNumber();
 		
 		auto itID = m_SetNPCID.find(iID);
-		if(itID != itIDEnd) // 새로 들어온 리스트에 있으면.. 
+		if(itID != itIDEnd) // If you are on the new list...
 		{
-			m_SetNPCID.erase(itID); // 요청할 리스트에서 빼고..
+			m_SetNPCID.erase(itID); // Take it off the request list.
 			itNPC++;
 		}
-		else  // 새로 들어온곳에 없으면 지운다..
+		else  // If it doesn&#39;t exist in the new location, delete it.
 		{
 			TRACE("           delete : %d\n", iID);
 
@@ -2747,26 +2747,26 @@ bool CGameProcMain::MsgRecv_NPCInAndRequest(DataPack* pDataPack, int& iOffset)
 		}
 	}
 
-	////////////////////////////////////////////////////////////////////////////
-	// 바로 요청 패킷을 만들어 보낸다..
+	// 
+	// Create and send request packets.
 	const int iNewNPCCount = m_SetNPCID.size();
 	if(iNewNPCCount > 0)
 	{
-		int iOffset=0;														// 버퍼의 오프셋..
-		std::vector<BYTE> byBuff(iNewNPCCount * 2 + 10, 0);					// 패킷 버퍼..
-		CAPISocket::MP_AddByte(&(byBuff[0]), iOffset, N3_REQUEST_NPC_IN);	// 커멘드.
-		CAPISocket::MP_AddShort(&(byBuff[0]), iOffset, iNewNPCCount);		// 아이디 갯수..
+		int iOffset=0;														// Offset of buffer..
+		std::vector<BYTE> byBuff(iNewNPCCount * 2 + 10, 0);					// Packet buffer...
+		CAPISocket::MP_AddByte(&(byBuff[0]), iOffset, N3_REQUEST_NPC_IN);	// command.
+		CAPISocket::MP_AddShort(&(byBuff[0]), iOffset, iNewNPCCount);		// number of ids.
 		
 		auto itID = m_SetNPCID.begin(); itIDEnd = m_SetNPCID.end();
 		for(auto i = 0; itID != itIDEnd; itID++, i++)
 		{
 			iID = *itID;
-			CAPISocket::MP_AddShort(&(byBuff[0]), iOffset, iID);			// 자세한 정보가 필요한 아이디들..
+			CAPISocket::MP_AddShort(&(byBuff[0]), iOffset, iID);			// IDs for which detailed information is required.
 		}
-		s_pSocket->Send(&(byBuff[0]), iOffset); // 보낸다
+		s_pSocket->Send(&(byBuff[0]), iOffset); // send
 	}
-	// 바로 요청 패킷을 만들어 보낸다..
-	////////////////////////////////////////////////////////////////////////////
+	// Create and send request packets.
+	// 
 
 	return true;
 }
@@ -2791,7 +2791,7 @@ bool CGameProcMain::MsgRecv_NPCInRequested(DataPack* pDataPack, int& iOffset)
 
 	for(auto i = 0; i < iNPCCount; i++ )
 	{
-		this->MsgRecv_NPCIn(pDataPack, iOffset); // 플레이어 갯수 만큼 유저 인...
+		this->MsgRecv_NPCIn(pDataPack, iOffset); // The number of users equal to the number of players...
 	}
 	
 #ifdef _DEBUG
@@ -2809,18 +2809,18 @@ bool CGameProcMain::MsgRecv_NPCMove(DataPack* pDataPack, int& iOffset)
 	float fYPos		= (CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset))/10.0f;
 	const float fSpeed	= (CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset))/10.0f;
 
-	// 함수가 와야 할 부분.. ^^
+	// The part where the function should come.. ^^
 	CPlayerNPC* pNPC = nullptr;
-	pNPC = s_pOPMgr->NPCGetByID(iID, true);				// NPC을 ID로서 얻고..
+	pNPC = s_pOPMgr->NPCGetByID(iID, true);				// Get an NPC as an ID...
 	if (nullptr == pNPC )
 	{
 		this->MsgSend_NPCInRequest(iID);
-		return false;		// 살아있는 NPC가 있으면..
+		return false;		// If there is a living NPC...
 	}
 
-	const float fY = ACT_WORLD->GetHeightWithTerrain(fXPos, fZPos);		// 지형 높이값..
+	const float fY = ACT_WORLD->GetHeightWithTerrain(fXPos, fZPos);		// Terrain height value..
 	const int iMoveMode = (fSpeed > 0) ? 2 : 0;
-	pNPC->MoveTo(fXPos, fY, fZPos, fSpeed, iMoveMode);	// NPC 위치 갱신..
+	pNPC->MoveTo(fXPos, fY, fZPos, fSpeed, iMoveMode);	// NPC location updates..
 
 	__ASSERT(!(iMoveMode && fSpeed == 0), "Invalid NPC Move Packet");
 
@@ -2829,73 +2829,73 @@ bool CGameProcMain::MsgRecv_NPCMove(DataPack* pDataPack, int& iOffset)
 
 bool CGameProcMain::MsgRecv_Attack(DataPack* pDataPack, int& iOffset)
 {
-	const int iType		= CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // 0x01 - 물리적인 공격, 0x02 마법 공격 0x03, 지속 마법 공격
-	const int iResult		= CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // 0x00 실패, 0x01 성공
-	const int iIDAttacker = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // 공격한 넘
-	const int iIDTarget	= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // 타겟이 되서 공격당한넘.
+	const int iType		= CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // 0x01 - physical attack, 0x02 magic attack 0x03, continuous magic attack
+	const int iResult		= CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // 0x00 failure, 0x01 success
+	const int iIDAttacker = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // over attacked
+	const int iIDTarget	= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // Being targeted and being attacked.
 
-	if ( iIDAttacker == iIDTarget ) return false;		// 공격자와 피해자가 같은 경우????
+	if ( iIDAttacker == iIDTarget ) return false;		// What if the attacker and the victim are the same????
 
 	const bool bIAmTarget = (iIDTarget == s_pPlayer->IDNumber()) ? true : false;
 	const bool bIAmAttacker = (iIDAttacker == s_pPlayer->IDNumber()) ? true : false;
 	
 	CPlayerBase* pAttacker = nullptr;
-	if ( bIAmAttacker ) pAttacker = s_pPlayer;	// 공격하는 넘이 내 자신이면
+	if ( bIAmAttacker ) pAttacker = s_pPlayer;	// If the attacker is myself
 	else pAttacker = s_pOPMgr->CharacterGetByID(iIDAttacker, true);
-	if(nullptr == pAttacker) // 어라 공격하는 넘이 없네??
+	if(nullptr == pAttacker) // Hey, there&#39;s no one attacking you??
 	{
-		if(iIDAttacker > 10000) // NPC 는 1000 이상이다.
-			this->MsgSend_NPCInRequest(iIDAttacker); // NPC 정보가 없을 경우 요청한다..
+		if(iIDAttacker > 10000) // NPC is over 1000.
+			this->MsgSend_NPCInRequest(iIDAttacker); // If there is no NPC information, request it.
 		else if(iIDAttacker < 3000)
-			this->MsgSend_UserInRequest(iIDAttacker); // NPC 정보가 없을 경우 요청한다..
-		return false; // 공격하는 넘이 없으면 돌아간다.
+			this->MsgSend_UserInRequest(iIDAttacker); // If there is no NPC information, request it.
+		return false; // If there are no attackers, return.
 	}
 
 	CPlayerBase* pTarget = nullptr;
-	if(bIAmTarget) // 타겟이 나라면..
+	if(bIAmTarget) // If the target is me...
 	{
-		this->CommandSitDown(false, false); // 일으켜 세운다.
+		this->CommandSitDown(false, false); // stand up
 		if(m_pMagicSkillMng->IsCasting())
 		{
 			const __TABLE_UPC_SKILL* pSkill = s_pTbl_Skill->Find(s_pPlayer->m_dwMagicID);
 			if(pSkill)
 			{
 				const int SuccessValue = rand()%100;
-				if(SuccessValue >= pSkill->iPercentSuccess) // 스킬 테이블에 있는 확률대로 실패한다..
-					s_pPlayer->Action(PSA_BASIC, false, nullptr, true); // 캐스팅 취소, 기본동작으로 강제 세팅..
+				if(SuccessValue >= pSkill->iPercentSuccess) // Failure according to the probability shown in the skill table.
+					s_pPlayer->Action(PSA_BASIC, false, nullptr, true); // Casting cancellation, forced setting as default action..
 			}
 		}
 		pTarget = s_pPlayer;
 	}
-	else // 타겟이 다른넘이면..
+	else // If the target is different...
 	{
-		pTarget = s_pOPMgr->CharacterGetByID(iIDTarget, true); //  일단 살아있는 넘들중에서 가져와보고.. 
-		if(nullptr == pTarget) pTarget = s_pOPMgr->CharacterGetByID(iIDTarget, false); // 없다면 죽어가는 넘도 상관없이 타겟으로 잡고
+		pTarget = s_pOPMgr->CharacterGetByID(iIDTarget, true); // First of all, take it from among the living ones..
+		if(nullptr == pTarget) pTarget = s_pOPMgr->CharacterGetByID(iIDTarget, false); // If you don&#39;t have it, grab it as a target regardless of dying
 	}
 
-	if(nullptr == pTarget) return false; // 타겟이 없다!!!!
+	if(nullptr == pTarget) return false; // No target!!!!
 
-//	pTarget->m_iIDTargetMe = iIDAttacker; // 어떤 놈이 공격하는 거야??
+	// pTarget-&gt;m_iIDTargetMe = iIDAttacker; // who&#39;s attacking??
 
-	if(pAttacker != s_pPlayer && pAttacker && pAttacker->IsAlive()) // 공격하는 넘이 내가 아니고 다른 살아있는 넘일때..
+	if(pAttacker != s_pPlayer && pAttacker && pAttacker->IsAlive()) // When the attacking nim is not me but another living nim...
 	{
-		((CPlayerNPC*)pAttacker)->RotateTo(pTarget); // 타겟을 향해서 방향 계산
-		pAttacker->m_iIDTarget = iIDTarget; // 타겟 ID 설정..
-		if(0x01 == iType) pAttacker->Action(PSA_ATTACK, false, pTarget); // 물리적인 직접 공격..
-		else if(0x02 == iType) pAttacker->Action(PSA_SPELLMAGIC, false, pTarget); // 마법 공격..
-//		else if(0x03 == iType) pAttacker->Action(PSA_SPELLMAGIC, false, pTarget); // 지속 마법 공격..
+		((CPlayerNPC*)pAttacker)->RotateTo(pTarget); // Calculate direction towards target
+		pAttacker->m_iIDTarget = iIDTarget; // Set Target ID...
+		if(0x01 == iType) pAttacker->Action(PSA_ATTACK, false, pTarget); // direct physical attack.
+		else if(0x02 == iType) pAttacker->Action(PSA_SPELLMAGIC, false, pTarget); // magic attack...
+		// else if(0x03 == iType) pAttacker-&gt;Action(PSA_SPELLMAGIC, false, pTarget); // Continuous magic attack...
 	}
 
-	pTarget->m_bGuardSuccess = false; // 방어에 성공했는지에 대한 플래그..
-	if(0x0 == iResult) // 공격 실패
+	pTarget->m_bGuardSuccess = false; // A flag for whether the defense was successful.
+	if(0x0 == iResult) // attack failed
 	{
-		if(pTarget->IsAlive() && 0 == pTarget->m_iSkillStep) // 죽은 넘이 아니고 스킬을 쓰즌 중이 아니면 막는 동작을 한다..
+		if(pTarget->IsAlive() && 0 == pTarget->m_iSkillStep) // If you are not dead and you are not using a skill, it will act as a block.
 		{
-			pTarget->m_bGuardSuccess = true; // 방어에 성공했는지에 대한 플래그..
+			pTarget->m_bGuardSuccess = true; // A flag for whether the defense was successful.
 			pTarget->Action(PSA_GUARD, false);
 		}
 
-		if(pAttacker == s_pPlayer) // 공격하는 사람이 플레이어 자신이면..
+		if(pAttacker == s_pPlayer) // If the attacker is the player himself...
 		{
 			char szBuf[128] = "";
 			std::string szFmt; ::_LoadStringFromResource(IDS_MSG_FMT_TARGET_ATTACK_FAILED, szFmt);
@@ -2903,17 +2903,17 @@ bool CGameProcMain::MsgRecv_Attack(DataPack* pDataPack, int& iOffset)
 			MsgOutput(szBuf, 0xffffffff);
 		}
 	}
-	else if(0x2 == iResult) // Attack And Dead - 이번 공격으로 죽는다!!!
+	else if(0x2 == iResult) // Attack And Dead - Die from this attack!!!
 	{
 		if(pTarget == s_pPlayer)
 		{
-//			if(m_pUIDead) m_pUIDead->SetVisible(true);
+			// if(m_pUIDead) m_pUIDead->SetVisible(true);
 			std::string szMsg; ::_LoadStringFromResource(IDS_REGENERATION, szMsg);
-			CGameProcedure::MessageBoxPost(szMsg, "", MB_OK, BEHAVIOR_REGENERATION); // 다시 생성 메시지 보냄..
+			CGameProcedure::MessageBoxPost(szMsg, "", MB_OK, BEHAVIOR_REGENERATION); // Send recreate message..
 		}
 		
-		pTarget->m_fTimeAfterDeath = 0.1f; // 죽기직전..
-		if(pTarget->m_pShapeExtraRef) s_pOPMgr->CharacterDelete(pTarget->IDNumber()); // 오브젝트 일때는 없애버린다..!!
+		pTarget->m_fTimeAfterDeath = 0.1f; // Before dying...
+		if(pTarget->m_pShapeExtraRef) s_pOPMgr->CharacterDelete(pTarget->IDNumber()); // When it is an object, it is destroyed..!!
 	}
 
 	if(pTarget == s_pPlayer) 
@@ -2926,7 +2926,7 @@ bool CGameProcMain::MsgRecv_Attack(DataPack* pDataPack, int& iOffset)
 
 bool CGameProcMain::MsgRecv_Dead(DataPack* pDataPack, int& iOffset)
 {
-	const int iIDTarget	= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // 타겟이 되서 공격당한넘.
+	const int iIDTarget	= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // Being targeted and being attacked.
 
 	
 	CPlayerBase* pTarget = nullptr;
@@ -2934,9 +2934,9 @@ bool CGameProcMain::MsgRecv_Dead(DataPack* pDataPack, int& iOffset)
 	{
 		pTarget = s_pPlayer;
 
-//		if(m_pUIDead) m_pUIDead->SetVisible(true);
+		// if(m_pUIDead) m_pUIDead->SetVisible(true);
 		std::string szMsg; ::_LoadStringFromResource(IDS_REGENERATION, szMsg);
-		CGameProcedure::MessageBoxPost(szMsg, "", MB_OK, BEHAVIOR_REGENERATION); // 다시 생성 메시지 보냄..
+		CGameProcedure::MessageBoxPost(szMsg, "", MB_OK, BEHAVIOR_REGENERATION); // Send recreate message..
 		CLogWriter::Write("Dead!!!");
 	}
 	else
@@ -2949,7 +2949,7 @@ bool CGameProcMain::MsgRecv_Dead(DataPack* pDataPack, int& iOffset)
 		if(pTarget->m_pShapeExtraRef) s_pOPMgr->CharacterDelete(pTarget->IDNumber());
 		else
 		{
-			pTarget->m_fTimeAfterDeath = 0.1f; // 죽기직전..
+			pTarget->m_fTimeAfterDeath = 0.1f; // Before dying...
 			pTarget->ActionDying(PSD_KEEP_POSITION, __Vector3(0,0,1));
 		}
 
@@ -2974,7 +2974,7 @@ bool CGameProcMain::MsgRecv_ItemMove(DataPack* pDataPack, int& iOffset)
 		pInfoBase->iHPMax = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
 		pInfoExt->iMSPMax = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
 		
-		// 아이템에 의해 가감된값이다..
+		// It is the value added or subtracted by the item.
 		pInfoExt->iStrength_Delta =		CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
 		pInfoExt->iStamina_Delta	=	CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
 		pInfoExt->iDexterity_Delta =	CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
@@ -2988,8 +2988,8 @@ bool CGameProcMain::MsgRecv_ItemMove(DataPack* pDataPack, int& iOffset)
 		pInfoExt->iRegistCurse =	CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
 		pInfoExt->iRegistPoison	=	CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
 
-		if(pInfoBase->iHP > pInfoBase->iHPMax) pInfoBase->iHP = pInfoBase->iHPMax; // 범위검사..
-		if(pInfoExt->iMSP > pInfoExt->iMSPMax) pInfoExt->iMSP = pInfoExt->iMSPMax; // 범위검사..
+		if(pInfoBase->iHP > pInfoBase->iHPMax) pInfoBase->iHP = pInfoBase->iHPMax; // range check...
+		if(pInfoExt->iMSP > pInfoExt->iMSPMax) pInfoExt->iMSP = pInfoExt->iMSPMax; // range check...
 
 		m_pUIVar->m_pPageState->UpdateHP(pInfoBase->iHP, pInfoBase->iHPMax);
 		m_pUIVar->m_pPageState->UpdateMSP(pInfoExt->iMSP, pInfoExt->iMSPMax);
@@ -3021,7 +3021,7 @@ bool CGameProcMain::MsgRecv_ItemMove(DataPack* pDataPack, int& iOffset)
 	return true;
 }
 
-bool CGameProcMain::MsgRecv_ItemWeightChange(DataPack* pDataPack, int& iOffset)		// 아이템 무게 변화..
+bool CGameProcMain::MsgRecv_ItemWeightChange(DataPack* pDataPack, int& iOffset)		// Item weight changes.
 {
 	__InfoPlayerMySelf* pInfoExt = &(s_pPlayer->m_InfoExt);
 	pInfoExt->iWeight = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
@@ -3046,7 +3046,7 @@ bool CGameProcMain::MsgRecv_UserLookChange(DataPack* pDataPack, int& iOffset)
 
 	__TABLE_ITEM_EXT* pItemExt = nullptr;
 	if(pItem && pItem->byExtIndex >= 0 && pItem->byExtIndex < MAX_ITEM_EXTENSION)
-		pItemExt = s_pTbl_Items_Exts[pItem->byExtIndex]->Find(dwItemID%1000);	// 열 데이터 얻기..
+		pItemExt = s_pTbl_Items_Exts[pItem->byExtIndex]->Find(dwItemID%1000);	// Get column data...
 	if(dwItemID && (nullptr == pItem || nullptr == pItemExt))
 	{
 		__ASSERT(0, "NULL Item!!!");
@@ -3066,16 +3066,16 @@ bool CGameProcMain::MsgRecv_UserLookChange(DataPack* pDataPack, int& iOffset)
 
 	if(ePartPos != PART_POS_UNKNOWN) 
 	{
-		if(dwItemID) // 아이템이 있는 경우
+		if(dwItemID) // if there is an item
 		{
 			std::string szItemFN;
 			CGameProcedure::MakeResrcFileNameForUPC(pItem, &szItemFN, nullptr, ePartPos2, ePlugPos2);
-			pUPC->PartSet(ePartPos, szItemFN, pItem, pItemExt); // 아이템 붙이기..
+			pUPC->PartSet(ePartPos, szItemFN, pItem, pItemExt); // Paste the item...
 			pUPC->DurabilitySet(eSlot, iDurability);
 		}
 		else
 		{
-			const __TABLE_PLAYER_LOOKS* pLooks = s_pTbl_UPC_Looks->Find(pUPC->m_InfoBase.eRace);	// User Player Character Skin 구조체 포인터..
+			const __TABLE_PLAYER_LOOKS* pLooks = s_pTbl_UPC_Looks->Find(pUPC->m_InfoBase.eRace);	// User Player Character Skin structure pointer..
 			if(nullptr == pLooks)
 			{
 				CLogWriter::Write("CGameProcMain::MsgRecv_UserLookChange() - failed find table : Race (%d)", pUPC->m_InfoBase.eRace);
@@ -3083,7 +3083,7 @@ bool CGameProcMain::MsgRecv_UserLookChange(DataPack* pDataPack, int& iOffset)
 			}
 			else
 			{
-				if(PART_POS_HAIR_HELMET == ePartPos) pUPC->InitHair(); // 머리인데 없는 경우는..
+				if(PART_POS_HAIR_HELMET == ePartPos) pUPC->InitHair(); // If you don&#39;t have a head...
 				else pUPC->PartSet(ePartPos, pLooks->szPartFNs[ePartPos], nullptr, nullptr);
 			}
 		}
@@ -3105,10 +3105,10 @@ bool CGameProcMain::MsgRecv_UserLookChange(DataPack* pDataPack, int& iOffset)
 			pUPC->DurabilitySet(eSlot, 0);
 		}
 
-		// Sound Range 안쪽이면 사운드를 바꾸어준다..
+		// If it is within the sound range, the sound changes.
 		const __Vector3 vPosPlayer = s_pPlayer->Position();
 		const float fDist = pUPC->Distance(vPosPlayer);
-		if(fDist < SOUND_RANGE_TO_SET) pUPC->SetSoundPlug(pItem); // SOUND_RANGE 안에 있으면.
+		if(fDist < SOUND_RANGE_TO_SET) pUPC->SetSoundPlug(pItem); // If inside SOUND_RANGE.
 
 		return true;
 	}
@@ -3121,7 +3121,7 @@ bool CGameProcMain::MsgRecv_UserLookChange(DataPack* pDataPack, int& iOffset)
 	return false;
 }
 
-bool CGameProcMain::MsgRecv_ItemBundleDrop(DataPack* pDataPack, int& iOffset)		// Item 이 필드에 나타나는데에 대한 응답
+bool CGameProcMain::MsgRecv_ItemBundleDrop(DataPack* pDataPack, int& iOffset)		// Response to Item appearing in field
 {
 	const int iID = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
 	const int iItemID = CAPISocket::Parse_GetDword(pDataPack->m_pData, iOffset);
@@ -3130,12 +3130,12 @@ bool CGameProcMain::MsgRecv_ItemBundleDrop(DataPack* pDataPack, int& iOffset)		/
 	if(nullptr == pCorpse) pCorpse = s_pOPMgr->CorpseGetByID(iID);
 	
 	if(pCorpse)
-		pCorpse->m_iDroppedItemID = iItemID; // 떨어트린 아이템 아이디 뭉치
+		pCorpse->m_iDroppedItemID = iItemID; // Dropped Item ID Bundle
 
 	return true;
 }
 
-bool CGameProcMain::MsgRecv_ItemBundleOpen(DataPack* pDataPack, int& iOffset)		// 아이템 상자를 열거나 시체를 뒤진다..
+bool CGameProcMain::MsgRecv_ItemBundleOpen(DataPack* pDataPack, int& iOffset)		// Open item boxes or search corpses.
 {
 	DWORD dwItemID = 0;
 	int iItemCount = 0;
@@ -3149,7 +3149,7 @@ bool CGameProcMain::MsgRecv_ItemBundleOpen(DataPack* pDataPack, int& iOffset)		/
 		dwItemID = CAPISocket::Parse_GetDword(pDataPack->m_pData, iOffset);
 		iItemCount = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
 
-		// 이부분에 몬스터 아이템창을 열고 준비한다..
+		// Open the monster item window in this part and prepare it.
 		if ( dwItemID )
 			m_pUIDroppedItemDlg->AddToItemTable(dwItemID, iItemCount, i);
 	}
@@ -3159,7 +3159,7 @@ bool CGameProcMain::MsgRecv_ItemBundleOpen(DataPack* pDataPack, int& iOffset)		/
 	return true;
 }
 
-void CGameProcMain::MsgRecv_ItemRepair(DataPack* pDataPack, int& iOffset)			// Item Repair Result.. 
+void CGameProcMain::MsgRecv_ItemRepair(DataPack* pDataPack, int& iOffset)			// Item Repair Result..
 {
 	const int iResult = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);		// Trade id
 	const int iGold   = CAPISocket::Parse_GetDword(pDataPack->m_pData, iOffset);		// Trade id
@@ -3292,20 +3292,20 @@ bool CGameProcMain::MsgRecv_MyInfo_LevelChange(DataPack* pDataPack, int& iOffset
 
 		const int iLevelPrev = pInfoBase->iLevel;
 		pInfoBase->iLevel = iLevel;
-		pInfoExt->iBonusPointRemain = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // 남은 보너스 포인트..
+		pInfoExt->iBonusPointRemain = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // Remaining bonus points...
 
-		const BYTE	bExtraSkillPoint		= CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);	// 토탈 포인트
+		const BYTE	bExtraSkillPoint		= CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);	// total points
 		TRACE("Skill change Extra value %d\n", bExtraSkillPoint);
 
 		const int iExpNext	= CAPISocket::Parse_GetDword(pDataPack->m_pData, iOffset);
 		const int iExp		= CAPISocket::Parse_GetDword(pDataPack->m_pData, iOffset); 
 
-		// 새로 얻은 경험치를 계산해준다..
+		// Calculate the new experience gained.
 		int iExpChange = 0;
 		if(iLevel > iLevelPrev)
-			iExpChange = (pInfoExt->iExpNext - pInfoExt->iExp) + iExp; // 레벨업 한경우..
+			iExpChange = (pInfoExt->iExpNext - pInfoExt->iExp) + iExp; // When you level up...
 		else
-			iExpChange = -(pInfoExt->iExp + iExpNext - iExp); // 레벨다운 한경우..
+			iExpChange = -(pInfoExt->iExp + iExpNext - iExp); // If you level down...
 		char szBuf[256] = "";
 		if(iExpChange > 0)
 		{
@@ -3332,22 +3332,22 @@ bool CGameProcMain::MsgRecv_MyInfo_LevelChange(DataPack* pDataPack, int& iOffset
 		pInfoExt->iWeightMax =	CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
 		pInfoExt->iWeight	=	CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
 
-		m_pUIVar->UpdateAllStates(&(s_pPlayer->m_InfoBase), &(s_pPlayer->m_InfoExt)); // 모든 정보 업데이트..
+		m_pUIVar->UpdateAllStates(&(s_pPlayer->m_InfoBase), &(s_pPlayer->m_InfoExt)); // All info updated..
 
 		m_pUIStateBarAndMiniMap->UpdateExp(pInfoExt->iExp, pInfoExt->iExpNext, true);
 		m_pUIStateBarAndMiniMap->UpdateHP(pInfoBase->iHP, pInfoBase->iHPMax, false);
 		m_pUIStateBarAndMiniMap->UpdateMSP(pInfoExt->iMSP, pInfoExt->iMSPMax, false);
 
 		m_pUISkillTreeDlg->m_iSkillInfo[0] = bExtraSkillPoint;
-		m_pUISkillTreeDlg->InitIconUpdate();		// 레벨이 변화되었으므로 .. 스킬도 추가될 수 있다..
+		m_pUISkillTreeDlg->InitIconUpdate();		// Since the level has changed .. Skills can also be added..
 
-		if(iLevel > iLevelPrev) // 이곳에 Level Up 효과를 넣어준다..
+		if(iLevel > iLevelPrev) // Add the Level Up effect here.
 		{
 			if(s_pPlayer->Nation()==NATION_KARUS) CGameProcedure::s_pFX->TriggerBundle(iID, -1, FXID_LEVELUP_KARUS, iID, -1);
 			else if(s_pPlayer->Nation()==NATION_ELMORAD) CGameProcedure::s_pFX->TriggerBundle(iID, -1, FXID_LEVELUP_ELMORAD, iID, -1);
 		}
 	}
-	else // 다른 넘이다..
+	else // it&#39;s different..
 	{
 		CPlayerOther* pUPC = s_pOPMgr->UPCGetByID(iID, false);
 		if(pUPC)
@@ -3368,7 +3368,7 @@ void CGameProcMain::MsgRecv_MyInfo_RealmPoint(DataPack* pDataPack, int& iOffset)
 {
 	s_pPlayer->m_InfoExt.iRealmPoint	= CAPISocket::Parse_GetDword(pDataPack->m_pData, iOffset); 
 	if(m_pUIVar->m_pPageState)
-		m_pUIVar->m_pPageState->UpdateRealmPoint(s_pPlayer->m_InfoExt.iRealmPoint); // 국가 기여도는 10을 나누어서 표시
+		m_pUIVar->m_pPageState->UpdateRealmPoint(s_pPlayer->m_InfoExt.iRealmPoint); // State contribution is divided by 10
 }
 
 void CGameProcMain::MsgRecv_MyInfo_PointChange(DataPack* pDataPack, int& iOffset)
@@ -3391,8 +3391,8 @@ void CGameProcMain::MsgRecv_MyInfo_PointChange(DataPack* pDataPack, int& iOffset
 	m_pUIVar->m_pPageState->UpdateWeight(s_pPlayer->m_InfoExt.iWeight, s_pPlayer->m_InfoExt.iWeightMax);
 
 
-// 포인트 체인지 -	 보낼때 b1(1힘 2체력 3민첩 4지능 5마력) s(-1 +1)
-//					 받을때 b1(1힘 2체력 3민첩 4지능 5마력) s(절대수치)
+	// Point change - send b1 (1 strength, 2 health, 3 agility, 4 intelligence, 5 horse power) s (-1 +1)
+	// When receiving b1 (1 strength, 2 health, 3 agility, 4 intelligence, 5 horse power) s (absolute value)
 
 	if(0x01 == iType) // Strength
 	{
@@ -3423,7 +3423,7 @@ void CGameProcMain::MsgRecv_MyInfo_PointChange(DataPack* pDataPack, int& iOffset
 	if(iType >= 1 && iType <= 5)
 	{
 		s_pPlayer->m_InfoExt.iBonusPointRemain--;
-		m_pUIVar->m_pPageState->UpdateBonusPointAndButtons(s_pPlayer->m_InfoExt.iBonusPointRemain); // 보너스 포인트 적용이 가능한가??
+		m_pUIVar->m_pPageState->UpdateBonusPointAndButtons(s_pPlayer->m_InfoExt.iBonusPointRemain); // Are bonus points applicable?
 	}
 }
 
@@ -3435,7 +3435,7 @@ void CGameProcMain::InitUI()
 	RECT rc;
 	int iX = 0, iY = 0;
 
-	e_Nation eNation = s_pPlayer->m_InfoBase.eNation; // 국가....
+	e_Nation eNation = s_pPlayer->m_InfoBase.eNation; // nation....
 
 	__TABLE_UI_RESRC* pTbl = s_pTbl_UI->Find(eNation);
 	if(nullptr == pTbl) return;
@@ -3446,10 +3446,10 @@ void CGameProcMain::InitUI()
 	m_pUICmd->SetPos((iW - (rc.right - rc.left))/2, iH - (rc.bottom - rc.top));
 	m_pUICmd->SetStyle(UISTYLE_FOCUS_UNABLE | UISTYLE_HIDE_UNABLE);
 
-	m_pUIChatDlg->Init(s_pUIMgr);					//Manager 자식으로 리스트에 추가 
+	m_pUIChatDlg->Init(s_pUIMgr);					// Add to the list as a Manager child
 	m_pUIChatDlg->LoadFromFile(pTbl->szChat);
 	rc = m_pUIChatDlg->GetRegion();
-	RECT rcCmd = m_pUICmd->GetRegion(); rcCmd.top += 5; // .. 하드 코딩..
+	RECT rcCmd = m_pUICmd->GetRegion(); rcCmd.top += 5; // ..hard-coded..
 	iX = 0;
 	iY = iH - ((rc.bottom - rc.top) + (rcCmd.bottom - rcCmd.top));
 	CGameProcedure::UIPostData_Read(UI_POST_WND_CHAT, m_pUIChatDlg, iX, iY);
@@ -3460,19 +3460,19 @@ void CGameProcMain::InitUI()
 	m_pUIMsgDlg->LoadFromFile(pTbl->szMsgOutput);
 	m_pUIMsgDlg->SetStyle(UISTYLE_FOCUS_UNABLE | UISTYLE_HIDE_UNABLE);
 
-	// 채팅창과 메시지 창 위치 맞추기..
+	// Align the position of the chat window and the message window.
 	m_pUIChatDlg->MoveOffset(0, -1);
 
 	m_pUIStateBarAndMiniMap->Init(s_pUIMgr);
 	m_pUIStateBarAndMiniMap->LoadFromFile(pTbl->szStateBar);
 	m_pUIStateBarAndMiniMap->SetStyle(UISTYLE_FOCUS_UNABLE | UISTYLE_HIDE_UNABLE);
 #ifdef _DEBUG
-	m_pUIStateBarAndMiniMap->SetPos(0, 70); // 디버그 정보 표시때문에 조금 내린다....
+	m_pUIStateBarAndMiniMap->SetPos(0, 70); // Down a bit for displaying debug info...
 #else
 	m_pUIStateBarAndMiniMap->SetPos(0, 0);
 #endif
 
-	// 다용도 UI - 상태, 기사단관리, 퀘스트, 친구 관리등...
+	// Multipurpose UI - status, guild management, quests, friend management, etc...
 	m_pUIVar->Init(s_pUIMgr);
 	m_pUIVar->LoadFromFile(pTbl->szVarious);
 	m_pUIVar->SetVisibleWithNoSound(false);
@@ -3483,8 +3483,8 @@ void CGameProcMain::InitUI()
 	m_pUIVar->m_pPageFriends->LoadFromFile(pTbl->szFriends);
 	m_pUIVar->m_pPageFriends->SetVisibleWithNoSound(false);
 	m_pUIVar->SetStyle(m_pUIVar->GetStyle() | UISTYLE_POS_LEFT);
-//	m_pUIVar->m_pPageQuest->LoadFromFile(pTbl->szQuest);
-//	m_pUIVar->m_pPageQuest->SetVisibleWithNoSound(false);
+	// m_pUIVar->m_pPageQuest->LoadFromFile(pTbl->szQuest);
+	// m_pUIVar->m_pPageQuest->SetVisibleWithNoSound(false);
 
 
 	
@@ -3502,9 +3502,9 @@ void CGameProcMain::InitUI()
 	iX = (iW - (rc.right - rc.left))/2;
 	iY = (iH - (rc.bottom - rc.top))/2;
 	m_pUIHelp->SetPos(iX, iY);
-//	m_pUIHelp->SetStyle(UISTYLE_SHOW_ME_ALONE);
+	// m_pUIHelp->SetStyle(UISTYLE_SHOW_ME_ALONE);
 	
-	// 공지사항..
+	// announcement..
 	m_pUINotice->Init(s_pUIMgr);
 	m_pUINotice->LoadFromFile(pTbl->szNotice);
 	m_pUINotice->SetVisibleWithNoSound(false);
@@ -3553,13 +3553,13 @@ void CGameProcMain::InitUI()
 	m_pUIWarp->SetPos(iX, iY);
 	m_pUIWarp->SetStyle(UISTYLE_USER_MOVE_HIDE | UISTYLE_SHOW_ME_ALONE);
 
-//	m_pUITradeList->Init(s_pUIMgr);
-//	m_pUITradeList->LoadFromFile(pTbl->szNpcExchangeList);
-//	m_pUITradeList->SetVisibleWithNoSound(false);
-//	rc = m_pUITradeList->GetRegion();
-//	iX = (iW - (rc.right - rc.left))/2;
-//	iY = (iH - (rc.bottom - rc.top))/2;
-//	m_pUITradeList->SetPos(iX, iY);
+	// m_pUITradeList->Init(s_pUIMgr);
+	// m_pUITradeList->LoadFromFile(pTbl->szNpcExchangeList);
+	// m_pUITradeList->SetVisibleWithNoSound(false);
+	// rc = m_pUITradeList->GetRegion();
+	// iX = (iW - (rc.right - rc.left))/2;
+	// iY = (iH - (rc.bottom - rc.top))/2;
+	// m_pUITradeList->SetPos(iX, iY);
 
 	m_pUIItemREDlg->Init(s_pUIMgr);
 	m_pUIItemREDlg->LoadFromFile(pTbl->szExchangeRepair);
@@ -3584,10 +3584,10 @@ void CGameProcMain::InitUI()
 	rc = m_pUIPartyOrForce->GetRegion();
 	iX = iW - (rc.right - rc.left);
 	m_pUIPartyOrForce->SetPos(iX, 0);
-	m_pUIPartyOrForce->SetVisible(false); // 강제로 안보이기~
-//	CGameProcedure::UIPostData_Read(UI_POST_WND_PARTY, m_pUIPartyOrForce, iX, 0);
+	m_pUIPartyOrForce->SetVisible(false); // Force not to see
+// CGameProcedure::UIPostData_Read(UI_POST_WND_PARTY, m_pUIPartyOrForce, iX, 0);
 
-	// Dropped Item Dlg.. 
+	// Dropped Item Dlg..
 	m_pUIDroppedItemDlg->Init(s_pUIMgr);
 	m_pUIDroppedItemDlg->LoadFromFile(pTbl->szDroppedItem);
 	m_pUIDroppedItemDlg->SetVisibleWithNoSound(false);
@@ -3622,7 +3622,7 @@ void CGameProcMain::InitUI()
 	CN3UIWndBase::m_pCountableItemEdit->Init(s_pUIMgr);
 	CN3UIWndBase::m_pCountableItemEdit->LoadFromFile(pTbl->szPersonalTradeEdit);
 	CN3UIWndBase::m_pCountableItemEdit->SetStyle(UISTYLE_ALWAYSTOP);
-	// 위치 계산 ..
+	// position calculation ..
 	rc = CN3UIWndBase::m_pCountableItemEdit->GetRegion();
 	iX = (iW - (rc.right - rc.left))/2;
 	iY = (iH - (rc.bottom - rc.top))/2;
@@ -3642,22 +3642,22 @@ void CGameProcMain::InitUI()
 	m_pUISkillTreeDlg->SetStyle(m_pUISkillTreeDlg->GetStyle() | UISTYLE_POS_RIGHT);
 
 	
-	// default ui pos ..	해상도가 변경되면.. 상대 위치를 구해야 한다.. by ecli666
+	// default ui pos .. When the resolution is changed.. Relative position must be obtained.. by ecli666
 	rc = m_pUIStateBarAndMiniMap->GetRegion();
 	m_pUIHotKeyDlg->Init(s_pUIMgr);
 	m_pUIHotKeyDlg->LoadFromFile(pTbl->szHotKey);
 	m_pUIHotKeyDlg->SetStyle(UISTYLE_HIDE_UNABLE);
 	CGameProcedure::UIPostData_Read(UI_POST_WND_HOTKEY, m_pUIHotKeyDlg, rc.left, rc.bottom);
-	m_pUIHotKeyDlg->SetVisibleWithNoSound(true); // 무조건 보인다!!!
+	m_pUIHotKeyDlg->SetVisibleWithNoSound(true); // Absolutely visible!!!
 	m_pUIHotKeyDlg->InitIconWnd(UIWND_HOTKEY);
 	m_pUIHotKeyDlg->SetUIType(UI_TYPE_ICON_MANAGER);
 	m_pUIHotKeyDlg->SetState(UI_STATE_COMMON_NONE);
 
-	m_pUIKnightsOp->Init(s_pUIMgr);	// 기사단 리스트 보기, 가입, 등...
+	m_pUIKnightsOp->Init(s_pUIMgr);	// View the list of guilds, join, etc...
 	m_pUIKnightsOp->LoadFromFile(pTbl->szKnightsOperation);
 	m_pUIKnightsOp->SetVisibleWithNoSound(false);
 
-	// 파티 지원 게시판..
+	// Party support bulletin board..
 	m_pUIPartyBBS->Init(s_pUIMgr);
 	m_pUIPartyBBS->LoadFromFile(pTbl->szPartyBBS);
 	m_pUIPartyBBS->SetVisibleWithNoSound(false);
@@ -3677,7 +3677,7 @@ void CGameProcMain::InitUI()
 	m_pUIWareHouseDlg->SetState(UI_STATE_COMMON_NONE);
 	m_pUIWareHouseDlg->SetStyle(UISTYLE_USER_MOVE_HIDE | UISTYLE_POS_RIGHT);
 
-	m_pTargetSymbol->LoadFromFile(pTbl->szTargetSymbolShape); // 플레이어가 타겟으로 잡은 캐릭터의 위치위에 그리면 된다..
+	m_pTargetSymbol->LoadFromFile(pTbl->szTargetSymbolShape); // The player draws on the location of the target character.
 
 	m_pUIInn->Init(s_pUIMgr);
 	m_pUIInn->LoadFromFile(pTbl->szInn);
@@ -3723,7 +3723,7 @@ void CGameProcMain::InitUI()
 	m_pUIDead->SetPos(iX, iY);
 
 
-	// 상거래 게시판
+	// commerce bulletin board
 	m_pUITradeBBS->Init(s_pUIMgr);
 	m_pUITradeBBS->LoadFromFile(pTbl->szTradeBBS);
 	m_pUITradeBBS->SetVisibleWithNoSound(false);
@@ -3733,7 +3733,7 @@ void CGameProcMain::InitUI()
 	iY = (iH - (rc.bottom - rc.top))/2;
 	m_pUITradeBBS->SetPos(iX, iY);
 
-	// 상거래 종류 선택 
+	// Select commerce type
 	m_pUITradeBBSSelector->Init(s_pUIMgr);
 	m_pUITradeBBSSelector->LoadFromFile(pTbl->szTradeBBSSelector);
 	m_pUITradeBBSSelector->SetVisibleWithNoSound(false);
@@ -3743,7 +3743,7 @@ void CGameProcMain::InitUI()
 	m_pUITradeBBSSelector->SetPos(iX, iY);
 	m_pUITradeBBSSelector->SetStyle(UISTYLE_USER_MOVE_HIDE);
 
-	// 상거래 항목 내용
+	// Commerce Item Content
 	m_pUITradeBBSEdit->LoadFromFile(pTbl->szTradeExplanation);
 	m_pUITradeBBSEdit->SetVisibleWithNoSound(false);
 	rc = m_pUITradeBBSEdit->GetRegion();
@@ -3758,7 +3758,7 @@ void CGameProcMain::MsgSend_RequestTargetHP(short siIDTarget, BYTE byUpdateImmed
 	int iOffset = 0;
 	CAPISocket::MP_AddByte(byBuff, iOffset, N3_TARGET_HP);
 	CAPISocket::MP_AddShort(byBuff, iOffset, siIDTarget);
-	CAPISocket::MP_AddByte(byBuff, iOffset, byUpdateImmediately); // 0x00 - 점차 늘어나게끔.. 0x01 - 즉시 업데이트..
+	CAPISocket::MP_AddByte(byBuff, iOffset, byUpdateImmediately); // 0x00 - incrementally.. 0x01 - immediate update..
 
 	s_pSocket->Send(byBuff, iOffset);
 }
@@ -3766,10 +3766,10 @@ void CGameProcMain::MsgSend_RequestTargetHP(short siIDTarget, BYTE byUpdateImmed
 void CGameProcMain::MsgRecv_TargetHP(DataPack* pDataPack, int& iOffset)
 {
 	const int iID				= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);	// SID
-	const BYTE byUpdateImmediately = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);	// 0x00 - 점차 늘어나게끔.. 0x01 - 즉시 업데이트..
-	const int iTargetHPMax	= CAPISocket::Parse_GetDword(pDataPack->m_pData, iOffset);  // HP 
-	const int iTargetHPCur	= CAPISocket::Parse_GetDword(pDataPack->m_pData, iOffset);  // HP 
-	const int iTargetHPChange	= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);  // HP 
+	const BYTE byUpdateImmediately = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);	// 0x00 - incrementally.. 0x01 - immediate update..
+	const int iTargetHPMax	= CAPISocket::Parse_GetDword(pDataPack->m_pData, iOffset);  // HP
+	const int iTargetHPCur	= CAPISocket::Parse_GetDword(pDataPack->m_pData, iOffset);  // HP
+	const int iTargetHPChange	= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);  // HP
 
 	if(iTargetHPMax <= 0)
 	{
@@ -3781,12 +3781,12 @@ void CGameProcMain::MsgRecv_TargetHP(DataPack* pDataPack, int& iOffset)
 	}
 	__ASSERT(iTargetHPMax > 0, "최대 체력 수치는 0이상이어야 합니다.");
 
-	if(iID == s_pPlayer->m_iIDTarget) // 내가 공격하는 넘이면..
+	if(iID == s_pPlayer->m_iIDTarget) // If I&#39;m attacking...
 	{
 		bool bUI = false;
 		if(byUpdateImmediately) bUI = true;
 		m_pUITargetBar->UpdateHP(iTargetHPCur, iTargetHPMax, bUI);
-	//	TRACE("Target HP Update %d %d\n", iID, iTargetHPPercent);
+	// TRACE("Target HP Update %d %d\n", iID, iTargetHPPercent);
 	}
 
 	CPlayerNPC* pTarget = s_pOPMgr->CharacterGetByID(iID, true);
@@ -3811,7 +3811,7 @@ void CGameProcMain::MsgRecv_TargetHP(DataPack* pDataPack, int& iOffset)
 	}
 }
 
-// 상거래..................
+// Commerce............
 bool CGameProcMain::MsgSend_NPCEvent(short siIDTarget)
 {
 	BYTE byBuff[4];
@@ -3824,34 +3824,34 @@ bool CGameProcMain::MsgSend_NPCEvent(short siIDTarget)
 	return true;
 }
 
-void CGameProcMain::MsgSend_NPCInRequest(int iID) // NPC 정보가 없을 경우 요청한다..
+void CGameProcMain::MsgSend_NPCInRequest(int iID) // If there is no NPC information, request it.
 {
 	TRACE("found NPC ghost (ID:%d)\n", iID);
 
-	int iOffset=0;													// 버퍼의 오프셋..
-	BYTE byBuff[32];;												// 패킷 버퍼..
-	CAPISocket::MP_AddByte(byBuff, iOffset, N3_REQUEST_NPC_IN);		// 커멘드.
-	CAPISocket::MP_AddShort(byBuff, iOffset, 1);					// 아이디 갯수..
-	CAPISocket::MP_AddShort(byBuff, iOffset, iID);					// 자세한 정보가 필요한 아이디들..
+	int iOffset=0;													// Offset of buffer..
+	BYTE byBuff[32];;												// Packet buffer...
+	CAPISocket::MP_AddByte(byBuff, iOffset, N3_REQUEST_NPC_IN);		// command.
+	CAPISocket::MP_AddShort(byBuff, iOffset, 1);					// number of ids.
+	CAPISocket::MP_AddShort(byBuff, iOffset, iID);					// IDs for which detailed information is required.
 
 	s_pSocket->Send(byBuff, iOffset);
 }
 
-void CGameProcMain::MsgSend_UserInRequest(int iID) // User 정보가 없을 경우 요청한다..
+void CGameProcMain::MsgSend_UserInRequest(int iID) // Request if there is no user information.
 {
 	TRACE("found User ghost (ID:%d)\n", iID);
 
-	int iOffset=0;													// 버퍼의 오프셋..
-	BYTE byBuff[32];;												// 패킷 버퍼..
-	CAPISocket::MP_AddByte(byBuff, iOffset, N3_REQUEST_USER_IN);	// 커멘드.
-	CAPISocket::MP_AddShort(byBuff, iOffset, 1);					// 아이디 갯수..
-	CAPISocket::MP_AddShort(byBuff, iOffset, iID);					// 자세한 정보가 필요한 아이디들..
+	int iOffset=0;													// Offset of buffer..
+	BYTE byBuff[32];;												// Packet buffer...
+	CAPISocket::MP_AddByte(byBuff, iOffset, N3_REQUEST_USER_IN);	// command.
+	CAPISocket::MP_AddShort(byBuff, iOffset, 1);					// number of ids.
+	CAPISocket::MP_AddShort(byBuff, iOffset, iID);					// IDs for which detailed information is required.
 
 	s_pSocket->Send(byBuff, iOffset);
 }
 
 
-void CGameProcMain::MsgSend_Warp() // 워프 - 존이동이 될수도 있다..
+void CGameProcMain::MsgSend_Warp() // Warp - can be zone movement..
 {
 	__WarpInfo WI;
 	const int iSel = m_pUIWarp->InfoGetCur(WI);
@@ -3861,11 +3861,11 @@ void CGameProcMain::MsgSend_Warp() // 워프 - 존이동이 될수도 있다..
 	int iOffset = 0;
 
 	CAPISocket::MP_AddByte(byBuff, iOffset, N3_WARP_LIST);
-	CAPISocket::MP_AddByte(byBuff, iOffset, WI.iID); // 워프 아이디 보내기...
+	CAPISocket::MP_AddByte(byBuff, iOffset, WI.iID); // Send Warp ID...
 	s_pSocket->Send(byBuff, iOffset);
 }
 
-void CGameProcMain::MsgSend_ZoneChangeComplete() // 존 체인지 완료.. (맵 로딩 끝..)
+void CGameProcMain::MsgSend_ZoneChangeComplete() // Zone change complete.. (map loading finished..)
 {
 	BYTE byBuff[4];
 	int iOffset = 0;
@@ -3884,7 +3884,7 @@ void CGameProcMain::DoCommercialTransaction(int iTradeID)
 	if ( !m_pUITransactionDlg->IsVisible() )
 		m_pUITransactionDlg->SetVisible(true);
 
-	if (m_pUIInventory->IsVisible()) // 인벤토리가 안열려 있으면..
+	if (m_pUIInventory->IsVisible()) // If your inventory isn&#39;t open...
 		this->CommandToggleUIInventory();
 
 	if (m_pUISkillTreeDlg->IsVisible())
@@ -3893,7 +3893,7 @@ void CGameProcMain::DoCommercialTransaction(int iTradeID)
 	m_pUITransactionDlg->EnterTransactionState();
 }
 
-bool CGameProcMain::MsgRecv_ItemTradeStart(DataPack* pDataPack, int& iOffset)			// 아이템 상거래..
+bool CGameProcMain::MsgRecv_ItemTradeStart(DataPack* pDataPack, int& iOffset)			// Item trade...
 {
 	const int iTradeID = CAPISocket::Parse_GetDword(pDataPack->m_pData, iOffset);		// Trade id
 	CPlayerNPC* pNPC = s_pOPMgr->NPCGetByID(s_pPlayer->m_iIDTarget, true);
@@ -3903,7 +3903,7 @@ bool CGameProcMain::MsgRecv_ItemTradeStart(DataPack* pDataPack, int& iOffset)			
 	return true;
 }
 
-bool CGameProcMain::MsgRecv_ItemTradeResult(DataPack* pDataPack, int& iOffset)			// 아이템 상거래 결과..
+bool CGameProcMain::MsgRecv_ItemTradeResult(DataPack* pDataPack, int& iOffset)			// Item transaction result..
 {
 	byte bfType = 0x00;	int	iMoney = 0;
 	const byte bResult = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);		// Trade id
@@ -3934,26 +3934,26 @@ bool CGameProcMain::MsgRecv_ItemTradeResult(DataPack* pDataPack, int& iOffset)		
 
 void CGameProcMain::InitZone(int iZone, const __Vector3& vPosPlayer)
 {
-	if(m_pSnd_Battle) m_pSnd_Battle->Stop(0.0f); // 음악 멈추기..
+	if(m_pSnd_Battle) m_pSnd_Battle->Stop(0.0f); // stop the music...
 	if(m_pSnd_Town) m_pSnd_Town->Stop(0.0f);
 
-	MsgSend_SpeedCheck(true);		// 스피드핵 체크 기준시간 정하기
+	MsgSend_SpeedCheck(true);		// Setting the speed hack check standard time
 	static int iZonePrev = -1;
-	if(iZonePrev != iZone) // 다른 존일 경우에만 로딩..
+	if(iZonePrev != iZone) // Loading only in case of other zones..
 	{
 		m_pLightMgr->Release();
 		s_pEng->SetDefaultLight(m_pLightMgr->Light(0), m_pLightMgr->Light(1), m_pLightMgr->Light(2));
 
-		if(m_pUIChatDlg) m_pUIChatDlg->ChangeChattingMode(N3_CHAT_NORMAL); //존 이동을 하면 일반 채팅상태로 바꿔준다.
-		if(m_pUIPartyOrForce) m_pUIPartyOrForce->MemberDestroy();	//존 이동을 할때 파티를 깬다...
-		this->UpdateUI_PartyOrForceButtons(); // 커맨드 줄에 있는 파티 버튼을 상황에 따라 업데이트 해준다.
+		if(m_pUIChatDlg) m_pUIChatDlg->ChangeChattingMode(N3_CHAT_NORMAL); // If you move the zone, it changes to the normal chatting state.
+		if(m_pUIPartyOrForce) m_pUIPartyOrForce->MemberDestroy();	// Breaking up the party when moving zones...
+		this->UpdateUI_PartyOrForceButtons(); // Updates the party button on the command line as needed.
 
-		s_pPlayer->m_bMoveContinous = true; // 멈춘다..
+		s_pPlayer->m_bMoveContinous = true; // stop...
 		this->CommandToggleMoveContinous();
 
 		CLogWriter::Write("CGameProcMain::InitZone -> Zone Change (%d -> %d) Position(%.1f, %.1f, %.1f)", iZonePrev, iZone, vPosPlayer.x, vPosPlayer.y, vPosPlayer.z);
 
-		m_bLoadComplete = false; // 로딩 끝남..
+		m_bLoadComplete = false; // Loading finished...
 		CLogWriter::Write("%d->ClearDurationalMagic()",m_pMagicSkillMng); // TmpLog1122
 		m_pMagicSkillMng->ClearDurationalMagic();
 		CLogWriter::Write("%d->ClearAll()", s_pFX); // TmpLog1122
@@ -3966,7 +3966,7 @@ void CGameProcMain::InitZone(int iZone, const __Vector3& vPosPlayer)
 		}
 		
 		s_pPlayer->m_InfoExt.iZoneCur = iZone;
-		iZonePrev = iZone; // 최근에 읽은 존 번호를 기억해둔다.
+		iZonePrev = iZone; // Remember the last read zone number.
 
 		CLogWriter::Write("%d->Find(s_pPlayer->m_InfoExt.iZoneCur)",s_pTbl_Zones); // TmpLog1122
 		__TABLE_ZONE* pZoneData = s_pTbl_Zones->Find(s_pPlayer->m_InfoExt.iZoneCur);
@@ -3974,11 +3974,11 @@ void CGameProcMain::InitZone(int iZone, const __Vector3& vPosPlayer)
 
 		CLogWriter::Write("%d->Release()",s_pOPMgr); // TmpLog1122
 
-		s_pOPMgr->Release(); // 다른 넘들 다 날린다..
+		s_pOPMgr->Release(); // Everyone else flies.
 		CLogWriter::Write("%d->InitWorld()",s_pWorldMgr); // TmpLog1122
 		s_pWorldMgr->InitWorld(iZone, vPosPlayer);
 
-		// 미니맵 로딩..
+		// Loading the minimap...
 		CLogWriter::Write("%d->GetWidthByMeterWithTerrain()",ACT_WORLD); // TmpLog1122
 		const float fWidth = ACT_WORLD->GetWidthByMeterWithTerrain();
 		CLogWriter::Write("%d->LoadMap()",m_pUIStateBarAndMiniMap); // TmpLog1122
@@ -3986,15 +3986,15 @@ void CGameProcMain::InitZone(int iZone, const __Vector3& vPosPlayer)
 		m_pUIStateBarAndMiniMap->LoadMap(pZoneData->szMiniMapFN, fWidth, fWidth);
 
 		CLogWriter::Write("GetRepresentClass()"); // TmpLog1122
-		// 줌 비율 정하기..
+		// Set the zoom ratio...
 		float fZoom = 6.0f;
 		const e_Class_Represent eCR = CGameProcedure::GetRepresentClass(s_pPlayer->m_InfoBase.eClass);
-		if(CLASS_REPRESENT_ROGUE == eCR) fZoom = 3.0f; // 로그 계열은 맵이 좀더 널리 자세히 보인다..
+		if(CLASS_REPRESENT_ROGUE == eCR) fZoom = 3.0f; // The log series shows more extensive and detailed maps.
 		CLogWriter::Write("%d->ZoomSet()",m_pUIStateBarAndMiniMap); // TmpLog1122
 		m_pUIStateBarAndMiniMap->ZoomSet(fZoom);
 
 		CLogWriter::Write("%d->szTerrainFN.c_str()",pZoneData); // TmpLog1122
-		//char szBuf[256];
+		// char szBuf[256];
 		char szFName[_MAX_PATH];
 		_splitpath(pZoneData->szTerrainFN.c_str(), nullptr, nullptr, szFName, nullptr);
 		char szFName2[_MAX_PATH];
@@ -4004,11 +4004,11 @@ void CGameProcMain::InitZone(int iZone, const __Vector3& vPosPlayer)
 
 		m_pLightMgr->LoadZoneLight(pZoneData->szLightObjFN.c_str());
 
-		m_bLoadComplete = true; // 로딩 끝남..
+		m_bLoadComplete = true; // Loading finished...
 	}
 		
-	// 카메라 세팅..
-	CN3Camera* pCamera		= s_pEng->CameraGetActive();		// 활성화된 카메라 얻기..
+	// camera settings...
+	CN3Camera* pCamera		= s_pEng->CameraGetActive();		// Get the camera activated...
 	if(pCamera)
 	{
 		__Vector3 vPosPlayer = s_pPlayer->Position();
@@ -4023,24 +4023,24 @@ void CGameProcMain::InitZone(int iZone, const __Vector3& vPosPlayer)
 		CLogWriter::Write("pCamera->Apply()"); // TmpLog1122
 		pCamera->Apply();
 	}
-	// 기본적인 캐릭터위치와 카메라 위치 잡기..
-	////////////////////////////////////////////////////////////////////////////////
+	// Basic character positioning and camera positioning..
+	// 
 
 	CLogWriter::Write("InitPlayerPosition() Position(%.1f, %.1f, %.1f)",vPosPlayer.x, vPosPlayer.y, vPosPlayer.z); // TmpLog1122
-	this->InitPlayerPosition(vPosPlayer); // 플레이어 위치 초기화.. 일으켜 세우고, 기본동작을 취하게 한다.
+	this->InitPlayerPosition(vPosPlayer); // Initialize the player position.. Raise him up and make him take the basic action.
 	CLogWriter::Write("%d->Release()2",s_pOPMgr); // TmpLog1122
-	s_pOPMgr->Release(); // 다른 플레이어 삭제...
+	s_pOPMgr->Release(); // Delete other players...
 }
 
 
 void CGameProcMain::MsgSend_GameStart()
 {
-	BYTE byBuff[32];															// 패킷 버퍼..
-	int iOffset=0;															// 패킷 오프셋..
+	BYTE byBuff[32];															// Packet buffer...
+	int iOffset=0;															// Packet Offset...
 
-	CAPISocket::MP_AddByte(byBuff, iOffset, N3_GAMESTART);						// 게임 스타트 패킷 커멘드..
-	CAPISocket::MP_AddByte(byBuff, iOffset, s_pPlayer->IDString().size());		// 아이디 길이 패킷에 넣기..
-	CAPISocket::MP_AddString(byBuff, iOffset, s_pPlayer->IDString());			// 아이디 문자열 패킷에 넣기..
+	CAPISocket::MP_AddByte(byBuff, iOffset, N3_GAMESTART);						// Game Start Packet Commands..
+	CAPISocket::MP_AddByte(byBuff, iOffset, s_pPlayer->IDString().size());		// ID Length Packet..
+	CAPISocket::MP_AddString(byBuff, iOffset, s_pPlayer->IDString());			// Put the ID string in the packet..
 
 	s_pSocket->Send(byBuff, iOffset);	
 }
@@ -4050,7 +4050,7 @@ bool CGameProcMain::CommandToggleWalkRun()
 	const bool bRun = s_pPlayer->ToggleRunMode();
 	const bool bMove = s_pPlayer->m_bMoveContinous;
 
-	// 커맨드 버튼 업데이트..
+	// Command button update..
 	if(m_pUICmd->m_pBtn_Act_Walk)
 	{
 		m_pUICmd->m_pBtn_Act_Walk->SetVisible(bRun);
@@ -4079,7 +4079,7 @@ bool CGameProcMain::CommandToggleMoveContinous()
 {
 	if(s_pPlayer->IsDead()) return false;
 
-	s_pPlayer->ToggleMoveMode();				// 자동 전진 토글.. 
+	s_pPlayer->ToggleMoveMode();				// Auto advance toggle..
 	if(s_pPlayer->m_bMoveContinous)
 	{
 		this->CommandMove(MD_FOWARD, true);
@@ -4088,7 +4088,7 @@ bool CGameProcMain::CommandToggleMoveContinous()
 	}
 	else
 	{
-		this->CommandMove(MD_STOP, true); // 움직임 패킷 보내기..
+		this->CommandMove(MD_STOP, true); // Send movement packets..
 		if(m_pUICmd->m_pBtn_Act_Run) m_pUICmd->m_pBtn_Act_Run->SetState(UI_STATE_BUTTON_NORMAL);
 		if(m_pUICmd->m_pBtn_Act_Walk) m_pUICmd->m_pBtn_Act_Walk->SetState(UI_STATE_BUTTON_NORMAL);
 	}
@@ -4098,35 +4098,35 @@ bool CGameProcMain::CommandToggleMoveContinous()
 
 void CGameProcMain::CommandMove(e_MoveDirection eMD, bool bStartOrEnd)
 {
-	if(bStartOrEnd) this->CloseUIs(); // 각종 상거래, 워프등등... UI 닫기..
+	if(bStartOrEnd) this->CloseUIs(); // Various commerce, warp, etc... Closing the UI...
 
-	if(s_pPlayer->IsDead()) return; // 죽은 넘이 어딜 감히!!
+	if(s_pPlayer->IsDead()) return; // How dare you die!
 
 	if(MD_FOWARD == eMD || MD_BACKWARD == eMD)
 	{
 		s_pUIMgr->UserMoveHideUIs();
-		this->CommandSitDown(false, false, true); // 일으켜 세우고..
-		if(s_pPlayer->m_bStun) return; // 기절해 있음 움직이지 못함..
+		this->CommandSitDown(false, false, true); // stand up and...
+		if(s_pPlayer->m_bStun) return; // Passed out, can&#39;t move..
 		if(MD_FOWARD == eMD)
 		{
-			if(s_pPlayer->IsRunning()) s_pPlayer->ActionMove(PSM_RUN); // 뛰어가기..
-			else s_pPlayer->ActionMove(PSM_WALK); // 걸어가기..
+			if(s_pPlayer->IsRunning()) s_pPlayer->ActionMove(PSM_RUN); // run away...
+			else s_pPlayer->ActionMove(PSM_WALK); // to walk...
 		}
 		else
 		{
-			s_pPlayer->ActionMove(PSM_WALK_BACKWARD); // 후진..
+			s_pPlayer->ActionMove(PSM_WALK_BACKWARD); // junior..
 		}
 
-		if( bStartOrEnd ) // 움직이기 시작할때에는 충돌체크를 먼저 해본다..
+		if( bStartOrEnd ) // When moving, first check for collision.
 		{
-			const float fSpeed = s_pPlayer->MoveSpeedCalculationAndCheckCollision(); // 속도를 구하고 그 속도로 충돌 체크를 한다. 리턴값이 0 이면 충돌이다..
-			if(0 == fSpeed) // 못움직이는 상황이면..
+			const float fSpeed = s_pPlayer->MoveSpeedCalculationAndCheckCollision(); // Get the speed and do a collision check with that speed. If the return value is 0, it is a collision.
+			if(0 == fSpeed) // If you can&#39;t move...
 			{
-				s_pPlayer->ActionMove(PSM_STOP); // 멈춤..
+				s_pPlayer->ActionMove(PSM_STOP); // stoppage..
 			}
 			else
 			{
-				this->MsgSend_Move(true, false); // 움직이는 순간이면.. 움직임 시작 패킷 보내기.
+				this->MsgSend_Move(true, false); // At the moment of movement... Send movement start packet.
 			}
 
 			if(m_pUICmd->m_pBtn_Act_Run) m_pUICmd->m_pBtn_Act_Run->SetState(UI_STATE_BUTTON_DOWN);
@@ -4135,20 +4135,20 @@ void CGameProcMain::CommandMove(e_MoveDirection eMD, bool bStartOrEnd)
 	}
 	else if(MD_STOP == eMD)
 	{
-		s_pPlayer->m_bMoveContinous = false; // 계속 걸음 멈춤..
+		s_pPlayer->m_bMoveContinous = false; // Stop walking...
 		s_pPlayer->ActionMove(PSM_STOP);
 		
 		if(m_pUICmd->m_pBtn_Act_Run) m_pUICmd->m_pBtn_Act_Run->SetState(UI_STATE_BUTTON_NORMAL);
 		if(m_pUICmd->m_pBtn_Act_Walk) m_pUICmd->m_pBtn_Act_Walk->SetState(UI_STATE_BUTTON_NORMAL);
 
-		this->MsgSend_Move(false, false); // 움직임 멈춤 패킷 보내기.
+		this->MsgSend_Move(false, false); // Send motion stop packets.
 	}
 
-	if(s_pPlayer->m_bAttackContinous) // 공격중이면..
+	if(s_pPlayer->m_bAttackContinous) // If you are attacking...
 	{
 		CPlayerBase* pTarget = s_pOPMgr->CharacterGetByID(s_pPlayer->m_iIDTarget, false);
-		if(s_pPlayer->IsAttackableTarget(pTarget)) // 공격 가능하면..
-			s_pPlayer->Action(PSA_ATTACK, false, pTarget); // 공격
+		if(s_pPlayer->IsAttackableTarget(pTarget)) // Attack if possible.
+			s_pPlayer->Action(PSA_ATTACK, false, pTarget); // attack
 	}
 }
 
@@ -4157,15 +4157,15 @@ void CGameProcMain::CommandEnableAttackContinous(bool bEnable, CPlayerBase* pTar
 	if(bEnable == s_pPlayer->m_bAttackContinous) return;
 	if(bEnable)
 	{
-		this->CloseUIs(); // 각종 상거래, 워프등등... UI 닫기..
+		this->CloseUIs(); // Various commerce, warp, etc... Closing the UI...
 		s_pUIMgr->UserMoveHideUIs();
 
-		if(s_pPlayer->m_bStun) return; // 기절해 있음 공격 못함..
+		if(s_pPlayer->m_bStun) return; // I&#39;m stunned, I can&#39;t attack.
 		if(nullptr == pTarget) return;
-		s_pPlayer->RotateTo(pTarget); // 방향을 돌린다.
-		if(pTarget->m_InfoBase.eNation == s_pPlayer->m_InfoBase.eNation) return; // 국가가 같으면 넘어간다..
+		s_pPlayer->RotateTo(pTarget); // turn
+		if(pTarget->m_InfoBase.eNation == s_pPlayer->m_InfoBase.eNation) return; // If the country is the same, skip it.
 	}
-	s_pPlayer->m_bAttackContinous = bEnable; // 상태를 기록하고..
+	s_pPlayer->m_bAttackContinous = bEnable; // Record the status...
 
 	if(bEnable)
 		SetGameCursor(s_hCursorAttack);
@@ -4182,7 +4182,7 @@ void CGameProcMain::CommandEnableAttackContinous(bool bEnable, CPlayerBase* pTar
 	}
 
 	std::string szMsg;
-	if(	bEnable ) // 자동 공격!
+	if(	bEnable ) // Auto attack!
 	{
 		::_LoadStringFromResource(IDS_MSG_ATTACK_START, szMsg);
 		szMsg = pTarget->IDString() + szMsg;
@@ -4191,7 +4191,7 @@ void CGameProcMain::CommandEnableAttackContinous(bool bEnable, CPlayerBase* pTar
 		if(s_pPlayer->IsAttackableTarget(pTarget))
 			s_pPlayer->Action(PSA_BASIC, true, pTarget);
 	}
-	else // 자동 공격 아님.
+	else // No auto attack.
 	{
 		::_LoadStringFromResource(IDS_MSG_ATTACK_STOP, szMsg);
 		s_pPlayer->Action(PSA_BASIC, true, pTarget);
@@ -4200,7 +4200,7 @@ void CGameProcMain::CommandEnableAttackContinous(bool bEnable, CPlayerBase* pTar
 	this->MsgOutput(szMsg, 0xff00ffff);
 
 
-	if(	bEnable && false == s_pPlayer->IsAttackableTarget(pTarget)) // 국가, 거리 및 각도 체크해서 공격 불가능하면 돌아가기..
+	if(	bEnable && false == s_pPlayer->IsAttackableTarget(pTarget)) // Check the country, distance and angle and return if it is impossible to attack.
 	{
 		std::string szMsg; ::_LoadStringFromResource(IDS_MSG_ATTACK_DISABLE, szMsg);
 		this->MsgOutput(szMsg, 0xffffff00);
@@ -4218,12 +4218,12 @@ bool CGameProcMain::CommandToggleUIState()
 	}
 	else m_pUIVar->Close();
 
-	// 커맨드 버튼 업데이트..
-//	if(m_pUICmd->m_pBtn_Character)
-//	{
-//		if(bNeedOpen) m_pUICmd->m_pBtn_Character->SetState(UI_STATE_BUTTON_DOWN); // 버튼 누름 해제..
-//		else m_pUICmd->m_pBtn_Character->SetState(UI_STATE_BUTTON_NORMAL); // 버튼 누름
-//	}
+	// Command button update..
+	// if(m_pUICmd->m_pBtn_Character)
+	// {
+		// if(bNeedOpen) m_pUICmd-&gt;m_pBtn_Character-&gt;SetState(UI_STATE_BUTTON_DOWN); // Release button press..
+		// else m_pUICmd-&gt;m_pBtn_Character-&gt;SetState(UI_STATE_BUTTON_NORMAL); // 버튼 누름
+	// }
 
 	return bNeedOpen;
 }
@@ -4232,7 +4232,7 @@ bool CGameProcMain::CommandToggleUIInventory()
 {
 	bool bNeedOpen = false;
 
-	// 개인 거래중이면..
+	// If you are dealing privately...
 	if (m_pSubProcPerTrade->m_ePerTradeState != PER_TRADE_STATE_NONE)
 		return bNeedOpen;
 
@@ -4277,7 +4277,7 @@ bool CGameProcMain::CommandToggleUISkillTree()
 {
 	const bool bNeedOpen = !(m_pUISkillTreeDlg->IsVisible());
 
-	// 개인 거래중이면..
+	// If you are dealing privately...
 	if (m_pSubProcPerTrade->m_ePerTradeState != PER_TRADE_STATE_NONE)
 		return bNeedOpen;
 
@@ -4306,7 +4306,7 @@ bool CGameProcMain::CommandToggleUIMiniMap()
 	return m_pUIStateBarAndMiniMap->ToggleMiniMap();
 }
 
-void CGameProcMain::CommandCameraChange() // 카메라 시점 바꾸기..
+void CGameProcMain::CommandCameraChange() // Change the camera perspective...
 {
 	if(VP_THIRD_PERSON == s_pEng->ViewPoint() && s_pPlayer->m_bTargetOrPosMove)
 	{
@@ -4315,7 +4315,7 @@ void CGameProcMain::CommandCameraChange() // 카메라 시점 바꾸기..
 		CommandToggleMoveContinous();
 	}
 
-	s_pEng->ViewPointChange(VP_UNKNOWN); // 순서대로 시점을 바꾼다..
+	s_pEng->ViewPointChange(VP_UNKNOWN); // Change the point of view in order.
 }
 
 void CGameProcMain::MsgOutput(const std::string& szMsg, D3DCOLOR crMsg)
@@ -4323,7 +4323,7 @@ void CGameProcMain::MsgOutput(const std::string& szMsg, D3DCOLOR crMsg)
 	m_pUIMsgDlg->AddMsg(szMsg, crMsg);
 }
 
-bool CGameProcMain::MsgRecv_ItemDroppedGetResult(DataPack* pDataPack, int& iOffset)	// 땅에 떨어진 아이템 먹기 결과..
+bool CGameProcMain::MsgRecv_ItemDroppedGetResult(DataPack* pDataPack, int& iOffset)	// The result of eating an item that fell on the ground...
 {
 	BYTE	bResult; 
 	BYTE	bPos;
@@ -4374,16 +4374,16 @@ void CGameProcMain::MsgRecv_ZoneChange(DataPack* pDataPack, int& iOffset)
 	vPosPlayer.x = fX;
 	vPosPlayer.y = fY;
 	vPosPlayer.z = fZ;
-	this->InitPlayerPosition(vPosPlayer); // 플레이어 위치 초기화.. 일으켜 세우고, 기본동작을 취하게 한다.
-	s_pPlayer->RegenerateCollisionMesh(); // 충돌 메시를 다시 만든다..
-	s_pPlayer->m_iSendRegeneration = 0; // 한번 보내면 다시 죽을때까지 안보내는 플래그
-	s_pPlayer->m_fTimeAfterDeath = 0; // 한번 보내면 다시 죽을때까지 안보내는 플래그
+	this->InitPlayerPosition(vPosPlayer); // Initialize the player position.. Raise him up and make him take the basic action.
+	s_pPlayer->RegenerateCollisionMesh(); // Recreate the collision mesh.
+	s_pPlayer->m_iSendRegeneration = 0; // Once sent, a flag that will not be seen until it dies again
+	s_pPlayer->m_fTimeAfterDeath = 0; // Once sent, a flag that will not be seen until it dies again
 
 	if(s_pPlayer->IsDead())
 	{
 		TRACE("ZoneChange - 다시 살아나기(%.1f, %.1f)\n", fX, fZ);
 
-		//마법 & 효과 초기화..
+		// Magic &amp; Effect Reset..
 		if(m_pUIStateBarAndMiniMap) m_pUIStateBarAndMiniMap->ClearMagic();
 		if(m_pMagicSkillMng) m_pMagicSkillMng->ClearDurationalMagic();
 		if(CGameProcedure::s_pFX) s_pFX->StopMine();
@@ -4407,9 +4407,9 @@ void CGameProcMain::MsgRecv_UserState(DataPack* pDataPack, int& iOffset)
 	
 	if(nullptr == pBPC) return;
 
-	if(N3_SP_STATE_CHANGE_SITDOWN == eSP) // 앉기,서기,죽음...
+	if(N3_SP_STATE_CHANGE_SITDOWN == eSP) // Sitting, standing, dying...
 	{
-		if(pBPC != s_pPlayer) // 플레이어가 아닐때..
+		if(pBPC != s_pPlayer) // When not a player...
 		{
 			if(0x01 == iState) 
 				pBPC->Action(PSA_BASIC, true);
@@ -4419,7 +4419,7 @@ void CGameProcMain::MsgRecv_UserState(DataPack* pDataPack, int& iOffset)
 				pBPC->Action(PSA_DYING, false, nullptr, true);
 		}
 	}
-	else if(N3_SP_STATE_CHANGE_RECRUIT_PARTY == eSP) // 파티 구함..
+	else if(N3_SP_STATE_CHANGE_RECRUIT_PARTY == eSP) // Looking for a party...
 	{
 		if(0x01 == iState) 
 		{
@@ -4440,21 +4440,21 @@ void CGameProcMain::MsgRecv_UserState(DataPack* pDataPack, int& iOffset)
 			pBPC->InfoStringSet(szBuff, 0xff00ff00);
 		}
 	}
-	else if(N3_SP_STATE_CHANGE_SIZE == eSP) // 크기 변함
+	else if(N3_SP_STATE_CHANGE_SIZE == eSP) // change in size
 	{
 		if(0x01 == iState)
 		{
-			pBPC->ScaleSetGradually(1.0f); // 보통 크기..
-			pBPC->FlickerFactorSet(1.0f); // 부활되서 반투명.. 깜박거린다..
+			pBPC->ScaleSetGradually(1.0f); // normal size..
+			pBPC->FlickerFactorSet(1.0f); // Resurrected, translucent... flickering...
 		}
-		else if(0x02 == iState) pBPC->ScaleSetGradually(2.0f); // 커졌다..
-		else if(0x03 == iState) pBPC->ScaleSetGradually(0.5f);// 작아졌다.
-		else if(0x04 == iState) pBPC->FlickerFactorSet(0.7f); // 부활되서 반투명.. 깜박거린다..
+		else if(0x02 == iState) pBPC->ScaleSetGradually(2.0f); // got bigger...
+		else if(0x03 == iState) pBPC->ScaleSetGradually(0.5f);// got smaller
+		else if(0x04 == iState) pBPC->FlickerFactorSet(0.7f); // Resurrected, translucent... flickering...
 	}
-	else if(N3_SP_STATE_CHANGE_ACTION == eSP) // 크기 변함
+	else if(N3_SP_STATE_CHANGE_ACTION == eSP) // change in size
 	{
-		if(1 == iState) pBPC->AnimationAdd(ANI_GREETING0, true); // 인사
-		else if(11 == iState) pBPC->AnimationAdd(ANI_WAR_CRY1, true); // 도발
+		if(1 == iState) pBPC->AnimationAdd(ANI_GREETING0, true); // greeting
+		else if(11 == iState) pBPC->AnimationAdd(ANI_WAR_CRY1, true); // provocation
 	}
 }
 
@@ -4487,12 +4487,12 @@ void CGameProcMain::MsgRecv_Notice(DataPack* pDataPack, int& iOffset)
 
 void CGameProcMain::MsgRecv_PartyOrForce(DataPack* pDataPack, int& iOffset)
 {
-//	int iPartyOrForce = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
+// int iPartyOrForce = CAPISocket::Parse_GetByte(pDataPack-&gt;m_pData, iOffset);
 	int iSubCmd	= CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
 	
 	switch(iSubCmd)
 	{
-		case N3_SP_PARTY_OR_FORCE_PERMIT:			// 0x02	// Send - b1(YesNo) | Recv - s1(ID) 요청한 사람의 ID
+		case N3_SP_PARTY_OR_FORCE_PERMIT:			// 0x02 // Send - b1(YesNo) | Recv - s1(ID) The ID of the person making the request
 		{
 			int iID			= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
 			int iStrLen		= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
@@ -4507,7 +4507,7 @@ void CGameProcMain::MsgRecv_PartyOrForce(DataPack* pDataPack, int& iOffset)
 		}
 		break;
 
-		case N3_SP_PARTY_OR_FORCE_INSERT:			// 0x02	// Send - s1(ID) | Recv - s3(ID, HPMax, HP) b2(Level, Class) - 문자열은 ID 로 알아낸다..
+		case N3_SP_PARTY_OR_FORCE_INSERT:			// 0x02 // Send - s1(ID) | Recv - s3(ID, HPMax, HP) b2(Level, Class) - Find out the string by ID.
 		{
 			int iID			= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
 			if(iID >= 0)
@@ -4519,39 +4519,39 @@ void CGameProcMain::MsgRecv_PartyOrForce(DataPack* pDataPack, int& iOffset)
 				int iLevel		= CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
 				auto eClass	= (e_Class)(CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset));
 
-				m_pUIPartyOrForce->MemberAdd(iID, szID, iLevel, eClass, iHP, iHPMax); // 다른넘 파티에추가..
-				if(iID != s_pPlayer->IDNumber()) // 자기 자신이 아닌 경우 메시지 출력.
+				m_pUIPartyOrForce->MemberAdd(iID, szID, iLevel, eClass, iHP, iHPMax); // Add another party...
+				if(iID != s_pPlayer->IDNumber()) // Output message if not self.
 				{
 					std::string szMsg; ::_LoadStringFromResource(IDS_PARTY_INSERT, szMsg);
 					this->MsgOutput(szID + szMsg, D3DCOLOR_ARGB(255,255,255,255));
 				}
 			}
-			else // 파티에 들어올수 없다..
+			else // I can&#39;t come to the party...
 			{
 				std::string szMsg;
 
-				if(-1 == iID) ::_LoadStringFromResource(IDS_PARTY_INSERT_ERR_REJECTED, szMsg); // 상대방이 파티에 들어오기를 거절 하였다..
-				else if(-2 == iID) ::_LoadStringFromResource(IDS_PARTY_INSERT_ERR_LEVEL_DIFFERENCE, szMsg); // 레벨 차이가 너무 난다...
-				else if(-3 == iID) ::_LoadStringFromResource(IDS_PARTY_INSERT_ERR_INVALID_NATION, szMsg); // 파티를 맺을 수 없는 국가이다.
-				else ::_LoadStringFromResource(IDS_PARTY_INSERT_ERR, szMsg); // 상대방이 파티에 들어오기를 거절 하였다..
+				if(-1 == iID) ::_LoadStringFromResource(IDS_PARTY_INSERT_ERR_REJECTED, szMsg); // The other party refused to join the party.
+				else if(-2 == iID) ::_LoadStringFromResource(IDS_PARTY_INSERT_ERR_LEVEL_DIFFERENCE, szMsg); // The level difference is too big...
+				else if(-3 == iID) ::_LoadStringFromResource(IDS_PARTY_INSERT_ERR_INVALID_NATION, szMsg); // It&#39;s a country where you can&#39;t party.
+				else ::_LoadStringFromResource(IDS_PARTY_INSERT_ERR, szMsg); // The other party refused to join the party.
 
 				this->MsgOutput(szMsg, D3DCOLOR_ARGB(255,255,255,255));
-				if(m_pUIPartyOrForce->MemberCount() == 1) m_pUIPartyOrForce->MemberDestroy(); // 멤버가 한명이면 내가 파티를 만든 경우다.
+				if(m_pUIPartyOrForce->MemberCount() == 1) m_pUIPartyOrForce->MemberDestroy(); // If there is only one member, it is the case that I created the party.
 			}
 			
-			this->UpdateUI_PartyOrForceButtons(); // 커맨드 줄에 있는 파티 버튼을 상황에 따라 업데이트 해준다.
+			this->UpdateUI_PartyOrForceButtons(); // Updates the party button on the command line as needed.
 		}
 		break;
 	
-		case N3_SP_PARTY_OR_FORCE_REMOVE:			// 0x03	// Send - s1(ID) | Recv - s1(ID) - 
+		case N3_SP_PARTY_OR_FORCE_REMOVE:			// 0x03	// Send - s1(ID) | Recv - s1(ID) -
 		{
 			int iID			= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
 
 			if(iID == s_pPlayer->IDNumber())
 			{
-				std::string szMsg; ::_LoadStringFromResource(IDS_PARTY_DESTROY, szMsg); // 파티를 떠났다..
-				this->MsgOutput(szMsg, D3DCOLOR_ARGB(255,255,255,255));  // 파티 해제 메시지
-				m_pUIPartyOrForce->MemberDestroy(); // 자기 자신이면.. 파티를 뽀갠다..
+				std::string szMsg; ::_LoadStringFromResource(IDS_PARTY_DESTROY, szMsg); // left the party...
+				this->MsgOutput(szMsg, D3DCOLOR_ARGB(255,255,255,255));  // party release message
+				m_pUIPartyOrForce->MemberDestroy(); // If you&#39;re yourself... you&#39;ll have a party.
 			}
 			else
 			{
@@ -4559,27 +4559,27 @@ void CGameProcMain::MsgRecv_PartyOrForce(DataPack* pDataPack, int& iOffset)
 				const __InfoPartyOrForce* pInfo = m_pUIPartyOrForce->MemberInfoGetByID(iID, iMemberIndex);
 				if(pInfo)
 				{
-					std::string szMsg; ::_LoadStringFromResource(IDS_PARTY_LEAVE, szMsg); // 파티를 떠났다..
-					this->MsgOutput(pInfo->szID + szMsg, D3DCOLOR_ARGB(255,255,255,255)); // 누가 파티에서 떠났다는 메시지..
-					m_pUIPartyOrForce->MemberRemove(iID); // 남이면..
+					std::string szMsg; ::_LoadStringFromResource(IDS_PARTY_LEAVE, szMsg); // left the party...
+					this->MsgOutput(pInfo->szID + szMsg, D3DCOLOR_ARGB(255,255,255,255)); // A message saying someone left the party...
+					m_pUIPartyOrForce->MemberRemove(iID); // If others...
 				}
 			}
 
-			this->UpdateUI_PartyOrForceButtons(); // 커맨드 줄에 있는 파티 버튼을 상황에 따라 업데이트 해준다.
+			this->UpdateUI_PartyOrForceButtons(); // Updates the party button on the command line as needed.
 		}
 		break;
 		
 		case N3_SP_PARTY_OR_FORCE_DESTROY:			// 0x04	// Send
 		{
-			m_pUIPartyOrForce->MemberDestroy(); // 파티 뽀갠다..
+			m_pUIPartyOrForce->MemberDestroy(); // I&#39;m having a party..
 			std::string szMsg; ::_LoadStringFromResource(IDS_PARTY_DESTROY, szMsg);
 			this->MsgOutput(szMsg, D3DCOLOR_ARGB(255,255,255,255));
 
-			this->UpdateUI_PartyOrForceButtons(); // 커맨드 줄에 있는 파티 버튼을 상황에 따라 업데이트 해준다.
+			this->UpdateUI_PartyOrForceButtons(); // Updates the party button on the command line as needed.
 		}
 		break;
 
-		case N3_SP_PARTY_OR_FORCE_HP_CHANGE:		// 0x05	// Recv - s3(ID, HPMax, HP) - 자기 자신이면 파티를 깨야 한다..
+		case N3_SP_PARTY_OR_FORCE_HP_CHANGE:		// 0x05 // Recv - s3(ID, HPMax, HP) - If you are yourself, you must break the party.
 		{
 			int iID			= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
 			int iHPMax		= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
@@ -4598,7 +4598,7 @@ void CGameProcMain::MsgRecv_PartyOrForce(DataPack* pDataPack, int& iOffset)
 		}
 		break;
 		
-		case N3_SP_PARTY_OR_FORCE_CLASS_CHANGE:		// 0x07	// Recv - s1(ID), b1(Class)드물지만 전직할때...
+		case N3_SP_PARTY_OR_FORCE_CLASS_CHANGE:		// 0x07 // Recv - s1(ID), b1(Class) Rarely, but when changing jobs...
 		{
 			int iID			= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
 			auto eClass	= (e_Class)(CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset));
@@ -4607,7 +4607,7 @@ void CGameProcMain::MsgRecv_PartyOrForce(DataPack* pDataPack, int& iOffset)
 		}
 		break;
 		
-		case N3_SP_PARTY_OR_FORCE_STATUS_CHANGE:	// 0x08	// Recv - s1(ID), b1(Status)...독, 저주, 지속성마법, 축복
+		case N3_SP_PARTY_OR_FORCE_STATUS_CHANGE:	// 0x08 // Recv - s1(ID), b1(Status)...poison, curse, persistent magic, blessing
 		{
 			int iID	=			CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
 			auto ePS =	(e_PartyStatus)CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
@@ -4622,9 +4622,9 @@ void CGameProcMain::MsgRecv_PartyOrForce(DataPack* pDataPack, int& iOffset)
 
 void CGameProcMain::CommandSitDown(bool bLimitInterval, bool bSitDown, bool bImmediately)
 {
-	if(bSitDown == s_pPlayer->m_bSitDown) return; // 상태가 같으면 돌아간다..
+	if(bSitDown == s_pPlayer->m_bSitDown) return; // If the status is the same, go back.
 
-	// 앉기 서기 제한..
+	// Seating and standing restrictions.
 	if(bLimitInterval)
 	{
 		const float fTime = CN3Base::TimeGet();
@@ -4638,14 +4638,14 @@ void CGameProcMain::CommandSitDown(bool bLimitInterval, bool bSitDown, bool bImm
 
 	if(bSitDown)
 	{
-		if(eSM != PSM_STOP) // 뛰던 놈이면 멈춘다.
+		if(eSM != PSM_STOP) // If you are running, stop.
 			return;
 
-		if(this->m_pMagicSkillMng->IsCasting()) // 스킬 캐스팅 중이면 앉지 못한다..
+		if(this->m_pMagicSkillMng->IsCasting()) // You can&#39;t sit down while casting a skill.
 			return;
 
-		if(s_pPlayer->m_bAttackContinous) // 계속 공격하는 중이면..
-			this->CommandEnableAttackContinous(false, nullptr); // 계속 공격 취소..
+		if(s_pPlayer->m_bAttackContinous) // If you keep attacking...
+			this->CommandEnableAttackContinous(false, nullptr); // Continue to cancel the attack...
 	}
 
 	bool bVBs[2] = { false, false };
@@ -4655,13 +4655,13 @@ void CGameProcMain::CommandSitDown(bool bLimitInterval, bool bSitDown, bool bImm
 		eSA = PSA_SITDOWN;
 		bVBs[0] = false; bVBs[1] = true;
 		iState = 0x02;
-	} // 앉는 경우
+	} // If you sit down
 	else
 	{
 		eSA = PSA_BASIC;
 		bVBs[0] = true; bVBs[1] = false;
 		iState = 0x01;
-	} // 일어서는 경우
+	} // if you stand up
 	
 	s_pPlayer->m_bSitDown = bSitDown;
 	s_pPlayer->Action(eSA, true, nullptr, bImmediately);
@@ -4669,25 +4669,25 @@ void CGameProcMain::CommandSitDown(bool bLimitInterval, bool bSitDown, bool bImm
 	if(m_pUICmd->m_pBtn_Act_SitDown)
 	{
 		m_pUICmd->m_pBtn_Act_SitDown->SetVisible(bVBs[0]);
-		m_pUICmd->m_pBtn_Act_SitDown->SetState(UI_STATE_BUTTON_DOWN); // 버튼 누름
+		m_pUICmd->m_pBtn_Act_SitDown->SetState(UI_STATE_BUTTON_DOWN); // button press
 	}
 	if(m_pUICmd->m_pBtn_Act_StandUp)
 	{
 		m_pUICmd->m_pBtn_Act_StandUp->SetVisible(bVBs[1]);
-		m_pUICmd->m_pBtn_Act_StandUp->SetState(UI_STATE_BUTTON_DOWN); // 버튼 누름
+		m_pUICmd->m_pBtn_Act_StandUp->SetState(UI_STATE_BUTTON_DOWN); // button press
 	}
 
-	this->MsgSend_StateChange(N3_SP_STATE_CHANGE_SITDOWN, iState); // 앉았다.. 패킷..
+	this->MsgSend_StateChange(N3_SP_STATE_CHANGE_SITDOWN, iState); // sat down.. packets..
 }
 
-void CGameProcMain::CommandTargetSelect_NearstEnemy() // 가장 가까운 적 타겟 잡기..
+void CGameProcMain::CommandTargetSelect_NearstEnemy() // Grab the closest enemy target.
 {
 	CPlayerNPC* pTarget = s_pOPMgr->CharacterGetByNearstEnemy(s_pPlayer->m_InfoBase.eNation, s_pPlayer->Position());
 	this->TargetSelect(pTarget);
 	s_pPlayer->RotateTo(pTarget);
 }
 
-void CGameProcMain::CommandTargetSelect_NearstOurForce() // 가장 가까운 파티 타겟잡기..
+void CGameProcMain::CommandTargetSelect_NearstOurForce() // Find the nearest party target.
 {
 	CPlayerOther* pTarget = m_pUIPartyOrForce->MemberGetByNearst(s_pPlayer->Position());
 	this->TargetSelect(pTarget);
@@ -4700,10 +4700,10 @@ void CGameProcMain::CloseUIs()
 
 void CGameProcMain::MsgSend_StateChange(e_SubPacket_State eSP, int iState)
 {
-	BYTE byBuff[4];											// 패킷 버퍼..
-	int iOffset=0;											// 패킷 오프셋..
+	BYTE byBuff[4];											// Packet buffer...
+	int iOffset=0;											// Packet Offset...
 
-	CAPISocket::MP_AddByte(byBuff, iOffset, N3_STATE_CHANGE);	// 상태 변화..
+	CAPISocket::MP_AddByte(byBuff, iOffset, N3_STATE_CHANGE);	// state change...
 	CAPISocket::MP_AddByte(byBuff, iOffset, eSP);
 	CAPISocket::MP_AddByte(byBuff, iOffset, iState);
 
@@ -4712,20 +4712,20 @@ void CGameProcMain::MsgSend_StateChange(e_SubPacket_State eSP, int iState)
 
 void CGameProcMain::MsgSend_PerTradeReq(int iDestID, bool bNear)
 {
-	BYTE byBuff[4];											// 패킷 버퍼..
-	int iOffset=0;											// 패킷 오프셋..
+	BYTE byBuff[4];											// Packet buffer...
+	int iOffset=0;											// Packet Offset...
 
 	CAPISocket::MP_AddByte(byBuff, iOffset, N3_PER_TRADE);			
 	CAPISocket::MP_AddByte(byBuff, iOffset, N3_SP_PER_TRADE_REQ);		
-	CAPISocket::MP_AddShort(byBuff, iOffset, (short)iDestID );			// 상대방 아이디..
+	CAPISocket::MP_AddShort(byBuff, iOffset, (short)iDestID );			// Opponent ID.
 	if(bNear)
 		CAPISocket::MP_AddByte(byBuff, iOffset, 1);
 	else
 		CAPISocket::MP_AddByte(byBuff, iOffset, 2);
-	//1:일반 거래
-	//2:상거래 게시판 거래
+	// 1: Normal transaction
+	// 2: Commerce board transaction
 
-	s_pSocket->Send(byBuff, iOffset);									// 보냄..
+	s_pSocket->Send(byBuff, iOffset);									// sent...
 
 	TRACE("아이디: %d, 아이템 거래 신청 패킷 보냄.. \n", iDestID);
 }
@@ -4743,17 +4743,17 @@ void CGameProcMain::MsgRecv_PerTrade(DataPack* pDataPack, int& iOffset)
 			TRACE("아이템 거래 신청 패킷 받음.. \n");
 			sOtherID = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);	
 
-			if (m_pUITransactionDlg->IsVisible()) 	/* 상인과 거래중이면.. */
+			if (m_pUITransactionDlg->IsVisible()) 	/* If you are trading with a merchant... */
 			{
-				// 거절한다..
+				// refuse..
 				m_pUITransactionDlg->LeaveTransactionState();
 				m_pSubProcPerTrade->LeavePerTradeState(PER_TRADE_RESULT_MY_DISAGREE);
 				break;
 			}
 
-			if (m_pUIWareHouseDlg->IsVisible()) 	/* 보관함에 보관중이면.. */
+			if (m_pUIWareHouseDlg->IsVisible()) 	/* If it is stored in the storage box.. */
 			{
-				// 거절한다..
+				// refuse..
 				m_pUIWareHouseDlg->LeaveWareHouseState();
 				m_pSubProcPerTrade->LeavePerTradeState(PER_TRADE_RESULT_MY_DISAGREE);
 				break;
@@ -4812,7 +4812,7 @@ void CGameProcMain::MsgRecv_PerTrade(DataPack* pDataPack, int& iOffset)
 
 		case N3_SP_PER_TRADE_DONE:
 			bResult = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
-			if ( bResult == 0x01 )		// 성공이면..
+			if ( bResult == 0x01 )		// If successful...
 			{	
 				iTotalGold = CAPISocket::Parse_GetDword(pDataPack->m_pData, iOffset);
 				m_pSubProcPerTrade->ReceiveMsgPerTradeDoneSuccessBegin(iTotalGold);
@@ -4827,7 +4827,7 @@ void CGameProcMain::MsgRecv_PerTrade(DataPack* pDataPack, int& iOffset)
 				}
 				m_pSubProcPerTrade->ReceiveMsgPerTradeDoneSuccessEnd();
 			}
-			else						// 실패이면..
+			else						// If it fails...
 				m_pSubProcPerTrade->ReceiveMsgPerTradeDoneFail();
 			break;
 
@@ -4845,67 +4845,67 @@ void CGameProcMain::TargetSelect(int iID, bool bMustAlive)
 
 void CGameProcMain::TargetSelect(CPlayerNPC* pTarget)
 {
-	if(PSA_SPELLMAGIC == s_pPlayer->State()) // 마법 캐스팅을 하는 중간에는 타겟을 못 바꾼다..
+	if(PSA_SPELLMAGIC == s_pPlayer->State()) // You cannot change the target while casting magic.
 		return;
 
-	const int iIDTargetPrev = s_pPlayer->m_iIDTarget; // 전의 타겟 기억..
+	const int iIDTargetPrev = s_pPlayer->m_iIDTarget; // Remember the previous target...
 	s_pPlayer->m_iIDTarget = -1;
 	s_pPlayer->m_pObjectTarget = nullptr;
 
 	if(pTarget && pTarget->m_InfoBase.iAuthority != AUTHORITY_MANAGER)
-	{ //운영자는 포커스를 주지 않게 하기 위해서...
+	{ // In order for the operator not to give focus...
 		s_pPlayer->m_iIDTarget = pTarget->IDNumber();
-		if(iIDTargetPrev != s_pPlayer->m_iIDTarget) // 전의 타겟과 다르면
+		if(iIDTargetPrev != s_pPlayer->m_iIDTarget) // Different from the previous target
 		{
-			this->CommandEnableAttackContinous(false, nullptr);	// 자동 공격 취소..
+			this->CommandEnableAttackContinous(false, nullptr);	// Cancel auto attack...
 
 			D3DCOLOR crID = 0xffffffff;
 			if(	pTarget->PlayerType() == PLAYER_OTHER) // User..
 			{
-				if(pTarget->m_InfoBase.eNation != s_pPlayer->m_InfoBase.eNation) crID = 0xffff4040; // 다른 국가이면
+				if(pTarget->m_InfoBase.eNation != s_pPlayer->m_InfoBase.eNation) crID = 0xffff4040; // in other countries
 				else crID = 0xff6b9fff;
 			}
 			else // NPC
 			{
-				if(pTarget->m_InfoBase.eNation != s_pPlayer->m_InfoBase.eNation) crID = 0xffff6060; // 다른 국가이면
+				if(pTarget->m_InfoBase.eNation != s_pPlayer->m_InfoBase.eNation) crID = 0xffff6060; // in other countries
 				else crID = 0xff1064ff;
 			}
 			
-			if( pTarget->IsAlive() )//살아있는 상태만 target bar를 보여준다.
+			if( pTarget->IsAlive() )// Only the living state shows the target bar.
 			{
 				m_pUITargetBar->SetVisible(true);
-				m_pUITargetBar->SetIDString(pTarget->IDString(), crID); // 이름을 넣고..
-				this->MsgSend_RequestTargetHP(s_pPlayer->m_iIDTarget, 0x01);	// 서버에게 HP정보를 요청한다..
+				m_pUITargetBar->SetIDString(pTarget->IDString(), crID); // put your name in...
+				this->MsgSend_RequestTargetHP(s_pPlayer->m_iIDTarget, 0x01);	// Request HP information from the server.
 			}
 			else
 			{
-				m_pUITargetBar->SetVisible(false); // 타겟 바 없애기..
+				m_pUITargetBar->SetVisible(false); // Remove the target bar...
 			}
 		}
 	}
 	else
 	{
-		s_pPlayer->m_iIDTarget = -1; // 타겟 아이디를 잡고..
-		m_pUITargetBar->SetVisible(false); // 타겟 바 없애기..
+		s_pPlayer->m_iIDTarget = -1; // Get the target ID.
+		m_pUITargetBar->SetVisible(false); // Remove the target bar...
 
-		this->CommandEnableAttackContinous(false, nullptr); // 자동 공격 취소..
+		this->CommandEnableAttackContinous(false, nullptr); // Cancel auto attack...
 	}
 
 	if(	PSA_SITDOWN != s_pPlayer->State() && 
 		PSM_STOP == s_pPlayer->StateMove() &&
-		PSA_BASIC == s_pPlayer->State()) s_pPlayer->Action(PSA_BASIC, true); // 기본 자세 바꾸기..
+		PSA_BASIC == s_pPlayer->State()) s_pPlayer->Action(PSA_BASIC, true); // Change your basic posture...
 
-	this->UpdateUI_PartyOrForceButtons(); // 커맨드 줄에 있는 파티 버튼을 상황에 따라 업데이트 해준다.
+	this->UpdateUI_PartyOrForceButtons(); // Updates the party button on the command line as needed.
 }
 
-void CGameProcMain::MsgRecv_SkillChange(DataPack* pDataPack, int& iOffset)			// 스킬 변화..
+void CGameProcMain::MsgRecv_SkillChange(DataPack* pDataPack, int& iOffset)			// Skill change...
 {
 	const int iType	= CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
 	const int iValue	= CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
 
 	m_pUISkillTreeDlg->m_iSkillInfo[iType] = iValue;
 	m_pUISkillTreeDlg->m_iSkillInfo[0]++;
-	m_pUISkillTreeDlg->InitIconUpdate();		// 스킬 포인트가 변화되었으므로 .. 스킬도 변화될 수 있다..
+	m_pUISkillTreeDlg->InitIconUpdate();		// Since the skill points have changed.. the skills can also change..
 }
 
 void CGameProcMain::MsgRecv_MagicProcess(DataPack* pDataPack, int& iOffset)
@@ -4932,7 +4932,7 @@ void CGameProcMain::MsgRecv_MagicProcess(DataPack* pDataPack, int& iOffset)
 	}	
 }
 
-void CGameProcMain::MsgRecv_ClassChange(DataPack* pDataPack, int& iOffset)			// 직업 변화..
+void CGameProcMain::MsgRecv_ClassChange(DataPack* pDataPack, int& iOffset)			// job change...
 {
 	const auto eSP = (e_SubPacket_ClassChange)CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
 
@@ -4959,9 +4959,9 @@ void CGameProcMain::MsgRecv_ClassChange(DataPack* pDataPack, int& iOffset)			// 
 void CGameProcMain::MsgRecv_ObjectEvent(DataPack* pDataPack, int& iOffset)
 {
 	const int iType = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);		// Event Type
-	const int iResult = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);	// 결과..
+	const int iResult = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);	// result..
 
-	if(OBJECT_TYPE_BINDPOINT == iType) // 바인드 포인트
+	if(OBJECT_TYPE_BINDPOINT == iType) // bind point
 	{
 		std::string szMsg;
 		if(0x01 == iResult) ::_LoadStringFromResource(IDS_BIND_POINT_SUCCESS, szMsg);
@@ -4971,10 +4971,10 @@ void CGameProcMain::MsgRecv_ObjectEvent(DataPack* pDataPack, int& iOffset)
 	else if(OBJECT_TYPE_DOOR_LEFTRIGHT == iType ||
 			OBJECT_TYPE_DOOR_TOPDOWN == iType ||
 			OBJECT_TYPE_LEVER_TOPDOWN == iType ||
-			OBJECT_TYPE_FLAG == iType) // 오브젝트 다루기..
+			OBJECT_TYPE_FLAG == iType) // Handling objects...
 	{
-		const int iID = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);	// 열고 닫을 성문 ID
-		const int iActivate = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);	// 열고 닫음..
+		const int iID = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);	// Gate ID to open and close
+		const int iActivate = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);	// open and close...
 
 		const CPlayerNPC* pNPC = s_pOPMgr->NPCGetByID(iID, true);
 		__ASSERT(pNPC, "Invalid NPC ID");
@@ -4986,20 +4986,20 @@ void CGameProcMain::MsgRecv_ObjectEvent(DataPack* pDataPack, int& iOffset)
 			{
 				__Vector3 vAxis(0,1,0);
 				float fRadian = D3DXToRadian(90);
-				bool bShouldBeRotate = true; // 돌려야 하는지??
-				if(OBJECT_TYPE_DOOR_LEFTRIGHT == iType) // 좌우열림 성문
+				bool bShouldBeRotate = true; // do i have to turn it??
+				if(OBJECT_TYPE_DOOR_LEFTRIGHT == iType) // left and right open gates
 				{
 					if(0x01 == iActivate) { fRadian = D3DXToRadian(80); ::_LoadStringFromResource(IDS_DOOR_OPENED, szMsg); }
 					else { fRadian = D3DXToRadian(0); ::_LoadStringFromResource(IDS_DOOR_CLOSED, szMsg); }
 					vAxis.Set(0,1,0);
 				} 
-				else if(OBJECT_TYPE_DOOR_TOPDOWN == iType) // 상하열림 성문
+				else if(OBJECT_TYPE_DOOR_TOPDOWN == iType) // upper and lower opening gates
 				{
 					if(0x01 == iActivate) { fRadian = D3DXToRadian(90); ::_LoadStringFromResource(IDS_DOOR_OPENED, szMsg); }
 					else  { D3DXToRadian(0); ::_LoadStringFromResource(IDS_DOOR_CLOSED, szMsg); }
 					vAxis.Set(0,0,1);
 				}
-				else if(OBJECT_TYPE_LEVER_TOPDOWN == iType) // 상하 레버
+				else if(OBJECT_TYPE_LEVER_TOPDOWN == iType) // up and down lever
 				{
 					if(0x01 == iActivate) { fRadian = D3DXToRadian(-45); ::_LoadStringFromResource(IDS_LEVER_ACTIVATE, szMsg); }
 					else  { fRadian = D3DXToRadian(45); ::_LoadStringFromResource(IDS_LEVER_DEACTIVATE, szMsg); }
@@ -5007,7 +5007,7 @@ void CGameProcMain::MsgRecv_ObjectEvent(DataPack* pDataPack, int& iOffset)
 				}
 				else if(OBJECT_TYPE_FLAG == iType)
 				{
-					bShouldBeRotate = false; // 돌려야 하는지??
+					bShouldBeRotate = false; // do i have to turn it??
 				}
 
 				if(0x01 == iActivate)
@@ -5072,20 +5072,20 @@ void CGameProcMain::ParseChattingCommand(const std::string& szCmd)
 	{
 		case CMD_WHISPER:
 		{
-			this->MsgSend_ChatSelectTarget(szCmds[1]); // 일대일 채팅 상대 정하기.
+			this->MsgSend_ChatSelectTarget(szCmds[1]); // Set up a one-on-one chat partner.
 		}
 		break;
 
 		case CMD_TOWN:
 		{
-			if(s_pPlayer->m_bStun) return; // 기절해 있음 못함..
-			if(s_pPlayer->m_InfoBase.iHP * 2 >= s_pPlayer->m_InfoBase.iHPMax) // HP가 반 이상 있어야 한다.
+			if(s_pPlayer->m_bStun) return; // I can&#39;t pass out..
+			if(s_pPlayer->m_InfoBase.iHP * 2 >= s_pPlayer->m_InfoBase.iHPMax) // Must have more than half HP.
 			{
 				int iOffset = 0;
-				CAPISocket::MP_AddWord(byBuff, iOffset, N3_HOME);		// 마을로 가기...
+				CAPISocket::MP_AddWord(byBuff, iOffset, N3_HOME);		// go to town...
 				s_pSocket->Send(byBuff, iOffset);
 			}
-			else // HP가 반 이상 있어야 한다.
+			else // Must have more than half HP.
 			{
 				std::string szMsg; ::_LoadStringFromResource(IDS_ERR_GOTO_TOWN_OUT_OF_HP, szMsg);
 				this->MsgOutput(szMsg, 0xffff00ff);
@@ -5098,7 +5098,7 @@ void CGameProcMain::ParseChattingCommand(const std::string& szCmd)
 			CPlayerOther* pOPC = s_pOPMgr->UPCGetByID(s_pPlayer->m_iIDTarget, true);
 			if(	pOPC &&
 				(pOPC->Position() - s_pPlayer->Position()).Magnitude() < (pOPC->Height() + 5.0f) && 
-				!m_pUITransactionDlg->IsVisible() ) // 타겟으로 다른 플레이어가 잡혀있고..  가까이 있으면.. // 개인간 아이템 거래.. // 상거래 중이 아니면..
+				!m_pUITransactionDlg->IsVisible() ) // Another player is caught as a target.. If you are close.. // Item trade between individuals.. // Unless you are in a commercial transaction..
 			{
 				std::string szMsg; ::_LoadStringFromResource(IDS_PERSONAL_TRADE_REQUEST, szMsg);
 				MsgOutput(pOPC->IDString() + szMsg, 0xffffff00);
@@ -5131,8 +5131,8 @@ void CGameProcMain::ParseChattingCommand(const std::string& szCmd)
 			if(pTarget)
 			{
 				std::string szMsg;
-				if(this->MsgSend_PartyOrForceCreate(0, pTarget->IDString())) ::_LoadStringFromResource(IDS_PARTY_INVITE, szMsg); // 파티 요청.. 
-				else  ::_LoadStringFromResource(IDS_PARTY_INVITE_FAILED, szMsg); // 파티 초대 실패
+				if(this->MsgSend_PartyOrForceCreate(0, pTarget->IDString())) ::_LoadStringFromResource(IDS_PARTY_INVITE, szMsg); // party request...
+				else  ::_LoadStringFromResource(IDS_PARTY_INVITE_FAILED, szMsg); // Party invite failed
 				this->MsgOutput(pTarget->IDString() + szMsg, 0xffffff00);
 			}
 		}
@@ -5140,7 +5140,7 @@ void CGameProcMain::ParseChattingCommand(const std::string& szCmd)
 
 		case CMD_LEAVEPARTY:
 		{
-			this->MsgSend_PartyOrForceLeave(0); // 파티 요청..
+			this->MsgSend_PartyOrForceLeave(0); // party request...
 		}
 		break;
 
@@ -5158,8 +5158,8 @@ void CGameProcMain::ParseChattingCommand(const std::string& szCmd)
 				}
 			}
 
-//			if(m_pUIPartyBBS && !m_pUIPartyBBS->IsVisible())
-//			m_pUIPartyBBS->MsgSend_RefreshData(0);
+			// if(m_pUIPartyBBS && !m_pUIPartyBBS->IsVisible())
+			// m_pUIPartyBBS->MsgSend_RefreshData(0);
 		}
 		break;
 
@@ -5272,7 +5272,7 @@ void CGameProcMain::ParseChattingCommand(const std::string& szCmd)
 		{
 			if(szCmd.size() >= 7)
 			{
-				std::string szChat = szCmd.substr(6); // "/공지 "를 제외한 나머지 문자열
+				std::string szChat = szCmd.substr(6); // Any string except &quot;/notice&quot;
 				this->MsgSend_Chat(N3_CHAT_PUBLIC, szChat);
 			}
 		}
@@ -5280,25 +5280,25 @@ void CGameProcMain::ParseChattingCommand(const std::string& szCmd)
 
 		case CMD_ARREST:
 		{
-			this->MsgSend_Administrator(N3_SP_ADMINISTRATOR_ARREST, szCmds[1]); //추적		
+			this->MsgSend_Administrator(N3_SP_ADMINISTRATOR_ARREST, szCmds[1]); // Tracking
 		}
 		break;
 
 		case CMD_FORBIDCONNECT:
 		{
-			this->MsgSend_Administrator(N3_SP_ADMINISTRATOR_FORBID_CONNECT, szCmds[1]); //접속금지		
+			this->MsgSend_Administrator(N3_SP_ADMINISTRATOR_FORBID_CONNECT, szCmds[1]); // access prohibited
 		}
 		break;
 		
 		case CMD_FORBIDCHAT:
 		{
-			this->MsgSend_Administrator(N3_SP_ADMINISTRATOR_CHAT_FORBID, szCmds[1]); //채팅금지		
+			this->MsgSend_Administrator(N3_SP_ADMINISTRATOR_CHAT_FORBID, szCmds[1]); // no chat
 		}
 		break;
 		
 		case CMD_PERMITCHAT:
 		{
-			this->MsgSend_Administrator(N3_SP_ADMINISTRATOR_CHAT_PERMIT, szCmds[1]); //채팅허가		
+			this->MsgSend_Administrator(N3_SP_ADMINISTRATOR_CHAT_PERMIT, szCmds[1]); // chat permission
 		}
 		break;
 		
@@ -5306,10 +5306,10 @@ void CGameProcMain::ParseChattingCommand(const std::string& szCmd)
 		{
 			if(m_fRequestGameSave > 300.0f)
 			{
-				BYTE byBuff[4];												// 버퍼.. 
-				int iOffset=0;												// 옵셋..
-				s_pSocket->MP_AddByte(byBuff, iOffset, N3_REQUEST_GAME_SAVE);	// 저장 요청 커멘드..
-				s_pSocket->Send(byBuff, iOffset);				// 보냄..
+				BYTE byBuff[4];												// buffer..
+				int iOffset=0;												// Offset...
+				s_pSocket->MP_AddByte(byBuff, iOffset, N3_REQUEST_GAME_SAVE);	// Save request command..
+				s_pSocket->Send(byBuff, iOffset);				// sent...
 				m_fRequestGameSave = 0.0f;
 
 				std::string szMsg;
@@ -5334,7 +5334,7 @@ void CGameProcMain::ParseChattingCommand(const std::string& szCmd)
 
 void CGameProcMain::UpdateUI_PartyOrForceButtons()
 {
-	// 파티 버튼 상태 바꾸기..
+	// Change party button state...
 	CPlayerBase* pTarget = nullptr;
 	bool bIAmLeader = false, bIAmMemberOfParty = false;
 	int iMemberIndex = -1;
@@ -5346,7 +5346,7 @@ void CGameProcMain::UpdateUI_PartyOrForceButtons()
 
 const __InfoPartyOrForce* CGameProcMain::PartyOrForceConditionGet(bool& bIAmLeader, bool& bIAmMember, int& iMemberIndex, class CPlayerBase*& pTarget)
 {
-	// 파티 버튼 상태 바꾸기..
+	// Change party button state...
 	bIAmLeader = false;
 	iMemberIndex = -1;
 	bIAmMember = false;
@@ -5378,8 +5378,8 @@ void CGameProcMain::UpdateUI_MiniMap()
 	{
 		pNPC = it->second;
 
-		if(eNation != pNPC->m_InfoBase.eNation) crType = 0xff800000; // 다른 국가 NPC 혹은 몬스터 주황색
-		else crType = 0xff00a0ff; // 같은 국가 NPC 하늘색
+		if(eNation != pNPC->m_InfoBase.eNation) crType = 0xff800000; // Other country NPCs or monsters Orange
+		else crType = 0xff00a0ff; // same country NPC light blue
 
 		m_pUIStateBarAndMiniMap->PositionInfoAdd(pNPC->IDNumber(), pNPC->Position(), crType, false);
 	}
@@ -5392,38 +5392,38 @@ void CGameProcMain::UpdateUI_MiniMap()
 		pUPC = it2->second;
 
 		bool bDrawTop = false;
-		if(eNation != pUPC->m_InfoBase.eNation) // 적국일경우
+		if(eNation != pUPC->m_InfoBase.eNation) // In case of enemy country
 		{
 			if(pUPC->State() == PSA_SITDOWN)
 			{
-				pUPC->m_InfoBase.bRenderID = false; // 아이디 표시하지 않음.
-				continue; // 앉아있으면.. 지나간다..
+				pUPC->m_InfoBase.bRenderID = false; // ID not displayed.
+				continue; // If you sit down.. it will pass..
 			}
 			else
 			{
-				pUPC->m_InfoBase.bRenderID = true; // 아이디 표시함.
+				pUPC->m_InfoBase.bRenderID = true; // Show ID.
 			}
 
-			if(pZoneInfo && FALSE == pZoneInfo->bIndicateEnemyPlayer) continue; // 적국이 표시 되지 않아야 한다면.. 지나간다..
+			if(pZoneInfo && FALSE == pZoneInfo->bIndicateEnemyPlayer) continue; // If an enemy country should not be displayed.. it passes..
 			
-			crType = 0xffff4040; // 다른 국가  - 밝은 빨간색
+			crType = 0xffff4040; // Other countries - bright red
 		}
-		else // 같은 국가면..
+		else // Same country...
 		{
 			int iMemberIndex = -1;
 			const __InfoPartyOrForce* pPI = m_pUIPartyOrForce->MemberInfoGetByID(pUPC->IDNumber(), iMemberIndex);
 			if(pPI)
 			{
-				bDrawTop = true; // 맨 위에 그린다.
-				crType = 0xffffff00; // 파티 멤버면 // 노란색
+				bDrawTop = true; // draw on top
+				crType = 0xffffff00; // Party member // Yellow
 			}
 			else
 			{
-				crType = 0xff0040ff; // 파티 멤버가 아니면 밝은 파란색
+				crType = 0xff0040ff; // Light blue unless you are a party member
 			}
 		}
 
-		if(pUPC && pUPC->m_InfoBase.iAuthority != AUTHORITY_MANAGER)	// 운영자가 아닌경우만 미니맵에 포인트를 찍어준다.
+		if(pUPC && pUPC->m_InfoBase.iAuthority != AUTHORITY_MANAGER)	// Points are marked on the mini-map only if you are not an operator.
 			m_pUIStateBarAndMiniMap->PositionInfoAdd(pUPC->IDNumber(), pUPC->Position(), crType, bDrawTop);
 	}
 }
@@ -5432,7 +5432,7 @@ void CGameProcMain::UpdateUI_TargetBar()
 {
 	if(nullptr == m_pUITargetBar || !m_pUITargetBar->IsVisible()) return;
 
-	//죽은 캐릭터가 선택되었을때는 target bar를 그려주지 않는다.
+	// When a dead character is selected, the target bar is not drawn.
 	CPlayerNPC* t_pTarget = s_pOPMgr->CharacterGetByID(s_pPlayer->m_iIDTarget, false);
 	if( t_pTarget && t_pTarget->State() == PSA_DEATH )
 	{
@@ -5441,16 +5441,16 @@ void CGameProcMain::UpdateUI_TargetBar()
 	}
 
 	const CPlayerNPC* pTarget = s_pOPMgr->CharacterGetByID(s_pPlayer->m_iIDTarget, true);
-	if(pTarget) // 타겟이 유효하면..
+	if(pTarget) // If the target is valid...
 	{
 		const float fTimeTmp = CN3Base::TimeGet();
-		if(fTimeTmp > m_pUITargetBar->m_fTimeSendPacketLast + PACKET_INTERVAL_REQUEST_TARGET_HP) // 1초가 지나면 타겟 정보 요청
+		if(fTimeTmp > m_pUITargetBar->m_fTimeSendPacketLast + PACKET_INTERVAL_REQUEST_TARGET_HP) // Request target information after 1 second
 		{
 			this->MsgSend_RequestTargetHP(s_pPlayer->m_iIDTarget, false);
 			m_pUITargetBar->m_fTimeSendPacketLast = fTimeTmp;
 		}
 	}
-	else // 타겟이 없으면..
+	else // If there is no target...
 	{
 		s_pPlayer->m_iIDTarget = -1;
 		m_pUITargetBar->SetVisible(false);
@@ -5461,7 +5461,7 @@ void CGameProcMain::UpdateBGM()
 {
 	if(nullptr == m_pSnd_Battle || !m_pSnd_Battle->IsPlaying() ) return;
 
-//	if(s_pPlayer->pTarget && s_pPlayer->pTarget->IsAlive()) 
+	// if(s_pPlayer->pTarget && s_pPlayer->pTarget->IsAlive())
 	const __Vector3 vPosPlayer = s_pPlayer->Position();
 	const e_Nation eNationPlayer = s_pPlayer->m_InfoBase.eNation;
 
@@ -5511,11 +5511,11 @@ void CGameProcMain::UpdateCameraAndLight()
 	
 	s_pEng->Tick(	crDiffuses, crAmbients, ACT_WORLD->GetFogColorWithSky(), 
 					vPosPlayer, s_pPlayer->Rotation(),
-					s_pPlayer->Height(), ACT_WORLD->GetSunAngleByRadinWithSky() );		// 캐릭터 위치와 해의 각도를 넣어준다..
-	s_pEng->ApplyCameraAndLight();	// 카메라와 라이트에 세팅된 값을 D3D Device 에 적용한다.
+					s_pPlayer->Height(), ACT_WORLD->GetSunAngleByRadinWithSky() );		// Enter the character position and the angle of the sun.
+	s_pEng->ApplyCameraAndLight();	// Apply the values set for the camera and light to the D3D Device.
 }
 
-void CGameProcMain::MsgRecv_DurabilityChange(DataPack* pDataPack, int& iOffset)		// 내구력 변경..
+void CGameProcMain::MsgRecv_DurabilityChange(DataPack* pDataPack, int& iOffset)		// Durability changes...
 {
 	const auto eSlot = (e_ItemSlot)CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
 	const int iCurValue  = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);	
@@ -5524,7 +5524,7 @@ void CGameProcMain::MsgRecv_DurabilityChange(DataPack* pDataPack, int& iOffset)	
 	m_pUIInventory->DurabilityChange(eSlot, iCurValue);
 }
 
-void CGameProcMain::MsgRecv_NpcEvent(DataPack* pDataPack, int& iOffset)				// Npc Event(Exchange, Repair both).. 
+void CGameProcMain::MsgRecv_NpcEvent(DataPack* pDataPack, int& iOffset)				// Npc Event(Exchange, Repair both)..
 {
 	const int iTradeID = CAPISocket::Parse_GetDword(pDataPack->m_pData, iOffset);		// Trade id
 	CPlayerNPC* pNPC = s_pOPMgr->NPCGetByID(s_pPlayer->m_iIDTarget, true);
@@ -5540,19 +5540,19 @@ void CGameProcMain::MsgRecv_Knights(DataPack* pDataPack, int& iOffset)
 
 	switch(eSP)
 	{
-	case N3_SP_KNIGHTS_CREATE: // 생성..
+	case N3_SP_KNIGHTS_CREATE: // produce..
 		this->MsgRecv_Knights_Create(pDataPack, iOffset);
 		break;
-	case N3_SP_KNIGHTS_WITHDRAW: //탈퇴
+	case N3_SP_KNIGHTS_WITHDRAW: // secession
 		this->MsgRecv_Knights_Withdraw(pDataPack, iOffset);
 		break;
-	case N3_SP_KNIGHTS_JOIN: //가입
+	case N3_SP_KNIGHTS_JOIN: // join
 		this->MsgRecv_Knights_Join(pDataPack, iOffset);
 		break;
-	case N3_SP_KNIGHTS_MEMBER_REMOVE: //멤버 삭제 - 
+	case N3_SP_KNIGHTS_MEMBER_REMOVE: // Delete member -
 		this->MsgRecv_Knights_Leave(pDataPack, iOffset);
 		break;
-	case N3_SP_KNIGHTS_APPOINT_VICECHIEF: //부단장 임명 - 가입허가와 같음
+	case N3_SP_KNIGHTS_APPOINT_VICECHIEF: // Appointment of vice-captain - same as permission to join
 		this->MsgRecv_Knights_AppointViceChief(pDataPack, iOffset);
  	break;
 	case N3_SP_KNIGHTS_MEMBER_INFO_ALL:
@@ -5561,20 +5561,20 @@ void CGameProcMain::MsgRecv_Knights(DataPack* pDataPack, int& iOffset)
 	case N3_SP_KNIGHTS_GRADE_CHANGE_ALL:
 		this->MsgRecv_Knights_GradeChangeAll(pDataPack, iOffset);
 		break;
-	case N3_SP_KNIGHTS_DESTROY: // 뽀개기 Send - | Recv - b1(1:성공 0:실패)
+	case N3_SP_KNIGHTS_DESTROY: // Crossover Send - | Recv - b1 (1: success 0: failure)
 		{
 			BYTE	bSubCom = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
 			
 			std::string szMsg;
 			switch ( (e_SubPacket_KNights_Common)bSubCom )
 			{
-			case N3_SP_KNIGHTS_COMMON_SUCCESS: //클랜파괴 성공
+			case N3_SP_KNIGHTS_COMMON_SUCCESS: // Clan destruction success
 				::_LoadStringFromResource(IDS_CLAN_WITHDRAW_SUCCESS, szMsg);
 				m_pUIKnightsOp->KnightsInfoDelete(s_pPlayer->m_InfoExt.iKnightsID);
 				this->MsgOutput(szMsg, 0xffffff00);
 				break;
-			case N3_SP_KNIGHTS_COMMON_DBFAIL: //DB검색 실패..
-			case N3_SP_KNIGHTS_COMMON_FAIL_NONE_USER:	//없는 유저..
+			case N3_SP_KNIGHTS_COMMON_DBFAIL: // DB search failed..
+			case N3_SP_KNIGHTS_COMMON_FAIL_NONE_USER:	// no user...
 				break;
 			}
 			s_pPlayer->m_InfoExt.eKnightsDuty = KNIGHTS_DUTY_UNKNOWN;
@@ -5582,63 +5582,63 @@ void CGameProcMain::MsgRecv_Knights(DataPack* pDataPack, int& iOffset)
 			m_pUIVar->UpdateKnightsInfo();
 		}
 		break;
-	case N3_SP_KNIGHTS_DUTY_CHANGE: // 직위 변경..
+	case N3_SP_KNIGHTS_DUTY_CHANGE: // Change of position...
 		MsgRecv_Knights_Duty_Change(pDataPack, iOffset);
 		break;
 	case N3_SP_KNIGHTS_JOIN_REQ:
 		MsgRecv_Knigts_Join_Req(pDataPack, iOffset);
 		break;
 
-/*	case N3_SP_KNIGHTS_APPOINT_CHIEF: //단장 임명 - 가입허가와 같음
+	/* case N3_SP_KNIGHTS_APPOINT_CHIEF: // Appointment of leader - same as permission to join
 		{
-			::_LoadStringFromResource(IDS_KNIGHTS_APPOINT_CHIEF_SUCCESS, szMsg); // 성공
+			::_LoadStringFromResource(IDS_KNIGHTS_APPOINT_CHIEF_SUCCESS, szMsg); // success
 		}
 		break;
-	case N3_SP_KNIGHTS_DESTROY: // 뽀개기 Send - | Recv - b1(1:성공 0:실패)
+	case N3_SP_KNIGHTS_DESTROY: // Crossover Send - | Recv - b1 (1: success 0: failure)
 		{
-			::_LoadStringFromResource(IDS_KNIGHTS_DESTROY_SUCCESS, szMsg); // 성공
+			::_LoadStringFromResource(IDS_KNIGHTS_DESTROY_SUCCESS, szMsg); // success
 
 			s_pPlayer->m_InfoExt.iKnightsID = 0;
 			s_pPlayer->m_InfoExt.eKnightsDuty = KNIGHTS_DUTY_UNKNOWN;
 
-			// 기사단에서 뺀다..
+			// subtract from the knights..
 			m_pUIVar->m_pPageKnights->UpdateKnightsName("");
 			m_pUIVar->m_pPageKnights->UpdateKnightsChiefName("");
 			m_pUIVar->m_pPageKnights->UpdateKnightsDuty(KNIGHTS_DUTY_UNKNOWN);
 
-			m_pUIKnightsOp->MsgSend_KnightsList(0); // 다시 기사단 리스트를 요청한다..
+			m_pUIKnightsOp-&gt;MsgSend_KnightsList(0); // Request the list of knights again.
 		}
 		break;
 
-	case N3_SP_KNIGHTS_MEMBER_JOIN_ADMIT: //멤버 가입 허가 Send - s1(Knights ID) | Recv - b1(1:성공 0:실패)
+		case N3_SP_KNIGHTS_MEMBER_JOIN_ADMIT: // Permission to join members Send - s1(Knights ID) | Recv - b1 (1: success 0: failure)
 		{
-			::_LoadStringFromResource(IDS_KNIGHTS_ADMIT_SUCCESS, szMsg); // 성공
+			::_LoadStringFromResource(IDS_KNIGHTS_ADMIT_SUCCESS, szMsg); // success
 		}
 		break;
-	case N3_SP_KNIGHTS_MEMBER_JOIN_REJECT: //멤버 가입 거절 - 가입허가와 같음
+		case N3_SP_KNIGHTS_MEMBER_JOIN_REJECT: // Reject member registration - same as registration permission
 		{
-			::_LoadStringFromResource(IDS_KNIGHTS_REJECT_SUCCESS, szMsg); // 성공
+			::_LoadStringFromResource(IDS_KNIGHTS_REJECT_SUCCESS, szMsg); // success
 		}
 		break;
-	case N3_SP_KNIGHTS_MEMBER_PUNISH: //멤버 징계 - 가입허가와 같음
+		case N3_SP_KNIGHTS_MEMBER_PUNISH: // Discipline for members - same as permission to join
 		{
-			::_LoadStringFromResource(IDS_KNIGHTS_PUNISH_SUCCESS, szMsg); // 성공
+			::_LoadStringFromResource(IDS_KNIGHTS_PUNISH_SUCCESS, szMsg); // success
 		}
 		break;
-	case N3_SP_KNIGHTS_APPOINT_OFFICER: // 장교임명 - 가입허가와 같음
+		case N3_SP_KNIGHTS_APPOINT_OFFICER: // Appointment of officers - same as permission to join
 		{
-			::_LoadStringFromResource(IDS_KNIGHTS_APPOINT_OFFICER_SUCCESS, szMsg); // 성공
+			::_LoadStringFromResource(IDS_KNIGHTS_APPOINT_OFFICER_SUCCESS, szMsg); // success
 		}
 		break;
-	case N3_SP_KNIGHTS_LIST: //모든 리스트 요청 Send - | s1(Knights Count) Loop { s1(Knights ID) s1(Name Length) str1 (Name) }
+		case N3_SP_KNIGHTS_LIST: // request all lists Send - | s1(Knights Count) Loop { s1(Knights ID) s1(Name Length) str1 (Name) }
 		{
 			if(false == m_pUIKnightsOp->IsVisible())
 			{
-				m_pUIKnightsOp->Open(s_pPlayer->m_InfoExt.eKnightsDuty); // UI 열고 리스트등 초기화..
+				sm_pUIKnightsOp-&gt;Open(s_pPlayer-&gt;m_InfoExt.eKnightsDuty); // Open the UI and initialize the list, etc..
 			}
 			else 
 			{
-				m_pUIKnightsOp->ChangeUIByDuty(s_pPlayer->m_InfoExt.eKnightsDuty); // UI 열고 리스트등 초기화..
+				m_pUIKnightsOp-&gt;ChangeUIByDuty(s_pPlayer-&gt;m_InfoExt.eKnightsDuty); // Open the UI and initialize the list, etc..
 			}
 			m_pUIKnightsOp->MsgRecv_KnightsList(pDataPack, iOffset);
 		}
@@ -5648,30 +5648,28 @@ void CGameProcMain::MsgRecv_Knights(DataPack* pDataPack, int& iOffset)
 			m_pUIVar->m_pPageKnights->MsgRecv_MemberInfo(pDataPack, iOffset);
 		}
 		break;
-	case N3_SP_KNIGHTS_MEMBER_INFO_ONLINE: //현재 접속 리스트 Send - s1(page) | s1(Member Count) Loop { s1(Name Length) str1 (Name) }
+	case N3_SP_KNIGHTS_MEMBER_INFO_ONLINE: // Current access list Send - s1(page) | s1(Member Count) Loop { s1(Name Length) str1 (Name) }
 		{
 			m_pUIVar->m_pPageKnights->MsgRecv_MemberInfo(pDataPack, iOffset);
 		}
 		break;
-	case N3_SP_KNIGHTS_STASH: //기사단 창고
+	case N3_SP_KNIGHTS_STASH: // Knights Warehouse
 		{
 		}
 		break;
-	case N3_SP_KNIGHTS_DUTY_CHANGE: // 직위 변경..
+	case N3_SP_KNIGHTS_DUTY_CHANGE: // Position change..
 		{
 			int iID = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
 			e_KnightsDuty eDuty = (e_KnightsDuty)CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
 
-			if(iID == s_pPlayer->IDNumber()) // 내 직위 변경..
+			if(iID == s_pPlayer-&gt;IDNumber()) // Change my position..
 			{
 				m_pUIVar->m_pPageKnights->UpdateKnightsDuty(eDuty);
 			}
 			else
 			{
 				CPlayerOther* pUPC = s_pOPMgr->UPCGetByID(iID, false);
-				if(pUPC) // 다른넘 직위 변경..
-				{
-				}
+				if(pUPC) // Change the position to another..
 			}
 		}
 		break;
@@ -5681,51 +5679,51 @@ void CGameProcMain::MsgRecv_Knights(DataPack* pDataPack, int& iOffset)
 */	}
 }
 
-void CGameProcMain::MsgRecv_KnightsListBasic(DataPack* pDataPack, int& iOffset) // 기사단 기본 정보 받기..
+void CGameProcMain::MsgRecv_KnightsListBasic(DataPack* pDataPack, int& iOffset) // Get basic information about the Knights...
 {
 	const auto eSP = (e_SubPacket_KnightsList)(CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset));	// Sub Packet
 	switch(eSP)
 	{
-	case N3_SP_KNIGHTS_LIST_BASIC_ALL: // Receive - s1(knights Count) { s21(id, 이름길이), str1(이름) }
+	case N3_SP_KNIGHTS_LIST_BASIC_ALL: // Receive - s1(knights Count) { s21(id, namelength), str1(name) }
 		{
-			const int iCount = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);	// 기사단 갯수
+			const int iCount = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);	// number of knights
 			for(int i = 0; i < iCount; i++)
 			{
 				std::string szID;
-				const int iID = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);		// 기사단 ID
-				const int iLen = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);		// ID 문자열 길이..
-				CAPISocket::Parse_GetString(pDataPack->m_pData, iOffset, szID, iLen);	// ID 문자열..
+				const int iID = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);		// Templar ID
+				const int iLen = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);		// ID string length..
+				CAPISocket::Parse_GetString(pDataPack->m_pData, iOffset, szID, iLen);	// ID string..
 
-				m_pUIKnightsOp->KnightsInfoInsert(iID, szID); // 기사단 정보 모든 걸 받는다..
+				m_pUIKnightsOp->KnightsInfoInsert(iID, szID); // Receive all knights information..
 			}
 		}
 		break;
-	case N3_SP_KNIGHTS_LIST_BASIC_INSERT: // Receive - s2(id, 이름길이), str1(이름)
+	case N3_SP_KNIGHTS_LIST_BASIC_INSERT: // Receive - s2(id, name length), str1(name)
 		{
 			std::string szID;
-			const int iID = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);		// 기사단 ID
-			const int iLen = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);		// ID 문자열 길이..
-			CAPISocket::Parse_GetString(pDataPack->m_pData, iOffset, szID, iLen);	// ID 문자열..
+			const int iID = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);		// Templar ID
+			const int iLen = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);		// ID string length..
+			CAPISocket::Parse_GetString(pDataPack->m_pData, iOffset, szID, iLen);	// ID string..
 
-			m_pUIKnightsOp->KnightsInfoInsert(iID, szID); // 기사단 정보 추가..
+			m_pUIKnightsOp->KnightsInfoInsert(iID, szID); // Add guild information..
 		}
 		break;
 	case N3_SP_KNIGHTS_LIST_BASIC_REMOVE: // Receive - s1(id)
 		{
-			const int iID = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);		// 기사단 ID
-			m_pUIKnightsOp->KnightsInfoDelete(iID); // 기사단 정보 지우기..
+			const int iID = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);		// Templar ID
+			m_pUIKnightsOp->KnightsInfoDelete(iID); // Clear guild information..
 		}
 		break;
 	}
 }
 
-void CGameProcMain::MsgRecv_CompressedPacket(DataPack* pDataPack, int& iOffset) // 압축된 데이터 이다... 한번 더 파싱해야 한다!!!
+void CGameProcMain::MsgRecv_CompressedPacket(DataPack* pDataPack, int& iOffset) // This is compressed data... needs to be parsed one more time!!!
 {
 	short sCompLen, sOrgLen;
 	DWORD dwCrcValue;
-	sCompLen =		CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);	// 압축된 데이타길이얻기...
-	sOrgLen =		CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);		// 원래데이타길이얻기...
-	dwCrcValue =	CAPISocket::Parse_GetDword(pDataPack->m_pData, iOffset);	// CRC값 얻기...
+	sCompLen =		CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);	// Get Compressed Data Length...
+	sOrgLen =		CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);		// Get original data length...
+	dwCrcValue =	CAPISocket::Parse_GetDword(pDataPack->m_pData, iOffset);	// Get CRC Value...
 
 	const auto pOutBuf = new char[sOrgLen];
 	LZ4_decompress_safe((char*)(pDataPack->m_pData + iOffset), pOutBuf, sCompLen, sOrgLen);
@@ -5740,20 +5738,20 @@ void CGameProcMain::MsgRecv_CompressedPacket(DataPack* pDataPack, int& iOffset) 
 	DataPackTemp.m_Size = sOrgLen;
 	DataPackTemp.m_pData = (BYTE*)pOutBuf;
 	int iOffset2 = 0;
-	this->ProcessPacket(&DataPackTemp, iOffset2); // 바로 파싱...
+	this->ProcessPacket(&DataPackTemp, iOffset2); // Parsing right away...
 	DataPackTemp.m_Size = 0;
 	DataPackTemp.m_pData = nullptr;
 }
 
-void CGameProcMain::MsgRecv_ContinousPacket(DataPack* pDataPack, int& iOffset) // 압축된 데이터 이다... 한번 더 파싱해야 한다!!!
+void CGameProcMain::MsgRecv_ContinousPacket(DataPack* pDataPack, int& iOffset) // This is compressed data... needs to be parsed one more time!!!
 {
-	const int iWholeSize = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);		// 원래데이타길이얻기...
+	const int iWholeSize = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);		// Get original data length...
 	int iOffset2 = iOffset, iOffsetPrev = 0, iSizeThisPacket = 0;
 	int i = 0;
 	while(iOffset2 < iWholeSize)
 	{
 		iOffsetPrev = iOffset2;
-		iSizeThisPacket = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset2);		// 원래데이타길이얻기...
+		iSizeThisPacket = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset2);		// Get original data length...
 
 		if(iSizeThisPacket <= 0 || iSizeThisPacket >= iWholeSize)
 		{
@@ -5761,7 +5759,7 @@ void CGameProcMain::MsgRecv_ContinousPacket(DataPack* pDataPack, int& iOffset) /
 			sprintf(szErr, "연속 패킷 받기 오류 - 순서(%d) 크기(%d/%d)", i, iSizeThisPacket, iWholeSize);
 			CGameProcedure::ReportDebugStringAndSendToServer(szErr);
 			__ASSERT(0, szErr);
-			break; // 멈춘다!!
+			break; // stop!!
 		}
 		i++;
 
@@ -5772,7 +5770,7 @@ void CGameProcMain::MsgRecv_ContinousPacket(DataPack* pDataPack, int& iOffset) /
 	iOffset += iWholeSize;
 }
 
-void CGameProcMain::MsgRecv_WareHouse(DataPack* pDataPack, int& iOffset)			// 보관함 관련 패킷..
+void CGameProcMain::MsgRecv_WareHouse(DataPack* pDataPack, int& iOffset)			// Archive related packets..
 {
 	BYTE	bResult, bSubCom = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
 
@@ -5808,7 +5806,7 @@ void CGameProcMain::MsgRecv_WareHouse(DataPack* pDataPack, int& iOffset)			// �
 	}
 }
 
-void CGameProcMain::MsgRecv_WareHouseOpen(DataPack* pDataPack, int& iOffset)		// 보관함 오픈..
+void CGameProcMain::MsgRecv_WareHouseOpen(DataPack* pDataPack, int& iOffset)		// Open the locker...
 {
 	if (m_pUIWareHouseDlg->IsVisible())
 		return;
@@ -5817,7 +5815,7 @@ void CGameProcMain::MsgRecv_WareHouseOpen(DataPack* pDataPack, int& iOffset)		//
 	iWareGold		= CAPISocket::Parse_GetDword(pDataPack->m_pData, iOffset);
 	m_pUIWareHouseDlg->EnterWareHouseStateStart(iWareGold);
 
-	for(auto i = 0; i < MAX_ITEM_WARE_PAGE*MAX_ITEM_TRADE; i++ )				// 슬롯 갯수마큼..
+	for(auto i = 0; i < MAX_ITEM_WARE_PAGE*MAX_ITEM_TRADE; i++ )				// As for the number of slots.
 	{
 		iItemID			= CAPISocket::Parse_GetDword(pDataPack->m_pData, iOffset);
 		iItemDurability	= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
@@ -5828,7 +5826,7 @@ void CGameProcMain::MsgRecv_WareHouseOpen(DataPack* pDataPack, int& iOffset)		//
 	if (!m_pUIWareHouseDlg->IsVisible())
 		m_pUIWareHouseDlg->SetVisible(true);
 
-	if (m_pUIInventory->IsVisible())		// 인벤토리가 안열려 있으면..
+	if (m_pUIInventory->IsVisible())		// If your inventory isn&#39;t open...
 		this->CommandToggleUIInventory();
 
 	if (m_pUISkillTreeDlg->IsVisible())
@@ -5842,7 +5840,7 @@ void CGameProcMain::PlayBGM_Town()
 	if(m_pSnd_Battle) m_pSnd_Battle->Stop(3.0f);
 	if(nullptr == m_pSnd_Town || m_pSnd_Town->IsPlaying()) return;
 	m_pSnd_Town->SetMaxVolume(60);
-	m_pSnd_Town->Play(nullptr, 3.0f); // 전투 음악 설정.. 해제는 주위에 몬스터가 없을때 한다..
+	m_pSnd_Town->Play(nullptr, 3.0f); // Set battle music.. Cancel when there are no monsters around..
 }
 
 void CGameProcMain::PlayBGM_Battle()
@@ -5850,7 +5848,7 @@ void CGameProcMain::PlayBGM_Battle()
 	if(m_pSnd_Town) m_pSnd_Town->Stop(3.0f);
 	if(nullptr == m_pSnd_Battle || m_pSnd_Battle->IsPlaying()) return;
 	m_pSnd_Battle->SetMaxVolume(80);
-	m_pSnd_Battle->Play(nullptr, 3.0f); // 전투 음악 설정.. 해제는 주위에 몬스터가 없을때 한다..
+	m_pSnd_Battle->Play(nullptr, 3.0f); // Set battle music.. Cancel when there are no monsters around..
 }
 
 void CGameProcMain::ReleaseSound()
@@ -5860,7 +5858,7 @@ void CGameProcMain::ReleaseSound()
 	CN3Base::s_SndMgr.ReleaseStreamObj(&m_pSnd_Battle);
 }
 
-void CGameProcMain::MsgRecv_NpcChangeOpen(DataPack* pDataPack, int& iOffset)		// Class Change와 초기화..
+void CGameProcMain::MsgRecv_NpcChangeOpen(DataPack* pDataPack, int& iOffset)		// Class Change and Initialization..
 {
 	const BYTE	bSubCom = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
 
@@ -5888,7 +5886,7 @@ void CGameProcMain::MsgRecv_NpcChangeOpen(DataPack* pDataPack, int& iOffset)		//
 	}
 }
 
-void CGameProcMain::MsgRecv_AllPointInit(DataPack* pDataPack, int& iOffset)			// All Point 초기화..
+void CGameProcMain::MsgRecv_AllPointInit(DataPack* pDataPack, int& iOffset)			// All Point Initialization..
 {
 	const BYTE	bType		= CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
 	const DWORD	dwGold		= CAPISocket::Parse_GetDword(pDataPack->m_pData, iOffset);	
@@ -5898,13 +5896,13 @@ void CGameProcMain::MsgRecv_AllPointInit(DataPack* pDataPack, int& iOffset)			//
 
 	switch (bType)
 	{
-		case 0x00:	// 돈이 부족..
+		case 0x00:	// lack of money...
 			::_LoadStringFromResource(IDS_POINTINIT_NOT_ENOUGH_NOAH, szMsg);
 			sprintf(szBuf, szMsg.c_str(), dwGold);
 			CGameProcedure::s_pProcMain->MsgOutput(szBuf, 0xffff3b3b);
 			break;
 
-		case 0x01:	// 성공..
+		case 0x01:	// success..
 			s_pPlayer->m_InfoExt.iStrength = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
 			m_pUIVar->m_pPageState->UpdateStrength(s_pPlayer->m_InfoExt.iStrength, s_pPlayer->m_InfoExt.iStrength_Delta);
 
@@ -5934,10 +5932,10 @@ void CGameProcMain::MsgRecv_AllPointInit(DataPack* pDataPack, int& iOffset)			//
 			m_pUIVar->m_pPageState->UpdateAttackPoint(s_pPlayer->m_InfoExt.iAttack, s_pPlayer->m_InfoExt.iAttack_Delta);
 			m_pUIVar->m_pPageState->UpdateWeight(s_pPlayer->m_InfoExt.iWeight, s_pPlayer->m_InfoExt.iWeightMax);
 
-			s_pPlayer->m_InfoExt.iBonusPointRemain = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // 남은 보너스 포인트..
-			m_pUIVar->m_pPageState->UpdateBonusPointAndButtons(s_pPlayer->m_InfoExt.iBonusPointRemain); // 보너스 포인트 적용이 가능한가??
+			s_pPlayer->m_InfoExt.iBonusPointRemain = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // Remaining bonus points...
+			m_pUIVar->m_pPageState->UpdateBonusPointAndButtons(s_pPlayer->m_InfoExt.iBonusPointRemain); // Are bonus points applicable?
 
-			// 돈 변경.. 인벤토리는 바꾸고 상거래.. 개인 거래와는 배타적..
+			// Money changes.. Inventory changes, commerce.. Exclusive to personal transactions..
 			s_pPlayer->m_InfoExt.iGold = dwGold;
 			if (m_pUIInventory->IsVisible())
 				m_pUIInventory->GoldUpdate();
@@ -5956,7 +5954,7 @@ void CGameProcMain::MsgRecv_AllPointInit(DataPack* pDataPack, int& iOffset)			//
 	}
 }
 
-void CGameProcMain::MsgRecv_SkillPointInit(DataPack* pDataPack, int& iOffset)		// Skill Point 초기화..
+void CGameProcMain::MsgRecv_SkillPointInit(DataPack* pDataPack, int& iOffset)		// Reset Skill Points..
 {
 	const BYTE	bType		= CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
 	const DWORD	dwGold		= CAPISocket::Parse_GetDword(pDataPack->m_pData, iOffset);	
@@ -5966,19 +5964,19 @@ void CGameProcMain::MsgRecv_SkillPointInit(DataPack* pDataPack, int& iOffset)		/
 
 	switch (bType)
 	{
-		case 0x00:	// 돈이 부족..
+		case 0x00:	// lack of money...
 			::_LoadStringFromResource(IDS_POINTINIT_NOT_ENOUGH_NOAH, szMsg);
 			sprintf(szBuf, szMsg.c_str(), dwGold);
 			CGameProcedure::s_pProcMain->MsgOutput(szBuf, 0xffff3b3b);
 			break;
 
-		case 0x01:	// 성공..
+		case 0x01:	// success..
 			m_pUISkillTreeDlg->m_iSkillInfo[0] = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
 			for(auto i = 1; i < 9; i++ )
 				m_pUISkillTreeDlg->m_iSkillInfo[i] = 0;
 			m_pUISkillTreeDlg->InitIconUpdate();
 
-			// 돈 변경.. 인벤토리는 바꾸고 상거래.. 개인 거래와는 배타적..
+			// Money changes.. Inventory changes, commerce.. Exclusive to personal transactions..
 			s_pPlayer->m_InfoExt.iGold = dwGold;
 			if (m_pUIInventory->IsVisible())
 				m_pUIInventory->GoldUpdate();
@@ -5999,13 +5997,13 @@ void CGameProcMain::MsgRecv_SkillPointInit(DataPack* pDataPack, int& iOffset)		/
 	}
 }
 
-void CGameProcMain::MsgRecv_PointChangePriceQueryRequest(DataPack* pDataPack, int& iOffset)		// 가격에 대한 응답 패킷..
+void CGameProcMain::MsgRecv_PointChangePriceQueryRequest(DataPack* pDataPack, int& iOffset)		// Response packet for price..
 {
 	const DWORD	dwGold		= CAPISocket::Parse_GetDword(pDataPack->m_pData, iOffset);	
 	m_pUINpcChange->ReceivePriceFromServer(dwGold);
 }
 
-void CGameProcMain::MsgRecv_NoahChange(DataPack* pDataPack, int& iOffset)		// 노아 변경..
+void CGameProcMain::MsgRecv_NoahChange(DataPack* pDataPack, int& iOffset)		// Noah change..
 {
 	const BYTE	bType				= CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
 	const DWORD	dwGoldOffset	= CAPISocket::Parse_GetDword(pDataPack->m_pData, iOffset);
@@ -6035,7 +6033,7 @@ void CGameProcMain::MsgRecv_NoahChange(DataPack* pDataPack, int& iOffset)		// �
 			break;
 	}
 
-	// 돈 변경.. 인벤토리는 바꾸고 상거래.. 개인 거래와는 배타적..
+	// Money changes.. Inventory changes, commerce.. Exclusive to personal transactions..
 	s_pPlayer->m_InfoExt.iGold = dwGold;
 	if (m_pUIInventory->IsVisible())
 		m_pUIInventory->GoldUpdate();
@@ -6045,7 +6043,7 @@ void CGameProcMain::MsgRecv_NoahChange(DataPack* pDataPack, int& iOffset)		// �
 		m_pSubProcPerTrade->m_pUIPerTradeDlg->GoldUpdate();
 }
 
-void CGameProcMain::MsgRecv_WarpList(DataPack* pDataPack, int& iOffset)		// 워프 리스트 - 존 체인지가 될 수도 있다..
+void CGameProcMain::MsgRecv_WarpList(DataPack* pDataPack, int& iOffset)		// Warp list - could be a zone change..
 {
 	m_pUIWarp->Reset();
 
@@ -6056,15 +6054,15 @@ void CGameProcMain::MsgRecv_WarpList(DataPack* pDataPack, int& iOffset)		// 워�
 	{
 		__WarpInfo WI;
 		
-		WI.iID = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // 워프 ID
-		iStrLen = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // 이름 길이
-		CAPISocket::Parse_GetString(pDataPack->m_pData, iOffset, WI.szName, iStrLen); // 이름
-		iStrLen = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // 동의문 길이
-		CAPISocket::Parse_GetString(pDataPack->m_pData, iOffset, WI.szAgreement, iStrLen); // 동의문
-		WI.iZone = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);				// 존번호
-		WI.iMaxUser = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);			// 최대 유저 카운트.
-		WI.iGold = CAPISocket::Parse_GetDword(pDataPack->m_pData, iOffset);				// 돈
-		WI.vPos.x = (CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset))/10.0f;	// 좌표 
+		WI.iID = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // Warp ID
+		iStrLen = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // name length
+		CAPISocket::Parse_GetString(pDataPack->m_pData, iOffset, WI.szName, iStrLen); // name
+		iStrLen = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // consent length
+		CAPISocket::Parse_GetString(pDataPack->m_pData, iOffset, WI.szAgreement, iStrLen); // agreement
+		WI.iZone = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);				// zone number
+		WI.iMaxUser = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);			// Max user count.
+		WI.iGold = CAPISocket::Parse_GetDword(pDataPack->m_pData, iOffset);				// money
+		WI.vPos.x = (CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset))/10.0f;	// coordinate
 		WI.vPos.z = (CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset))/10.0f;	//
 		WI.vPos.y = (CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset))/10.0f;	// 
 
@@ -6076,7 +6074,7 @@ void CGameProcMain::MsgRecv_WarpList(DataPack* pDataPack, int& iOffset)		// 워�
 }
 
 /*
-void CGameProcMain::MsgRecv_ServerCheckAndRequestConcurrentUserCount(DataPack* pDataPack, int& iOffset)	// 서버 IP 와 포트를 받아 동접자를 체크해 본다..
+void CGameProcMain::MsgRecv_ServerCheckAndRequestConcurrentUserCount(DataPack* pDataPack, int&amp; iOffset) // Receive the server IP and port and check concurrent users.
 {
 	std::string szIP;
 	int iStrLen = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // IP..
@@ -6086,11 +6084,11 @@ void CGameProcMain::MsgRecv_ServerCheckAndRequestConcurrentUserCount(DataPack* p
 	__WarpInfo WI;
 	if(m_pUIWarp->InfoGetCur(WI) < 0) return;
 
-	bool bNeedConnectSubSocket = (szIP != s_pSocket->GetCurrentIP() || dwPort != s_pSocket->GetCurrentPort()); // 접속해야 할 IP 와 포트가 똑같은지
+bool bNeedConnectSubSocket = (szIP != s_pSocket-&gt;GetCurrentIP() || dwPort != s_pSocket-&gt;GetCurrentPort()); // Check if the IP and port to connect are the same
 
-	if(bNeedConnectSubSocket) // 서브 소켓으로 접속해야 하면..
+if(bNeedConnectSubSocket) // If you need to connect to a subsocket...
 	{
-		int iErr = s_pSocketSub->Connect(s_hWndSubSocket, szIP.c_str(), dwPort); // 서브 소켓으로 접속해서..
+int iErr = s_pSocketSub-&gt;Connect(s_hWndSubSocket, szIP.c_str(), dwPort); // Connect through the subsocket...
 		if(iErr)
 		{
 			this->ReportServerConnectionFailed(WI.szName, iErr, false);
@@ -6098,20 +6096,20 @@ void CGameProcMain::MsgRecv_ServerCheckAndRequestConcurrentUserCount(DataPack* p
 		}
 	}
 
-	// 동접자 체크..
+// check neighbors..
 	int iOffsetSend = 0;
 	BYTE byBuff[8];
 	
 	CAPISocket::MP_AddByte(byBuff, iOffsetSend, N3_SERVER_CONCURRENT_CONNECT);
 	CAPISocket::MP_AddShort(byBuff, iOffsetSend, WI.iZone);
-	CAPISocket::MP_AddByte(byBuff, iOffsetSend, s_pPlayer->m_InfoBase.eNation); // 국가별 동접수..
+CAPISocket::MP_AddByte(byBuff, iOffsetSend, s_pPlayer-&gt;m_InfoBase.eNation); // Concurrent reception by country..
 
-	if(bNeedConnectSubSocket) s_pSocketSub->Send(byBuff, iOffsetSend); // 서브 소켓으로 보내기.
-	else s_pSocket->Send(byBuff, iOffsetSend); // 본 소켓으로 보내기..
+if(bNeedConnectSubSocket) s_pSocketSub-&gt;Send(byBuff, iOffsetSend); // Send to subsocket.
+else s_pSocket-&gt;Send(byBuff, iOffsetSend); // Send to this socket..
 }
 
 
-void CGameProcMain::MsgRecv_ConcurrentUserCountAndSendServerCheck(DataPack* pDataPack, int& iOffset)			// 동접자를 받고 서버에 접속하겠다는 패킷을 보낸다.
+void CGameProcMain::MsgRecv_ConcurrentUserCountAndSendServerCheck(DataPack* pDataPack, int&amp; iOffset) // Sends a packet to receive concurrent users and connect to the server.
 {
 	int iConcurrentUser = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // IP..
 	if(s_pSocketSub->IsConnected()) s_pSocketSub->Disconnect();
@@ -6119,7 +6117,7 @@ void CGameProcMain::MsgRecv_ConcurrentUserCountAndSendServerCheck(DataPack* pDat
 	__WarpInfo WI;
 	if(m_pUIWarp->InfoGetCur(WI) < 0) return;
 
-	if(iConcurrentUser < WI.iMaxUser) // 동접 제한보다 적으면..
+if (iConcurrentUser &lt; WI.iMaxUser) // If less than the concurrency limit...
 	{
 		int iOffsetSend = 0;
 		BYTE byBuff[8];
@@ -6131,7 +6129,7 @@ void CGameProcMain::MsgRecv_ConcurrentUserCountAndSendServerCheck(DataPack* pDat
 	}
 	else
 	{
-		std::string szMsg; ::_LoadStringFromResource(IDS_MSG_CONCURRENT_USER_OVERFLOW, szMsg); // 동시 접속 제한 초과..
+std::string szMsg; ::_LoadStringFromResource(IDS_MSG_CONCURRENT_USER_OVERFLOW, szMsg); // Concurrent connection limit exceeded..
 		this->MsgOutput(szMsg, 0xffff0000);
 	}
 }
@@ -6147,25 +6145,25 @@ void CGameProcMain::MsgRecv_Knights_Create(DataPack* pDataPack, int& iOffset)
 			{
 				const int sid = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
 				std::string szID;
-				const int iID = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);		// 기사단 ID
-				const int iLen = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);		// ID 문자열 길이..
-				CAPISocket::Parse_GetString(pDataPack->m_pData, iOffset, szID, iLen);	// ID 문자열..
-				const int iGrade = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);	// 등급
-				const int iRank = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);		// 순위
+				const int iID = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);		// Templar ID
+				const int iLen = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);		// ID string length..
+				CAPISocket::Parse_GetString(pDataPack->m_pData, iOffset, szID, iLen);	// ID string..
+				const int iGrade = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);	// Rating
+				const int iRank = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);		// ranking
 				const DWORD dwGold = CAPISocket::Parse_GetDword(pDataPack->m_pData, iOffset);
 
 				if(s_pPlayer->IDNumber()==sid)
 				{
 					m_pUIInn->Message(IDS_CLAN_MAKE_SUCCESS);
 
-					// 돈 변경.. 인벤토리는 바꾸고 상거래.. 개인 거래와는 배타적..
+					// Money changes.. Inventory changes, commerce.. Exclusive to personal transactions..
 					s_pPlayer->m_InfoExt.iGold = dwGold;
 					if (m_pUIInventory->IsVisible()) m_pUIInventory->GoldUpdate();
 					if (m_pUITransactionDlg->IsVisible()) m_pUITransactionDlg->GoldUpdate();
 					if (m_pSubProcPerTrade && m_pSubProcPerTrade->m_pUIPerTradeDlg->IsVisible())
 						m_pSubProcPerTrade->m_pUIPerTradeDlg->GoldUpdate();
 
-					//기사단(클랜)UI업데이트...해라...
+					// Knights (clan) UI update...do it...
 					s_pPlayer->m_InfoExt.eKnightsDuty = KNIGHTS_DUTY_CHIEF;
 					s_pPlayer->KnightsInfoSet(iID, szID, iGrade, iRank);
 					m_pUIVar->UpdateKnightsInfo();
@@ -6176,7 +6174,7 @@ void CGameProcMain::MsgRecv_Knights_Create(DataPack* pDataPack, int& iOffset)
 						m_pUIVar->m_pPageKnights->ChangeUIByDuty(s_pPlayer->m_InfoExt.eKnightsDuty);
 					}
 
-					//m_pUIKnightsOp->KnightsInfoInsert(iID, szID); // 기사단 정보 추가..
+					// m_pUIKnightsOp-&gt;KnightsInfoInsert(iID, szID); // Add guild information..
 				}
 				else
 				{
@@ -6248,9 +6246,9 @@ void CGameProcMain::MsgRecv_Knights_Withdraw(DataPack* pDataPack, int& iOffset)
 				CPlayerOther* pUPC = s_pOPMgr->UPCGetByID(sid, true);
 				if(pUPC)
 				{
-					//__KnightsInfoBase* pKIB = m_pUIKnightsOp->KnightsInfoFind(iKnightsID);
-					//if(pKIB) pUPC->KnightsNameSet(pKIB->szName, 0xffff0000);
-					//else pUPC->KnightsNameSet("", 0xffff0000);
+					// __KnightsInfoBase* pKIB = m_pUIKnightsOp->KnightsInfoFind(iKnightsID);
+					// if(pKIB) pUPC->KnightsNameSet(pKIB->szName, 0xffff0000);
+					// else pUPC->KnightsNameSet("", 0xffff0000);
 					pUPC->KnightsInfoSet(iKnightsID, "", 0, 0);
 				}
 			}
@@ -6282,18 +6280,18 @@ void CGameProcMain::MsgRecv_Knights_Join(DataPack* pDataPack, int& iOffset)
 	std::string szMsg;
 	switch ( (e_SubPacket_KNights_Common)bSubCom )
 	{
-	case N3_SP_KNIGHTS_COMMON_DBFAIL: //DB검색 실패..
+	case N3_SP_KNIGHTS_COMMON_DBFAIL: // DB search failed..
 		break;
-	case N3_SP_KNIGHTS_COMMON_SUCCESS: //클랜가입 성공
+	case N3_SP_KNIGHTS_COMMON_SUCCESS: // Clan registration successful
 		{
 			const int sid = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
 			const int iID = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
 			const auto eDuty = (e_KnightsDuty)CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
-			const int iL = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // 소속 기사단 이름 길이.
+			const int iL = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // The length of the name of the Knights Templar.
 			std::string szKnightsName;
 			CAPISocket::Parse_GetString(pDataPack->m_pData, iOffset, szKnightsName, iL);
-			const int iGrade = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);	// 등급
-			const int iRank = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);		// 순위
+			const int iGrade = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);	// Rating
+			const int iRank = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);		// ranking
 
 			if(s_pPlayer->IDNumber()==sid)
 			{
@@ -6318,31 +6316,31 @@ void CGameProcMain::MsgRecv_Knights_Join(DataPack* pDataPack, int& iOffset)
 			}
 		}
 		break;
-	case N3_SP_KNIGHTS_COMMON_FAIL_NONE_USER:	//없는 유저..
+	case N3_SP_KNIGHTS_COMMON_FAIL_NONE_USER:	// no user...
 		::_LoadStringFromResource(IDS_CLAN_JOIN_FAIL_NONE_USER, szMsg);
 		this->MsgOutput(szMsg, 0xffffff00);
 		break;
-	case N3_SP_KNIGHTS_COMMON_FAIL_DEAD_USER:	//상대유저가 죽어 있음..
+	case N3_SP_KNIGHTS_COMMON_FAIL_DEAD_USER:	// Opponent is dead...
 		::_LoadStringFromResource(IDS_CLAN_JOIN_FAIL_DEAD_USER, szMsg);
 		this->MsgOutput(szMsg, 0xffffff00);
 		break;
-	case N3_SP_KNIGHTS_COMMON_FAIL_ENEMY_USER: //상대유저의 국가가 다름..
+	case N3_SP_KNIGHTS_COMMON_FAIL_ENEMY_USER: // The country of the other user is different..
 		::_LoadStringFromResource(IDS_CLAN_JOIN_FAIL_ENEMY_USER, szMsg);
 		this->MsgOutput(szMsg, 0xffffff00);
 		break;
-	case N3_SP_KNIGHTS_COMMON_FAIL_OTHER_CLAN_USER: //상대유저가 이미 다른 클랜이나 기사단에 가입되어 있음..
+	case N3_SP_KNIGHTS_COMMON_FAIL_OTHER_CLAN_USER: // The opposing user is already a member of another clan or guild.
 		::_LoadStringFromResource(IDS_CLAN_JOIN_FAIL_OTHER_CLAN_USER, szMsg);
 		this->MsgOutput(szMsg, 0xffffff00);
 		break;
-	case N3_SP_KNIGHTS_COMMON_FAIL_INVALIDRIGHT: //권한이 없음..
+	case N3_SP_KNIGHTS_COMMON_FAIL_INVALIDRIGHT: // No permission..
 		::_LoadStringFromResource(IDS_CLAN_JOIN_FAIL_INVALIDRIGHT, szMsg);
 		this->MsgOutput(szMsg, 0xffffff00);
 		break;
-	case N3_SP_KNIGHTS_COMMON_FAIL_NONE_CLAN:	//존재하지 않는 기사단..									
+	case N3_SP_KNIGHTS_COMMON_FAIL_NONE_CLAN:	// Knights that don&#39;t exist...
 		::_LoadStringFromResource(IDS_CLAN_JOIN_FAIL_NONE_CLAN, szMsg);
 		this->MsgOutput(szMsg, 0xffffff00);
 		break;
-	case N3_SP_KNIGHTS_COMMON_FAIL_FULL:	//인원이 풀..
+	case N3_SP_KNIGHTS_COMMON_FAIL_FULL:	// Full staff..
 		::_LoadStringFromResource(IDS_CLAN_JOIN_FAIL_CLAN_FULL, szMsg);
 		this->MsgOutput(szMsg, 0xffffff00);
 		break;
@@ -6372,18 +6370,18 @@ void CGameProcMain::MsgRecv_Knights_Leave(DataPack* pDataPack, int& iOffset)
 	std::string szMsg;
 	switch ( (e_SubPacket_KNights_Common)bSubCom )
 	{
-	case N3_SP_KNIGHTS_COMMON_DBFAIL: //DB검색 실패..
+	case N3_SP_KNIGHTS_COMMON_DBFAIL: // DB search failed..
 		break;
-	case N3_SP_KNIGHTS_COMMON_SUCCESS: //클랜탈퇴 성공
+	case N3_SP_KNIGHTS_COMMON_SUCCESS: // Clan withdrawal success
 		{
 			const int sid = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
 			const int iID = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
 			const auto eDuty = (e_KnightsDuty)CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
-			const int iL = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // 소속 기사단 이름 길이.
+			const int iL = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // The length of the name of the Knights Templar.
 			std::string szKnightsName;
 			CAPISocket::Parse_GetString(pDataPack->m_pData, iOffset, szKnightsName, iL);
-			const int iGrade = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);	// 등급
-			const int iRank = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);		// 순위
+			const int iGrade = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);	// Rating
+			const int iRank = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);		// ranking
 
 			if(s_pPlayer->IDNumber()==sid)
 			{
@@ -6408,31 +6406,31 @@ void CGameProcMain::MsgRecv_Knights_Leave(DataPack* pDataPack, int& iOffset)
 			}
 		}
 		break;
-	case N3_SP_KNIGHTS_COMMON_FAIL_NONE_USER:	//없는 유저..
+	case N3_SP_KNIGHTS_COMMON_FAIL_NONE_USER:	// no user...
 		::_LoadStringFromResource(IDS_CLAN_JOIN_FAIL_NONE_USER, szMsg);
 		this->MsgOutput(szMsg, 0xffffff00);
 		break;
-	case N3_SP_KNIGHTS_COMMON_FAIL_DEAD_USER:	//상대유저가 죽어 있음..
+	case N3_SP_KNIGHTS_COMMON_FAIL_DEAD_USER:	// Opponent is dead...
 		::_LoadStringFromResource(IDS_CLAN_JOIN_FAIL_DEAD_USER, szMsg);
 		this->MsgOutput(szMsg, 0xffffff00);
 		break;
-	case N3_SP_KNIGHTS_COMMON_FAIL_ENEMY_USER: //상대유저의 국가가 다름..
+	case N3_SP_KNIGHTS_COMMON_FAIL_ENEMY_USER: // The country of the other user is different..
 		::_LoadStringFromResource(IDS_CLAN_JOIN_FAIL_ENEMY_USER, szMsg);
 		this->MsgOutput(szMsg, 0xffffff00);
 		break;
-	case N3_SP_KNIGHTS_COMMON_FAIL_OTHER_CLAN_USER: //상대유저가 이미 다른 클랜이나 기사단에 가입되어 있음..
+	case N3_SP_KNIGHTS_COMMON_FAIL_OTHER_CLAN_USER: // The opposing user is already a member of another clan or guild.
 		::_LoadStringFromResource(IDS_CLAN_JOIN_FAIL_OTHER_CLAN_USER, szMsg);
 		this->MsgOutput(szMsg, 0xffffff00);
 		break;
-	case N3_SP_KNIGHTS_COMMON_FAIL_INVALIDRIGHT: //권한이 없음..
+	case N3_SP_KNIGHTS_COMMON_FAIL_INVALIDRIGHT: // no permission..
 		::_LoadStringFromResource(IDS_CLAN_JOIN_FAIL_INVALIDRIGHT, szMsg);
 		this->MsgOutput(szMsg, 0xffffff00);
 		break;
-	case N3_SP_KNIGHTS_COMMON_FAIL_NONE_CLAN:	//존재하지 않는 기사단..									
+	case N3_SP_KNIGHTS_COMMON_FAIL_NONE_CLAN:	// Knights that don&#39;t exist...
 		::_LoadStringFromResource(IDS_CLAN_JOIN_FAIL_NONE_CLAN, szMsg);
 		this->MsgOutput(szMsg, 0xffffff00);
 		break;
-	case N3_SP_KNIGHTS_COMMON_FAIL_FULL:	//인원이 풀..
+	case N3_SP_KNIGHTS_COMMON_FAIL_FULL:	// Full staff..
 		::_LoadStringFromResource(IDS_CLAN_JOIN_FAIL_CLAN_FULL, szMsg);
 		this->MsgOutput(szMsg, 0xffffff00);
 		break;
@@ -6458,9 +6456,9 @@ void CGameProcMain::MsgRecv_Knights_AppointViceChief(DataPack* pDataPack, int& i
 	std::string szMsg;
 	switch ( (e_SubPacket_KNights_Common)bSubCom )
 	{
-	case N3_SP_KNIGHTS_COMMON_DBFAIL: //DB검색 실패..
+	case N3_SP_KNIGHTS_COMMON_DBFAIL: // DB search failed..
 		break;
-	case N3_SP_KNIGHTS_COMMON_SUCCESS: //클랜가입 성공
+	case N3_SP_KNIGHTS_COMMON_SUCCESS: // Clan registration successful
 		{
 			const int iID = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
 			const auto eDuty = (e_KnightsDuty)CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
@@ -6479,31 +6477,31 @@ void CGameProcMain::MsgRecv_Knights_AppointViceChief(DataPack* pDataPack, int& i
 			}
 		}
 		break;
-	case N3_SP_KNIGHTS_COMMON_FAIL_NONE_USER:	//없는 유저..
+	case N3_SP_KNIGHTS_COMMON_FAIL_NONE_USER:	// no user...
 		::_LoadStringFromResource(IDS_CLAN_JOIN_FAIL_NONE_USER, szMsg);
 		this->MsgOutput(szMsg, 0xffffff00);
 		break;
-	case N3_SP_KNIGHTS_COMMON_FAIL_DEAD_USER:	//상대유저가 죽어 있음..
+	case N3_SP_KNIGHTS_COMMON_FAIL_DEAD_USER:	// Opponent is dead...
 		::_LoadStringFromResource(IDS_CLAN_JOIN_FAIL_DEAD_USER, szMsg);
 		this->MsgOutput(szMsg, 0xffffff00);
 		break;
-	case N3_SP_KNIGHTS_COMMON_FAIL_ENEMY_USER: //상대유저의 국가가 다름..
+	case N3_SP_KNIGHTS_COMMON_FAIL_ENEMY_USER: // The country of the other user is different..
 		::_LoadStringFromResource(IDS_CLAN_JOIN_FAIL_ENEMY_USER, szMsg);
 		this->MsgOutput(szMsg, 0xffffff00);
 		break;
-	case N3_SP_KNIGHTS_COMMON_FAIL_OTHER_CLAN_USER: //상대유저가 이미 다른 클랜이나 기사단에 가입되어 있음..
+	case N3_SP_KNIGHTS_COMMON_FAIL_OTHER_CLAN_USER: // The opposing user is already a member of another clan or guild.
 		::_LoadStringFromResource(IDS_CLAN_JOIN_FAIL_OTHER_CLAN_USER, szMsg);
 		this->MsgOutput(szMsg, 0xffffff00);
 		break;
-	case N3_SP_KNIGHTS_COMMON_FAIL_INVALIDRIGHT: //권한이 없음..
+	case N3_SP_KNIGHTS_COMMON_FAIL_INVALIDRIGHT: // No permission..
 		::_LoadStringFromResource(IDS_CLAN_JOIN_FAIL_INVALIDRIGHT, szMsg);
 		this->MsgOutput(szMsg, 0xffffff00);
 		break;
-	case N3_SP_KNIGHTS_COMMON_FAIL_NONE_CLAN:	//존재하지 않는 기사단..									
+	case N3_SP_KNIGHTS_COMMON_FAIL_NONE_CLAN:	// Knights that don&#39;t exist...
 		::_LoadStringFromResource(IDS_CLAN_JOIN_FAIL_NONE_CLAN, szMsg);
 		this->MsgOutput(szMsg, 0xffffff00);
 		break;
-	case N3_SP_KNIGHTS_COMMON_FAIL_FULL:	//인원이 풀..
+	case N3_SP_KNIGHTS_COMMON_FAIL_FULL:	// Full staff..
 		::_LoadStringFromResource(IDS_CLAN_JOIN_FAIL_CLAN_FULL, szMsg);
 		this->MsgOutput(szMsg, 0xffffff00);
 		break;
@@ -6532,7 +6530,7 @@ void CGameProcMain::MsgRecv_Knights_MemberInfoAll(DataPack* pDataPack, int& iOff
 	case N3_SP_KNIGHTS_COMMON_SUCCESS:
 		m_pUIVar->m_pPageKnights->MsgRecv_MemberInfo(pDataPack, iOffset);
 		break;
-	case N3_SP_KNIGHTS_COMMON_DBFAIL: //DB검색 실패..
+	case N3_SP_KNIGHTS_COMMON_DBFAIL: // DB search failed..
 	default:
 		break;		
 	}
@@ -6594,10 +6592,10 @@ void CGameProcMain::MsgRecv_Knights_Duty_Change(DataPack* pDataPack, int& iOffse
 				m_pUIVar->UpdateKnightsInfo();
 				if(s_pPlayer->m_InfoExt.iKnightsID == 0)
 					s_pPlayer->KnightsInfoSet(0, "", 0, 0);
-				//std::string szName;
-				//__KnightsInfoBase* pKIB = m_pUIKnightsOp->KnightsInfoFind(s_pPlayer->m_InfoExt.iKnightsID);
-				//if(pKIB) m_pUIVar->m_pPageKnights->UpdateKnightsName(pKIB->szName);
-				//else m_pUIVar->m_pPageKnights->UpdateKnightsName("");
+				// std::string szName;
+				// __KnightsInfoBase* pKIB = m_pUIKnightsOp->KnightsInfoFind(s_pPlayer->m_InfoExt.iKnightsID);
+				// if(pKIB) m_pUIVar->m_pPageKnights->UpdateKnightsName(pKIB->szName);
+				// else m_pUIVar->m_pPageKnights->UpdateKnightsName("");
 			}
 			else
 			{
@@ -6621,17 +6619,17 @@ void CGameProcMain::MsgRecv_Knigts_Join_Req(DataPack* pDataPack, int& iOffset)
 			m_iJoinReqClanRequierID = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
 			m_iJoinReqClan = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
 
-			const int iL = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // 소속 기사단 이름 길이.
+			const int iL = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // The length of the name of the Knights Templar.
 			std::string szKnightsName;
 			CAPISocket::Parse_GetString(pDataPack->m_pData, iOffset, szKnightsName, iL);
 
-//			std::string szName;
-//			__KnightsInfoBase* pKIB = m_pUIKnightsOp->KnightsInfoFind(m_iJoinReqClan);
-//			if(!pKIB)
-//			{
-//				MsgSend_KnightsJoinReq(false);
-//				break;
-//			}
+			// std::string szName;
+			// __KnightsInfoBase* pKIB = m_pUIKnightsOp->KnightsInfoFind(m_iJoinReqClan);
+			// if(!pKIB)
+			// {
+				// MsgSend_KnightsJoinReq(false);
+				// break;
+			// }
 
 			std::string szMsg;
 			::_LoadStringFromResource(IDS_CLAN_JOIN_REQ, szMsg);
@@ -6657,16 +6655,16 @@ bool CGameProcMain::MsgRecv_CharacterSelect(DataPack* pDataPack, int& iOffset) /
 {
 	const bool bSuccess = CGameProcedure::MsgRecv_CharacterSelect(pDataPack, iOffset);
 
-	//전쟁존에서 죽어서 서버 체인지 하는 경우는 다시 값을 세팅해준다.
+	// If you die in the war zone and change servers, the value is set again.
 	if(s_pPlayer->IsDead())
 	{
-		this->InitPlayerPosition(s_pPlayer->Position()); // 플레이어 위치 초기화.. 일으켜 세우고, 기본동작을 취하게 한다.
-		s_pPlayer->RegenerateCollisionMesh(); // 충돌 메시를 다시 만든다..
-		s_pPlayer->m_iSendRegeneration = 0; // 한번 보내면 다시 죽을때까지 안보내는 플래그
-		s_pPlayer->m_fTimeAfterDeath = 0; // 한번 보내면 다시 죽을때까지 안보내는 플래그
+		this->InitPlayerPosition(s_pPlayer->Position()); // Initialize the player position.. Raise him up and make him take the basic action.
+		s_pPlayer->RegenerateCollisionMesh(); // Recreate the collision mesh.
+		s_pPlayer->m_iSendRegeneration = 0; // Once sent, a flag that will not be seen until it dies again
+		s_pPlayer->m_fTimeAfterDeath = 0; // Once sent, a flag that will not be seen until it dies again
 
 		//
-		//마법 & 효과 초기화..
+		// Magic &amp; Effect Reset..
 		if(m_pUIStateBarAndMiniMap) m_pUIStateBarAndMiniMap->ClearMagic();
 		if(m_pMagicSkillMng) m_pMagicSkillMng->ClearDurationalMagic();
 		if(CGameProcedure::s_pFX) s_pFX->StopMine();
@@ -6678,28 +6676,28 @@ bool CGameProcMain::MsgRecv_CharacterSelect(DataPack* pDataPack, int& iOffset) /
 	}
 			
 
-	this->InitZone(s_pPlayer->m_InfoExt.iZoneCur, s_pPlayer->Position()); // 존을 바꾼다..
-	s_pProcMain->MsgSend_GameStart(); // 존로딩이 끝나면 게임 시작..
+	this->InitZone(s_pPlayer->m_InfoExt.iZoneCur, s_pPlayer->Position()); // change john.
+	s_pProcMain->MsgSend_GameStart(); // After loading the zone, the game starts.
 
 	return bSuccess;
 }
 
 void CGameProcMain::MsgRecv_Corpse(DataPack *pDataPack, int &iOffset)
 {
-	const int iID	= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);//regen하고자 하는 유저의 아이디
+	const int iID	= CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);// ID of the user to regenerate
 
 	if( s_pPlayer->IDNumber() != iID )
 	{
 		s_pOPMgr->CorpseAdd( iID );
 
 		if( s_pPlayer->m_iIDTarget == iID )
-			s_pPlayer->m_iIDTarget = -1; //만약 내가 regen한 캐릭터에 포커스를 가지고 있다면 초기화 해준다.
+			s_pPlayer->m_iIDTarget = -1; // If I have focus on the character I regen, it initializes it.
 	}
 }
 
 void CGameProcMain::MsgSend_PerTradeBBSReq(std::string szName, int iDestID)
 {
-	if(	!m_pUITransactionDlg->IsVisible() ) //// 개인간 아이템 거래.. // 상거래 중이 아니면..
+	if(	!m_pUITransactionDlg->IsVisible() ) // Item transaction between individuals.. // If not in commerce..
 	{
 		std::string szMsg; ::_LoadStringFromResource(IDS_PERSONAL_TRADE_REQUEST, szMsg);
 		MsgOutput(szName + szMsg, 0xffffff00);
@@ -6743,14 +6741,14 @@ bool CGameProcMain::OnMouseMove(POINT ptCur, POINT ptPrev)
 			CPlayerNPC*	 pTarget = NULL;
 		
 			int iID = -1;
-			pTarget = s_pOPMgr->Pick(ptCur.x, ptCur.y, iID, &vPick); // 사방에 깔린넘들 픽킹..
-			this->TargetSelect(iID, false); // 타겟을 잡는다..
-			if(NULL == pTarget) // 타겟이 없으면..
+pTarget = s_pOPMgr-&gt;Pick(ptCur.x, ptCur.y, iID, &amp;vPick); // Picking people everywhere..
+this-&gt;TargetSelect(iID, false); // catch the target...
+if (NULL == pTarget) // If there is no target...
 			{
-				s_pPlayer->m_pObjectTarget = ACT_WORLD->PickWithShape(ptCur.x, ptCur.y, true, &vPick); // 찍힌 위치를 저장한다..
-				if(NULL == s_pPlayer->m_pObjectTarget) // 타겟도 없으면..
+s_pPlayer-&gt;m_pObjectTarget = ACT_WORLD-&gt;PickWithShape(ptCur.x, ptCur.y, true, &amp;vPick); // Save the location where it was taken.
+if (NULL == s_pPlayer-&gt;m_pObjectTarget) // If there is no target...
 				{
-					ACT_WORLD->PickWideWithTerrain(ptCur.x, ptCur.y, vPick); // 지형을 찍어본다..
+ACT_WORLD-&gt;PickWideWithTerrain(ptCur.x, ptCur.y, vPick); // Take a picture of the terrain.
 				}
 			}
 			s_pFX->SetBundlePos(m_pMagicSkillMng->m_iMyRegionTargetFXID, m_pMagicSkillMng->m_iMyRegionTargetFXID, vPick);
@@ -6773,7 +6771,7 @@ bool CGameProcMain::OnMouseMove(POINT ptCur, POINT ptPrev)
 			vMyPos = s_pPlayer->Position();
 			vMyPos.y += s_pPlayer->Height() / 2;
 
-			ACT_WORLD->PickWideWithTerrain(ptCur.x, ptCur.y, m_vMouseSkillPos); // 지형을 찍어본다..
+			ACT_WORLD->PickWideWithTerrain(ptCur.x, ptCur.y, m_vMouseSkillPos); // Take a picture of the terrain.
 
 			vDir = m_vMouseSkillPos - vMyPos;
 			vGap = vDir;
@@ -6781,11 +6779,11 @@ bool CGameProcMain::OnMouseMove(POINT ptCur, POINT ptPrev)
 
 			const bool bColShape = ACT_WORLD->CheckCollisionWithShape(vMyPos, vDir, vGap.Magnitude(), &m_vMouseSkillPos, &vNormal);
 
-			if(!bColShape) // 타겟도 없으면..
+			if(!bColShape) // If there is no target...
 			{
 				int iID = -1;
-				s_pOPMgr->Pick(ptCur.x, ptCur.y, iID, &m_vMouseSkillPos); // 사방에 깔린넘들 픽킹..
-				this->TargetSelect(iID, false); // 타겟을 잡는다..
+				s_pOPMgr->Pick(ptCur.x, ptCur.y, iID, &m_vMouseSkillPos); // Picking people everywhere..
+				this->TargetSelect(iID, false); // catch the target...
 			}
 			else
 			{
@@ -6798,7 +6796,7 @@ bool CGameProcMain::OnMouseMove(POINT ptCur, POINT ptPrev)
 	return true;
 }
 
-// 왼쪽 더블 클릭
+// left double click
 bool CGameProcMain::OnMouseLDBtnPress(POINT ptCur, POINT ptPrev)
 {
 	if(s_pUIMgr->m_bDoneSomething) return false;
@@ -6816,7 +6814,7 @@ bool CGameProcMain::OnMouseLDBtnPress(POINT ptCur, POINT ptPrev)
 		if(s_pPlayer->IsAttackableTarget(pTarget, false))
 		{
 			this->CommandMove(MD_STOP, true);
-			this->CommandEnableAttackContinous(true, pTarget); // 자동 공격
+			this->CommandEnableAttackContinous(true, pTarget); // auto attack
 		}
 		else if(pTarget && VP_THIRD_PERSON == s_pEng->ViewPoint())
 		{
@@ -6832,7 +6830,7 @@ bool CGameProcMain::OnMouseLDBtnPress(POINT ptCur, POINT ptPrev)
 	return true;
 }
 
-// 왼쪽 클릭
+// left click
 bool CGameProcMain::OnMouseLBtnPress(POINT ptCur, POINT ptPrev)
 {
 	if(s_pUIMgr->m_bDoneSomething) return false;
@@ -6853,21 +6851,21 @@ bool CGameProcMain::OnMouseLBtnPress(POINT ptCur, POINT ptPrev)
 	BOOL		 bFindCorpse		= false;
 
 	int iID = -1;
-	pTarget = s_pOPMgr->PickPrecisely(ptCur.x, ptCur.y, iID, &m_vMouseLBClickedPos); // 사방에 깔린넘들 픽킹..
-	this->TargetSelect(iID, false); // 타겟을 잡는다..
-	if(nullptr == pTarget) // 타겟이 없으면..
+	pTarget = s_pOPMgr->PickPrecisely(ptCur.x, ptCur.y, iID, &m_vMouseLBClickedPos); // Picking people everywhere..
+	this->TargetSelect(iID, false); // catch the target...
+	if(nullptr == pTarget) // If there is no target...
 	{
-		if(s_pPlayer->m_bAttackContinous) // 계속 공격하는 중이면..
-			this->CommandEnableAttackContinous(false, nullptr); // 계속 공격 취소..
+		if(s_pPlayer->m_bAttackContinous) // If you keep attacking...
+			this->CommandEnableAttackContinous(false, nullptr); // Continue to cancel the attack...
 
-		s_pPlayer->m_pObjectTarget = ACT_WORLD->PickWithShape(ptCur.x, ptCur.y, true, &m_vMouseLBClickedPos); // 찍힌 위치를 저장한다..
-		if(nullptr == s_pPlayer->m_pObjectTarget) // 타겟도 없으면..
+		s_pPlayer->m_pObjectTarget = ACT_WORLD->PickWithShape(ptCur.x, ptCur.y, true, &m_vMouseLBClickedPos); // Save the captured location.
+		if(nullptr == s_pPlayer->m_pObjectTarget) // If there is no target...
 		{
-			// 시체 뒤저서 아이템 상자 열기..
-			CPlayerNPC* pCorpse = s_pOPMgr->PickCorpse(ptCur.x, ptCur.y, iID); // 픽킹..
-			if(false == this->MsgSend_RequestItemBundleOpen(pCorpse)) // 시체 뒤지기 요청..
+			// Dig through the corpse and open the item box.
+			CPlayerNPC* pCorpse = s_pOPMgr->PickCorpse(ptCur.x, ptCur.y, iID); // Picking..
+			if(false == this->MsgSend_RequestItemBundleOpen(pCorpse)) // A request to search the body...
 			{
-				ACT_WORLD->PickWideWithTerrain(ptCur.x, ptCur.y, m_vMouseLBClickedPos); // 지형을 찍어본다..
+				ACT_WORLD->PickWideWithTerrain(ptCur.x, ptCur.y, m_vMouseLBClickedPos); // Take a picture of the terrain.
 			}
 			else
 				bFindCorpse = true;
@@ -6876,7 +6874,7 @@ bool CGameProcMain::OnMouseLBtnPress(POINT ptCur, POINT ptPrev)
 
 	if(m_pMagicSkillMng->m_dwRegionMagicState==1)
 	{
-//		s_pFX->SetBundlePos(m_pMagicSkillMng->m_iMyRegionTargetFXID, m_pMagicSkillMng->m_iMyRegionTargetFXID, m_vMouseLBClickedPos);
+		// s_pFX->SetBundlePos(m_pMagicSkillMng->m_iMyRegionTargetFXID, m_pMagicSkillMng->m_iMyRegionTargetFXID, m_vMouseLBClickedPos);
 		s_pFX->SetBundlePos(m_pMagicSkillMng->m_iMyRegionTargetFXID, m_pMagicSkillMng->m_iMyRegionTargetFXID, m_vMouseSkillPos);
 		m_pMagicSkillMng->m_dwRegionMagicState = 2;
 	}
@@ -6884,7 +6882,7 @@ bool CGameProcMain::OnMouseLBtnPress(POINT ptCur, POINT ptPrev)
 	if(!s_pPlayer->IsDead() && VP_THIRD_PERSON == s_pEng->ViewPoint())
 	{
 		m_fLBClickTime = CN3Base::TimeGet();
-		this->CommandSitDown(false, false); // 일단 일으켜 세운다..
+		this->CommandSitDown(false, false); // once you get it up...
 
 		if(pTarget)
 		{
@@ -6895,7 +6893,7 @@ bool CGameProcMain::OnMouseLBtnPress(POINT ptCur, POINT ptPrev)
 					if(s_pPlayer->m_bTargetOrPosMove)
 						this->CommandMove(MD_STOP, true);
 
-					this->CommandEnableAttackContinous(true, pTarget); // 자동 공격
+					this->CommandEnableAttackContinous(true, pTarget); // auto attack
 				}
 				else
 				{
@@ -6913,7 +6911,7 @@ bool CGameProcMain::OnMouseLBtnPress(POINT ptCur, POINT ptPrev)
 		{
 			s_pPlayer->RotateTo(fYaw, true);
 			__Vector3 vMovePoint;
-			ACT_WORLD->PickWideWithTerrain(ptCur.x, ptCur.y, vMovePoint); // 지형을 찍어본다..
+			ACT_WORLD->PickWideWithTerrain(ptCur.x, ptCur.y, vMovePoint); // Take a picture of the terrain.
 
 			const float fDist = (vMovePoint - s_pPlayer->Position()).Magnitude();
 
@@ -6939,7 +6937,7 @@ bool CGameProcMain::OnMouseLBtnPress(POINT ptCur, POINT ptPrev)
 				if(s_pPlayer->m_bTargetOrPosMove)
 					this->CommandMove(MD_STOP, true);
 
-				this->CommandEnableAttackContinous(true, pTarget); // 자동 공격
+				this->CommandEnableAttackContinous(true, pTarget); // auto attack
 			}
 			else
 			{
@@ -6952,18 +6950,18 @@ bool CGameProcMain::OnMouseLBtnPress(POINT ptCur, POINT ptPrev)
 	return true;
 }
 
-// 왼쪽 클릭업
+// left click up
 bool CGameProcMain::OnMouseLBtnPressd(POINT ptCur, POINT ptPrev)
 {
 	if(!s_pLocalInput->IsKeyDown(KM_MOVE_FOWARD))
 	{
-//		if(!s_pPlayer->m_bTargetOrPosMove)
-//			this->CommandMove(MD_STOP, true);
+		// if(!s_pPlayer->m_bTargetOrPosMove)
+		// this->CommandMove(MD_STOP, true);
 	}
 	return true;
 }
 
-// 왼쪽 눌리고 있을때
+// when left pressed
 bool CGameProcMain::OnMouseLbtnDown(POINT ptCur, POINT ptPrev)
 {
 	if(s_pUIMgr->m_bDoneSomething) return false;
@@ -6980,7 +6978,7 @@ bool CGameProcMain::OnMouseLbtnDown(POINT ptCur, POINT ptPrev)
 	vDir.Normalize();
 	const float fYaw = ::_Yaw2D(vDir.x, vDir.z);
 
-	if(!s_pPlayer->IsDead() && VP_THIRD_PERSON == s_pEng->ViewPoint() && !s_pLocalInput->IsKeyDown(KM_MOVE_FOWARD)) // 삼인칭 시점이면.. UI 를 건들지 않았으면..
+	if(!s_pPlayer->IsDead() && VP_THIRD_PERSON == s_pEng->ViewPoint() && !s_pLocalInput->IsKeyDown(KM_MOVE_FOWARD)) // If it&#39;s a third person point of view... if you don&#39;t touch the UI...
 	{
 		__Vector3 vMovePoint;
 		float fDist;
@@ -6992,11 +6990,11 @@ bool CGameProcMain::OnMouseLbtnDown(POINT ptCur, POINT ptPrev)
 				CommandToggleAttackContinous();
 
 
-			this->CommandSitDown(false, false); // 일단 일으켜 세운다..
+			this->CommandSitDown(false, false); // once you get it up...
 			s_pPlayer->RotateTo(fYaw, true);
 			this->CommandMove(MD_FOWARD, false);
 
-			ACT_WORLD->PickWideWithTerrain(ptCur.x, ptCur.y, vMovePoint); // 지형을 찍어본다..
+			ACT_WORLD->PickWideWithTerrain(ptCur.x, ptCur.y, vMovePoint); // Take a picture of the terrain.
 			fDist = (vMovePoint - s_pPlayer->Position()).Magnitude();
 
 			s_pPlayer->SetMoveTargetPos(vMovePoint);
@@ -7007,7 +7005,7 @@ bool CGameProcMain::OnMouseLbtnDown(POINT ptCur, POINT ptPrev)
 				CommandToggleAttackContinous();
 
 			s_pPlayer->RotateTo(fYaw, true);
-			ACT_WORLD->PickWideWithTerrain(ptCur.x, ptCur.y, vMovePoint); // 지형을 찍어본다..
+			ACT_WORLD->PickWideWithTerrain(ptCur.x, ptCur.y, vMovePoint); // Take a picture of the terrain.
 
 			fDist = (vMovePoint - s_pPlayer->Position()).Magnitude();
 
@@ -7021,7 +7019,7 @@ bool CGameProcMain::OnMouseLbtnDown(POINT ptCur, POINT ptPrev)
 	return true;
 }
 
-// 오른쪽 클릭
+// right click
 bool CGameProcMain::OnMouseRBtnPress(POINT ptCur, POINT ptPrev)
 {
 	if(s_pUIMgr->m_bDoneSomething) return false;
@@ -7033,19 +7031,19 @@ bool CGameProcMain::OnMouseRBtnPress(POINT ptCur, POINT ptPrev)
 	}
 
 	int iID = -1;
-	CPlayerNPC* pNPC = s_pOPMgr->PickNPC(ptCur.x, ptCur.y, iID); // 픽킹..
+	CPlayerNPC* pNPC = s_pOPMgr->PickNPC(ptCur.x, ptCur.y, iID); // Picking..
 
 	if(nullptr == pNPC)
 	{
-		CPlayerNPC* pCorpse = s_pOPMgr->PickCorpse(ptCur.x, ptCur.y, iID); // 픽킹..
-		if(false == this->MsgSend_RequestItemBundleOpen(pCorpse)) // 시체 뒤저서 아이템 상자 열기..
+		CPlayerNPC* pCorpse = s_pOPMgr->PickCorpse(ptCur.x, ptCur.y, iID); // Picking..
+		if(false == this->MsgSend_RequestItemBundleOpen(pCorpse)) // Dig through the corpse and open the item box.
 		{
 			CN3Shape* pShape = ACT_WORLD->PickWithShape(ptCur.x, ptCur.y, true);
-			if(	pShape && pShape == s_pPlayer->m_pObjectTarget && pShape->m_iEventID) // Event 가 있으면..
+			if(	pShape && pShape == s_pPlayer->m_pObjectTarget && pShape->m_iEventID) // If there is an event...
 			{
 				const float fD = (s_pPlayer->Position() - pShape->Pos()).Magnitude();
 				const float fDLimit = (s_pPlayer->Radius() + pShape->Radius()) * 2.0f;
-				if(fD > fDLimit) // 거리가 멀면
+				if(fD > fDLimit) // if the distance is far
 				{
 					std::string szMsg; 
 					if(OBJECT_TYPE_BINDPOINT == pShape->m_iEventType) ::_LoadStringFromResource(IDS_BIND_POINT_REQUEST_FAIL, szMsg);
@@ -7057,25 +7055,25 @@ bool CGameProcMain::OnMouseRBtnPress(POINT ptCur, POINT ptPrev)
 					if(OBJECT_TYPE_BINDPOINT == pShape->m_iEventType)
 					{
 						std::string szMsg; ::_LoadStringFromResource(IDS_REQUEST_BINDPOINT, szMsg);
-						this->MessageBoxPost(szMsg, "", MB_YESNO, BEHAVIOR_REQUEST_BINDPOINT); // 바인팅 포인트 설정 메시지 박스
+						this->MessageBoxPost(szMsg, "", MB_YESNO, BEHAVIOR_REQUEST_BINDPOINT); // Binding point setting message box
 					}
 					else if(OBJECT_TYPE_WARP_POINT == pShape->m_iEventType)
 					{
-						this->MsgSend_ObjectEvent(pShape->m_iEventID, pShape->m_iNPC_ID); // 오브젝트 이벤트 보내기..
+						this->MsgSend_ObjectEvent(pShape->m_iEventID, pShape->m_iNPC_ID); // Send object event...
 					}
 				}
 			}
 		}
 	}
-	else if(pNPC->IDNumber() == s_pPlayer->m_iIDTarget) // 타겟으로 찍은 캐릭터와 피킹한 캐릭터가 같고 ..) 
+	else if(pNPC->IDNumber() == s_pPlayer->m_iIDTarget) // The target character and the picked character are the same...)
 	{
-		if(	pNPC->m_pShapeExtraRef ) // 오브젝트 형태의 NPC 이면.. 컨트롤 할 NPC의 ID 가 있으면..
+		if(	pNPC->m_pShapeExtraRef ) // If it is an object-type NPC... If there is an ID of an NPC to control...
 		{
 			if(pNPC->m_pShapeExtraRef->m_iNPC_ID > 0)
 			{
 				const float fD = (s_pPlayer->Position() - pNPC->m_pShapeExtraRef->Pos()).Magnitude();
 				const float fDLimit = (s_pPlayer->Radius() + pNPC->m_pShapeExtraRef->Radius()) * 2.0f;
-				if(fD > fDLimit) // 거리가 멀면
+				if(fD > fDLimit) // if the distance is far
 				{
 					std::string szMsg; ::_LoadStringFromResource(IDS_ERR_REQUEST_OBJECT_EVENT_SO_FAR, szMsg);
 					this->MsgOutput(szMsg, 0xffff8080);
@@ -7086,22 +7084,22 @@ bool CGameProcMain::OnMouseRBtnPress(POINT ptCur, POINT ptPrev)
 				}
 			}
 		}
-		else // 보통 NPC 이면..
+		else // Usually NPCs...
 		{
-			if(pNPC->m_InfoBase.eNation == s_pPlayer->m_InfoBase.eNation) // 같은 국가 일때만..
+			if(pNPC->m_InfoBase.eNation == s_pPlayer->m_InfoBase.eNation) // Only in the same country...
 			{
 				const float fD = (s_pPlayer->Position() - pNPC->Position()).Magnitude();
 				const float fDLimit = (s_pPlayer->Radius() + pNPC->Radius()) * 3.0f;
-				if(fD > fDLimit) // 거리가 멀면
+				if(fD > fDLimit) // if the distance is far
 				{
 					std::string szMsg; ::_LoadStringFromResource(IDS_ERR_REQUEST_NPC_EVENT_SO_FAR, szMsg);
 					this->MsgOutput(szMsg, 0xffff8080);
 				}
 				else
 				{
-					s_pPlayer->ActionMove(PSM_STOP); // 일단 멈추고..
-					pNPC->RotateTo(s_pPlayer); // 방향을 플레이어 쪽으로 돌린다.
-					this->MsgSend_NPCEvent(iID); // 이벤트 요청..
+					s_pPlayer->ActionMove(PSM_STOP); // once you stop...
+					pNPC->RotateTo(s_pPlayer); // Turn the direction towards the player.
+					this->MsgSend_NPCEvent(iID); // event request.
 					if (m_pUITransactionDlg) m_pUITransactionDlg->m_iNpcID = pNPC->IDNumber();
 				}
 			}
@@ -7110,28 +7108,28 @@ bool CGameProcMain::OnMouseRBtnPress(POINT ptCur, POINT ptPrev)
 	return true;
 }
 
-// 오른쪽 클릭업
+// right click up
 bool CGameProcMain::OnMouseRBtnPressd(POINT ptCur, POINT ptPrev)
 {
 	return true;
 }
 
-// 오른쪽 눌리고 있을때
+// when right pressed
 bool CGameProcMain::OnMouseRbtnDown(POINT ptCur, POINT ptPrev)
 {
 	const float fMouseSensivity = 0.02f;
 
-	const float fRotY = D3DXToRadian(180.0f) * ((ptCur.x - ptPrev.x) * fMouseSensivity); // 회전할 양을 계산하고..
+	const float fRotY = D3DXToRadian(180.0f) * ((ptCur.x - ptPrev.x) * fMouseSensivity); // Calculate the amount to rotate...
 	const float fRotX = D3DXToRadian(180.0f) * ((ptCur.y - ptPrev.y) * fMouseSensivity);
 	if(fRotY && s_pPlayer->IsAlive())
 	{
 		if(VP_THIRD_PERSON == s_pEng->ViewPoint()) s_pEng->CameraYawAdd(fRotY);
-		else if(false == s_pPlayer->m_bStun) s_pPlayer->RotAdd(fRotY); // 기절해 있지 않을때만..
+		else if(false == s_pPlayer->m_bStun) s_pPlayer->RotAdd(fRotY); // Only when I&#39;m not fainting...
 	}
 	if(fRotX)
 	{
-		if(VP_THIRD_PERSON == s_pEng->ViewPoint()) s_pEng->CameraZoom(-fRotX); // 카메라 확대
-		else s_pEng->CameraPitchAdd(fRotX); // 카메라 각도
+		if(VP_THIRD_PERSON == s_pEng->ViewPoint()) s_pEng->CameraZoom(-fRotX); // camera zoom
+		else s_pEng->CameraPitchAdd(fRotX); // camera angle
 	}
 
 	if(fRotY || fRotX)
@@ -7143,12 +7141,12 @@ bool CGameProcMain::OnMouseRbtnDown(POINT ptCur, POINT ptPrev)
 	return true;
 }
 
-// 오른쪽 더블 클릭
+// right double click
 bool CGameProcMain::OnMouseRDBtnPress(POINT ptCur, POINT ptPrev)
 {
 	if(s_pUIMgr->m_bDoneSomething) return false;
 
-	//스킬 매직이 사용되었다면....
+	// If skill magic was used...
 	m_pUIHotKeyDlg->EffectTriggerByMouse();
 
 	return true;
@@ -7177,12 +7175,12 @@ void CGameProcMain::ProcessUIKeyInput(bool bEnable)
 
 void CGameProcMain::MsgSend_SpeedCheck(bool bInit)
 {
-	BYTE	byBuff[10];											// 버퍼.. 
-	int		iOffset=0;											// 옵셋..
-	const float	fTime = CN3Base::TimeGet();							// 클라이언트 시간
+	BYTE	byBuff[10];											// buffer..
+	int		iOffset=0;											// Offset...
+	const float	fTime = CN3Base::TimeGet();							// client time
 
-	s_pSocket->MP_AddByte(byBuff, iOffset, N3_CHECK_SPEEDHACK);	// 스피드핵 체크 패킷..
-	s_pSocket->MP_AddByte(byBuff, iOffset, bInit);				// 서버가 기준 시간으로 쓸 타입 true 이면 기준시간 false면 체크타입
-	s_pSocket->MP_AddFloat(byBuff, iOffset, fTime);				// 클라이언트 시간
-	s_pSocket->Send(byBuff, iOffset);							// 보냄..
+	s_pSocket->MP_AddByte(byBuff, iOffset, N3_CHECK_SPEEDHACK);	// Speed hack check packet..
+	s_pSocket->MP_AddByte(byBuff, iOffset, bInit);				// Type to be used by the server as standard time. If true, standard time. If false, check type.
+	s_pSocket->MP_AddFloat(byBuff, iOffset, fTime);				// client time
+	s_pSocket->Send(byBuff, iOffset);							// sent...
 }

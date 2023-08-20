@@ -36,8 +36,8 @@ void CN3WorldManager::InitWorld(int iZoneID, const __Vector3& vPosPlayer)
 	if (m_pActiveWorld)
 		delete m_pActiveWorld;
 
-	// Zone 선택..
-	if (iZoneID != 51)	// N3Terrain..
+	// Select Zone..
+	if (iZoneID != 51)	// N3 Terrain..
 	{
 		CLogWriter::Write("CN3WorldManager::InitWorld Pre new Terrain ZoneID(%d)", iZoneID); // TmpLog_11_22
 
@@ -52,7 +52,7 @@ void CN3WorldManager::InitWorld(int iZoneID, const __Vector3& vPosPlayer)
 		m_bIndoor = true;
 	}
 
-	// Zone 초기화..
+	// Zone initialization..
 	m_pActiveWorld->InitWorld(iZoneID, vPosPlayer);
 }
 

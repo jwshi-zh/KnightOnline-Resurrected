@@ -42,15 +42,15 @@ class DataPack;
 class CGameProcedure : public CGameBase
 {
 public:		
-	static class CN3SndObjStream*	s_pSnd_BGM;			// 메인 배경음악 포인터..
-	static class CLocalInput*		s_pLocalInput;		// 마우스와 키보드 입력 객체 .. Direct Input 을 썼다.
-	static class CAPISocket*		s_pSocket;			// 메인 소켓 객체
-	static class CAPISocket*		s_pSocketSub;		// 서브 소켓 객체..
+	static class CN3SndObjStream*	s_pSnd_BGM;			// Main background music pointer..
+	static class CLocalInput*		s_pLocalInput;		// Mouse and keyboard input object .. I wrote Direct Input.
+	static class CAPISocket*		s_pSocket;			// main socket object
+	static class CAPISocket*		s_pSocketSub;		// subsocket object..
 	static class CGameEng*			s_pEng;				// 3D Wrapper Engine
 	static class CN3FXMgr*			s_pFX;
 	
 	static class CUIManager*		s_pUIMgr;					// UI Manager
-	static class CUILoading*		s_pUILoading;				// 로딩바..
+	static class CUILoading*		s_pUILoading;				// loading bar...
 	static class CUIMessageBoxManager*	s_pMsgBoxMgr;			// MessageBox Manager
 
 	static class CGameProcLogIn*			s_pProcLogIn;
@@ -73,20 +73,20 @@ public:
 	static HCURSOR	s_hCursorPreRepair;
 	static HCURSOR	s_hCursorNowRepair;
 
-	static e_LogInClassification	s_eLogInClassification; // 접속한 서비스.. MGame, Daum, KnightOnLine ....
-	static std::string				s_szAccount; // 계정 문자열..
-	static std::string				s_szPassWord; // 계정 비번..
-	static std::string				s_szServer; // 서버이름 문자열..
-	static int						s_iChrSelectIndex; // 이계정의 몇번째 캐릭인지...??
+	static e_LogInClassification	s_eLogInClassification; // Accessed services.. MGame, Daum, KnightOnLine ....
+	static std::string				s_szAccount; // account string..
+	static std::string				s_szPassWord; // account password..
+	static std::string				s_szServer; // servername string.
+	static int						s_iChrSelectIndex; // What character is this account...??
 
 	static bool		m_bCursorLocked;
 	static HCURSOR	m_hPrevGameCursor;
-	static HWND		s_hWndSubSocket; // 서브 소켓용 윈도우 핸들..
+	static HWND		s_hWndSubSocket; // Window handle for subsockets..
 
-	static bool		s_bNeedReportConnectionClosed; // 서버접속이 끊어진걸 보고해야 하는지..
-	static bool		s_bWindowed; // 창모드 실행??
-	static bool		s_bKeyPress;	//키가 눌려졌을때 ui에서 해당하는 조작된적이 있다면
-	static bool		s_bKeyPressed;	//키가 올라갔을때 ui에서 해당하는 조작된적이 있다면
+	static bool		s_bNeedReportConnectionClosed; // Should I report that the server is disconnected?
+	static bool		s_bWindowed; // Run windowed mode??
+	static bool		s_bKeyPress;	// If a key has been manipulated in the UI when it is pressed
+	static bool		s_bKeyPressed;	// If the key has been manipulated in the ui when the key is raised
 
 public:
 	static std::string MessageBoxPost(const std::string& szMsg, const std::string& szTitle, int iStyle, e_Behavior eBehavior = BEHAVIOR_NOTHING);
@@ -100,8 +100,8 @@ public:
 	static void ReportServerConnectionClosed(bool bNeedQuitGame);
 	static void ReportDebugStringAndSendToServer(const std::string& szDebug);
 
-	virtual int		MsgRecv_VersionCheck(DataPack* pDataPack, int& iOffset); // 암호화 키도 같이 받는다..
-	virtual int		MsgRecv_GameServerLogIn(DataPack* pDataPack, int& iOffset); // virtual - 국가번호를 리턴한다.
+	virtual int		MsgRecv_VersionCheck(DataPack* pDataPack, int& iOffset); // You will also receive an encryption key.
+	virtual int		MsgRecv_GameServerLogIn(DataPack* pDataPack, int& iOffset); // virtual - Returns the country code.
 	virtual bool	MsgRecv_CharacterSelect(DataPack* pDataPack, int& iOffset);
 
 	static void		MsgSend_GameServerLogIn();
@@ -111,9 +111,9 @@ public:
 
 
 	
-	virtual void Release(); // 리소스 풀어주기..
-	virtual void Init(); // 필요한 요소들을 초기화 및 로딩
-	virtual void Tick();  // 프로시져 인덱스를 리턴한다. 0 이면 그대로 진행
+	virtual void Release(); // Freeing up resources...
+	virtual void Init(); // Initialize and load necessary elements
+	virtual void Tick();  // Returns the procedure index. If 0, proceed as is.
 	virtual void Render();
 	virtual void ProcessUIKeyInput(bool bEnable = true);
 

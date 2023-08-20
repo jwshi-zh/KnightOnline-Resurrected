@@ -14,19 +14,19 @@ const int SKILL_DEF_SPECIAL2 = 3;
 const int SKILL_DEF_SPECIAL3 = 4;
 
 
-// MAX_SKILL_KIND_OF	:						 Base Skill 1개, 전문 스킬 4개..			
-// MAX_SKILL_IN_PAGE	:						 한 페이지 내의 아이콘 갯수..				
-// MAX_SKILL_PAGE_NUM	:						 스킬 한개가 가지는 최대 페이지수..		
+// MAX_SKILL_KIND_OF : 1 Base Skill, 4 Professional Skills..
+// MAX_SKILL_IN_PAGE: The number of icons in one page..
+// MAX_SKILL_PAGE_NUM: The maximum number of pages for one skill.
 
 
-//////////////////////////////////////////////////////////////////////
+// 
 
 class CUISkillTreeDlg    : public CN3UIWndBase  
 {
 protected:
-	bool		m_bOpenningNow; // 열리고 있다..
-	bool		m_bClosingNow;	// 닫히고 있다..
-	float		m_fMoveDelta; // 부드럽게 열리고 닫히게 만들기 위해서 현재위치 계산에 부동소수점을 쓴다..
+	bool		m_bOpenningNow; // is opening...
+	bool		m_bClosingNow;	// it&#39;s closing...
+	float		m_fMoveDelta; // Floating point is used to calculate the current position to make it open and close smoothly.
 
 	int			m_iRBtnDownOffs;
 
@@ -39,9 +39,9 @@ public:
 	int					m_iCurKindOf;
 	int					m_iCurSkillPage;
 
-	int					m_iSkillInfo[MAX_SKILL_FROM_SERVER];										// 서버로 받는 슬롯 정보..	
-	__IconItemSkill*	m_pMySkillTree[MAX_SKILL_KIND_OF][MAX_SKILL_PAGE_NUM][MAX_SKILL_IN_PAGE];	// 총 스킬 정보..
-	int					m_iCurInPageOffset[MAX_SKILL_KIND_OF];										// 스킬당 현재 페이지 옵셋..
+	int					m_iSkillInfo[MAX_SKILL_FROM_SERVER];										// Slot information received from server..
+	__IconItemSkill*	m_pMySkillTree[MAX_SKILL_KIND_OF][MAX_SKILL_PAGE_NUM][MAX_SKILL_IN_PAGE];	// Total skill information.
+	int					m_iCurInPageOffset[MAX_SKILL_KIND_OF];										// Current page offset per skill..
 
 protected:
 	void				AllClearImageByName(const std::string& szFN, bool bTrueOrNot);
@@ -71,8 +71,8 @@ public:
 
 	void				AddSkillToPage(__TABLE_UPC_SKILL* pUSkill, int iOffset = 0);
 
-	void				SetPageInIconRegion(int iKindOf, int iPageNum);		// 아이콘 역역에서 현재 페이지 설정..
-	void				SetPageInCharRegion();								// 문자 역역에서 현재 페이지 설정..
+	void				SetPageInIconRegion(int iKindOf, int iPageNum);		// Set the current page in the icon area..
+	void				SetPageInCharRegion();								// Set current page in text area..
 
 	CN3UIImage*		   GetChildImageByName(const std::string& szFN);
 	CN3UIBase*			GetChildBaseByName(const std::string &szFN);	

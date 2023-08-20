@@ -45,7 +45,7 @@ bool CUINPCEvent::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 	{
 		if(pSender->m_szID == "Btn_Sale")
 		{
-			if (CGameProcedure::s_pProcMain->m_pSubProcPerTrade->m_ePerTradeState != PER_TRADE_STATE_NONE) 	/* 개인간 상거래 중이면.. */
+			if (CGameProcedure::s_pProcMain->m_pSubProcPerTrade->m_ePerTradeState != PER_TRADE_STATE_NONE) 	/* If a person-to-person transaction is in progress.. */
 				return true;
 
 			Close();
@@ -60,7 +60,7 @@ bool CUINPCEvent::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 
 		if(pSender->m_szID == "Btn_Repair")
 		{
-			if (CGameProcedure::s_pProcMain->m_pSubProcPerTrade->m_ePerTradeState != PER_TRADE_STATE_NONE) 	/* 개인간 상거래 중이면.. */
+			if (CGameProcedure::s_pProcMain->m_pSubProcPerTrade->m_ePerTradeState != PER_TRADE_STATE_NONE) 	/* If a person-to-person transaction is in progress.. */
 				return true;
 
 			Close();
@@ -152,5 +152,5 @@ void CUINPCEvent::SetVisible(bool bVisible)
 	if(bVisible)
 		CGameProcedure::s_pUIMgr->SetVisibleFocusedUI(this);
 	else
-		CGameProcedure::s_pUIMgr->ReFocusUI();//this_ui
+		CGameProcedure::s_pUIMgr->ReFocusUI();// this_ui
 }

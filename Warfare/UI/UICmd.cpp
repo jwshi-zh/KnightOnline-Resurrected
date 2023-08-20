@@ -9,27 +9,27 @@
 
 CUICmd::CUICmd()
 {
-	m_pBtn_Exit = nullptr;			//나가기
+	m_pBtn_Exit = nullptr;			// exit
 
-	m_pBtn_Act = nullptr;			//행동
-	m_pBtn_Act_Walk = nullptr;	//걷기
-	m_pBtn_Act_Run = nullptr;		//달리기
-	m_pBtn_Act_Stop = nullptr;	//서기
-	m_pBtn_Act_Attack = nullptr;	//공격
+	m_pBtn_Act = nullptr;			// action
+	m_pBtn_Act_Walk = nullptr;	// walking
+	m_pBtn_Act_Run = nullptr;		// running
+	m_pBtn_Act_Stop = nullptr;	// clerk
+	m_pBtn_Act_Attack = nullptr;	// attack
 	
-	m_pBtn_Act_StandUp = nullptr; // 일어서기.
-	m_pBtn_Act_SitDown = nullptr;	// 앉기
+	m_pBtn_Act_StandUp = nullptr; // stand up
+	m_pBtn_Act_SitDown = nullptr;	// sit down
 
-	m_pBtn_Camera = nullptr;			//카메라
-	m_pBtn_Inventory = nullptr;		//아이템 창 
-	m_pBtn_Party_Invite = nullptr;	//파티 초대
-	m_pBtn_Party_Disband = nullptr;	//파티 탈퇴
-	m_pBtn_Option = nullptr;			//옵션
-	m_pBtn_Quest = nullptr;			//퀘스트
-	m_pBtn_Character = nullptr;		//자기 정보창   
-	m_pBtn_Skill = nullptr;			//스킬트리 또는 마법창 
-	m_pBtn_Belong = nullptr;			//소속 기사단 
-	m_pBtn_Map = nullptr;				// 미니맵
+	m_pBtn_Camera = nullptr;			// camera
+	m_pBtn_Inventory = nullptr;		// item window
+	m_pBtn_Party_Invite = nullptr;	// party invitation
+	m_pBtn_Party_Disband = nullptr;	// leave the party
+	m_pBtn_Option = nullptr;			// option
+	m_pBtn_Quest = nullptr;			// quest
+	m_pBtn_Character = nullptr;		// self information window
+	m_pBtn_Skill = nullptr;			// Skill Tree or Magic Spear
+	m_pBtn_Belong = nullptr;			// affiliated knights
+	m_pBtn_Map = nullptr;				// mini map
 }
 
 CUICmd::~CUICmd()
@@ -41,33 +41,33 @@ bool CUICmd::Load(HANDLE hFile)
 {
 	if(CN3UIBase::Load(hFile)==false) return false;
 
-	m_pBtn_Act =			GetChildByID("btn_control");	//__ASSERT(m_pBtn_Act, "NULL UI Component!!");
-	m_pBtn_Act_Walk =		GetChildByID("btn_walk");		//__ASSERT(m_pBtn_Act_Walk, "NULL UI Component!!");
-	m_pBtn_Act_Run =		GetChildByID("btn_run");		//__ASSERT(m_pBtn_Act_Run, "NULL UI Component!!");
-	m_pBtn_Act_Stop =		GetChildByID("btn_stop");		//__ASSERT(m_pBtn_Act_Stop, "NULL UI Component!!");
-	m_pBtn_Act_Attack =		GetChildByID("btn_attack");		//__ASSERT(m_pBtn_Act_Attack, "NULL UI Component!!");
-	m_pBtn_Act_StandUp =	GetChildByID("btn_stand");		//__ASSERT(m_pBtn_Act_StandUp, "NULL UI Component!!");
-	m_pBtn_Act_SitDown =	GetChildByID("btn_sit");		//__ASSERT(m_pBtn_Act_SitDown, "NULL UI Component!!");
+	m_pBtn_Act =			GetChildByID("btn_control");	// __ASSERT(m_pBtn_Act, "NULL UI Component!!");
+	m_pBtn_Act_Walk =		GetChildByID("btn_walk");		// __ASSERT(m_pBtn_Act_Walk, "NULL UI Component!!");
+	m_pBtn_Act_Run =		GetChildByID("btn_run");		// __ASSERT(m_pBtn_Act_Run, "NULL UI Component!!");
+	m_pBtn_Act_Stop =		GetChildByID("btn_stop");		// __ASSERT(m_pBtn_Act_Stop, "NULL UI Component!!");
+	m_pBtn_Act_Attack =		GetChildByID("btn_attack");		// __ASSERT(m_pBtn_Act_Attack, "NULL UI Component!!");
+	m_pBtn_Act_StandUp =	GetChildByID("btn_stand");		// __ASSERT(m_pBtn_Act_StandUp, "NULL UI Component!!");
+	m_pBtn_Act_SitDown =	GetChildByID("btn_sit");		// __ASSERT(m_pBtn_Act_SitDown, "NULL UI Component!!");
 
-	if(m_pBtn_Act_StandUp) m_pBtn_Act_StandUp->SetVisible(false); // 일어서기 버튼은 미리 죽여놓는다..
+	if(m_pBtn_Act_StandUp) m_pBtn_Act_StandUp->SetVisible(false); // Kill the wake button in advance.
 	
-	m_pBtn_Character =		GetChildByID("btn_character");	//__ASSERT(m_pBtn_Character, "NULL UI Component!!");
-	m_pBtn_Inventory =		GetChildByID("btn_inventory");	//__ASSERT(m_pBtn_Inventory, "NULL UI Component!!");
+	m_pBtn_Character =		GetChildByID("btn_character");	// __ASSERT(m_pBtn_Character, "NULL UI Component!!");
+	m_pBtn_Inventory =		GetChildByID("btn_inventory");	// __ASSERT(m_pBtn_Inventory, "NULL UI Component!!");
 
-	m_pBtn_Option =			GetChildByID("btn_option");		//__ASSERT(m_pBtn_Option, "NULL UI Component!!");
-	m_pBtn_Camera =			GetChildByID("btn_camera");		//__ASSERT(m_pBtn_Camera, "NULL UI Component!!");
-	m_pBtn_Party_Invite =	GetChildByID("btn_invite");		//__ASSERT(m_pBtn_Party_Invite, "NULL UI Component!!");
-	m_pBtn_Party_Disband =	GetChildByID("btn_disband");	//__ASSERT(m_pBtn_Party_Disband, "NULL UI Component!!");
-	m_pBtn_Skill =			GetChildByID("btn_skill");		//__ASSERT(m_pBtn_Skill, "NULL UI Component!!");
-	m_pBtn_Exit	=			GetChildByID("btn_Exit");		//__ASSERT(m_pBtn_Exit, "NULL UI Component!!");
+	m_pBtn_Option =			GetChildByID("btn_option");		// __ASSERT(m_pBtn_Option, "NULL UI Component!!");
+	m_pBtn_Camera =			GetChildByID("btn_camera");		// __ASSERT(m_pBtn_Camera, "NULL UI Component!!");
+	m_pBtn_Party_Invite =	GetChildByID("btn_invite");		// __ASSERT(m_pBtn_Party_Invite, "NULL UI Component!!");
+	m_pBtn_Party_Disband =	GetChildByID("btn_disband");	// __ASSERT(m_pBtn_Party_Disband, "NULL UI Component!!");
+	m_pBtn_Skill =			GetChildByID("btn_skill");		// __ASSERT(m_pBtn_Skill, "NULL UI Component!!");
+	m_pBtn_Exit	=			GetChildByID("btn_Exit");		// __ASSERT(m_pBtn_Exit, "NULL UI Component!!");
 
-	m_pBtn_Quest =		GetChildByID("btn_quest");			//__ASSERT(m_pBtn_Quest, "NULL UI Component!!");
-	m_pBtn_Belong =		GetChildByID("btn_knight");			//__ASSERT(m_pBtn_Belong, "NULL UI Component!!");
+	m_pBtn_Quest =		GetChildByID("btn_quest");			// __ASSERT(m_pBtn_Quest, "NULL UI Component!!");
+	m_pBtn_Belong =		GetChildByID("btn_knight");			// __ASSERT(m_pBtn_Belong, "NULL UI Component!!");
 
-	m_pBtn_Map =		GetChildByID("btn_map");			//__ASSERT(m_pBtn_Map, "NULL UI Component!!");
+	m_pBtn_Map =		GetChildByID("btn_map");			// __ASSERT(m_pBtn_Map, "NULL UI Component!!");
 
-//	this->SetVisibleActButtons(true);
-//	this->SetVisibleOptButtons(false);
+	// this->SetVisibleActButtons(true);
+	// this->SetVisibleOptButtons(false);
 
 	return true;
 }
@@ -79,16 +79,16 @@ bool CUICmd::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 
 	if (dwMsg == UIMSG_BUTTON_CLICK)					
 	{
-//		if(pSender == m_pBtn_Option)
-//		{
-//			this->SetVisibleActButtons(false);
-//			this->SetVisibleOptButtons(true);
-//		}
+		// if(pSender == m_pBtn_Option)
+		// {
+			// this->SetVisibleActButtons(false);
+			// this->SetVisibleOptButtons(true);
+		// }
 
 		if(pSender == m_pBtn_Act)
 		{
-//			this->SetVisibleActButtons(true);
-//			this->SetVisibleOptButtons(false);
+			// this->SetVisibleActButtons(true);
+			// this->SetVisibleOptButtons(false);
 		}
 
 		else if(pSender == m_pBtn_Act_Walk)
@@ -116,24 +116,24 @@ bool CUICmd::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 			CGameProcedure::s_pProcMain->CommandToggleUIState();
 		}
 
-		else if(pSender == m_pBtn_Exit) // 캐릭터 캐릭터 선택창으로 간다..
+		else if(pSender == m_pBtn_Exit) // Go to the character selection screen.
 		{
 			std::string szMsg; ::_LoadStringFromResource(IDS_EXIT, szMsg);
-//			CGameProcedure::MessageBoxPost(szMsg, "", MB_YESNO, BEHAVIOR_RESTART_GAME); // 게임 다시시작 하기..??
-			CGameProcedure::MessageBoxPost(szMsg, "", MB_YESNO, BEHAVIOR_EXIT); // 게임 다시시작 하기..??
+			// CGameProcedure::MessageBoxPost(szMsg, &quot;&quot;, MB_YESNO, BEHAVIOR_RESTART_GAME); // Restart the game..??
+			CGameProcedure::MessageBoxPost(szMsg, "", MB_YESNO, BEHAVIOR_EXIT); // Restart the game..??
 		}
 
 		else if(pSender == m_pBtn_Camera)
 		{
-			CGameProcedure::s_pProcMain->CommandCameraChange(); // 카메라 시점 바꾸기..
+			CGameProcedure::s_pProcMain->CommandCameraChange(); // Change the camera perspective...
 		}
 
 		else if(pSender == m_pBtn_Party_Invite)
 		{
 			CPlayerOther* pUPC = CGameProcedure::s_pOPMgr->UPCGetByID(CGameProcedure::s_pPlayer->m_iIDTarget, true);
-			if(pUPC && pUPC->m_InfoBase.eNation == CGameProcedure::s_pPlayer->m_InfoBase.eNation) // 국가 체크
+			if(pUPC && pUPC->m_InfoBase.eNation == CGameProcedure::s_pPlayer->m_InfoBase.eNation) // country check
 			{
-				CGameProcedure::s_pProcMain->MsgSend_PartyOrForceCreate(0, pUPC->IDString()); // 파티 초대하기..
+				CGameProcedure::s_pProcMain->MsgSend_PartyOrForceCreate(0, pUPC->IDString()); // Invite a party...
 			}
 		}
 
@@ -145,24 +145,24 @@ bool CUICmd::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 			bool bIAmLeader = false, bIAmMemberOfParty = false;
 			int iMemberIndex = -1;
 			CPlayerBase* pTarget = nullptr;
-			pMain->PartyOrForceConditionGet(bIAmLeader, bIAmMemberOfParty, iMemberIndex, pTarget); // 파티의 상황을 보고..
+			pMain->PartyOrForceConditionGet(bIAmLeader, bIAmMemberOfParty, iMemberIndex, pTarget); // Look at the status of the party...
 			
 			std::string szMsg;
-			if(bIAmLeader) // 내가 리더면..
+			if(bIAmLeader) // If I&#39;m the leader...
 			{
 				if(iMemberIndex > 0)
 				{
-					::_LoadStringFromResource(IDS_PARTY_CONFIRM_DISCHARGE, szMsg); // 파티에서 쫓아낼까여?
+					::_LoadStringFromResource(IDS_PARTY_CONFIRM_DISCHARGE, szMsg); // Shall I kick you out of the party?
 					szMsg = pTarget->IDString() + szMsg;
 				}
-				else ::_LoadStringFromResource(IDS_PARTY_CONFIRM_DESTROY, szMsg); // 파티 뽀갤까여?
+				else ::_LoadStringFromResource(IDS_PARTY_CONFIRM_DESTROY, szMsg); // Shall we have a party?
 			}
 			else if(bIAmMemberOfParty)
 			{
-				::_LoadStringFromResource(IDS_PARTY_CONFIRM_LEAVE, szMsg); // 파티에서 나갈까여?
+				::_LoadStringFromResource(IDS_PARTY_CONFIRM_LEAVE, szMsg); // Shall we leave the party?
 			}
 
-			if(!szMsg.empty()) CGameProcedure::MessageBoxPost(szMsg, "", MB_YESNO, BEHAVIOR_PARTY_DISBAND); // 파티 해체,축출,탈퇴하기..확인
+			if(!szMsg.empty()) CGameProcedure::MessageBoxPost(szMsg, "", MB_YESNO, BEHAVIOR_PARTY_DISBAND); // Disbanding, expulsion, leaving the party... OK
 		}
 
 		else if(pSender == m_pBtn_Act_SitDown)
@@ -192,7 +192,7 @@ bool CUICmd::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 /*
 void CUICmd::SetVisibleActButtons(bool bVisible)
 {
-	//행동
+	// action
 	if(m_pBtn_Act_Walk) m_pBtn_Act_Walk->SetVisible(bVisible); 
 	if(m_pBtn_Act_Run) m_pBtn_Act_Run->SetVisible(bVisible);
 	if(m_pBtn_Act_Stop) m_pBtn_Act_Stop->SetVisible(bVisible);
@@ -205,7 +205,7 @@ void CUICmd::SetVisibleActButtons(bool bVisible)
 /*
 void CUICmd::SetVisibleOptButtons(bool bVisible)
 {
-	//옵션
+	// option
 	if(m_pBtn_Opt_Quest) m_pBtn_Opt_Quest->SetVisible(bVisible);
 	if(m_pBtn_Character) m_pBtn_Character->SetVisible(bVisible);	
 	if(m_pBtn_Skill) m_pBtn_Skill->SetVisible(bVisible);
@@ -217,22 +217,22 @@ void CUICmd::SetVisibleOptButtons(bool bVisible)
 void CUICmd::UpdatePartyButtons(bool bIAmLeader, bool bIAmMemberOfParty, int iMemberIndex, const CPlayerBase* pTarget) const
 {
 	bool bInvite = true;
-	if(bIAmLeader) // 내가 리더이면.. 
+	if(bIAmLeader) // If I&#39;m the leader...
 	{
-		if(pTarget) // 타겟이 있고..
+		if(pTarget) // I have a target...
 		{
-			if(iMemberIndex > 0) bInvite = false; // 타겟이 파티원이면..축출 가능하게.
+			if(iMemberIndex > 0) bInvite = false; // If the target is a party member... it can be expelled.
 			else bInvite = true;
 		}
 		else
 		{
-			bInvite = false; // 리더도 나갈수 있다..
+			bInvite = false; // Leaders can also...
 		}
 	}
 	else
 	{
-		if(bIAmMemberOfParty) bInvite = false; // 리더는 아니지만 파티에 들어있는 상태이면.. 탈퇴가능..
-		else bInvite = true; // 파티에 안들어 있다면 초대 가능...
+		if(bIAmMemberOfParty) bInvite = false; // If you are not a leader but are in a party... you can leave.
+		else bInvite = true; // If you&#39;re not in the party, you can invite...
 	}
 
 	if(m_pBtn_Party_Invite) m_pBtn_Party_Invite->SetVisible(bInvite);
@@ -244,9 +244,9 @@ bool CUICmd::OnKeyPress(int iKey)
 	switch(iKey)
 	{
 	case DIK_ESCAPE:
-		{	//hotkey가 포커스 잡혀있을때는 다른 ui를 닫을수 없으므로 DIK_ESCAPE가 들어오면 포커스를 다시잡고
-			//열려있는 다른 유아이를 닫아준다.
-			CGameProcedure::s_pUIMgr->ReFocusUI();//this_ui
+		{	// When the hotkey is focused, other UI cannot be closed, so when DIK_ESCAPE comes in, focus again
+			// Close other open children.
+			CGameProcedure::s_pUIMgr->ReFocusUI();// this_ui
 			CN3UIBase* pFocus = CGameProcedure::s_pUIMgr->GetFocusedUI();
 			if(pFocus && pFocus != this) pFocus->OnKeyPress(iKey);
 		}

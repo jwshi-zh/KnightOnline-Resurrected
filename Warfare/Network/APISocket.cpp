@@ -6,16 +6,16 @@ int			CAPISocket::s_nInstanceCount = 0;
 
 
 #ifdef _CRYPTION
-BOOL		DataPack::s_bCryptionFlag = FALSE;			//0 : 비암호화 , 1 : 암호화
-//_int64		DataPack::s_PublicKey;
-//_int64		DataPack::s_PrivateKey = 0x1234567890123456;
+BOOL		DataPack::s_bCryptionFlag = FALSE;			// 0: non-encryption, 1: encryption
+// _int64		DataPack::s_PublicKey;
+// _int64		DataPack::s_PrivateKey = 0x1234567890123456;
 CJvCryption	DataPack::s_JvCrypt;
 WORD		DataPack::s_wSendVal = 0;
 WORD		DataPack::s_wRcvVal = 0;
 #endif
 
-//#define STX 1007
-//#define ETX 1005
+// #define STX 1007
+// #define ETX 1005
 const WORD PACKET_HEADER = 0XAA55;
 const WORD PACKET_TAIL = 0X55AA;
 
@@ -37,7 +37,7 @@ const WORD PACKET_TAIL = 0X55AA;
 
 
 #ifdef _CRYPTION
-// bSend가 TRUE이면 Encrypt, FALSE이면 Decrypt해준다.
+// Encrypt if bSend is TRUE, decrypt if FALSE.
 DataPack::DataPack(int size, BYTE *pData, BOOL bSend)
 {
 	static BYTE pTIBuf[RECEIVE_BUF_SIZE];
@@ -46,7 +46,7 @@ DataPack::DataPack(int size, BYTE *pData, BOOL bSend)
 	if (TRUE == s_bCryptionFlag)
 	{
 		if (bSend)
-		{	// 서버로 보낼것 (일반 -> 암호화된것)
+		{	// Send to server (normal -&gt; encrypted)
 			// inmate - cryption
 			if(TRUE == s_bCryptionFlag)
 			{
@@ -54,7 +54,7 @@ DataPack::DataPack(int size, BYTE *pData, BOOL bSend)
 
 				++s_wSendVal;
 
-				pTIBuf[0] = 0xfc; // 암호가 정확한지
+				pTIBuf[0] = 0xfc; // password is correct
 				memcpy( pTIBuf+1, &s_wSendVal, sizeof(WORD) );
 				pTIBuf[3] = 0x00;
 				memcpy( pTIBuf+4, pData, size );
@@ -74,9 +74,9 @@ DataPack::DataPack(int size, BYTE *pData, BOOL bSend)
 			}
 		}
 		else
-		{	// 서버로부터 받은 데이타(암호화된것 -> 일반)
+		{	// Data received from server (encrypted -&gt; plain)
 			s_JvCrypt.JvDecryptionFast( size, pData, pTBuf );
-			if(pTBuf[0] != 0xfc) // 압축 푼 데이터 오류 일경우
+			if(pTBuf[0] != 0xfc) // In case of uncompressed data error
 			{
 				m_Size = 0;
 				m_pData = NULL;
@@ -92,7 +92,7 @@ DataPack::DataPack(int size, BYTE *pData, BOOL bSend)
 		}
 	}
 	else
-	{	// 암호화가 아니다.
+	{	// not encryption
 		m_Size = size;
 		m_pData = new BYTE[size+1];
 		CopyMemory(m_pData, pData, size);
@@ -120,7 +120,7 @@ CAPISocket::CAPISocket()
 
 	m_iSendByteCount = 0;
 	m_bConnected = FALSE;
-	m_bEnableSend = TRUE; // 보내기 가능..?
+	m_bEnableSend = TRUE; // Can you send..?
 }
 
 CAPISocket::~CAPISocket()
@@ -148,9 +148,9 @@ void CAPISocket::Release()
 
 	m_iSendByteCount = 0;
 
-	// 통계를 써준다..
+	// write statistics.
 #ifdef _DEBUG
-/*	DWORD dwRWC = 0;
+	/* DWORD dwRWC = 0;
 	char szFN1[256] = "", szFN2[256] = "";
 	SYSTEMTIME ST;
 	::GetLocalTime(&ST);
@@ -163,7 +163,7 @@ void CAPISocket::Release()
 	char szBuff[64] = "";
 	char szCmd[32] = "";
 
-	strcpy(szBuff, "Packet\t양\t횟수\r\n");
+	strcpy(szBuff, &quot;Packet\tAmount\tNumber\r\n&quot;);
 	WriteFile(hFile1, szBuff, lstrlen(szBuff), &dwRWC, NULL);
 	WriteFile(hFile2, szBuff, lstrlen(szBuff), &dwRWC, NULL);
 
@@ -199,8 +199,8 @@ void CAPISocket::Release()
 		memset(m_Statistics_Recv_Sum, 0, sizeof(m_Statistics_Recv_Sum));
 	}
 
-//	CloseHandle(hFile1);
-//	CloseHandle(hFile2);
+	// CloseHandle(hFile1);
+	// CloseHandle(hFile2);
 #endif
 
 }
@@ -216,10 +216,10 @@ void CAPISocket::Disconnect()
 	m_dwPort = 0;
 
 	m_bConnected = FALSE;
-	m_bEnableSend = TRUE; // 보내기 가능..?
+	m_bEnableSend = TRUE; // Can you send..?
 
 #ifdef _CRYPTION
-	DataPack::InitCrypt(0); // 암호화 해제..
+	DataPack::InitCrypt(0); // Decryption...
 #endif // #ifdef _CRYPTION
 }
 
@@ -260,9 +260,9 @@ int CAPISocket::Connect(HWND hWnd, const char* pszIP, DWORD dwPort)
 		memcpy((char *) &server.sin_addr,hp->h_addr,hp->h_length);
 		server.sin_family = hp->h_addrtype;
 		server.sin_port = htons((u_short)dwPort);  
-	}// else 
+	}// else
 
-	// create socket 
+	// create socket
 	if( (m_hSocket = socket(AF_INET, SOCK_STREAM, 0)) < 1) 
 	{
 		const int iErrCode = ::WSAGetLastError();
@@ -274,7 +274,7 @@ int CAPISocket::Connect(HWND hWnd, const char* pszIP, DWORD dwPort)
 		return iErrCode;
 	}
 
-	// 소켓 옵션
+	// socket options
 	int iRecvBufferLen = RECEIVE_BUF_SIZE;
 	int iErr = setsockopt(m_hSocket, SOL_SOCKET, SO_RCVBUF, (char*)&iRecvBufferLen, 4);
   
@@ -286,14 +286,14 @@ int CAPISocket::Connect(HWND hWnd, const char* pszIP, DWORD dwPort)
 		m_hSocket = INVALID_SOCKET;
 
 #ifdef _DEBUG
-//		char msg[256];
-//		sprintf(msg,"Cannot connect to %s on Port %u : ErrorCode : %d", pszIP, dwPort, iErrCode);
-//		MessageBox(hWnd, msg,"socket error", MB_OK | MB_ICONSTOP);
+		// char msg[256];
+		// sprintf(msg,"Cannot connect to %s on Port %u : ErrorCode : %d", pszIP, dwPort, iErrCode);
+		// MessageBox(hWnd, msg,"socket error", MB_OK | MB_ICONSTOP);
 #endif
 		return iErrCode;
 	}
 
-//	WSAAsyncSelect(m_hSocket, hWnd, WM_SOCKETMSG, FD_CONNECT | FD_ACCEPT | FD_READ | FD_CLOSE);
+	// WSAAsyncSelect(m_hSocket, hWnd, WM_SOCKETMSG, FD_CONNECT | FD_ACCEPT | FD_READ | FD_CLOSE);
 	WSAAsyncSelect(m_hSocket, hWnd, WM_SOCKETMSG, FD_CONNECT | FD_READ | FD_CLOSE);
 
 	m_hWndTarget = hWnd;
@@ -366,7 +366,7 @@ BOOL CAPISocket::ReceiveProcess()
 			short siCore = *((short*)(pData+2));
 			if ( siCore <= iCount )
 			{
-				if ( PACKET_TAIL == ntohs(*((WORD*)(pData+iCount-2))) ) // 패킷 꼬리 부분 검사..
+				if ( PACKET_TAIL == ntohs(*((WORD*)(pData+iCount-2))) ) // Packet tail part inspection..
 				{
 					
 #ifdef _CRYPTION
@@ -376,7 +376,7 @@ BOOL CAPISocket::ReceiveProcess()
 #endif
 
 					m_qRecvPkt.push(pDP);
-					m_CB.HeadIncrease(siCore + 6); // 환형 버퍼 인덱스 증가 시키기..
+					m_CB.HeadIncrease(siCore + 6); // Increasing the circular buffer index...
 					bFoundTail = TRUE;
 #ifdef _DEBUG
 					const BYTE byCmd = pData[4];
@@ -388,9 +388,9 @@ BOOL CAPISocket::ReceiveProcess()
 		}
 		else
 		{
-			// 패킷이 깨졌다??
+			// Packet broken??
 			__ASSERT(0, "broken packet header.. skip!");
-			m_CB.HeadIncrease(iCount); // 환형 버퍼 인덱스 증가 시키기..
+			m_CB.HeadIncrease(iCount); // Increasing the circular buffer index...
 		}
 
 		delete[] pData, pData = nullptr;
@@ -401,13 +401,13 @@ BOOL CAPISocket::ReceiveProcess()
 
 void CAPISocket::Send(BYTE* pData, int nSize)
 {
-	if(!m_bEnableSend) return; // 보내기 가능..?
+	if(!m_bEnableSend) return; // Can you send..?
 	if (INVALID_SOCKET == m_hSocket || FALSE == m_bConnected)	return;
 
 
 	
 #ifdef _CRYPTION
-	DataPack DP(nSize, pData, TRUE);	// 암호화(s_bCryptionFlag가 FALSE일때는 암호화하지 않음)
+	DataPack DP(nSize, pData, TRUE);	// Encryption (no encryption when s_bCryptionFlag is FALSE)
 	nSize = DP.m_Size;
 	pData = DP.m_pData;
 #endif
@@ -443,12 +443,12 @@ void CAPISocket::Send(BYTE* pData, int nSize)
 	}
 
 #ifdef _DEBUG
-	const BYTE byCmd = pData[0]; // 통계 넣기..
+	const BYTE byCmd = pData[0]; // Include stats...
 
-//	__SocketStatisics SS;
-//	SS.dwTime = GetTickCount();
-//	SS.iSize = nSize;
-//	m_Statistics_Send[byCmd].push_back(SS);
+	// __SocketStatisics SS;
+	// SS.dwTime = GetTickCount();
+	// SS.iSize = nSize;
+	// m_Statistics_Send[byCmd].push_back(SS);
 
 	m_Statistics_Send_Sum[byCmd].dwTime++;
 	m_Statistics_Send_Sum[byCmd].iSize += nSize;

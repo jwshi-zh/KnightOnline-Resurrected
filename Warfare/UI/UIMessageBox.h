@@ -16,8 +16,8 @@ protected:
 	CN3UIString*	m_pText_Title;
 	CN3UIEdit*		m_pEdit_Common;
 public:
-	e_Behavior	m_eBehavior;	// OK 버튼을 누르면 할짓...
-	int			m_iStyle;		// 메시지 박스 스타일
+	e_Behavior	m_eBehavior;	// What to do when you click the OK button...
+	int			m_iStyle;		// message box style
 
 public:
 	bool OnKeyPress(int iKey);

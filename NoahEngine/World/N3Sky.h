@@ -3,7 +3,7 @@
 #include "N3Base.h"
 #include "N3ColorChange.h"
 
-//class CN3Texture;
+// class CN3Texture;
 class CN3Sky : public CN3Base  
 {
 	friend class CN3SkyMng;
@@ -19,7 +19,7 @@ protected:
 
 	__VertexXyzColor	m_vFronts[4];
 	__VertexXyzColor	m_Bottom[4];
-//	CN3Texture*			m_pTex;
+	// CN3Texture*			m_pTex;
 
 // Operations
 public:

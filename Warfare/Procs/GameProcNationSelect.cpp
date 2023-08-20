@@ -12,7 +12,7 @@
 CGameProcNationSelect::CGameProcNationSelect()
 {
 	m_pUINationSelectDlg = nullptr;
-	s_pPlayer->m_InfoBase.eNation = NATION_NOTSELECTED; // 아직 국가를 선택하지 않았다..
+	s_pPlayer->m_InfoBase.eNation = NATION_NOTSELECTED; // You haven&#39;t selected a country yet.
 }
 
 CGameProcNationSelect::~CGameProcNationSelect()
@@ -41,43 +41,43 @@ void CGameProcNationSelect::Init()
 	m_pUINationSelectDlg = new CUINationSelectDlg();
 	m_pUINationSelectDlg->Init(s_pUIMgr);
 	m_pUINationSelectDlg->LoadFromFile(szTemp);
-	m_pUINationSelectDlg->m_pProcNationSelectRef = this; // 참조 포인터 넣기..
+	m_pUINationSelectDlg->m_pProcNationSelectRef = this; // Put a reference pointer...
 
-	s_pPlayer->m_InfoBase.eNation = NATION_NOTSELECTED; // 아직 국가를 선택하지 않았다..
+	s_pPlayer->m_InfoBase.eNation = NATION_NOTSELECTED; // You haven&#39;t selected a country yet.
 }
 
 void CGameProcNationSelect::Tick()
 {
-	CGameProcedure::Tick();	// 키, 마우스 입력 등등..
+	CGameProcedure::Tick();	// keys, mouse input, etc.
 
 	if(NATION_KARUS == s_pPlayer->m_InfoBase.eNation || NATION_ELMORAD == s_pPlayer->m_InfoBase.eNation)
-		CGameProcedure::ProcActiveSet((CGameProcedure*)s_pProcCharacterSelect); // 국가를 골랐으면 캐릭터 선택으로 바로 간다..
+		CGameProcedure::ProcActiveSet((CGameProcedure*)s_pProcCharacterSelect); // Once you&#39;ve chosen your country, go straight to character selection.
 }
 
 void CGameProcNationSelect::Render()
 {
-	const DWORD color = 0x00000000; // 검은색으로..
-	s_pEng->Clear(color); // 클리어..
-	s_pEng->s_lpD3DDev->BeginScene();			// 씬 렌더 ㅅ작...
+	const DWORD color = 0x00000000; // in black...
+	s_pEng->Clear(color); // clear..
+	s_pEng->s_lpD3DDev->BeginScene();			// Scene renders...
 
-	CGameProcedure::Render(); // UI 나 그밖의 기본적인 것들 렌더링..
+	CGameProcedure::Render(); // Rendering UI and other basic stuff..
 
-	s_pEng->s_lpD3DDev->EndScene();			// 씬 렌더 시작...
+	s_pEng->s_lpD3DDev->EndScene();			// Start scene render...
 	s_pEng->Present(CN3Base::s_hWndBase);
 }
 
 
 void CGameProcNationSelect::MsgSendNationSelect(e_Nation eNation)
 {
-	BYTE byBuff[4];										// 패킷 버퍼..
-	int iOffset=0;										// 버퍼의 오프셋..
+	BYTE byBuff[4];										// Packet buffer...
+	int iOffset=0;										// Offset of buffer..
 
-	CAPISocket::MP_AddByte(byBuff, iOffset, N3_NATION_SELECT);	// 커멘드.
-	CAPISocket::MP_AddByte(byBuff, iOffset, (BYTE)eNation);		// 아이디 길이..
+	CAPISocket::MP_AddByte(byBuff, iOffset, N3_NATION_SELECT);	// command.
+	CAPISocket::MP_AddByte(byBuff, iOffset, (BYTE)eNation);		// id length.
 		
-	s_pSocket->Send(byBuff, iOffset);								// 보낸다
+	s_pSocket->Send(byBuff, iOffset);								// send
 
-	s_pUIMgr->EnableOperationSet(false); // 응답 패킷을 받기 전까지 아무짓 못하게 한다..
+	s_pUIMgr->EnableOperationSet(false); // Do nothing until a response packet is received.
 }
 
 bool CGameProcNationSelect::ProcessPacket(DataPack* pDataPack, int& iOffset)
@@ -86,14 +86,14 @@ bool CGameProcNationSelect::ProcessPacket(DataPack* pDataPack, int& iOffset)
 	if(false == CGameProcedure::ProcessPacket(pDataPack, iOffset)) iOffset = iOffsetPrev;
 	else return true;
 
-	const int iCmd = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);	// 커멘드 파싱..
-	switch ( iCmd )										// 커멘드에 다라서 분기..
+	const int iCmd = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);	// Command parsing...
+	switch ( iCmd )										// Branch according to the command..
 	{
-		case N3_NATION_SELECT:							// 캐릭터 선택 메시지..
+		case N3_NATION_SELECT:							// Character selection message...
 		{
-			const int iNation = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // 국가 - 0 실패.. 1 - 카루스 2 - 엘모라드..
+			const int iNation = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // Country - 0 Failure.. 1 - Carus 2 - Elmorad..
 
-			if( 0 == iNation ) 	s_pPlayer->m_InfoBase.eNation = NATION_NOTSELECTED; // 아직 국가를 선택하지 않았다..
+			if( 0 == iNation ) 	s_pPlayer->m_InfoBase.eNation = NATION_NOTSELECTED; // You haven&#39;t selected a country yet.
 			else if( 1 == iNation ) s_pPlayer->m_InfoBase.eNation = NATION_KARUS;
 			else if( 2 == iNation ) s_pPlayer->m_InfoBase.eNation = NATION_ELMORAD;
 		}

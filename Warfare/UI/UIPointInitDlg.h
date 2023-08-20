@@ -6,7 +6,7 @@
 #include "N3UIButton.h"
 #include "N3UIString.h"
 
-//////////////////////////////////////////////////////////////////////
+// 
 
 
 class CUIPointInitDlg     : public CN3UIBase  

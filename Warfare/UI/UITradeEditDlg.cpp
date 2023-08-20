@@ -26,14 +26,14 @@ CUITradeEditDlg::~CUITradeEditDlg()
 
 }
 
-///////////////////////////////////////////////////////////////////////
+// 
 
 void CUITradeEditDlg::Release()
 {
 	CN3UIBase::Release();
 }
 
-int	CUITradeEditDlg::GetQuantity() // "edit_trade" Edit Control 에서 정수값을 얻오온다..
+int	CUITradeEditDlg::GetQuantity() // Get integer value from &quot;edit_trade&quot; Edit Control.
 {
 	CN3UIEdit* pEdit = (CN3UIEdit*)this->GetChildByID("edit_trade");
 	__ASSERT(pEdit, "NULL UI Component!!");
@@ -41,7 +41,7 @@ int	CUITradeEditDlg::GetQuantity() // "edit_trade" Edit Control 에서 정수값
 	return atoi(pEdit->GetString().c_str());
 }
 
-void CUITradeEditDlg::SetQuantity(int iQuantity) // "edit_trade" Edit Control 에서 정수값을 문자열로 세팅한다..
+void CUITradeEditDlg::SetQuantity(int iQuantity) // In the &quot;edit_trade&quot; Edit Control, set the integer value as a string.
 {
 	CN3UIEdit* pEdit = (CN3UIEdit*)this->GetChildByID("edit_trade");
 	__ASSERT(pEdit, "NULL UI Component!!");
@@ -83,11 +83,11 @@ void CUITradeEditDlg::Open(bool bCountGold)
 
 	SetVisible(true);
 
-	//this_ui_add_start
+	// this_ui_add_start
 	CN3UIEdit* pEdit = (CN3UIEdit*)this->GetChildByID("edit_trade");
 	__ASSERT(pEdit, "NULL UI Component!!");
 	if(pEdit) pEdit->SetFocus();
-	//this_ui_add_end
+	// this_ui_add_end
 
 	RECT rc, rcThis;
 	int iCX, iCY;

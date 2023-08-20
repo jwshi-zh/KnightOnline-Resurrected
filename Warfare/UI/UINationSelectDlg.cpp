@@ -34,7 +34,7 @@ bool CUINationSelectDlg::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 
 	if( dwMsg == UIMSG_BUTTON_CLICK )
 	{
-		if ( pSender == m_pBtnKarus )	// Karus
+		if ( pSender == m_pBtnKarus )	// Wars
 		{
 			if(m_pProcNationSelectRef) m_pProcNationSelectRef->MsgSendNationSelect(NATION_KARUS);
 		}

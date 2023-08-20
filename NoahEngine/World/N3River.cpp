@@ -3,7 +3,7 @@
 #include "N3Texture.h"
 
 #define WAVE_TOP		0.02f
-//#define WAVE_STEP		0.0005f
+// #define WAVE_STEP		0.0005f
 #define WAVE_STEP		0.001f
 
 CN3River::CN3River()
@@ -182,7 +182,7 @@ void CN3River::Render() const
 		}
 	}
 
-	// restore 
+	// restore
 	s_lpD3DDev->SetTransform(D3DTS_WORLD, &matOld);
 	s_lpD3DDev->SetRenderState(D3DRS_ALPHABLENDENABLE, dwAlphaEnable);
 	s_lpD3DDev->SetRenderState(D3DRS_SRCBLEND, dwSrcBlend);

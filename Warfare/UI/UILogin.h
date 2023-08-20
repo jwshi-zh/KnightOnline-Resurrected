@@ -42,16 +42,16 @@ protected:
 	
 	std::vector<__GameServerInfo> m_ListServerInfos;
 
-	bool	m_bOpenningNow; // 위에서 아래로 스르륵...열려야 한다면..
+	bool	m_bOpenningNow; // Swipe from top to bottom...if you have to open it...
 	float 	m_fMoveDelta;
-	bool	m_bLogIn; // 로그인 중복 방지..
+	bool	m_bLogIn; // Avoid duplicate logins..
 
 
 
 public:
 	void SetRequestedLogIn(bool bLogIn) { m_bLogIn = bLogIn; }
 	bool OnKeyPress(int iKey);
-	void SetVisibleLogInUIs(bool bEnable); // 계정 LogIn 에 필요한 UI 들을 숨긴다..
+	void SetVisibleLogInUIs(bool bEnable); // Hide UIs required for account LogIn.
 	void OpenServerList();
 	void Tick();
 
@@ -59,7 +59,7 @@ public:
 	void FocusCircular();
 	void FocusToID();
 	bool Load(HANDLE hFile);
-	bool ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg); // 메시지를 받는다.. 보낸놈, msg
+	bool ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg); // Receives a message. Sender, msg
 
 	int		ServerInfoCount() const { return m_ListServerInfos.size(); }
 	bool	ServerInfoAdd(const __GameServerInfo& GSI);

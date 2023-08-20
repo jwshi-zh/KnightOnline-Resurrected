@@ -28,16 +28,6 @@ void CN3UIStatic::Release()
 	CN3Base::s_SndMgr.ReleaseObj(&m_pSnd_Click);
 }
 
-//void CN3UIStatic::Render()
-//{
-//	if (!m_bVisible) return;
-//	
-//	CN3UIBase::Render();
-//
-////	if (m_pImageBkGnd) m_pImageBkGnd->Render();
-////	if (m_pBuffOutRef) m_pBuffOutRef->Render();
-//}
-
 void CN3UIStatic::SetRegion(const RECT& Rect)
 {
 	CN3UIBase::SetRegion(Rect);
@@ -51,7 +41,7 @@ bool CN3UIStatic::Load(HANDLE hFile)
 {
 	if (false == CN3UIBase::Load(hFile)) return false;
 
-	// m_pImageBkGnd,  m_pBuffOutRef 설정하기
+	// Setting m_pImageBkGnd, m_pBuffOutRef
 	for(auto itor = m_Children.begin(); m_Children.end() != itor; ++itor)
 	{
 		CN3UIBase* pChild = (*itor);
@@ -65,10 +55,10 @@ bool CN3UIStatic::Load(HANDLE hFile)
 		}
 	}
 	
-	// 이전 uif파일을 컨버팅 하려면 사운드 로드 하는 부분 막기
+	// To convert the old uif file, block the sound loading part
 	int iSndFNLen = 0;
 	DWORD dwNum;
-	ReadFile(hFile, &iSndFNLen, sizeof(iSndFNLen), &dwNum, nullptr);		//	사운드 파일 문자열 길이
+	ReadFile(hFile, &iSndFNLen, sizeof(iSndFNLen), &dwNum, nullptr);		// sound file string length
 	if (iSndFNLen>0)
 	{
 		std::vector<char> buffer(iSndFNLen+1, NULL);
@@ -98,11 +88,11 @@ DWORD CN3UIStatic::MouseProc(DWORD dwFlags, const POINT& ptCur, const POINT& ptO
 	DWORD dwRet = UI_MOUSEPROC_NONE;
 	if (!m_bVisible) return dwRet;
 
-	if((dwFlags & UI_MOUSE_LBCLICK) && IsIn(ptCur.x, ptCur.y))  // 왼쪽버튼 눌르는 순간 영역 안이면
+	if((dwFlags & UI_MOUSE_LBCLICK) && IsIn(ptCur.x, ptCur.y))  // If it is inside the area at the moment the left button is pressed
 	{
-		if (m_pSnd_Click) m_pSnd_Click->Play();	// 사운드가 있으면 play하기
+		if (m_pSnd_Click) m_pSnd_Click->Play();	// play with sound
 
-		if(m_pParent) m_pParent->ReceiveMessage(this, UIMSG_BUTTON_CLICK); // 부모에게 버튼 클릭 통지..
+		if(m_pParent) m_pParent->ReceiveMessage(this, UIMSG_BUTTON_CLICK); // Notify parent on button click..
 		dwRet |= (UI_MOUSEPROC_DONESOMETHING|UI_MOUSEPROC_INREGION);
 		return dwRet;
 	}
@@ -118,7 +108,7 @@ void CN3UIStatic::operator = (const CN3UIStatic& other)
 
 	SetSndClick(other.GetSndFName_Click());
 
-	// m_pImageBkGnd,  m_pBuffOutRef 설정하기
+	// Setting m_pImageBkGnd, m_pBuffOutRef
 	for(UIListItor itor = m_Children.begin(); m_Children.end() != itor; ++itor)
 	{
 		CN3UIBase* pChild = (*itor);
@@ -140,7 +130,7 @@ bool CN3UIStatic::Save(HANDLE hFile)
 	DWORD dwNum;
 	int iSndFNLen = 0;
 	if (m_pSnd_Click) iSndFNLen = m_pSnd_Click->m_szFileName.size();
-	WriteFile(hFile, &iSndFNLen, sizeof(iSndFNLen), &dwNum, NULL);		//	사운드 파일 문자열 길이
+	WriteFile(hFile, &iSndFNLen, sizeof(iSndFNLen), &dwNum, NULL);		// sound file string length
 	if (iSndFNLen>0) WriteFile(hFile, m_pSnd_Click->m_szFileName.c_str(), iSndFNLen, &dwNum, NULL);
 	return true;
 }
@@ -151,8 +141,8 @@ void CN3UIStatic::CreateImageAndString()
 	m_pImageBkGnd->Init(this);
 	m_pImageBkGnd->SetRegion(m_rcRegion);
 
-	m_pBuffOutRef = new CN3UIString();		// 화면에 표시할 ui string 생성하고 
-	m_pBuffOutRef->Init(this);				// 초기화(자동으로 children list 들어간다.)
+	m_pBuffOutRef = new CN3UIString();		// Create a ui string to display on the screen
+	m_pBuffOutRef->Init(this);				// Initialization (automatically enters the children list)
 	m_pImageBkGnd->SetRegion(m_rcRegion);
 }
 
@@ -167,7 +157,7 @@ void CN3UIStatic::SetSndClick(const std::string& strFileName)
 	if (0 == strFileName.size()) return;
 
 	CN3BaseFileAccess tmpBase;
-	tmpBase.FileNameSet(strFileName);	// Base경로에 대해서 상대적 경로를 넘겨준다.
+	tmpBase.FileNameSet(strFileName);	// Passes a relative path to the base path.
 
 	SetCurrentDirectory(tmpBase.PathGet().c_str());
 	m_pSnd_Click = s_SndMgr.CreateObj(tmpBase.FileName(), SNDTYPE_2D);

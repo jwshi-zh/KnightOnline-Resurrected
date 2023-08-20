@@ -192,14 +192,14 @@ void CCountableItemEditDlg::Open(e_UIWND eUW, e_UIWND_DISTRICT eUD, bool bCountG
 void CCountableItemEditDlg::Close()
 {
 	m_bLocked = false;
-//	SetVisible(false);	//이거 쓰지 말고 SetVisibleWithNoSound 함수 써주세요...
+	// SetVisible(false); //Don&#39;t use this, use SetVisibleWithNoSound function...
 	SetVisibleWithNoSound(false);
 
 	const CN3UIEdit* pEdit = GetFocusedEdit();
 	if (pEdit) pEdit->KillFocus();
 }
 
-int	CCountableItemEditDlg::GetQuantity() // "edit_trade" Edit Control 에서 정수값을 얻오온다..
+int	CCountableItemEditDlg::GetQuantity() // Get integer value from &quot;edit_trade&quot; Edit Control.
 {
 	CN3UIEdit* pEdit = (CN3UIEdit*)this->GetChildByID("edit_trade");
 	__ASSERT(pEdit, "NULL UI Component!!");
@@ -207,7 +207,7 @@ int	CCountableItemEditDlg::GetQuantity() // "edit_trade" Edit Control 에서 정
 	return atoi(pEdit->GetString().c_str());
 }
 
-void CCountableItemEditDlg::SetQuantity(int iQuantity) // "edit_trade" Edit Control 에서 정수값을 문자열로 세팅한다..
+void CCountableItemEditDlg::SetQuantity(int iQuantity) // In the &quot;edit_trade&quot; Edit Control, set the integer value as a string.
 {
 	CN3UIEdit* pEdit = (CN3UIEdit*)this->GetChildByID("edit_trade");
 	__ASSERT(pEdit, "NULL UI Component!!");
@@ -219,20 +219,20 @@ void CCountableItemEditDlg::SetQuantity(int iQuantity) // "edit_trade" Edit Cont
 	pEdit->SetString(szBuff);
 }
 
-//this_ui_add_start
+// this_ui_add_start
 void CCountableItemEditDlg::SetVisible(bool bVisible)
 {
 	CN3UIBase::SetVisible(bVisible);
 	if(bVisible)
 		CGameProcedure::s_pUIMgr->SetVisibleFocusedUI(this);
 	else
-		CGameProcedure::s_pUIMgr->ReFocusUI();//this_ui
+		CGameProcedure::s_pUIMgr->ReFocusUI();// this_ui
 }
 
 void CCountableItemEditDlg::SetVisibleWithNoSound(bool bVisible, bool bWork, bool bReFocus)
 {
 	if(bWork)
-	{//여기서는 ReceiveMessage에서 유아이가 보이는지를 체크를 해서 일단 앞쪽에 둔다.
+	{// Here, in ReceiveMessage, we check if the child is visible and put it in the foreground.
 		ReceiveMessage(m_pBtnCancel, UIMSG_BUTTON_CLICK);
 	}
 	
@@ -263,4 +263,4 @@ bool CCountableItemEditDlg::OnKeyPress(int iKey)
 
 	return CN3UIBase::OnKeyPress(iKey);
 }
-//this_ui_add_end
+// this_ui_add_end

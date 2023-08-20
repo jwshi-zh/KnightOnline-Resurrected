@@ -40,7 +40,7 @@ void CN3Sun::Release()
 
 void CN3Sun::Render(__Matrix44& matView, __Matrix44& matProj)
 {
-	// 해가 그려지는 화면 좌표 계산하기 (2D로 그리는 이유는 왜곡되어서 보이는것을 막기 위해)
+	// Calculate the screen coordinates where the sun is drawn (the reason for drawing in 2D is to prevent it from being distorted)
 	__Matrix44 matWorld;
 	matWorld.RotationZ(m_fCurRadian);
 	__Matrix44 matFinal;
@@ -88,9 +88,9 @@ void CN3Sun::Render(__Matrix44& matView, __Matrix44& matProj)
 		if ( rcSun[i].right < rcScreen.left ||
 			rcSun[i].bottom < rcScreen.top ||
 			rcSun[i].left > rcScreen.right ||
-			rcSun[i].top > rcScreen.bottom) continue;	// 화면 밖에 그려진다.
+			rcSun[i].top > rcScreen.bottom) continue;	// drawn off screen.
 
-		// 2D로 그리기
+		// Draw in 2D
 		pSP->pVertices[0].x = rcSun[i].left;		pSP->pVertices[0].y = rcSun[i].top;
 		pSP->pVertices[1].x = rcSun[i].right;		pSP->pVertices[1].y = rcSun[i].top;
 		pSP->pVertices[2].x = rcSun[i].right;		pSP->pVertices[2].y = rcSun[i].bottom;
@@ -108,7 +108,7 @@ void CN3Sun::Render(__Matrix44& matView, __Matrix44& matProj)
 
 void CN3Sun::Tick()
 {
-	// 해의 색, 크기 변화 계산
+	// Calculate the color and size change of the sun
 	int i;
 	for(auto i =0; i<NUM_SUNPART; ++i)
 	{
@@ -136,7 +136,7 @@ void CN3Sun::Init(const std::string* pszFNs)
 		m_Parts[i].pVertices[3].Set( 0, 0, fZ, rhw, color, 0.0f, 1.0f);
 	}
 
-	m_Parts[SUNPART_SUN].Delta.ChangeDelta(0.1f); // ViewPort 에서 상대적인 크기
+	m_Parts[SUNPART_SUN].Delta.ChangeDelta(0.1f); // Size relative to ViewPort
 	m_Parts[SUNPART_GLOW].Delta.ChangeDelta(0.25f);
 	m_Parts[SUNPART_FLARE].Delta.ChangeDelta(0.13f);
 }

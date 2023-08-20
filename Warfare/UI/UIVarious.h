@@ -19,8 +19,8 @@ public:
 	CN3UIString*	m_pText_HP;
 	CN3UIString*	m_pText_MP;
 	CN3UIString*	m_pText_Exp;
-	CN3UIString*	m_pText_AP;			// 공격력
-	CN3UIString*	m_pText_GP;			// 방어력
+	CN3UIString*	m_pText_AP;			// offense power
+	CN3UIString*	m_pText_GP;			// defense
 	CN3UIString*	m_pText_Weight;
 
 	CN3UIString*	m_pText_BonusPoint;
@@ -51,11 +51,11 @@ public:
 	CN3UIBase*		m_pImg_Str;
 
 public:
-	void	UpdateBonusPointAndButtons(int iBonusPointRemain) const; // 보너스 포인트 적용이 가능한가??
+	void	UpdateBonusPointAndButtons(int iBonusPointRemain) const; // Are bonus points applicable?
 
 	void	UpdateID(const std::string& szID);
 	void	UpdateLevel(int iVal);
-	void	UpdateRealmPoint(int iVal); // 국가 기여도는 10을 나누어서 표시
+	void	UpdateRealmPoint(int iVal); // State contribution is divided by 10
 
 	void	UpdateHP(int iVal, int iValMax);
 	void	UpdateMSP(int iVal, int iValMax);
@@ -76,7 +76,7 @@ public:
 	void	UpdateRegistCurse(int iVal, int iDelta);
 	void	UpdateRegistPoison(int iVal, int iDelta);
 
-	void			MsgSendAblityPointChange(BYTE byType, short siValueDelta); // 능력치 변화 패킷으로 보내기..
+	void			MsgSendAblityPointChange(BYTE byType, short siValueDelta); // Send in stat change packets..
 
 	virtual bool	ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg);
 	virtual bool	Load(HANDLE hFile);
@@ -87,12 +87,12 @@ public:
 };
 
 
-struct __KnightsMemberInfo // 기사 단원 정보..
+struct __KnightsMemberInfo // Article section information..
 {
 	std::string		szName;
-	int				iLevel; // 플레이어 레벨..
-	e_Class			eClass; // 직업.
-	e_KnightsDuty	eDuty;	// 기사단 직위.
+	int				iLevel; // player level...
+	e_Class			eClass; // job.
+	e_KnightsDuty	eDuty;	// Templar rank.
 	int				iConnected;
 };
 
@@ -149,28 +149,28 @@ public:
 	CUIKnights();
 	virtual ~CUIKnights();
 
-	//쓰지 않음....
+	// don&#39;t write...
 	bool	NeedMemberListRequest() const { if(m_MemberList.empty()) return true; else return false; }
 	
 	void	ChangeUIByDuty(e_KnightsDuty eDuty);
-	//void	VisibleAppointButtons(bool bVisible); // 기사단장 전용 임명 Interface
+	// void VisibleAppointButtons(bool bVisible); // Appointment interface dedicated to the guild leader
 	
-	//void	MsgSend_MemberInfoOnline(int iPage);
+	// void	MsgSend_MemberInfoOnline(int iPage);
 	bool	MsgRecv_MemberInfo(class DataPack* pDataPack, int& iOffset);
 	
-	//void	MsgSend_MemberJoinAdmit();
-	//void	MsgSend_MemberJoinReject();
-	//void	MsgSend_MemberPunish();
-	//void	MsgSend_MemberRemove();
-	//void	MsgSend_DutyAppoint(e_KnightsDuty eDuty);
+	// void	MsgSend_MemberJoinAdmit();
+	// void	MsgSend_MemberJoinReject();
+	// void	MsgSend_MemberPunish();
+	// void	MsgSend_MemberRemove();
+	// void	MsgSend_DutyAppoint(e_KnightsDuty eDuty);
 };
 
-struct __FriendsInfo : public binary_function<__FriendsInfo, __FriendsInfo, bool>// 기사 단원 정보..
+struct __FriendsInfo : public binary_function<__FriendsInfo, __FriendsInfo, bool>// Article section information..
 {
 	std::string		szName;
 	int				iID; // ID
-	bool			bOnLine; // 접속했나?
-	bool			bIsParty; // 파티 플레이중인가?
+	bool			bOnLine; // did you log in?
+	bool			bIsParty; // Are you playing in a party?
 
 	void Init() { szName = ""; iID = -1; bOnLine = false; bIsParty = false; }
 	bool operator () (const __FriendsInfo& x, const __FriendsInfo& y) const 
@@ -200,9 +200,9 @@ protected:
 	CN3UIButton* m_pBtn_Delete;
 
 public:
-	void		SaveListToTextFile(const std::string& szID);  // 문자열이 있으면 추가하고.. 없으면 몽땅 저장..
-	void		MsgSend_MemberInfo(bool bDisableInterval); // 현재 페이지 정보 요청
-	void		MsgSend_MemberInfo(const std::string& szID); // 이넘만 요청..
+	void		SaveListToTextFile(const std::string& szID);  // If there is a string, add it. If not, save all of it..
+	void		MsgSend_MemberInfo(bool bDisableInterval); // Request current page information
+	void		MsgSend_MemberInfo(const std::string& szID); // Just asking for this..
 	void		MsgRecv_MemberInfo(DataPack* pDataPack, int& iOffset);
 	void		UpdateList();
 	bool		MemberDelete(const std::string& szID);
@@ -235,7 +235,7 @@ public:
 
 
 
-class CUIVarious : public CN3UIBase // 다용도 UI
+class CUIVarious : public CN3UIBase // Versatile UI
 {
 public:
 	CUIState*		m_pPageState;
@@ -250,9 +250,9 @@ protected:
 	CN3UIButton*	m_pBtn_Friends;
 	CN3UIButton*	m_pBtn_Close;
 
-	bool		m_bOpenningNow; // 열리고 있다..
-	bool		m_bClosingNow;	// 닫히고 있다..
-	float		m_fMoveDelta; // 부드럽게 열리고 닫히게 만들기 위해서 현재위치 계산에 부동소수점을 쓴다..
+	bool		m_bOpenningNow; // is opening...
+	bool		m_bClosingNow;	// it&#39;s closing...
+	float		m_fMoveDelta; // Floating point is used to calculate the current position to make it open and close smoothly.
 
 public:
 	void		SetVisibleWithNoSound(bool bVisible, bool bWork = false, bool bReFocus = false);
@@ -260,7 +260,7 @@ public:
 	bool		OnKeyPress(int iKey);
 	void		UpdatePageButtons(CN3UIButton* pButtonToActive);
 	void		UpdateAllStates(const __InfoPlayerBase* pInfoBase, const __InfoPlayerMySelf* pInfoExt);
-	void		UpdateKnightsInfo(); // 기사단 관련 정보 업데이트
+	void		UpdateKnightsInfo(); // Updated information about the Templars
 	void		Open();
 	void		Close();
 	

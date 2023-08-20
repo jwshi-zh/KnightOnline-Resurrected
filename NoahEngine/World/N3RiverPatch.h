@@ -4,10 +4,10 @@
 
 struct __VertexRiver : public __VertexXyzT2
 {
-	WORD			index;			// 점의 Index
+	WORD			index;			// Points Index
 };
 
-struct __River		// 강의 점정보(정렬을 위한..)
+struct __River		// River point information (for sorting..)
 {
 	short			iRiverID;
 	int				iVertexCount;
@@ -17,7 +17,7 @@ struct __River		// 강의 점정보(정렬을 위한..)
 	~__River() {if (pVertices) {delete [] pVertices; pVertices = nullptr;}}
 };
 
-struct __RiverEx	// 강의 점정보(vertex buffer를 위한..)
+struct __RiverEx	// River point information (for vertex buffer..)
 {
 	short			iRiverID;
 	int				iVertexCount;
@@ -31,7 +31,7 @@ struct __RiverEx	// 강의 점정보(vertex buffer를 위한..)
 		if (pIndices) {delete [] pIndices; pIndices = nullptr;}}
 };
 
-class CN3RiverPatch : public CN3Base  // 각 patch에 속한 강들의 정보.
+class CN3RiverPatch : public CN3Base  // Information of rivers belonging to each patch.
 {
 public:
 	CN3RiverPatch();

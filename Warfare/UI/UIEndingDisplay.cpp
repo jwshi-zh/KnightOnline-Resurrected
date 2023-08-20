@@ -19,20 +19,20 @@ void CUIEndingDisplay::Release()
 
 void CUIEndingDisplay::Render()
 {
-	// 화면 가운데로 맞추기..
+	// Align to the center of the screen.
 	const RECT rc = this->GetRegion();
 	const int iX = (s_CameraData.vp.Width - (rc.right - rc.left))/2;
 	const int iY = (s_CameraData.vp.Height - (rc.bottom - rc.top))/2;
 	this->SetPos(iX, iY);
 
 	const D3DCOLOR crEnv = 0x00000000;
-	CGameEng::Clear(crEnv); // 배경은 검은색
-	CGameEng::s_lpD3DDev->BeginScene();			// 씬 렌더 ㅅ작...
+	CGameEng::Clear(crEnv); // the background is black
+	CGameEng::s_lpD3DDev->BeginScene();			// Scene renders...
 
 	CUIManager::RenderStateSet();
 	CN3UIBase::Render();
 	CUIManager::RenderStateRestore();
 	
-	CGameEng::s_lpD3DDev->EndScene();			// 씬 렌더 시작...
+	CGameEng::s_lpD3DDev->EndScene();			// Start scene render...
 	CGameEng::Present(CN3Base::s_hWndBase);
 }

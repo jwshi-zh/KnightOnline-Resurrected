@@ -59,8 +59,8 @@ bool CUITradeBBSSelector::Load(HANDLE hFile)
 
 void CUITradeBBSSelector::MsgSend_OpenTradeSellBBS()
 {
-	BYTE byBuff[5];		// 패킷 버퍼..
-	int iOffset=0;		// 패킷 오프셋..
+	BYTE byBuff[5];		// Packet buffer...
+	int iOffset=0;		// Packet Offset...
 
 	CAPISocket::MP_AddByte(byBuff, iOffset, N3_TRADE_BBS);		
 	CAPISocket::MP_AddByte(byBuff, iOffset, N3_SP_TYPE_BBS_OPEN);
@@ -70,8 +70,8 @@ void CUITradeBBSSelector::MsgSend_OpenTradeSellBBS()
 
 void CUITradeBBSSelector::MsgSend_OpenTradeBuyBBS()
 {
-	BYTE byBuff[5];		// 패킷 버퍼..
-	int iOffset=0;		// 패킷 오프셋..
+	BYTE byBuff[5];		// Packet buffer...
+	int iOffset=0;		// Packet Offset...
 
 	CAPISocket::MP_AddByte(byBuff, iOffset, N3_TRADE_BBS);		
 	CAPISocket::MP_AddByte(byBuff, iOffset, N3_SP_TYPE_BBS_OPEN);
@@ -97,5 +97,5 @@ void CUITradeBBSSelector::SetVisible(bool bVisible)
 	if(bVisible)
 		CGameProcedure::s_pUIMgr->SetVisibleFocusedUI(this);
 	else
-		CGameProcedure::s_pUIMgr->ReFocusUI();//this_ui
+		CGameProcedure::s_pUIMgr->ReFocusUI();// this_ui
 }

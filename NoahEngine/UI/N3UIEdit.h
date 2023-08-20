@@ -19,14 +19,14 @@ protected:
 		void	SetSize(int iSize);
 		void	SetColor(D3DCOLOR color);
 		void	Render(LPDIRECT3DDEVICE9 lpD3DDev);
-		void	InitFlckering();		// 깜박임 초기화..
-		BOOL	m_bVisible;				// 보이나
+		void	InitFlckering();		// Blink reset..
+		BOOL	m_bVisible;				// I can see
 	protected:
-		int		m_iSize;				// caret의 pixel 크기
-		float	m_fFlickerTimePrev;	// 깜박이기 위한 시간..
+		int		m_iSize;				// caret pixel size
+		float	m_fFlickerTimePrev;	// Time to blink...
 		bool	m_bFlickerStatus;
-//		POINT	m_ptPos;				// caret의 pixel 좌표
-		__VertexTransformedColor	m_pVB[2];	// vertex 버퍼
+		// POINT m_ptPos; // pixel coordinates of caret
+		__VertexTransformedColor	m_pVB[2];	// vertex buffer
 	};
 
 // Attributes
@@ -53,12 +53,12 @@ public:
 
 protected:
 	static CN3Caret		s_Caret;
-	UINT				m_nCaretPos;		// 글자 단위위치(byte단위)
-	int					m_iCompLength;		// 현재 조합중인 글자의 byte수 0이면 조합중이 아니다.
-	int					m_iMaxStrLen;		// 쓸수 있는 글씨의 최대 숫자
+	UINT				m_nCaretPos;		// Character unit position (byte unit)
+	int					m_iCompLength;		// If the number of bytes of characters currently being combined is 0, it is not being combined.
+	int					m_iMaxStrLen;		// Maximum number of characters that can be written
 	std::string			m_szPassword;		// password buffer
 
-	CN3SndObj*			m_pSnd_Typing;		// 타이핑 할 때 나는 소리
+	CN3SndObj*			m_pSnd_Typing;		// sound when typing
 // Operations
 public:
 	virtual const std::string&	GetString();
@@ -69,14 +69,14 @@ public:
 	virtual void		Release();
 	virtual void		SetVisible(bool bVisible);
 	virtual DWORD		MouseProc(DWORD dwFlags, const POINT& ptCur, const POINT& ptOld);
-	virtual BOOL		MoveOffset(int iOffsetX, int iOffsetY);		// 위치 지정(chilren의 위치도 같이 바꾸어준다. caret위치도 같이 바꾸어줌.)
-	void				KillFocus() const;			// 포커스를 없앤다.
-	bool				SetFocus();				// 포커스를 준다.
+	virtual BOOL		MoveOffset(int iOffsetX, int iOffsetY);		// Designation of position (the position of chilren is also changed. The position of caret is also changed.)
+	void				KillFocus() const;			// remove focus
+	bool				SetFocus();				// give focus
 	bool				HaveFocus() const {return (this == s_pFocusedEdit);}
-	void				SetCaretPos(UINT nPos);	//몇번째 바이트에 있는지 설정한다.
-	void				SetMaxString(int iMax);		// 최대 글씨 수를 정해준다.
+	void				SetCaretPos(UINT nPos);	// Set which byte is in.
+	void				SetMaxString(int iMax);		// Specifies the maximum number of characters.
 protected:
-	BOOL				IsHangulMiddleByte( const char* lpszStr, int iPos );	// 한글의 2번째 바이트 글자인가?
+	BOOL				IsHangulMiddleByte( const char* lpszStr, int iPos );	// Is it the second byte character of Hangul?
 
 #ifdef _N3TOOL
 public:	

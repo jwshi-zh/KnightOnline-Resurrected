@@ -10,7 +10,7 @@
 
 class CN3FXBundleGame;
 
-typedef struct __FXBundleOrigin	// 번들에서 파트들 관리할때..
+typedef struct __FXBundleOrigin	// When managing parts in a bundle...
 {
 	class CN3FXBundleGame*	pBundle;
 	int						iNum;
@@ -27,7 +27,7 @@ typedef struct __FXBundleOrigin	// 번들에서 파트들 관리할때..
 class CN3FXMgr : public CGameBase
 {
 public:
-	//std::list<CN3FXBundleGame*>		m_ListBundle;
+	// std::list<CN3FXBundleGame*>		m_ListBundle;
 	std::list<CN3FXBundleGame*>			m_ListBundle;
 
 	std::map<std::string, LPFXBUNDLEORIGIN>			m_OriginBundle;

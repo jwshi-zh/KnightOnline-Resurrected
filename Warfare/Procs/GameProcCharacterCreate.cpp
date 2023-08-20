@@ -63,17 +63,17 @@ void CGameProcCharacterCreate::Init()
 
 void CGameProcCharacterCreate::Render()
 {
-	s_pEng->Clear(0); // 클리어..
-	s_pEng->s_lpD3DDev->BeginScene();			// 씬 렌더 ㅅ작...
+	s_pEng->Clear(0); // clear..
+	s_pEng->s_lpD3DDev->BeginScene();			// Scene renders...
 
 	s_pUIMgr->Render();
 
-	s_pPlayer->InventoryChrRender(m_rcChr); // 캐릭터 그리기..
+	s_pPlayer->InventoryChrRender(m_rcChr); // Drawing a character...
 
-	s_pMsgBoxMgr->Render(); //MessageBox를 그려준다.
+	s_pMsgBoxMgr->Render(); // Draw a MessageBox.
 	if(s_pGameCursor) s_pGameCursor->Render();
 
-	s_pEng->s_lpD3DDev->EndScene();			// 씬 렌더 시작...
+	s_pEng->s_lpD3DDev->EndScene();			// Start scene render...
 	s_pEng->Present(CN3Base::s_hWndBase);
 }
 
@@ -94,13 +94,13 @@ void CGameProcCharacterCreate::SetChr()
 		m_pUICharacterCreate->m_iMaxBonusPoint =	pTbl->iBonus;
 	}
 
-	__TABLE_PLAYER_LOOKS* pLooks = s_pTbl_UPC_Looks->Find(s_pPlayer->m_InfoBase.eRace);	// User Player Character Skin 구조체 포인터..;
+	__TABLE_PLAYER_LOOKS* pLooks = s_pTbl_UPC_Looks->Find(s_pPlayer->m_InfoBase.eRace);	// User Player Character Skin structure pointer..;
 	if(nullptr == pLooks) return;
 
 	s_pPlayer->InitChr(pLooks);
-	s_pPlayer->m_ChrInv.ScaleSet(1,1,1); // 스케일을 원래대로 돌린다.
+	s_pPlayer->m_ChrInv.ScaleSet(1,1,1); // Return the scale to its original size.
 
-	if(pLooks) // 파트 세팅..
+	if(pLooks) // Part setting...
 	{
 		for(int i = 0; i < PART_POS_COUNT; i++)
 		{
@@ -120,26 +120,26 @@ void CGameProcCharacterCreate::SetChr()
 
 void CGameProcCharacterCreate::Tick()
 {
-//	s_pLocalInput->Tick(); // 키보드와 마우스로부터 입력을 받는다.
-//	if(dwMouseFlags & MOUSE_LBDOWN) SetCursor(s_hCursorClick);
-//	else SetCursor(s_hCursorNormal);
+	// s_pLocalInput-&gt;Tick(); // Receive input from keyboard and mouse.
+	// if(dwMouseFlags & MOUSE_LBDOWN) SetCursor(s_hCursorClick);
+	// else SetCursor(s_hCursorNormal);
 
 	CGameProcedure::Tick();
 
-const DWORD dwMouseFlags = s_pLocalInput->MouseGetFlag();
+	const DWORD dwMouseFlags = s_pLocalInput->MouseGetFlag();
 	m_pUICharacterCreate->Tick();
 	m_pUICharacterCreate->MouseProc(dwMouseFlags, s_pLocalInput->MouseGetPos(), s_pLocalInput->MouseGetPosOld());
 
 	s_pEng->s_SndMgr.Tick(); // Sound Engine...
 
-	// Network Msg 처리하기
-while ( s_pSocket->m_qRecvPkt.size() > 0 )			// 패킷 리스트에 패킷이 있냐????
+	// Handling Network Msg
+	while ( s_pSocket->m_qRecvPkt.size() > 0 )			// Is there a packet in the packet list????
 	{
 		int iOffset = 0;
-		DataPack* pDataPack = s_pSocket->m_qRecvPkt.front();			// 큐의 첫번째 것을 복사..
-		if (false == ProcessPacket(pDataPack, iOffset)) break;		// 패킷을 처리할 상황이 아니다.
+		DataPack* pDataPack = s_pSocket->m_qRecvPkt.front();			// Copy the first one in the queue.
+		if (false == ProcessPacket(pDataPack, iOffset)) break;		// It is not a situation to process packets.
 		delete pDataPack;
-		s_pSocket->m_qRecvPkt.pop();					// 패킷을 큐에서 꺼냄..
+		s_pSocket->m_qRecvPkt.pop();					// Remove packet from queue.
 	}
 
 	s_pPlayer->InventoryChrTick();
@@ -159,10 +159,10 @@ bool CGameProcCharacterCreate::MsgSendCharacterCreate()
 	{
 		eErrCode = ERROR_CHARACTER_CREATE_INVALID_RACE;
 	}
-//	else if(RACE_KA_WRINKLETUAREK == s_pPlayer->m_InfoBase.eRace) // 마법사는 선택 불가능..
-//	{
-//		eErrCode = ERROR_CHARACTER_CREATE_NOT_SUPPORTED_RACE;
-//	}
+	// else if(RACE_KA_WRINKLETUAREK == s_pPlayer-&gt;m_InfoBase.eRace) // Wizard cannot be selected..
+	// {
+	// eErrCode = ERROR_CHARACTER_CREATE_NOT_SUPPORTED_RACE;
+	// }
 	else if(CLASS_UNKNOWN == s_pPlayer->m_InfoBase.eClass)
 	{
 		eErrCode = ERROR_CHARACTER_CREATE_INVALID_CLASS;
@@ -173,7 +173,7 @@ bool CGameProcCharacterCreate::MsgSendCharacterCreate()
 	}
 	else
 	{
-		// 이름에 빈칸이나 특수문자가 들어 있는지 확인
+		// Check if the name contains spaces or special characters
 		bool bHasSpecialLetter = false;
 		for(int i = 0; i < iIDLength; i++)
 		{
@@ -190,7 +190,7 @@ bool CGameProcCharacterCreate::MsgSendCharacterCreate()
 				'*' == szID[i] || 
 				'(' == szID[i] || 
 				')' == szID[i] || 
-//				'_' == szID[i] || 
+				// &#39;_&#39; == szID[i] ||
 				'-' == szID[i] || 
 				'+' == szID[i] || 
 				'=' == szID[i] || 
@@ -224,29 +224,29 @@ bool CGameProcCharacterCreate::MsgSendCharacterCreate()
 
 			BYTE byBuff[64];
 			int iOffset = 0;
-			CAPISocket::MP_AddByte(byBuff, iOffset,  N3_NEW_CHARACTER);					// 커멘드.
-			CAPISocket::MP_AddByte(byBuff, iOffset, CGameProcedure::s_iChrSelectIndex);	// 캐릭터 인덱스 b
-			CAPISocket::MP_AddShort(byBuff, iOffset, iIDLength);						// Id 길이 s
-			CAPISocket::MP_AddString(byBuff, iOffset, s_pPlayer->IDString());			// ID 문자열 str
-			CAPISocket::MP_AddByte(byBuff, iOffset, s_pPlayer->m_InfoBase.eRace);		// 종족 b
-			CAPISocket::MP_AddShort(byBuff, iOffset, s_pPlayer->m_InfoBase.eClass);		// 직업 b
-			CAPISocket::MP_AddByte(byBuff, iOffset, pInfoExt->iFace);					// 얼굴모양 b
-			CAPISocket::MP_AddByte(byBuff, iOffset, pInfoExt->iHair);					// 머리모양 b
-			CAPISocket::MP_AddByte(byBuff, iOffset, pInfoExt->iStrength);				// 힘 b
-			CAPISocket::MP_AddByte(byBuff, iOffset, pInfoExt->iStamina);				// 지구력 b
-			CAPISocket::MP_AddByte(byBuff, iOffset, pInfoExt->iDexterity);				// 민첩 b
-			CAPISocket::MP_AddByte(byBuff, iOffset, pInfoExt->iIntelligence);			// 지능 b
-			CAPISocket::MP_AddByte(byBuff, iOffset, pInfoExt->iMagicAttak);				// 마력 b
+			CAPISocket::MP_AddByte(byBuff, iOffset,  N3_NEW_CHARACTER);					// command.
+			CAPISocket::MP_AddByte(byBuff, iOffset, CGameProcedure::s_iChrSelectIndex);	// character index b
+			CAPISocket::MP_AddShort(byBuff, iOffset, iIDLength);						// id length s
+			CAPISocket::MP_AddString(byBuff, iOffset, s_pPlayer->IDString());			// ID string str
+			CAPISocket::MP_AddByte(byBuff, iOffset, s_pPlayer->m_InfoBase.eRace);		// race b
+			CAPISocket::MP_AddShort(byBuff, iOffset, s_pPlayer->m_InfoBase.eClass);		// job b
+			CAPISocket::MP_AddByte(byBuff, iOffset, pInfoExt->iFace);					// face shape b
+			CAPISocket::MP_AddByte(byBuff, iOffset, pInfoExt->iHair);					// hair style b
+			CAPISocket::MP_AddByte(byBuff, iOffset, pInfoExt->iStrength);				// force b
+			CAPISocket::MP_AddByte(byBuff, iOffset, pInfoExt->iStamina);				// endurance b
+			CAPISocket::MP_AddByte(byBuff, iOffset, pInfoExt->iDexterity);				// agile b
+			CAPISocket::MP_AddByte(byBuff, iOffset, pInfoExt->iIntelligence);			// intelligence b
+			CAPISocket::MP_AddByte(byBuff, iOffset, pInfoExt->iMagicAttak);				// horsepower b
 
-			s_pSocket->Send(byBuff, iOffset);								// 보낸다
+			s_pSocket->Send(byBuff, iOffset);								// send
 			
-			s_pUIMgr->EnableOperationSet(false); // 패킷이 들어올때까지 UI 를 Disable 시킨다...
+			s_pUIMgr->EnableOperationSet(false); // Disable the UI until packets arrive...
 			
 			return true;
 		}
 	}
 
-	ReportErrorCharacterCreate(eErrCode); // 에러 보고...
+	ReportErrorCharacterCreate(eErrCode); // report error...
 
 	return false;
 }
@@ -280,8 +280,8 @@ void CGameProcCharacterCreate::ReportErrorCharacterCreate(e_ErrorCharacterCreate
 	else
 		::_LoadStringFromResource(IDS_ERR_UNKNOWN, szErr);
 
-	///
-	//	정보를 잘못 입력해서 실패했다는 메시지를 받을 때...
+	// 
+	// When you receive a message that you have failed because you entered the information incorrectly...
 	std::string szTitle; ::_LoadStringFromResource(IDS_ERR_CHARACTER_CREATE, szTitle);
 	MessageBoxPost(szErr, szTitle, MB_OK);
 }
@@ -292,22 +292,22 @@ bool CGameProcCharacterCreate::ProcessPacket(DataPack* pDataPack, int& iOffset)
 	if(false == CGameProcedure::ProcessPacket(pDataPack, iOffset)) iOffset = iOffsetPrev;
 	else return true;
 
-	const int iCmd = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);	// 커멘드 파싱..
-	switch ( iCmd )										// 커멘드에 다라서 분기..
+	const int iCmd = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);	// Command parsing...
+	switch ( iCmd )										// Branch according to the command..
 	{
-		case N3_NEW_CHARACTER:				// 캐릭터 선택 메시지..
+		case N3_NEW_CHARACTER:				// Character selection message...
 		{
-			BYTE bySuccess = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);	// 커멘드 파싱..
+			BYTE bySuccess = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);	// Command parsing...
 			if(0 == bySuccess) 
 			{
-				ProcActiveSet((CGameProcedure*)s_pProcCharacterSelect); // 캐릭터 선택창으로 가기..
+				ProcActiveSet((CGameProcedure*)s_pProcCharacterSelect); // Go to the character select screen.
 			}
-			else // 실패하면.. 이유가 0 이 아닌 값으로 온다..
+			else // If it fails.. the reason comes with a non-zero value..
 			{
-				this->ReportErrorCharacterCreate((e_ErrorCharacterCreate)bySuccess); // 에러 메시지 띄움..
-				s_pUIMgr->EnableOperationSet(false); // UI 조작 가능하게 한다... 다시 캐릭터 만들어야 한다..
+				this->ReportErrorCharacterCreate((e_ErrorCharacterCreate)bySuccess); // Error message pops up...
+				s_pUIMgr->EnableOperationSet(false); // Enables UI manipulation... You have to create a character again..
 			}
-			s_pUIMgr->EnableOperationSet(false); // 패킷이 들어올때까지 UI 를 Disable 시킨다...
+			s_pUIMgr->EnableOperationSet(false); // Disable the UI until packets arrive...
 		}
 		return true;
 	}

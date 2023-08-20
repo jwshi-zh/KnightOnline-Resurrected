@@ -31,10 +31,10 @@ bool CN3UIArea::Load(HANDLE hFile)
 	if (false == CN3UIBase::Load(hFile)) return false;
 
 #ifndef _REPENT
-	// 추가사항이 있으면 이곳에 추가하기
+	// Add here if you have any more
 	DWORD dwNum;
 	int iAreaType;
-	ReadFile(hFile, &iAreaType, sizeof(int), &dwNum, nullptr);	// click 영역
+	ReadFile(hFile, &iAreaType, sizeof(int), &dwNum, nullptr);	// click area
 	m_eAreaType = (eUI_AREA_TYPE)iAreaType;
 #endif
 	return true;
@@ -49,13 +49,13 @@ DWORD CN3UIArea::MouseProc(DWORD dwFlags, const POINT& ptCur, const POINT& ptOld
 	/*
 	#ifdef _N3GAME
 	if ( CN3UIWndBase::m_sRecoveryJobInfo.m_bWaitFromServer ) return dwRet;
-	// 부모가 아이콘 매니저이로 Inventory Wnd라면..	
+	// If the parent is an icon manager and Inventory Wnd...
 	if ( (m_pParent->UIType() == UI_TYPE_ICON_MANAGER) && (((CN3UIWndBase* )m_pParent)->GetUIWnd() == UIWND_INVENTORY) )
 	{
-		// 특정 이벤트에 대해 메시지 전송..
+		// Send messages for specific events..
 		if(IsIn(ptCur.x, ptCur.y) && (dwFlags & UI_MOUSE_LBCLICK) )	
 		{
-			m_pParent->ReceiveMessage(this, UIMSG_AREA_DOWN_FIRST); // 부모에게 버튼 클릭 통지..
+			m_pParent-&gt;ReceiveMessage(this, UIMSG_AREA_DOWN_FIRST); // Notify parent when button is clicked..
 			dwRet |= UI_MOUSEPROC_DONESOMETHING;
 			return dwRet;
 		}
@@ -63,10 +63,10 @@ DWORD CN3UIArea::MouseProc(DWORD dwFlags, const POINT& ptCur, const POINT& ptOld
 	#endif
 	*/
 
-	// 특정 이벤트에 대해 메시지 전송..
+	// Send messages for specific events..
 	if(IsIn(ptCur.x, ptCur.y) && (dwFlags & UI_MOUSE_LBCLICK) )	
 	{
-		m_pParent->ReceiveMessage(this, UIMSG_BUTTON_CLICK); // 부모에게 버튼 클릭 통지..
+		m_pParent->ReceiveMessage(this, UIMSG_BUTTON_CLICK); // Notify parent on button click..
 		dwRet |= UI_MOUSEPROC_DONESOMETHING;
 	}
 
@@ -80,20 +80,20 @@ bool CN3UIArea::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 	// TODO: Enable this code
 	/*
 	if ( CN3UIWndBase::m_sRecoveryJobInfo.m_bWaitFromServer ) return false;
-	// 부모가 아이콘 매니저이로 Inventory Wnd라면..	
+	// If the parent is an icon manager and Inventory Wnd...
 	if ( (m_pParent->UIType() == UI_TYPE_ICON_MANAGER) && (((CN3UIWndBase* )m_pParent)->GetUIWnd() == UIWND_INVENTORY) )
 	{
 		if (dwMsg == UIMSG_BUTTON_CLICK)					
 		{
 			if(pSender->m_szID == "btn_Destroy_ok")
 			{
-				// 인벤토리만 떠 있을때..
+				// When only the inventory is floating...
 				((CUIInventory* )m_pParent)->ItemDestroyOK();
 			}
 
 			if(pSender->m_szID == "btn_Destroy_cancel")
 			{
-				// 인벤토리만 떠 있을때..
+				// When only the inventory is floating...
 				((CUIInventory* )m_pParent)->ItemDestroyCancel();
 			}
 		}
@@ -111,7 +111,7 @@ bool CN3UIArea::Save(HANDLE hFile)
 #ifndef _REPENT
 	DWORD dwNum;
 	int iAreaType = (int)m_eAreaType;
-	WriteFile(hFile, &iAreaType, sizeof(int), &dwNum, NULL);	// click 영역
+	WriteFile(hFile, &iAreaType, sizeof(int), &dwNum, NULL);	// click area
 #endif
 	return true;
 }

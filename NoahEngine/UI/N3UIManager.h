@@ -10,7 +10,7 @@ protected:
 		DWORD dwZEnable, dwAlphaBlend, dwSrcBlend, dwDestBlend, dwFog;
 		DWORD dwMagFilter, dwMinFilter, dwMipFilter;
 #ifdef _DEBUG
-		BOOL	bSet;	// 이미 값이 3D device의 값으로 세팅이 되었는지 판단.
+		BOOL	bSet;	// Determine whether the value has already been set as the value of the 3D device.
 #endif
 	};
 	

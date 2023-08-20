@@ -41,10 +41,10 @@ const int	ITEM_ATTACH_POS_BELT			= 14;
 const int	ITEM_ATTACH_POS_INVENTORY		= 15;
 
 
-enum e_InvenState { INV_STATE_NORMAL = 1, INV_STATE_REPAIR, };		// 인벤토리 상태.. 기존의 상태와 구별하기 위해.. 수리 상태가 추가됐다..
+enum e_InvenState { INV_STATE_NORMAL = 1, INV_STATE_REPAIR, };		// Inventory status.. In order to distinguish it from the existing status.. Repair status has been added..
 
 
-//////////////////////////////////////////////////////////////////////
+// 
 
 class CUIInventory : public CN3UIWndBase  
 {
@@ -54,9 +54,9 @@ protected:
 	e_InvenState		  m_eInvenState;
 	CItemRepairMgr		m_cItemRepairMgr;
 
-	bool					m_bOpenningNow; // 열리고 있다..
-	bool					m_bClosingNow;	// 닫히고 있다..
-	float					 m_fMoveDelta; // 부드럽게 열리고 닫히게 만들기 위해서 현재위치 계산에 부동소수점을 쓴다..
+	bool					m_bOpenningNow; // is opening...
+	bool					m_bClosingNow;	// it&#39;s closing...
+	float					 m_fMoveDelta; // Floating point is used to calculate the current position to make it open and close smoothly.
 
 	CN3UIArea*			m_pArea_User;
 	CN3UIArea*			m_pArea_Destroy;
@@ -78,7 +78,7 @@ protected:
 
 	RECT				GetSampleRect();
 
-	// 검사하는 루틴..
+	// Routine to check...
 	bool				IsValidRaceAndClass(__TABLE_ITEM_BASIC* pItem, __TABLE_ITEM_EXT* pItemExt); 
 	bool				IsValidPosFromInvToArm(int iOrder);
 	bool				IsValidPosFromArmToArm(int iOrder);
@@ -94,12 +94,12 @@ protected:
 // Operations
 public:
 
-	//this_ui_add_start
+	// this_ui_add_start
 	int					GetIndexItemCount(DWORD dwIndex);
 	void				SetVisibleWithNoSound(bool bVisible, bool bWork = false, bool bReFocus = false);
 	void				SetVisible(bool bVisible);
 	bool				OnKeyPress(int iKey);
-	//this_ui_add_end
+	// this_ui_add_end
 
 	void				Release();
 	void				ReleaseItem();
@@ -139,7 +139,7 @@ public:
 
 	int					GetCountInInvByID(int iID);
 
-	// 소모성 아이템을 소비한 경우 or Not..
+	// If consumable item is consumed or Not..
 	void				ItemCountChange(int iDistrict, int iIndex, int iCount, int iID);
 
 	// child dlg func..

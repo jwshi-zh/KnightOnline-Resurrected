@@ -80,7 +80,7 @@ void CUIWareHouseDlg::Release()
 
 void CUIWareHouseDlg::Render()
 {
-	if (!m_bVisible) return;	// 보이지 않으면 자식들을 render하지 않는다.
+	if (!m_bVisible) return;	// If not visible, don&#39;t render the children.
 
 	int i;
 
@@ -104,13 +104,13 @@ void CUIWareHouseDlg::Render()
 		}
 	}
 
-	// 갯수 표시되야 할 아이템 갯수 표시..
+	// Displays the number of items to be displayed.
 	for(auto i = 0; i < MAX_ITEM_TRADE; i++ )
 	{
 		if ( m_pMyWare[m_iCurPage][i] && ( (m_pMyWare[m_iCurPage][i]->pItemBasic->byContable == UIITEM_TYPE_COUNTABLE) || 
 			(m_pMyWare[m_iCurPage][i]->pItemBasic->byContable == UIITEM_TYPE_COUNTABLE_SMALL) ) )
 		{
-			// string 얻기..
+			// Get string...
 			CN3UIString* pStr = GetChildStringByiOrder(i+100);
 			if(pStr) 
 			{
@@ -135,7 +135,7 @@ void CUIWareHouseDlg::Render()
 		}
 		else
 		{
-			// string 얻기..
+			// Get string...
 			CN3UIString* pStr = GetChildStringByiOrder(i+100);
 			if(pStr) 
 				pStr->SetVisible(false);
@@ -146,7 +146,7 @@ void CUIWareHouseDlg::Render()
 	{
 		if ( m_pMyWareInv[i] && ( (m_pMyWareInv[i]->pItemBasic->byContable == UIITEM_TYPE_COUNTABLE)  || (m_pMyWareInv[i]->pItemBasic->byContable == UIITEM_TYPE_COUNTABLE_SMALL)  ) )
 		{
-			// string 얻기..
+			// Get string...
 			CN3UIString* pStr = GetChildStringByiOrder(i);
 			if(pStr) 
 			{
@@ -171,7 +171,7 @@ void CUIWareHouseDlg::Render()
 		}
 		else
 		{
-			// string 얻기..
+			// Get string...
 			CN3UIString* pStr = GetChildStringByiOrder(i);
 			if(pStr) 
 				pStr->SetVisible(false);
@@ -294,7 +294,7 @@ DWORD CUIWareHouseDlg::MouseProc(DWORD dwFlags, const POINT& ptCur, const POINT&
 	if (!m_bVisible) return dwRet;
 	if (CN3UIWndBase::m_sRecoveryJobInfo.m_bWaitFromServer) { dwRet |= CN3UIBase::MouseProc(dwFlags, ptCur, ptOld);  return dwRet; }
 
-	// 드래그 되는 아이콘 갱신..
+	// Renew dragged icon..
 	if ( (GetState() == UI_STATE_ICON_MOVING) && 
 			(CN3UIWndBase::m_sSelectedIconInfo.UIWndSelect.UIWnd == UIWND_WARE_HOUSE) )
 	{
@@ -320,14 +320,14 @@ bool CUIWareHouseDlg::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 	{
 		if(pSender == m_pBtnGold)
 		{
-			// 인벤토리만 떠 있을때..
+			// When the inventory is floating...
 			CN3UIWndBase::m_pCountableItemEdit->Open(UIWND_WARE_HOUSE, UIWND_DISTRICT_TRADE_MY, true, true);
 			return true;
 		}
 
 		if(pSender == m_pBtnGoldWareHouse)
 		{
-			// 인벤토리만 떠 있을때..
+			// When the inventory is floating...
 			CN3UIWndBase::m_pCountableItemEdit->Open(UIWND_WARE_HOUSE, UIWND_DISTRICT_TRADE_NPC, true, true);
 			return true;
 		}
@@ -439,9 +439,9 @@ const DWORD dwBitMask = 0x000f0000;
 			break;
 
 		case UIMSG_ICON_UP:
-			// 아이콘 매니저 윈도우들을 돌아 다니면서 검사..
+			// Walk around and inspect the Icon Manager windows.
 			if ( !CGameProcedure::s_pUIMgr->BroadcastIconDropMsg(CN3UIWndBase::m_sSelectedIconInfo.pItemSelect) )
-				// 아이콘 위치 원래대로..
+				// Set the icon position back to normal.
 				IconRestore();
 			// Sound..
 			if (CN3UIWndBase::m_sSelectedIconInfo.pItemSelect) PlayItemSound(CN3UIWndBase::m_sSelectedIconInfo.pItemSelect->pItemBasic);
@@ -469,7 +469,7 @@ void CUIWareHouseDlg::LeaveWareHouseState()
 	SetState(UI_STATE_COMMON_NONE);
 	CN3UIWndBase::AllHighLightIconFree();
 
-	// 이 윈도우의 inv 영역의 아이템을 이 인벤토리 윈도우의 inv영역으로 옮긴다..	
+	// Move the items in the inv area of this window to the inv area of this inventory window.
 	ItemMoveFromThisToInv();
 
 	if (CGameProcedure::s_pProcMain->m_pUISkillTreeDlg) CGameProcedure::s_pProcMain->m_pUISkillTreeDlg->UpdateDisableCheck();
@@ -611,7 +611,7 @@ void CUIWareHouseDlg::IconRestore()
 
 bool CUIWareHouseDlg::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 {
-// Temp Define 
+// Temp Define
 #define FAIL_RETURN {	\
 		CN3UIWndBase::AllHighLightIconFree();	\
 		SetState(UI_STATE_COMMON_NONE);	\
@@ -622,14 +622,14 @@ bool CUIWareHouseDlg::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 	e_UIWND_DISTRICT eUIWnd = UIWND_DISTRICT_UNKNOWN;
 	if (!m_bVisible) return false;
 
-	// 내가 가졌던 아이콘이 아니면..
+	// If it&#39;s not the icon I had...
 	if ( CN3UIWndBase::m_sSelectedIconInfo.UIWndSelect.UIWnd != m_eUIWnd )
 		FAIL_RETURN
 	if ( (CN3UIWndBase::m_sSelectedIconInfo.UIWndSelect.UIWndDistrict != UIWND_DISTRICT_TRADE_NPC) &&
 			(CN3UIWndBase::m_sSelectedIconInfo.UIWndSelect.UIWndDistrict != UIWND_DISTRICT_TRADE_MY) )
 		FAIL_RETURN
 
-	// 내가 가졌던 아이콘이면.. npc영역인지 검사한다..
+	// If it&#39;s an icon I had... it checks if it&#39;s an npc area.
 	int i, iDestiOrder = -1; bool bFound = false;
 	for(auto i = 0; i < MAX_ITEM_TRADE; i++ )
 	{
@@ -660,8 +660,8 @@ bool CUIWareHouseDlg::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 
 	if (!bFound)	FAIL_RETURN
 
-	// 본격적으로 Recovery Info를 활용하기 시작한다..
-	// 먼저 WaitFromServer를 On으로 하고.. Select Info를 Recovery Info로 복사.. 이때 Dest는 팰요없다..
+	// Start using Recovery Info in earnest.
+	// First, set WaitFromServer to On.. Copy Select Info to Recovery Info.. Dest is unnecessary at this time..
 	if ( spItem != CN3UIWndBase::m_sSelectedIconInfo.pItemSelect )
 		CN3UIWndBase::m_sSelectedIconInfo.pItemSelect = spItem;
 
@@ -678,13 +678,13 @@ bool CUIWareHouseDlg::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 	switch (CN3UIWndBase::m_sSelectedIconInfo.UIWndSelect.UIWndDistrict)
 	{
 		case UIWND_DISTRICT_TRADE_NPC:
-			if (eUIWnd == UIWND_DISTRICT_TRADE_MY)		// 빼는 경우..
+			if (eUIWnd == UIWND_DISTRICT_TRADE_MY)		// If you subtract...
 			{
 				if( (CN3UIWndBase::m_sRecoveryJobInfo.pItemSource->pItemBasic->byContable == UIITEM_TYPE_COUNTABLE) ||
 					(CN3UIWndBase::m_sRecoveryJobInfo.pItemSource->pItemBasic->byContable == UIITEM_TYPE_COUNTABLE_SMALL) )
 				{
-					// 활이나 물약등 아이템인 경우..
-					// 면저 인벤토리에 해당 아이콘이 있는지 알아본다..
+					// If it&#39;s an item like a bow or potion...
+					// Find out if the icon is in your inventory.
 					bFound = false;
 
 					for(auto i = 0; i < MAX_ITEM_INVENTORY; i++ )
@@ -699,12 +699,12 @@ bool CUIWareHouseDlg::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 						}
 					}
 
-					// 못찾았으면.. 
+					// If you can&#39;t find it...
 					if ( !bFound )
 					{
-						if ( m_pMyWareInv[iDestiOrder] )	// 해당 위치에 아이콘이 있으면..
+						if ( m_pMyWareInv[iDestiOrder] )	// If there is an icon in that location...
 						{
-							// 인벤토리 빈슬롯을 찾아 들어간다..
+							// Find an empty inventory slot.
 							for(auto i = 0; i < MAX_ITEM_INVENTORY; i++ )
 							{
 								if ( !m_pMyWareInv[i] )
@@ -715,7 +715,7 @@ bool CUIWareHouseDlg::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 								}
 							}
 
-							if ( !bFound )	// 빈 슬롯을 찾지 못했으면..
+							if ( !bFound )	// If you can&#39;t find an empty slot...
 							{
 								CN3UIWndBase::m_sRecoveryJobInfo.m_bWaitFromServer  = false;
 								CN3UIWndBase::m_sRecoveryJobInfo.pItemSource		= nullptr;
@@ -733,10 +733,10 @@ bool CUIWareHouseDlg::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 				}
 				else
 				{
-					// 일반 아이템인 경우..
-					if ( m_pMyWareInv[iDestiOrder] )	// 해당 위치에 아이콘이 있으면..
+					// If it&#39;s a normal item...
+					if ( m_pMyWareInv[iDestiOrder] )	// If there is an icon in that location...
 					{
-						// 인벤토리 빈슬롯을 찾아 들어간다..
+						// Find an empty inventory slot.
 						bFound = false;
 						for(auto i = 0; i < MAX_ITEM_INVENTORY; i++ )
 						{
@@ -748,7 +748,7 @@ bool CUIWareHouseDlg::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 							}
 						}
 
-						if ( !bFound )	// 빈 슬롯을 찾지 못했으면..
+						if ( !bFound )	// If you can&#39;t find an empty slot...
 						{
 							CN3UIWndBase::m_sRecoveryJobInfo.m_bWaitFromServer  = false;
 							CN3UIWndBase::m_sRecoveryJobInfo.pItemSource		= nullptr;
@@ -761,7 +761,7 @@ bool CUIWareHouseDlg::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 					else
 						CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceEnd.iOrder	= iDestiOrder;
 
-					// 무게 체크..
+					// weight check...
 					const __InfoPlayerMySelf*	pInfoExt = &(CGameBase::s_pPlayer->m_InfoExt);
 					if ( (pInfoExt->iWeight + CN3UIWndBase::m_sRecoveryJobInfo.pItemSource->pItemBasic->siWeight) > pInfoExt->iWeightMax)
 					{	 
@@ -793,7 +793,7 @@ bool CUIWareHouseDlg::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 			}
 			else
 			{
-				// 이동.. 
+				// movement..
 				__IconItemSkill *spItemSource, *spItemTarget = nullptr;
 				spItemSource = CN3UIWndBase::m_sRecoveryJobInfo.pItemSource;
 
@@ -807,8 +807,8 @@ bool CUIWareHouseDlg::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 
 				CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceEnd.iOrder				= iDestiOrder;
 
-				// 창고 내에서 이동..	(모두 일반 아이템으로 취급한다..)
-				if ( m_pMyWare[m_iCurPage][iDestiOrder] )	// 해당 위치에 아이콘이 있으면..
+				// Moving within the warehouse.. (All treated as normal items..)
+				if ( m_pMyWare[m_iCurPage][iDestiOrder] )	// If there is an icon in that location...
 				{
 					CN3UIWndBase::m_sRecoveryJobInfo.m_bWaitFromServer  = false;
 					CN3UIWndBase::m_sRecoveryJobInfo.pItemSource		= nullptr;
@@ -821,7 +821,7 @@ bool CUIWareHouseDlg::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 				m_pMyWare[m_iCurPage][iDestiOrder] = spItemSource;
 				m_pMyWare[m_iCurPage][CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceStart.iOrder] = spItemTarget;
 
-				// 이동 메시지를 보낸다..
+				// Send a mobile message.
 				SendToServerWareToWareMsg(CN3UIWndBase::m_sRecoveryJobInfo.pItemSource->pItemBasic->dwID+
 					CN3UIWndBase::m_sRecoveryJobInfo.pItemSource->pItemExt->dwID,
 					m_iCurPage,
@@ -833,16 +833,16 @@ bool CUIWareHouseDlg::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 			break;
 
 		case UIWND_DISTRICT_TRADE_MY:
-			if (eUIWnd == UIWND_DISTRICT_TRADE_NPC)		// 넣는 경우..
+			if (eUIWnd == UIWND_DISTRICT_TRADE_NPC)		// If you put...
 			{
 				if( (CN3UIWndBase::m_sRecoveryJobInfo.pItemSource->pItemBasic->byContable == UIITEM_TYPE_COUNTABLE) || 
 					(CN3UIWndBase::m_sRecoveryJobInfo.pItemSource->pItemBasic->byContable == UIITEM_TYPE_COUNTABLE_SMALL) )
 				{
-					// 활이나 물약등 아이템인 경우..
-					// 면저 Ware에 아이콘이 있는지 알아본다..
+					// If it&#39;s an item like a bow or potion...
+					// Find out if there is an icon in the Ware.
 					bFound = false;
 
-					// 10개의 폐이지를 다 뒤진다..
+					// Go through all 10 waste pages.
 					for(auto iPage = 0; iPage < MAX_ITEM_WARE_PAGE; iPage++ )
 					{
 						if ( bFound )
@@ -862,12 +862,12 @@ bool CUIWareHouseDlg::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 						}
 					}
 
-					// 못찾았으면.. 
+					// If you can&#39;t find it...
 					if ( !bFound )
 					{
-						if ( m_pMyWare[m_iCurPage][iDestiOrder] )	// 해당 위치에 아이콘이 있으면..
+						if ( m_pMyWare[m_iCurPage][iDestiOrder] )	// If there is an icon in that location...
 						{
-							// 빈슬롯을 찾아 들어간다..
+							// Go find an empty slot.
 							for(auto iPage = 0; iPage < MAX_ITEM_WARE_PAGE; iPage++ )
 							{
 								if ( bFound )
@@ -889,7 +889,7 @@ bool CUIWareHouseDlg::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 									}
 								}
 
-								if ( !bFound )	// 빈 슬롯을 찾지 못했으면..
+								if ( !bFound )	// If you can&#39;t find an empty slot...
 								{
 									CN3UIWndBase::m_sRecoveryJobInfo.m_bWaitFromServer  = false;
 									CN3UIWndBase::m_sRecoveryJobInfo.pItemSource		= nullptr;
@@ -911,13 +911,13 @@ bool CUIWareHouseDlg::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 				}
 				else
 				{
-					// 일반 아이템인 경우..
-					if ( m_pMyWare[m_iCurPage][iDestiOrder] )	// 해당 위치에 아이콘이 있으면..
+					// If it&#39;s a normal item...
+					if ( m_pMyWare[m_iCurPage][iDestiOrder] )	// If there is an icon in that location...
 					{
-						// 인벤토리 빈슬롯을 찾아 들어간다..
+						// Find an empty inventory slot.
 						bFound = false;
 
-						// 10개의 폐이지를 다 뒤진다..
+						// Go through all 10 waste pages.
 						for(auto iPage = 0; iPage < MAX_ITEM_WARE_PAGE; iPage++ )
 						{
 							if ( bFound )
@@ -940,7 +940,7 @@ bool CUIWareHouseDlg::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 							}
 						}
 
-						if ( !bFound )	// 빈 슬롯을 찾지 못했으면..
+						if ( !bFound )	// If you can&#39;t find an empty slot...
 						{
 							CN3UIWndBase::m_sRecoveryJobInfo.m_bWaitFromServer  = false;
 							CN3UIWndBase::m_sRecoveryJobInfo.pItemSource		= nullptr;
@@ -979,7 +979,7 @@ bool CUIWareHouseDlg::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 			}
 			else
 			{
-				// 이동.. 
+				// movement..
 				__IconItemSkill *spItemSource, *spItemTarget = nullptr;
 				spItemSource = CN3UIWndBase::m_sRecoveryJobInfo.pItemSource;
 
@@ -993,8 +993,8 @@ bool CUIWareHouseDlg::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 
 				CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceEnd.iOrder				= iDestiOrder;
 
-				// Inv 내에서 이동..	(모두 일반 아이템으로 취급한다..)
-				if ( m_pMyWareInv[iDestiOrder] )	// 해당 위치에 아이콘이 있으면..
+				// Move within Inv.. (All treated as normal items..)
+				if ( m_pMyWareInv[iDestiOrder] )	// If there is an icon in that location...
 				{
 					CN3UIWndBase::m_sRecoveryJobInfo.pItemTarget					= m_pMyWareInv[iDestiOrder];
 					CN3UIWndBase::m_sRecoveryJobInfo.UIWndTargetStart.UIWnd			= UIWND_WARE_HOUSE;
@@ -1021,7 +1021,7 @@ bool CUIWareHouseDlg::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 				m_pMyWareInv[iDestiOrder] = spItemSource;
 				m_pMyWareInv[CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceStart.iOrder] = spItemTarget;
 
-				// 이동 메시지를 보낸다..
+				// Send a mobile message.
 				SendToServerInvToInvMsg(CN3UIWndBase::m_sRecoveryJobInfo.pItemSource->pItemBasic->dwID+
 					CN3UIWndBase::m_sRecoveryJobInfo.pItemSource->pItemExt->dwID,
 					m_iCurPage,
@@ -1111,38 +1111,38 @@ void CUIWareHouseDlg::SendToServerInvToInvMsg(int iItemID, byte page, byte start
 	CGameProcedure::s_pSocket->Send(byBuff, iOffset);
 }
 
-void CUIWareHouseDlg::ReceiveResultToWareMsg(BYTE bResult)	// 넣는 경우..
+void CUIWareHouseDlg::ReceiveResultToWareMsg(BYTE bResult)	// If you put...
 {
 	CN3UIWndBase::m_sRecoveryJobInfo.m_bWaitFromServer  = false;
 	const int iGold = CN3UIWndBase::m_pCountableItemEdit->GetQuantity();
 	__IconItemSkill* spItem;
 	const CN3UIArea* pArea = nullptr;
 
-	if (bResult != 0x01)	// 실패..
+	if (bResult != 0x01)	// failure..
 	{
 		if (m_bSendedItemGold) {	ReceiveResultGoldToWareFail();	return;		}
 		if( (CN3UIWndBase::m_sRecoveryJobInfo.pItemSource->pItemBasic->byContable == UIITEM_TYPE_COUNTABLE) ||
-			(CN3UIWndBase::m_sRecoveryJobInfo.pItemSource->pItemBasic->byContable == UIITEM_TYPE_COUNTABLE_SMALL) )			// 활이나 물약등 아이템인 경우..
+			(CN3UIWndBase::m_sRecoveryJobInfo.pItemSource->pItemBasic->byContable == UIITEM_TYPE_COUNTABLE_SMALL) )			// If it&#39;s an item like a bow or potion...
 		{
 			// Ware Side..	//////////////////////////////////////////////////////
 
 			if ( (m_pMyWare[CN3UIWndBase::m_sRecoveryJobInfo.m_iPage][CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceEnd.iOrder]->iCount - iGold) > 0 )
 			{	
-				//  숫자 업데이트..
+				// Number update...
 				m_pMyWare[CN3UIWndBase::m_sRecoveryJobInfo.m_iPage][CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceEnd.iOrder]->iCount -= iGold;
 			}
 			else
 			{
-				// 아이템 삭제.. 현재 인벤토리 윈도우만.. 
+				// Delete item.. current inventory window only..
 				spItem = m_pMyWare[CN3UIWndBase::m_sRecoveryJobInfo.m_iPage][CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceEnd.iOrder];
 
-				// 인벤토리에서도 지운다..
+				// Also delete it from your inventory.
 				m_pMyWare[CN3UIWndBase::m_sRecoveryJobInfo.m_iPage][CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceEnd.iOrder] = nullptr;
 
-				// iOrder로 내 매니저의 아이템을 리스트에서 삭제한다..
+				// Delete my manager&#39;s item from the list with iOrder.
 				RemoveChild(spItem->pUIIcon);
 
-				// 아이콘 리소스 삭제...
+				// Delete Icon Resource...
 				spItem->pUIIcon->Release();
 				delete spItem->pUIIcon;
 				spItem->pUIIcon = nullptr;
@@ -1162,7 +1162,7 @@ void CUIWareHouseDlg::ReceiveResultToWareMsg(BYTE bResult)	// 넣는 경우..
 				m_pMyWareInv[CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceStart.iOrder]->iCount += iGold;
 			}
 		}
-		else	// 일반 아이템인 경우..														
+		else	// If it&#39;s a normal item...
 		{
 			m_pMyWareInv[CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceStart.iOrder] = 
 				m_pMyWare[m_iCurPage][CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceEnd.iOrder]; 
@@ -1178,27 +1178,27 @@ void CUIWareHouseDlg::ReceiveResultToWareMsg(BYTE bResult)	// 넣는 경우..
 		}
 	}
 
-	// 성공.. 
+	// success..
 	else
 	{
 		if (m_bSendedItemGold) 
 		{
-			m_bSendedItemGold = false;		// 원래 대로..
+			m_bSendedItemGold = false;		// Originally..
 			return;
 		}
 		if( ( (CN3UIWndBase::m_sRecoveryJobInfo.pItemSource->pItemBasic->byContable == UIITEM_TYPE_COUNTABLE) || 
 			(CN3UIWndBase::m_sRecoveryJobInfo.pItemSource->pItemBasic->byContable == UIITEM_TYPE_COUNTABLE_SMALL) ) &&
-			!m_pMyWareInv[CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceStart.iOrder]->pUIIcon->IsVisible() )			// 활이나 물약등 아이템인 경우..
+			!m_pMyWareInv[CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceStart.iOrder]->pUIIcon->IsVisible() )			// If it&#39;s an item like a bow or potion...
 		{				
 			spItem = m_pMyWareInv[CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceStart.iOrder];
 
-			// 인벤토리에서도 지운다..
+			// Also delete it from your inventory.
 			m_pMyWareInv[CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceStart.iOrder] = nullptr;
 
-			// iOrder로 내 매니저의 아이템을 리스트에서 삭제한다..
+			// Delete my manager&#39;s item from the list with iOrder.
 			RemoveChild(spItem->pUIIcon);
 
-			// 아이콘 리소스 삭제...
+			// Delete Icon Resource...
 			spItem->pUIIcon->Release();
 			delete spItem->pUIIcon;
 			spItem->pUIIcon = nullptr;
@@ -1208,14 +1208,14 @@ void CUIWareHouseDlg::ReceiveResultToWareMsg(BYTE bResult)	// 넣는 경우..
 	}
 }
 
-void CUIWareHouseDlg::ReceiveResultFromWareMsg(BYTE bResult)	// 빼는 경우..
+void CUIWareHouseDlg::ReceiveResultFromWareMsg(BYTE bResult)	// If you subtract...
 {
 	CN3UIWndBase::m_sRecoveryJobInfo.m_bWaitFromServer  = false;
 	const int iGold = CN3UIWndBase::m_pCountableItemEdit->GetQuantity();
 	__IconItemSkill* spItem;
 	const CN3UIArea* pArea = nullptr;
 
-	if (bResult != 0x01)	// 실패..
+	if (bResult != 0x01)	// failure..
 	{
 		if (m_bSendedItemGold) {	ReceiveResultGoldFromWareFail();	return;		}
 		if( (CN3UIWndBase::m_sRecoveryJobInfo.pItemSource->pItemBasic->byContable == UIITEM_TYPE_COUNTABLE) || 
@@ -1225,21 +1225,21 @@ void CUIWareHouseDlg::ReceiveResultFromWareMsg(BYTE bResult)	// 빼는 경우..
 
 			if ( (m_pMyWareInv[CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceEnd.iOrder]->iCount - iGold) > 0 )
 			{	
-				//  숫자 업데이트..
+				// Number update...
 				m_pMyWareInv[CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceEnd.iOrder]->iCount -= iGold;
 			}
 			else
 			{
-				// 아이템 삭제.. 현재 인벤토리 윈도우만.. 
+				// Delete item.. current inventory window only..
 				spItem = m_pMyWareInv[CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceEnd.iOrder];
 
-				// 인벤토리에서도 지운다..
+				// Also delete it from your inventory.
 				m_pMyWareInv[CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceEnd.iOrder] = nullptr;
 
-				// iOrder로 내 매니저의 아이템을 리스트에서 삭제한다..
+				// Delete my manager&#39;s item from the list with iOrder.
 				RemoveChild(spItem->pUIIcon);
 
-				// 아이콘 리소스 삭제...
+				// Delete Icon Resource...
 				spItem->pUIIcon->Release();
 				delete spItem->pUIIcon;
 				spItem->pUIIcon = nullptr;
@@ -1259,7 +1259,7 @@ void CUIWareHouseDlg::ReceiveResultFromWareMsg(BYTE bResult)	// 빼는 경우..
 				m_pMyWare[m_iCurPage][CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceStart.iOrder]->iCount+= iGold;
 			}
 		}
-		else	// 일반 아이템..
+		else	// normal items..
 		{
 			m_pMyWare[m_iCurPage][CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceStart.iOrder] = 
 				m_pMyWareInv[CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceEnd.iOrder]; 
@@ -1274,32 +1274,32 @@ void CUIWareHouseDlg::ReceiveResultFromWareMsg(BYTE bResult)	// 빼는 경우..
 			m_pMyWareInv[CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceEnd.iOrder] = nullptr;
 		}
 
-		// 메시지 박스 텍스트 표시..
+		// Show message box text..
 		std::string szMsg; ::_LoadStringFromResource(IDS_ITEM_TOOMANY_OR_HEAVY, szMsg);
 		CGameProcedure::s_pProcMain->MsgOutput(szMsg, 0xffff3b3b);
 	}
 
-	// 성공.. 
+	// success..
 	else
 	{
 		if (m_bSendedItemGold) 
 		{
-			m_bSendedItemGold = false;		// 원래 대로..
+			m_bSendedItemGold = false;		// Originally..
 			return;
 		}
 		if( ( (CN3UIWndBase::m_sRecoveryJobInfo.pItemSource->pItemBasic->byContable == UIITEM_TYPE_COUNTABLE) || 
 			(CN3UIWndBase::m_sRecoveryJobInfo.pItemSource->pItemBasic->byContable == UIITEM_TYPE_COUNTABLE_SMALL) ) &&
-			!m_pMyWare[m_iCurPage][CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceStart.iOrder]->pUIIcon->IsVisible() )			// 활이나 물약등 아이템인 경우..
+			!m_pMyWare[m_iCurPage][CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceStart.iOrder]->pUIIcon->IsVisible() )			// If it&#39;s an item like a bow or potion...
 		{				
 			spItem = m_pMyWare[m_iCurPage][CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceStart.iOrder];
 
-			// 인벤토리에서도 지운다..
+			// Also delete it from your inventory.
 			m_pMyWare[m_iCurPage][CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceStart.iOrder] = nullptr;
 
-			// iOrder로 내 매니저의 아이템을 리스트에서 삭제한다..
+			// Delete my manager&#39;s item from the list with iOrder.
 			RemoveChild(spItem->pUIIcon);
 
-			// 아이콘 리소스 삭제...
+			// Delete Icon Resource...
 			spItem->pUIIcon->Release();
 			delete spItem->pUIIcon;
 			spItem->pUIIcon = nullptr;
@@ -1314,7 +1314,7 @@ void CUIWareHouseDlg::ReceiveResultWareToWareMsg(BYTE bResult)
 	CN3UIWndBase::m_sRecoveryJobInfo.m_bWaitFromServer  = false;
 	const CN3UIArea* pArea = nullptr;
 
-	if (bResult != 0x01)	// 실패..
+	if (bResult != 0x01)	// failure..
 	{
 		__IconItemSkill *spItemSource = nullptr, *spItemTarget = nullptr;
 		spItemSource = CN3UIWndBase::m_sRecoveryJobInfo.pItemSource;
@@ -1360,7 +1360,7 @@ void CUIWareHouseDlg::ReceiveResultInvToInvMsg(BYTE bResult)
 	CN3UIWndBase::m_sRecoveryJobInfo.m_bWaitFromServer  = false;
 	const CN3UIArea* pArea = nullptr;
 
-	if (bResult != 0x01)	// 실패..
+	if (bResult != 0x01)	// failure..
 	{
 		__IconItemSkill *spItemSource = nullptr, *spItemTarget = nullptr;
 		spItemSource = CN3UIWndBase::m_sRecoveryJobInfo.pItemSource;
@@ -1412,7 +1412,7 @@ void CUIWareHouseDlg::ItemCountOK()
 
 	switch (CN3UIWndBase::m_pCountableItemEdit->GetCallerWndDistrict())
 	{
-		case UIWND_DISTRICT_TRADE_NPC:		// 빼는 경우..
+		case UIWND_DISTRICT_TRADE_NPC:		// If you subtract...
 			spItem = m_pMyWare[m_iCurPage][CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceStart.iOrder];
 			if ( iGold > spItem->iCount ) return;
 
@@ -1422,7 +1422,7 @@ void CUIWareHouseDlg::ItemCountOK()
 				case UIITEM_TYPE_SOMOONE:
 					iWeight = spItem->pItemBasic->siWeight;
 
-					// 무게 체크..
+					// weight check...
 					if ( (pInfoExt->iWeight + iWeight) > pInfoExt->iWeightMax)
 					{	 
 						std::string szMsg; ::_LoadStringFromResource(IDS_ITEM_WEIGHT_OVERFLOW, szMsg);	
@@ -1433,7 +1433,7 @@ void CUIWareHouseDlg::ItemCountOK()
 
 				case UIITEM_TYPE_COUNTABLE:
 					if ( iGold <= 0 ) return;
-					// short 범위이상은 살수 없다..
+					// You cannot buy more than a short range.
 					if ( iGold > UIITEM_COUNT_MANY ) 
 					{
 						std::string szMsg; ::_LoadStringFromResource(IDS_MANY_COUNTABLE_ITEM_GET_MANY, szMsg);
@@ -1452,7 +1452,7 @@ void CUIWareHouseDlg::ItemCountOK()
 						}
 					}
 
-					// 무게 체크..
+					// weight check...
 					iWeight = iGold * spItem->pItemBasic->siWeight;
 					if ( (pInfoExt->iWeight + iWeight) > pInfoExt->iWeightMax)
 					{	 
@@ -1464,7 +1464,7 @@ void CUIWareHouseDlg::ItemCountOK()
 
 				case UIITEM_TYPE_COUNTABLE_SMALL:
 					if ( iGold <= 0 ) return;
-					// short 범위이상은 살수 없다..
+					// You cannot buy more than a short range.
 					if ( iGold > UIITEM_COUNT_FEW ) 
 					{
 						std::string szMsg; ::_LoadStringFromResource(IDS_SMALL_COUNTABLE_ITEM_GET_MANY, szMsg);
@@ -1483,7 +1483,7 @@ void CUIWareHouseDlg::ItemCountOK()
 						}
 					}
 
-					// 무게 체크..
+					// weight check...
 					iWeight = iGold * spItem->pItemBasic->siWeight;
 					if ( (pInfoExt->iWeight + iWeight) > pInfoExt->iWeightMax)
 					{	 
@@ -1497,12 +1497,12 @@ void CUIWareHouseDlg::ItemCountOK()
 			spItem = m_pMyWare[m_iCurPage][CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceStart.iOrder];
 			CN3UIWndBase::m_sRecoveryJobInfo.m_bWaitFromServer	= true;
 
-			if ( m_pMyWareInv[CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceEnd.iOrder] )	// 해당 위치에 아이콘이 있으면..
+			if ( m_pMyWareInv[CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceEnd.iOrder] )	// If there is an icon in that location...
 			{
-				//  숫자 업데이트..
+				// Number update...
 				m_pMyWareInv[CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceEnd.iOrder]->iCount += iGold;
 			}
-			else	// 없으면 아이콘을 만든다...
+			else	// Create an icon if it doesn&#39;t exist...
 			{
 				__IconItemSkill* spItemNew;
 				spItemNew				= new __IconItemSkill;
@@ -1530,7 +1530,7 @@ void CUIWareHouseDlg::ItemCountOK()
 
 			if ( (spItem->iCount - iGold) > 0 )
 			{	
-				//  숫자 업데이트..
+				// Number update...
 				spItem->iCount -= iGold;
 			}
 			else
@@ -1538,8 +1538,8 @@ void CUIWareHouseDlg::ItemCountOK()
 				spItem->pUIIcon->SetVisible(false);
 			}
 
-			// 표시는 아이콘 렌더링할때.. Inventory의 Render에서..
-			// 서버에게 보냄..
+			// Display is when rendering icons.. In Render of Inventory..
+			// Sent to server...
 			SendToServerFromWareMsg(CN3UIWndBase::m_sRecoveryJobInfo.pItemSource->pItemBasic->dwID+
 				CN3UIWndBase::m_sRecoveryJobInfo.pItemSource->pItemExt->dwID,
 				m_iCurPage,
@@ -1551,7 +1551,7 @@ void CUIWareHouseDlg::ItemCountOK()
 			if (CN3UIWndBase::m_sRecoveryJobInfo.pItemSource) PlayItemSound(CN3UIWndBase::m_sRecoveryJobInfo.pItemSource->pItemBasic);
 			break;
 
-		case UIWND_DISTRICT_TRADE_MY:		//  넣는 경우..
+		case UIWND_DISTRICT_TRADE_MY:		// If you put...
 			spItem = m_pMyWareInv[CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceStart.iOrder];
 			if ( iGold > spItem->iCount ) return;
 
@@ -1559,7 +1559,7 @@ void CUIWareHouseDlg::ItemCountOK()
 			{
 				case UIITEM_TYPE_COUNTABLE:
 					if ( iGold <= 0 ) return;
-					// short 범위이상은 살수 없다..
+					// You cannot buy more than a short range.
 					if ( iGold > UIITEM_COUNT_MANY ) 
 					{
 						std::string szMsg; ::_LoadStringFromResource(IDS_MANY_COUNTABLE_ITEM_GET_MANY, szMsg);
@@ -1581,7 +1581,7 @@ void CUIWareHouseDlg::ItemCountOK()
 
 				case UIITEM_TYPE_COUNTABLE_SMALL:
 					if ( iGold <= 0 ) return;
-					// short 범위이상은 살수 없다..
+					// You cannot buy more than a short range.
 					if ( iGold > UIITEM_COUNT_FEW ) 
 					{
 						std::string szMsg; ::_LoadStringFromResource(IDS_SMALL_COUNTABLE_ITEM_GET_MANY, szMsg);
@@ -1605,12 +1605,12 @@ void CUIWareHouseDlg::ItemCountOK()
 			spItem = m_pMyWareInv[CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceStart.iOrder];
 			CN3UIWndBase::m_sRecoveryJobInfo.m_bWaitFromServer	= true;
 
-			if ( m_pMyWare[CN3UIWndBase::m_sRecoveryJobInfo.m_iPage][CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceEnd.iOrder] )	// 해당 위치에 아이콘이 있으면..
+			if ( m_pMyWare[CN3UIWndBase::m_sRecoveryJobInfo.m_iPage][CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceEnd.iOrder] )	// If there is an icon in that location...
 			{
-				//  숫자 업데이트..
+				// Number update...
 				m_pMyWare[CN3UIWndBase::m_sRecoveryJobInfo.m_iPage][CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceEnd.iOrder]->iCount += iGold;
 			}
-			else	// 없으면 아이콘을 만든다..
+			else	// Create an icon if it doesn&#39;t exist.
 			{
 				__IconItemSkill* spItemNew;
 				spItemNew				= new __IconItemSkill;
@@ -1641,7 +1641,7 @@ void CUIWareHouseDlg::ItemCountOK()
 
 			if ( (spItem->iCount - iGold) > 0 )
 			{	
-				//  숫자 업데이트..
+				// Number update...
 				spItem->iCount -= iGold;
 			}
 			else
@@ -1649,8 +1649,8 @@ void CUIWareHouseDlg::ItemCountOK()
 				spItem->pUIIcon->SetVisible(false);
 			}
 
-			// 표시는 아이콘 렌더링할때.. Inventory의 Render에서..
-			// 서버에게 보냄..
+			// Display is when rendering icons.. In Render of Inventory..
+			// Sent to server...
 			SendToServerToWareMsg(CN3UIWndBase::m_sRecoveryJobInfo.pItemSource->pItemBasic->dwID+
 				CN3UIWndBase::m_sRecoveryJobInfo.pItemSource->pItemExt->dwID,
 				CN3UIWndBase::m_sRecoveryJobInfo.m_iPage,
@@ -1668,7 +1668,7 @@ void CUIWareHouseDlg::ItemCountCancel()
 	// Sound..
 	if (CN3UIWndBase::m_sRecoveryJobInfo.pItemSource) PlayItemSound(CN3UIWndBase::m_sRecoveryJobInfo.pItemSource->pItemBasic);
 
-	// 취소..
+	// cancellation..
 	CN3UIWndBase::m_sRecoveryJobInfo.m_bWaitFromServer  = false;
 	CN3UIWndBase::m_sRecoveryJobInfo.pItemSource		= nullptr;
 	CN3UIWndBase::m_sRecoveryJobInfo.pItemTarget		= nullptr;
@@ -1744,29 +1744,29 @@ void CUIWareHouseDlg::AddItemInWare(int iItem, int iDurability, int iCount, int 
 	if (!iItem) return;
 	std::string szIconFN;
 	__IconItemSkill*	spItem = nullptr;
-	__TABLE_ITEM_BASIC*	pItem = nullptr;													// 아이템 테이블 구조체 포인터..
+	__TABLE_ITEM_BASIC*	pItem = nullptr;													// Item table structure pointer..
 	__TABLE_ITEM_EXT*	pItemExt = nullptr;
 
-	pItem = CGameBase::s_pTbl_Items_Basic->Find(iItem/1000*1000);	// 열 데이터 얻기..
+	pItem = CGameBase::s_pTbl_Items_Basic->Find(iItem/1000*1000);	// Get column data...
 	if(pItem && pItem->byExtIndex >= 0 && pItem->byExtIndex < MAX_ITEM_EXTENSION)
-		pItemExt = CGameBase::s_pTbl_Items_Exts[pItem->byExtIndex]->Find(iItem%1000);	// 열 데이터 얻기..
+		pItemExt = CGameBase::s_pTbl_Items_Exts[pItem->byExtIndex]->Find(iItem%1000);	// Get column data...
 	if (nullptr == pItem || nullptr == pItemExt )
 	{
 		__ASSERT(0, "NULL Item!!!");
 		CLogWriter::Write("WareHouse - Ware - Unknown Item %d, IDNumber", iItem);
-		return; // 아이템이 없으면..
+		return; // If there are no items...
 	}
 
 	e_PartPosition ePart;
 	e_PlugPosition ePlug;
-	const e_ItemType eType = CGameProcedure::MakeResrcFileNameForUPC(pItem, nullptr, &szIconFN, ePart, ePlug); // 아이템에 따른 파일 이름을 만들어서
+	const e_ItemType eType = CGameProcedure::MakeResrcFileNameForUPC(pItem, nullptr, &szIconFN, ePart, ePlug); // Create a file name according to the item
 	if(ITEM_TYPE_UNKNOWN == eType) CLogWriter::Write("MyInfo - slot - Unknown Item");
 	__ASSERT(ITEM_TYPE_UNKNOWN != eType, "Unknown Item");
 	
 	spItem = new __IconItemSkill;
 	spItem->pItemBasic	= pItem;
 	spItem->pItemExt	= pItemExt;
-	spItem->szIconFN	= szIconFN; // 아이콘 파일 이름 복사..
+	spItem->szIconFN	= szIconFN; // Copy icon filename..
 	spItem->iCount		= iCount;
 	spItem->iDurability = iDurability;
 
@@ -1774,22 +1774,22 @@ void CUIWareHouseDlg::AddItemInWare(int iItem, int iDurability, int iCount, int 
 	TRACE("Init Inv Msg Inve %d, iOrder %d \n", iItem, iIndex);
 }
 
-void CUIWareHouseDlg::GoldCountToWareOK()	//돈을 넣는 경우..
+void CUIWareHouseDlg::GoldCountToWareOK()	// If you put money in...
 {
 	char szGold[32];
-	int iGold, iMyMoney, iWareMoney;			// 인벤토리의 값..
+	int iGold, iMyMoney, iWareMoney;			// Inventory value...
 	std::string str;
 
-	// 돈을 보관함에 보관하는 경우..
+	// If you keep your money in a locker...
 	iGold = CN3UIWndBase::m_pCountableItemEdit->GetQuantity();
 
 	// Gold Offset Backup..
 	m_iGoldOffsetBackup = iGold;
 
-	// 현재 내가 가진 돈을 얻어 온다..
+	// I&#39;m getting my money now...
 	iMyMoney = CGameBase::s_pPlayer->m_InfoExt.iGold;
 
-	// 보관함의 돈을 얻어온다..
+	// Get the money from the storage box.
 	CN3UIString* pStr = nullptr;
 	pStr = (CN3UIString* )GetChildByID("string_wareitem_name");	 
 	__ASSERT(pStr, "NULL UI Component!!");
@@ -1799,51 +1799,51 @@ void CUIWareHouseDlg::GoldCountToWareOK()	//돈을 넣는 경우..
 	if ( iGold <= 0 ) return;
 	if ( iGold > iMyMoney ) return;
 
-	m_bSendedItemGold = true;		// 보낸 아이템이 돈이다.. !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	m_bSendedItemGold = true;		// The item sent is money..!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-	// 돈을 감소 시킨다..
+	// reduce money.
 	iMyMoney -= iGold;
 	CGameBase::s_pPlayer->m_InfoExt.iGold = iMyMoney;
 
 	iWareMoney += iGold;
 
-	// 돈 표시.. Ware..
+	// Show money.. Ware..
 	pStr->SetStringAsInt(iWareMoney);
-	// 돈 표시.. 인벤토리..
+	// Show Money.. Inventory..
 	sprintf(szGold, "%d", iMyMoney);	pStr = nullptr;
 	str = szGold;
 	pStr = (CN3UIString* )CGameProcedure::s_pProcMain->m_pUIInventory->GetChildByID("text_gold"); __ASSERT(pStr, "NULL UI Component!!");
 	if(pStr)	pStr->SetString(str);	pStr = nullptr;	
-	// 돈 표시.. Inv..
+	// Show money.. Inv..
 	pStr = (CN3UIString* )GetChildByID("string_item_name"); __ASSERT(pStr, "NULL UI Component!!");
 	if(pStr) pStr->SetStringAsInt(iMyMoney);
 
-	// 서버에게 패킷 만들어서 날림..
+	// Creates and sends packets to the server.
 	SendToServerToWareMsg(dwGold, 0xff, 0xff, 0xff, iGold);
 
-	// 상태를 변화시키고.. 창을 닫고..
+	// Change the state... close the window...
 	CN3UIWndBase::m_sRecoveryJobInfo.m_bWaitFromServer = true;
 	CN3UIWndBase::m_pCountableItemEdit->Close();
 
 	PlayGoldSound();
 }
 
-void CUIWareHouseDlg::GoldCountFromWareOK()		// 돈을 빼는 경우..
+void CUIWareHouseDlg::GoldCountFromWareOK()		// If you are withdrawing money...
 {
 	char szGold[32];
-	int iGold, iMyMoney, iWareMoney;			// 인벤토리의 값..
+	int iGold, iMyMoney, iWareMoney;			// Inventory value...
 	std::string str;
 
-	// 돈을 보관함에서 빼는 경우..
+	// If money is taken out of the locker...
 	iGold = CN3UIWndBase::m_pCountableItemEdit->GetQuantity();
 
 	// Gold Offset Backup..
 	m_iGoldOffsetBackup = iGold;
 
-	// 현재 내가 가진 돈을 얻어 온다..
+	// I&#39;m getting my money now...
 	iMyMoney = CGameBase::s_pPlayer->m_InfoExt.iGold;
 
-	// 보관함의 돈을 얻어온다..
+	// Get the money from the storage box.
 	CN3UIString* pStr = nullptr;
 	pStr = (CN3UIString* )GetChildByID("string_wareitem_name");	 
 	__ASSERT(pStr, "NULL UI Component!!");
@@ -1853,29 +1853,29 @@ void CUIWareHouseDlg::GoldCountFromWareOK()		// 돈을 빼는 경우..
 	if ( iGold <= 0 ) return;
 	if ( iGold > iWareMoney ) return;
 
-	m_bSendedItemGold = true;		// 보낸 아이템이 돈이다.. !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	m_bSendedItemGold = true;		// The item sent is money..!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-	// 돈을 감소 시킨다..
+	// reduce money.
 	iMyMoney += iGold;
 	CGameBase::s_pPlayer->m_InfoExt.iGold = iMyMoney;
 
 	iWareMoney -= iGold;
 
-	// 돈 표시.. Ware..
+	// Show money.. Ware..
 	pStr->SetStringAsInt(iWareMoney);
-	// 돈 표시.. 인벤토리..
+	// Show Money.. Inventory..
 	sprintf(szGold, "%d", iMyMoney);	pStr = nullptr;
 	str = szGold;
 	pStr = (CN3UIString* )CGameProcedure::s_pProcMain->m_pUIInventory->GetChildByID("text_gold"); __ASSERT(pStr, "NULL UI Component!!");
 	if(pStr)	pStr->SetString(str);	pStr = nullptr;	
-	// 돈 표시.. Inv..
+	// Show money.. Inv..
 	pStr = (CN3UIString* )GetChildByID("string_item_name"); __ASSERT(pStr, "NULL UI Component!!");
 	if(pStr) pStr->SetStringAsInt(iMyMoney);
 
-	// 서버에게 패킷 만들어서 날림..
+	// Creates and sends packets to the server.
 	SendToServerFromWareMsg(dwGold, 0xff, 0xff, 0xff, iGold);
 
-	// 상태를 변화시키고.. 창을 닫고..
+	// Change the state... close the window...
 	CN3UIWndBase::m_sRecoveryJobInfo.m_bWaitFromServer = true;
 	CN3UIWndBase::m_pCountableItemEdit->Close();
 
@@ -1884,11 +1884,11 @@ void CUIWareHouseDlg::GoldCountFromWareOK()		// 돈을 빼는 경우..
 
 void CUIWareHouseDlg::GoldCountToWareCancel()
 {
-	// 돈을 보관함에 보관하는 경우 취소..
+	// If you keep your money in a locker, cancel it..
 	// Sound..
 	PlayGoldSound();
 
-	// 취소..
+	// cancellation..
 	CN3UIWndBase::m_sRecoveryJobInfo.m_bWaitFromServer  = false;
 	CN3UIWndBase::m_sRecoveryJobInfo.pItemSource		= nullptr;
 	CN3UIWndBase::m_sRecoveryJobInfo.pItemTarget		= nullptr;
@@ -1898,11 +1898,11 @@ void CUIWareHouseDlg::GoldCountToWareCancel()
 
 void CUIWareHouseDlg::GoldCountFromWareCancel()
 {
-	// 돈을 보관함에서 빼오는 경우 취소..
+	// If money is taken out of the locker, cancel..
 	// Sound..
 	PlayGoldSound();
 
-	// 취소..
+	// cancellation..
 	CN3UIWndBase::m_sRecoveryJobInfo.m_bWaitFromServer  = false;
 	CN3UIWndBase::m_sRecoveryJobInfo.pItemSource		= nullptr;
 	CN3UIWndBase::m_sRecoveryJobInfo.pItemTarget		= nullptr;
@@ -1912,89 +1912,89 @@ void CUIWareHouseDlg::GoldCountFromWareCancel()
 
 void CUIWareHouseDlg::ReceiveResultGoldToWareFail()
 {
-	m_bSendedItemGold = false;			// 원래 대로..
+	m_bSendedItemGold = false;			// Originally..
 
 	char szGold[32];
-	int iGold, iMyMoney, iWareMoney;			// 인벤토리의 값..
+	int iGold, iMyMoney, iWareMoney;			// Inventory value...
 	std::string str;
 
-	// 돈을 보관함에서 빼는 경우..
+	// If money is taken out of the locker...
 	iGold = CN3UIWndBase::m_pCountableItemEdit->GetQuantity();
 
 	// Gold Offset Backup..
 	m_iGoldOffsetBackup = iGold;
 
-	// 현재 내가 가진 돈을 얻어 온다..
+	// I&#39;m getting my money now...
 	iMyMoney = CGameBase::s_pPlayer->m_InfoExt.iGold;
 
-	// 보관함의 돈을 얻어온다..
+	// Get the money from the storage box.
 	CN3UIString* pStr = nullptr;
 	pStr = (CN3UIString* )GetChildByID("string_wareitem_name");	 
 	__ASSERT(pStr, "NULL UI Component!!");
 	str = pStr->GetString();
 	iWareMoney = atoi(str.c_str());
 
-	// 돈을 감소 시킨다..
+	// reduce money.
 	iMyMoney += iGold;
 	CGameBase::s_pPlayer->m_InfoExt.iGold = iMyMoney;
 
 	iWareMoney -= iGold;
 
-	// 돈 표시.. Ware..
+	// Show money.. Ware..
 	pStr->SetStringAsInt(iWareMoney);
-	// 돈 표시.. 인벤토리..
+	// Show Money.. Inventory..
 	sprintf(szGold, "%d", iMyMoney);	pStr = nullptr;
 	str = szGold;
 	pStr = (CN3UIString* )CGameProcedure::s_pProcMain->m_pUIInventory->GetChildByID("text_gold"); __ASSERT(pStr, "NULL UI Component!!");
 	if(pStr)	pStr->SetString(str);	pStr = nullptr;	
-	// 돈 표시.. Inv..
+	// Show money.. Inv..
 	pStr = (CN3UIString* )GetChildByID("string_item_name"); __ASSERT(pStr, "NULL UI Component!!");
 	if(pStr) pStr->SetStringAsInt(iMyMoney);
 }
 
 void CUIWareHouseDlg::ReceiveResultGoldFromWareFail()
 {
-	m_bSendedItemGold = false;		// 원래 대로..
+	m_bSendedItemGold = false;		// Originally..
 
 	char szGold[32];
-	int iGold, iMyMoney, iWareMoney;			// 인벤토리의 값..
+	int iGold, iMyMoney, iWareMoney;			// Inventory value...
 	std::string str;
 
-	// 돈을 보관함에 보관하는 경우..
+	// If you keep your money in a locker...
 	iGold = CN3UIWndBase::m_pCountableItemEdit->GetQuantity();
 
 	// Gold Offset Backup..
 	m_iGoldOffsetBackup = iGold;
 
-	// 현재 내가 가진 돈을 얻어 온다..
+	// I&#39;m getting my money now...
 	iMyMoney = CGameBase::s_pPlayer->m_InfoExt.iGold;
 
-	// 보관함의 돈을 얻어온다..
+	// Get the money from the storage box.
 	CN3UIString* pStr = nullptr;
 	pStr = (CN3UIString* )GetChildByID("string_wareitem_name");	 
 	__ASSERT(pStr, "NULL UI Component!!");
 	str = pStr->GetString();
 	iWareMoney = atoi(str.c_str());
 
-	// 돈을 감소 시킨다..
+	// reduce money.
 	iMyMoney -= iGold;
 	CGameBase::s_pPlayer->m_InfoExt.iGold = iMyMoney;
 
 	iWareMoney += iGold;
 
-	// 돈 표시.. Ware..
+	// Show money.. Ware..
 	pStr->SetStringAsInt(iWareMoney);
-	// 돈 표시.. 인벤토리..
+	// Show Money.. Inventory..
 	sprintf(szGold, "%d", iMyMoney);	pStr = nullptr;
 	str = szGold;
 	pStr = (CN3UIString* )CGameProcedure::s_pProcMain->m_pUIInventory->GetChildByID("text_gold"); __ASSERT(pStr, "NULL UI Component!!");
 	if(pStr)	pStr->SetString(str);	pStr = nullptr;	
-	// 돈 표시.. Inv..
+	// Show money.. Inv..
 	pStr = (CN3UIString* )GetChildByID("string_item_name"); __ASSERT(pStr, "NULL UI Component!!");
 	if(pStr) pStr->SetStringAsInt(iMyMoney);
 }
 
-//this_ui_add_start
+// this_ui_add_start
 bool CUIWareHouseDlg::OnKeyPress(int iKey)
 {
 	switch(iKey)
@@ -2032,7 +2032,7 @@ void CUIWareHouseDlg::SetVisible(bool bVisible)
 	if(bVisible)
 		CGameProcedure::s_pUIMgr->SetVisibleFocusedUI(this);
 	else
-		CGameProcedure::s_pUIMgr->ReFocusUI();//this_ui
+		CGameProcedure::s_pUIMgr->ReFocusUI();// this_ui
 }
 
 void CUIWareHouseDlg::SetVisibleWithNoSound(bool bVisible, bool bWork, bool bReFocus)
@@ -2049,11 +2049,11 @@ void CUIWareHouseDlg::SetVisibleWithNoSound(bool bVisible, bool bWork, bool bReF
 		SetState(UI_STATE_COMMON_NONE);
 		CN3UIWndBase::AllHighLightIconFree();
 
-		// 이 윈도우의 inv 영역의 아이템을 이 인벤토리 윈도우의 inv영역으로 옮긴다..	
+		// Move the items in the inv area of this window to the inv area of this inventory window.
 		ItemMoveFromThisToInv();
 
 		if (CGameProcedure::s_pProcMain->m_pUISkillTreeDlg) CGameProcedure::s_pProcMain->m_pUISkillTreeDlg->UpdateDisableCheck();
 		if (CGameProcedure::s_pProcMain->m_pUIHotKeyDlg) CGameProcedure::s_pProcMain->m_pUIHotKeyDlg->UpdateDisableCheck();
 	}
 }
-//this_ui_add_end
+// this_ui_add_end

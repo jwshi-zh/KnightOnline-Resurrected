@@ -6,7 +6,7 @@ struct __PositionInfo
 {
 	__Vector3	vPos;
 	int			iID;
-	D3DCOLOR	crType; // 종류에 따른 색깔... 
+	D3DCOLOR	crType; // Color according to type...
 };
 
 struct __DurationMagicImg
@@ -25,23 +25,23 @@ protected:
 	CN3UIProgress*	m_pProgress_ExpC;
 	CN3UIProgress*	m_pProgress_ExpP;
 
-	// 미니맵...
+	// mini map...
 	CN3UIBase*		m_pGroup_MiniMap;
-	CN3UIImage*		m_pImage_Map; // 이 이미지에 미니맵 텍스처를 적용시킨다..
+	CN3UIImage*		m_pImage_Map; // Apply a minimap texture to this image.
 	CN3UIButton*	m_pBtn_ZoomIn;
 	CN3UIButton*	m_pBtn_ZoomOut;
 
-	float			m_fZoom; // 지도의 배율..
+	float			m_fZoom; // Magnification of the map..
 	float			m_fMapSizeX;
 	float			m_fMapSizeZ;
 	float			m_fYawPlayer;
 	__Vector3		m_vPosPlayer;
 
-	__VertexTransformedColor	m_vArrows[6]; // 플레이어 위치 화살표..
+	__VertexTransformedColor	m_vArrows[6]; // Player position arrow.
 	std::list<__PositionInfo>	m_Positions;
-	std::list<__PositionInfo>	m_PositionsTop; // 맨 위에 그릴 위치덜..
+	std::list<__PositionInfo>	m_PositionsTop; // Place to draw on top.
 
-	//컬려있는 마법스킬 표시하기..
+	// Displaying colored magic skills..
 	std::list<__DurationMagicImg*> m_pMagic;
 	
 // Attributes
@@ -65,12 +65,12 @@ public:
 	void ZoomSet(float fZoom);
 	void PositionInfoAdd(int iID, const __Vector3& vPos, D3DCOLOR crID, bool bDrawTop);
 	void PositionInfoClear();
-	bool LoadMap(const std::string& szMiniMapFN, float fMapSizeX, float fMapSizeZ); // 미니맵 비트맵 파일 이름, 매의 너비 길이..(Meter);
+	bool LoadMap(const std::string& szMiniMapFN, float fMapSizeX, float fMapSizeZ); // minimap bitmap filename, sheet width length..(Meter);
 	
-	bool	ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg); // 메시지를 받는다.. 보낸놈, msg
+	bool	ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg); // Receives a message. Sender, msg
 
 	virtual void	Tick();
-	virtual void	Render(); // 미니맵 렌더링..
+	virtual void	Render(); // Minimap rendering...
 	virtual bool	Load(HANDLE hFile);
 	
 	virtual void	Release();

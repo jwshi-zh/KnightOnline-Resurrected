@@ -72,7 +72,7 @@ bool CUIImageTooltipDlg::SetTooltipTextColor(e_Class eMyValue, e_Class eTooltipV
 void CUIImageTooltipDlg::SetPosSomething(int xpos, int ypos, int iNum)
 {
 	int iWidth = 0;
-	// 가로 크기 얻기..
+	// Get horizontal size...
 	for (int i = 0; i < iNum; i++)
 	{
 		if (m_pstdstr[i].empty())	continue;
@@ -82,8 +82,8 @@ void CUIImageTooltipDlg::SetPosSomething(int xpos, int ypos, int iNum)
 
 	iWidth += 22;
 
-//	int iWidth	= m_rcRegion.right-m_rcRegion.left;
-	const int iHeight = (m_pStr[iNum-1]->GetRegion().bottom - m_pStr[0]->GetRegion().top)+14;	// 2는 string간의 간격의 절반..
+	// int iWidth	= m_rcRegion.right-m_rcRegion.left;
+	const int iHeight = (m_pStr[iNum-1]->GetRegion().bottom - m_pStr[0]->GetRegion().top)+14;	// 2 is half the spacing between strings.
 
 	RECT rect, rect2;
 	
@@ -173,7 +173,7 @@ int	CUIImageTooltipDlg::CalcTooltipStringNumAndWrite(__IconItemSkill* spItem, bo
 			if ( spItem->pItemBasic->szName == szStr )
 			{
 				sprintf(szBuff, "%d  %s", spItem->iCount, spItem->pItemBasic->szName.c_str());
-				// 돈이면 흰색..
+				// White money...
 				m_pStr[iIndex]->SetColor(m_CWhite);
 				m_pstdstr[iIndex] = szBuff;
 				iIndex++;			
@@ -235,7 +235,7 @@ int	CUIImageTooltipDlg::CalcTooltipStringNumAndWrite(__IconItemSkill* spItem, bo
 		{
 			m_pStr[iIndex]->SetStyle(UI_STR_TYPE_HALIGN, UISTYLE_STRING_ALIGNCENTER);
 			auto eIC = (e_ItemClass)(spItem->pItemBasic->byClass);
-			CGameProcedure::GetTextByItemClass(eIC, szString); // 아이템 종류에 따라 문자열 만들기..
+			CGameProcedure::GetTextByItemClass(eIC, szString); // Create a string based on item type..
 			m_pStr[iIndex]->SetColor(m_CWhite);
 			m_pstdstr[iIndex] = szString;
 			iIndex++;
@@ -245,7 +245,7 @@ int	CUIImageTooltipDlg::CalcTooltipStringNumAndWrite(__IconItemSkill* spItem, bo
 		if (eRace != RACE_ALL)
 		{
 			m_pStr[iIndex]->SetStyle(UI_STR_TYPE_HALIGN, UISTYLE_STRING_ALIGNCENTER);
-			CGameProcedure::GetTextByRace(eRace, szString); // 아이템을 찰수 있는 종족에 따른 문자열 만들기.
+			CGameProcedure::GetTextByRace(eRace, szString); // Create a string according to the race that can kick the item.
 			if (SetTooltipTextColor(CGameBase::s_pPlayer->m_InfoBase.eRace, eRace))
 				m_pStr[iIndex]->SetColor(m_CWhite);
 			else
@@ -259,7 +259,7 @@ int	CUIImageTooltipDlg::CalcTooltipStringNumAndWrite(__IconItemSkill* spItem, bo
 		{
 			m_pStr[iIndex]->SetStyle(UI_STR_TYPE_HALIGN, UISTYLE_STRING_ALIGNCENTER);
 			auto eClass = (e_Class)spItem->pItemBasic->byNeedClass;
-			CGameProcedure::GetTextByClass(eClass, szString); // 아이템을 찰수 있는 종족에 따른 문자열 만들기.
+			CGameProcedure::GetTextByClass(eClass, szString); // Create a string according to the race that can kick the item.
 
 			switch (eClass)
 			{
@@ -480,7 +480,7 @@ int	CUIImageTooltipDlg::CalcTooltipStringNumAndWrite(__IconItemSkill* spItem, bo
 		}
 		ERROR_EXCEPTION
 
-		// 공격시간 감소 없어짐..
+		// No attack time reduction.
 
 		if (spItem->pItemBasic->siAttackRange != 0)
 		{
@@ -621,7 +621,7 @@ int	CUIImageTooltipDlg::CalcTooltipStringNumAndWrite(__IconItemSkill* spItem, bo
 		}
 		ERROR_EXCEPTION
 
-		if( spItem->pItemExt->byDamageFire != 0)	// 화염속성
+		if( spItem->pItemExt->byDamageFire != 0)	// fire attribute
 		{
 			m_pStr[iIndex]->SetStyle(UI_STR_TYPE_HALIGN, UISTYLE_STRING_ALIGNLEFT);
 			::_LoadStringFromResource(IDS_TOOLTIP_ATTRMAGIC1, szStr);
@@ -1001,7 +1001,7 @@ exceptions:;
 			m_pstdstr[iIndex] = "";
 	}
 
-	return iIndex;	// 임시..	반드시 1보다 크다..
+	return iIndex;	// Temporary.. must be greater than 1..
 }
 
 void CUIImageTooltipDlg::DisplayTooltipsEnable(int xpos, int ypos, __IconItemSkill* spItem, bool bPrice, bool bBuy)

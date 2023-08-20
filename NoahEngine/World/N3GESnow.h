@@ -8,24 +8,24 @@ class CN3GESnow : public CN3GlobalEffect
 protected:
 	struct __SnowParticle
 	{
-		__Vector3	vPos;							// 회전 반경의 줌심
-		__Vector3	vOffset1, vOffset2, vOffset3;	// 점 1 2 3이 파티클 중점에서 떨어진 정도
-		float		fRadius;						// 회전 반경
-		float		fRadian;						// 현재 회전된 각도
-		//float		fRVel							// 회전각속도 (우선 일정하다고 가정)
-		// __Vector3 vVelocity						// 떨어지는 속도(우선 모두 같다고 가정)
+		__Vector3	vPos;							// Zoom Depth of Turning Radius
+		__Vector3	vOffset1, vOffset2, vOffset3;	// How far point 1 2 3 is from the midpoint of the particle
+		float		fRadius;						// turning radius
+		float		fRadian;						// current rotated angle
+		// float fRVel // rotational angular velocity (assumed constant for now)
+		// __Vector3 vVelocity // Falling velocity (assuming they are all the same for now)
 	};
 
 // Attributes
 public:
 	void SetVelocity(__Vector3& v) {m_vVelocity = v;}
 protected:
-	float		m_fWidth;		// 눈이 떨어지는 공간의 너비
-	float		m_fHeight;		// 눈이 떨어지는 공간의 높이
-	float		m_fSnowSize;	// 눈 하나의 크기
-	__Vector3	m_vVelocity;	// 전체적으로 떨어지는 방향과 속도
-	CN3Texture*	m_pTex;			// 눈 텍스쳐
-	__SnowParticle*	m_pSnowParticle;	// 눈송이 정보
+	float		m_fWidth;		// the width of the space in which the snow falls
+	float		m_fHeight;		// The height of the space in which snow falls
+	float		m_fSnowSize;	// the size of an eye
+	__Vector3	m_vVelocity;	// overall direction and speed
+	CN3Texture*	m_pTex;			// snow texture
+	__SnowParticle*	m_pSnowParticle;	// snowflake information
 
 // Operations
 public:

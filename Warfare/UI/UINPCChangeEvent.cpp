@@ -53,13 +53,13 @@ bool CUINPCChangeEvent::Load(HANDLE hFile)
 	m_pBtn_Close		= (CN3UIButton*)GetChildByID("Btn_close");		__ASSERT(m_pBtn_Close,	"NULL UI Component!!");
 
 	// UIPointInitDlg.. ^^
-	const e_Nation eNation = CGameProcedure::s_pPlayer->m_InfoBase.eNation; // 국가....
+	const e_Nation eNation = CGameProcedure::s_pPlayer->m_InfoBase.eNation; // nation....
 	const __TABLE_UI_RESRC* pTbl = CGameProcedure::s_pTbl_UI->Find(eNation);
 
 	m_pDlg = new CUIPointInitDlg();
 	m_pDlg->LoadFromFile(pTbl->szChangeInitBill);
 
-	// 위치 계산 ..
+	// position calculation ..
 	int iXPos, iYPos;
 	iXPos = (iW/2) - (m_pDlg->GetRegion().right - m_pDlg->GetRegion().left)/2;
 	iYPos = (iH/2) - (m_pDlg->GetRegion().bottom - m_pDlg->GetRegion().top)/2;
@@ -160,14 +160,14 @@ void CUINPCChangeEvent::ReceivePriceFromServer(int iGold)
 	}
 }
 
-//this_ui_add_start
+// this_ui_add_start
 void CUINPCChangeEvent::SetVisible(bool bVisible)
 {
 	CN3UIBase::SetVisible(bVisible);
 	if(bVisible)
 		CGameProcedure::s_pUIMgr->SetVisibleFocusedUI(this);
 	else
-		CGameProcedure::s_pUIMgr->ReFocusUI();//this_ui
+		CGameProcedure::s_pUIMgr->ReFocusUI();// this_ui
 }
 
 bool CUINPCChangeEvent::OnKeyPress(int iKey)
@@ -181,5 +181,5 @@ bool CUINPCChangeEvent::OnKeyPress(int iKey)
 
 	return CN3UIBase::OnKeyPress(iKey);
 }
-//this_ui_add_end
+// this_ui_add_end
 

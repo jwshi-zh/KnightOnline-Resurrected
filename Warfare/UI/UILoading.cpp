@@ -43,8 +43,8 @@ bool CUILoading::Load(HANDLE hFile)
 	m_pText_Info = (CN3UIString*)(CN3UIBase::GetChildByID("Text_Info")); __ASSERT(m_pText_Info, "NULL UI Component!!");
 	m_pProgress_Loading = (CN3UIProgress*)(CN3UIBase::GetChildByID("Progress_Loading")); __ASSERT(m_pProgress_Loading, "NULL UI Component!!");
 
-	this->SetPosCenter(); // 가운데로 맞추기..
-	m_pText_Version->SetPos(10, 10); // Version 은 맨위에 표시..
+	this->SetPosCenter(); // fit in the middle...
+	m_pText_Version->SetPos(10, 10); // Version is displayed at the top.
 	
 	if(m_pProgress_Loading) m_pProgress_Loading->SetRange(0, 100);
 
@@ -57,14 +57,14 @@ void CUILoading::Render(const std::string& szInfo, int iPercentage)
 	if(m_pProgress_Loading) m_pProgress_Loading->SetCurValue(iPercentage);
 
 	const D3DCOLOR crEnv = 0x00000000;
-	CGameProcedure::s_pEng->Clear(crEnv); // 배경은 검은색
-	CN3Base::s_lpD3DDev->BeginScene();			// 씬 렌더 ㅅ작...
+	CGameProcedure::s_pEng->Clear(crEnv); // the background is black
+	CN3Base::s_lpD3DDev->BeginScene();			// Scene renders...
 	
 	CN3UIBase::Tick();
 	CUIManager::RenderStateSet();
 	CN3UIBase::Render();
 	CUIManager::RenderStateRestore();
 	
-	CN3Base::s_lpD3DDev->EndScene();			// 씬 렌더 시작...
+	CN3Base::s_lpD3DDev->EndScene();			// Start scene render...
 	CGameProcedure::s_pEng->Present(CN3Base::s_hWndBase);
 }

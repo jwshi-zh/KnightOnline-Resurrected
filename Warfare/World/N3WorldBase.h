@@ -14,11 +14,11 @@ class CN3WorldBase    : public CN3BaseFileAccess ,public CGameBase
 	friend class CN3WorldManager;
 
 public:
-	//..
+	// ..
 	virtual CN3Terrain* GetTerrainRef() = 0;
 	virtual CN3SkyMng* GetSkyRef() = 0;
 
-	//..
+	// ..
 	virtual void InitWorld(int iZoneID, const __Vector3& vPosPlayer) = 0;
 	virtual void Tick() = 0;
 
@@ -41,12 +41,12 @@ public:
 	virtual float GetHeightWithShape(float fX, float fZ, __Vector3* pvNormal = nullptr) = 0; 
 	virtual CN3Shape* ShapeGetByIDWithShape(int iID) = 0;
 	virtual CN3Shape* PickWithShape(int iXScreen, int iYScreen, bool bMustHaveEvent, __Vector3* pvPick = nullptr) = 0;
-	virtual bool CheckCollisionWithShape(	const __Vector3& vPos,			// 충돌 위치
-														const __Vector3& vDir,					    // 방향 벡터
-														float fSpeedPerSec,							 // 초당 움직이는 속도
-														__Vector3* pvCol = nullptr,				  // 충돌 지점
-														__Vector3* pvNormal = nullptr,				// 충돌한면의 법선벡터
-														__Vector3* pVec = nullptr) = 0;			// 충돌한 면 의 폴리곤 __Vector3[3]
+	virtual bool CheckCollisionWithShape(	const __Vector3& vPos,			// crash location
+														const __Vector3& vDir,					    // direction vector
+														float fSpeedPerSec,							 // moving speed per second
+														__Vector3* pvCol = nullptr,				  // crash point
+														__Vector3* pvNormal = nullptr,				// The normal vector of the colliding face
+														__Vector3* pVec = nullptr) = 0;			// Polygon of collided face __Vector3[3]
 
 	// Sky..
 	virtual D3DCOLOR GetSkyColorWithSky()	{	return 0x00000000;	}

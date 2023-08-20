@@ -39,12 +39,12 @@ CN3UIWndBase::CN3UIWndBase()
 		s_pSnd_Gold		= CN3Base::s_SndMgr.CreateObj(ID_SOUND_GOLD_IN_INVENTORY);	
 		s_pSnd_Repair	= CN3Base::s_SndMgr.CreateObj(ID_SOUND_ITEM_IN_REPAIR);	
 	}
-	s_iRefCount++; // 참조 카운트
+	s_iRefCount++; // reference count
 }
 
 CN3UIWndBase::~CN3UIWndBase()
 {
-	s_iRefCount--; // 참조 카운트
+	s_iRefCount--; // reference count
 	if(s_iRefCount == 0)
 	{
 		CN3Base::s_SndMgr.ReleaseObj(&s_pSnd_Item_Etc);
@@ -110,9 +110,9 @@ DWORD CN3UIWndBase::MouseProc(DWORD dwFlags, const POINT& ptCur, const POINT& pt
 	DWORD dwRet = UI_MOUSEPROC_NONE;
 	if (!m_bVisible) return dwRet;
 
-	// 아이콘을 가진 윈도우는 자기 윈도우 영역을 벗어 났을때도 자식의 메시지를 받을수 있어야 한다.. ^^
+	// A window with an icon should receive messages from its children even when it leaves its window area.
 
-	// UI 움직이는 코드
+	// UI moving code
 	if (UI_STATE_COMMON_MOVE == m_eState)
 	{
 		if (dwFlags&UI_MOUSE_LBCLICKED)
@@ -127,40 +127,40 @@ DWORD CN3UIWndBase::MouseProc(DWORD dwFlags, const POINT& ptCur, const POINT& pt
 		return dwRet;
 	}
 
-	if(false == IsIn(ptCur.x, ptCur.y))	// 영역 밖이면
+	if(false == IsIn(ptCur.x, ptCur.y))	// out of range
 	{
 		if(false == IsIn(ptOld.x, ptOld.y))
 		{
 			if ( GetState() != UI_STATE_ICON_MOVING )
-				return dwRet;// 이전 좌표도 영역 밖이면 
+				return dwRet;// If the previous coordinates are also outside the domain
 		}
-		dwRet |= UI_MOUSEPROC_PREVINREGION;	// 이전 좌표는 영역 안이었다.
+		dwRet |= UI_MOUSEPROC_PREVINREGION;	// The previous coordinates were inside the area.
 	}
 	else
 	{
-		// tool tip 관련
+		// tool tip related
 		if (s_pTooltipCtrl) s_pTooltipCtrl->SetText(m_szToolTip);
 	}
-	dwRet |= UI_MOUSEPROC_INREGION;	// 이번 좌표는 영역 안이다.
+	dwRet |= UI_MOUSEPROC_INREGION;	// This coordinate is inside the area.
 
-	// child에게 메세지 전달
+	// Send message to child
 	for(auto itor = m_Children.begin(); m_Children.end() != itor; ++itor)
 	{
 		CN3UIBase* pChild = (*itor);
 		const DWORD dwChildRet = pChild->MouseProc(dwFlags, ptCur, ptOld);
 		if (UI_MOUSEPROC_DONESOMETHING & dwChildRet)
 		{	
-			// 이경우에는 먼가 포커스를 받은 경우이다.
+			// In this case, it is a case where the distance is focused.
 			dwRet |= (UI_MOUSEPROC_CHILDDONESOMETHING|UI_MOUSEPROC_DONESOMETHING);
 			return dwRet;
 		}
 	}
 
-	// UI 움직이는 코드
+	// UI moving code
 	if (UI_STATE_COMMON_MOVE != m_eState && 
 			PtInRect(&m_rcMovable, ptCur) && (dwFlags&UI_MOUSE_LBCLICK) )
 	{
-		// 인벤토리 윈도우이고 상거래 중이면..
+		// If it&#39;s the inventory window and you&#39;re doing commerce...
 		if ( (UIType() == UI_TYPE_ICON_MANAGER) && (m_eUIWnd == UIWND_INVENTORY) 
 			&& (CGameProcedure::s_pProcMain->m_pUITransactionDlg->IsVisible()) )
 			return dwRet;

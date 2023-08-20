@@ -9,7 +9,7 @@ class CUITradeList       : public CN3UIBase
 {
 	CN3UIString*		m_pStr_List[9];
 	std::string			m_sStr[40];
-	CN3UIScrollBar*		m_pScrollbar;	// scrollbar 참조포인터(실제 m_Child로 관리)
+	CN3UIScrollBar*		m_pScrollbar;	// scrollbar reference pointer (actually managed by m_Child)
 
 public:
 	CUITradeList();
@@ -23,5 +23,5 @@ public:
 	void Open(int iIDTarget = -1);
 	void Close();
 
-	void SetTopLine(int iTopLine) const;		// 맨 윗줄을 지정해준다.
+	void SetTopLine(int iTopLine) const;		// Specifies the top row.
 };

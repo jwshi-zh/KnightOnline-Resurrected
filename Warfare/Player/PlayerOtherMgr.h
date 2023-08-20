@@ -7,13 +7,13 @@
 class CPlayerOtherMgr : public CGameBase
 {
 public:
-//	std::list<CPlayerNPC*>		m_NPCs;		// NPC
-//	std::list<CPlayerOther*>	m_UPCs;		// User Player Character
-//	std::list<CPlayerNPC*>		m_Corpses;	// 죽은놈.. 죽는 에니메이션 및 시간이 지나면 없어지게 한다..
+	// std::list<CPlayerNPC*>		m_NPCs;		// NPC
+	// std::list<CPlayerOther*>	m_UPCs;		// User Player Character
+	// std::list<CPlayerNPC*> m_Corpses; // dead guy.. dying animation and disappearing over time..
 	std::map<int, CPlayerNPC*>		m_NPCs;		// NPC
 	std::map<int, CPlayerOther*>	m_UPCs;		// User Player Character
-	std::map<int, CPlayerNPC*>		m_Corpses;	// 죽은놈.. 죽는 에니메이션 및 시간이 지나면 없어지게 한다..
-	int								m_iChrCountToRender; // 렌더링되는 캐릭 카운트
+	std::map<int, CPlayerNPC*>		m_Corpses;	// Dead man.. dying animation and disappearing over time..
+	int								m_iChrCountToRender; // Character count rendered
 
 public:
 	bool				IsValidCharacter(CPlayerBase* pCharacter);
@@ -21,28 +21,28 @@ public:
 	void				Render(float fSunAngle);
 
 	void				NPCAdd(CPlayerNPC* pNPC);
-	bool				NPCDelete(int iID);								// 고유 ID 와 일치하는 NPC를 리스트에서 제거.. 및 리소스 해제 
+	bool				NPCDelete(int iID);								// Remove NPCs matching the unique ID from the list.. and release resources
 	void				UPCAdd(CPlayerOther* pPlayer);
-	bool				UPCDelete(int iID);								// 고유 ID 와 일치하는 NPC를 리스트에서 제거.. 및 리소스 해제 
+	bool				UPCDelete(int iID);								// Remove NPCs matching the unique ID from the list.. and release resources
 
-//	CPlayerOther*		UPCGetByName(const char* szID);					// User Player Character 와 NPC 를 조사해서 포인터를 가져온다.
-	CPlayerOther*		UPCGetByID(int iID, bool bFromAliveOnly);		// User Player Character 와 NPC 를 조사해서 포인터를 가져온다.
-//	CPlayerNPC*			NPCGetByName(const char* szID);					// User Player Character 와 NPC 를 조사해서 포인터를 가져온다.
-	CPlayerNPC*			NPCGetByID(int iID, bool bFromAliveOnly);		// User Player Character 와 NPC 를 조사해서 포인터를 가져온다.
+	// CPlayerOther* UPCGetByName(const char* szID); // Investigate the User Player Character and NPC and get the pointer.
+	CPlayerOther*		UPCGetByID(int iID, bool bFromAliveOnly);		// Investigate the User Player Character and NPC to get a pointer.
+	// CPlayerNPC* NPCGetByName(const char* szID); // Investigate the User Player Character and NPC and get the pointer.
+	CPlayerNPC*			NPCGetByID(int iID, bool bFromAliveOnly);		// Investigate the User Player Character and NPC to get a pointer.
 	CPlayerNPC*			NPCGetByPos(const __Vector3& vPos);
-	CPlayerNPC*			CharacterGetByID(int iID, bool bFromAliveOnly); // User, NPC 안 가리고 가져온다..
-	CPlayerNPC*			CharacterGetByNearstEnemy(e_Nation eNation, const __Vector3& vPosPlayer); // 가장 가까운 적 가져오기..
-	bool				CharacterDelete(int iID); // User, NPC 안 가리고 지운다..
+	CPlayerNPC*			CharacterGetByID(int iID, bool bFromAliveOnly); // User, NPC not covered and brought..
+	CPlayerNPC*			CharacterGetByNearstEnemy(e_Nation eNation, const __Vector3& vPosPlayer); // Get the nearest enemy...
+	bool				CharacterDelete(int iID); // Users, NPCs are not covered and erased..
 
-	CPlayerBase*		CorpseGetByID(int iID);							// 시체들에서 Player Character 와 NPC 를 조사해서 포인터를 가져온다.
+	CPlayerBase*		CorpseGetByID(int iID);							// Examine the Player Character and NPCs in the corpses and get the pointers.
 	void				CorpseRemove(CPlayerNPC* pCorpse, bool bRemoveImmediately = false);
 	void				CorpseAdd(CPlayerNPC* pNPC);
 	void				CorpseAdd(int iID);
-	CPlayerNPC*			CorpseGetNearstNPC(bool bMustHaveItem, e_Nation eNation, const __Vector3& vPosPlayer); // 가장 가까운 적 시체 가져오기..
-	void				MoveToCorpsesForcely(CPlayerNPC* pNPC, bool bErase);			// 아이디가 겹치거나 하면 강제로 시체를 만든다..
+	CPlayerNPC*			CorpseGetNearstNPC(bool bMustHaveItem, e_Nation eNation, const __Vector3& vPosPlayer); // Get the nearest enemy corpse...
+	void				MoveToCorpsesForcely(CPlayerNPC* pNPC, bool bErase);			// If the ID overlaps, a body is forcibly created.
 
 
-	//.. Picking된 PlayerOther 계산..
+	// .. Picked PlayerOther Calculation..
 	CPlayerNPC*			Pick(int ixScreen, int iyScreen, int& iIDResult, __Vector3* pvPick = nullptr);
 	CPlayerNPC*			PickNPC(int ixScreen, int iyScreen, int& iIDResult, __Vector3* pvPick = nullptr);
 	CPlayerOther*		PickUPC(int ixScreen, int iyScreen, int& iIDResult, __Vector3* pvPick = nullptr);
@@ -50,7 +50,7 @@ public:
 	CPlayerNPC*			PickNPCPrecisely(int ixScreen, int iyScreen, int& iIDResult, __Vector3* pvPick = nullptr);
 	CPlayerOther*		PickUPCPrecisely(int ixScreen, int iyScreen, int& iIDResult, __Vector3* pvPick = nullptr);
 	CPlayerNPC*			PickAllPrecisely(int ixScreen, int iyScreen, int &iIDResult, __Vector3* pvPick);
-	CPlayerNPC*			PickCorpse(int ixScreen, int iyScreen, int& iIDResult); // 시체중 클릭..
+	CPlayerNPC*			PickCorpse(int ixScreen, int iyScreen, int& iIDResult); // Click on the corpse...
 	static int			SortByCameraDistance(const void* pArg1, const void* pArg2);
 
 	void				ReleaseUPCs();
@@ -105,8 +105,8 @@ inline CPlayerNPC* CPlayerOtherMgr::CharacterGetByID(int iID, bool bFromAliveOnl
 {
 	if(iID < 0) return nullptr;
 
-	CPlayerNPC* pBPC = this->NPCGetByID(iID, bFromAliveOnly);		// 먼저  NPC 중에서 찾아보고..
-	if(nullptr == pBPC) pBPC = this->UPCGetByID(iID, bFromAliveOnly);			// 없음 User 들도 찾아본다..
+	CPlayerNPC* pBPC = this->NPCGetByID(iID, bFromAliveOnly);		// First, look for NPCs.
+	if(nullptr == pBPC) pBPC = this->UPCGetByID(iID, bFromAliveOnly);			// None Users are also searched..
 
 	return pBPC;
 }
@@ -114,11 +114,11 @@ inline CPlayerNPC* CPlayerOtherMgr::CharacterGetByID(int iID, bool bFromAliveOnl
 inline void CPlayerOtherMgr::UPCAdd(CPlayerOther* pUPC)
 {
 	const auto it = m_UPCs.find(pUPC->IDNumber());
-	if(it == m_UPCs.end()) // 중복된게 없으면..
+	if(it == m_UPCs.end()) // If there are no duplicates...
 	{
 		m_UPCs.insert(std::make_pair(pUPC->IDNumber(), pUPC));
 	}
-	else // 중복되었으면..
+	else // If duplicate...
 	{
 		T_Delete(it->second);
 		it->second = pUPC;
@@ -138,11 +138,11 @@ inline bool CPlayerOtherMgr::UPCDelete(int iID)
 inline void CPlayerOtherMgr::NPCAdd(CPlayerNPC* pNPC)
 {
 	const auto it = m_NPCs.find(pNPC->IDNumber());
-	if(it == m_NPCs.end()) // 중복된게 없으면..
+	if(it == m_NPCs.end()) // If there are no duplicates...
 	{
 		m_NPCs.insert(std::make_pair(pNPC->IDNumber(), pNPC));
 	}
-	else // 중복되었으면..
+	else // If duplicate...
 	{
 		T_Delete(it->second);
 		it->second = pNPC;

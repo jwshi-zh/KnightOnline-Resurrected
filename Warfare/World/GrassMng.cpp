@@ -35,7 +35,7 @@ void CGrassMng::Tick(CGameProcedure* pProc)
 {
 	if(m_bChkZoneChange==false) return;
 
-	__Vector3 vCamPos = pProc->s_pEng->s_CameraData.vEye;	//	현재 카메라의 위치
+	__Vector3 vCamPos = pProc->s_pEng->s_CameraData.vEye;	// current camera position
 
 	ChkTileRange(vCamPos.x,vCamPos.z);
 
@@ -46,7 +46,7 @@ void CGrassMng::Tick(CGameProcedure* pProc)
 		{
 			pGrassBoard->ScaleSet(1.5f, 1.5f, 1.5f);
 
-			//	카메라 밖이면 랜더를 하지 않는다.
+			// Do not render if off-camera.
 			vCamPos = pGrassBoard->GetPo();
 			IsCamOut = pProc->s_pEng->s_CameraData.IsOutOfFrustum(vCamPos,3);
 			if(IsCamOut==TRUE)
@@ -80,7 +80,7 @@ void CGrassMng::Tick(CGameProcedure* pProc)
 		{
 			do{
 				mRand = rand();	p = (mRand%180)/10.000;
-				nRand = rand();	n = (nRand%180)/10.000;
+				nRand = rand(); n = (nRand%180)/10,000;
 			}while(p<15 && n<15);
 
 			if(XResult > 0 && ZResult > 0)
@@ -114,9 +114,9 @@ void CGrassMng::Tick(CGameProcedure* pProc)
 				return;
 		}
 
-		// 지형정보(풀이 위치한 타일의 지형정보를 얻는다)
-		unsigned char cGroundInfo = s_pTerrain->GetGrassAttr(((WORD)m_pCount[i].x)/TILE_SIZE, ((WORD)m_pCount[i].z)/TILE_SIZE);	//	현재 타일의 정보
-		if(cGroundInfo==0)	//	풀을 뿌리는 셀(영역,지역) 아님
+		// Terrain Information (Get the terrain information of the tile where the grass is located)
+		unsigned char cGroundInfo = s_pTerrain-&gt;GetGrassAttr(((WORD)m_pCount[i].x)/TILE_SIZE, ((WORD)m_pCount[i].z)/TILE_SIZE); // information of the current tile
+		if (cGroundInfo==0) // Not a cell (area, region) where grass is sown
 		{
 			pGrass->m_bCamOut = TRUE;
 			continue;
@@ -124,13 +124,13 @@ void CGrassMng::Tick(CGameProcedure* pProc)
 
 		GrassIndex |= cGroundInfo;
 
-		m_pCount[i].y = s_pTerrain->GetHeight(m_pCount[i].x, m_pCount[i].z);	//	높이 설정
+		m_pCount[i].y = s_pTerrain-&gt;GetHeight(m_pCount[i].x, m_pCount[i].z); // set height
 
     	pGrass->ScaleSet(1.5f, 1.5f, 1.5f);
 		vPivot.Set(m_pCount[i].x,m_pCount[i].y,m_pCount[i].z);
 
 		BOOL IsCamOut;
-		//	카메라 밖이면 랜더를 하지 않는다.
+		// Do not render if off-camera.
 		IsCamOut = pProc->s_pEng->s_CameraData.IsOutOfFrustum(vPivot,1);
 		if(IsCamOut==TRUE)
 		{
@@ -138,29 +138,29 @@ void CGrassMng::Tick(CGameProcedure* pProc)
 			continue;
 		}
 
-		//	거리를 계산하여 부드럽게 보이게 한다.
+		// Calculate the distance to make it look smoother.
 		__Vector3 leng = vCamPos - m_pCount[i];
 		float lengs = leng.Magnitude();
-		IsCamOut = pGrass->SetBrightLevel(lengs);	//	거리간 알파, 랜더하게끔 자동 세팅
-		if(IsCamOut == TRUE) 	//	거리가 멀면 랜더를 안한다.
+		IsCamOut = pGrass-&gt;SetBrightLevel(lengs); // Alpha between distances, automatically set to render
+		if (IsCamOut == TRUE) // Do not render if the distance is large.
 		{
 			pGrass->m_bCamOut = TRUE;
 			continue;
 		}
 
-		pGrass->PosSet(vPivot);		//	위치 입력
-		pGrass->Tick(-1);			//	카메라의 위치에 맞게 변환
-		if(pGrass->ThisTexIsHave(cGroundInfo) == false)
+		pGrass-&gt;PosSet(vPivot); // input location
+		pGrass-&gt;Tick(-1); // Transform to fit the camera&#39;s position
+		if(pGrass-&gt;ThisTexIsHave(cGroundInfo) == false)
 		{
 			int nGrassNum;
 			unsigned char uCGrassMngIndex;
 			FindGrassIndex(cGroundInfo,nGrassNum,uCGrassMngIndex);
 			pGrass->TexSelectNum(nGrassNum,uCGrassMngIndex);
 		}
-		pGrass->m_bCamOut = FALSE;	//	화면에 뿌려줌(랜더)
+pGrass-&gt;m_bCamOut = FALSE; // Sprinkle on the screen (render)
 	}
 
-	//	만약 다른 풀의 종류에 변동이 생겼을 경우 모두 지우고 다시 풀로 채운다
+// If there is a change in the type of other pools, delete them all and refill them with pools
 	if(m_ucDrawIndex!=GrassIndex)
 	{
 		m_ucDrawIndex = GrassIndex;
@@ -178,7 +178,7 @@ void CGrassMng::FindGrassIndex(unsigned char GrassIndex,int& nFineGrass,unsigned
 
 	FindGrassIndex(GrassIndex,InputGrass,InputGrassOrg,GrassInputCount);
 
-	if(GrassInputCount>0) //	만약 풀이 2개 이상이면 랜덤으로 구한다
+	if(GrassInputCount>0) // If there are more than 2 pools, get them randomly
 	{
 		nFineGrass = (int)(rand()%GrassInputCount);
 	}
@@ -206,13 +206,13 @@ void CGrassMng::Render()
 	CN3Base::s_lpD3DDev->GetTextureStageState(0, D3DTSS_ALPHAARG1, &dwAlphaArg1);
 	CN3Base::s_lpD3DDev->GetTextureStageState(0, D3DTSS_ALPHAARG1, &dwAlphaArg2);
 
-	// render state 세팅
+	// Set render state
 	CN3Base::s_lpD3DDev->SetRenderState( D3DRS_LIGHTING,	TRUE );  
 	CN3Base::s_lpD3DDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	CN3Base::s_lpD3DDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 	CN3Base::s_lpD3DDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 
-	// texture state 세팅 (alpha)
+	// texture state settings (alpha)
 	CN3Base::s_lpD3DDev->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
 	CN3Base::s_lpD3DDev->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
 	CN3Base::s_lpD3DDev->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_DIFFUSE);
@@ -307,7 +307,7 @@ void CGrassMng::ChkThisZoneUseGrass(int nGrassUseOrder) const
 	if(nGrassUseOrder==GRASS_MAKENEW)
 	{
 		int iReturnMsg=0;
-		while(!iReturnMsg)
+		while (!iReturnMsg)
 		{
 			for(int i=0;i<GrassInputCount && !iReturnMsg;i++)
 			{
@@ -324,7 +324,7 @@ void CGrassMng::ChkThisZoneUseGrass(int nGrassUseOrder) const
 		
 		if(iSize==0) return;
 
-//		for(int nGrassCount=0;nGrassCount<iSize;nGrassCount++)
+		// for(int nGrassCount=0;nGrassCount<iSize;nGrassCount++)
 		while(nGrassCount<iSize)
 		{
 			for(auto i =0;i<GrassInputCount && nGrassCount<iSize;i++,nGrassCount++,it++)
@@ -341,7 +341,7 @@ bool CGrassMng::ChangeZone()
 {
 	Release();
 
-	//	이번 존에서 쓰일 그림의 최대 갯수
+	// Maximum number of pictures to be used in this zone
 	if (!ACT_WORLD->GetTerrainRef()) return false;
 	m_iFileMaxNum = ACT_WORLD->GetTerrainRef()->m_iNumGrass;
 
@@ -372,11 +372,11 @@ bool CGrassMng::ChangeZone()
 	}
 
 
-	//	지금 옮긴 지형에서 쓰일 풀의 인덱스를 가짐
+	// Contains the index of the grass that will be used in the terrain you have moved to
 	const __Vector3 vCamPos = CGameBase::s_CameraData.vEye;
 	this->ChkTileRange(vCamPos.x,vCamPos.z);
 
-	//	Tick,Render를 허락
+	// Allow Tick and Render
 	m_bChkZoneChange=true;
 
 	return true;
@@ -390,16 +390,16 @@ inline bool CGrassMng::IsInRect(float fPoX,float fPoY,float* fRange)
 
 void CGrassMng::ChkTileRange(float fCamX,float fCamZ)
 {
-	if(IsInRect(fCamX,fCamZ,m_fChkRange)==true) return;	//	고칠게 없어
+	if(IsInRect(fCamX,fCamZ,m_fChkRange)==true) return;	// nothing to fix
 
-	//	캐릭터의 바로 한칸의 영역
+	// The area of one square of the character
 	float fCompRange[4];
 	fCompRange[GRASS_LEFT]   = (fCamX/TILE_SIZE)*TILE_SIZE;
 	fCompRange[GRASS_RIGHT]  = fCompRange[GRASS_LEFT]+TILE_SIZE;
 	fCompRange[GRASS_TOP]    = (fCamZ/TILE_SIZE)*TILE_SIZE;	
 	fCompRange[GRASS_BOTTOM] = fCompRange[GRASS_TOP]+TILE_SIZE;
 
-	//	전체 구역
+	// whole area
 	float fLargeRange[4];
 	fLargeRange[GRASS_LEFT]	  = fCompRange[GRASS_LEFT] - 5*TILE_SIZE;
 	fLargeRange[GRASS_RIGHT]  = fCompRange[GRASS_RIGHT] + 5*TILE_SIZE;
@@ -407,10 +407,10 @@ void CGrassMng::ChkTileRange(float fCamX,float fCamZ)
 	fLargeRange[GRASS_BOTTOM] = fCompRange[GRASS_BOTTOM] + 5*TILE_SIZE;
 
 
-	//	새로운 타일의 영역을 얻어온다
+	// Retrieves the area of a new tile
 	WORD FineTile[GRASS_TILENUM*2];
 	int iFineTile=0;
-	FineNewTile(FineTile,iFineTile,fCompRange,fLargeRange);	//	바꾸어야할 타일 찾음
+	FineNewTile(FineTile,iFineTile,fCompRange,fLargeRange);	// Find a tile to change
 
 
 	int iTileCount=0;
@@ -425,18 +425,18 @@ void CGrassMng::ChkTileRange(float fCamX,float fCamZ)
 
 			vCenter = pBoard->GetPo();
 
-			//	영역 벗어난 구역에 찾은구역 넣음
+			// Add the found area to the out of area area
 			if(IsInRect( vCenter.x,vCenter.z,fLargeRange )==false)
 			{
 				if (!ACT_WORLD->GetTerrainRef())
 					continue;
 				usGrassInfo = ACT_WORLD->GetTerrainRef()->GetGrassAttr(((WORD)FineTile[iTileCount])/TILE_SIZE
-													,((WORD)FineTile[iTileCount+1])/TILE_SIZE);	//	현재 타일의 정보
+													,((WORD)FineTile[iTileCount+1])/TILE_SIZE);	// information of the current tile
 
-				vCenter.Set(FineTile[iTileCount],0.0f,FineTile[iTileCount+1]);	//	왼쪽위의 좌표
+				vCenter.Set(FineTile[iTileCount],0.0f,FineTile[iTileCount+1]);	// top left coordinates
 				vCenter.y = ACT_WORLD->GetTerrainRef()->GetHeight(vCenter.x,vCenter.z);
 
-				pBoard->SetInfo(vCenter,usGrassInfo);	//	타일의 정보를 바탕으로 풀 갱신
+				pBoard->SetInfo(vCenter,usGrassInfo);	// Pool update based on tile information
 
 				iTileCount+=2;
 			}

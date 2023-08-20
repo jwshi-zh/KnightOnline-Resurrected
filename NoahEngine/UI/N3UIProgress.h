@@ -6,7 +6,7 @@ class CN3UIImage;
 class CN3UIProgress : public CN3UIBase  
 {
 #ifdef _N3TOOL
-friend class CPropertyView;	// 툴에서 각 변수들을 접근하기 위해서 
+friend class CPropertyView;	// To access each variable in the tool
 #endif
 
 public:
@@ -25,40 +25,40 @@ protected:
 	CN3UIImage*		m_pBkGndImgRef;
 	CN3UIImage*		m_pFrGndImgRef;
 
-	__FLOAT_RECT	m_frcFrGndImgUV;				// m_FrGndImgRef 의 uv좌표
+	__FLOAT_RECT	m_frcFrGndImgUV;				// uv coordinates of m_FrGndImgRef
 
-	int				m_iMaxValue;					// 최대
-	int				m_iMinValue;					// 최소
-	float			m_fCurValue;					// 현재 값 - 부드럽게 점차 값을 올려가려고 float 로 했다..
-	float			m_fChangeSpeedPerSec;			// 현재값이 변해야 되는 속도.. Unit SpeedPerSec
-	int				m_iValueToReach;				// 도달해야 될값 - 부드럽게 값이 올라가는 경우에 필요하다..
-	float			m_fTimeToDelay;					// 지연시간..
+	int				m_iMaxValue;					// maximum
+	int				m_iMinValue;					// Ieast
+	float			m_fCurValue;					// Current value - I set it as a float to gradually increase the value.
+	float			m_fChangeSpeedPerSec;			// The speed at which the current value must change. Unit SpeedPerSec
+	int				m_iValueToReach;				// Value to be reached - Necessary when the value rises smoothly.
+	float			m_fTimeToDelay;					// delay time...
 	
-	int				m_iStepValue;					// 변화값 StepIt()을 통한 변화되는 값
-//	Operations
+	int				m_iStepValue;					// Changed value Changed value through StepIt()
+// Operations
 public:
 	virtual void	Tick();
-//	virtual void	Render();
+// virtual void	Render();
 	virtual void	Release();
 	virtual void	SetRegion(const RECT& Rect);
 	virtual void	SetStyle(DWORD dwStyle);
 	virtual bool	Load(HANDLE hFile);
 
 	void			SetCurValue(int iValue, float fTimeToDelay = 0, float fChangeSpeedPerSec = 0);
-	void			SetCurValue_Smoothly(int iValue, float fPercentPerSec){SetCurValue(iValue, 0, fPercentPerSec*(m_iMaxValue-m_iMinValue));}	// 초당 몇 퍼센트 수치로 올라간다.
+	void			SetCurValue_Smoothly(int iValue, float fPercentPerSec){SetCurValue(iValue, 0, fPercentPerSec*(m_iMaxValue-m_iMinValue));}	// It goes up at a few percent per second.
 	void			SetRange(int iMin, int iMax) {m_iMinValue = iMin; m_iMaxValue = iMax; UpdateFrGndImage();}
-	void			SetFrGndUVFromFrGndImage();	// m_pFrGndImgRef로부터 uv좌표를 얻어와서 m_frcFrGndImgUV를 세팅한다.
+	void			SetFrGndUVFromFrGndImage();	// Get the uv coordinates from m_pFrGndImgRef and set m_frcFrGndImgUV.
 protected:
-	void			UpdateFrGndImage() const;	//m_FrGndImgRef 의 영역과 uv좌표를 m_fCurValue에 따라 알맞게 바꾼다.
+	void			UpdateFrGndImage() const;	// Change the area and uv coordinates of m_FrGndImgRef appropriately according to m_fCurValue.
 
 #ifdef _N3TOOL
-// tool에서 사용하는 함수들
+// Functions used by the tool
 public:
 	virtual void	operator = (const CN3UIProgress& other);
 	virtual bool	Save(HANDLE hFile);
 	CN3UIImage*		GetBkGndImgRef() const {return m_pBkGndImgRef;}
 	CN3UIImage*		GetFrGndImgRef() const {return m_pFrGndImgRef;}
-	void			CreateImages();		// 이미지 생성
-	void			DeleteBkGndImage();	// Back ground이미지는 필요 없는 경우가 있다.
+	void			CreateImages();		// create image
+	void			DeleteBkGndImage();	// Background images may not be necessary.
 #endif
 };

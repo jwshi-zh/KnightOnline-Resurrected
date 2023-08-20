@@ -6,7 +6,7 @@
 #include "N3UIBase.h"
 #include "N3UIButton.h"
 
-//////////////////////////////////////////////////////////////////////
+// 
 
 
 class CUINPCChangeEvent   : public CN3UIBase  

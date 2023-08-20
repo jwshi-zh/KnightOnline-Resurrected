@@ -45,9 +45,9 @@ bool CUINotice::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 {
 	if(nullptr == pSender) return false;
 
-	//s_CameraData.vp;  //불러 오는 과정을 살펴본다 
-	//DWORD mm = s_CameraData.vp.Height;
-	//DWORD ss = s_CameraData.vp.Width;	
+	// s_CameraData. vp; //look at the calling process
+	// DWORD mm = s_CameraData.vp.Height;
+	// DWORD ss = s_CameraData.vp.Width;
 
 	if (dwMsg == UIMSG_BUTTON_CLICK)
 	{
@@ -61,7 +61,7 @@ bool CUINotice::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 	{
 		if(pSender == m_pScrollBar)
 		{
-			// 스크롤바에 맞는 채팅 Line 설정
+			// Set chat line for scroll bar
 			int iCurLinePos = m_pScrollBar->GetCurrentPos();
 		}
 	}
@@ -73,7 +73,7 @@ void CUINotice::GenerateText()
 {
 	if(nullptr == m_pText_Notice) return;
 	
-	// 글자수를 센다..
+	// Count the number of letters.
 	int iTextLen = 0;
 	auto it = m_Texts.begin(), itEnd = m_Texts.end();
 	for(; it != itEnd; it++)
@@ -83,7 +83,7 @@ void CUINotice::GenerateText()
 
 	std::vector<char> szBuff(iTextLen * 2, 0);
 
-	// 글자들을 붙이고  // LineFeed, Carriage return 을 붙인다.
+	// Paste the letters // LineFeed, Carriage return.
 	it = m_Texts.begin(); itEnd = m_Texts.end();
 	for(; it != itEnd; it++)
 	{
@@ -91,7 +91,7 @@ void CUINotice::GenerateText()
 		lstrcat(&(szBuff[0]), "\n");
 	}
 
-	m_pText_Notice->SetString(&(szBuff[0])); // 글자 적용..
+	m_pText_Notice->SetString(&(szBuff[0])); // Apply letters...
 }
 
 bool CUINotice::OnKeyPress(int iKey)
@@ -113,7 +113,7 @@ void CUINotice::SetVisible(bool bVisible)
 	if(bVisible)
 		CGameProcedure::s_pUIMgr->SetVisibleFocusedUI(this);
 	else
-		CGameProcedure::s_pUIMgr->ReFocusUI();//this_ui
+		CGameProcedure::s_pUIMgr->ReFocusUI();// this_ui
 }
 
 void CUINotice::RemoveNotice()

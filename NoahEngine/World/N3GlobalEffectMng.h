@@ -2,13 +2,13 @@
 
 #include "N3Base.h"
 
-enum {	GEW_CLEAR=0,			// 맑음
-		GEW_DRIZZLE_RAIN=1,		// 가랑비
-		GEW_RAINY=2,			// 적당량의 비
-		GEW_HEAVY_RAIN=3,		// 폭우
-		GEW_SNOW1=11,			// 포근한 눈
-		GEW_SNOW2=12,			// 적당한 눈
-		GEW_HEAVY_SNOW=13		// 폭설
+enum {	GEW_CLEAR=0,			// Sunny
+		GEW_DRIZZLE_RAIN=1,		// Drizzle
+		GEW_RAINY=2,			// moderate amount of rain
+		GEW_HEAVY_RAIN=3,		// heavy rain
+		GEW_SNOW1=11,			// warm eyes
+		GEW_SNOW2=12,			// suitable eyes
+		GEW_HEAVY_SNOW=13		// heavy snow
 };
 
 class CN3GERain;
@@ -22,20 +22,20 @@ public:
 // Attributes
 public:
 protected:
-	float			m_fCellSize;	// 내부 셀 크기
-	POINT			m_CurCellPos;	// 현재 내부셀 좌표
-	__Vector3		m_vPos[9];		// 주변 셀 9칸의 중심좌표들
+	float			m_fCellSize;	// inner cell size
+	POINT			m_CurCellPos;	// Current internal cell coordinates
+	__Vector3		m_vPos[9];		// Center coordinates of 9 adjacent cells
 
-	// 효과들..
-	CN3GERain*		m_pGERain;		// 비
-	CN3GESnow*		m_pGESnow;		// 눈
+	// effects...
+	CN3GERain*		m_pGERain;		// rain
+	CN3GESnow*		m_pGESnow;		// eye
 
 // Operations
 public:
 	virtual void	Release();
 	void			Tick();
 	void			Render();
-//	void			SetWeather(int iWeather);	// 날씨 지정하기
+// void SetWeather(int iWeather); // specify the weather
 	void			WeatherSetRainy(int iPercent);
 	void			WeatherSetSnow(int iPercent);
 	void			WeatherSetClean() const;

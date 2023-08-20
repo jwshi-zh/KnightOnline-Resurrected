@@ -48,7 +48,7 @@ void CWarMessage::SetMessage(const std::string& szText, DWORD dwFlags, DWORD dwC
 {
 	if(m_pMessageFont) 
 	{
-		m_pMessageFont->SetText(szText, dwFlags); // 폰트에 텍스트 지정.
+		m_pMessageFont->SetText(szText, dwFlags); // Assign text to fonts.
 		m_pMessageFont->SetFontColor(dwColor);
 		m_fTime = WAR_MESSAGE_SHOW_TIME;
 	}

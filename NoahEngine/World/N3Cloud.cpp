@@ -60,17 +60,17 @@ void CN3Cloud::Tick()
 	static float fCloudLayer = 0.0f;
 	fCloudLayer += s_fSecPerFrm;
 
-	// 구름층 움직이기
+	// moving the cloud layer
 	if (fCloudLayer>=0.05)
 	{
-//		float du = 0.001*fCloudLayer;
-//		float dv = 0.003*fCloudLayer;
-//		float du2 = 0.003*fCloudLayer;
-//		float dv2 = 0.005*fCloudLayer;
-const float du = 0.005*fCloudLayer;
-const float dv = 0.015*fCloudLayer;
-const float du2 = 0.015*fCloudLayer;
-const float dv2 = 0.025*fCloudLayer;
+		// float you = 0.001*fCloudLayer;
+		// float dv = 0.003*fCloudLayer;
+		// float du2 = 0.003*fCloudLayer;
+		// float dv2 = 0.005*fCloudLayer;
+		const float du = 0.005*fCloudLayer;
+		const float dv = 0.015*fCloudLayer;
+		const float du2 = 0.015*fCloudLayer;
+		const float dv2 = 0.025*fCloudLayer;
 
 		for (i=0; i<NUM_CLOUD_VERTEX; ++i)
 		{
@@ -92,23 +92,23 @@ const float dv2 = 0.025*fCloudLayer;
 		}
 	}
 
-	// 색 변화하기
+	// change color
 	m_Color1.Tick();
 	m_Color2.Tick();
 
-	// 구름 교체
+	// cloud replacement
 	if (CLOUD_NONE != m_eCloud3)
 	{
 		m_Alpha.Tick();
 		m_fCloudTexTime -= s_fSecPerFrm;
-		if (m_fCloudTexTime < 0.0f)	// 구름 교체가 끝났으면
+		if (m_fCloudTexTime < 0.0f)	// When the cloud replacement is complete
 		{
 			m_fCloudTexTime = 0.0f;
 			m_eCloud2 = m_eCloud3;
 			m_eCloud3 = CLOUD_NONE;
 			m_Alpha.ChangeColor(0xffffffff);
 
-			if (CLOUD_NONE != m_eBackupCloud)	// 구름 바꿔야 할 것이 있으면
+			if (CLOUD_NONE != m_eBackupCloud)	// If there is something that needs to be changed
 			{
 				const e_CLOUDTEX eTmp = m_eCloud1;
 				m_eCloud1 = m_eCloud2;
@@ -120,7 +120,7 @@ const float dv2 = 0.025*fCloudLayer;
 				m_fBackupTime = 0.0f;
 				m_Alpha.ChangeColor(0x00ffffff, m_fCloudTexTime);
 
-				// uv 좌표도 바꾸기
+				// Change the uv coordinates too
 				for (i=0; i<NUM_CLOUD_VERTEX; ++i)
 				{
 					float fTempUV = m_pVertices[i].tu;
@@ -141,9 +141,9 @@ void CN3Cloud::Render()
 	s_lpD3DDev->SetTransform( D3DTS_WORLD, &matWorld );
 
 	static WORD CloudIndex[30] = {0,1,4,1,2,5,2,3,6,3,0,7,5,4,1,6,5,2,7,6,3,4,7,0,4,5,7,5,6,7};
-	//static WORD CloudIndex[54] = {0,1,4,1,2,5,2,3,6,3,0,7,5,4,1,6,5,2,7,6,3,4,7,0,
-	///							4,5,8,5,6,9,6,7,10,7,4,11,9,8,5,10,9,6,11,10,7,8,11,4,
-	//							8,9,11,9,10,11};
+	// static WORD CloudIndex[54] = {0,1,4,1,2,5,2,3,6,3,0,7,5,4,1,6,5,2,7,6,3,4,7,0,
+	// 4,5,8,5,6,9,6,7,10,7,4,11,9,8,5,10,9,6,11,10,7,8,11,4,
+	// 8,9,11,9,10,11};
 
 	// backup state
 	DWORD dwAlphaOp, dwAlphaArg1, dwAlphaArg2;
@@ -175,7 +175,7 @@ void CN3Cloud::Render()
 	if (CLOUD_NONE != m_eCloud3)
 	{
 		const D3DCOLOR Alpha = m_Alpha.GetCurColor();
-		if (Alpha<color2) color2 = (Alpha&0xff000000) | (color2&0x00ffffff);	// 기존 색 변화의 alpha값이 구름 교체alpha값보다 큰 경우 구름 교체 alpha값으로 대체
+		if (Alpha<color2) color2 = (Alpha&0xff000000) | (color2&0x00ffffff);	// If the alpha value of the existing color change is greater than the cloud replacement alpha value, it is replaced with the cloud replacement alpha value.
 		// render cloud 2
 		for (i=0; i<4; ++i) m_pVertices[i].color = color2&0x00ffffff;
 		for (i=4; i<NUM_CLOUD_VERTEX; ++i) m_pVertices[i].color = color2;
@@ -183,7 +183,7 @@ void CN3Cloud::Render()
 		s_lpD3DDev->DrawIndexedPrimitiveUP(D3DPT_TRIANGLELIST, 0, 8, 10,
 							CloudIndex, D3DFMT_INDEX16, m_pVertices, sizeof(__VertexXyzColorT2));
 		// render cloud 3
-		const D3DCOLOR color3 = ((0xff-(color2>>24))<<24) | (color2&0x00ffffff);	// color2의 alpha값을 0xff에서 뺀 값으로 바꿈
+		const D3DCOLOR color3 = ((0xff-(color2>>24))<<24) | (color2&0x00ffffff);	// Change the alpha value of color2 to the value subtracted from 0xff
 		for (i=4; i<NUM_CLOUD_VERTEX; ++i) m_pVertices[i].color = color3;			
 		s_lpD3DDev->SetTexture(0, GetTex(m_eCloud3));
 		s_lpD3DDev->DrawIndexedPrimitiveUP(D3DPT_TRIANGLELIST, 0, 8, 10,
@@ -224,8 +224,9 @@ void	CN3Cloud::Init(	const std::string* pszFNs)
 
 	for(int i = 0; i < NUM_CLOUD; i++) m_szTextures[i] = pszFNs[i];
 
-//	3단일때
-/*	const float fSqrt3 = 1.0f/sqrtf(3.0f);
+	// 3 when single
+	/*
+	const float fSqrt3 = 1.0f/sqrtf(3.0f);
 	const float fOffset = 3.0f;
 	const float fSmallLength = 5.0f;
 	const float fMediumLength = fSmallLength + fOffset;
@@ -241,18 +242,18 @@ void	CN3Cloud::Init(	const std::string* pszFNs)
 	float fTmp1, fTmp2;
 	fTmp1 = fBigLenth-fMediumLength;
 	fTmp2 = fMediumHeight - fBigHeight;
-	const float fBig = sqrtf(fTmp1*fTmp1 + fTmp2*fTmp2);	// 젤큰 사각형과 중간사각형간의 거리
+	const float fBig = sqrtf(fTmp1*fTmp1 + fTmp2*fTmp2); // Distance between the largest rectangle and the middle rectangle
 	fTmp1 = fMediumLength - fSmallLength;
 	fTmp2 = fSmallHeight - fMediumHeight;
-	const float fMedium = sqrtf(fTmp1*fTmp1 + fTmp2*fTmp2);	// 중간 사각형과 작은사각형간의 거리
-	const float fSmall = fSmallLength;						// 작은 사각형이 0에서 떨어진 거리
+	const float fMedium = sqrtf(fTmp1*fTmp1 + fTmp2*fTmp2); // distance between middle and small rectangle
+	const float fSmall = fSmallLength; // distance the small square is from 0
 	const float fTotal = fBig + fMedium + fSmall;
 
-	float fTexUVLeft = 0.0f, fTexUVTop = 0.0f, fTexUVRight = 3.0f, fTexUVBottom = 3.0f;	// 텍스쳐 구름으로 표시할 영역 좌표(텍스쳐의 전체가 될수도 있고 일부분이 될 수도 있기 때문에)
-//	const float fTexOffsetU_M = (fBig/fTotal)*(fTexUVRight-fTexUVLeft)/2;
-//	const float fTexOffsetV_M = (fBig/fTotal)*(fTexUVBottom-fTexUVTop)/2;
-//	const float fTexOffsetU_S = ((fBig+fMedium)/fTotal)*(fTexUVRight-fTexUVLeft)/2;
-//	const float fTexOffsetV_S = ((fBig+fMedium)/fTotal)*(fTexUVBottom-fTexUVTop)/2;
+	float fTexUVLeft = 0.0f, fTexUVTop = 0.0f, fTexUVRight = 3.0f, fTexUVBottom = 3.0f; // Area coordinates to display as texture cloud (because it can be all or part of the texture)
+	// const float fTexOffsetU_M = (fBig/fTotal)*(fTexUVRight-fTexUVLeft)/2;
+	// const float fTexOffsetV_M = (fBig/fTotal)*(fTexUVBottom-fTexUVTop)/2;
+	// const float fTexOffsetU_S = ((fBig+fMedium)/fTotal)*(fTexUVRight-fTexUVLeft)/2;
+	// const float fTexOffsetV_S = ((fBig+fMedium)/fTotal)*(fTexUVBottom-fTexUVTop)/2;
 
 	const float fTexOffsetU_M = (1.0f - fMediumLength/fBigLenth)*(fTexUVRight-fTexUVLeft)/2;
 	const float fTexOffsetV_M = (1.0f - fMediumLength/fBigLenth)*(fTexUVBottom-fTexUVTop)/2;
@@ -275,27 +276,27 @@ void	CN3Cloud::Init(	const std::string* pszFNs)
 	m_pVertices[9].Set(  fSmallLength, fSmallHeight,-fSmallLength, SmallColor, fTexUVRight-fTexOffsetU_S, fTexUVTop+fTexOffsetV_S,		fTexUVRight-fTexOffsetU_S, fTexUVTop+fTexOffsetV_S);
 	m_pVertices[10].Set( fSmallLength, fSmallHeight, fSmallLength, SmallColor, fTexUVRight-fTexOffsetU_S, fTexUVBottom-fTexOffsetV_S,	fTexUVRight-fTexOffsetU_S, fTexUVBottom-fTexOffsetV_S);
 	m_pVertices[11].Set(-fSmallLength, fSmallHeight, fSmallLength, SmallColor, fTexUVLeft+fTexOffsetU_S,	fTexUVBottom-fTexOffsetV_S,	fTexUVLeft+fTexOffsetU_S,	fTexUVBottom-fTexOffsetV_S);
-*/ 
-// 2단일때
+	*/ 
+	// When 2 single
 	const float fSqrt3 = 1.0f/sqrtf(3.0f);
-	float fBigLenth = 16.0f;				// 구름 절두면체의 아래 큰 사각형 길이
-	const float fSmallLength = 8.0f;		// 구름 절두면체의 위 작은 사각형 길이
-	const float fBigHeight = 5.0f;			// 구름 사각절두면체의 아래 높이(지평선 0.0f 기준)
-	const float fSmallHeight = fBigHeight + (fBigLenth-fSmallLength)*fSqrt3;	// 구름 절두면체의 위 높이(지평선 0.0f 기준)
+	float fBigLenth = 16.0f;				// The length of the large rectangle below the cloud frustum
+	const float fSmallLength = 8.0f;		// The length of the small square above the cloud frustum
+	const float fBigHeight = 5.0f;			// Height below the cloud tetrahedron (based on 0.0f of the horizon)
+	const float fSmallHeight = fBigHeight + (fBigLenth-fSmallLength)*fSqrt3;	// Height above the cloud frustum (relative to 0.0f of the horizon)
 
-	fBigLenth = 24.0f;	//위에 코드는 최적화 각도, 이것은 큰 사격형만 다시 늘림
+	fBigLenth = 24.0f;	// The code above optimizes the angle, it re-increases only the large square.
 
 	const D3DCOLOR BigColor = 0x00ffffff;
 	const D3DCOLOR SmallColor = 0xffffffff;
 
-	float fTexUVLeft = 0.0f, fTexUVTop = 0.0f, fTexUVRight = 4.0f, fTexUVBottom = 4.0f;	// 텍스쳐 구름으로 표시할 영역 좌표(텍스쳐의 전체가 될수도 있고 일부분이 될 수도 있기 때문에)
+	float fTexUVLeft = 0.0f, fTexUVTop = 0.0f, fTexUVRight = 4.0f, fTexUVBottom = 4.0f;	// Area coordinates to display as texture cloud (because it can be all or part of the texture)
 	float fTmp1 = fBigLenth - fSmallLength;
 	float fTmp2 = fSmallHeight - fBigHeight;
-//	const float fBig = sqrtf(fTmp1*fTmp1 + fTmp2*fTmp2);
-//	const float fSmall = fSmallLength;
-//	const float fTotal = fBig + fSmall;
-//	const float fTexOffsetU = (fSmall/fTotal)*(fTexUVRight-fTexUVLeft)/2;
-//	const float fTexOffsetV = (fSmall/fTotal)*(fTexUVBottom-fTexUVTop)/2;
+	// const float fBig = sqrtf(fTmp1*fTmp1 + fTmp2*fTmp2);
+	// const float fSmall = fSmallLength;
+	// const float fTotal = fBig + fSmall;
+	// const float fTexOffsetU = (fSmall/fTotal)*(fTexUVRight-fTexUVLeft)/2;
+	// const float fTexOffsetV = (fSmall/fTotal)*(fTexUVBottom-fTexUVTop)/2;
 	const float fTexOffsetU = (1.0f - fSmallLength/fBigLenth)*(fTexUVRight-fTexUVLeft)/2;
 	const float fTexOffsetV = (1.0f - fSmallLength/fBigLenth)*(fTexUVBottom-fTexUVTop)/2;
 	// big
@@ -315,26 +316,26 @@ void CN3Cloud::SetCloud(e_CLOUDTEX eCloud1, e_CLOUDTEX eCloud2, float fSec)
 {
 	if (CLOUD_NONE == eCloud1 || CLOUD_NONE == eCloud2) return;
 
-	// 변수 초기화
+	// variable initialization
 	m_Alpha.ChangeColor(0xffffffff);
 	m_fCloudTexTime = 0.0f;
 	m_eCloud3 = CLOUD_NONE;
 	m_eBackupCloud = CLOUD_NONE;
 	m_fBackupTime = 0.0f;
 
-	// 바꿀 구름 판단
+	// cloud judgment to change
 	int iSameCount = 0;
 	if (eCloud1 == m_eCloud1) ++iSameCount;
 	else if (eCloud1 == m_eCloud2) ++iSameCount;
 	if (eCloud2 == m_eCloud1) ++iSameCount;
 	else if (eCloud2 == m_eCloud2) ++iSameCount;
 
-	if (2 == iSameCount)		// 같은 구름이므로 바꿀 필요가 없다
+	if (2 == iSameCount)		// Since it is the same cloud, there is no need to change it
 	{
 		return;
 	}
 
-	if (1 == iSameCount)		// 하나만 교체하면 된다.
+	if (1 == iSameCount)		// You only need to replace one.
 	{
 		if (m_eCloud1 == eCloud1)
 		{
@@ -369,7 +370,7 @@ void CN3Cloud::SetCloud(e_CLOUDTEX eCloud1, e_CLOUDTEX eCloud2, float fSec)
 		return;
 	}
 
-	// 두개 모두 교체
+	// replace both
 	if (0.0f == fSec)
 	{
 		m_eCloud1 = eCloud1;

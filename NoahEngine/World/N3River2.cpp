@@ -3,7 +3,7 @@
 #include "N3Texture.h"
 
 #define WAVE_TOP		0.02f
-//#define WAVE_STEP		0.0005f
+// #define WAVE_STEP		0.0005f
 #define WAVE_STEP		0.001f
 
 CN3River2::CN3River2()
@@ -99,7 +99,7 @@ bool CN3River2::Load(HANDLE hFile)
 
 	}	
 
-//	Init();
+// Heat();
 
 	return true;
 }
@@ -141,18 +141,18 @@ void CN3River2::Render() const
 	s_lpD3DDev->SetTextureStageState( 0, D3DTSS_COLOROP,   D3DTOP_MODULATE);
     s_lpD3DDev->SetTextureStageState( 0, D3DTSS_COLORARG1, D3DTA_TEXTURE );
     s_lpD3DDev->SetTextureStageState( 0, D3DTSS_COLORARG2, D3DTA_DIFFUSE);	
-	//	s_lpD3DDev->SetTextureStageState( 0, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
+	// s_lpD3DDev->SetTextureStageState( 0, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
 	s_lpD3DDev->SetTextureStageState( 1, D3DTSS_COLOROP,   D3DTOP_MODULATE);
     s_lpD3DDev->SetTextureStageState( 1, D3DTSS_COLORARG1, D3DTA_TEXTURE );
     s_lpD3DDev->SetTextureStageState( 1, D3DTSS_COLORARG2, D3DTA_CURRENT);	
-	//	s_lpD3DDev->SetTextureStageState( 1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
-//	s_lpD3DDev->SetTextureStageState( 2, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
-//	s_lpD3DDev->SetTextureStageState( 2, D3DTSS_COLOROP, D3DTOP_DISABLE);
-//	s_lpD3DDev->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR );
-//    s_lpD3DDev->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR );
+	// s_lpD3DDev->SetTextureStageState( 1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
+	// s_lpD3DDev->SetTextureStageState( 2, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
+	// s_lpD3DDev->SetTextureStageState( 2, D3DTSS_COLOROP, D3DTOP_DISABLE);
+	// s_lpD3DDev-&gt;SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR );
+	// s_lpD3DDev->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR );
     s_lpD3DDev->SetSamplerState( 0, D3DSAMP_MIPFILTER, D3DTEXF_NONE );
-//	s_lpD3DDev->SetTextureStageState( 1, D3DTSS_MINFILTER, D3DTEXF_LINEAR );
-//    s_lpD3DDev->SetTextureStageState( 1, D3DTSS_MAGFILTER, D3DTEXF_LINEAR );
+	// s_lpD3DDev->SetTextureStageState( 1, D3DTSS_MINFILTER, D3DTEXF_LINEAR );
+	// s_lpD3DDev->SetTextureStageState( 1, D3DTSS_MAGFILTER, D3DTEXF_LINEAR );
     s_lpD3DDev->SetSamplerState(1, D3DSAMP_MIPFILTER, D3DTEXF_NONE );
 
 	s_lpD3DDev->SetFVF(D3DFVF_XYZ|D3DFVF_NORMAL|D3DFVF_DIFFUSE|D3DFVF_TEX2);
@@ -164,7 +164,7 @@ void CN3River2::Render() const
 			s_lpD3DDev->DrawIndexedPrimitiveUP(D3DPT_TRIANGLELIST, 0, pInfo->iVC, pInfo->iIC/3, pInfo->pwIndex, D3DFMT_INDEX16, pInfo->pVertices, sizeof(__VertexRiver));
 	}
 
-	// restore 
+	// restore
 	s_lpD3DDev->SetTransform(D3DTS_WORLD, &matOld);
 	s_lpD3DDev->SetRenderState(D3DRS_ALPHABLENDENABLE, dwAlphaEnable);
 	s_lpD3DDev->SetRenderState(D3DRS_SRCBLEND, dwSrcBlend);
@@ -193,7 +193,7 @@ void CN3River2::Tick()
 		_RIVER_INFO	*pInfo=NULL;
 		for (int i=0;i<m_iRiverCount;i++)
 		{
-			pInfo = m_pRiverInfo+i;
+		pInfo = m_pRiverInfo+i;
 			for (int j=0;j<pInfo->iVC;j++)
 			{
 				(pInfo->pVertices+j)->v += 0.01f;
@@ -253,14 +253,14 @@ void CN3River2::Tick()
 		}
 	}
 	
-//	for (i=0;i<m_iRiverCount;i++)
-//	{
-//		pInfo = m_pRiverInfo+i;
-//		for (int j=0;j<pInfo->iVC;j++)
-//		{
-//			(pInfo->pVertices+j)->v2 += 0.01f*s_fSecPerFrm;
-//		}
-//	}	
+	// for (i=0;i<m_iRiverCount;i++)
+	// {
+	// pInfo = m_pRiverInfo+i;
+	// for (int j=0;j<pInfo->iVC;j++)
+	// {
+	// (pInfo->pVertices+j)->v2 += 0.01f*s_fSecPerFrm;
+	// }
+	// }
 
 	m_fTexIndex += s_fSecPerFrm*15.0f;
 	if (m_fTexIndex >= 32.0f)

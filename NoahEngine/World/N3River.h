@@ -4,7 +4,7 @@
 
 #define MAX_RIVER_TEX	32
 
-class CN3River : public CN3Base  // CN3RiverPatch를 관리하는 클래스
+class CN3River : public CN3Base  // Class that manages CN3RiverPatch
 {
 public:
 	CN3River();
@@ -42,8 +42,8 @@ public:
 		_RIVER_DIFF			*pDiff;
 
 		BOOL				m_bTick2Rand;
-		__Vector3			m_vCenterPo;	//	강의 중간지점
-		float				m_fRadius;		//	강의 지름
+		__Vector3			m_vCenterPo;	// midpoint of the river
+		float				m_fRadius;		// diameter of river
 
 		CN3Texture			*m_pTexWave;
 

@@ -6,7 +6,7 @@
 #include "N3UIString.h"
 
 
-//////////////////////////////////////////////////////////////////////
+// 
 
 class CUIHotKeyDlg      : public CN3UIWndBase  
 {
@@ -67,7 +67,7 @@ public:
 	int					 GetTooltipCurPageIndex(__IconItemSkill* pSkill);
 	int					 GetCountCurPageIndex(__IconItemSkill* pSkill);
 
-//	bool				ReceiveSelectedSkill();
+	// bool				ReceiveSelectedSkill();
 	bool				IsSelectedSkillInRealIconArea();
 	void				SetReceiveSelectedSkill(int iIndex);
 	bool				GetEmptySlotIndex(int &iIndex);

@@ -3,12 +3,12 @@
 #include "N3UIBase.h"
 #include <deque>
 
-//enum e_ChatBuffer { CHAT_BUFFER_NORMAL = 0, CHAT_BUFFER_PRIVATE, CHAT_BUFFER_PARTY, CHAT_BUFFER_KNIGHTS, CHAT_BUFFER_COUNT };
+// enum e_ChatBuffer { CHAT_BUFFER_NORMAL = 0, CHAT_BUFFER_PRIVATE, CHAT_BUFFER_PARTY, CHAT_BUFFER_KNIGHTS, CHAT_BUFFER_COUNT };
 
 struct __ChatInfo
 {
-	std::string szChat; // 문자열
-	D3DCOLOR	color; // 문자열 색깔
+	std::string szChat; // string
+	D3DCOLOR	color; // string color
 
 	__ChatInfo() {};
 	__ChatInfo(const std::string& szChat_Arg, D3DCOLOR color_Arg) { szChat = szChat_Arg; color = color_Arg; }
@@ -19,22 +19,22 @@ const int MAX_CHAT_LINES = 100;
 class CUIChat : public CN3UIBase  
 {
 protected:
-//	ChatList		m_ChatBuffers[CHAT_BUFFER_COUNT];		// 채팅 packet기준으로 된 buffer
-//	ChatList		m_LineBuffers[CHAT_BUFFER_COUNT];		// Line 기준으로 된 buffer
-	deque<__ChatInfo*>		m_ChatBuffer;		// 채팅 packet기준으로 된 buffer
-	deque<__ChatInfo*>		m_LineBuffer;		// Line 기준으로 된 buffer
-	deque<__ChatInfo*>		m_ContinueMsg;		// 지속적으로 공지해주는 메시지 buffer
+	// ChatList m_ChatBuffers[CHAT_BUFFER_COUNT]; // buffer based on chat packet
+	// ChatList m_LineBuffers[CHAT_BUFFER_COUNT]; // buffer based on line
+	deque<__ChatInfo*>		m_ChatBuffer;		// Buffer based on chat packets
+	deque<__ChatInfo*>		m_LineBuffer;		// Line based buffer
+	deque<__ChatInfo*>		m_ContinueMsg;		// A message buffer that continuously notifies
 	int				m_iCurContinueMsg;
 
-	CN3UIString*	m_pNoticeTitle;		// 채팅창 맨윗줄에 표시될 공지...
-	CN3UIString*	m_pChatOut;			// 채팅이 출력되는 UIString 참조포인터(실제 m_Child로 관리), 글씨체와 초기 영역만 참조한다.
-	CN3UIScrollBar* m_pScrollbar;		// scrollbar 참조포인터(실제 m_Child로 관리)
-	int				m_iChatLineCount;	// 채팅창에 출력되는 line의 수(채팅창 사이즈가 변했을때 다시 계산해주자.)
-	RECT			m_rcChatOutRegion;	// 채팅이 출력되는 영역
-	CN3UIString**	m_ppUILines;		// 채팅이 출력되는 UIString 배열포인터(채팅창 사이즈가 변하므로 배열도 변한다.
+	CN3UIString*	m_pNoticeTitle;		// A notice to be displayed on the top line of the chat window...
+	CN3UIString*	m_pChatOut;			// UIString reference pointer where chatting is output (actually managed as m_Child), only references font and initial area.
+	CN3UIScrollBar* m_pScrollbar;		// scrollbar reference pointer (actually managed by m_Child)
+	int				m_iChatLineCount;	// The number of lines displayed in the chat window (recalculate when the size of the chat window changes.)
+	RECT			m_rcChatOutRegion;	// Area where chat is displayed
+	CN3UIString**	m_ppUILines;		// UIString array pointer where the chat is displayed (as the size of the chat window changes, the array also changes.
 
-	CN3UIEdit*		m_pEdit;			//son, chat_in
-	std::string		m_szString;			//son, chat_in
+	CN3UIEdit*		m_pEdit;			// son, chat_in
+	std::string		m_szString;			// son, chat_in
 
 	CN3UIBase*		m_pBtn_Normal;
 	CN3UIBase*		m_pBtn_Private;
@@ -52,22 +52,22 @@ protected:
 	bool			m_bChatParty;
 
 	bool			m_bKillFocus;
-//	e_ChatBuffer	m_eChatBuffer; // 채팅 표시 모드 .. 버퍼가 나누어져있다..
-	
-/*
-	ChatList		m_MsgBuffer;		// 채팅 packet기준으로 된 buffer
-	ChatList		m_MsgLineBuffer;	// Line 기준으로 된 buffer
+	// e_ChatBuffer m_eChatBuffer; // chat display mode .. the buffer is divided..
+		
+	/*
+	ChatList m_MsgBuffer; // buffer based on chat packet
+	ChatList m_MsgLineBuffer; // buffer based on line
 
-	CN3UIString*	m_pMsgOut;		// 채팅이 출력되는 UIString 참조포인터(실제 m_Child로 관리)
-	CN3UIScrollBar* m_pMsgScrollbar;	// scrollbar 참조포인터(실제 m_Child로 관리)
-	int				m_iMsgLineCount;	// 채팅창에 출력되는 line의 수(채팅창 사이즈가 변했을때 다시 계산해주자.)
-*/
+	CN3UIString* m_pMsgOut; // UIString reference pointer where the chat is displayed (actually managed as m_Child)
+	CN3UIScrollBar* m_pMsgScrollbar; // scrollbar reference pointer (actually managed as m_Child)
+	int m_iMsgLineCount; // The number of lines displayed in the chat window (recalculate when the chat window size changes.)
+	*/
 
 protected:
-	void			SetTopLine(int iTopLine) const;		// 맨 윗줄을 지정해준다.
-//	void			AddLineBuffer(e_ChatBuffer eCB, const std::string& szString, D3DCOLOR color);	// line 버퍼를 만들어준다.(너무 길면 알아서 2줄로 만들어준다.)
-	void			AddLineBuffer(const std::string& szString, D3DCOLOR color);	// line 버퍼를 만들어준다.(너무 길면 알아서 2줄로 만들어준다.)
-	void			RecalcLineBuffers();		// 채팅창 사이즈가 변했을때 호출해주면 line buffer를 다시 계산해서 넣어준다.
+	void			SetTopLine(int iTopLine) const;		// Specifies the top row.
+	// void AddLineBuffer(e_ChatBuffer eCB, const std::string&amp; szString, D3DCOLOR color); // Creates a line buffer. (If it is too long, it automatically makes it into two lines.)
+	void			AddLineBuffer(const std::string& szString, D3DCOLOR color);	// Creates a line buffer. (If it is too long, it automatically creates two lines.)
+	void			RecalcLineBuffers();		// If called when the size of the chat window changes, the line buffer is recalculated and inserted.
 	void			CreateLines();
 
 // Operations
@@ -80,18 +80,18 @@ public:
 	void			SetEnableKillFocus(bool bKillFocus) { m_bKillFocus = bKillFocus; }
 	void			ChatListenEnable();
 	void			ChangeChattingMode(e_ChatMode eCM);
-	virtual BOOL	MoveOffset(int iOffsetX, int iOffsetY);	// Offset만큼 이동해준다.(region, children, move rect 이동)
+	virtual BOOL	MoveOffset(int iOffsetX, int iOffsetY);	// It moves as much as the offset. (region, children, move rect)
 	virtual bool	ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg);
 	virtual void	Release();
 	virtual bool	Load(HANDLE hFile);
-	virtual void	SetRegion(const RECT& Rect);	// 영역 지정(사이즈가 변할때 호출된다. 단순 이동은 호출되지 않는다.(단순이동은 MoveOffset이 호출))
+	virtual void	SetRegion(const RECT& Rect);	// Area designation (called when the size changes. Simple movement is not called. (MoveOffset is called for simple movement))
 
 	void				SetString(const std::string& szChat);
 	void				SetCaretPos(int iPos);
-	const std::string&	GetString() const {return m_szString;}				//son, chat_in
-	void				AddChatMsg(e_ChatMode eCM, const std::string& szString, D3DCOLOR color = 0xffffffff);		// 채팅 메세지를 저장하고 알맞은 형태로 화면에 출력해준다.
+	const std::string&	GetString() const {return m_szString;}				// son, chat_in
+	void				AddChatMsg(e_ChatMode eCM, const std::string& szString, D3DCOLOR color = 0xffffffff);		// Saves the chat message and displays it on the screen in an appropriate format.
 	void				AddContinueMsg(e_ChatMode eCM, const std::string& szString, D3DCOLOR color = 0xffffffff);
-	void				AdjustScroll(); // 스크롤 위치등 조정..
+	void				AdjustScroll(); // Adjust scroll position, etc.
 
 	BOOL			IsChatMode();
 	void			SetFocus();

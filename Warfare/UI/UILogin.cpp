@@ -24,7 +24,7 @@ CUILogIn::CUILogIn()
 	
 	m_pList_Server = nullptr;
 	
-	m_bOpenningNow = false; // 위에서 아래로 스르륵...열려야 한다면..
+	m_bOpenningNow = false; // Swipe from top to bottom...if you have to open it...
 	m_fMoveDelta = 0;
 
 	m_bLogIn = false;
@@ -39,9 +39,9 @@ bool CUILogIn::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 {
 	if(nullptr == pSender) return false;
 
-	//s_CameraData.vp;  //불러 오는 과정을 살펴본다 
-	//DWORD mm = s_CameraData.vp.Height;
-	//DWORD ss = s_CameraData.vp.Width;	
+	// s_CameraData. vp; //look at the calling process
+	// DWORD mm = s_CameraData.vp.Height;
+	// DWORD ss = s_CameraData.vp.Width;
 
 	if (dwMsg == UIMSG_BUTTON_CLICK)
 	{
@@ -51,13 +51,13 @@ bool CUILogIn::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 		}
 		else if(pSender == m_pBtn_Connect)
 		{
-			CGameProcedure::s_pProcLogIn->ConnectToGameServer(); // 고른 게임 서버에 접속
+			CGameProcedure::s_pProcLogIn->ConnectToGameServer(); // Connect to the game server of your choice
 		}
 		else if (pSender == m_pBtn_Cancel)
 		{
-			PostQuitMessage(0);	// 종료...
+			PostQuitMessage(0);	// end...
 		}
-		else if(pSender == m_pBtn_Option) // 옵션..
+		else if(pSender == m_pBtn_Option) // option..
 		{
 			std::string szMsg;
 			::_LoadStringFromResource(IDS_CONFIRM_EXECUTE_OPTION, szMsg);
@@ -66,7 +66,7 @@ bool CUILogIn::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 	}
 	else if(UIMSG_LIST_DBLCLK == dwMsg)
 	{
-		CGameProcedure::s_pProcLogIn->ConnectToGameServer(); // 고른 게임 서버에 접속
+		CGameProcedure::s_pProcLogIn->ConnectToGameServer(); // Connect to the game server of your choice
 	}
 	else if (dwMsg == UIMSG_EDIT_RETURN)
 	{
@@ -207,7 +207,7 @@ void CUILogIn::Tick()
 
 	if(m_pGroup_ServerList)
 	{
-		if(m_bOpenningNow) // 위에서 아래로 스르륵...열려야 한다면..
+		if(m_bOpenningNow) // Swipe from top to bottom...if you have to open it...
 		{
 			POINT ptCur = m_pGroup_ServerList->GetPos();
 			const RECT rc = m_pGroup_ServerList->GetRegion();
@@ -220,7 +220,7 @@ void CUILogIn::Tick()
 
 			const int iYLimit = 0;
 			ptCur.y = (int)(m_fMoveDelta - fHeight);
-			if(ptCur.y >= iYLimit) // 다열렸다!!
+			if(ptCur.y >= iYLimit) // It&#39;s all open!!
 			{
 				ptCur.y = iYLimit;
 				m_bOpenningNow = false;
@@ -235,7 +235,7 @@ void CUILogIn::OpenServerList()
 {
 	if(m_bOpenningNow || nullptr == m_pGroup_ServerList) return;
 
-	// 스르륵 열린다!!
+	// It&#39;s open!!
 	m_pGroup_ServerList->SetVisible(true);
 	const RECT rc = m_pGroup_ServerList->GetRegion();
 	m_pGroup_ServerList->SetPos(0, -(rc.bottom - rc.top));
@@ -246,7 +246,7 @@ void CUILogIn::OpenServerList()
 
 void CUILogIn::SetVisibleLogInUIs(bool bEnable)
 {
-	if(m_pGroup_LogIn) m_pGroup_LogIn->SetVisible(bEnable); // 로그인을 숨긴다..
+	if(m_pGroup_LogIn) m_pGroup_LogIn->SetVisible(bEnable); // Hide your login.
 }
 
 bool CUILogIn::OnKeyPress(int iKey)
@@ -258,10 +258,10 @@ bool CUILogIn::OnKeyPress(int iKey)
 		case DIK_TAB:
 			FocusCircular();
 			return true;
-//		case DIK_NUMPADENTER:
-//		case DIK_RETURN:
-//			CGameProcedure::s_pProcLogIn->MsgSend_AccountLogIn(LIC_KNIGHTONLINE);
-//			return true;
+		// case DIK_NUMPADENTER:
+		// case DIK_RETURN:
+			// CGameProcedure::s_pProcLogIn->MsgSend_AccountLogIn(LIC_KNIGHTONLINE);
+			// return true;
 		}
 	}
 	else if(!m_bOpenningNow && m_pGroup_ServerList && m_pGroup_ServerList->IsVisible())

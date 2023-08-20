@@ -7,7 +7,7 @@
 #include "N3UIBase.h"
 #include "N3UIImage.h"
 
-//////////////////////////////////////////////////////////////////////
+// 
 
 
 class CUIItemExchange     : public CN3UIWndBase  

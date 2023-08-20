@@ -106,21 +106,21 @@ bool CUIKnightsOperation::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 		{
 			this->MsgSend_KnightsCreate();
 		}
-		else if(pSender == m_pBtn_Join) // 가입
+		else if(pSender == m_pBtn_Join) // join
 		{
 			this->MsgSend_KnightsJoin();
 		}
-		else if(pSender == m_pBtn_Destroy) // 탈퇴
+		else if(pSender == m_pBtn_Destroy) // secession
 		{
 			std::string szMsg;
 			::_LoadStringFromResource(IDS_KNIGHTS_DESTROY_CONFIRM, szMsg);
-			CGameProcedure::MessageBoxPost(szMsg, "", MB_YESNO, BEHAVIOR_KNIGHTS_DESTROY); // 기사단 해체 물어보기..
+			CGameProcedure::MessageBoxPost(szMsg, "", MB_YESNO, BEHAVIOR_KNIGHTS_DESTROY); // Ask about disbanding the Knights...
 		}
-		else if(pSender == m_pBtn_Withdraw) // 탈퇴
+		else if(pSender == m_pBtn_Withdraw) // secession
 		{
 			std::string szMsg;
 			::_LoadStringFromResource(IDS_KNIGHTS_WITHDRAW_CONFIRM, szMsg);
-			CGameProcedure::MessageBoxPost(szMsg, "", MB_YESNO, BEHAVIOR_KNIGHTS_WITHDRAW); // 기사단 탈퇴 물어보기..
+			CGameProcedure::MessageBoxPost(szMsg, "", MB_YESNO, BEHAVIOR_KNIGHTS_WITHDRAW); // Ask to leave the Knights...
 		}
 	}
 	else if(dwMsg == UIMSG_LIST_SELCHANGE)
@@ -198,16 +198,16 @@ void CUIKnightsOperation::KnightsListClear()
 
 void CUIKnightsOperation::ChangeUIByDuty(e_KnightsDuty eDuty) const
 {
-	if(eDuty == KNIGHTS_DUTY_CHIEF) // 기사단장이면 기사단 해체도 가능하다..
+	if(eDuty == KNIGHTS_DUTY_CHIEF) // If you are the captain of the knights, you can disband the knights.
 	{
 		if(m_pBtn_Destroy) m_pBtn_Destroy->SetState(UI_STATE_BUTTON_NORMAL);
-		if(m_pBtn_Withdraw) m_pBtn_Withdraw->SetState(UI_STATE_BUTTON_DISABLE); // 기사 단장이 탈퇴한다????!!!!
+		if(m_pBtn_Withdraw) m_pBtn_Withdraw->SetState(UI_STATE_BUTTON_DISABLE); // The Knight Commander resigns????!!!!
 		if(m_pBtn_Join) m_pBtn_Join->SetState(UI_STATE_BUTTON_DISABLE);
 	}
 	else 
 	{
 		if(m_pBtn_Destroy) m_pBtn_Destroy->SetState(UI_STATE_BUTTON_DISABLE);
-		if(m_pBtn_Withdraw) m_pBtn_Withdraw->SetState(UI_STATE_BUTTON_NORMAL); // 기사 단장이 탈퇴한다????!!!!
+		if(m_pBtn_Withdraw) m_pBtn_Withdraw->SetState(UI_STATE_BUTTON_NORMAL); // The Knight Commander resigns????!!!!
 		if(m_pBtn_Join) m_pBtn_Join->SetState(UI_STATE_BUTTON_NORMAL);
 	}
 }
@@ -215,18 +215,18 @@ void CUIKnightsOperation::ChangeUIByDuty(e_KnightsDuty eDuty) const
 void CUIKnightsOperation::Open(e_KnightsDuty eDuty)
 {
 	m_iPageCur = 0;
-	this->KnightsListClear(); // 기사단 정보 클리어
-	this->SetPosCenter(); // 가운데로 맞추고..
+	this->KnightsListClear(); // Knight information clear
+	this->SetPosCenter(); // set it in the middle...
 	this->SetVisible(true);
 
-	this->ChangeUIByDuty(eDuty); // 권한에 따라 UI 변경..
+	this->ChangeUIByDuty(eDuty); // UI change according to permission..
 }
 
 void CUIKnightsOperation::Close()
 {
-	this->KnightsListClear(); // 기사단 정보 클리어
+	this->KnightsListClear(); // Knight information clear
 	this->SetVisible(false);
-	if(m_pEdit_KnightsName) m_pEdit_KnightsName->KillFocus(); // 이래야 다른곳에 문제가 안생긴다..
+	if(m_pEdit_KnightsName) m_pEdit_KnightsName->KillFocus(); // This way there won&#39;t be any problems elsewhere.
 }
 
 bool CUIKnightsOperation::MsgRecv_KnightsList(DataPack* pDataPack, int& iOffset)
@@ -245,10 +245,10 @@ bool CUIKnightsOperation::MsgRecv_KnightsList(DataPack* pDataPack, int& iOffset)
 		CAPISocket::Parse_GetString(pDataPack->m_pData, iOffset, szChiefName, iNameLength);
 		iPoint = CAPISocket::Parse_GetDword(pDataPack->m_pData, iOffset);
 
-		this->KnightsListAdd(iID, szName, szChiefName, iMemberCount, iPoint); // UI 에 추가..
+		this->KnightsListAdd(iID, szName, szChiefName, iMemberCount, iPoint); // Add to UI..
 	}
-	this->KnightsListUpdate(); // List 에 다 넣었으면 UI Update!!
-	this->EnableKnightsUIs(true); // Disable 된 버튼들 Enable 시킨다.
+	this->KnightsListUpdate(); // UI Update!!
+	this->EnableKnightsUIs(true); // Disabled buttons are enabled.
 
 	return true;
 }
@@ -258,7 +258,7 @@ void CUIKnightsOperation::MsgSend_KnightsCreate()
 	if(nullptr == m_pEdit_KnightsName) return;
 
 	const std::string szKnightsName = m_pEdit_KnightsName->GetString();
-	if(szKnightsName.empty()) // 이름이 없으면 에러..
+	if(szKnightsName.empty()) // Error if no name.
 	{
 		std::string szMsg; ::_LoadStringFromResource(IDS_ERR_KNIGHTS_CREATE_FAILED_NAME_EMPTY, szMsg);
 		CGameProcedure::s_pProcMain->MsgOutput(szMsg, 0xffff00ff);
@@ -269,7 +269,7 @@ void CUIKnightsOperation::MsgSend_KnightsCreate()
 	BYTE byBuff[128];
 
 	CAPISocket::MP_AddByte(byBuff, iOffset, N3_KNIGHTS);
-	CAPISocket::MP_AddByte(byBuff, iOffset, N3_SP_KNIGHTS_CREATE); // 생성 Send - s1(Name Length) str1 | Recv - b1(1:성공 0:실패)
+	CAPISocket::MP_AddByte(byBuff, iOffset, N3_SP_KNIGHTS_CREATE); // Create Send - s1(Name Length) str1 | Recv - b1 (1: success 0: failure)
 	CAPISocket::MP_AddShort(byBuff, iOffset, szKnightsName.size());
 	CAPISocket::MP_AddString(byBuff, iOffset, szKnightsName);
 
@@ -282,7 +282,7 @@ void CUIKnightsOperation::MsgSend_KnightsDestroy()
 	BYTE byBuff[8];
 
 	CAPISocket::MP_AddByte(byBuff, iOffset, N3_KNIGHTS);
-	CAPISocket::MP_AddByte(byBuff, iOffset, N3_SP_KNIGHTS_DESTROY); // 생성 Send - s1(Name Length) str1 | Recv - b1(1:성공 0:실패)
+	CAPISocket::MP_AddByte(byBuff, iOffset, N3_SP_KNIGHTS_DESTROY); // Create Send - s1(Name Length) str1 | Recv - b1 (1: success 0: failure)
 
 	CGameProcedure::s_pSocket->Send(byBuff, iOffset);
 }
@@ -329,7 +329,7 @@ void CUIKnightsOperation::MsgSend_KnightsList(int iPage)
 
 	CGameProcedure::s_pSocket->Send(byBuff, iOffset);
 
-	// 페이지를 넘길때는 버튼들을 막아 놓는다.
+	// Block the buttons when turning the page.
 	this->EnableKnightsUIs(false);
 }
 
