@@ -1,0 +1,28 @@
+// Ini.cpp: implementation of the CIni class.
+//
+//////////////////////////////////////////////////////////////////////
+
+#include "stdafx.h"
+#include "Ini.h"
+
+//////////////////////////////////////////////////////////////////////
+// Construction/Destruction
+//////////////////////////////////////////////////////////////////////
+
+CIni::CIni()
+{
+
+}
+
+CIni::~CIni()
+{
+
+}
+
+int CIni::GetProfileInt(char* lpAppName,
+							  char* lpKeyName,
+							  int nDefault)
+{
+	if (m_szFileName[0] == '\0') {
+		m_nError = 0X01;
+		strcpy(m_strError, "File
