@@ -165,7 +165,7 @@ public:
 	// void	MsgSend_DutyAppoint(e_KnightsDuty eDuty);
 };
 
-struct __FriendsInfo : public binary_function<__FriendsInfo, __FriendsInfo, bool>// Article section information..
+struct __FriendsInfo
 {
 	std::string		szName;
 	int				iID; // ID
