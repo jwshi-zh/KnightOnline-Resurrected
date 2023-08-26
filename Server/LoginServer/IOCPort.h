@@ -49,7 +49,7 @@ public:
 	CIOCPSocket2 **m_SockArray;
 	CIOCPSocket2 **m_SockArrayInActive;
 
-	CIOCPSocket2 **m_ClientSockArray;		// Connectìš© ì†Œì¼“
+	CIOCPSocket2 **m_ClientSockArray;		// Connect¿ë ¼ÒÄÏ
 
 protected:
 	DWORD m_dwNumberOfWorkers;

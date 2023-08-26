@@ -207,13 +207,5 @@ BOOL CVersionManagerDlg::DestroyWindow()
 
 void CVersionManagerDlg::OnVersionSetting() 
 {
-	CString errorstr, inipath;
-	inipath.Format( "%s\\Version.ini", GetProgPath() );
-	CSettingDlg	setdlg(m_nLastVersion, this);
 	
-	strcpy( setdlg.m_strDefaultPath, m_strDefaultPath );
-	if( setdlg.DoModal() == IDOK ) {
-		strcpy( m_strDefaultPath, setdlg.m_strDefaultPath );
-		WritePrivateProfileString("CONFIGURATION", "DEFAULT_PATH", m_strDefaultPath, inipath);
-	}
 }

@@ -205,7 +205,7 @@ inline CString GetProgPath()
 	return _Path;
 };
 
-inline void LogFileWrite( LPCTSTR logstr )
+inline void LogFileWrite( const char* logstr )
 {
 	CString ProgPath, LogFileName;
 	CFile file;

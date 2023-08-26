@@ -251,4 +251,199 @@ void CIOCPSocket2::ReceivedData(int length)
 
 	int len = 0;
 
-	if( !strlen(m_pRecvBuff) )		// 
+	if( !strlen(m_pRecvBuff) )		// 패킷길이는 존재하나 실 데이터가 없는 경우가 발생...
+		return;
+	m_pBuffer->PutData(m_pRecvBuff, length);		// 받은 Data를 버퍼에 넣는다
+
+	char *pData = NULL;
+	char *pDecData = NULL;
+
+	while (PullOutCore(pData, len))
+	{
+		if(pData)
+		{
+			Parsing(len, pData);//		실제 파싱 함수...
+
+			delete[] pData;
+			pData = NULL;
+		}
+	}
+}
+
+BOOL CIOCPSocket2::PullOutCore(char *&data, int &length)
+{
+	BYTE		*pTmp;
+	int			len;
+	BOOL		foundCore;
+	MYSHORT		slen;
+	DWORD		wSerial;
+
+	len = m_pBuffer->GetValidCount();
+
+	if(len == 0 || len < 0) return FALSE;
+
+	pTmp = new BYTE[len];
+
+	m_pBuffer->GetData((char*)pTmp, len);
+
+	foundCore = FALSE;
+
+	int	sPos=0, ePos = 0;
+
+	for (int i = 0; i < len && !foundCore; i++)
+	{
+		if (i+2 >= len) break;
+
+		if (pTmp[i] == PACKET_START1 && pTmp[i+1] == PACKET_START2)
+		{
+//			if( m_wPacketSerial >= wSerial ) goto cancelRoutine;
+			sPos = i+2;
+
+			slen.b[0] = pTmp[sPos];
+			slen.b[1] = pTmp[sPos + 1];
+
+			length = slen.i;
+
+			if( length < 0 ) goto cancelRoutine;
+			if( length > len ) goto cancelRoutine;
+
+			ePos = sPos+length + 2;
+
+			if( (ePos + 2) > len ) goto cancelRoutine;
+//			ASSERT(ePos+2 <= len);
+
+			if (pTmp[ePos] == PACKET_END1 && pTmp[ePos+1] == PACKET_END2)
+			{
+				data = new char[length+1];
+				CopyMemory((void *)data, (const void *)(pTmp+sPos+2), length);
+				data[length] = 0;
+				foundCore = TRUE;
+				int head = m_pBuffer->GetHeadPos(), tail = m_pBuffer->GetTailPos();
+//				TRACE("data : %s, len : %d\n", data, length);
+//				TRACE("head : %d, tail : %d\n", head, tail );
+				break;
+			}
+			else 
+			{
+				m_pBuffer->HeadIncrease(3);
+				break;
+			}
+		}
+	}
+	if (foundCore) m_pBuffer->HeadIncrease(6+length); //6: header 2+ end 2+ length 2
+
+	delete[] pTmp;
+
+	return foundCore;
+
+cancelRoutine:	
+	delete[] pTmp;
+	return foundCore;
+}
+
+BOOL CIOCPSocket2::AsyncSelect( long lEvent )
+{
+	int retEventResult, err;
+
+	retEventResult = WSAEventSelect( m_Socket, m_hSockEvent, lEvent );
+	err = WSAGetLastError();
+
+	return ( !retEventResult );
+}
+
+BOOL CIOCPSocket2::SetSockOpt( int nOptionName, const void* lpOptionValue, int nOptionLen, int nLevel )
+{
+	int retValue;
+	retValue = setsockopt( m_Socket, nLevel, nOptionName, (char *)lpOptionValue, nOptionLen );
+
+	return ( !retValue );
+}
+
+BOOL CIOCPSocket2::ShutDown( int nHow )
+{
+	int retValue;
+	retValue = shutdown( m_Socket, nHow );
+
+	return ( !retValue );
+}
+
+void CIOCPSocket2::Close()
+{
+	if ( m_pIOCPort == NULL ) return;
+
+	HANDLE	hComport = NULL;
+	OVERLAPPED		*pOvl;
+	pOvl = &m_RecvOverlapped;
+	pOvl->Offset = OVL_CLOSE;
+
+	if( m_Type == TYPE_ACCEPT )
+		hComport = m_pIOCPort->m_hServerIOCPort;
+	else
+		hComport = m_pIOCPort->m_hClientIOCPort;
+
+	int retValue = PostQueuedCompletionStatus( hComport, (DWORD)0, (DWORD)m_Sid, pOvl );
+
+	if ( !retValue ) {
+		int errValue;
+		errValue = GetLastError();
+		TRACE("PostQueuedCompletionStatus Error : %d\n", errValue);
+	}
+}
+
+void CIOCPSocket2::CloseProcess()
+{
+	m_State = STATE_DISCONNECTED;
+
+	if( m_Socket != INVALID_SOCKET )
+		closesocket( m_Socket );
+}
+
+void CIOCPSocket2::InitSocket( CIOCPort* pIOCPort )
+{
+	m_pIOCPort = pIOCPort;
+	m_RecvOverlapped.hEvent = NULL;
+	m_SendOverlapped.hEvent = NULL;
+	m_pBuffer->SetEmpty();
+	m_nSocketErr = 0;
+	m_nPending = 0;
+	m_nWouldblock = 0;
+
+	Initialize();
+}
+
+BOOL CIOCPSocket2::Accept( SOCKET listensocket, struct sockaddr* addr, int* len )
+{
+	m_Socket = accept( listensocket, addr, len);
+	if( m_Socket == INVALID_SOCKET) {
+		int err = WSAGetLastError();
+		TRACE("Socket Accepting Fail - %d\n", err);
+		return FALSE;
+	}
+
+//	int flag = 1;
+//	setsockopt(m_Socket, SOL_SOCKET, SO_DONTLINGER, (char *)&flag, sizeof(flag));
+
+//	int lensize, socklen=0;
+
+//	getsockopt( m_Socket, SOL_SOCKET, SO_RCVBUF, (char*)&socklen, &lensize);
+//	TRACE("getsockopt : %d\n", socklen);
+
+//	struct linger lingerOpt;
+
+//	lingerOpt.l_onoff = 1;
+//	lingerOpt.l_linger = 0;
+
+//	setsockopt(m_Socket, SOL_SOCKET, SO_LINGER, (char *)&lingerOpt, sizeof(lingerOpt));
+
+	return TRUE;
+}
+
+void CIOCPSocket2::Parsing(int length, char *pData)
+{
+
+}
+
+void CIOCPSocket2::Initialize()
+{
+	m_wPacketSerial = 0;
+}
