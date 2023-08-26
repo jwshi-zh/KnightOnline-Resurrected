@@ -36,7 +36,8 @@ public:
 
 	int		m_nLastVersion;
 
-	char	m_ODBCName[32];
+	char	m_ODBCServer[32];
+	char	m_ODBCDatabase[32];
 	char	m_ODBCLogin[32];
 	char	m_ODBCPwd[32];
 	char	m_TableName[32];
