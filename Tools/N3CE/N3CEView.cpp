@@ -60,7 +60,7 @@ CN3CEView::CN3CEView()
 	m_pJointSelected = NULL;
 	m_fTickPrev = CN3Base::TimeGet();
 
-	m_eCursorMode = eCM_Nothing; // 커서 모드 보통..
+	m_eCursorMode = eCM_Nothing; // Cursor Mode Normal..
 
 	m_pFXPosTransform = new CN3Transform;
 	m_pPosDummy = new CPosDummy;
@@ -88,11 +88,11 @@ void CN3CEView::OnDraw(CDC* pDC)
 { 
 	CN3CEDoc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
-	if(TRUE == pDoc->m_bLoadingNow) return; // 읽는 도중에는 렌더링하지 않는다...
+	if(TRUE == pDoc->m_bLoadingNow) return; // Do not render while reading...
 
 
-	float fFrm = pDoc->m_Scene.m_fFrmCur; // 일부러 프레임을 컨트롤 하려고 이렇게 해놓았다..
-	pDoc->m_Scene.TickCameras(fFrm); // 카메라만 Tick
+	float fFrm = pDoc->m_Scene.m_fFrmCur; // I did this deliberately to control the frame..
+	pDoc->m_Scene.TickCameras(fFrm); // Tick the camera only
 	pDoc->m_Scene.TickLights(fFrm);
 	
 	CMainFrame* pFrm = (CMainFrame*)AfxGetMainWnd();
@@ -113,20 +113,20 @@ void CN3CEView::OnDraw(CDC* pDC)
 	}
 	
 	DWORD dwAlphaBlend, dwAlphaOP, dwAlphaArg1;
-	if(m_bRenderOptionXRay) // 반투명 옵션이 켜져 있으면..
+	if(m_bRenderOptionXRay) // If translucent option is on...
 	{
 		// backup state
 		pFrm->m_Eng.s_lpD3DDev->GetRenderState(D3DRS_ALPHABLENDENABLE, &dwAlphaBlend);
 		pFrm->m_Eng.s_lpD3DDev->GetTextureStageState(0, D3DTSS_ALPHAOP, &dwAlphaOP);
 		pFrm->m_Eng.s_lpD3DDev->GetTextureStageState(0, D3DTSS_ALPHAARG1, &dwAlphaArg1);
 
-		// render state 세팅
+		// Set render state
 		pFrm->m_Eng.s_lpD3DDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 		pFrm->m_Eng.s_lpD3DDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 		pFrm->m_Eng.s_lpD3DDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-		pFrm->m_Eng.s_lpD3DDev->SetRenderState(D3DRS_TEXTUREFACTOR, 0x80000000);	// alpha factor 설정
+		pFrm->m_Eng.s_lpD3DDev->SetRenderState(D3DRS_TEXTUREFACTOR, 0x80000000);	// Alpha factor setting
 		
-		// texture state 세팅(alpha)
+		// Setting the texture state (alpha)
 		pFrm->m_Eng.s_lpD3DDev->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
 		pFrm->m_Eng.s_lpD3DDev->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TFACTOR);
 	}
@@ -135,13 +135,13 @@ void CN3CEView::OnDraw(CDC* pDC)
 		pFrm->m_Eng.s_lpD3DDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 	}
 	
-	if(m_pJointSelected) // 관절이 선택되어 있으면..
+	if(m_pJointSelected) // If a joint is selected...
 	{
 		DWORD dwZ = 0;
 		pFrm->m_Eng.s_lpD3DDev->GetRenderState(D3DRS_ZENABLE, &dwZ);
 		pFrm->m_Eng.s_lpD3DDev->SetRenderState(D3DRS_ZENABLE, FALSE);
 		m_pJointSelected->Render(&(pChr->m_Matrix), 0.02f);
-//		m_pJointSelected->CN3Transform::Render(&(pChr->m_Matrix), 0.3f); // 축 그리기..
+//		m_pJointSelected->CN3Transform::Render(&(pChr->m_Matrix), 0.3f); // Draw axis...
 		pFrm->m_Eng.s_lpD3DDev->SetRenderState(D3DRS_ZENABLE, dwZ);
 	}
 	
@@ -153,7 +153,7 @@ void CN3CEView::OnDraw(CDC* pDC)
 		if(pChr->IsAnimEnd())
 		{
 			pChr->PosSet(0,0,0);
-			if(!m_DequeAnimation.empty()) // 에니메이션 큐가 있으면..
+			if(!m_DequeAnimation.empty()) // If there is an animation queue...
 			{
 				int iAni = m_DequeAnimation[0];
 				pChr->AniCurSet(iAni);
@@ -180,7 +180,7 @@ void CN3CEView::OnDraw(CDC* pDC)
 	int nLOD = pFrm->GetPaneTool()->m_CBLOD.GetCurSel();
 	if(nLOD < 0) nLOD = 0;
 	if(nLOD >= MAX_CHR_LOD) nLOD = MAX_CHR_LOD - 1;
-	pChr->m_nLOD = nLOD; // LOD 강제 설정..
+	pChr->m_nLOD = nLOD; // LOD enforcement...
 
 	pChr->Render();
 
@@ -205,7 +205,7 @@ void CN3CEView::OnDraw(CDC* pDC)
 			if(pChr->MatrixGet(pPlug->m_nJointIndex))
 			{
 				__Matrix44 mtxJ = *(pChr->MatrixGet(pPlug->m_nJointIndex));
-				pPlug->RenderFXLines(pChr->m_Matrix, mtxJ); // FX 들어갈 곳에 선을 그려준다.
+				pPlug->RenderFXLines(pChr->m_Matrix, mtxJ); // Draw a line where the FX will be inserted.
 			}
 		}
 	}
@@ -219,7 +219,7 @@ void CN3CEView::OnDraw(CDC* pDC)
 		eCM_PlugFXPosition4 == m_eCursorMode ||
 		eCM_PlugFXPosition5 == m_eCursorMode ||
 		eCM_PlugFXPosition6 == m_eCursorMode ||
-		eCM_PlugFXPosition7 == m_eCursorMode ) // 플러그 효과 위치 0
+		eCM_PlugFXPosition7 == m_eCursorMode ) // plug effect position 0
 	{
 		m_pPosDummy->Tick();
 		m_pPosDummy->Render();
@@ -250,7 +250,7 @@ void CN3CEView::OnDraw(CDC* pDC)
 		if(pMtxJ) pPlug->Render(pChr->m_Matrix, *pMtxJ);
 	}
 */
-	if(m_bRenderOptionXRay) // 반투명 옵션이 켜져 있으면..
+	if(m_bRenderOptionXRay) // If translucent option is on...
 	{
 		// Restore state
 		pFrm->m_Eng.s_lpD3DDev->SetRenderState(D3DRS_ALPHABLENDENABLE, dwAlphaBlend);
@@ -258,7 +258,7 @@ void CN3CEView::OnDraw(CDC* pDC)
 		pFrm->m_Eng.s_lpD3DDev->SetTextureStageState(0, D3DTSS_ALPHAARG1, dwAlphaArg1);
 	}
 
-	// Sound 재생 테스트...
+	// Sound playback test...
 	if(pFrm->m_pSndObj0 && pChr->NeedPlaySound0())
 	{
 		pFrm->m_pSndObj0->Play();
@@ -273,7 +273,7 @@ void CN3CEView::OnDraw(CDC* pDC)
 	pFrm->m_Eng.s_lpD3DDev->EndScene();
 	pFrm->m_Eng.Present(m_hWnd);
 
-	// 프레임 표시
+	// display frame
 	float fTick = CN3Base::TimeGet();
 	if(fTick > m_fTickPrev + 0.3f)
 	{
@@ -303,7 +303,7 @@ void CN3CEView::OnInitialUpdate()
 	// TODO: You may populate your ListView with items by directly accessing
 	//  its list control through a call to GetListCtrl().
 
-	DragAcceptFiles(); // Drag File 을 받는다..
+	DragAcceptFiles(); // Receive Drag File..
 
 	m_pJointSelected = NULL;
 
@@ -311,7 +311,7 @@ void CN3CEView::OnInitialUpdate()
 	CRect rc; GetClientRect(rc);
 	pFrm->m_Eng.Reset(TRUE, rc.Width(), rc.Height(), 0);
 
-	this->SetCameraToDefault(); // 카메라를 기본값으로 하고..
+	this->SetCameraToDefault(); // Set the camera as default.
 	this->InvalidateRect(NULL, FALSE);
 }
 
@@ -434,7 +434,7 @@ void CN3CEView::OnLButtonDown(UINT nFlags, CPoint point)
 				pJoint->FindPointerByID(nJI, m_pJointSelected);
 			}
 
-			CN3Base* pBase = pFrm->GetPaneProperty()->GetSelectedObject(); // Plug 에 Joint Index 를 넣는다..
+			CN3Base* pBase = pFrm->GetPaneProperty()->GetSelectedObject(); // Enter the Joint Index into the Plug. - Insert Joint Index into Plug..
 			if(	eCM_PickJoint == this->m_eCursorMode && // 조인트 선택 모드..
 				pBase && (pBase->Type() & OBJ_CHARACTER_PLUG))
 			{
@@ -444,9 +444,9 @@ void CN3CEView::OnLButtonDown(UINT nFlags, CPoint point)
 				pFrm->GetPaneProperty()->UpdateInfo();
 			}
 //////////////////////////////////////////////////
-//	Coded (By Dino On 2002-10-11 오후 1:50:47 )
+//	Coded (By Dino On 2002-10-11 PM 1:50:47 )
 //	FXPlug
-			else if (pBase && (pBase->Type() & OBJ_FX_PLUG_PART)	// FXPlugPart가 선택되어 있을경우 참조하는 조인트를 설정한다.
+			else if (pBase && (pBase->Type() & OBJ_FX_PLUG_PART)	// Set the reference joint when FXPlugPart is selected.
 				&&( nJI >= 0 && nJI < n))
 			{
 				CN3FXPlugPart* pFXPPart = (CN3FXPlugPart*)pBase;
@@ -454,7 +454,7 @@ void CN3CEView::OnLButtonDown(UINT nFlags, CPoint point)
 
 				pFrm->GetPaneProperty()->UpdateInfo();
 			}
-//	End Of Code (By Dino On 2002-10-11 오후 1:50:47 )
+//	End Of Code (By Dino On 2002-10-11 PM 1:50:47 )
 //////////////////////////////////////////////////
 			else if(m_pJointSelected && m_bRenderOptionJoint)
 			{
@@ -492,7 +492,7 @@ void CN3CEView::OnUpdateViewJoint(CCmdUI* pCmdUI)
 
 void CN3CEView::UpdateAllInfo()
 {
-	SetCameraToDefault(); // 카메라를 기본값으로 만들고...
+	SetCameraToDefault(); // Make the camera default...
 	m_pJointSelected = NULL;
 	this->InvalidateRect(NULL, FALSE);
 }
@@ -594,7 +594,7 @@ LRESULT CN3CEView::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 					eCM_PlugFXPosition4 == m_eCursorMode ||
 					eCM_PlugFXPosition5 == m_eCursorMode ||
 					eCM_PlugFXPosition6 == m_eCursorMode ||
-					eCM_PlugFXPosition7 == m_eCursorMode ) // 플러그 효과 위치 0
+					eCM_PlugFXPosition7 == m_eCursorMode ) // plug effect position 0
 				{
 					int iIndex = m_eCursorMode - eCM_PlugFXPosition0;
 					if(iIndex >= 0 && iIndex < MAX_PLUG_FX_POSITION)
@@ -634,11 +634,11 @@ void CN3CEView::OnMouseMove(UINT nFlags, CPoint point)
 	if(	!::_IsKeyDown(VK_MENU) && 
 		((nFlags & MK_LBUTTON) || (nFlags & MK_MBUTTON) || (nFlags & MK_RBUTTON)) ) // 커서 모드에 따라 조정..
 	{
-		// 일단 플러그가 선택되었는지 본다.
+		// First see if the plug is selected.
 		CMainFrame* pFrm = (CMainFrame*)AfxGetMainWnd();
 		CN3Base* pBase = pFrm->GetPaneProperty()->GetSelectedObject();
 		CN3Chr* pChr = GetDocument()->m_Scene.ChrGet(0);
-		if(	eCM_Nothing != m_eCursorMode && // 커서 모드가 보통게 아니고..
+		if(	eCM_Nothing != m_eCursorMode && // Cursor mode is not normal..
 			pChr && pBase && (pBase->Type() & OBJ_CHARACTER_PLUG))
 		{
 			CN3CPlug* pPlug = (CN3CPlug*)pBase;
@@ -648,7 +648,7 @@ void CN3CEView::OnMouseMove(UINT nFlags, CPoint point)
 			else if(nFlags & MK_MBUTTON) vAxis.Set(0,1,0);
 			else if(nFlags & MK_RBUTTON) vAxis.Set(0,0,1);
 
-			if(eCM_PlugPosition == m_eCursorMode) // 플러그 위치
+			if(eCM_PlugPosition == m_eCursorMode) // plug location
 			{
 				const __Matrix44* pMtxTmp = pChr->MatrixGet(pPlug->m_nJointIndex);
 				if(pMtxTmp)
@@ -667,7 +667,7 @@ void CN3CEView::OnMouseMove(UINT nFlags, CPoint point)
 					pPlug->PositionSet(pPlug->Position() + vDelta);
 				}
 			}
-			else if(eCM_PlugScale == m_eCursorMode) // 플러그 스케일
+			else if(eCM_PlugScale == m_eCursorMode) // plug scale
 			{
 				CPoint ptDelta = point - m_ptPrev;
 				if(_IsKeyDown(VK_CONTROL))
@@ -677,7 +677,7 @@ void CN3CEView::OnMouseMove(UINT nFlags, CPoint point)
 				
 				pPlug->ScaleSet(vScale);
 			}
-			else if(eCM_PlugRotation == m_eCursorMode) // 플러그 스케일
+			else if(eCM_PlugRotation == m_eCursorMode) // plug scale
 			{
 				const __Matrix44* pMtxTmp = pChr->MatrixGet(pPlug->m_nJointIndex);
 				if(pMtxTmp)
@@ -710,7 +710,7 @@ void CN3CEView::OnMouseMove(UINT nFlags, CPoint point)
 					eCM_PlugFXPosition4 == m_eCursorMode ||
 					eCM_PlugFXPosition5 == m_eCursorMode ||
 					eCM_PlugFXPosition6 == m_eCursorMode ||
-					eCM_PlugFXPosition7 == m_eCursorMode ) // 플러그 효과 위치 0
+					eCM_PlugFXPosition7 == m_eCursorMode ) // plug effect position 0
 			{
 				int iIndex = m_eCursorMode - eCM_PlugFXPosition0;
 				if(iIndex >= 0 && iIndex < MAX_PLUG_FX_POSITION)
@@ -729,7 +729,7 @@ void CN3CEView::OnMouseMove(UINT nFlags, CPoint point)
 			this->InvalidateRect(NULL, FALSE);
 		}
 //////////////////////////////////////////////////
-//	Coded (By Dino On 2002-10-11 오후 2:04:29 )
+//	Coded (By Dino On 2002-10-11 PM 2:04:29 )
 //	FXPlug
 		else if(pChr && pBase && (pBase->Type() & OBJ_FX_PLUG_PART))
 		{
@@ -740,7 +740,7 @@ void CN3CEView::OnMouseMove(UINT nFlags, CPoint point)
 			else if(nFlags & MK_MBUTTON) vAxis.Set(0,1,0);
 			else if(nFlags & MK_RBUTTON) vAxis.Set(0,0,1);
 
-			if (nFlags & MK_SHIFT)	// 위치
+			if (nFlags & MK_SHIFT)	// location
 			{
 				const __Matrix44* pMtxTmp = pChr->MatrixGet(pFXPPart->GetRefIndex());
 				if(pMtxTmp)
@@ -759,7 +759,7 @@ void CN3CEView::OnMouseMove(UINT nFlags, CPoint point)
 					pFXPPart->m_vOffsetPos += vDelta;
 				}
 			}
-			else if (nFlags & MK_CONTROL)	// 회전
+			else if (nFlags & MK_CONTROL)	// rotation
 			{
 				const __Matrix44* pMtxTmp = pChr->MatrixGet(pFXPPart->GetRefIndex());
 				if(pMtxTmp)
@@ -788,7 +788,7 @@ void CN3CEView::OnMouseMove(UINT nFlags, CPoint point)
 			pFrm->GetPaneProperty()->UpdateInfo();
 			this->InvalidateRect(NULL, FALSE);
 		}
-//	End Of Code (By Dino On 2002-10-11 오후 2:04:29 )
+//	End Of Code (By Dino On 2002-10-11 PM 2:04:29 )
 //////////////////////////////////////////////////
 	}
 
@@ -816,7 +816,7 @@ void CN3CEView::InitFXPos()
 		eCM_PlugFXPosition4 == m_eCursorMode ||
 		eCM_PlugFXPosition5 == m_eCursorMode ||
 		eCM_PlugFXPosition6 == m_eCursorMode ||
-		eCM_PlugFXPosition7 == m_eCursorMode ) // 플러그 효과 위치 0
+		eCM_PlugFXPosition7 == m_eCursorMode ) // plug effect position 0
 	{
 		int iIndex = m_eCursorMode - eCM_PlugFXPosition0;
 		if(iIndex >= 0 && iIndex < MAX_PLUG_FX_POSITION)
