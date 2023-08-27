@@ -23,7 +23,7 @@
 
 #include <list>
 typedef	 std::list<_EXCHANGE_ITEM*>		ItemList;
-typedef  list<int>				UserEventList;	// ì´ë°´íŠ¸ë¥¼ ìœ„í•˜ì—¬ ^^;
+typedef  list<int>				UserEventList;	// ÀÌ¹êÆ®¸¦ À§ÇÏ¿© ^^;
 
 #define BANISH_DELAY_TIME    30
 
@@ -31,83 +31,83 @@ class CEbenezerDlg;
 class CUser : public CIOCPSocket2  
 {
 public:
-	_USER_DATA*	m_pUserData;
+	_USER_DATA*	m_pUserData{};
 
-	char	m_strAccountID[MAX_ID_SIZE+1];	// Login -> Select Char ê¹Œì§€ í•œì‹œì ìœ¼ë¡œë§Œ ì“°ëŠ”ë³€ìˆ˜. ì´ì™¸ì—ëŠ” _USER_DATA ì•ˆì—ìˆëŠ” ë³€ìˆ˜ë¥¼ ì“´ë‹¤...agent ì™€ì˜ ë°ì´í„° ë™ê¸°í™”ë¥¼ ìœ„í•´...
+	char	m_strAccountID[MAX_ID_SIZE+1];	// Login -> Select Char ±îÁö ÇÑ½ÃÀûÀ¸·Î¸¸ ¾²´Âº¯¼ö. ÀÌ¿Ü¿¡´Â _USER_DATA ¾È¿¡ÀÖ´Â º¯¼ö¸¦ ¾´´Ù...agent ¿ÍÀÇ µ¥ÀÌÅÍ µ¿±âÈ­¸¦ À§ÇØ...
 	
-	short	m_RegionX;						// í˜„ì¬ ì˜ì—­ X ì¢Œí‘œ
-	short	m_RegionZ;						// í˜„ì¬ ì˜ì—­ Z ì¢Œí‘œ
+	short	m_RegionX{};						// ÇöÀç ¿µ¿ª X ÁÂÇ¥
+	short	m_RegionZ{};						// ÇöÀç ¿µ¿ª Z ÁÂÇ¥
 
-	int		m_iMaxExp;						// ë‹¤ìŒ ë ˆë²¨ì´ ë˜ê¸° ìœ„í•´ í•„ìš”í•œ ExpëŸ‰
-	short	m_sMaxWeight;					// ë“¤ ìˆ˜ ìˆëŠ” ìµœëŒ€ ë¬´ê²Œ
-	BYTE    m_sSpeed;						// ìŠ¤í”¼ë“œ
+	int		m_iMaxExp{};						// ´ÙÀ½ ·¹º§ÀÌ µÇ±â À§ÇØ ÇÊ¿äÇÑ Exp·®
+	short	m_sMaxWeight{};					// µé ¼ö ÀÖ´Â ÃÖ´ë ¹«°Ô
+	BYTE    m_sSpeed{};						// ½ºÇÇµå
 
-	short	m_sBodyAc;						// ë§¨ëª¸ ë°©ì–´ë ¥
+	short	m_sBodyAc{};						// ¸Ç¸ö ¹æ¾î·Â
 
-	short	m_sTotalHit;					// ì´ íƒ€ê²©ê³µê²©ë ¥	
-	short	m_sTotalAc;						// ì´ ë°©ì–´ë ¥
-	float	m_sTotalHitrate;				// ì´ ê³µê²©ì„±ê³µ ë¯¼ì²©ì„±
-	float	m_sTotalEvasionrate;			// ì´ ë°©ì–´ ë¯¼ì²©ì„±
+	short	m_sTotalHit{};					// ÃÑ Å¸°İ°ø°İ·Â	
+	short	m_sTotalAc{};						// ÃÑ ¹æ¾î·Â
+	float	m_sTotalHitrate{};				// ÃÑ °ø°İ¼º°ø ¹ÎÃ¸¼º
+	float	m_sTotalEvasionrate{};			// ÃÑ ¹æ¾î ¹ÎÃ¸¼º
 
-	short   m_sItemMaxHp;                   // ì•„ì´í…œ ì´ ìµœëŒ€ HP Bonus
-	short   m_sItemMaxMp;                   // ì•„ì´í…œ ì´ ìµœëŒ€ MP Bonus
-	short	m_sItemWeight;					// ì•„ì´í…œ ì´ë¬´ê²Œ
-	short	m_sItemHit;						// ì•„ì´í…œ ì´íƒ€ê²©ì¹˜
-	short	m_sItemAc;						// ì•„ì´í…œ ì´ë°©ì–´ë ¥
-	short	m_sItemStr;						// ì•„ì´í…œ ì´í˜ ë³´ë„ˆìŠ¤
-	short	m_sItemSta;						// ì•„ì´í…œ ì´ì²´ë ¥ ë³´ë„ˆìŠ¤
-	short	m_sItemDex;						// ì•„ì´í…œ ì´ë¯¼ì²©ì„± ë³´ë„ˆìŠ¤
-	short	m_sItemIntel;					// ì•„ì´í…œ ì´ì§€ëŠ¥ ë³´ë„ˆìŠ¤
-	short	m_sItemCham;					// ì•„ì´í…œ ì´ë§¤ë ¥ë³´ë„ˆìŠ¤
-	short	m_sItemHitrate;					// ì•„ì´í…œ ì´íƒ€ê²©ìœ¨
-	short	m_sItemEvasionrate;				// ì•„ì´í…œ ì´íšŒí”¼ìœ¨
+	short   m_sItemMaxHp{};                   // ¾ÆÀÌÅÛ ÃÑ ÃÖ´ë HP Bonus
+	short   m_sItemMaxMp{};                   // ¾ÆÀÌÅÛ ÃÑ ÃÖ´ë MP Bonus
+	short	m_sItemWeight{};					// ¾ÆÀÌÅÛ ÃÑ¹«°Ô
+	short	m_sItemHit{};						// ¾ÆÀÌÅÛ ÃÑÅ¸°İÄ¡
+	short	m_sItemAc{};						// ¾ÆÀÌÅÛ ÃÑ¹æ¾î·Â
+	short	m_sItemStr{};						// ¾ÆÀÌÅÛ ÃÑÈû º¸³Ê½º
+	short	m_sItemSta{};						// ¾ÆÀÌÅÛ ÃÑÃ¼·Â º¸³Ê½º
+	short	m_sItemDex{};						// ¾ÆÀÌÅÛ ÃÑ¹ÎÃ¸¼º º¸³Ê½º
+	short	m_sItemIntel{};					// ¾ÆÀÌÅÛ ÃÑÁö´É º¸³Ê½º
+	short	m_sItemCham{};					// ¾ÆÀÌÅÛ ÃÑ¸Å·Âº¸³Ê½º
+	short	m_sItemHitrate{};					// ¾ÆÀÌÅÛ ÃÑÅ¸°İÀ²
+	short	m_sItemEvasionrate{};				// ¾ÆÀÌÅÛ ÃÑÈ¸ÇÇÀ²
 
-	BYTE	m_bFireR;						// ë¶ˆ ë§ˆë²• ì €í•­ë ¥
-	BYTE	m_bColdR;						// ì–¼ìŒ ë§ˆë²• ì €í•­ë ¥
-	BYTE	m_bLightningR;					// ì „ê¸° ë§ˆë²• ì €í•­ë ¥
-	BYTE	m_bMagicR;						// ê¸°íƒ€ ë§ˆë²• ì €í•­ë ¥
-	BYTE	m_bDiseaseR;					// ì €ì£¼ ë§ˆë²• ì €í•­ë ¥
-	BYTE	m_bPoisonR;						// ë… ë§ˆë²• ì €í•­ë ¥
+	BYTE	m_bFireR{};						// ºÒ ¸¶¹ı ÀúÇ×·Â
+	BYTE	m_bColdR{};						// ¾óÀ½ ¸¶¹ı ÀúÇ×·Â
+	BYTE	m_bLightningR{};					// Àü±â ¸¶¹ı ÀúÇ×·Â
+	BYTE	m_bMagicR{};						// ±âÅ¸ ¸¶¹ı ÀúÇ×·Â
+	BYTE	m_bDiseaseR{};					// ÀúÁÖ ¸¶¹ı ÀúÇ×·Â
+	BYTE	m_bPoisonR{};						// µ¶ ¸¶¹ı ÀúÇ×·Â
 
-	BYTE    m_bMagicTypeLeftHand;			// The type of magic item in user's left hand  
-	BYTE    m_bMagicTypeRightHand;			// The type of magic item in user's right hand
-	short   m_sMagicAmountLeftHand;         // The amount of magic item in user's left hand
-	short	m_sMagicAmountRightHand;        // The amount of magic item in user's left hand
+	BYTE    m_bMagicTypeLeftHand{};			// The type of magic item in user's left hand  
+	BYTE    m_bMagicTypeRightHand{};			// The type of magic item in user's right hand
+	short   m_sMagicAmountLeftHand{};         // The amount of magic item in user's left hand
+	short	m_sMagicAmountRightHand{};        // The amount of magic item in user's left hand
 
-	short   m_sDaggerR;						// Resistance to Dagger
-	short   m_sSwordR;						// Resistance to Sword
-	short	m_sAxeR;						// Resistance to Axe
-	short	m_sMaceR;						// Resistance to Mace
-	short	m_sSpearR;						// Resistance to Spear
-	short	m_sBowR;						// Resistance to Bow		
+	short   m_sDaggerR{};						// Resistance to Dagger
+	short   m_sSwordR{};						// Resistance to Sword
+	short	m_sAxeR{};						// Resistance to Axe
+	short	m_sMaceR{};						// Resistance to Mace
+	short	m_sSpearR{};						// Resistance to Spear
+	short	m_sBowR{};						// Resistance to Bow		
 
-	short	m_iMaxHp;
-	short	m_iMaxMp;
+	short	m_iMaxHp{};
+	short	m_iMaxMp{};
 	
-	short	m_iZoneIndex;
+	short	m_iZoneIndex{};
 
-	float	m_fWill_x;
-	float	m_fWill_z;
-	float	m_fWill_y;
+	float	m_fWill_x{};
+	float	m_fWill_z{};
+	float	m_fWill_y{};
 
-	BYTE	m_bResHpType;					// HP íšŒë³µíƒ€ì…
-	BYTE	m_bWarp;						// ì¡´ì´ë™ì¤‘...
-	BYTE	m_bNeedParty;					// íŒŒí‹°....êµ¬í•´ìš”
+	BYTE	m_bResHpType{};					// HP È¸º¹Å¸ÀÔ
+	BYTE	m_bWarp{};						// Á¸ÀÌµ¿Áß...
+	BYTE	m_bNeedParty{};					// ÆÄÆ¼....±¸ÇØ¿ä
 
-	short	m_sPartyIndex;
-	short	m_sExchangeUser;				// êµí™˜ì¤‘ì¸ ìœ ì €
-	BYTE	m_bExchangeOK;
+	short	m_sPartyIndex{};
+	short	m_sExchangeUser{};				// ±³È¯ÁßÀÎ À¯Àú
+	BYTE	m_bExchangeOK{};
 
-	ItemList	m_ExchangeItemList;
-	_ITEM_DATA	m_MirrorItem[HAVE_MAX];			// êµí™˜ì‹œ ë°±ì—… ì•„ì´í…œ ë¦¬ìŠ¤íŠ¸ë¥¼ ì“´ë‹¤.
+	ItemList	m_ExchangeItemList{};
+	_ITEM_DATA	m_MirrorItem[HAVE_MAX];			// ±³È¯½Ã ¹é¾÷ ¾ÆÀÌÅÛ ¸®½ºÆ®¸¦ ¾´´Ù.
 
-	short	m_sPrivateChatUser;
+	short	m_sPrivateChatUser{};
 
-	float	m_fHPLastTimeNormal;					// For Automatic HP recovery. 
-	float	m_fHPStartTimeNormal;
-	short	m_bHPAmountNormal;
-	BYTE	m_bHPDurationNormal;
-	BYTE	m_bHPIntervalNormal;
+	float	m_fHPLastTimeNormal{};					// For Automatic HP recovery. 
+	float	m_fHPStartTimeNormal{};
+	short	m_bHPAmountNormal{};
+	BYTE	m_bHPDurationNormal{};
+	BYTE	m_bHPIntervalNormal{};
 
 	float	m_fHPLastTime[MAX_TYPE3_REPEAT];		// For Automatic HP recovery and Type 3 durational HP recovery.
 	float	m_fHPStartTime[MAX_TYPE3_REPEAT];
@@ -115,82 +115,82 @@ public:
 	BYTE	m_bHPDuration[MAX_TYPE3_REPEAT];
 	BYTE	m_bHPInterval[MAX_TYPE3_REPEAT];
 	short	m_sSourceID[MAX_TYPE3_REPEAT];
-	BOOL	m_bType3Flag;
+	BOOL	m_bType3Flag{};
 
-	float	m_fAreaLastTime;			// For Area Damage spells Type 3.
-	float   m_fAreaStartTime;
-	BYTE    m_bAreaInterval;
-	int     m_iAreaMagicID;
+	float	m_fAreaLastTime{};			// For Area Damage spells Type 3.
+	float   m_fAreaStartTime{};
+	BYTE    m_bAreaInterval{};
+	int     m_iAreaMagicID{};
 
-	BYTE	m_bAttackSpeedAmount;		// For Character stats in Type 4 Durational Spells.
-	BYTE    m_bSpeedAmount;
-	short   m_sACAmount;
-	BYTE    m_bAttackAmount;
-	short	m_sMaxHPAmount;
-	BYTE	m_bHitRateAmount;
-	short	m_sAvoidRateAmount;
-	BYTE	m_bStrAmount;
-	BYTE	m_bStaAmount;
-	BYTE	m_bDexAmount;
-	BYTE	m_bIntelAmount;
-	BYTE	m_bChaAmount;
-	BYTE	m_bFireRAmount;
-	BYTE	m_bColdRAmount;
-	BYTE	m_bLightningRAmount;
-	BYTE	m_bMagicRAmount;
-	BYTE	m_bDiseaseRAmount;
-	BYTE	m_bPoisonRAmount;	
+	BYTE	m_bAttackSpeedAmount{};		// For Character stats in Type 4 Durational Spells.
+	BYTE    m_bSpeedAmount{};
+	short   m_sACAmount{};
+	BYTE    m_bAttackAmount{};
+	short	m_sMaxHPAmount{};
+	BYTE	m_bHitRateAmount{};
+	short	m_sAvoidRateAmount{};
+	BYTE	m_bStrAmount{};
+	BYTE	m_bStaAmount{};
+	BYTE	m_bDexAmount{};
+	BYTE	m_bIntelAmount{};
+	BYTE	m_bChaAmount{};
+	BYTE	m_bFireRAmount{};
+	BYTE	m_bColdRAmount{};
+	BYTE	m_bLightningRAmount{};
+	BYTE	m_bMagicRAmount{};
+	BYTE	m_bDiseaseRAmount{};
+	BYTE	m_bPoisonRAmount{};
 	
-	short   m_sDuration1 ;  float   m_fStartTime1 ;
-	short   m_sDuration2 ;  float   m_fStartTime2 ;
-	short   m_sDuration3 ;  float   m_fStartTime3 ;
-	short   m_sDuration4 ;  float   m_fStartTime4 ;
-	short   m_sDuration5 ;  float   m_fStartTime5 ;
-	short   m_sDuration6 ;  float   m_fStartTime6 ;
-	short   m_sDuration7 ;  float   m_fStartTime7 ;
-	short   m_sDuration8 ;  float   m_fStartTime8 ;
-	short   m_sDuration9 ;  float   m_fStartTime9 ;
+	short   m_sDuration1{};  float   m_fStartTime1{};
+	short   m_sDuration2{};  float   m_fStartTime2{};
+	short   m_sDuration3{};  float   m_fStartTime3{};
+	short   m_sDuration4{};  float   m_fStartTime4{};
+	short   m_sDuration5{};  float   m_fStartTime5{};
+	short   m_sDuration6{};  float   m_fStartTime6{};
+	short   m_sDuration7{};  float   m_fStartTime7{};
+	short   m_sDuration8{};  float   m_fStartTime8{};
+	short   m_sDuration9{};  float   m_fStartTime9{};
 
 	BYTE	m_bType4Buff[MAX_TYPE4_BUFF];
-	BOOL	m_bType4Flag;
+	BOOL	m_bType4Flag{};
 		
-	CEbenezerDlg* m_pMain;
+	CEbenezerDlg* m_pMain{};
 	CMagicProcess m_MagicProcess;
 
-	float	m_fSpeedHackClientTime, m_fSpeedHackServerTime;
-	BYTE	m_bSpeedHackCheck;
+	float	m_fSpeedHackClientTime{}, m_fSpeedHackServerTime{};
+	BYTE	m_bSpeedHackCheck{};
 
-	short	m_sFriendUser;				// who are you trying to make friends with?
+	short	m_sFriendUser{};				// who are you trying to make friends with?
 
-	float	m_fBlinkStartTime;			// When did you start to blink?
+	float	m_fBlinkStartTime{};			// When did you start to blink?
 
-	short	m_sAliveCount;
+	short	m_sAliveCount{};
 
 	BYTE	m_bAbnormalType;			// Is the player normal,a giant, or a dwarf?
 
-	short	m_sWhoKilledMe;				// Who killed me???
-	int		m_iLostExp;					// Experience point that was lost when you died.
+	short	m_sWhoKilledMe{};				// Who killed me???
+	int		m_iLostExp{};					// Experience point that was lost when you died.
 
-	float	m_fLastTrapAreaTime;		// The last moment you were in the trap area.
+	float	m_fLastTrapAreaTime{};		// The last moment you were in the trap area.
 
-	BOOL	m_bZoneChangeFlag;			// ì„±ìš©ì”¨ ë¯¸ì›Œ!!
+	BOOL	m_bZoneChangeFlag{};			// ¼º¿ë¾¾ ¹Ì¿ö!!
 
-	BYTE	m_bRegeneType;				// Did you die and go home or did you type '/town'?
+	BYTE	m_bRegeneType{};				// Did you die and go home or did you type '/town'?
 
-	float	m_fLastRegeneTime;			// The last moment you got resurrected.
+	float	m_fLastRegeneTime{};			// The last moment you got resurrected.
 
-	BOOL	m_bZoneChangeSameZone;		// Did the server change when you warped?
+	BOOL	m_bZoneChangeSameZone{};		// Did the server change when you warped?
 
-	// ì´ë°´íŠ¸ìš© ê´€ë ¨.... ì •ì• ì”¨ ì´ê±° ë³´ë©´ ì½”ì¹´ìŠ¤ ì ê»˜ìš” ^^;
-//	int					m_iSelMsgEvent[5];	// ì‹¤í–‰ì¤‘ì¸ ì„ íƒ ë©”ì„¸ì§€ë°•ìŠ¤ ì´ë²¤íŠ¸
-	int					m_iSelMsgEvent[MAX_MESSAGE_EVENT];	// ì‹¤í–‰ì¤‘ì¸ ì„ íƒ ë©”ì„¸ì§€ë°•ìŠ¤ ì´ë²¤íŠ¸
-	short				m_sEventNid;		// ë§ˆì§€ë§‰ìœ¼ë¡œ ì„ íƒí•œ ì´ë²¤íŠ¸ NPC ë²ˆí˜¸
-	UserEventList		m_arUserEvent;		// ì‹¤í–‰í•œ ì´ë²¤íŠ¸ ë¦¬ìŠ¤íŠ¸
+	// ÀÌ¹êÆ®¿ë °ü·Ã.... Á¤¾Ö¾¾ ÀÌ°Å º¸¸é ÄÚÄ«½º ½ò²²¿ä ^^;
+//	int					m_iSelMsgEvent[5];	// ½ÇÇàÁßÀÎ ¼±ÅÃ ¸Ş¼¼Áö¹Ú½º ÀÌº¥Æ®
+	int					m_iSelMsgEvent[MAX_MESSAGE_EVENT];	// ½ÇÇàÁßÀÎ ¼±ÅÃ ¸Ş¼¼Áö¹Ú½º ÀÌº¥Æ®
+	short				m_sEventNid{};		// ¸¶Áö¸·À¸·Î ¼±ÅÃÇÑ ÀÌº¥Æ® NPC ¹øÈ£
+	UserEventList		m_arUserEvent{};		// ½ÇÇàÇÑ ÀÌº¥Æ® ¸®½ºÆ®
 
 	char	m_strCouponId[MAX_COUPON_ID_LENGTH];		// What was the number of the coupon?
-	int		m_iEditBoxEvent;
+	int		m_iEditBoxEvent{};
 
-	short	m_sEvent[MAX_CURRENT_EVENT];				// ì´ë¯¸ ì‹¤í–‰ëœ ì´ë°´íŠ¸ ë¦¬ìŠ¤íŠ¸ë“¤ :)
+	short	m_sEvent[MAX_CURRENT_EVENT];				// ÀÌ¹Ì ½ÇÇàµÈ ÀÌ¹êÆ® ¸®½ºÆ®µé :)
 	
 
 public:
@@ -351,7 +351,7 @@ public:
 	void SendTimeStatus();
 	void Regene(char* pBuf, int magicid = 0);
 	void SetMaxMp();
-	void SetMaxHp(int iFlag=0); // 0:default, 1:hpë¥¼ maxhpë§Œí¼ ì±„ì›Œì£¼ê¸°
+	void SetMaxHp(int iFlag=0); // 0:default, 1:hp¸¦ maxhp¸¸Å­ Ã¤¿öÁÖ±â
 	void ExpChange(int iExp);
 	void Chat( char* pBuf );
 	void LogOut();

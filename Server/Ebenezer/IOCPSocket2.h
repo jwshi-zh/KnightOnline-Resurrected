@@ -11,10 +11,6 @@
 
 #include "IOCPort.h"
 #include "Define.h"
-// Cryption
-#include "JvCryption.h"
-///~
-
 
 #define receives				0
 #define sends					1
@@ -26,7 +22,7 @@ class CCompressMng;
 class CIOCPSocket2  
 {
 public:
-	void SendCryptionKey();
+
 	void RegioinPacketClear( char* GetBuf, int & len );
 	void RegionPacketAdd( char* pBuf, int len );
 	void SendCompressingPacket( const char* pData, int len );
@@ -82,14 +78,6 @@ protected:
 	BYTE			m_State;
 	int			m_Sid;
 	LPCTSTR		m_ConnectAddress;
-
-	// Cryption
-	CJvCryption			jct;
-	int					m_CryptionFlag;
-	T_KEY				m_Public_key;
-	DWORD				m_Sen_val;
-	DWORD				m_Rec_val;
-	///~
 
 	DWORD		m_wPacketSerial;
 };

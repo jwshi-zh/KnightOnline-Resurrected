@@ -89,4 +89,110 @@ void LOGIC_ELSE::Parse_and(char *pBuf)
 		index += ParseSpace( temp, pBuf+index );	m_LogicElseInt[i++] = atoi( temp );		// Weight & Empty Slot
 		index += ParseSpace( temp, pBuf+index );	m_LogicElseInt[i++] = atoi( temp );		// Weight & Empty Slot
 	}
-// ÈçÆ
+// ∫Ò∑Ø∏”±€ ∫π±«!!!
+	else if( !strcmp( temp, "CHECK_EDITBOX") )
+	{
+		m_LogicElse = LOGIC_CHECK_EDITBOX;
+
+		index += ParseSpace( temp, pBuf+index );	m_LogicElseInt[i++] = atoi( temp );
+	}
+	else if( !strcmp( temp, "RAND") )
+	{
+		m_LogicElse = LOGIC_RAND;
+
+		index += ParseSpace( temp, pBuf+index );	m_LogicElseInt[i++] = atoi( temp );		// Chances of you hitting the jackpot		
+	}
+//
+	// «ˆ¿Á ø©±‚±Ó¡ˆ∏∏ æ≤¿‘¥œ¥Ÿ. æ∆∑°¥¬ ≥™¡ﬂø° ∏¬∞‘ ºˆ¡§«ÿº≠ æ≤ººø©.
+
+
+/*
+	if( !strcmp( temp, "CHECK_NATION" ) )
+	{
+		m_LogicElse = LOGIC_CHECK_NATION;
+
+		index += ParseSpace( temp, pBuf+index );	m_LogicElseInt[i++] = atoi( temp );		// Nation
+	}
+	else if( !strcmp( temp, "CHECK_LV" ) )
+	{
+		m_LogicElse = LOGIC_CHECK_LEVEL;
+
+		index += ParseSpace( temp, pBuf+index );	m_LogicElseInt[i++] = atoi( temp );		// Minimum level
+		index += ParseSpace( temp, pBuf+index );	m_LogicElseInt[i++] = atoi( temp );		// Maximum level
+	}
+	else if( !strcmp( temp, "NOEXIST_ITEM" ) )
+	{
+		m_LogicElse = LOGIC_NOEXIST_ITEM;
+
+		index += ParseSpace( temp, pBuf+index );	m_LogicElseInt[i++] = atoi( temp );		// Item no.
+	}
+	else if( !strcmp( temp, "NOQUEST_END" ) )
+	{
+		m_LogicElse = LOGIC_QUEST_END;
+
+		index += ParseSpace( temp, pBuf+index );	m_LogicElseInt[i++] = atoi( temp );		// Quest no.
+	}
+	else if( !strcmp( temp, "CHECK_QUEST_LOG" ) )
+	{
+		m_LogicElse = LOGIC_QUEST_LOG;
+
+		index += ParseSpace( temp, pBuf+index );	m_LogicElseInt[i++] = atoi( temp );		// Quest no.
+	}
+
+	else if( !strcmp( temp, "CHECK_NOAH" ) )
+	{
+		m_LogicElse = LOGIC_CHECK_NOAH;
+
+		index += ParseSpace( temp, pBuf+index );	m_LogicElseInt[i++] = atoi( temp );		// Gold
+	}
+*/
+///////////////////////// ø©±‚º≠ ∫Œ≈œ ≥ª∞° «—¿œ ///////////////////////////
+
+/*
+	else if( !strcmp( temp, "CHECK_CLASS" ) )
+	{
+		m_LogicElse = LOGIC_CHECK_CLASS;
+
+		index += ParseSpace( temp, pBuf+index );	m_LogicElseInt[i++] = atoi( temp );		// Class 1
+		index += ParseSpace( temp, pBuf+index );	m_LogicElseInt[i++] = atoi( temp );		// Class 2
+		index += ParseSpace( temp, pBuf+index );	m_LogicElseInt[i++] = atoi( temp );		// Class 3
+		index += ParseSpace( temp, pBuf+index );	m_LogicElseInt[i++] = atoi( temp );		// Class 4
+		index += ParseSpace( temp, pBuf+index );	m_LogicElseInt[i++] = atoi( temp );		// Class 5
+		index += ParseSpace( temp, pBuf+index );	m_LogicElseInt[i++] = atoi( temp );		// Class 6
+	}
+	else if( !strcmp( temp, "CHECK_WEIGHT" ) )
+	{
+		m_LogicElse = LOGIC_CHECK_WEIGHT;
+
+		index += ParseSpace( temp, pBuf+index );	m_LogicElseInt[i++] = atoi( temp );		// Weight & Empty Slot
+		index += ParseSpace( temp, pBuf+index );	m_LogicElseInt[i++] = atoi( temp );		// Weight & Empty Slot
+	}
+	else if( !strcmp( temp, "CHECK_SKILLPOINT" ) )
+	{
+		m_LogicElse = LOGIC_CHECK_SKILLPOINT;
+
+		index += ParseSpace( temp, pBuf+index );	m_LogicElseInt[i++] = atoi( temp );		// SkillPoint
+		index += ParseSpace( temp, pBuf+index );	m_LogicElseInt[i++] = atoi( temp );		// Below
+		index += ParseSpace( temp, pBuf+index );	m_LogicElseInt[i++] = atoi( temp );		// Above
+	}
+	else if( !strcmp( temp, "EXIST_ITEM" ) )
+	{
+		m_LogicElse = LOGIC_EXIST_ITEM;
+
+		index += ParseSpace( temp, pBuf+index );	m_LogicElseInt[i++] = atoi( temp );		// Item no.
+		index += ParseSpace( temp, pBuf+index );	m_LogicElseInt[i++] = atoi( temp );		// Item count
+	}
+*/
+
+////////////////////////////////////////////////////////////////////////////
+	m_bAnd = TRUE;
+}
+
+void LOGIC_ELSE::Parse_or(char *pBuf)
+{
+	int index = 0, i = 0;
+	char temp[1024];
+
+	index += ParseSpace( temp, pBuf+index );
+	m_bAnd = FALSE;
+}

@@ -20,7 +20,7 @@ public:
 	typedef map < int, T* >::iterator		Iterator;
 	typedef map < int, T* >::value_type		ValueType;
 
-	map < int, T* >		m_UserTypeMap;
+	map < int, T* >		m_UserTypeMap{};
 	
 
 	int GetSize() { return m_UserTypeMap.size(); };

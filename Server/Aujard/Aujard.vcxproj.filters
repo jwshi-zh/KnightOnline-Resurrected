@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{8861ea00-0245-4a45-abee-276203b9687c}</UniqueIdentifier>
+      <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Aujard.cpp" />
+    <ClCompile Include="StdAfx.cpp" />
+    <ClCompile Include="SharedMem.cpp" />
+    <ClCompile Include="ItemTableSet.cpp" />
+    <ClCompile Include="DBAgent.cpp" />
+    <ClCompile Include="AujardDlg.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Define.h" />
+    <ClInclude Include="DBAgent.h" />
+    <ClInclude Include="SharedMem.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="StdAfx.h" />
+    <ClInclude Include="ItemTableSet.h" />
+    <ClInclude Include="STLMap.h" />
+    <ClInclude Include="Aujard.h" />
+    <ClInclude Include="AujardDlg.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\Aujard.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="res\Aujard.rc2">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Aujard.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>
