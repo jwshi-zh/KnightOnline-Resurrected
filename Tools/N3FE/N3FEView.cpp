@@ -82,7 +82,7 @@ void CN3FEView::OnDraw(CDC* pDC)
 	pFrm->m_Eng.s_lpD3DDev->EndScene();
 	pFrm->m_Eng.Present(m_hWnd);
 
-	// 프레임 표시
+	// display frame
 	DWORD dwTick = GetTickCount();
 	static DWORD dwTickPrev = dwTick;
 	static CString szFPS;
@@ -195,8 +195,8 @@ void CN3FEView::OnLButtonDown(UINT nFlags, CPoint point)
 	vPlane[3].Set(-fPlane, 0, -fPlane);
 
 	float fT, fU, fV;
-	::_IntersectTriangle(vPos, vDir, vPlane[0], vPlane[1], vPlane[2], fT, fU, fV, &m_vTarget); // 바닥과 충돌을 검출한다..
-	::_IntersectTriangle(vPos, vDir, vPlane[0], vPlane[2], vPlane[3], fT, fU, fV, &m_vTarget); // 바닥과 충돌을 검출한다..
+	::_IntersectTriangle(vPos, vDir, vPlane[0], vPlane[1], vPlane[2], fT, fU, fV, &m_vTarget); // Detect collision with the floor..
+	::_IntersectTriangle(vPos, vDir, vPlane[0], vPlane[2], vPlane[3], fT, fU, fV, &m_vTarget); // Detect collision with the floor..
 	
 	CView::OnLButtonDown(nFlags, point);
 }

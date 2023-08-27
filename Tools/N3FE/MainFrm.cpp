@@ -75,12 +75,12 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	EnableDocking(CBRS_ALIGN_ANY);
 	DockControlBar(&m_wndToolBar);
 
-	// Engine 생성
+	// Create engine
 //	m_Eng.InitEnv();
 	if(m_Eng.Init(TRUE, m_hWnd, 64, 64, 0, TRUE) == false) return -1;
-	m_Eng.GridCreate(200, 200); // 그리드 만들기..
+	m_Eng.GridCreate(200, 200); // Create grid..
 
-	// 기본 카메라 & Light 만들기..
+	// Creating a Basic Camera & Light
 	m_Camera.EyePosSet(5, 5, 5);
 	D3DCOLORVALUE crLgt = { 1.0f, 1.0f, 1.0f, 0 };
 	m_Light.m_Data.InitDirection(0, __Vector3(0, 1, 0), crLgt);

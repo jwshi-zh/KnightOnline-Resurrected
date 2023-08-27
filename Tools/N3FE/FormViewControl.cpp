@@ -238,8 +238,8 @@ void CFormViewControl::OnTimer(UINT nIDEvent)
 		pFrm->GetPaneRender()->InvalidateRect(NULL, FALSE);
 
 		CN3FEDoc* pDoc = GetDocument();
-		int nEIC = pDoc->m_EffectMgr.InstanceCount(); // Effect Instance 갯수..
-		if(nEIC <= 0) KillTimer(0); // 하나도 없으면.. 타이머 죽이기..
+		int nEIC = pDoc->m_EffectMgr.InstanceCount(); // The number of Effect Instances...
+		if(nEIC <= 0) KillTimer(0); // If you don't have one kill the timer
 	}
 	
 	CFormView::OnTimer(nIDEvent);
@@ -259,10 +259,10 @@ void CFormViewControl::OnBTrigger()
 
 	pDoc->m_EffectMgr.Trigger(pEB->szName, __Vector3(0, 0, 0), vTarget);
 
-	int nEIC = pDoc->m_EffectMgr.InstanceCount(); // Effect Instance 갯수..
+	int nEIC = pDoc->m_EffectMgr.InstanceCount(); // The number of Effect Instances...
 	if(nEIC <= 1)
 	{
-		SetTimer(0, 10, NULL); // 하나도 없으면.. 타이머 작동..
+		SetTimer(0, 10, NULL); // If there is none, the timer works
 	}
 }
 

@@ -48,7 +48,7 @@ BOOL CN3FEDoc::OnNewDocument()
 
 //	char szPath[256] = "";
 //	::GetCurrentDirectory(256, szPath);
-//	m_EffectMgr.PathSet(szPath); // Path 초기화..
+//	m_EffectMgr.PathSet(szPath); // Path Reset - init
 	
 	this->UpdateAllViews(NULL);
 
@@ -95,14 +95,14 @@ BOOL CN3FEDoc::OnOpenDocument(LPCTSTR lpszPathName)
 	if (!CDocument::OnOpenDocument(lpszPathName))
 		return FALSE;
 
-	char szDrive[_MAX_DRIVE], szDir[_MAX_DIR], szFName[_MAX_FNAME], szExt[_MAX_EXT]; // 파일 이름을 분리하고..
+	char szDrive[_MAX_DRIVE], szDir[_MAX_DIR], szFName[_MAX_FNAME], szExt[_MAX_EXT]; // separate file names
 	_splitpath(lpszPathName, szDrive, szDir, szFName, szExt);
 
 	char szTmp[256];
-	GetPrivateProfileString("Effect Manager", "Name", "NoName", szFName, _MAX_PATH, lpszPathName); // Ini 파일에 이름 쓰기..
-	GetPrivateProfileString("Effect Manager", "BundelCount", "0", szTmp, 256, lpszPathName); // Ini 파일에 뭉치 숫자 쓰기..
+	GetPrivateProfileString("Effect Manager", "Name", "NoName", szFName, _MAX_PATH, lpszPathName); // Read name to ini file
+	GetPrivateProfileString("Effect Manager", "BundelCount", "0", szTmp, 256, lpszPathName); // Read bundle numbers to ini file
 	int nBC = atoi(szTmp);
-	GetPrivateProfileString("Effect Manager", "PartCount", "0", szTmp, 256, lpszPathName); // Ini 파일에 파트 숫자 쓰기..
+	GetPrivateProfileString("Effect Manager", "PartCount", "0", szTmp, 256, lpszPathName); // Read part number to ini file
 	int nPC = atoi(szTmp);
 
 	for(int i = 0; i < nBC; i++)
@@ -172,15 +172,15 @@ BOOL CN3FEDoc::OnSaveDocument(LPCTSTR lpszPathName)
 	if(!CDocument::OnSaveDocument(lpszPathName))
 		return FALSE;
 
-	char szDrive[_MAX_DRIVE], szDir[_MAX_DIR], szFName[_MAX_FNAME], szExt[_MAX_EXT]; // 파일 이름을 분리하고..
+	char szDrive[_MAX_DRIVE], szDir[_MAX_DIR], szFName[_MAX_FNAME], szExt[_MAX_EXT]; // separate file names
 	_splitpath(lpszPathName, szDrive, szDir, szFName, szExt);
 
 	///////////////////////////////////////////////////
-	// Binary 저장..
+	// Binary save..
 	char szGameFN[512];
 	_makepath(szGameFN, szDrive, szDir, szFName, ".N3FX");
-	m_EffectMgr.SaveToFile(szGameFN); // Binary 저장..
-	// Binary 저장..
+	m_EffectMgr.SaveToFile(szGameFN); // Binary save..
+	// Binary save..
 	///////////////////////////////////////////////////
 
 	CFile file;
@@ -191,14 +191,14 @@ BOOL CN3FEDoc::OnSaveDocument(LPCTSTR lpszPathName)
 	file.Close();
 
 	CString szTmp;
-	WritePrivateProfileString("Effect Manager", "Name", szFName, lpszPathName); // Ini 파일에 이름 쓰기..
+	WritePrivateProfileString("Effect Manager", "Name", szFName, lpszPathName); // Write name to ini file
 	szTmp.Format("%d", m_EffectMgr.BundleCount());
-	WritePrivateProfileString("Effect Manager", "BundelCount", szTmp, lpszPathName); // Ini 파일에 뭉치 숫자 쓰기..
+	WritePrivateProfileString("Effect Manager", "BundelCount", szTmp, lpszPathName); // Write bundle count
 	szTmp.Format("%d", m_EffectMgr.PartCount());
-	WritePrivateProfileString("Effect Manager", "PartCount", szTmp, lpszPathName); // Ini 파일에 파트 숫자 쓰기..
+	WritePrivateProfileString("Effect Manager", "PartCount", szTmp, lpszPathName); // Write part count
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// Text 저장..
+	// Text save..
 	CString szBundleFN, szBS;
 	for(int i = 0; i < m_szBundleScripts.GetSize(); i++)
 	{
@@ -232,7 +232,7 @@ BOOL CN3FEDoc::OnSaveDocument(LPCTSTR lpszPathName)
 		}
 		file.Close();
 	}
-	// Text 저장..
+	// Text save..
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	return TRUE;

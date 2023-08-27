@@ -125,8 +125,8 @@ void CDlgRename::OnBConvert()
 		}
 		if(nF2 < 0) continue;
 		CString szDir = szPath.Left(nF2+1);
-		CString szExt = szPath.Mid(nF + 1, szPath.GetLength() - nF); // 확장자..
-		CString szNew = szDir + szName; // 이름
+		CString szExt = szPath.Mid(nF + 1, szPath.GetLength() - nF); // extension
+		CString szNew = szDir + szName; // name
 
 		CString szAdd;
 		if(nDigit == 0) szAdd.Format("%.1d.%s", nSeq, szExt);
