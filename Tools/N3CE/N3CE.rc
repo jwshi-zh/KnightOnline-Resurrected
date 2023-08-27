@@ -105,104 +105,104 @@ END
 
 IDR_MAINFRAME MENU PRELOAD DISCARDABLE 
 BEGIN
-    POPUP "파일(&F)"
+    POPUP "File(&F)"
     BEGIN
-        MENUITEM "새 파일(&N)\tCtrl+N",         ID_FILE_NEW
-        MENUITEM "열기(&O)...\tCtrl+O",         ID_FILE_OPEN
-        MENUITEM "저장(&S)\tCtrl+S",            ID_FILE_SAVE
-        MENUITEM "다른 이름으로 저장(&A)...",   ID_FILE_SAVE_AS
-        MENUITEM "한 폴더에 모두 몰아서 저장(&F)", 
+        MENUITEM "New file(&N)\tCtrl+N",         ID_FILE_NEW
+        MENUITEM "Open(&O)...\tCtrl+O",         ID_FILE_OPEN
+        MENUITEM "Save(&S)\tCtrl+S",            ID_FILE_SAVE
+        MENUITEM "save As(&A)...",   ID_FILE_SAVE_AS
+        MENUITEM "Save all as one Folder(&F)", 
                                                 ID_FILE_SAVE_AS_ONE_FOLDER
-        MENUITEM "선택된 객체 저장",            ID_FILE_SAVE_SELECTED
+        MENUITEM "Save selected object",            ID_FILE_SAVE_SELECTED
         MENUITEM SEPARATOR
-        MENUITEM "인쇄(&P)...\tCtrl+P",         ID_FILE_PRINT
-        MENUITEM "인쇄 미리 보기(&V)",          ID_FILE_PRINT_PREVIEW
-        MENUITEM "인쇄 설정(&R)...",            ID_FILE_PRINT_SETUP
+        MENUITEM "Print(&P)...\tCtrl+P",         ID_FILE_PRINT
+        MENUITEM "print preView기(&V)",          ID_FILE_PRINT_PREVIEW
+        MENUITEM "pRint Settings(&R)...",            ID_FILE_PRINT_SETUP
         MENUITEM SEPARATOR
-        MENUITEM "최근 파일",                   ID_FILE_MRU_FILE1, GRAYED
+        MENUITEM "Recent Files",                   ID_FILE_MRU_FILE1, GRAYED
         MENUITEM SEPARATOR
-        MENUITEM "종료(&X)",                    ID_APP_EXIT
+        MENUITEM "eXit(&X)",                    ID_APP_EXIT
     END
-    POPUP "편집(&E)"
+    POPUP "Edit(&E)"
     BEGIN
-        POPUP "캐릭터 Joint 편집\t(&J)"
+        POPUP "character Joint edit\t(&J)"
         BEGIN
-            MENUITEM "Joint 지정\t(&S)",            ID_EDIT_CHR_JOINT_SET
-            MENUITEM "선택된 객체 저장",            ID_FILE_SAVE_SELECTED
+            MENUITEM "Joint assign\t(&S)",            ID_EDIT_CHR_JOINT_SET
+            MENUITEM "Save selected object",            ID_FILE_SAVE_SELECTED
         END
-        POPUP "캐릭터 Part 편집\t(&P)"
+        POPUP "character Part edit\t(&P)"
         BEGIN
-            MENUITEM "보이기/숨기기\t(&V)",         ID_EDIT_SET_VISIBLE
-            MENUITEM "Part 추가\t(&A)",             ID_EDIT_CHR_PART_ADD
-            MENUITEM "Part 지정\t(&S)",             ID_EDIT_CHR_PART_SET
-            MENUITEM "Part 삭제\t(&D)",             ID_EDIT_CHR_PART_DELETE
-            MENUITEM "선택된 객체 저장",            ID_FILE_SAVE_SELECTED
+            MENUITEM "show/hide\t(&V)",         ID_EDIT_SET_VISIBLE
+            MENUITEM "part Add\t(&A)",             ID_EDIT_CHR_PART_ADD
+            MENUITEM "part aSsign\t(&S)",             ID_EDIT_CHR_PART_SET
+            MENUITEM "part Delete\t(&D)",             ID_EDIT_CHR_PART_DELETE
+            MENUITEM "Save selected object",            ID_FILE_SAVE_SELECTED
         END
-        POPUP "캐릭터 Plug 편집\t(&L)"
+        POPUP "character Plug edit\t(&L)"
         BEGIN
-            MENUITEM "보이기/숨기기\t(&V)",         ID_EDIT_SET_VISIBLE
-            MENUITEM "Plug 추가\t(&A)",             ID_EDIT_CHR_PLUG_ADD
-            MENUITEM "Plug 지정\t(&S)",             ID_EDIT_CHR_PLUG_SET
-            MENUITEM "Plug 삭제\t(&D)",             ID_EDIT_CHR_PLUG_DELETE
+            MENUITEM "show/hide\t(&V)",         ID_EDIT_SET_VISIBLE
+            MENUITEM "Plug Add\t(&A)",             ID_EDIT_CHR_PLUG_ADD
+            MENUITEM "Plug aSsign\t(&S)",             ID_EDIT_CHR_PLUG_SET
+            MENUITEM "Plug delete\t(&D)",             ID_EDIT_CHR_PLUG_DELETE
             MENUITEM "Import PMesh\t(&I)",          ID_EDIT_CHR_PLUG_IMPORT_PMESH
 
-            MENUITEM "선택된 객체 저장",            ID_FILE_SAVE_SELECTED
-            MENUITEM "회전값 초기화",               ID_EDIT_CHR_PLUG_ROTATION_RESET
+            MENUITEM "Save selected object",            ID_FILE_SAVE_SELECTED
+            MENUITEM "Rotation value reset",               ID_EDIT_CHR_PLUG_ROTATION_RESET
 
-            MENUITEM "Plug_Cloak 추가\t(&C)",       ID_EDIT_CHR_PLUG_ADDCLOAK
-
-        END
-        POPUP "에니메이션 데이터"
-        BEGIN
-            MENUITEM "복사\tCtrl+C",                ID_EDIT_ANIMATION_DATA_COPY
-
-            MENUITEM "붙이기\tCtrl+V",              ID_EDIT_ANIMATION_DATA_PASTE
-
-            MENUITEM " 위로",                       ID_EDIT_ANIMATION_DATA_MOVE_UP
-
-            MENUITEM "아래로",                      ID_EDIT_ANIMATION_DATA_MOVE_DOWN
-
-            MENUITEM "추가",                        ID_EDIT_ANIMATION_DATA_ADD
-
-            MENUITEM "삽입",                        ID_EDIT_ANIMATION_DATA_INSERT
-
-            MENUITEM "삭제",                        ID_EDIT_ANIMATION_DATA_DELETE
+            MENUITEM "plug_Cloak add\t(&C)",       ID_EDIT_CHR_PLUG_ADDCLOAK
 
         END
-        POPUP "캐릭터 FXPlug 편집"
+        POPUP "animation data"
         BEGIN
-            MENUITEM "FXPlug 지정",                 ID_EDIT_FXPLUG_SET
-            MENUITEM "FXPlug 삭제",                 ID_EDIT_FXPLUG_DELETE
+            MENUITEM "copy\tCtrl+C",                ID_EDIT_ANIMATION_DATA_COPY
+
+            MENUITEM "paste\tCtrl+V",              ID_EDIT_ANIMATION_DATA_PASTE
+
+            MENUITEM "up",                       ID_EDIT_ANIMATION_DATA_MOVE_UP
+
+            MENUITEM "down",                      ID_EDIT_ANIMATION_DATA_MOVE_DOWN
+
+            MENUITEM "add",                        ID_EDIT_ANIMATION_DATA_ADD
+
+            MENUITEM "insert",                        ID_EDIT_ANIMATION_DATA_INSERT
+
+            MENUITEM "delete",                        ID_EDIT_ANIMATION_DATA_DELETE
+
+        END
+        POPUP "character FXPlug edit"
+        BEGIN
+            MENUITEM "FXPlug assign",                 ID_EDIT_FXPLUG_SET
+            MENUITEM "FXPlug delete",                 ID_EDIT_FXPLUG_DELETE
             MENUITEM "FX Stop",                     ID_EDIT_FXPLUG_STOP
             MENUITEM "FX Start",                    ID_EDIT_FXPLUG_START
             MENUITEM SEPARATOR
-            MENUITEM "FXPlugPart 추가",             ID_EDIT_FXPLUG_PART_ADD
-            MENUITEM "FXPlugPart 삭제",             ID_EDIT_FXPLUG_PART_DELETE
+            MENUITEM "FXPlugPart add",             ID_EDIT_FXPLUG_PART_ADD
+            MENUITEM "FXPlugPart delete",             ID_EDIT_FXPLUG_PART_DELETE
 
         END
     END
-    POPUP "보기(&V)"
+    POPUP "View(&V)"
     BEGIN
-        MENUITEM "X-Ray Mode(&X)",              ID_VIEW_XRAY
-        MENUITEM "Joint 보기(&J)",              ID_VIEW_JOINT
-        MENUITEM "도구 모음(&T)",               ID_VIEW_TOOLBAR
-        MENUITEM "상태 표시줄(&S)",             ID_VIEW_STATUS_BAR
+        MENUITEM "X-Ray mode(&X)",              ID_VIEW_XRAY
+        MENUITEM "Joint view(&J)",              ID_VIEW_JOINT
+        MENUITEM "Toolbar(&T)",               ID_VIEW_TOOLBAR
+        MENUITEM "Status bar(&S)",             ID_VIEW_STATUS_BAR
     END
     POPUP "Sound(&S)"
     BEGIN
-        MENUITEM "Sound 추가 - 첫번째 타이밍",  ID_SOUND_FILE_ADD0
-        MENUITEM "Sound 추가 - 두번째 타이밍",  ID_SOUND_FILE_ADD1
-        MENUITEM "Sound 삭제 - 첫번째 타이밍",  ID_SOUND_DELETE0
-        MENUITEM "Sound 삭제 - 두번째 타이밍",  ID_SOUND_DELETE1
+        MENUITEM "Sound add - first timing",  ID_SOUND_FILE_ADD0
+        MENUITEM "Sound add - second timing",  ID_SOUND_FILE_ADD1
+        MENUITEM "Sound delete - first timing",  ID_SOUND_DELETE0
+        MENUITEM "Sound delete - second timing",  ID_SOUND_DELETE1
     END
     POPUP "Tool(&T)"
     BEGIN
-        MENUITEM "Animation Data 최적화",       ID_TOOL_OPTIMIZE_ANIMATION_DATA
+        MENUITEM "Animation Data Optimize",       ID_TOOL_OPTIMIZE_ANIMATION_DATA
 
     END
-    POPUP "도움말(&H)"
+    POPUP "Help(&H)"
     BEGIN
-        MENUITEM "N3CE 정보(&A)...",            ID_APP_ABOUT
+        MENUITEM "N3CE About(&A)...",            ID_APP_ABOUT
     END
 END
 
@@ -230,22 +230,22 @@ END
 
 IDD_ABOUTBOX DIALOG DISCARDABLE  0, 0, 235, 157
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "N3CE 정보"
-FONT 9, "굴림"
+CAPTION "N3CE About"
+FONT 9, "Arial"
 BEGIN
     ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
     LTEXT           "N3 Character Editor Version 2.1",IDC_STATIC,40,10,119,8,
                     SS_NOPREFIX
     LTEXT           "Copyright (C) 2001 NoahSystem.co.ltd",IDC_STATIC,40,25,
                     128,8
-    DEFPUSHBUTTON   "확인",IDOK,178,7,50,14,WS_GROUP
-    LTEXT           "Plug 편집 방법\n\n1. 편집할 Plug 를 선택한다.\n\n2. 위치와 스케일은 왼쪽 버튼으로 누르고 잠시 기다리면 값을 수정할수 있다.\n\n3. Mesh 와 Texture 는 더블 클릭하면 지정할수 있다. (Mesh 와Texture는 미리 복사해 놓는다.)\n\n4. 회전값 조정 - Ctrl 키를 누른채 왼쪽,가운데,오른쪽 버튼을 누르면 붙어있는 관절의 로컬 축에 따라 회전한다.(관절의 로컬 축을 보려면 오른쪽 창에서 클릭하면 된다.)",
+    DEFPUSHBUTTON   "Confirm",IDOK,178,7,50,14,WS_GROUP
+    LTEXT           "Plug edit method\n\n1. edit Plug select.\n\n2. Position and scale can be modified by pressing the left button and waiting for a while..\n\n3. Mesh and Texture can be specified by double-clicking. (Mesh and Texture in advance copy let go.)\n\n4. Rotation value adjustment - Ctrl hold down left key,Pressing the middle or right buttons rotates according to the local axis of the joint to which it is attached..(To view the local axis of a joint, click in the right pane.)",
                     IDC_STATIC,3,48,222,105
 END
 
 IDD_ANIMATION DIALOGEX 0, 0, 539, 182
 STYLE WS_CHILD
-FONT 9, "돋움체", 0, 0, 0x1
+FONT 9, "Arial", 0, 0, 0x1
 BEGIN
     PUSHBUTTON      "Start",IDC_B_SET_FRAME_START,12,45,24,12,NOT WS_TABSTOP
     EDITTEXT        IDC_E_FRAME_START,36,45,36,12,ES_AUTOHSCROLL
@@ -257,7 +257,7 @@ BEGIN
     RTEXT           "Blend",IDC_STATIC,12,101,21,11,SS_CENTERIMAGE | NOT 
                     WS_GROUP
     EDITTEXT        IDC_E_FRAME_BLEND0,36,102,36,12,ES_AUTOHSCROLL
-    CONTROL         "루핑시간지연",IDC_C_DELAYED_LOOPING,"Button",
+    CONTROL         "looping time delay",IDC_C_DELAYED_LOOPING,"Button",
                     BS_AUTOCHECKBOX | WS_TABSTOP,12,120,60,9
     CONTROL         "Play",IDC_C_PLAY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
                     81,43,31,8
@@ -303,42 +303,42 @@ BEGIN
                     WS_GROUP
     EDITTEXT        IDC_E_FRAME_CUR,66,15,36,12,ES_AUTOHSCROLL | ES_READONLY | 
                     NOT WS_TABSTOP
-    PUSHBUTTON      "부르기",IDC_B_LOAD,186,150,30,12,NOT WS_TABSTOP
+    PUSHBUTTON      "call load",IDC_B_LOAD,186,150,30,12,NOT WS_TABSTOP
     RTEXT           "Start",IDC_STATIC,3,6,21,8,NOT WS_GROUP
     RTEXT           "End",IDC_STATIC,9,18,15,9,NOT WS_GROUP
-    GROUPBOX        "무기 궤적 0",IDC_STATIC,78,88,63,42
+    GROUPBOX        "weapon trail 0",IDC_STATIC,78,88,63,42
     GROUPBOX        "Sound",IDC_STATIC,144,87,63,42
-    PUSHBUTTON      "저장",IDC_B_SAVE,216,150,27,12,NOT WS_TABSTOP
+    PUSHBUTTON      "save",IDC_B_SAVE,216,150,27,12,NOT WS_TABSTOP
     GROUPBOX        "Animation Control",IDC_STATIC,6,31,273,104
-    LTEXT           "하체",IDC_STATIC,285,59,18,8,NOT WS_GROUP
-    RTEXT           "상체",IDC_STATIC,513,60,21,8,NOT WS_GROUP
-    GROUPBOX        "타격 프레임",IDC_STATIC,210,87,63,42
-    LTEXT           "무기궤적-푸른색 | Sound-녹색 | 타격-붉은색",IDC_STATIC,
+    LTEXT           "lower body",IDC_STATIC,285,59,18,8,NOT WS_GROUP
+    RTEXT           "upper body",IDC_STATIC,513,60,21,8,NOT WS_GROUP
+    GROUPBOX        "hitting - blow frame",IDC_STATIC,210,87,63,42
+    LTEXT           "Weapon Trace - Blue | Sound-Green | hit - red",IDC_STATIC,
                     90,75,171,8
-    PUSHBUTTON      "새이름",IDC_B_SAVE_AS,243,150,32,12,NOT WS_TABSTOP
-    PUSHBUTTON      "새로",IDC_B_NEW,156,150,30,12,NOT WS_TABSTOP
+    PUSHBUTTON      "bird - new name",IDC_B_SAVE_AS,243,150,32,12,NOT WS_TABSTOP
+    PUSHBUTTON      "New",IDC_B_NEW,156,150,30,12,NOT WS_TABSTOP
     EDITTEXT        IDC_E_ANI_FILE_NAME,156,162,120,12,ES_AUTOHSCROLL | 
                     ES_READONLY | NOT WS_TABSTOP
-    LTEXT           "이동속도",IDC_STATIC,177,42,33,8
+    LTEXT           "movement speed",IDC_STATIC,177,42,33,8
     EDITTEXT        IDC_E_MOVE_SPEED,213,39,28,12,ES_AUTOHSCROLL | NOT 
                     WS_TABSTOP
-    LTEXT           "미터/초",IDC_STATIC,243,42,30,8
-    GROUPBOX        "파일 부르기 및 저장",IDC_STATIC,144,138,135,39
-    LTEXT           "총 00.00 초",IDC_STATIC_ANIMATION_TIME_SUM,117,42,51,9
-    PUSHBUTTON      "윗동작과맞추기",
+    LTEXT           "meter/second",IDC_STATIC,243,42,30,8
+    GROUPBOX        "Loading and Saving Files",IDC_STATIC,144,138,135,39
+    LTEXT           "Total 00.00 seconds",IDC_STATIC_ANIMATION_TIME_SUM,117,42,51,9
+    PUSHBUTTON      "Align with the upper movement",
                     IDC_B_CALCULATE_DELAY_TIME_WITH_UPPER_ANIMATION,57,150,
                     78,12,NOT WS_TABSTOP
-    PUSHBUTTON      "아랫동작과맞추기",
+    PUSHBUTTON      "Align with lower action",
                     IDC_B_CALCULATE_DELAY_TIME_WITH_LOWER_ANIMATION,57,162,
                     78,12,NOT WS_TABSTOP
-    GROUPBOX        "지연시간 계산하기",IDC_STATIC,6,138,135,39
-    CONTROL         "두번 연속 공격",IDC_C_DOUBLE_ATTACK,"Button",
+    GROUPBOX        "Calculate Latency",IDC_STATIC,6,138,135,39
+    CONTROL         "attack twice in a row",IDC_C_DOUBLE_ATTACK,"Button",
                     BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,12,150,45,24
 END
 
 IDD_TOOL DIALOG DISCARDABLE  0, 0, 188, 215
 STYLE WS_CHILD
-FONT 9, "돋움체"
+FONT 9, "Arial"
 BEGIN
     PUSHBUTTON      "Regenerate normal vector",IDC_B_MAKE_SMOOTH,108,9,66,21,
                     BS_MULTILINE
@@ -358,7 +358,7 @@ BEGIN
     PUSHBUTTON      "Delete Sound",IDC_B_DELETE_TEST_SOUND1,115,108,60,15,
                     NOT WS_TABSTOP
     GROUPBOX        "Animation Tool",IDC_STATIC,3,174,177,36
-    PUSHBUTTON      "전체프레임 밀기",IDC_B_APPLY_OFFSET_FRAME,41,189,70,15,
+    PUSHBUTTON      "Push Full Frame",IDC_B_APPLY_OFFSET_FRAME,41,189,70,15,
                     NOT WS_TABSTOP
     EDITTEXT        IDC_E_OFFSET,12,189,27,12,ES_AUTOHSCROLL | NOT 
                     WS_TABSTOP
@@ -368,7 +368,7 @@ END
 
 IDD_CHR_PROPERTY DIALOG DISCARDABLE  0, 0, 111, 287
 STYLE WS_CHILD
-FONT 9, "굴림"
+FONT 9, "Arial"
 BEGIN
     LISTBOX         IDC_LP_MATERIAL,3,185,102,28,LBS_OWNERDRAWVARIABLE | 
                     LBS_HASSTRINGS | LBS_NOINTEGRALHEIGHT | WS_HSCROLL | 
@@ -388,10 +388,10 @@ END
 IDD_FOLDER_SELECT DIALOG DISCARDABLE  0, 0, 277, 309
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Folder select"
-FONT 9, "돋움체"
+FONT 9, "Arial"
 BEGIN
-    DEFPUSHBUTTON   "좋아",IDOK,224,3,25,14
-    PUSHBUTTON      "싫어",IDCANCEL,249,3,23,14
+    DEFPUSHBUTTON   "OK",IDOK,224,3,25,14
+    PUSHBUTTON      "CANCEL",IDCANCEL,249,3,23,14
     CONTROL         "Tree1",IDC_BROWSE_TREE,"SysTreeView32",TVS_HASBUTTONS | 
                     TVS_HASLINES | TVS_LINESATROOT | TVS_SHOWSELALWAYS | 
                     WS_BORDER | WS_TABSTOP,3,24,269,282
@@ -545,124 +545,124 @@ END
 
 STRINGTABLE DISCARDABLE 
 BEGIN
-    ID_FILE_NEW             "새 문서를 작성합니다\n새 파일"
-    ID_FILE_OPEN            "기존 문서를 엽니다\n열기"
-    ID_FILE_CLOSE           "현재 열린 문서를 닫습니다\n닫기"
-    ID_FILE_SAVE            "현재 열린 문서를 저장합니다\n저장"
-    ID_FILE_SAVE_AS         "현재 열린 문서를 다른 이름으로 저장합니다\n다른 이름으로 저장"
-    ID_FILE_PAGE_SETUP      "인쇄 옵션을 변경합니다\n쪽 설정"
-    ID_FILE_PRINT_SETUP     "프린터와 인쇄 옵션을 변경합니다\n인쇄 설정"
-    ID_FILE_PRINT           "현재 열린 문서를 인쇄합니다\n인쇄"
-    ID_FILE_PRINT_PREVIEW   "쪽 전체를 표시합니다\n인쇄 미리 보기"
+    ID_FILE_NEW             "Create a new document\n new file""
+    ID_FILE_OPEN            "Open an existing document\n Open"
+    ID_FILE_CLOSE           "Close the currently open document\n Close"
+    ID_FILE_SAVE            "Save the currently open document\n Save"
+    ID_FILE_SAVE_AS         "Save the currently open document as\n Save As"
+    ID_FILE_PAGE_SETUP      "Change printing options\n page settings"
+    ID_FILE_PRINT_SETUP     "Change printers and printing options\n Print Settings"
+    ID_FILE_PRINT           "Print the currently open document\n Print"
+    ID_FILE_PRINT_PREVIEW   "Display entire page\n Print Preview View"
 END
 
 STRINGTABLE DISCARDABLE 
 BEGIN
-    ID_APP_ABOUT            "프로그램 정보와 버전 정보, 저작권 정보를 표시합니다\n정보"
-    ID_APP_EXIT             "응용 프로그램을 종료하기 위해 문서를 저장할 것인지 묻습니다\n종료"
+    ID_APP_ABOUT            "Displays program information, version information, and copyright information\nAboutDisplays program information, version information, and copyright information\n About"
+    ID_APP_EXIT             "Ask if you want to save the document to exit the application\n Exit"
 END
 
 STRINGTABLE DISCARDABLE 
 BEGIN
-    ID_FILE_MRU_FILE1       "이 문서를 엽니다"
-    ID_FILE_MRU_FILE2       "이 문서를 엽니다"
-    ID_FILE_MRU_FILE3       "이 문서를 엽니다"
-    ID_FILE_MRU_FILE4       "이 문서를 엽니다"
-    ID_FILE_MRU_FILE5       "이 문서를 엽니다"
-    ID_FILE_MRU_FILE6       "이 문서를 엽니다"
-    ID_FILE_MRU_FILE7       "이 문서를 엽니다"
-    ID_FILE_MRU_FILE8       "이 문서를 엽니다"
-    ID_FILE_MRU_FILE9       "이 문서를 엽니다"
-    ID_FILE_MRU_FILE10      "이 문서를 엽니다"
-    ID_FILE_MRU_FILE11      "이 문서를 엽니다"
-    ID_FILE_MRU_FILE12      "이 문서를 엽니다"
-    ID_FILE_MRU_FILE13      "이 문서를 엽니다"
-    ID_FILE_MRU_FILE14      "이 문서를 엽니다"
-    ID_FILE_MRU_FILE15      "이 문서를 엽니다"
-    ID_FILE_MRU_FILE16      "이 문서를 엽니다"
+    ID_FILE_MRU_FILE1       "open this document"
+    ID_FILE_MRU_FILE2       "open this document"
+    ID_FILE_MRU_FILE3       "open this document"
+    ID_FILE_MRU_FILE4       "open this document"
+    ID_FILE_MRU_FILE5       "open this document"
+    ID_FILE_MRU_FILE6       "open this document"
+    ID_FILE_MRU_FILE7       "open this document"
+    ID_FILE_MRU_FILE8       "open this document"
+    ID_FILE_MRU_FILE9       "open this document"
+    ID_FILE_MRU_FILE10      "open this document"
+    ID_FILE_MRU_FILE11      "open this document"
+    ID_FILE_MRU_FILE12      "open this document"
+    ID_FILE_MRU_FILE13      "open this document"
+    ID_FILE_MRU_FILE14      "open this document"
+    ID_FILE_MRU_FILE15      "open this document"
+    ID_FILE_MRU_FILE16      "open this document"
 END
 
 STRINGTABLE DISCARDABLE 
 BEGIN
-    ID_NEXT_PANE            "다음 창으로 전환합니다\n다음 창"
-    ID_PREV_PANE            "이전 창으로 전환합니다\n이전 창"
+    ID_NEXT_PANE            "Switch to the next window\n Next window"
+    ID_PREV_PANE            "Switch to previous window\n Previous window"
 END
 
 STRINGTABLE DISCARDABLE 
 BEGIN
-    ID_WINDOW_SPLIT         "현재 열린 창을 나눕니다\n나누기"
+    ID_WINDOW_SPLIT         "Split the currently open window\n Split"
 END
 
 STRINGTABLE DISCARDABLE 
 BEGIN
-    ID_EDIT_CLEAR           "선택 부분을 지웁니다\n지우기"
-    ID_EDIT_CLEAR_ALL       "모든 것을 지웁니다\n모두 지우기"
-    ID_EDIT_COPY            "선택 부분을 복사하여 클립보드에 넣습니다\n복사"
-    ID_EDIT_CUT             "선택 부분을 잘라내어 클립보드에 넣습니다\n잘라내기"
-    ID_EDIT_FIND            "지정한 문자열을 찾습니다\n찾기"
-    ID_EDIT_PASTE           "클립보드의 내용을 붙여 넣습니다\n붙여넣기"
-    ID_EDIT_REPEAT          "마지막으로 실행한 동작을 반복합니다\n반복"
-    ID_EDIT_REPLACE         "지정한 문자열을 다른 문자열로 바꿉니다\n바꾸기"
-    ID_EDIT_SELECT_ALL      "문서 전체를 선택합니다\n전체 선택"
-    ID_EDIT_UNDO            "마지막으로 한 동작을 취소합니다\n실행 취소"
-    ID_EDIT_REDO            "이전에 취소한 동작을 다시 수행합니다\n다시 실행"
+    ID_EDIT_CLEAR           "Clear selection\n Clear"
+    ID_EDIT_CLEAR_ALL       "clear everything\n clear everything"
+    ID_EDIT_COPY            "Copies the selection and puts it on the clipboard\n copy"
+    ID_EDIT_CUT             "Cut the selection and put it on the clipboard\n Cut"
+    ID_EDIT_FIND            "Finds the specified string\n Find"
+    ID_EDIT_PASTE           "Pastes the contents of the clipboard\n Paste"
+    ID_EDIT_REPEAT          "Repeat last action\n Repeat"
+    ID_EDIT_REPLACE         "Replaces the specified string with another string\n Replace"
+    ID_EDIT_SELECT_ALL      "Select all documents\n Select all"
+    ID_EDIT_UNDO            "Undo the last action\n Undo"
+    ID_EDIT_REDO            "Redo a previously undone action\n Redo"
 END
 
 STRINGTABLE DISCARDABLE 
 BEGIN
-    ID_VIEW_TOOLBAR         "도구 모음을 보이거나 감춥니다\n도구 모음 전환"
-    ID_VIEW_STATUS_BAR      "상태 표시줄을 표시하거나 감춥니다\n상태 표시줄 전환"
-    ID_VIEW_AUTOARRANGE     "모눈에 맞추어 아이콘을 정렬합니다."
+    ID_VIEW_TOOLBAR         "Show/hide toolbar\n Toggle toolbar"
+    ID_VIEW_STATUS_BAR      "Show or hide the status bar\n Toggle status bar"
+    ID_VIEW_AUTOARRANGE     "Arrange the icons to fit the grid."
 END
 
 STRINGTABLE DISCARDABLE 
 BEGIN
-    AFX_IDS_SCSIZE          "창의 크기를 변경합니다"
-    AFX_IDS_SCMOVE          "창의 위치를 변경합니다"
-    AFX_IDS_SCMINIMIZE      "창을 아이콘으로 줄여서 표시합니다"
-    AFX_IDS_SCMAXIMIZE      "창을 최대 크기로 확장합니다"
-    AFX_IDS_SCNEXTWINDOW    "다음 문서 창으로 전환합니다"
-    AFX_IDS_SCPREVWINDOW    "이전 문서 창으로 전환합니다"
-    AFX_IDS_SCCLOSE         "현재 열린 창을 닫고 문서를 저장할 것인지를 묻습니다"
+    AFX_IDS_SCSIZE          "Change the window size"
+    AFX_IDS_SCMOVE          "change the position of the window"
+    AFX_IDS_SCMINIMIZE      "Reduces the window to an icon Minimize"
+    AFX_IDS_SCMAXIMIZE      "Expand the window to its maximum size"
+    AFX_IDS_SCNEXTWINDOW    "Switch to the next document window"
+    AFX_IDS_SCPREVWINDOW    "Switch to the previous document window"
+    AFX_IDS_SCCLOSE         "Close the currently open window and ask if you want to save the document"
 END
 
 STRINGTABLE DISCARDABLE 
 BEGIN
-    AFX_IDS_SCRESTORE       "창을 원래 크기로 복원합니다"
-    AFX_IDS_SCTASKLIST      "작업 목록을 활성화합니다"
+    AFX_IDS_SCRESTORE       "Restore the window to its original size"
+    AFX_IDS_SCTASKLIST      "Activate task listEnable task list"
 END
 
 STRINGTABLE DISCARDABLE 
 BEGIN
-    AFX_IDS_PREVIEW_CLOSE   "인쇄 미리 보기 모드를 닫습니다\n미리 보기 취소"
+    AFX_IDS_PREVIEW_CLOSE   "Close Print Preview Mode\n Cancel Preview"
 END
 
 STRINGTABLE DISCARDABLE 
 BEGIN
-    ID_VIEW_SMALLICON       "작은 아이콘을 사용하여 항목을 표시합니다\n작은 아이콘"
-    ID_VIEW_LARGEICON       "큰 아이콘을 사용하여 항목을 표시합니다\n큰 아이콘"
-    ID_VIEW_LIST            "항목들을 목록으로 표시합니다\n목록"
-    ID_VIEW_DETAILS         "창의 각 항목에 대한 정보를 표시합니다\n세부 사항"
-    ID_VIEW_LINEUP          "모눈에 맞추어 아이콘을 정렬합니다."
-    ID_VIEW_BYNAME          "알파벳순으로 아이콘을 정렬합니다."
+    ID_VIEW_SMALLICON       "Display items using small icons\n small icons"
+    ID_VIEW_LARGEICON       "Use large icons to display items\n large icons"
+    ID_VIEW_LIST            "Display items as a list\nList"
+    ID_VIEW_DETAILS         "Displays information about each item in the window\n Details"
+    ID_VIEW_LINEUP          "Aligns icons to fit the grid."
+    ID_VIEW_BYNAME          "Sorts icons alphabetically."
 END
 
 STRINGTABLE DISCARDABLE 
 BEGIN
-    ID_VIEW_XRAY            "오브젝트를 반투명하게 보여줍니다.\n반투명 보기"
-    ID_VIEW_JOINT           "관절 및 관절 축을 보여줍니다.\\관절 보기"
-    ID_EDIT_CHR_PROPERTY    "Part, Plug, 재질등의 캐릭터 등록 정보를 편집합니다.\\캐릭터 등록정보 편집"
-    ID_EDIT_PART_ADD        "캐릭터에 Part 를 추가 합니다.\nPart 추가"
-    ID_EDIT_PART_DELETE     "캐릭터의 Part 를 삭제 합니다.\nPart 삭제"
-    ID_EDIT_PLUG_ADD        "캐릭터에 Plug 를 추가 합니다.\nPlug 추가"
-    ID_EDIT_PLUG_DELETE     "캐릭터의 Plug 를 삭제 합니다.\nPlug 삭제"
-    ID_EDIT_CHR_JOINT_SET   "캐릭터의 Joint 를 지정합니다.\n캐릭터 Joint 지정"
+    ID_VIEW_XRAY            "Shows objects as translucent.\n Translucent View""
+    ID_VIEW_JOINT           "Show joints and joint axes.\\Joint View"
+    ID_EDIT_CHR_PROPERTY    "Edit character properties such as parts, plugs, and materials.\\character properties editv"
+    ID_EDIT_PART_ADD        "Add Part to character.\nPart add"
+    ID_EDIT_PART_DELETE     "Delete part of character.\nPart delete"
+    ID_EDIT_PLUG_ADD        "Add a Plug to a character.\nPlug add"
+    ID_EDIT_PLUG_DELETE     "Delete the character's Plug.\nPlug delete"
+    ID_EDIT_CHR_JOINT_SET   "Specifies the joint of the character.\nSpecifies the character joint"
 END
 
 STRINGTABLE DISCARDABLE 
 BEGIN
-    ID_EDIT_CHR_PLUG_IMPORT_VMESH "PMesh 를 불러옵니다."
-    ID_EDIT_CHR_PLUG_IMPORT_PMESH "FX에 쓸 PMesh 를 불러옵니다."
+    ID_EDIT_CHR_PLUG_IMPORT_VMESH "Import climb VMesh"
+    ID_EDIT_CHR_PLUG_IMPORT_PMESH "Import PMesh for FX"
 END
 
 #endif    // Korean resources
