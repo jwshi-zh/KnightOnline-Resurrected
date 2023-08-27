@@ -14,7 +14,7 @@ static char THIS_FILE[]=__FILE__;
 #define new DEBUG_NEW
 #endif
 
-const float FRAME_PRECISION = 10.0f; // 프레임 표시 정밀도
+const float FRAME_PRECISION = 10.0f; // frame display precision - accuracy
 
 /////////////////////////////////////////////////////////////////////////////
 // CFormViewAnimation
@@ -173,7 +173,7 @@ void CFormViewAnimation::UpdateFrameSliderAndOther()
 	CN3Chr* pChr = GetDocument()->m_Scene.ChrGet(0);
 	int iAni = pChr->AniIndexCur();
 	__AnimData* pAniData = pChr->AniDataCur();
-	if(pAniData) // 프레임 슬라이더 업데이트..
+	if(pAniData) // Frame slider update
 	{
 		float fFrmOld = m_SldFrm.GetCurrentFrame();
 		m_SldFrm.SetAnimationData(*pAniData);
@@ -183,17 +183,17 @@ void CFormViewAnimation::UpdateFrameSliderAndOther()
 		{
 			float fTime = (pAniData->fFrmEnd - pAniData->fFrmStart) / pAniData->fFrmPerSec;
 //			if(1 == pAniData->iBlendFlags) fTime += pAniData->fTimeBlend;
-			CString szTime; szTime.Format("시간 : %.2f초", fTime);
+			CString szTime; szTime.Format("Time : %.2f seconds", fTime);
 			SetDlgItemText(IDC_STATIC_ANIMATION_TIME_SUM, szTime);
 		}
 		else
 		{
-			SetDlgItemText(IDC_STATIC_ANIMATION_TIME_SUM, "시간 : ??초");
+			SetDlgItemText(IDC_STATIC_ANIMATION_TIME_SUM, "Time : ?? seconds");
 		}
 	}
 	else
 	{
-		SetDlgItemText(IDC_STATIC_ANIMATION_TIME_SUM, "시간 : ??초");
+		SetDlgItemText(IDC_STATIC_ANIMATION_TIME_SUM, "Time : ?? seconds");
 	}
 }
 
@@ -238,7 +238,7 @@ void CFormViewAnimation::UpdateInfo()
 		szTmp.Format("%.2f", pAniData->fTimeBlend);
 		SetDlgItemText(IDC_E_FRAME_BLEND0, szTmp);
 
-		CheckDlgButton(IDC_C_DELAYED_LOOPING, pAniData->iBlendFlags);  // 루핑할때 블렌딩 시간만큼 지연시키면서 루핑한다..
+		CheckDlgButton(IDC_C_DELAYED_LOOPING, pAniData->iBlendFlags);  // When looping, loop while delaying by the blending time
 
 		szTmp.Format("%.2f", pAniData->fFrmStrike0);
 		SetDlgItemText(IDC_E_FRAME_STRIKE0, szTmp);
@@ -254,7 +254,7 @@ void CFormViewAnimation::UpdateInfo()
 		{
 			float fTime = (pAniData->fFrmEnd - pAniData->fFrmStart) / pAniData->fFrmPerSec;
 //			if(1 == pAniData->iBlendFlags) fTime += pAniData->fTimeBlend;
-			CString szTime; szTime.Format("시간 : %.2f초", fTime);
+			CString szTime; szTime.Format("Time: %.2f seconds", fTime);
 			SetDlgItemText(IDC_STATIC_ANIMATION_TIME_SUM, szTime);
 		}
 	}
@@ -265,7 +265,7 @@ void CFormViewAnimation::UpdateInfo()
 		SetDlgItemText(IDC_E_FRAME_END, szTmp);
 		SetDlgItemText(IDC_E_FRAME_PER_SEC, szTmp);
 
-		SetDlgItemText(IDC_STATIC_ANIMATION_TIME_SUM, "시간 : ??초");
+		SetDlgItemText(IDC_STATIC_ANIMATION_TIME_SUM, "time: ?? seconds");
 	}
 	
 	m_bUpdatingNow = FALSE;
@@ -338,7 +338,7 @@ void CFormViewAnimation::GetData()
 	GetDlgItemText(IDC_E_FRAME_STRIKE0, szTmp); pAniData->fFrmStrike0 = (float)atof(szTmp);
 	GetDlgItemText(IDC_E_FRAME_STRIKE1, szTmp); pAniData->fFrmStrike1 = (float)atof(szTmp);
 
-	if(IsDlgButtonChecked(IDC_C_DELAYED_LOOPING)) pAniData->iBlendFlags = 1; // 루핑할때 블렌딩 시간만큼 지연시키면서 루핑한다..
+	if(IsDlgButtonChecked(IDC_C_DELAYED_LOOPING)) pAniData->iBlendFlags = 1; // When looping, loop while delaying by the blending time.
 	else pAniData->iBlendFlags = 0;
 }
 
@@ -383,7 +383,7 @@ void CFormViewAnimation::OnTimer(UINT nIDEvent)
 		SetDlgItemText(IDC_E_FRAME_CUR, szFrm);
 
 		CMainFrame* pFrm = (CMainFrame*)AfxGetMainWnd();
-		pFrm->GetPaneRender()->InvalidateRect(NULL, FALSE); // 렌더링..
+		pFrm->GetPaneRender()->InvalidateRect(NULL, FALSE); // rendering
 	}
 	
 	CFormView::OnTimer(nIDEvent);
@@ -428,7 +428,7 @@ void CFormViewAnimation::OnSelchangeListAnimation0()
 	__AnimData* pAniData = pAniCtrl->DataGet(iAni);
 	if(NULL == pAniData) return;
 
-	// Playe 중에는 큐에 쌓인다..
+	// Among the players, it is accumulated in the queue - Stacks in queue during play
 	CMainFrame* pFrm = (CMainFrame*)AfxGetMainWnd();
 	CN3CEView* pView = pFrm->GetPaneRender();
 	if(pView->m_bPlayingNow)
@@ -437,12 +437,12 @@ void CFormViewAnimation::OnSelchangeListAnimation0()
 	}
 	else
 	{
-		pChr->AniCurSet(iAni); // 에니메이션 세팅..
+		pChr->AniCurSet(iAni); // animation settings
 	}
 
 	::SetFocus(GetDlgItem(IDC_E_ANI_NAME)->m_hWnd);
 
-	GetDocument()->m_Scene.m_fFrmCur = pAniData->fFrmStart; // 프레임 맞추고..
+	GetDocument()->m_Scene.m_fFrmCur = pAniData->fFrmStart; // fit the frame
 	pView->InvalidateRect(NULL, FALSE);
 }
 
@@ -484,7 +484,7 @@ void CFormViewAnimation::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollB
 	if((void*)pScrollBar == (void*)&m_SldFrm)
 	{
 		fFrm = m_SldFrm.GetCurrentFrame();
-		m_SldSceneFrm.SetPos(fFrm * FRAME_PRECISION); // Scene 슬라이더도 움직여준다.
+		m_SldSceneFrm.SetPos(fFrm * FRAME_PRECISION); // Scene Sliders also move.
 	}
 	else if((void*)pScrollBar == (void*)&m_SldSceneFrm)
 	{
@@ -509,9 +509,9 @@ void CFormViewAnimation::OnSize(UINT nType, int cx, int cy)
 	if(m_SldSceneFrm.GetSafeHwnd() != NULL)
 	{
 		CRect rcOrg, rcClient;
-		m_SldSceneFrm.GetWindowRect(rcOrg); // 그래프 컨트롤의 원래 화면 좌표를 
+		m_SldSceneFrm.GetWindowRect(rcOrg); // the original screen coordinates of the graph control.
 		this->GetClientRect(rcClient); // 
-		this->ClientToScreen(rcClient); // 화면 좌표로 바꾸고..
+		this->ClientToScreen(rcClient); // Convert to screen coordinates.
 
 		int cx2 = rcClient.right - rcOrg.left - 5;
 		int cy2 = rcOrg.Height();
@@ -522,9 +522,9 @@ void CFormViewAnimation::OnSize(UINT nType, int cx, int cy)
 //	if(m_SldFrm.GetSafeHwnd() != NULL)
 //	{
 //		CRect rcOrg, rcClient;
-//		m_SldFrm.GetWindowRect(rcOrg); // 그래프 컨트롤의 원래 화면 좌표를 
+//		m_SldFrm.GetWindowRect(rcOrg); // the original screen coordinates of the graph control.
 //		this->GetClientRect(rcClient); // 
-//		this->ClientToScreen(rcClient); // 화면 좌표로 바꾸고..
+//		this->ClientToScreen(rcClient); // Convert to screen coordinates.
 //
 //		int cx2 = rcClient.right - rcOrg.left - 5;
 //		int cy2 = rcOrg.Height();
@@ -535,9 +535,9 @@ void CFormViewAnimation::OnSize(UINT nType, int cx, int cy)
 	if(m_ListAnim0.GetSafeHwnd() != NULL)
 	{
 		CRect rcOrg, rcClient;
-		m_ListAnim0.GetWindowRect(rcOrg); // 그래프 컨트롤의 원래 화면 좌표를 
+		m_ListAnim0.GetWindowRect(rcOrg); // the original screen coordinates of the graph control.
 		this->GetClientRect(rcClient); // 
-		this->ClientToScreen(rcClient); // 화면 좌표로 바꾸고..
+		this->ClientToScreen(rcClient); // Convert to screen coordinates..
 
 		int cx2 = rcOrg.Width();
 		int cy2 = rcClient.bottom - rcOrg.top - 5;
@@ -548,9 +548,9 @@ void CFormViewAnimation::OnSize(UINT nType, int cx, int cy)
 	if(m_ListAnim1.GetSafeHwnd() != NULL)
 	{
 		CRect rcOrg, rcClient;
-		m_ListAnim1.GetWindowRect(rcOrg); // 그래프 컨트롤의 원래 화면 좌표를 
+		m_ListAnim1.GetWindowRect(rcOrg); // the original screen coordinates of the graph control.
 		this->GetClientRect(rcClient); // 
-		this->ClientToScreen(rcClient); // 화면 좌표로 바꾸고..
+		this->ClientToScreen(rcClient); // Convert to screen coordinates..
 
 		int cx2 = rcOrg.Width();
 		int cy2 = rcClient.bottom - rcOrg.top - 5;
@@ -646,7 +646,7 @@ void CFormViewAnimation::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 	if(pChr && m_ListAnim0.GetSafeHwnd())
 	{
 		int iAni = m_ListAnim0.GetCurSel();
-		pChr->AniCurSet(iAni); // 에니메이션 세팅..
+		pChr->AniCurSet(iAni); // animation settings
 	}
 }
 
@@ -859,7 +859,7 @@ void CFormViewAnimation::OnEditAnimationDataMoveUp()
 	if(NULL == pAniCtrl || pAniCtrl->Count() <= 0) return;
 	int iAni = m_ListAnim0.GetCurSel();
 	int iAniToChange = iAni - 1;
-	pAniCtrl->Swap(iAni, iAniToChange); // 위거랑 아래꺼랑 바꾼다.
+	pAniCtrl->Swap(iAni, iAniToChange); // Swap top and bottom.
 
 	m_ListAnim0.SetCurSel(iAniToChange);
 	this->UpdateAllInfo();
@@ -873,7 +873,7 @@ void CFormViewAnimation::OnEditAnimationDataMoveDown()
 	if(NULL == pAniCtrl || pAniCtrl->Count() <= 0) return;
 	int iAni = m_ListAnim0.GetCurSel();
 	int iAniToChange = iAni + 1;
-	pAniCtrl->Swap(iAni, iAniToChange); // 위거랑 아래꺼랑 바꾼다.
+	pAniCtrl->Swap(iAni, iAniToChange); // Swap top and bottom.
 
 	m_ListAnim0.SetCurSel(iAniToChange);
 	this->UpdateAllInfo();
@@ -883,8 +883,8 @@ void CFormViewAnimation::OnDblclkListAnimation0()
 {
 	CMainFrame* pFrm = (CMainFrame*)AfxGetMainWnd();
 	CMenu* pMenu = pFrm->GetMenu();
-	CMenu* pSM = pMenu->GetSubMenu(1); // 편집 메뉴
-	pSM = pSM->GetSubMenu(3); // 에니메이션 편집 메뉴..
+	CMenu* pSM = pMenu->GetSubMenu(1); // edit menu
+	pSM = pSM->GetSubMenu(3); // animation edit menu..
 }
 
 void CFormViewAnimation::OnBCalculateDelayTimeWithUpperAnimation() 
@@ -930,11 +930,11 @@ void CFormViewAnimation::CalculateDelayTimeAndUpdate(int iAnimationIndexOffset)
 		}
 		else
 		{
-			MessageBox("두 에니메이션의 값 차이가 음수가 됩니다.");
+			MessageBox("The difference between the values of the two animations will be negative.");
 		}
 	}
 	else
 	{
-		MessageBox("Animation Data 의 재생 속도가 0 입니다.");
+		MessageBox("The playback speed of Animation Data is 0.");
 	}
 }
