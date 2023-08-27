@@ -23,17 +23,17 @@ struct __Material : public _D3DMATERIAL8
 {
 public:
 	DWORD	dwColorOp, dwColorArg1, dwColorArg2;
-	BOOL	nUseAlpha; // ¾ËÆÄºí·»µùÀ» »ç¿ëÇÏ´Â°¡ ?? 1-AlphaBlending | 2-¾È°³¶û °ü°è¾øÀ½ | 4-³·¿¡¸¸ ³ªÅ¸³­´Ù. | 8-??
-	DWORD	dwSrcBlend; // ¼Ò½º ºí·»µù ¹æ¹ı
-	DWORD	dwDestBlend; // µ¥½ºÆ® ºí·»µù ¹æ¹ı
+	BOOL	nUseAlpha; // ì•ŒíŒŒë¸”ë Œë”©ì„ ì‚¬ìš©í•˜ëŠ”ê°€ ?? 1-AlphaBlending | 2-ì•ˆê°œë‘ ê´€ê³„ì—†ìŒ | 4-ë‚®ì—ë§Œ ë‚˜íƒ€ë‚œë‹¤. | 8-??
+	DWORD	dwSrcBlend; // ì†ŒìŠ¤ ë¸”ë Œë”© ë°©ë²•
+	DWORD	dwDestBlend; // ë°ìŠ¤íŠ¸ ë¸”ë Œë”© ë°©ë²•
 
 public:
 	void Init()
 	{
 		memset(this, 0, sizeof(__Material));
 		_D3DCOLORVALUE white = { 1.0f, 1.0f, 1.0f, 1.0f };
-//		Specular = Diffuse = Ambient = white; // ±âº»Àº Èò»ö..
-		Diffuse = Ambient = white; // ±âº»Àº Èò»ö..
+//		Specular = Diffuse = Ambient = white; // ê¸°ë³¸ì€ í°ìƒ‰..
+		Diffuse = Ambient = white; // ê¸°ë³¸ì€ í°ìƒ‰..
 		
 		dwColorOp = D3DTOP_MODULATE;
 		dwColorArg1 = D3DTA_DIFFUSE;
@@ -306,7 +306,7 @@ public:
 
 
 
-const int MAX_MIPMAP_COUNT = 10; // 1024 * 1024 ´Ü°è±îÁö »ı¼º
+const int MAX_MIPMAP_COUNT = 10; // 1024 * 1024 ë‹¨ê³„ê¹Œì§€ ìƒì„±
 
 enum DXT_PF 
 {

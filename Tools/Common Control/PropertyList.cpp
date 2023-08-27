@@ -114,10 +114,10 @@ void CPropertyList::DrawItem(LPDRAWITEMSTRUCT lpDIS)
 											rect2.right-3,rect2.bottom+3),
 					DT_LEFT | DT_SINGLELINE);
 
-		// ���� �÷���..
+		// 만약 컬러면..
 		if(pItem->m_nItemType == PIT_COLOR)
 		{
-			dc.FillSolidRect(CRect(rect.left+2,rect.top+2,rect.right-4,rect.bottom-4), pItem->m_crColor); // ��� �� �׸���..
+			dc.FillSolidRect(CRect(rect.left+2,rect.top+2,rect.right-4,rect.bottom-4), pItem->m_crColor); // 배경 색 그리기..
 		}
 		else if(pItem->m_nItemType == PIT_COMBO)
 		{
@@ -349,7 +349,7 @@ void CPropertyList::OnSelchangeCmbBox()
 		pItem->m_crColor = m_ComboBox.GetCurSel();
 
 		CWnd* pWnd = GetParent();
-		if(pWnd) pWnd->SendMessage(WM_NOTIFY, (DWORD)this, (DWORD)pItem); // �θ� �����쿡 �޽��� ������..
+		if(pWnd) pWnd->SendMessage(WM_NOTIFY, (DWORD)this, (DWORD)pItem); // 부모 윈도우에 메시지 보내기..
 	}
 }
 
@@ -362,7 +362,7 @@ void CPropertyList::OnChangeEditBox()
 	pItem->m_curValue = newStr;
 
 	CWnd* pWnd = GetParent();
-	if(pWnd) pWnd->SendMessage(WM_NOTIFY, (DWORD)this, (DWORD)pItem); // �θ� �����쿡 �޽��� ������..
+	if(pWnd) pWnd->SendMessage(WM_NOTIFY, (DWORD)this, (DWORD)pItem); // 부모 윈도우에 메시지 보내기..
 }
 
 void CPropertyList::OnButton()
@@ -383,7 +383,7 @@ void CPropertyList::OnButton()
 		}
 
 		CWnd* pWnd = GetParent();
-		if(pWnd) pWnd->SendMessage(WM_NOTIFY, (DWORD)this, (DWORD)pItem); // �θ� �����쿡 �޽��� ������..
+		if(pWnd) pWnd->SendMessage(WM_NOTIFY, (DWORD)this, (DWORD)pItem); // 부모 윈도우에 메시지 보내기..
 
 	}
 	else if (pItem->m_nItemType == PIT_FILE)
@@ -408,7 +408,7 @@ void CPropertyList::OnButton()
 		}
 
 		CWnd* pWnd = GetParent();
-		if(pWnd) pWnd->SendMessage(WM_NOTIFY, (DWORD)this, (DWORD)pItem); // �θ� �����쿡 �޽��� ������..
+		if(pWnd) pWnd->SendMessage(WM_NOTIFY, (DWORD)this, (DWORD)pItem); // 부모 윈도우에 메시지 보내기..
 
 	}
 	else if (pItem->m_nItemType == PIT_FILE_MULTI)
@@ -436,7 +436,7 @@ void CPropertyList::OnButton()
 				pItem->m_curValue += szFNs[iSC-1];
 				pItem->m_curValue += '\n';
 
-				for(int i = 1; i < iSC-1; i++) // 1 ���� �����ϴ� ������ ���� ��ȭ���ڿ��� ���� ������ �θ��� ÷�� �� ���� �̸��� �ٲ�� �����̴�.
+				for(int i = 1; i < iSC-1; i++) // 1 부터 시작하는 이유는 파일 대화상자에서 여러 파일을 부르면 첨과 끝 파일 이름이 바뀌기 때문이다.
 				{
 					pItem->m_curValue += szFNs[i];
 					pItem->m_curValue += '\n';
@@ -449,7 +449,7 @@ void CPropertyList::OnButton()
 				Invalidate();
 
 				CWnd* pWnd = GetParent();
-				if(pWnd) pWnd->SendMessage(WM_NOTIFY, (DWORD)this, (DWORD)pItem); // �θ� �����쿡 �޽��� ������..
+				if(pWnd) pWnd->SendMessage(WM_NOTIFY, (DWORD)this, (DWORD)pItem); // 부모 윈도우에 메시지 보내기..
 			}
 		}
 	}
@@ -468,12 +468,12 @@ void CPropertyList::OnButton()
 		}
 
 		CWnd* pWnd = GetParent();
-		if(pWnd) pWnd->SendMessage(WM_NOTIFY, (DWORD)this, (DWORD)pItem); // �θ� �����쿡 �޽��� ������..
+		if(pWnd) pWnd->SendMessage(WM_NOTIFY, (DWORD)this, (DWORD)pItem); // 부모 윈도우에 메시지 보내기..
 	}
 	else
 	{
 		CWnd* pWnd = GetParent();
-		if(pWnd) pWnd->SendMessage(WM_NOTIFY, (DWORD)this, (DWORD)pItem); // �θ� �����쿡 �޽��� ������..
+		if(pWnd) pWnd->SendMessage(WM_NOTIFY, (DWORD)this, (DWORD)pItem); // 부모 윈도우에 메시지 보내기..
 	}
 }
 
