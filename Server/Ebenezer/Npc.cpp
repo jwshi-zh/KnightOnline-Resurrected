@@ -35,32 +35,28 @@ void CNpc::Initialize()
 {
 	m_pMain = (CEbenezerDlg*)AfxGetMainWnd();
 
-	m_sNid = -1;				// NPC (서버상의)일련번호
+	m_sNid = -1;
 	m_sSid = 0;
-	m_sZoneIndex = -1;			// Current Zone Index(배열)
-	m_sCurZone = -1;			// Current Zone number
-	m_fCurX = 0;			// Current X Pos;
-	m_fCurY = 0;			// Current Y Pos;
-	m_fCurZ = 0;			// Current Z Pos;
-	m_sPid = 0;				// MONSTER(NPC) Picture ID
-	m_sSize = 100;				// MONSTER(NPC) Size
-	memset(m_strName, 0, MAX_ID_SIZE+1);;		// MONSTER(NPC) Name
-	m_iMaxHP = 0;				// 최대 HP
-	m_iHP = 0;					// 현재 HP
-	//m_byState = 0;			// 몬스터 (NPC) 상태이상
-	m_tNpcType = 0;				// NPC Type
-								// 0 : Normal Monster
-								// 1 : NPC
-								// 2 : 각 입구,출구 NPC
-								// 3 : 경비병
+	m_sZoneIndex = -1;
+	m_sCurZone = -1;
+	m_fCurX = 0;
+	m_fCurY = 0;
+	m_fCurZ = 0;
+	m_sPid = 0;
+	m_sSize = 100;
+	memset(m_strName, 0, MAX_ID_SIZE+1);;
+	m_iMaxHP = 0;
+	m_iHP = 0;
+	//m_byState = 0;
+	m_tNpcType = 0;
 	m_byGroup = 0;
 	m_byLevel = 0;
 	m_iSellingGroup = 0;
 //	m_dwStepDelay = 0;		
 
-	m_sRegion_X = 0;			// region x position
-	m_sRegion_Z = 0;			// region z position
-	m_fDir = 0.0f;				// npc의 방향,,
+	m_sRegion_X = 0;
+	m_sRegion_Z = 0;
+	m_fDir = 0.0f;
 	m_iWeapon_1 = 0;
 	m_iWeapon_2 = 0;
 	m_NpcState = NPC_LIVE;
@@ -68,7 +64,7 @@ void CNpc::Initialize()
 	m_sHitRate = 0;
 	m_byObjectType = NORMAL_OBJECT;
 
-	m_byEvent = -1;				//  This is for the event.
+	m_byEvent = -1;
 }
 
 void CNpc::MoveResult(float xpos, float ypos, float zpos, float speed)
@@ -157,8 +153,8 @@ void CNpc::RegisterRegion()
 		m_sRegion_X = iRegX;		m_sRegion_Z = iRegZ;
 		pMap->RegionNpcAdd(m_sRegion_X, m_sRegion_Z, m_sNid);
 
-		RemoveRegion( old_region_x - m_sRegion_X, old_region_z - m_sRegion_Z );	// delete npc 는 계산 방향이 진행방향의 반대...
-		InsertRegion( m_sRegion_X - old_region_x, m_sRegion_Z - old_region_z );	// add npc 는 계산 방향이 진행방향...
+		RemoveRegion( old_region_x - m_sRegion_X, old_region_z - m_sRegion_Z );
+		InsertRegion( m_sRegion_X - old_region_x, m_sRegion_Z - old_region_z );
 	}
 }
 
@@ -194,15 +190,15 @@ void CNpc::RemoveRegion(int del_x, int del_z)
 	SetDWORD( buff, (int)m_byGateOpen, send_index );
 	SetByte( buff, m_byObjectType, send_index );
 */
-	if( del_x != 0 ) {	// x 축으로 이동되었을때...
+	if( del_x != 0 ) {
 		m_pMain->Send_UnitRegion( buff, send_index, m_sZoneIndex, m_sRegion_X+del_x*2, m_sRegion_Z+del_z-1 );
 		m_pMain->Send_UnitRegion( buff, send_index, m_sZoneIndex, m_sRegion_X+del_x*2, m_sRegion_Z+del_z );
 		m_pMain->Send_UnitRegion( buff, send_index, m_sZoneIndex, m_sRegion_X+del_x*2, m_sRegion_Z+del_z+1 );
 //		TRACE("Remove : (%d %d), (%d %d), (%d %d)\n", m_sRegion_X+del_x*2, m_sRegion_Z+del_z-1, m_sRegion_X+del_x*2, m_sRegion_Z+del_z, m_sRegion_X+del_x*2, m_sRegion_Z+del_z+1 );
 	}
-	if( del_z != 0 ) {	// z 축으로 이동되었을때...
+	if( del_z != 0 ) {
 		m_pMain->Send_UnitRegion( buff, send_index, m_sZoneIndex, m_sRegion_X+del_x, m_sRegion_Z+del_z*2 );
-		if( del_x < 0 ) // x, z 축 둘다 이동되었을때 겹치는 부분 한번만 보낸다..
+		if( del_x < 0 )
 			m_pMain->Send_UnitRegion( buff, send_index, m_sZoneIndex, m_sRegion_X+del_x+1, m_sRegion_Z+del_z*2 );
 		else if( del_x > 0 )
 			m_pMain->Send_UnitRegion( buff, send_index, m_sZoneIndex, m_sRegion_X+del_x-1, m_sRegion_Z+del_z*2 );
@@ -245,16 +241,16 @@ void CNpc::InsertRegion(int del_x, int del_z)
 	SetDWORD( buff, (int)m_byGateOpen, send_index );
 	SetByte( buff, m_byObjectType, send_index );
 
-	if( del_x != 0 ) {	// x 축으로 이동되었을때...
+	if( del_x != 0 ) {
 		m_pMain->Send_UnitRegion( buff, send_index, m_sZoneIndex, m_sRegion_X+del_x, m_sRegion_Z-1 );
 		m_pMain->Send_UnitRegion( buff, send_index, m_sZoneIndex, m_sRegion_X+del_x, m_sRegion_Z );
 		m_pMain->Send_UnitRegion( buff, send_index, m_sZoneIndex, m_sRegion_X+del_x, m_sRegion_Z+1 );
 //		TRACE("Insert : (%d %d), (%d %d), (%d %d)\n", m_sRegion_X+del_x, m_sRegion_Z-1, m_sRegion_X+del_x, m_sRegion_Z, m_sRegion_X+del_x, m_sRegion_Z+1 );
 	}
-	if( del_z != 0 ) {	// z 축으로 이동되었을때...
+	if( del_z != 0 ) {
 		m_pMain->Send_UnitRegion( buff, send_index, m_sZoneIndex, m_sRegion_X, m_sRegion_Z+del_z );
 		
-		if( del_x < 0 )	{// x, z 축 둘다 이동되었을때 겹치는 부분 한번만 보낸다..
+		if( del_x < 0 )	{
 			m_pMain->Send_UnitRegion( buff, send_index, m_sZoneIndex, m_sRegion_X+1, m_sRegion_Z+del_z );
 		}
 		else if( del_x > 0 ) {
@@ -271,7 +267,7 @@ void CNpc::InsertRegion(int del_x, int del_z)
 
 int CNpc::GetRegionNpcList(int region_x, int region_z, char *buff, int &t_count)
 {
-	if( m_pMain->m_bPointCheckFlag == FALSE)	return 0;	// 포인터 참조하면 안됨
+	if( m_pMain->m_bPointCheckFlag == FALSE)	return 0;	// Cannot refer to pointers
 
 	int buff_index = 0, i=0, j=0;
 	int user_count = 0, nid = -1;

@@ -70,7 +70,7 @@ BOOL EVENT::LoadEvent(int zone)
 
 			t_index = 0;
 
-			if( buf[t_index] == ';' || buf[t_index] == '/' )		// 주석에 대한 처리
+			if( buf[t_index] == ';' || buf[t_index] == '/' )
 			{
 				index = 0;
 				continue;

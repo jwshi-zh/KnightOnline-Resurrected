@@ -65,7 +65,7 @@ BOOL CSharedMemQueue::InitailizeMMF(DWORD dwOffsetsize, int maxcount, LPCTSTR lp
 
 	m_bMMFCreate = bCreate;
 	m_pHeader = (_SMQ_HEADER *)m_lpMMFile;
-	m_lReference = (LONG)(m_lpMMFile + sizeof(_SMQ_HEADER));		// 초기 위치 셋팅
+	m_lReference = (LONG)(m_lpMMFile + sizeof(_SMQ_HEADER));
 
 	if( bCreate ) {
 		memset( m_lpMMFile, 0x00, dwfullsize );

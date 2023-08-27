@@ -163,8 +163,8 @@ BOOL CAujardDlg::OnInitDialog()
 
 	InitializeCriticalSection( &g_LogFileWrite );
 	
-	m_LoggerRecvQueue.InitailizeMMF( MAX_PKTSIZE, MAX_COUNT, SMQ_LOGGERSEND, FALSE );	// Dispatcher 의 Send Queue
-	m_LoggerSendQueue.InitailizeMMF( MAX_PKTSIZE, MAX_COUNT, SMQ_LOGGERRECV, FALSE );	// Dispatcher 의 Read Queue
+	m_LoggerRecvQueue.InitailizeMMF( MAX_PKTSIZE, MAX_COUNT, SMQ_LOGGERSEND, FALSE );	// Dispatcher Send Queue
+	m_LoggerSendQueue.InitailizeMMF( MAX_PKTSIZE, MAX_COUNT, SMQ_LOGGERRECV, FALSE );	// Dispatcher Read Queue
 
 	if( !InitializeMMF() ) {
 		AfxMessageBox("Main Shared Memory Initialize Fail");
@@ -273,7 +273,7 @@ BOOL CAujardDlg::DestroyWindow()
 
 BOOL CAujardDlg::InitializeMMF()
 {
-	DWORD filesize = MAX_USER * sizeof(_USER_DATA);	// 1명당 4000 bytes 이내 소요
+	DWORD filesize = MAX_USER * sizeof(_USER_DATA);	// Within 4000 bytes per person
 
 	m_hMMFile = OpenFileMapping(FILE_MAP_ALL_ACCESS, TRUE, "KNIGHT_DB");
 	if (m_hMMFile == NULL)
@@ -774,7 +774,7 @@ BOOL CAujardDlg::PreTranslateMessage(MSG* pMsg)
 
 void CAujardDlg::OnOK() 
 {
-	if( AfxMessageBox("진짜 끝낼까요?", MB_YESNO) == IDYES )
+	if( AfxMessageBox("Are you really going to finish it?", MB_YESNO) == IDYES )
 		CDialog::OnOK();
 }
 
@@ -814,7 +814,7 @@ void CAujardDlg::AllSaveRoutine()
 	char logstr[256]; memset( logstr, 0x00, 256 );
 
 	CTime cur = CTime::GetCurrentTime();
-	TRACE("Dead Time : %d년 %d월 %d일 %d시 %d분\n", cur.GetYear(), cur.GetMonth(), cur.GetDay(), cur.GetHour(), cur.GetMinute());
+	TRACE("Dead Time : %dy %dm %dd %dh %dm\n", cur.GetYear(), cur.GetMonth(), cur.GetDay(), cur.GetHour(), cur.GetMinute());
 
 	t_count = m_DBAgent.m_UserDataArray.size();
 	for( int i=0; i<t_count; i++ ) {
@@ -869,7 +869,7 @@ void CAujardDlg::AllSaveRoutine()
 		Sleep(100);
 	}
 	if( bsaved ) {
-		msgstr.Format("All Data Saved:%d년%d월%d일%d시%d분", cur.GetYear(), cur.GetMonth(), cur.GetDay(), cur.GetHour(), cur.GetMinute());
+		msgstr.Format("All Data Saved: %dy %dm %dd %dh %dm", cur.GetYear(), cur.GetMonth(), cur.GetDay(), cur.GetHour(), cur.GetMinute());
 		m_OutputList.AddString(msgstr);
 	}
 }
@@ -1397,7 +1397,7 @@ void CAujardDlg::BattleEventResult( char* pData )
 	nLen = GetByte(pData, index);
 	if( nLen > 0 && nLen < MAX_ID_SIZE+1 )	{
 		GetString( strMaxUserName, pData, nLen, index );
-		TRACE("--> BattleEventResult : 적국의 대장을 죽인 유저이름은? %s, len=%d, nation=%d \n", strMaxUserName, nResult, nResult);
+		TRACE("--> BattleEventResult : What is the name of the user who killed the captain of the enemy country? %s, len=%d, nation=%d \n", strMaxUserName, nResult, nResult);
 		m_DBAgent.UpdateBattleEvent( strMaxUserName, nResult );
 	}
 }
@@ -1417,7 +1417,7 @@ void CAujardDlg::CouponEvent( char* pData )
 		nLen = GetShort( pData, index);
 		GetString( strAccountName, pData, nLen, index );
 		nEventNum = GetDWORD( pData, index );
-// 비러머글 대사문 >.<
+// Non-Rammuggle Ambassadors >.<
 		nMessageNum = GetDWORD( pData, index );
 //
 		nResult = m_DBAgent.CheckCouponEvent( strAccountName );
@@ -1426,7 +1426,7 @@ void CAujardDlg::CouponEvent( char* pData )
 		SetShort( send_buff, nSid, send_index );
 		SetByte( send_buff, nResult, send_index );	
 		SetDWORD( send_buff, nEventNum, send_index );
-// 비러머글 대사문 >.<
+// Non-Rammuggle Ambassadors >.<
 		SetDWORD( send_buff, nMessageNum, send_index ); 
 //
 		do {

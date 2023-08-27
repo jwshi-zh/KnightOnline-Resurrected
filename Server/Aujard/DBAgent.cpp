@@ -74,7 +74,6 @@ void CDBAgent::ReConnectODBC(CDatabase *m_db, char *strdb, char *strname, char *
 	m_pMain->WriteLogFile( strlog );
 	//m_pMain->m_LogFile.Write(strlog, strlen(strlog));
 
-	// DATABASE 연결...
 	CString strConnect;
 	strConnect.Format (_T("DSN=%s;UID=%s;PWD=%s"), strdb, strname, strpwd);
 	int iCount = 0;
@@ -142,10 +141,9 @@ void CDBAgent::MUserInit(int uid)
 	pUser->m_sBind = -1;
 	pUser->m_iBank = 0;
 
-	// 스킬 초기화
 	for(int i=0; i<9; i++) pUser->m_bstrSkill[i] = 0;
 
-	for(int i = 0; i < SLOT_MAX+HAVE_MAX; i++) {// 착용갯수 + 소유갯수(14+28=42)
+	for(int i = 0; i < SLOT_MAX+HAVE_MAX; i++) {
 		pUser->m_sItemArray[i].nNum = 0;
 		pUser->m_sItemArray[i].sDuration = 0;
 		pUser->m_sItemArray[i].sCount = 0;
@@ -277,7 +275,6 @@ BOOL CDBAgent::LoadUserData(char *userid, int uid)
 	}
 	SQLFreeHandle((SQLSMALLINT)SQL_HANDLE_STMT,hstmt);
 
-	// 엠겜 유저가 아니다.
 /*	if(sRet == 0)	{
 		memset( logstr, 0x00, 256);
 		sprintf( logstr, "LoadUserData Fail : name=%s, sRet= %d, retval=%d, nation=%d \r\n", userid, sRet, retval, Nation );
@@ -311,7 +308,7 @@ BOOL CDBAgent::LoadUserData(char *userid, int uid)
 	//	m_pMain->m_LogFile.Write(logstr, strlen(logstr));
 		TRACE(logstr);
 	}
-	if( pUser->m_bLogout )	{	// 아직 종료되지 않은 유저...
+	if( pUser->m_bLogout )	{
 		memset( logstr, 0x00, 256);
 		sprintf( logstr, "LoadUserData logout Fail : name=%s, logout= %d \r\n", userid, pUser->m_bLogout );
 	//	m_pMain->m_LogFile.Write(logstr, strlen(logstr));
@@ -341,7 +338,6 @@ BOOL CDBAgent::LoadUserData(char *userid, int uid)
 	pUser->m_bFace = Face;
 	pUser->m_bCity = City;
 	pUser->m_bKnights = Knights;
-	// 작업 : clan정보를 받아와야 한다
 	//pUser->m_sClan = clan;
 	pUser->m_bFame = Fame;
 	pUser->m_sHp = Hp;
@@ -373,7 +369,7 @@ BOOL CDBAgent::LoadUserData(char *userid, int uid)
 	__int64 serial = 0;
 	_ITEM_TABLE* pTable = NULL;
 
-	for(int i = 0; i < HAVE_MAX+SLOT_MAX; i++)        // 착용갯수 + 소유갯수(14+28=42)
+	for(int i = 0; i < HAVE_MAX+SLOT_MAX; i++)
 	{ 
 		itemid = GetDWORD(strItem, index);
 		duration = GetShort(strItem, index );
@@ -510,7 +506,7 @@ int CDBAgent::UpdateUser(const char *userid, int uid, int type )
 		SetByte(strSkill, pUser->m_bstrSkill[i], index);
 
 	index = 0;
-	for(int i = 0; i < HAVE_MAX+SLOT_MAX; i++) // 착용갯수 + 소유갯수(14+28=42)
+	for(int i = 0; i < HAVE_MAX+SLOT_MAX; i++)
 	{ 
 		if( pUser->m_sItemArray[i].nNum > 0 ) {
 			if( m_pMain->m_ItemtableArray.GetData(pUser->m_sItemArray[i].nNum) == FALSE )
@@ -523,7 +519,6 @@ int CDBAgent::UpdateUser(const char *userid, int uid, int type )
 		SetInt64(strSerial, pUser->m_sItemArray[i].nSerialNum, serial_index );
 	}
 
-	// 작업 : clan정보도 업데이트
 	wsprintf( szSQL, TEXT( "{call UPDATE_USER_DATA ( \'%s\', %d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,?,?,?)}" ),
 		pUser->m_id, pUser->m_bNation, pUser->m_bRace, pUser->m_sClass, pUser->m_bHairColor, pUser->m_bRank,
 		pUser->m_bTitle, pUser->m_bLevel, pUser->m_iExp, pUser->m_iLoyalty, pUser->m_bFace, 
@@ -1594,7 +1589,7 @@ void CDBAgent::LoadKnightsAllList( int nation)
 
 					count++;
 
-					if( count >= 40 )	{	// 40개 단위로 보낸다
+					if( count >= 40 )	{	// Sent in units of 40
 						SetByte( send_buff, KNIGHTS_ALLLIST_REQ, send_index );
 						SetShort( send_buff, -1, send_index );
 						SetByte( send_buff, count, send_index );
@@ -1628,7 +1623,7 @@ void CDBAgent::LoadKnightsAllList( int nation)
 			}
 		}
 
-		if( count < 40 )	{				// 40개를 보내지 못한 경우
+		if( count < 40 )	{				// If you can't send 40
 			SetByte( send_buff, KNIGHTS_ALLLIST_REQ, send_index );
 			SetShort( send_buff, -1, send_index );
 			SetByte( send_buff, count, send_index );

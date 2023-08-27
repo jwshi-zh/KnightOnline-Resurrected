@@ -89,7 +89,6 @@ void LOGIC_ELSE::Parse_and(char *pBuf)
 		index += ParseSpace( temp, pBuf+index );	m_LogicElseInt[i++] = atoi( temp );		// Weight & Empty Slot
 		index += ParseSpace( temp, pBuf+index );	m_LogicElseInt[i++] = atoi( temp );		// Weight & Empty Slot
 	}
-// ºñ·¯¸Ó±Û º¹±Ç!!!
 	else if( !strcmp( temp, "CHECK_EDITBOX") )
 	{
 		m_LogicElse = LOGIC_CHECK_EDITBOX;
@@ -103,7 +102,7 @@ void LOGIC_ELSE::Parse_and(char *pBuf)
 		index += ParseSpace( temp, pBuf+index );	m_LogicElseInt[i++] = atoi( temp );		// Chances of you hitting the jackpot		
 	}
 //
-	// ÇöÀç ¿©±â±îÁö¸¸ ¾²ÀÔ´Ï´Ù. ¾Æ·¡´Â ³ªÁß¿¡ ¸Â°Ô ¼öÁ¤ÇØ¼­ ¾²¼¼¿©.
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ô´Ï´ï¿½. ï¿½Æ·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ß¿ï¿½ ï¿½Â°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 
 
 /*
@@ -146,7 +145,6 @@ void LOGIC_ELSE::Parse_and(char *pBuf)
 		index += ParseSpace( temp, pBuf+index );	m_LogicElseInt[i++] = atoi( temp );		// Gold
 	}
 */
-///////////////////////// ¿©±â¼­ ºÎÅÏ ³»°¡ ÇÑÀÏ ///////////////////////////
 
 /*
 	else if( !strcmp( temp, "CHECK_CLASS" ) )

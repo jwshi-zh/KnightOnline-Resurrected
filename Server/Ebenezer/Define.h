@@ -10,27 +10,27 @@
 #define AI_BATTLE_SOCKET_PORT		10040
 #define MAX_USER			3000
 #define CLIENT_SOCKSIZE		100
-#define MAX_AI_SOCKET		10			// sungyong~ 2002.05.22
+#define MAX_AI_SOCKET		10
 
 #define MAX_TYPE3_REPEAT    20
 #define MAX_TYPE4_BUFF		9
 
-#define MAX_ITEM_COUNT		9999		// 한 슬롯에 가지는 최대 화살/송편 개수
+#define MAX_ITEM_COUNT		9999
 
 #define MAX_ID_SIZE			25
 #define MAX_PW_SIZE			12
 #define MAX_ITEM			28
-#define VIEW_DISTANCE		48			// 가시거리
+#define VIEW_DISTANCE		48
 
-const BYTE SLOT_MAX			= 14;		// 착용 아템 MAX
-const BYTE HAVE_MAX			= 28;		// 소유 아템 MAX (인벤토리창)
-const BYTE WAREHOUSE_MAX	= 196;		// 창고 아이템 MAX
+const BYTE SLOT_MAX			= 14;
+const BYTE HAVE_MAX			= 28;
+const BYTE WAREHOUSE_MAX	= 196;
 
 #define NPC_HAVE_ITEM_LIST	6
-#define ZONEITEM_MAX		2100000000	// 존에 떨어지는 최대 아이템수...
+#define ZONEITEM_MAX		2100000000
 
-#define MAX_CLASS			26			// 직업 MAX
-#define MAX_LEVEL			60			// 최고렙...
+#define MAX_CLASS			26
+#define MAX_LEVEL			60
 
 #define SERVER_INFO_START			0X01
 #define SERVER_INFO_END				0X02
@@ -45,8 +45,6 @@ const BYTE WAREHOUSE_MAX	= 196;		// 창고 아이템 MAX
 #define MAX_COUPON_ID_LENGTH		20
 #define MAX_CURRENT_EVENT			20
 
-// 지금 쓰이는것만 정의 해 놨습니다.
-// logic관련 define
 #define LOGIC_CHECK_UNDER_WEIGHT	0X01
 #define LOGIC_CHECK_OVER_WEIGHT		0X02
 #define LOGIC_CHECK_SKILL_POINT		0X03
@@ -83,7 +81,6 @@ const BYTE WAREHOUSE_MAX	= 196;		// 창고 아이템 MAX
 #define LOGIC_CHECK_DAY				0x12
 */
 
-// 실행관련 define
 #define EXEC_SAY					0X01
 #define EXEC_SELECT_MSG				0X02
 #define EXEC_RUN_EVENT				0X03
@@ -110,7 +107,6 @@ const BYTE WAREHOUSE_MAX	= 196;		// 창고 아이템 MAX
 #define EXEC_GIVE_NOAH				0x0B
 */
 
-// EVENT 시작 번호들 :)
 #define EVENT_POTION				1
 #define EVENT_LOGOS_ELMORAD			1001
 #define EVENT_LOGOS_KARUS			2001
@@ -136,28 +132,28 @@ const BYTE WAREHOUSE_MAX	= 196;		// 창고 아이템 MAX
 #define NPC_LIVE				0X01
 
 ///////////////// NPC TYPE /////////////////////////////////
-#define NPC_MONSTER				00
-#define NPC_GENERAL				01		//
-#define NPC_BOSS				03		// Unique Mop
-#define NPC_PATROL_GUARD		11		// 경비병
-#define NPC_MERCHANT			21		// 상인
-#define NPC_TINKER				22		// 대장장이
-#define NPC_WAREHOUSE			31		// 창고지기
-#define NPC_CAPTAIN				35		// 전직
-#define NPC_OFFICER				36		// 기사단 관리 NPC
-#define NPC_CLERIC				37		// 대사제 NPC
-#define NPC_HEALER				40		// Healer
-#define NPC_WARP				41		// Warp Npc
-#define NPC_GATE				50		// 성문형태 NPC 
-#define NPC_PHOENIX_GATE		51		// 깨지지 않는 문 (8->51)
-#define NPC_SPECIAL_GATE		52		// 깨지지 않는 문이면서 2분마다 열렸다 닫혔다 하는 문
-#define NPC_GATE_LEVER			55		// 성문 레버...	(9->55)	
-#define NPC_ARTIFACT			60		// 결계석 (7->60)
-#define NPC_DESTORY_ARTIFACT	61		// 파괴되는 결계석
-#define NPC_MONK_ELMORAD		71		// 비러머글 수도승 >.<
-#define NPC_MONK_KARUS			72		// 비러머글 수도승 >.<	
-#define NPC_DOMESTIC_ANIMAL		99		// 가축 NPC
-#define NPC_COUPON				100		// 비러머글 복권 >.<
+#define NPC_MONSTER				0
+#define NPC_GENERAL				01
+#define NPC_BOSS				03
+#define NPC_PATROL_GUARD		11
+#define NPC_MERCHANT			21
+#define NPC_TINKER				22
+#define NPC_WAREHOUSE			31
+#define NPC_CAPTAIN				35
+#define NPC_OFFICER				36
+#define NPC_CLERIC				37
+#define NPC_HEALER				40
+#define NPC_WARP				41
+#define NPC_GATE				50
+#define NPC_PHOENIX_GATE		51
+#define NPC_SPECIAL_GATE		52
+#define NPC_GATE_LEVER			55
+#define NPC_ARTIFACT			60
+#define NPC_DESTORY_ARTIFACT	61
+#define NPC_MONK_ELMORAD		71
+#define NPC_MONK_KARUS			72	
+#define NPC_DOMESTIC_ANIMAL		99
+#define NPC_COUPON				100
 
 
 ///////////////// NATION ///////////////////////////////////
@@ -180,7 +176,7 @@ const BYTE WAREHOUSE_MAX	= 196;		// 창고 아이템 MAX
 // UserInOut //
 #define USER_IN					0X01
 #define USER_OUT				0X02
-#define USER_REGENE				0X03	// Userin하고 같은것인데 효과를 주기위해서.. 분리(게임시작, 리젠. 소환시)
+#define USER_REGENE				0X03
 #define USER_WARP				0X04
 #define USER_SUMMON				0X05
 #define NPC_IN					0X01
@@ -220,11 +216,11 @@ const BYTE WAREHOUSE_MAX	= 196;		// 창고 아이템 MAX
 // ==================================================================
 //	About Map Object
 // ==================================================================
-#define USER_BAND				0			// Map 위에 유저가 있다.
-#define NPC_BAND				10000		// Map 위에 NPC(몹포함)가 있다.
-#define INVALID_BAND			30000		// 잘못된 ID BAND
+#define USER_BAND				0
+#define NPC_BAND				10000
+#define INVALID_BAND			30000
 
-#define EVENT_MONSTER			20			// Event monster 총 수
+#define EVENT_MONSTER			20
 
 ///////////////// snow event define //////////////////////////////
 #define SNOW_EVENT_MONEY		2000

@@ -33,8 +33,6 @@ DWORD WINAPI RecvUDPThread( LPVOID lp )
 			getpeername(pUdp->m_hUDPSocket, (SOCKADDR*)&pUdp->m_ReplyAddress, &addrlen);
 			TRACE("recvfrom() error : %d IP : %s\n", err, inet_ntoa(pUdp->m_ReplyAddress.sin_addr));
 
-			// 재전송 루틴...
-
 			Sleep(10);
 			continue;
 		}
@@ -246,12 +244,12 @@ void CUdpSocket::RecvBattleEvent(char *pBuf)
 			return;
 		}
 		if( nResult == KARUS )	{
-			//TRACE("--> UDP RecvBattleEvent : 카루스 땅으로 넘어갈 수 있어\n");
-			m_pMain->m_byKarusOpenFlag = 1;		// 카루스 땅으로 넘어갈 수 있어
+			//TRACE("--> UDP RecvBattleEvent : I can cross over to Karus land\n");
+			m_pMain->m_byKarusOpenFlag = 1;		// I can cross over to Karus land
 		}
 		else if( nResult == ELMORAD )	{
-			//TRACE("--> UDP  RecvBattleEvent : 엘모 땅으로 넘어갈 수 있어\n");
-			m_pMain->m_byElmoradOpenFlag = 1;	// 엘모 땅으로 넘어갈 수 있어
+			//TRACE("--> UDP  RecvBattleEvent : We can cross into Elmo land\n");
+			m_pMain->m_byElmoradOpenFlag = 1;	// We can cross into Elmo land
 		}
 	}
 	else if( nType == BATTLE_EVENT_RESULT )	{
@@ -260,16 +258,16 @@ void CUdpSocket::RecvBattleEvent(char *pBuf)
 			return;
 		}
 		if( nResult == KARUS )	{
-			//TRACE("-->  UDP RecvBattleEvent : 카루스가 승리하였습니다.\n");
+			//TRACE("-->  UDP RecvBattleEvent : Karus wins.\n");
 		}
 		else if( nResult == ELMORAD )	{
-			//TRACE("-->  UDP RecvBattleEvent : 엘모라드가 승리하였습니다.\n");
+			//TRACE("-->  UDP RecvBattleEvent : Elmorad has won.\n");
 		}
 
 		m_pMain->m_bVictory = nResult;
 		m_pMain->m_byOldVictory = nResult;
-		m_pMain->m_byKarusOpenFlag = 0;		// 카루스 땅으로 넘어갈 수 없도록
-		m_pMain->m_byElmoradOpenFlag = 0;	// 엘모 땅으로 넘어갈 수 없도록
+		m_pMain->m_byKarusOpenFlag = 0;		// so that they cannot cross over to Karus land
+		m_pMain->m_byElmoradOpenFlag = 0;	// So that they can't go over to Elmo's land
 		m_pMain->m_byBanishFlag = 1;
 	}
 	else if( nType == BATTLE_EVENT_MAX_USER )	{
@@ -277,7 +275,6 @@ void CUdpSocket::RecvBattleEvent(char *pBuf)
 
 		if( nLen > 0 && nLen < MAX_ID_SIZE+1 )	{
 			GetString( strMaxUserName, pBuf, nLen, index );
-			//TRACE("-->  UDP RecvBattleEvent : 적국의 대장을 죽인 유저이름은? %s, len=%d\n", strMaxUserName, nResult);
 			if( nResult == 1 )	{
 				::_LoadStringFromResource(IDS_KILL_CAPTAIN, buff);
 				sprintf( chatstr, buff.c_str(), strMaxUserName );
@@ -302,7 +299,7 @@ void CUdpSocket::RecvBattleEvent(char *pBuf)
 				::_LoadStringFromResource(IDS_KILL_ELMO_GUARD2, buff);
 				sprintf( chatstr, buff.c_str(), strMaxUserName );
 			}
-			sprintf( finalstr, "## 공지 : %s ##", chatstr );
+			sprintf( finalstr, "## notification : %s ##", chatstr );
 			SetByte( send_buff, WIZ_CHAT, send_index );
 			SetByte( send_buff, WAR_SYSTEM_CHAT, send_index );
 			SetByte( send_buff, 1, send_index );
@@ -328,11 +325,9 @@ void CUdpSocket::RecvBattleEvent(char *pBuf)
 			m_pMain->m_sKarusDead = m_pMain->m_sKarusDead + nKillKarus;
 			m_pMain->m_sElmoradDead = m_pMain->m_sElmoradDead + nElmoKill;
 
-			//TRACE("-->  UDP RecvBattleEvent type = 1 : 적국 유저 죽인수 : karus=%d->%d, elmo=%d->%d\n", nKillKarus, m_pMain->m_sKarusDead, nElmoKill, m_pMain->m_sElmoradDead);
-
 			SetByte( send_buff, UDP_BATTLE_EVENT_PACKET, send_index );
 			SetByte( send_buff, BATTLE_EVENT_KILL_USER, send_index );
-			SetByte( send_buff, 2, send_index );						// karus의 정보 전송
+			SetByte( send_buff, 2, send_index );
 			SetShort( send_buff, m_pMain->m_sKarusDead, send_index );
 			SetShort( send_buff, m_pMain->m_sElmoradDead, send_index );
 			m_pMain->Send_UDP_All( send_buff, send_index );
@@ -340,8 +335,6 @@ void CUdpSocket::RecvBattleEvent(char *pBuf)
 		else if( nResult == 2 )	{
 			nKillKarus = GetShort( pBuf, index );
 			nElmoKill = GetShort( pBuf, index );
-
-			//TRACE("-->  UDP RecvBattleEvent type = 2 : 적국 유저 죽인수 : karus=%d->%d, elmo=%d->%d\n", m_pMain->m_sKarusDead, nKillKarus, m_pMain->m_sElmoradDead, nElmoKill);
 
 			m_pMain->m_sKarusDead = nKillKarus;
 			m_pMain->m_sElmoradDead = nElmoKill;
@@ -419,7 +412,6 @@ void CUdpSocket::RecvCreateKnights( char* pBuf )
 
 	m_pMain->m_KnightsArray.PutData( pKnights->m_sIndex, pKnights );
 
-	// 클랜정보에 추가
 	m_pMain->m_KnightsManager.AddKnightsUser( knightsindex, chiefname );
 
 	//TRACE("UDP - RecvCreateKnights - knname=%s, name=%s, index=%d\n", knightsname, chiefname, knightsindex);
@@ -440,15 +432,13 @@ void CUdpSocket::RecvJoinKnights( char* pBuf, BYTE command )
 	pKnights = m_pMain->m_KnightsArray.GetData( knightsindex );
 
 	if( command == KNIGHTS_JOIN ) {
-		sprintf( finalstr, "#### %s님이 가입하셨습니다. ####", charid );
-		// 클랜정보에 추가
+		sprintf( finalstr, "#### %s has signed up. ####", charid );
 		m_pMain->m_KnightsManager.AddKnightsUser( knightsindex, charid );
-		TRACE("UDP - RecvJoinKnights - 가입, name=%s, index=%d\n", charid, knightsindex);
+		TRACE("UDP - RecvJoinKnights - join, name=%s, index=%d\n", charid, knightsindex);
 	}
-	else {		// 탈퇴..
-		// 클랜정보에 추가
+	else {
 		m_pMain->m_KnightsManager.RemoveKnightsUser( knightsindex, charid );
-		sprintf( finalstr, "#### %s님이 탈퇴하셨습니다. ####", charid );
+		sprintf( finalstr, "#### %s has withdrawn. ####", charid );
 		TRACE("UDP - RecvJoinKnights - 탈퇴, name=%s, index=%d\n", charid, knightsindex );
 	}
 
@@ -485,7 +475,7 @@ void CUdpSocket::RecvModifyFame( char* pBuf, BYTE command )
 		if( pTUser ) {
 			pTUser->m_pUserData->m_bKnights = 0;
 			pTUser->m_pUserData->m_bFame = 0;
-			sprintf( finalstr, "#### %s님이 추방되셨습니다. ####", pTUser->m_pUserData->m_id );
+			sprintf( finalstr, "#### %s has been banished. ####", pTUser->m_pUserData->m_id );
 			m_pMain->m_KnightsManager.RemoveKnightsUser( knightsindex, pTUser->m_pUserData->m_id );
 		}
 		else	{
@@ -507,14 +497,14 @@ void CUdpSocket::RecvModifyFame( char* pBuf, BYTE command )
 		if( pTUser )	{
 			pTUser->m_pUserData->m_bFame = CHIEF;
 			m_pMain->m_KnightsManager.ModifyKnightsUser( knightsindex, pTUser->m_pUserData->m_id );
-			sprintf( finalstr, "#### %s님이 단장으로 임명되셨습니다. ####", pTUser->m_pUserData->m_id );
+			sprintf( finalstr, "#### %s has been appointed as the leader. ####", pTUser->m_pUserData->m_id );
 		}
 		break;
 	case KNIGHTS_VICECHIEF+0x10:
 		if( pTUser )	{
 			pTUser->m_pUserData->m_bFame = VICECHIEF;
 			m_pMain->m_KnightsManager.ModifyKnightsUser( knightsindex, pTUser->m_pUserData->m_id );
-			sprintf( finalstr, "#### %s님이 부단장으로 임명되셨습니다. ####", pTUser->m_pUserData->m_id );
+			sprintf( finalstr, "#### %s has been appointed as vice-captain. ####", pTUser->m_pUserData->m_id );
 		}
 		break;
 	case KNIGHTS_OFFICER+0x10:
@@ -586,11 +576,11 @@ void CUdpSocket::RecvDestroyKnights( char* pBuf )
 
 	flag = pKnights->m_byFlag;
 
-	// 클랜이나 기사단이 파괴된 메시지를 보내고 유저 데이타를 초기화
+	// Send a message that the clan or knights have been destroyed and reset user data
 	if( flag == CLAN_TYPE)
-		sprintf( finalstr, "#### %s 클랜이 해체되었습니다 ####", pKnights->m_strName );
+		sprintf( finalstr, "#### %s Clan disbanded ####", pKnights->m_strName );
 	else if( flag == KNIGHTS_TYPE )
-		sprintf( finalstr, "#### %s 기사단이 해체되었습니다 ####", pKnights->m_strName );
+		sprintf( finalstr, "#### %s The Templars have been disbanded ####", pKnights->m_strName );
 
 	memset( send_buff, 0x00, 128 );		send_index = 0;
 	SetByte( send_buff, WIZ_CHAT, send_index );

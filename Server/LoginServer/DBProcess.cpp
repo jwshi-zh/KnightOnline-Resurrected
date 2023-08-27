@@ -47,7 +47,6 @@ void CDBProcess::ReConnectODBC(CDatabase *m_db, const char *strdb, const char *s
 	sprintf(strlog, "Try ReConnectODBC... %d월 %d일 %d시 %d분\r\n", t.GetMonth(), t.GetDay(), t.GetHour(), t.GetMinute());
 	LogFileWrite( strlog );
 
-	// DATABASE 연결...
 	CString strConnect;
 	strConnect.Format(_T("Driver={SQL Server};Server=(local);Database=kn_online;UID=kn_online;Password=kn_online;"));
 	int iCount = 0;
@@ -303,7 +302,7 @@ BOOL CDBProcess::LoadUserCountList()
 
 			// 여기에서 데이타를 받아서 알아서 사용....
 			if( serverid-1 < m_pMain->m_nServerCount )
-				m_pMain->m_ServerList[serverid-1]->sUserCount = zone_1 + zone_2 + zone_3;		// 기범이가 ^^;
+				m_pMain->m_ServerList[serverid-1]->sUserCount = zone_1 + zone_2 + zone_3;
 		}
 	}
 	SQLFreeHandle((SQLSMALLINT)SQL_HANDLE_STMT,hstmt);

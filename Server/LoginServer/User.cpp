@@ -56,7 +56,7 @@ void CUser::Parsing(int len, char *pData)
 		Send( buff, send_index );
 		break;
 	case LS_SERVERLIST:
-		m_pMain->m_DBProcess.LoadUserCountList();		// 기범이가 ^^;
+		m_pMain->m_DBProcess.LoadUserCountList();
 		SetByte( buff, LS_SERVERLIST, send_index );
 		SetByte( buff, m_pMain->m_nServerCount, send_index );
 		for(i=0; i<m_pMain->m_ServerList.size(); i++) {		
@@ -64,7 +64,7 @@ void CUser::Parsing(int len, char *pData)
 			SetString( buff, m_pMain->m_ServerList[i]->strServerIP, strlen(m_pMain->m_ServerList[i]->strServerIP), send_index );
 			SetShort( buff, strlen(m_pMain->m_ServerList[i]->strServerName), send_index );
 			SetString( buff, m_pMain->m_ServerList[i]->strServerName, strlen( m_pMain->m_ServerList[i]->strServerName ), send_index );			
-			SetShort( buff, m_pMain->m_ServerList[i]->sUserCount, send_index);   // 기범이가 ^^;
+			SetShort( buff, m_pMain->m_ServerList[i]->sUserCount, send_index);
 		}
 		Send( buff, send_index );
 		break;
@@ -101,10 +101,10 @@ void CUser::LogInReq(char *pBuf)
 
 	result = m_pMain->m_DBProcess.AccountLogin( accountid, pwd );
 	SetByte( send_buff, LS_LOGIN_REQ, send_index );
-	if( result == 1 ) { // success 
+	if( result == 1 ) {
 		bCurrentuser = m_pMain->m_DBProcess.IsCurrentUser( accountid, serverip, serverno );
 		if( bCurrentuser ) {
-			result = 0x05;		// Kick out
+			result = 0x05;
 			SetByte( send_buff, result, send_index );
 			SetShort( send_buff, strlen(serverip), send_index );
 			SetString( send_buff, serverip, strlen(serverip), send_index );
@@ -120,7 +120,7 @@ void CUser::LogInReq(char *pBuf)
 	return;
 fail_return:
 	SetByte( send_buff, LS_LOGIN_REQ, send_index );
-	SetByte( send_buff, 0x02, send_index );				// id, pwd 이상...
+	SetByte( send_buff, 0x02, send_index );
 	Send( send_buff, send_index );
 }
 
@@ -149,7 +149,7 @@ void CUser::MgameLogin(char *pBuf)
 	return;
 fail_return:
 	SetByte( send_buff, LS_MGAME_LOGIN, send_index );
-	SetByte( send_buff, 0x02, send_index );				// login fail...
+	SetByte( send_buff, 0x02, send_index );
 	Send( send_buff, send_index );
 }
 

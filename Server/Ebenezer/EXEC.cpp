@@ -39,54 +39,53 @@ void EXEC::Parse(char *pBuf)
 	{
 		m_Exec = EXEC_SAY;
 
-		index += ParseSpace( temp, pBuf+index );	m_ExecInt[i++] = atoi( temp );		// 지문 번호1
-		index += ParseSpace( temp, pBuf+index );	m_ExecInt[i++] = atoi( temp );		// 지문 번호2
-		index += ParseSpace( temp, pBuf+index );	m_ExecInt[i++] = atoi( temp );		// 지문 번호3
-		index += ParseSpace( temp, pBuf+index );	m_ExecInt[i++] = atoi( temp );		// 지문 번호4
-		index += ParseSpace( temp, pBuf+index );	m_ExecInt[i++] = atoi( temp );		// 지문 번호5
-		index += ParseSpace( temp, pBuf+index );	m_ExecInt[i++] = atoi( temp );		// 지문 번호6
-		index += ParseSpace( temp, pBuf+index );	m_ExecInt[i++] = atoi( temp );		// 지문 번호7
-		index += ParseSpace( temp, pBuf+index );	m_ExecInt[i++] = atoi( temp );		// 지문 번호8
-		index += ParseSpace( temp, pBuf+index );	m_ExecInt[i++] = atoi( temp );		// 지문 번호9
-		index += ParseSpace( temp, pBuf+index );	m_ExecInt[i++] = atoi( temp );		// 지문 번호10
+		index += ParseSpace( temp, pBuf+index );	m_ExecInt[i++] = atoi( temp );
+		index += ParseSpace( temp, pBuf+index );	m_ExecInt[i++] = atoi( temp );
+		index += ParseSpace( temp, pBuf+index );	m_ExecInt[i++] = atoi( temp );
+		index += ParseSpace( temp, pBuf+index );	m_ExecInt[i++] = atoi( temp );
+		index += ParseSpace( temp, pBuf+index );	m_ExecInt[i++] = atoi( temp );
+		index += ParseSpace( temp, pBuf+index );	m_ExecInt[i++] = atoi( temp );
+		index += ParseSpace( temp, pBuf+index );	m_ExecInt[i++] = atoi( temp );
+		index += ParseSpace( temp, pBuf+index );	m_ExecInt[i++] = atoi( temp );
+		index += ParseSpace( temp, pBuf+index );	m_ExecInt[i++] = atoi( temp );
+		index += ParseSpace( temp, pBuf+index );	m_ExecInt[i++] = atoi( temp );
 	}
 	else if( !strcmp( temp, "SELECT_MSG" ) )
 	{
 		m_Exec = EXEC_SELECT_MSG;
 
-		index += ParseSpace( temp, pBuf+index );	m_ExecInt[i++] = atoi( temp );		// 직업
-		index += ParseSpace( temp, pBuf+index );	m_ExecInt[i++] = atoi( temp );		// 지문 번호
+		index += ParseSpace( temp, pBuf+index );	m_ExecInt[i++] = atoi( temp );
+		index += ParseSpace( temp, pBuf+index );	m_ExecInt[i++] = atoi( temp );
 
-		index += ParseSpace( temp, pBuf+index );	m_ExecInt[i++] = atoi( temp );		// 선택문 1
-		index += ParseSpace( temp, pBuf+index );	m_ExecInt[i++] = atoi( temp );		// 이벤트 1
+		index += ParseSpace( temp, pBuf+index );	m_ExecInt[i++] = atoi( temp );
+		index += ParseSpace( temp, pBuf+index );	m_ExecInt[i++] = atoi( temp );
 
-		index += ParseSpace( temp, pBuf+index );	m_ExecInt[i++] = atoi( temp );		// 선택문 2
-		index += ParseSpace( temp, pBuf+index );	m_ExecInt[i++] = atoi( temp );		// 이벤트 2
+		index += ParseSpace( temp, pBuf+index );	m_ExecInt[i++] = atoi( temp );
+		index += ParseSpace( temp, pBuf+index );	m_ExecInt[i++] = atoi( temp );
 
-		index += ParseSpace( temp, pBuf+index );	m_ExecInt[i++] = atoi( temp );		// 선택문 3
-		index += ParseSpace( temp, pBuf+index );	m_ExecInt[i++] = atoi( temp );		// 이벤트 3
+		index += ParseSpace( temp, pBuf+index );	m_ExecInt[i++] = atoi( temp );
+		index += ParseSpace( temp, pBuf+index );	m_ExecInt[i++] = atoi( temp );
 
-		index += ParseSpace( temp, pBuf+index );	m_ExecInt[i++] = atoi( temp );		// 선택문 4
-		index += ParseSpace( temp, pBuf+index );	m_ExecInt[i++] = atoi( temp );		// 이벤트 4
+		index += ParseSpace( temp, pBuf+index );	m_ExecInt[i++] = atoi( temp );
+		index += ParseSpace( temp, pBuf+index );	m_ExecInt[i++] = atoi( temp );
 
-		index += ParseSpace( temp, pBuf+index );	m_ExecInt[i++] = atoi( temp );		// 선택문 5
-		index += ParseSpace( temp, pBuf+index );	m_ExecInt[i++] = atoi( temp );		// 이벤트 5
-// 비러머글 퀘스트 >.<
-		index += ParseSpace( temp, pBuf+index );	m_ExecInt[i++] = atoi( temp );		// 선택문 6
-		index += ParseSpace( temp, pBuf+index );	m_ExecInt[i++] = atoi( temp );		// 이벤트 6
+		index += ParseSpace( temp, pBuf+index );	m_ExecInt[i++] = atoi( temp );
+		index += ParseSpace( temp, pBuf+index );	m_ExecInt[i++] = atoi( temp );
 
-		index += ParseSpace( temp, pBuf+index );	m_ExecInt[i++] = atoi( temp );		// 선택문 7
-		index += ParseSpace( temp, pBuf+index );	m_ExecInt[i++] = atoi( temp );		// 이벤트 7
+		index += ParseSpace( temp, pBuf+index );	m_ExecInt[i++] = atoi( temp );
+		index += ParseSpace( temp, pBuf+index );	m_ExecInt[i++] = atoi( temp );
 
-		index += ParseSpace( temp, pBuf+index );	m_ExecInt[i++] = atoi( temp );		// 선택문 8
-		index += ParseSpace( temp, pBuf+index );	m_ExecInt[i++] = atoi( temp );		// 이벤트 8
+		index += ParseSpace( temp, pBuf+index );	m_ExecInt[i++] = atoi( temp );
+		index += ParseSpace( temp, pBuf+index );	m_ExecInt[i++] = atoi( temp );
 
-		index += ParseSpace( temp, pBuf+index );	m_ExecInt[i++] = atoi( temp );		// 선택문 9
-		index += ParseSpace( temp, pBuf+index );	m_ExecInt[i++] = atoi( temp );		// 이벤트 9
+		index += ParseSpace( temp, pBuf+index );	m_ExecInt[i++] = atoi( temp );
+		index += ParseSpace( temp, pBuf+index );	m_ExecInt[i++] = atoi( temp );
 
-		index += ParseSpace( temp, pBuf+index );	m_ExecInt[i++] = atoi( temp );		// 선택문 10
-		index += ParseSpace( temp, pBuf+index );	m_ExecInt[i++] = atoi( temp );		// 이벤트 10		
-//
+		index += ParseSpace( temp, pBuf+index );	m_ExecInt[i++] = atoi( temp );
+		index += ParseSpace( temp, pBuf+index );	m_ExecInt[i++] = atoi( temp );
+
+		index += ParseSpace( temp, pBuf+index );	m_ExecInt[i++] = atoi( temp );
+		index += ParseSpace( temp, pBuf+index );	m_ExecInt[i++] = atoi( temp );
 	}
 	else if( !strcmp( temp, "RUN_EVENT" ) )
 	{
@@ -134,9 +133,6 @@ void EXEC::Parse(char *pBuf)
 	{
 		m_Exec = EXEC_RETURN;
 	}
-
-	// 현재 여기까지만 쓰입니다. 아래는 나중에 맞게 수정해서 쓰세여.
-
 
 /*
 	else if( !strcmp( temp, "ROB_NOAH" ) )

@@ -18,22 +18,20 @@ static char THIS_FILE[]=__FILE__;
 #define new DEBUG_NEW
 #endif
 
-#define MORAL_SELF				1		// 나 자신..
-#define MORAL_FRIEND_WITHME		2		// 나를 포함한 우리편(국가) 중 하나 ..
-#define MORAL_FRIEND_EXCEPTME	3		// 나를 뺀 우리편 중 하나 
-#define MORAL_PARTY				4		// 나를 포함한 우리파티 중 하나..
-#define MORAL_NPC				5		// NPC중 하나.
-#define MORAL_PARTY_ALL			6		// 나를 호함한 파티 모두..
-#define MORAL_ENEMY				7		// 울편을 제외한 모든 적중 하나(NPC포함)
-#define MORAL_ALL				8		// 겜상에 존재하는 모든 것중 하나.
-#define MORAL_AREA_ENEMY		10		// 지역에 포함된 적
-#define MORAL_AREA_FRIEND		11		// 지역에 포함된 우리편
-#define MORAL_AREA_ALL			12		// 지역에 포함된 모두
-#define MORAL_SELF_AREA			13		// 나를 중심으로 한 지역
-// 비러머글 클랜소환
-#define MORAL_CLAN				14		// 클랜 맴버 중 한명...
-#define MORAL_CLAN_ALL			15		// 나를 포함한 클랜 맴버 다...
-//
+#define MORAL_SELF				1
+#define MORAL_FRIEND_WITHME		2
+#define MORAL_FRIEND_EXCEPTME	3
+#define MORAL_PARTY				4
+#define MORAL_NPC				5
+#define MORAL_PARTY_ALL			6
+#define MORAL_ENEMY				7
+#define MORAL_ALL				8
+#define MORAL_AREA_ENEMY		10
+#define MORAL_AREA_FRIEND		11
+#define MORAL_AREA_ALL			12
+#define MORAL_SELF_AREA			13
+#define MORAL_CLAN				14
+#define MORAL_CLAN_ALL			15
 
 #define MORAL_UNDEAD			16		// Undead Monster
 #define MORAL_PET_WITHME		17      // My Pet
@@ -88,10 +86,9 @@ void CMagicProcess::MagicPacket(char *pBuf, int len)
 	data5 = GetShort( pBuf, index );
 	data6 = GetShort( pBuf, index ); 
 
-	// 눈싸움전쟁존에서 눈싸움중이라면 공격은 눈을 던지는 것만 가능하도록,,,
 	if( m_pSrcUser )	{
 		if( m_pSrcUser->m_pUserData->m_bZone == ZONE_SNOW_BATTLE && m_pMain->m_byBattleOpen == SNOW_BATTLE )	{
-			if( magicid != SNOW_EVENT_SKILL )		return;		// 하드 코딩 싫어,,, 
+			if( magicid != SNOW_EVENT_SKILL )		return;
 		}
 	}
 
@@ -197,7 +194,6 @@ void CMagicProcess::MagicPacket(char *pBuf, int len)
 		}
 	}
 
-// 비러머글 클랜 소환 >.<
 	if (sid >= 0 && sid < MAX_USER) {	// Make sure the source is a user!
 		if (m_pSrcUser->m_pUserData->m_bZone == ZONE_BATTLE) {		// Make sure the zone is a battlezone!
 			if (tid >= 0 && tid < MAX_USER) {		// Make sure the target is another player.
@@ -404,7 +400,7 @@ void CMagicProcess::MagicPacket(char *pBuf, int len)
 		}
 	}
 	else if( command == MAGIC_CASTING ) {
-		goto return_echo;		// 원래 이한줄만 있었음.....
+		goto return_echo;
 	}
 
 	return;
@@ -479,7 +475,7 @@ _MAGIC_TABLE* CMagicProcess::IsAvailable(int magicid, int tid, int sid, BYTE typ
 		moral = pUser->m_pUserData->m_bNation;
 	}
 	else if ( tid >= NPC_BAND ) {     // Target existence check routine for NPC.          	
-		if( m_pMain->m_bPointCheckFlag == FALSE)	goto fail_return;	// 포인터 참조하면 안됨
+		if( m_pMain->m_bPointCheckFlag == FALSE)	goto fail_return;
 		pNpc = m_pMain->m_arNpcArray.GetData(tid);
 		if( !pNpc || pNpc->m_NpcState == NPC_DEAD ) goto fail_return;	//... Assuming NPCs can't be resurrected.
 
@@ -603,7 +599,7 @@ _MAGIC_TABLE* CMagicProcess::IsAvailable(int magicid, int tid, int sid, BYTE typ
 
 	if(!bFlag) {	// If the user cast the spell (and not the NPC).....
 
-/*	나중에 반듯이 이 부분 고칠것 !!!
+/*	I will definitely fix this part later!!!
 		if( type == MAGIC_CASTING ) {    		
 			if( m_bMagicState == CASTING && pTable->bType1 != 2 ) goto fail_return;		
 			if( pTable->bCastTime == 0 )  goto fail_return;
@@ -689,7 +685,7 @@ _MAGIC_TABLE* CMagicProcess::IsAvailable(int magicid, int tid, int sid, BYTE typ
 			if (pTable->bType1 == 3 || pTable->bType1 == 4) {   // If the PLAYER uses an item to cast a spell.
 				if (sid >= 0 && sid < MAX_USER)	{	
 					if (pTable->iUseItem != 0) {
-//	이것두 성래씨 요청에 의해 하는 짓입니다 --;
+//	Both of these are done at the request of Mr. Seong-Rae --;
 						_ITEM_TABLE* pItem = NULL;				// This checks if such an item exists.
 						pItem = m_pMain->m_ItemtableArray.GetData(pTable->iUseItem);
 						if( !pItem ) return FALSE;
@@ -732,12 +728,12 @@ _MAGIC_TABLE* CMagicProcess::IsAvailable(int magicid, int tid, int sid, BYTE typ
 						CUser* pTUser = NULL ;    
 						pTUser = (CUser*)m_pMain->m_Iocport.m_SockArray[tid] ;    
 						if (!pTUser) goto fail_return;
-// 비러머글 부활 --;
+
 						if (pType->bType == 3 && pTUser->m_pUserData->m_bLevel <= 5) {	
 							type = MAGIC_CASTING;	// No resurrections for low level users...
 							goto fail_return; 							
 						}
-//
+						
 						if (pType->bType == 3) {
 							if (pTUser->ItemCountChange( pTable->iUseItem, 1, pType->sNeedStone) < 2) {
 								type = MAGIC_CASTING;
@@ -838,7 +834,7 @@ BYTE CMagicProcess::ExecuteType1(int magicid, int sid, int tid, int data1, int d
 
 		// sungyong work : loyalty
 
-/* 전쟁존을 위해 임시로 뺌
+/* Temporarily subtracted for the war zone
 //		pTUser->ExpChange( -pTUser->m_iMaxExp/100 );     // Reduce target experience.
 		if( m_pSrcUser->m_sPartyIndex == -1 )     // Something regarding loyalty points.
 			m_pSrcUser->LoyaltyChange( (pTUser->m_pUserData->m_bLevel * pTUser->m_pUserData->m_bLevel) );
@@ -854,13 +850,12 @@ BYTE CMagicProcess::ExecuteType1(int magicid, int sid, int tid, int data1, int d
 
 		m_pSrcUser->GoldChange(tid, 0);
 
-		// 기범이의 완벽한 보호 코딩!!!
+		// Kibum's Perfect Protection Coding!!!
 		pTUser->InitType3();	// Init Type 3.....
 		pTUser->InitType4();	// Init Type 4.....
 //
 		if( pTUser->m_pUserData->m_bZone != pTUser->m_pUserData->m_bNation && pTUser->m_pUserData->m_bZone < 3) {
 			pTUser->ExpChange(-pTUser->m_iMaxExp / 100);
-			//TRACE("정말로 1%만 깍였다니까요 ㅠ.ㅠ\r\n");
 		}
 //
 		pTUser->m_sWhoKilledMe = sid;		// Who the hell killed me?
@@ -943,7 +938,7 @@ BYTE CMagicProcess::ExecuteType2(int magicid, int sid, int tid, int data1, int d
 
 		// sungyong work : loyalty
 
-/* 전쟁존을 위해 임시로 뺌
+/* Temporarily subtracted for the war zone
 //		pTUser->ExpChange( -pTUser->m_iMaxExp/100 );     // Reduce target experience.
 		if( m_pSrcUser->m_sPartyIndex == -1 )     // Something regarding loyalty points.
 			m_pSrcUser->LoyaltyChange( (pTUser->m_pUserData->m_bLevel * pTUser->m_pUserData->m_bLevel) );
@@ -960,15 +955,14 @@ BYTE CMagicProcess::ExecuteType2(int magicid, int sid, int tid, int data1, int d
 
 		m_pSrcUser->GoldChange(tid, 0);
 
-		// 기범이의 완벽한 보호 코딩!!!
+		// Kibum's Perfect Protection Coding!!!
 		pTUser->InitType3();	// Init Type 3.....
 		pTUser->InitType4();	// Init Type 4.....
-//
+
 		if( pTUser->m_pUserData->m_bZone != pTUser->m_pUserData->m_bNation && pTUser->m_pUserData->m_bZone < 3) {
 			pTUser->ExpChange(-pTUser->m_iMaxExp / 100);
-			//TRACE("정말로 1%만 깍였다니까요 ㅠ.ㅠ\r\n");
 		}
-//
+
 		pTUser->m_sWhoKilledMe = sid;		// Who the hell killed me?
 	} 
 
@@ -1087,7 +1081,7 @@ void CMagicProcess::ExecuteType3(int magicid, int sid, int tid, int data1, int d
 		}
 		else damage = pType->sFirstDamage ;
 
-		// 눈싸움전쟁존에서 눈싸움중이라면 공격은 눈을 던지는 것만 가능하도록,,,
+		// If you are in a snow fight in the snow fight war zone, you can only attack by throwing snow,,,
 		if( m_pSrcUser )	{
 			if( m_pSrcUser->m_pUserData->m_bZone == ZONE_SNOW_BATTLE && m_pMain->m_byBattleOpen == SNOW_BATTLE )	{
 				damage = -10;		
@@ -1108,7 +1102,6 @@ void CMagicProcess::ExecuteType3(int magicid, int sid, int tid, int data1, int d
 //
 						if( pTUser->m_pUserData->m_bZone != pTUser->m_pUserData->m_bNation && pTUser->m_pUserData->m_bZone < 3) {
 							pTUser->ExpChange(-pTUser->m_iMaxExp / 100);
-							//TRACE("정말로 1%만 깍였다니까요 ㅠ.ㅠ\r\n");
 						}
 						else {
 //
@@ -1119,7 +1112,7 @@ void CMagicProcess::ExecuteType3(int magicid, int sid, int tid, int data1, int d
 					}
 
 					if (!bFlag) {	// Killed by another player.
-						// 눈싸움전쟁존에서 눈싸움중이라면 공격은 눈을 던지는 것만 가능하도록,,,
+						// If you are in a snow fight in the snow fight war zone, you can only attack by throwing snow,,,
 						if( m_pSrcUser->m_pUserData->m_bZone == ZONE_SNOW_BATTLE && m_pMain->m_byBattleOpen == SNOW_BATTLE )	{
 							m_pSrcUser->GoldGain( SNOW_EVENT_MONEY );	// 10000노아를 주는 부분,,,,,
 
@@ -1150,17 +1143,14 @@ void CMagicProcess::ExecuteType3(int magicid, int sid, int tid, int data1, int d
 						}
 					}
 
-					// 기범이의 완벽한 보호 코딩!!!
 					pTUser->InitType3();	// Init Type 3.....
 					pTUser->InitType4();	// Init Type 4.....
 
 					if (sid >= 0 && sid < MAX_USER) {
-//
 						if( pTUser->m_pUserData->m_bZone != pTUser->m_pUserData->m_bNation && pTUser->m_pUserData->m_bZone < 3) {
 							pTUser->ExpChange(-pTUser->m_iMaxExp / 100);
-							//TRACE("정말로 1%만 깍였다니까요 ㅠ.ㅠ\r\n");
 						}
-//
+
 						pTUser->m_sWhoKilledMe = sid;	// Who the hell killed me?
 					}
 				}
@@ -1185,7 +1175,6 @@ void CMagicProcess::ExecuteType3(int magicid, int sid, int tid, int data1, int d
 //
 						if( pTUser->m_pUserData->m_bZone != pTUser->m_pUserData->m_bNation && pTUser->m_pUserData->m_bZone < 3) {
 							pTUser->ExpChange(-pTUser->m_iMaxExp / 100);
-							//TRACE("정말로 1%만 깍였다니까요 ㅠ.ㅠ\r\n");
 						}
 						else {
 //
@@ -1206,24 +1195,21 @@ void CMagicProcess::ExecuteType3(int magicid, int sid, int tid, int data1, int d
 						m_pSrcUser->GoldChange(casted_member[j], 0);
 					}
 
-					// 기범이의 완벽한 보호 코딩 !!!
 					pTUser->InitType3();	// Init Type 3.....
 					pTUser->InitType4();	// Init Type 4..... 
 
 					if (sid >= 0 && sid < MAX_USER) {
-//
 						if( pTUser->m_pUserData->m_bZone != pTUser->m_pUserData->m_bNation && pTUser->m_pUserData->m_bZone < 3) {
 							pTUser->ExpChange(-pTUser->m_iMaxExp / 100);
-							//TRACE("정말로 1%만 깍였다니까요 ㅠ.ㅠ\r\n");
 						}
-//
+
 						pTUser->m_sWhoKilledMe = sid;	// Who the hell killed me?
 					}
 				}
 				if (!bFlag) m_pSrcUser->SendTargetHP( 0, casted_member[j], damage );     // Change the HP of the target. 
 			}
 
-			if (pTUser->m_bResHpType != USER_DEAD) {	// 여기도 보호 코딩 했슴...
+			if (pTUser->m_bResHpType != USER_DEAD) {
 				if (pType->sTimeDamage < 0) {
 					duration_damage = GetMagicDamage(sid, casted_member[j], pType->sTimeDamage, pType->bAttribute) ;
 				}
@@ -1449,9 +1435,7 @@ void CMagicProcess::ExecuteType4(int magicid, int sid, int tid, int data1, int d
 		}
 
 		if (tid != -1 && pMagic->bType1 == 4) {
-// 비러머글 하피 >.<
 			if (sid >= 0 && sid < MAX_USER) {
-//
 				m_pSrcUser->MSpChange( -(pMagic->sMsp) );
 			}
 		}
@@ -1472,8 +1456,7 @@ void CMagicProcess::ExecuteType4(int magicid, int sid, int tid, int data1, int d
 
 		pTUser->SetSlotItemValue();				// Update character stats.
 		pTUser->SetUserAbility();
-//
-		//	Send Party Packet.....	
+
 		if (pTUser->m_sPartyIndex != -1 && pTUser->m_bType4Buff[pType->bBuffType - 1] == 1) {
 			SetByte( send_buff, WIZ_PARTY, send_index );
 			SetByte( send_buff, PARTY_STATUSCHANGE, send_index );
@@ -1483,9 +1466,8 @@ void CMagicProcess::ExecuteType4(int magicid, int sid, int tid, int data1, int d
 			m_pMain->Send_PartyMember(pTUser->m_sPartyIndex, send_buff, send_index);
 			memset( send_buff, NULL, 128); send_index = 0 ;
 		}
-		//  end of Send Party Packet.....//
-//	
-		pTUser->Send2AI_UserUpdateInfo();	// AI Server에 바끤 데이타 전송....
+
+		pTUser->Send2AI_UserUpdateInfo();
 
 		if ( pMagic->bType2 == 0 || pMagic->bType2 == 4 ) {
 			SetByte( send_buff, WIZ_MAGIC_PROCESS, send_index );
@@ -1699,7 +1681,7 @@ void CMagicProcess::ExecuteType5(int magicid, int sid, int tid, int data1, int d
 
 			pTUser->SetSlotItemValue();
 			pTUser->SetUserAbility();
-			pTUser->Send2AI_UserUpdateInfo();	// AI Server에 바끤 데이타 전송....		
+			pTUser->Send2AI_UserUpdateInfo();
 
 			/*	Send Party Packet.....
 			if (m_sPartyIndex != -1) {
@@ -1765,7 +1747,7 @@ void CMagicProcess::ExecuteType5(int magicid, int sid, int tid, int data1, int d
 
 				pTUser->SetSlotItemValue();
 				pTUser->SetUserAbility();
-				pTUser->Send2AI_UserUpdateInfo();	// AI Server에 바끤 데이타 전송....		
+				pTUser->Send2AI_UserUpdateInfo();
 			
 				buff_test = 0;
 				for (i = 0 ; i < MAX_TYPE4_BUFF ; i++) {
@@ -1896,11 +1878,10 @@ void CMagicProcess::ExecuteType8(int magicid, int sid, int tid, int data1, int d
 		pTUser = (CUser*)m_pMain->m_Iocport.m_SockArray[casted_member[j]] ;     // Get target info.
 		if (!pTUser) continue;
 
-// 비러머글 대만 써비스 >.<
 		_HOME_INFO* pHomeInfo = NULL;
 		pHomeInfo = m_pMain->m_HomeArray.GetData(pTUser->m_pUserData->m_bNation);
 		if (!pHomeInfo) return;
-//
+
 		if (pType->bWarpType != 11) {     // Warp or Summon related.
 			if( !pTUser || pTUser->m_bResHpType == USER_DEAD ) {     // Check if target exists and not already dead.		
 				result = 0 ;
@@ -1973,13 +1954,13 @@ void CMagicProcess::ExecuteType8(int magicid, int sid, int tid, int data1, int d
 						pTUser->Warp(send_buff);	
 					}				
 				}
-// 비러머글 대만 써비스 >.<
-				else if (pTUser->m_pUserData->m_bZone == ZONE_BATTLE) {		// 전쟁존 --;
+//
+				else if (pTUser->m_pUserData->m_bZone == ZONE_BATTLE) {
 					SetShort(send_buff, (WORD)pHomeInfo->BattleZoneX * 10 + x, send_index);
 					SetShort(send_buff, (WORD)pHomeInfo->BattleZoneZ * 10 + z, send_index);
 					pTUser->Warp(send_buff);	
 				}
-				else if (pTUser->m_pUserData->m_bZone == ZONE_FRONTIER) {		// 개척존 --;
+				else if (pTUser->m_pUserData->m_bZone == ZONE_FRONTIER) {
 					SetShort(send_buff, (WORD)pHomeInfo->FreeZoneX * 10 + x, send_index);
 					SetShort(send_buff, (WORD)pHomeInfo->FreeZoneZ * 10 + z, send_index);
 					pTUser->Warp(send_buff);
@@ -2260,7 +2241,7 @@ short CMagicProcess::GetMagicDamage(int sid, int tid, int total_hit, int attribu
 //
 	}
 
-	damage = damage / 3 ;	// 성래씨 요청 
+	damage = damage / 3 ;	// Seongrae's request
 
 	return damage ;		
 }
@@ -2405,7 +2386,6 @@ BOOL CMagicProcess::UserRegionCheck(int sid, int tid, int magicid, int radius, s
 			break;
 */
 
-// 비러머글 전쟁존 파티 소환 >.<
 			if( pTUser->m_sPartyIndex == -1) {
 				if (sid == tid) {
 					return TRUE; 
@@ -2429,7 +2409,6 @@ BOOL CMagicProcess::UserRegionCheck(int sid, int tid, int magicid, int radius, s
 			}
 
 			break;
-//
 		case MORAL_SELF_AREA :
 		case MORAL_AREA_ENEMY :
 			if (!bFlag) {
@@ -2446,7 +2425,6 @@ BOOL CMagicProcess::UserRegionCheck(int sid, int tid, int magicid, int radius, s
 			if (pTUser->m_pUserData->m_bNation == m_pSrcUser->m_pUserData->m_bNation) 		// Check that it's your ally.
 				goto final_test;
 			break;
-// 비러머글 클랜 소환!!!
 		case MORAL_CLAN_ALL :
 			if( pTUser->m_pUserData->m_bKnights == -1) {
 				if (sid == tid) {
@@ -2629,7 +2607,7 @@ void CMagicProcess::Type4Cancel(int magicid, short tid)
 		pTUser->m_bType4Buff[buff_type - 1] = 0;
 		pTUser->SetSlotItemValue();
 		pTUser->SetUserAbility();
-		pTUser->Send2AI_UserUpdateInfo();	// AI Server에 바끤 데이타 전송....		
+		pTUser->Send2AI_UserUpdateInfo();
 
 		/*	Send Party Packet.....
 		if (m_sPartyIndex != -1) {

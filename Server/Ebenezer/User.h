@@ -22,8 +22,8 @@
 #include "EXEC.h"     
 
 #include <list>
-typedef	 std::list<_EXCHANGE_ITEM*>		ItemList;
-typedef  list<int>				UserEventList;	// 이밴트를 위하여 ^^;
+typedef	 std::list<_EXCHANGE_ITEM*> ItemList;
+typedef  list<int> UserEventList;
 
 #define BANISH_DELAY_TIME    30
 
@@ -33,41 +33,41 @@ class CUser : public CIOCPSocket2
 public:
 	_USER_DATA*	m_pUserData{};
 
-	char	m_strAccountID[MAX_ID_SIZE+1];	// Login -> Select Char 까지 한시적으로만 쓰는변수. 이외에는 _USER_DATA 안에있는 변수를 쓴다...agent 와의 데이터 동기화를 위해...
+	char	m_strAccountID[MAX_ID_SIZE+1];
 	
-	short	m_RegionX{};						// 현재 영역 X 좌표
-	short	m_RegionZ{};						// 현재 영역 Z 좌표
+	short	m_RegionX{};
+	short	m_RegionZ{};
 
-	int		m_iMaxExp{};						// 다음 레벨이 되기 위해 필요한 Exp량
-	short	m_sMaxWeight{};					// 들 수 있는 최대 무게
-	BYTE    m_sSpeed{};						// 스피드
+	int		m_iMaxExp{};
+	short	m_sMaxWeight{};
+	BYTE    m_sSpeed{};
 
-	short	m_sBodyAc{};						// 맨몸 방어력
+	short	m_sBodyAc{};
 
-	short	m_sTotalHit{};					// 총 타격공격력	
-	short	m_sTotalAc{};						// 총 방어력
-	float	m_sTotalHitrate{};				// 총 공격성공 민첩성
-	float	m_sTotalEvasionrate{};			// 총 방어 민첩성
+	short	m_sTotalHit{};
+	short	m_sTotalAc{};
+	float	m_sTotalHitrate{};
+	float	m_sTotalEvasionrate{};
 
-	short   m_sItemMaxHp{};                   // 아이템 총 최대 HP Bonus
-	short   m_sItemMaxMp{};                   // 아이템 총 최대 MP Bonus
-	short	m_sItemWeight{};					// 아이템 총무게
-	short	m_sItemHit{};						// 아이템 총타격치
-	short	m_sItemAc{};						// 아이템 총방어력
-	short	m_sItemStr{};						// 아이템 총힘 보너스
-	short	m_sItemSta{};						// 아이템 총체력 보너스
-	short	m_sItemDex{};						// 아이템 총민첩성 보너스
-	short	m_sItemIntel{};					// 아이템 총지능 보너스
-	short	m_sItemCham{};					// 아이템 총매력보너스
-	short	m_sItemHitrate{};					// 아이템 총타격율
-	short	m_sItemEvasionrate{};				// 아이템 총회피율
+	short   m_sItemMaxHp{};
+	short   m_sItemMaxMp{};
+	short	m_sItemWeight{};
+	short	m_sItemHit{};
+	short	m_sItemAc{};
+	short	m_sItemStr{};
+	short	m_sItemSta{};
+	short	m_sItemDex{};
+	short	m_sItemIntel{};
+	short	m_sItemCham{};
+	short	m_sItemHitrate{};
+	short	m_sItemEvasionrate{};
 
-	BYTE	m_bFireR{};						// 불 마법 저항력
-	BYTE	m_bColdR{};						// 얼음 마법 저항력
-	BYTE	m_bLightningR{};					// 전기 마법 저항력
-	BYTE	m_bMagicR{};						// 기타 마법 저항력
-	BYTE	m_bDiseaseR{};					// 저주 마법 저항력
-	BYTE	m_bPoisonR{};						// 독 마법 저항력
+	BYTE	m_bFireR{};
+	BYTE	m_bColdR{};
+	BYTE	m_bLightningR{};
+	BYTE	m_bMagicR{};
+	BYTE	m_bDiseaseR{};
+	BYTE	m_bPoisonR{};
 
 	BYTE    m_bMagicTypeLeftHand{};			// The type of magic item in user's left hand  
 	BYTE    m_bMagicTypeRightHand{};			// The type of magic item in user's right hand
@@ -90,16 +90,16 @@ public:
 	float	m_fWill_z{};
 	float	m_fWill_y{};
 
-	BYTE	m_bResHpType{};					// HP 회복타입
-	BYTE	m_bWarp{};						// 존이동중...
-	BYTE	m_bNeedParty{};					// 파티....구해요
+	BYTE	m_bResHpType{};					// HP recovery type
+	BYTE	m_bWarp{};						// John on the go...
+	BYTE	m_bNeedParty{};					// party... looking for it
 
 	short	m_sPartyIndex{};
-	short	m_sExchangeUser{};				// 교환중인 유저
+	short	m_sExchangeUser{};				// User in exchange
 	BYTE	m_bExchangeOK{};
 
 	ItemList	m_ExchangeItemList{};
-	_ITEM_DATA	m_MirrorItem[HAVE_MAX];			// 교환시 백업 아이템 리스트를 쓴다.
+	_ITEM_DATA	m_MirrorItem[HAVE_MAX];			// Writes a backup item list when exchanging.
 
 	short	m_sPrivateChatUser{};
 
@@ -173,7 +173,7 @@ public:
 
 	float	m_fLastTrapAreaTime{};		// The last moment you were in the trap area.
 
-	BOOL	m_bZoneChangeFlag{};			// 성용씨 미워!!
+	BOOL	m_bZoneChangeFlag{};			// I hate Sungyong!!
 
 	BYTE	m_bRegeneType{};				// Did you die and go home or did you type '/town'?
 
@@ -181,16 +181,16 @@ public:
 
 	BOOL	m_bZoneChangeSameZone{};		// Did the server change when you warped?
 
-	// 이밴트용 관련.... 정애씨 이거 보면 코카스 쏠께요 ^^;
-//	int					m_iSelMsgEvent[5];	// 실행중인 선택 메세지박스 이벤트
-	int					m_iSelMsgEvent[MAX_MESSAGE_EVENT];	// 실행중인 선택 메세지박스 이벤트
-	short				m_sEventNid{};		// 마지막으로 선택한 이벤트 NPC 번호
-	UserEventList		m_arUserEvent{};		// 실행한 이벤트 리스트
+	// Related for event... Mr. Jung-ae, if I see this, I'll shoot cocas ^^;
+//	int					m_iSelMsgEvent[5];	// Running select messagebox event
+	int					m_iSelMsgEvent[MAX_MESSAGE_EVENT];	// Running select messagebox event
+	short				m_sEventNid{};		// Last selected event NPC number
+	UserEventList		m_arUserEvent{};		// list of executed events
 
 	char	m_strCouponId[MAX_COUPON_ID_LENGTH];		// What was the number of the coupon?
 	int		m_iEditBoxEvent{};
 
-	short	m_sEvent[MAX_CURRENT_EVENT];				// 이미 실행된 이밴트 리스트들 :)
+	short	m_sEvent[MAX_CURRENT_EVENT];				// List of already executed events :)
 	
 
 public:
@@ -351,7 +351,7 @@ public:
 	void SendTimeStatus();
 	void Regene(char* pBuf, int magicid = 0);
 	void SetMaxMp();
-	void SetMaxHp(int iFlag=0); // 0:default, 1:hp를 maxhp만큼 채워주기
+	void SetMaxHp(int iFlag=0); // Fill 0:default, 1:hp as much as maxhp
 	void ExpChange(int iExp);
 	void Chat( char* pBuf );
 	void LogOut();

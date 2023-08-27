@@ -3,32 +3,32 @@
 
 #define __VERSION			1081
 
-//////////////////// 직업별 Define ////////////////////
-#define KARUWARRRIOR		101		// 카루전사
-#define KARUROGUE			102		// 카루로그
-#define KARUWIZARD			103		// 카루마법
-#define KARUPRIEST			104		// 카루사제
-#define BERSERKER			105		// 버서커
-#define GUARDIAN			106		// 가디언
-#define HUNTER				107		// 헌터
-#define PENETRATOR			108		// 페너트레이터
-#define SORSERER			109		// 소서러
-#define NECROMANCER			110		// 네크로맨서
-#define SHAMAN				111		// 샤만
-#define DARKPRIEST			112		// 다크프리스트
+//////////////////// Class Define ////////////////////
+#define KARUWARRRIOR		101
+#define KARUROGUE			102
+#define KARUWIZARD			103
+#define KARUPRIEST			104
+#define BERSERKER			105
+#define GUARDIAN			106
+#define HUNTER				107
+#define PENETRATOR			108
+#define SORSERER			109
+#define NECROMANCER			110
+#define SHAMAN				111
+#define DARKPRIEST			112
 
-#define ELMORWARRRIOR		201		// 엘모전사
-#define ELMOROGUE			202		// 엘모로그
-#define ELMOWIZARD			203		// 엘모마법
-#define ELMOPRIEST			204		// 엘모사제
-#define BLADE				205		// 블레이드
-#define PROTECTOR			206		// 프로텍터
-#define RANGER				207		// 레인져
-#define ASSASSIN			208		// 어쌔신
-#define MAGE				209		// 메이지
-#define ENCHANTER			210		// 엔첸터
-#define CLERIC				211		// 클레릭
-#define DRUID				212		// 드루이드
+#define ELMORWARRRIOR		201
+#define ELMOROGUE			202
+#define ELMOWIZARD			203
+#define ELMOPRIEST			204
+#define BLADE				205
+#define PROTECTOR			206
+#define RANGER				207
+#define ASSASSIN			208
+#define MAGE				209
+#define ENCHANTER			210
+#define CLERIC				211
+#define DRUID				212
 /////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////
@@ -61,11 +61,11 @@ const BYTE FOOT				= 13;
 const BYTE RESERVED			= 14;
 /////////////////////////////////////////////////////
 
-// 타격비별 성공률 //
-#define GREAT_SUCCESS			0X01		// 대성공
-#define SUCCESS					0X02		// 성공
-#define NORMAL					0X03		// 보통
-#define	FAIL					0X04		// 실패 
+// Success Rate by Hit Ratio //
+#define GREAT_SUCCESS			0X01
+#define SUCCESS					0X02
+#define NORMAL					0X03
+#define	FAIL					0X04
 
 // Item Move Direction Define 
 #define ITEM_INVEN_SLOT			0x01
@@ -86,18 +86,18 @@ const BYTE RESERVED			= 14;
 #define WEAPON_LONGBOW			8
 #define WEAPON_LAUNCHER			10
 #define WEAPON_STAFF			11
-#define WEAPON_ARROW			12	// 스킬 없음
-#define WEAPON_JAVELIN			13	// 스킬 없음
-#define WEAPON_WORRIOR_AC		21	// 스킬 없음
-#define WEAPON_LOG_AC			22	// 스킬 없음
-#define WEAPON_WIZARD_AC		23	// 스킬 없음
-#define WEAPON_PRIEST_AC		24	// 스킬 없음
+#define WEAPON_ARROW			12
+#define WEAPON_JAVELIN			13
+#define WEAPON_WORRIOR_AC		21
+#define WEAPON_LOG_AC			22
+#define WEAPON_WIZARD_AC		23
+#define WEAPON_PRIEST_AC		24
 ////////////////////////////////////////////////////////////
 // User Status //
-#define USER_STANDING			0X01		// 서 있다.
-#define USER_SITDOWN			0X02		// 앉아 있다.
-#define USER_DEAD				0x03		// 듀거떠
-//#define USER_BLINKING			0x04		// 방금 살아났어!!!
+#define USER_STANDING			0X01
+#define USER_SITDOWN			0X02
+#define USER_DEAD				0x03
+//#define USER_BLINKING			0x04
 ////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////
 // Magic State
@@ -116,13 +116,13 @@ const BYTE RESERVED			= 14;
 #define VICECHIEF			0x05*/
 #define OFFICER				0x04
 #define KNIGHT				0x03
-//#define TRAINEE				0x02
+//#define TRAINEE			0x02
 #define PUNISH				0x01	
 
-#define CHIEF				0x01	// 단장
-#define VICECHIEF			0x02	// 부단장
-#define TRAINEE				0x05	// 멤버
-#define COMMAND_CAPTAIN		100		// 지휘권자
+#define CHIEF				0x01
+#define VICECHIEF			0x02
+#define TRAINEE				0x05
+#define COMMAND_CAPTAIN		100
 ////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////
@@ -135,8 +135,8 @@ const BYTE RESERVED			= 14;
 #define MAX_KNIGHTS_BANK	200
 #define MAX_KNIGHTS_MARK	512
 
-#define ITEM_GOLD			900000000	// 돈 아이템 번호...
-#define ITEM_NO_TRADE		900000001	// 거래 불가 아이템들.... 비러머글 크리스마스 이밴트 >.<		
+#define ITEM_GOLD			900000000
+#define ITEM_NO_TRADE		900000001	// Untradable Items... Non-Ramuggle Christmas Event >.<
 
 ////////////////////////////////////////////////////////////
 // EVENT TYPE DEFINE
@@ -264,10 +264,10 @@ struct _ZONE_ITEM {		// Bundle unit
 
 struct	_ITEM_DATA
 {
-	int		nNum;		// item 번호
-	short	sDuration;	// item 내구력
-	short	sCount;		// item 갯수 or item 축복 속성에 해당 값
-	__int64	nSerialNum;	// item serial code
+	int		nNum;
+	short	sDuration;
+	short	sCount;
+	__int64	nSerialNum;
 };
 
 struct	_EXCHANGE_ITEM
@@ -275,115 +275,115 @@ struct	_EXCHANGE_ITEM
 	int itemid;
 	int count;
 	short duration;
-	BYTE pos;			//  교환후 들어갈 자리..
-	__int64	nSerialNum;	// item serial code
+	BYTE pos;
+	__int64	nSerialNum;
 };
 
 struct _ITEM_TABLE
 {
-	int   m_iNum;				// item num
-	char  m_strName[50];		// item Name
-	BYTE  m_bKind;				// item 종류
-	BYTE  m_bSlot;				// 장착위치
-	BYTE  m_bRace;				// 사용 가능한 종족
-	BYTE  m_bClass;				// 사용 가능한 Class
-	short m_sDamage;			// 최대 타격치
-	short m_sDelay;				// 공격시간
-	short m_sRange;				// 범위(유효거리)
-	short m_sWeight;			// 무게
-	short m_sDuration;			// 내구성
-	int	  m_iBuyPrice;			// 유저가 사는가격
-	int	  m_iSellPrice;			// 유저가 파는가격
-	short m_sAc;				// 방어력
-	BYTE  m_bCountable;			// 개수 개념 아이템
-	int	  m_iEffect1;			// 매직 이펙트1
-	int	  m_iEffect2;			// 매직 이펙트2
-	BYTE  m_bReqLevel;			// 요구 레벨
-	BYTE  m_bReqRank;			// 요구 작위
-	BYTE  m_bReqTitle;			// 요구 지위
-	BYTE  m_bReqStr;			// 요구 힘
-	BYTE  m_bReqSta;			// 요구 체력
-	BYTE  m_bReqDex;			// 요구 민첩
-	BYTE  m_bReqIntel;			// 요구 지능
-	BYTE  m_bReqCha;			// 요구 매력
-	BYTE  m_bSellingGroup;		// 상인 취급 물품
-	BYTE  m_ItemType;			// 매직아이템 또는 레어아이템
-	short m_sHitrate;			// 타격률
-	short m_sEvarate;			// 회피율
-	short m_sDaggerAc;			// 방어력1
-	short m_sSwordAc;			// 방어력2
-	short m_sMaceAc;			// 방어력3
-	short m_sAxeAc;				// 방어력4
-	short m_sSpearAc;			// 방어력5
-	short m_sBowAc;				// 방어력6
-	BYTE  m_bFireDamage;		// 불 속성
-	BYTE  m_bIceDamage;			// 냉기 속성
-	BYTE  m_bLightningDamage;	// 전격 속성
-	BYTE  m_bPoisonDamage;		// 독 속성
-	BYTE  m_bHPDrain;			// HP 흡수
-	BYTE  m_bMPDamage;			// MP 타격
-	BYTE  m_bMPDrain;			// MP 흡수
-	BYTE  m_bMirrorDamage;		// 반사 타격
-	BYTE  m_bDroprate;			// 드롭 비율
-	BYTE  m_bStrB;				// 힘 보너스
-	BYTE  m_bStaB;				// 체력 보너스
-	BYTE  m_bDexB;				// 민첩성 보너스
-	BYTE  m_bIntelB;			// 지능 보너스
-	BYTE  m_bChaB;				// 매력 보너스
-	short m_MaxHpB;				// MaxHP add
-	short m_MaxMpB;				// MaxMP add
-	BYTE  m_bFireR;				// 불 마법 저항력
-	BYTE  m_bColdR;				// 얼음 마법 저항력
-	BYTE  m_bLightningR;		// 전기 마법 저항력
-	BYTE  m_bMagicR;			// 기타 마법 저항력
-	BYTE  m_bPoisonR;			// 독 마법 저항력
-	BYTE  m_bCurseR;			// 저주 마법 저항력
+	int   m_iNum;
+	char  m_strName[50];
+	BYTE  m_bKind;
+	BYTE  m_bSlot;
+	BYTE  m_bRace;
+	BYTE  m_bClass;
+	short m_sDamage;
+	short m_sDelay;
+	short m_sRange;
+	short m_sWeight;
+	short m_sDuration;
+	int	  m_iBuyPrice;
+	int	  m_iSellPrice;
+	short m_sAc;
+	BYTE  m_bCountable;
+	int	  m_iEffect1;
+	int	  m_iEffect2;
+	BYTE  m_bReqLevel;
+	BYTE  m_bReqRank;
+	BYTE  m_bReqTitle;
+	BYTE  m_bReqStr;
+	BYTE  m_bReqSta;
+	BYTE  m_bReqDex;
+	BYTE  m_bReqIntel;
+	BYTE  m_bReqCha;
+	BYTE  m_bSellingGroup;
+	BYTE  m_ItemType;
+	short m_sHitrate;
+	short m_sEvarate;
+	short m_sDaggerAc;
+	short m_sSwordAc;
+	short m_sMaceAc;
+	short m_sAxeAc;
+	short m_sSpearAc;
+	short m_sBowAc;
+	BYTE  m_bFireDamage;
+	BYTE  m_bIceDamage;
+	BYTE  m_bLightningDamage;
+	BYTE  m_bPoisonDamage;
+	BYTE  m_bHPDrain;
+	BYTE  m_bMPDamage;
+	BYTE  m_bMPDrain;
+	BYTE  m_bMirrorDamage;
+	BYTE  m_bDroprate;
+	BYTE  m_bStrB;
+	BYTE  m_bStaB;
+	BYTE  m_bDexB;
+	BYTE  m_bIntelB;
+	BYTE  m_bChaB;
+	short m_MaxHpB;
+	short m_MaxMpB;
+	BYTE  m_bFireR;
+	BYTE  m_bColdR;
+	BYTE  m_bLightningR;
+	BYTE  m_bMagicR;
+	BYTE  m_bPoisonR;
+	BYTE  m_bCurseR;
 };
 
 struct _USER_DATA
 {
-	char	m_id[MAX_ID_SIZE+1];				// 유저 ID
-	char	m_Accountid[MAX_ID_SIZE+1];			// 계정 ID
+	char	m_id[MAX_ID_SIZE+1];
+	char	m_Accountid[MAX_ID_SIZE+1];
 
-	BYTE	m_bZone;						// 현재 Zone
-	float	m_curx;							// 현재 X 좌표
-	float	m_curz;							// 현재 Z 좌표
-	float	m_cury;							// 현재 Y 좌표
+	BYTE	m_bZone;
+	float	m_curx;
+	float	m_curz;
+	float	m_cury;
 
-	BYTE	m_bNation;						// 소속국가
-	BYTE	m_bRace;						// 종족
-	short	m_sClass;						// 직업
-	BYTE	m_bHairColor;					// 머리색깔
-	BYTE	m_bRank;						// 작위
-	BYTE	m_bTitle;						// 지위
-	BYTE	m_bLevel;						// 레벨
-	int		m_iExp;							// 경험치
-	int		m_iLoyalty;						// 로열티
-	BYTE	m_bFace;						// 얼굴모양
-	BYTE	m_bCity;						// 소속도시
-	short	m_bKnights;						// 소속 기사단
-	BYTE	m_bFame;						// 명성
-	short	m_sHp;							// HP
-	short	m_sMp;							// MP
-	short	m_sSp;							// SP
-	BYTE	m_bStr;							// 힘
-	BYTE	m_bSta;							// 생명력
-	BYTE	m_bDex;							// 공격, 회피율
-	BYTE	m_bIntel;						// 지혜(?), 캐릭터 마법력 결정
-	BYTE	m_bCha;							// 마법 성공률, 물건 가격 결정(?)
-	BYTE	m_bAuthority;					// 유저 권한
-	BYTE	m_bPoints;						// 보너스 포인트
-	int		m_iGold;						// 캐릭이 지닌 돈(21억)
-	short	m_sBind;						// Saved Bind Point
-	int		m_iBank;						// 창고의 돈(21억)
+	BYTE	m_bNation;
+	BYTE	m_bRace;
+	short	m_sClass;
+	BYTE	m_bHairColor;
+	BYTE	m_bRank;
+	BYTE	m_bTitle;
+	BYTE	m_bLevel;
+	int		m_iExp;
+	int		m_iLoyalty;
+	BYTE	m_bFace;
+	BYTE	m_bCity;
+	short	m_bKnights;
+	BYTE	m_bFame;
+	short	m_sHp;
+	short	m_sMp;
+	short	m_sSp;
+	BYTE	m_bStr;
+	BYTE	m_bSta;
+	BYTE	m_bDex;
+	BYTE	m_bIntel;
+	BYTE	m_bCha;
+	BYTE	m_bAuthority
+	BYTE	m_bPoints;
+	int		m_iGold;
+	short	m_sBind;
+	int		m_iBank;
 
-	BYTE    m_bstrSkill[9];					// 직업별 스킬
-	_ITEM_DATA m_sItemArray[HAVE_MAX+SLOT_MAX];		// 42*8 bytes
-	_ITEM_DATA m_sWarehouseArray[WAREHOUSE_MAX];	// 창고 아이템	196*8 bytes
+	BYTE    m_bstrSkill[9];
+	_ITEM_DATA m_sItemArray[HAVE_MAX+SLOT_MAX];
+	_ITEM_DATA m_sWarehouseArray[WAREHOUSE_MAX];
 
-	BYTE	m_bLogout;						// 로그아웃 플래그
-	BYTE	m_bWarehouse;					// 창고 거래 했었나?
-	DWORD	m_dwTime;						// 플레이 타임...
+	BYTE	m_bLogout;
+	BYTE	m_bWarehouse;
+	DWORD	m_dwTime;
 
 };
 
@@ -396,7 +396,7 @@ struct _LEVELUP
 struct	_PARTY_GROUP
 {
 	WORD wIndex;
-	short uid[8];		// 하나의 파티에 8명까지 가입가능
+	short uid[8];
 	short sMaxHp[8];
 	short sHp[8];
 	BYTE bLevel[8];
@@ -412,31 +412,31 @@ struct	_PARTY_GROUP
 
 struct _OBJECT_EVENT
 {
-	BYTE byLife;			// 1:살아있다, 0:켁,, 죽음
-	int sBelong;			// 소속
-	short sIndex;			// 100 번대 - 카루스 바인드 포인트 | 200 번대 엘모라드 바인드 포인트 | 1100 번대 - 카루스 성문들 1200 - 엘모라드 성문들
-	short sType;			// 0 - 바인드 포인트, 1 - 좌우로 열리는 성문, 2 - 상하로 열리는 성문, 3 - 레버, 4 - 깃발레버, 6:철창, 7-깨지는 부활비석
-	short sControlNpcID;	// 조종할 NPC ID (조종할 Object Index), Type-> 5 : Warp Group ID
-	short sStatus;			// status
-	float fPosX;			// 위치값
+	BYTE byLife;
+	int sBelong;
+	short sIndex;			// 100th Division - Karus Bind Point | 200th Elmorad Bind Point | 1100's - Carus Gates 1200 - Elmorad's Gates
+	short sType;			// 0 - Bind Point, 1 - Gates that open left and right, 2 - Gates that open up and down, 3 - Lever, 4 - Flag Lever, 6:Iron Window, 7-Breakable Resurrection Monument
+	short sControlNpcID;	// NPC ID to control (Object Index to control), Type-> 5 : Warp Group ID
+	short sStatus;
+	float fPosX;
 	float fPosY;
 	float fPosZ;
 };
 
 struct _REGENE_EVENT
 {
-	int	  sRegenePoint;		// 캐릭터 나타나는 지역 번호
-	float fRegenePosX;		// 캐릭터 나타나는 지역의 왼아래쪽 구석 좌표 X
-	float fRegenePosY;		// 캐릭터 나타나는 지역의 왼아래쪽 구석 좌표 Y
-	float fRegenePosZ;		// 캐릭터 나타나는 지역의 왼아래쪽 구석 좌표 Z
-	float fRegeneAreaZ;		// 캐릭터 나타나는 지역의 Z 축 길이 
-	float fRegeneAreaX;		// 캐릭터 나타나는 지역의 X 축 길이
+	int	  sRegenePoint;
+	float fRegenePosX;
+	float fRegenePosY;
+	float fRegenePosZ;
+	float fRegeneAreaZ;
+	float fRegeneAreaX;
 };
 
 struct _KNIGHTS_USER
 {
-	BYTE    byUsed;								// 사용중 : 1, 비사용중 : 0
-	char	strUserName[MAX_ID_SIZE+1];			// 캐릭터의 이름
+	BYTE    byUsed;								// In use: 1, Not in use: 0
+	char	strUserName[MAX_ID_SIZE+1];
 };
 
 struct _MAGIC_TABLE
