@@ -67,7 +67,7 @@ BOOL CDlgBrowsePath::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 
-	// 최근에 쓴 폴더를 가져온다...
+	// Get the recently written folder...
 	char szInitDir[256];
 	DWORD dwLength = 256;
 	memset(szInitDir, 0, 256);
@@ -182,13 +182,13 @@ void CDlgBrowsePath::OnSynchFolders()
 
 void CDlgBrowsePath::OnOK() 
 {
-	m_CBPath.GetWindowText(m_szPath); // 경로 기억..
+	m_CBPath.GetWindowText(m_szPath); // remember the path
 	if(m_szPath.GetLength() > 0)
 	{
-		m_CBPath.InsertString(0, m_szPath); // 경로 넣고...
+		m_CBPath.InsertString(0, m_szPath); // insert path
 	}
 
-	// 최근에 쓴 폴더를 저장해둔다....
+	// Save the recently written folder
 	char szInitDir[256] = "";
 	CString szKey;
 	HKEY hKey;
