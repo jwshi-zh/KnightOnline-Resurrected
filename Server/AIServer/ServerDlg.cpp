@@ -24,7 +24,7 @@
 #include "Region.h"
 #include "ini.h"
 
-//#include "extern.h"			// Àü¿ª °´Ã¼
+//#include "extern.h"			// å ì™ì˜™å ì™ì˜™ å ì™ì˜™ì²´
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -40,7 +40,7 @@ CRITICAL_SECTION g_User_critical;
 CRITICAL_SECTION g_region_critical;
 CRITICAL_SECTION g_LogFileWrite;
 
-#define CHECK_ALIVE 	100		//  °ÔÀÓ¼­¹ö¿Í Åë½ÅÀÌ ²÷±è¿©ºÎ ÆÇ´Ü, Å¸ÀÌ¸Ó º¯¼ö
+#define CHECK_ALIVE 	100		//  å ì™ì˜™å ìŒˆì‡½ì˜™å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™å ï¿½ å ì™ì˜™å ì¼ì—¬å ì™ì˜™ å ì‹¤ëŒì˜™, íƒ€å ì‹±ëªŒì˜™ å ì™ì˜™å ì™ì˜™
 #define REHP_TIME		200
 #define MONSTER_SPEED	1500
 
@@ -48,12 +48,12 @@ CRITICAL_SECTION g_LogFileWrite;
 // CAboutDlg dialog used for App About
 
 /*
-     ** Repent AI Server ÀÛ¾÷½Ã Âü°í »çÇ× **
-	1. 3°³ÀÇ ÇÔ¼ö Ãß°¡
+     ** Repent AI Server å ìŒœì–µì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™ **
+	1. 3å ì™ì˜™å ì™ì˜™ å ìŒ‰ì‡½ì˜™ å ìŒ©ê³¤ì˜™
 		int GetSpeed(BYTE bySpeed); 
 		int GetAttackSpeed(BYTE bySpeed); 
 		int GetCatsSpeed(BYTE bySpeed); 
-	2. Repent¿¡  ¸Â°³ ¾Æ·¡ÀÇ ÇÔ¼ö ¼öÁ¤
+	2. Repentå ì™ì˜™  å ìŠ¹ê³¤ì˜™ å ì‹£ë¤„ì˜™å ì™ì˜™ å ìŒ‰ì‡½ì˜™ å ì™ì˜™å ì™ì˜™
 		CreateNpcThread();
 		GetMonsterTableData();
 		GetNpcTableData();
@@ -161,7 +161,7 @@ END_MESSAGE_MAP()
 // CServerDlg message handlers
 
 ///////////////////////////////////////////////////////////////////////////////
-//	°¢Á¾ ÃÊ±âÈ­
+//	å ì™ì˜™å ì™ì˜™ å ì‹­ê¹ì˜™í™”
 //
 BOOL CServerDlg::OnInitDialog()
 {
@@ -180,9 +180,9 @@ BOOL CServerDlg::OnInitDialog()
 	srand( (unsigned)time(NULL) );
 	for(int i = 0; i < 10; i++) myrand(1, 10000);	// don't delete
 	// Compress Init
-	memset( m_CompBuf, NULL, 10240 );		// ¾ĞÃàÇÒ µ¥ÀÌÅÍ¸¦ ¸ğÀ¸´Â ¹öÆÛ
-	m_iCompIndex = 0;						// ¾ĞÃàÇÒ µ¥ÀÌÅÍÀÇ ±æÀÌ
-	m_CompCount = 0;						// ¾ĞÃàÇÒ µ¥ÀÌÅÍÀÇ °³¼ö
+	memset( m_CompBuf, NULL, 10240 );		// å ì™ì˜™å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™å ì‹¶ëªŒì˜™ å ì™ì˜™å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™
+	m_iCompIndex = 0;						// å ì™ì˜™å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™
+	m_CompCount = 0;						// å ì™ì˜™å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™
 	InitializeCriticalSection( &g_User_critical );
 	InitializeCriticalSection( &g_LogFileWrite );
 	m_sSocketCount = 0;
@@ -225,10 +225,10 @@ BOOL CServerDlg::OnInitDialog()
 	//----------------------------------------------------------------------
 	GetServerInfoIni();
 
-	if(m_byZone == UNIFY_ZONE)	m_strStatus.Format("UNIFY_ZONE ¼­¹öÀÇ ÇöÀç »óÅÂ");
-	else if(m_byZone == KARUS_ZONE)	m_strStatus.Format("KARUS ¼­¹öÀÇ ÇöÀç »óÅÂ");
-	else if(m_byZone == ELMORAD_ZONE) m_strStatus.Format("ELMORAD ¼­¹öÀÇ ÇöÀç »óÅÂ");
-	else if(m_byZone == BATTLE_ZONE) m_strStatus.Format("BATTLE ¼­¹öÀÇ ÇöÀç »óÅÂ");
+	if(m_byZone == UNIFY_ZONE)	m_strStatus.Format("UNIFY_ZONE å ì™ì˜™å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™");
+	else if(m_byZone == KARUS_ZONE)	m_strStatus.Format("KARUS å ì™ì˜™å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™");
+	else if(m_byZone == ELMORAD_ZONE) m_strStatus.Format("ELMORAD å ì™ì˜™å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™");
+	else if(m_byZone == BATTLE_ZONE) m_strStatus.Format("BATTLE å ì™ì˜™å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™");
 
 	//----------------------------------------------------------------------
 	//	DB part initialize
@@ -304,12 +304,12 @@ BOOL CServerDlg::OnInitDialog()
 	//----------------------------------------------------------------------
 	//	Load NPC Data & Activate NPC
 	//----------------------------------------------------------------------
-	if(!GetMonsterTableData())	{		// Monster Æ¯¼ºÄ¡ Å×ÀÌºí Load
+	if(!GetMonsterTableData())	{		// Monster íŠ¹å ì™ì˜™ì¹˜ å ì™ì˜™å ì‹±ë¸ì˜™ Load
 		EndDialog(IDCANCEL);
 		return FALSE;
 	}
 
-	if(!GetNpcTableData())	{			// NPC Æ¯¼ºÄ¡ Å×ÀÌºí Load
+	if(!GetNpcTableData())	{			// NPC íŠ¹å ì™ì˜™ì¹˜ å ì™ì˜™å ì‹±ë¸ì˜™ Load
 		EndDialog(IDCANCEL);
 		return FALSE;
 	}
@@ -434,7 +434,7 @@ void CServerDlg::DefaultInit()
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 }
 
-//	Magic Table À» ÀĞ´Â´Ù.
+//	Magic Table å ì™ì˜™ å ì‹»ëŠ”ëŒì˜™.
 BOOL CServerDlg::GetMagicTableData()
 {
 	CMagicTableSet	MagicTableSet;
@@ -643,7 +643,7 @@ BOOL CServerDlg::GetMakeLareItemTableData()
 }
 
 /////////////////////////////////////////////////////////////////////////
-//	NPC Item Table À» ÀĞ´Â´Ù.
+//	NPC Item Table å ì™ì˜™ å ì‹»ëŠ”ëŒì˜™.
 //
 BOOL CServerDlg::GetNpcItemTable()
 {
@@ -726,7 +726,7 @@ BOOL CServerDlg::GetNpcItemTable()
 	return TRUE;
 }
 
-//	Monster Table Data ¸¦ ÀĞ´Â´Ù.
+//	Monster Table Data å ì™ì˜™ å ì‹»ëŠ”ëŒì˜™.
 BOOL CServerDlg::GetMonsterTableData()
 {
 	CMonTableSet NpcTableSet;
@@ -757,54 +757,54 @@ BOOL CServerDlg::GetMonsterTableData()
 			Npc->m_sSid			= NpcTableSet.m_sSid;		// MONSTER(NPC) Serial ID
 			_tcscpy(Npc->m_strName, NpcTableSet.m_strName);	// MONSTER(NPC) Name
 			Npc->m_sPid = NpcTableSet.m_sPid;				// MONSTER(NPC) Picture ID
-			Npc->m_sSize = NpcTableSet.m_sSize;				// MONSTER(NPC) Ä³¸¯ Å©±â ºñÀ²
-			Npc->m_iWeapon_1 = NpcTableSet.m_iWeapon1;			// Âø¿ë¹«±â
-			Npc->m_iWeapon_2 = NpcTableSet.m_iWeapon2;			// Âø¿ë¹«±â
-			Npc->m_byGroup = NpcTableSet.m_byGroup;			// ¼Ò¼ÓÁı´Ü
-			Npc->m_byActType = NpcTableSet.m_byActType;		// Çàµ¿ÆĞÅÏ
-			Npc->m_byRank = NpcTableSet.m_byRank;			// ÀÛÀ§
-			Npc->m_byTitle = NpcTableSet.m_byTitle;			// ÁöÀ§
+			Npc->m_sSize = NpcTableSet.m_sSize;				// MONSTER(NPC) ìºå ì™ì˜™ í¬å ì™ì˜™ å ì™ì˜™å ì™ì˜™
+			Npc->m_iWeapon_1 = NpcTableSet.m_iWeapon1;			// å ì™ì˜™å ìˆë¬´å ì™ì˜™
+			Npc->m_iWeapon_2 = NpcTableSet.m_iWeapon2;			// å ì™ì˜™å ìˆë¬´å ì™ì˜™
+			Npc->m_byGroup = NpcTableSet.m_byGroup;			// å ìŒ€ì‡½ì˜™å ì™ì˜™å ì™ì˜™
+			Npc->m_byActType = NpcTableSet.m_byActType;		// å ì…ë™å ì™ì˜™å ì™ì˜™
+			Npc->m_byRank = NpcTableSet.m_byRank;			// å ì™ì˜™å ì™ì˜™
+			Npc->m_byTitle = NpcTableSet.m_byTitle;			// å ì™ì˜™å ì™ì˜™
 			Npc->m_iSellingGroup = NpcTableSet.m_iSellingGroup;		// item group
 			Npc->m_sLevel = NpcTableSet.m_sLevel;			// level
-			Npc->m_iExp = NpcTableSet.m_iExp;				// °æÇèÄ¡
+			Npc->m_iExp = NpcTableSet.m_iExp;				// å ì™ì˜™å ì™ì˜™ì¹˜
 			Npc->m_iLoyalty = NpcTableSet.m_iLoyalty;		// loyalty
-			Npc->m_iMaxHP = NpcTableSet.m_iHpPoint;	// ÃÖ´ë HP
-			Npc->m_sMaxMP = NpcTableSet.m_sMpPoint;	// ÃÖ´ë MP
-			Npc->m_sAttack = NpcTableSet.m_sAtk;			// °ø°İ°ª
-			Npc->m_sDefense = NpcTableSet.m_sAc;			// ¹æ¾î°ª
-			Npc->m_sHitRate = NpcTableSet.m_sHitRate;		// Å¸°İ¼º°ø·ü
-			Npc->m_sEvadeRate = NpcTableSet.m_sEvadeRate;	// È¸ÇÇ¼º°ø·ü
-			Npc->m_sDamage = NpcTableSet.m_sDamage;			// ±âº» µ¥¹ÌÁö
-			Npc->m_sAttackDelay = NpcTableSet.m_sAttackDelay;	// °ø°İµô·¹ÀÌ
-			Npc->m_bySpeed_1 = NpcTableSet.m_bySpeed1;				// ÀÌµ¿¼Óµµ	(°È±â)
-			Npc->m_bySpeed_2 = NpcTableSet.m_bySpeed2;				// ÀÌµ¿¼Óµµ	(¶Ù±â)
-			Npc->m_sSpeed = MONSTER_SPEED;			// ÀÌµ¿¼Óµµ	
-			Npc->m_sStandTime = NpcTableSet.m_sStandtime;		// ¼­ÀÖ´Â ½Ã°£
-			Npc->m_iMagic1 = NpcTableSet.m_iMagic1;			// »ç¿ë¸¶¹ı 1
-			Npc->m_iMagic2 = NpcTableSet.m_iMagic2;			// »ç¿ë¸¶¹ı 2
-			Npc->m_iMagic3 = NpcTableSet.m_iMagic3;			// »ç¿ë¸¶¹ı 3	
-			Npc->m_byFireR = NpcTableSet.m_byFireR;			// È­¿° ÀúÇ×·Â
-			Npc->m_byColdR = NpcTableSet.m_byColdR;			// ³Ã±â ÀúÇ×·Â
-			Npc->m_byLightningR = NpcTableSet.m_byLightningR;			// Àü±â ÀúÇ×·Â
-			Npc->m_byMagicR = NpcTableSet.m_byMagicR;			// ¸¶¹ı ÀúÇ×·Â
-			Npc->m_byDiseaseR = NpcTableSet.m_byDiseaseR;		// ÀúÁÖ ÀúÇ×·Â
-			Npc->m_byPoisonR = NpcTableSet.m_byPoisonR;		// µ¶ ÀúÇ×·Â
-			Npc->m_byLightR = NpcTableSet.m_byLightR;		// ºû ÀúÇ×·Â
+			Npc->m_iMaxHP = NpcTableSet.m_iHpPoint;	// å ìŒëŒì˜™ HP
+			Npc->m_sMaxMP = NpcTableSet.m_sMpPoint;	// å ìŒëŒì˜™ MP
+			Npc->m_sAttack = NpcTableSet.m_sAtk;			// å ì™ì˜™å ìŒ¥ê³¤ì˜™
+			Npc->m_sDefense = NpcTableSet.m_sAc;			// å ì™ì˜™è¼‰ï¿½
+			Npc->m_sHitRate = NpcTableSet.m_sHitRate;		// íƒ€å ìŒ¥ì‡½ì˜™å ì™ì˜™å ì™ì˜™
+			Npc->m_sEvadeRate = NpcTableSet.m_sEvadeRate;	// íšŒå ì‹¤ì‡½ì˜™å ì™ì˜™å ì™ì˜™
+			Npc->m_sDamage = NpcTableSet.m_sDamage;			// å ì©ë³¸ å ì™ì˜™å ì™ì˜™å ì™ì˜™
+			Npc->m_sAttackDelay = NpcTableSet.m_sAttackDelay;	// å ì™ì˜™å ìŒ¥ë“¸ì˜™å ì™ì˜™å ì™ì˜™
+			Npc->m_bySpeed_1 = NpcTableSet.m_bySpeed1;				// å ì‹±ë“¸ì˜™å ìŒˆë“¸ì˜™	(å ì‹«ê¹ì˜™)
+			Npc->m_bySpeed_2 = NpcTableSet.m_bySpeed2;				// å ì‹±ë“¸ì˜™å ìŒˆë“¸ì˜™	(å ìŒ•ê¹ì˜™)
+			Npc->m_sSpeed = MONSTER_SPEED;			// å ì‹±ë“¸ì˜™å ìŒˆë“¸ì˜™	
+			Npc->m_sStandTime = NpcTableSet.m_sStandtime;		// å ì™ì˜™å ìŒëŒì˜™ å ì‹œê³¤ì˜™
+			Npc->m_iMagic1 = NpcTableSet.m_iMagic1;			// å ì™ì˜™é‡‰ë°ì˜™å ï¿½ 1
+			Npc->m_iMagic2 = NpcTableSet.m_iMagic2;			// å ì™ì˜™é‡‰ë°ì˜™å ï¿½ 2
+			Npc->m_iMagic3 = NpcTableSet.m_iMagic3;			// å ì™ì˜™é‡‰ë°ì˜™å ï¿½ 3	
+			Npc->m_byFireR = NpcTableSet.m_byFireR;			// í™”å ì™ì˜™ å ì™ì˜™å ìŒ“ë¤„ì˜™
+			Npc->m_byColdR = NpcTableSet.m_byColdR;			// å ì‹œê¹ì˜™ å ì™ì˜™å ìŒ“ë¤„ì˜™
+			Npc->m_byLightningR = NpcTableSet.m_byLightningR;			// å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ìŒ“ë¤„ì˜™
+			Npc->m_byMagicR = NpcTableSet.m_byMagicR;			// å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ìŒ“ë¤„ì˜™
+			Npc->m_byDiseaseR = NpcTableSet.m_byDiseaseR;		// å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ìŒ“ë¤„ì˜™
+			Npc->m_byPoisonR = NpcTableSet.m_byPoisonR;		// å ì™ì˜™ å ì™ì˜™å ìŒ“ë¤„ì˜™
+			Npc->m_byLightR = NpcTableSet.m_byLightR;		// å ì™ì˜™ å ì™ì˜™å ìŒ“ë¤„ì˜™
 			Npc->m_sBulk	= NpcTableSet.m_sBulk;
-			Npc->m_bySearchRange = NpcTableSet.m_bySearchRange;	// Àû Å½Áö ¹üÀ§
-			Npc->m_byAttackRange = NpcTableSet.m_byAttackRange;	// »çÁ¤°Å¸®
-			Npc->m_byTracingRange = NpcTableSet.m_byTracingRange;	// Ãß°İ°Å¸®
-			//Npc->m_sAI = NpcTableSet.m_sAI;				// ÀÎ°øÁö´É ÀÎµ¦½º
+			Npc->m_bySearchRange = NpcTableSet.m_bySearchRange;	// å ì™ì˜™ íƒå ì™ì˜™ å ì™ì˜™å ì™ì˜™
+			Npc->m_byAttackRange = NpcTableSet.m_byAttackRange;	// å ì™ì˜™å ì™ì˜™å ì‹ ëªŒì˜™
+			Npc->m_byTracingRange = NpcTableSet.m_byTracingRange;	// å ìŒ©ê²©ê±°ëªŒì˜™
+			//Npc->m_sAI = NpcTableSet.m_sAI;				// å ì‹¸ê³¤ì˜™å ì™ì˜™å ì™ì˜™ å ì‹¸ë“¸ì˜™å ì™ì˜™
 			Npc->m_tNpcType = NpcTableSet.m_byType;			// NPC Type
 								// 0 : Monster
 								// 1 : Normal NPC
 			
-			Npc->m_byFamilyType = NpcTableSet.m_byFamily;		// ¸÷µé»çÀÌ¿¡¼­ °¡Á·°ü°è¸¦ °áÁ¤ÇÑ´Ù.
-			//Npc->m_tItemPer;		// ¾ÆÀÌÅÛÀÌ ¶³¾îÁú È®·ü
-			//Npc->m_tDnPer;			// µ·ÀÌ ¶³¾îÁúÈ®·ü
+			Npc->m_byFamilyType = NpcTableSet.m_byFamily;		// å ì™ì˜™å ì™ì˜™å ì™ì˜™çµå ì™ì˜™å ï¿½ å ì™ì˜™å ì™ì˜™å ì™ì˜™å ì¼ë¥¼ å ì™ì˜™å ì™ì˜™å ì‹¼ëŒì˜™.
+			//Npc->m_tItemPer;		// å ì™ì˜™å ì™ì˜™å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™å ì™ì˜™ í™•å ì™ì˜™
+			//Npc->m_tDnPer;			// å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™å ì™ì˜™í™•å ì™ì˜™
 
-			Npc->m_iMoney = NpcTableSet.m_iMoney;			// ¶³¾îÁö´Â µ·
-			Npc->m_iItem = NpcTableSet.m_sItem;			// ¶³¾îÁö´Â ¾ÆÀÌÅÛ
+			Npc->m_iMoney = NpcTableSet.m_iMoney;			// å ì™ì˜™å ì™ì˜™å ì™ì˜™å ì™ì˜™ å ì™ì˜™
+			Npc->m_iItem = NpcTableSet.m_sItem;			// å ì™ì˜™å ì™ì˜™å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™å ì™ì˜™
 			Npc->m_byDirectAttack = NpcTableSet.m_byDirectAttack;
 			Npc->m_byMagicAttack = NpcTableSet.m_byMagicAttack;
 			
@@ -838,7 +838,7 @@ BOOL CServerDlg::GetMonsterTableData()
 	return TRUE;
 }
 
-//	NPC Table Data ¸¦ ÀĞ´Â´Ù. (°æºñº´ & NPC)
+//	NPC Table Data å ì™ì˜™ å ì‹»ëŠ”ëŒì˜™. (å ì™ì˜™å ï¿½ & NPC)
 BOOL CServerDlg::GetNpcTableData()
 {
 	CNpcTableSet NpcTableSet;
@@ -869,54 +869,54 @@ BOOL CServerDlg::GetNpcTableData()
 			Npc->m_sSid			= NpcTableSet.m_sSid;		// MONSTER(NPC) Serial ID
 			_tcscpy(Npc->m_strName, NpcTableSet.m_strName);	// MONSTER(NPC) Name
 			Npc->m_sPid = NpcTableSet.m_sPid;				// MONSTER(NPC) Picture ID
-			Npc->m_sSize = NpcTableSet.m_sSize;				// MONSTER(NPC) Ä³¸¯ Å©±â ºñÀ²
-			Npc->m_iWeapon_1 = NpcTableSet.m_iWeapon1;			// Âø¿ë¹«±â
-			Npc->m_iWeapon_2 = NpcTableSet.m_iWeapon2;			// Âø¿ë¹«±â
-			Npc->m_byGroup = NpcTableSet.m_byGroup;			// ¼Ò¼ÓÁı´Ü
-			Npc->m_byActType = NpcTableSet.m_byActType;		// Çàµ¿ÆĞÅÏ
-			Npc->m_byRank = NpcTableSet.m_byRank;			// ÀÛÀ§
-			Npc->m_byTitle = NpcTableSet.m_byTitle;			// ÁöÀ§
+			Npc->m_sSize = NpcTableSet.m_sSize;				// MONSTER(NPC) ìºå ì™ì˜™ í¬å ì™ì˜™ å ì™ì˜™å ì™ì˜™
+			Npc->m_iWeapon_1 = NpcTableSet.m_iWeapon1;			// å ì™ì˜™å ìˆë¬´å ì™ì˜™
+			Npc->m_iWeapon_2 = NpcTableSet.m_iWeapon2;			// å ì™ì˜™å ìˆë¬´å ì™ì˜™
+			Npc->m_byGroup = NpcTableSet.m_byGroup;			// å ìŒ€ì‡½ì˜™å ì™ì˜™å ì™ì˜™
+			Npc->m_byActType = NpcTableSet.m_byActType;		// å ì…ë™å ì™ì˜™å ì™ì˜™
+			Npc->m_byRank = NpcTableSet.m_byRank;			// å ì™ì˜™å ì™ì˜™
+			Npc->m_byTitle = NpcTableSet.m_byTitle;			// å ì™ì˜™å ì™ì˜™
 			Npc->m_iSellingGroup = NpcTableSet.m_iSellingGroup;		// item group
 			Npc->m_sLevel = NpcTableSet.m_sLevel;			// level
-			Npc->m_iExp = NpcTableSet.m_iExp;				// °æÇèÄ¡
+			Npc->m_iExp = NpcTableSet.m_iExp;				// å ì™ì˜™å ì™ì˜™ì¹˜
 			Npc->m_iLoyalty = NpcTableSet.m_iLoyalty;		// loyalty
-			Npc->m_iMaxHP = NpcTableSet.m_iHpPoint;	// ÃÖ´ë HP
-			Npc->m_sMaxMP = NpcTableSet.m_sMpPoint;	// ÃÖ´ë MP
-			Npc->m_sAttack = NpcTableSet.m_sAtk;			// °ø°İ°ª
-			Npc->m_sDefense = NpcTableSet.m_sAc;			// ¹æ¾î°ª
-			Npc->m_sHitRate = NpcTableSet.m_sHitRate;		// Å¸°İ¼º°ø·ü
-			Npc->m_sEvadeRate = NpcTableSet.m_sEvadeRate;	// È¸ÇÇ¼º°ø·ü
-			Npc->m_sDamage = NpcTableSet.m_sDamage;			// ±âº» µ¥¹ÌÁö
-			Npc->m_sAttackDelay = NpcTableSet.m_sAttackDelay;	// °ø°İµô·¹ÀÌ
-			Npc->m_bySpeed_1 = NpcTableSet.m_bySpeed1;				// ÀÌµ¿¼Óµµ	(°È±â)
-			Npc->m_bySpeed_2 = NpcTableSet.m_bySpeed2;				// ÀÌµ¿¼Óµµ	(¶Ù±â)
-			Npc->m_sSpeed = MONSTER_SPEED;			// ÀÌµ¿¼Óµµ	
-			Npc->m_sStandTime = NpcTableSet.m_sStandtime;		// ¼­ÀÖ´Â ½Ã°£
-			Npc->m_iMagic1 = NpcTableSet.m_iMagic1;			// »ç¿ë¸¶¹ı 1
-			Npc->m_iMagic2 = NpcTableSet.m_iMagic2;			// »ç¿ë¸¶¹ı 2
-			Npc->m_iMagic3 = NpcTableSet.m_iMagic3;			// »ç¿ë¸¶¹ı 3	
-			Npc->m_byFireR = NpcTableSet.m_byFireR;			// È­¿° ÀúÇ×·Â
-			Npc->m_byColdR = NpcTableSet.m_byColdR;			// ³Ã±â ÀúÇ×·Â
-			Npc->m_byLightningR = NpcTableSet.m_byLightningR;			// Àü±â ÀúÇ×·Â
-			Npc->m_byMagicR = NpcTableSet.m_byMagicR;			// ¸¶¹ı ÀúÇ×·Â
-			Npc->m_byDiseaseR = NpcTableSet.m_byDiseaseR;		// ÀúÁÖ ÀúÇ×·Â
-			Npc->m_byPoisonR = NpcTableSet.m_byPoisonR;		// µ¶ ÀúÇ×·Â
-			Npc->m_byLightR = NpcTableSet.m_byLightR;		// ºû ÀúÇ×·Â
+			Npc->m_iMaxHP = NpcTableSet.m_iHpPoint;	// å ìŒëŒì˜™ HP
+			Npc->m_sMaxMP = NpcTableSet.m_sMpPoint;	// å ìŒëŒì˜™ MP
+			Npc->m_sAttack = NpcTableSet.m_sAtk;			// å ì™ì˜™å ìŒ¥ê³¤ì˜™
+			Npc->m_sDefense = NpcTableSet.m_sAc;			// å ì™ì˜™è¼‰ï¿½
+			Npc->m_sHitRate = NpcTableSet.m_sHitRate;		// íƒ€å ìŒ¥ì‡½ì˜™å ì™ì˜™å ì™ì˜™
+			Npc->m_sEvadeRate = NpcTableSet.m_sEvadeRate;	// íšŒå ì‹¤ì‡½ì˜™å ì™ì˜™å ì™ì˜™
+			Npc->m_sDamage = NpcTableSet.m_sDamage;			// å ì©ë³¸ å ì™ì˜™å ì™ì˜™å ì™ì˜™
+			Npc->m_sAttackDelay = NpcTableSet.m_sAttackDelay;	// å ì™ì˜™å ìŒ¥ë“¸ì˜™å ì™ì˜™å ì™ì˜™
+			Npc->m_bySpeed_1 = NpcTableSet.m_bySpeed1;				// å ì‹±ë“¸ì˜™å ìŒˆë“¸ì˜™	(å ì‹«ê¹ì˜™)
+			Npc->m_bySpeed_2 = NpcTableSet.m_bySpeed2;				// å ì‹±ë“¸ì˜™å ìŒˆë“¸ì˜™	(å ìŒ•ê¹ì˜™)
+			Npc->m_sSpeed = MONSTER_SPEED;			// å ì‹±ë“¸ì˜™å ìŒˆë“¸ì˜™	
+			Npc->m_sStandTime = NpcTableSet.m_sStandtime;		// å ì™ì˜™å ìŒëŒì˜™ å ì‹œê³¤ì˜™
+			Npc->m_iMagic1 = NpcTableSet.m_iMagic1;			// å ì™ì˜™é‡‰ë°ì˜™å ï¿½ 1
+			Npc->m_iMagic2 = NpcTableSet.m_iMagic2;			// å ì™ì˜™é‡‰ë°ì˜™å ï¿½ 2
+			Npc->m_iMagic3 = NpcTableSet.m_iMagic3;			// å ì™ì˜™é‡‰ë°ì˜™å ï¿½ 3	
+			Npc->m_byFireR = NpcTableSet.m_byFireR;			// í™”å ì™ì˜™ å ì™ì˜™å ìŒ“ë¤„ì˜™
+			Npc->m_byColdR = NpcTableSet.m_byColdR;			// å ì‹œê¹ì˜™ å ì™ì˜™å ìŒ“ë¤„ì˜™
+			Npc->m_byLightningR = NpcTableSet.m_byLightningR;			// å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ìŒ“ë¤„ì˜™
+			Npc->m_byMagicR = NpcTableSet.m_byMagicR;			// å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ìŒ“ë¤„ì˜™
+			Npc->m_byDiseaseR = NpcTableSet.m_byDiseaseR;		// å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ìŒ“ë¤„ì˜™
+			Npc->m_byPoisonR = NpcTableSet.m_byPoisonR;		// å ì™ì˜™ å ì™ì˜™å ìŒ“ë¤„ì˜™
+			Npc->m_byLightR = NpcTableSet.m_byLightR;		// å ì™ì˜™ å ì™ì˜™å ìŒ“ë¤„ì˜™
 			Npc->m_sBulk	= NpcTableSet.m_sBulk;
-			Npc->m_bySearchRange = NpcTableSet.m_bySearchRange;	// Àû Å½Áö ¹üÀ§
-			Npc->m_byAttackRange = NpcTableSet.m_byAttackRange;	// »çÁ¤°Å¸®
-			Npc->m_byTracingRange = NpcTableSet.m_byTracingRange;	// Ãß°İ°Å¸®
-			//Npc->m_sAI = NpcTableSet.m_sAI;				// ÀÎ°øÁö´É ÀÎµ¦½º
+			Npc->m_bySearchRange = NpcTableSet.m_bySearchRange;	// å ì™ì˜™ íƒå ì™ì˜™ å ì™ì˜™å ì™ì˜™
+			Npc->m_byAttackRange = NpcTableSet.m_byAttackRange;	// å ì™ì˜™å ì™ì˜™å ì‹ ëªŒì˜™
+			Npc->m_byTracingRange = NpcTableSet.m_byTracingRange;	// å ìŒ©ê²©ê±°ëªŒì˜™
+			//Npc->m_sAI = NpcTableSet.m_sAI;				// å ì‹¸ê³¤ì˜™å ì™ì˜™å ì™ì˜™ å ì‹¸ë“¸ì˜™å ì™ì˜™
 			Npc->m_tNpcType = NpcTableSet.m_byType;			// NPC Type
 								// 0 : Monster
 								// 1 : Normal NPC
 
-			Npc->m_byFamilyType = NpcTableSet.m_byFamily;		// ¸÷µé»çÀÌ¿¡¼­ °¡Á·°ü°è¸¦ °áÁ¤ÇÑ´Ù.
-			//Npc->m_tItemPer;		// ¾ÆÀÌÅÛÀÌ ¶³¾îÁú È®·ü
-			//Npc->m_tDnPer;			// µ·ÀÌ ¶³¾îÁúÈ®·ü
+			Npc->m_byFamilyType = NpcTableSet.m_byFamily;		// å ì™ì˜™å ì™ì˜™å ì™ì˜™çµå ì™ì˜™å ï¿½ å ì™ì˜™å ì™ì˜™å ì™ì˜™å ì¼ë¥¼ å ì™ì˜™å ì™ì˜™å ì‹¼ëŒì˜™.
+			//Npc->m_tItemPer;		// å ì™ì˜™å ì™ì˜™å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™å ì™ì˜™ í™•å ì™ì˜™
+			//Npc->m_tDnPer;			// å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™å ì™ì˜™í™•å ì™ì˜™
 
-			Npc->m_iMoney = NpcTableSet.m_iMoney;			// ¶³¾îÁö´Â µ·
-			Npc->m_iItem = NpcTableSet.m_sItem;			// ¶³¾îÁö´Â ¾ÆÀÌÅÛ
+			Npc->m_iMoney = NpcTableSet.m_iMoney;			// å ì™ì˜™å ì™ì˜™å ì™ì˜™å ì™ì˜™ å ì™ì˜™
+			Npc->m_iItem = NpcTableSet.m_sItem;			// å ì™ì˜™å ì™ì˜™å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™å ì™ì˜™
 			Npc->m_byDirectAttack = NpcTableSet.m_byDirectAttack;
 			Npc->m_byMagicAttack = NpcTableSet.m_byMagicAttack;
 			
@@ -950,7 +950,7 @@ BOOL CServerDlg::GetNpcTableData()
 	return TRUE;
 }
 
-//	Npc Thread ¸¦ ¸¸µç´Ù.
+//	Npc Thread å ì™ì˜™ å ì™ì˜™å ì™ì˜™å ï¿½.
 BOOL CServerDlg::CreateNpcThread()
 {
 	BOOL	bMoveNext	= TRUE;
@@ -961,7 +961,7 @@ BOOL CServerDlg::CreateNpcThread()
 	int nRandom = 0, nServerNum = 0;
 	double  dbSpeed = 0;
 
-	m_TotalNPC = 0;			// DB¿¡ ÀÖ´Â ¼ö
+	m_TotalNPC = 0;			// DBå ì™ì˜™ å ìŒëŒì˜™ å ì™ì˜™
 	m_CurrentNPC = 0;
 	m_CurrentNPCError = 0;
 
@@ -969,7 +969,7 @@ BOOL CServerDlg::CreateNpcThread()
 	CRoomEvent* pRoom = NULL;
 
 	// sungyong test
-	//CRNpcPosSet NpcPosSet;		// ÇÑ¸¶¸® Å×½ºÆ®¿ë
+	//CRNpcPosSet NpcPosSet;		// å ì‹¼ëªŒì˜™å ì™ì˜™ å ìŒ“ì™ì˜™íŠ¸å ì™ì˜™
 	CNpcPosSet NpcPosSet;
 
 	char szPath[500];
@@ -998,7 +998,7 @@ BOOL CServerDlg::CreateNpcThread()
 
 		while(!NpcPosSet.IsEOF())	{
 			nMonsterNumber = NpcPosSet.m_NumNPC;
-			//if( NpcPosSet.m_ZoneID == 101 )	{	// Å×½ºÆ®¸¦ À§ÇØ¼­,, 
+			//if( NpcPosSet.m_ZoneID == 101 )	{	// å ìŒ“ì™ì˜™íŠ¸å ì™ì˜™ å ì™ì˜™å ìŒ”ì‡½ì˜™,, 
 			//	nMonsterNumber = 1;
 				//if(nMonsterNumber > 4)	{
 				//	nMonsterNumber = nMonsterNumber / 4;
@@ -1010,7 +1010,7 @@ BOOL CServerDlg::CreateNpcThread()
 			if(m_byZone == nServerNum || m_byZone == UNIFY_ZONE)	{
 				for(j=0; j<nMonsterNumber; j++)		{
 					CNpc*		pNpc		= new CNpc;
-					pNpc->m_sNid	= nSerial++;			// ¼­¹ö ³»¿¡¼­ÀÇ °íÀ¯ ¹øÈ£
+					pNpc->m_sNid	= nSerial++;			// å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™ å ì™ì˜™í˜¸
 					pNpc->m_sSid	= (short)NpcPosSet.m_NpcID;		// MONSTER(NPC) Serial ID
 
 					pNpc->m_byMoveType = NpcPosSet.m_ActType;
@@ -1053,61 +1053,61 @@ BOOL CServerDlg::CreateNpcThread()
 					
 					_tcscpy(pNpc->m_strName, pNpcTable->m_strName);	// MONSTER(NPC) Name
 					pNpc->m_sPid		= pNpcTable->m_sPid;		// MONSTER(NPC) Picture ID
-					pNpc->m_sSize		= pNpcTable->m_sSize;		// Ä³¸¯ÅÍÀÇ ºñÀ²(100 ÆÛ¼¾Æ® ±âÁØ)
-					pNpc->m_iWeapon_1		= pNpcTable->m_iWeapon_1;	// Âø¿ë¹«±â
-					pNpc->m_iWeapon_2		= pNpcTable->m_iWeapon_2;	// Âø¿ë¹«±â
-					pNpc->m_byGroup			= pNpcTable->m_byGroup;		// ¼Ò¼ÓÁı´Ü
-					pNpc->m_byActType		= pNpcTable->m_byActType;	// Çàµ¿ÆĞÅÏ
-					pNpc->m_byRank			= pNpcTable->m_byRank;		// ÀÛÀ§
-					pNpc->m_byTitle			= pNpcTable->m_byTitle;		// ÁöÀ§
+					pNpc->m_sSize		= pNpcTable->m_sSize;		// ìºå ì™ì˜™å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™(100 å ìŒœì‡½ì˜™íŠ¸ å ì™ì˜™å ì™ì˜™)
+					pNpc->m_iWeapon_1		= pNpcTable->m_iWeapon_1;	// å ì™ì˜™å ìˆë¬´å ì™ì˜™
+					pNpc->m_iWeapon_2		= pNpcTable->m_iWeapon_2;	// å ì™ì˜™å ìˆë¬´å ì™ì˜™
+					pNpc->m_byGroup			= pNpcTable->m_byGroup;		// å ìŒ€ì‡½ì˜™å ì™ì˜™å ì™ì˜™
+					pNpc->m_byActType		= pNpcTable->m_byActType;	// å ì…ë™å ì™ì˜™å ì™ì˜™
+					pNpc->m_byRank			= pNpcTable->m_byRank;		// å ì™ì˜™å ì™ì˜™
+					pNpc->m_byTitle			= pNpcTable->m_byTitle;		// å ì™ì˜™å ì™ì˜™
 					pNpc->m_iSellingGroup  = pNpcTable->m_iSellingGroup;
 					pNpc->m_sLevel			= pNpcTable->m_sLevel;		// level
-					pNpc->m_iExp			= pNpcTable->m_iExp;		// °æÇèÄ¡
+					pNpc->m_iExp			= pNpcTable->m_iExp;		// å ì™ì˜™å ì™ì˜™ì¹˜
 					pNpc->m_iLoyalty		= pNpcTable->m_iLoyalty;	// loyalty
-					pNpc->m_iHP				= pNpcTable->m_iMaxHP;		// ÃÖ´ë HP
-					pNpc->m_iMaxHP			= pNpcTable->m_iMaxHP;		// ÇöÀç HP
-					pNpc->m_sMP				= pNpcTable->m_sMaxMP;		// ÃÖ´ë MP
-					pNpc->m_sMaxMP			= pNpcTable->m_sMaxMP;		// ÇöÀç MP
-					pNpc->m_sAttack			= pNpcTable->m_sAttack;		// °ø°İ°ª
-					pNpc->m_sDefense		= pNpcTable->m_sDefense;	// ¹æ¾î°ª
-					pNpc->m_sHitRate		= pNpcTable->m_sHitRate;	// Å¸°İ¼º°ø·ü
-					pNpc->m_sEvadeRate		= pNpcTable->m_sEvadeRate;	// È¸ÇÇ¼º°ø·ü
-					pNpc->m_sDamage			= pNpcTable->m_sDamage;		// ±âº» µ¥¹ÌÁö
-					pNpc->m_sAttackDelay	= pNpcTable->m_sAttackDelay;// °ø°İµô·¹ÀÌ
-					pNpc->m_sSpeed			= pNpcTable->m_sSpeed;		// ÀÌµ¿¼Óµµ
+					pNpc->m_iHP				= pNpcTable->m_iMaxHP;		// å ìŒëŒì˜™ HP
+					pNpc->m_iMaxHP			= pNpcTable->m_iMaxHP;		// å ì™ì˜™å ì™ì˜™ HP
+					pNpc->m_sMP				= pNpcTable->m_sMaxMP;		// å ìŒëŒì˜™ MP
+					pNpc->m_sMaxMP			= pNpcTable->m_sMaxMP;		// å ì™ì˜™å ì™ì˜™ MP
+					pNpc->m_sAttack			= pNpcTable->m_sAttack;		// å ì™ì˜™å ìŒ¥ê³¤ì˜™
+					pNpc->m_sDefense		= pNpcTable->m_sDefense;	// å ì™ì˜™è¼‰ï¿½
+					pNpc->m_sHitRate		= pNpcTable->m_sHitRate;	// íƒ€å ìŒ¥ì‡½ì˜™å ì™ì˜™å ì™ì˜™
+					pNpc->m_sEvadeRate		= pNpcTable->m_sEvadeRate;	// íšŒå ì‹¤ì‡½ì˜™å ì™ì˜™å ì™ì˜™
+					pNpc->m_sDamage			= pNpcTable->m_sDamage;		// å ì©ë³¸ å ì™ì˜™å ì™ì˜™å ì™ì˜™
+					pNpc->m_sAttackDelay	= pNpcTable->m_sAttackDelay;// å ì™ì˜™å ìŒ¥ë“¸ì˜™å ì™ì˜™å ì™ì˜™
+					pNpc->m_sSpeed			= pNpcTable->m_sSpeed;		// å ì‹±ë“¸ì˜™å ìŒˆë“¸ì˜™
 					dbSpeed = pNpcTable->m_sSpeed;	
-					pNpc->m_fSpeed_1		= (float)pNpcTable->m_bySpeed_1 * (dbSpeed / 1000);	// ±âº» ÀÌµ¿ Å¸ÀÔ
-					pNpc->m_fSpeed_2		= (float)pNpcTable->m_bySpeed_2 * (dbSpeed / 1000);	// ¶Ù´Â ÀÌµ¿ Å¸ÀÔ..
-					pNpc->m_fOldSpeed_1		= (float)pNpcTable->m_bySpeed_1 * (dbSpeed / 1000);	// ±âº» ÀÌµ¿ Å¸ÀÔ
-					pNpc->m_fOldSpeed_2		= (float)pNpcTable->m_bySpeed_2 * (dbSpeed / 1000);	// ¶Ù´Â ÀÌµ¿ Å¸ÀÔ..
-					pNpc->m_fSecForMetor    = 4.0f;						// ÃÊ´ç °¥ ¼ö ÀÖ´Â °Å¸®..
-					pNpc->m_sStandTime		= pNpcTable->m_sStandTime;	// ¼­ÀÖ´Â ½Ã°£
-					pNpc->m_iMagic1			= pNpcTable->m_iMagic1;		// »ç¿ë¸¶¹ı 1
-					pNpc->m_iMagic2			= pNpcTable->m_iMagic2;		// »ç¿ë¸¶¹ı 2
-					pNpc->m_iMagic3			= pNpcTable->m_iMagic3;		// »ç¿ë¸¶¹ı 3
-					pNpc->m_byFireR			= pNpcTable->m_byFireR;		// È­¿° ÀúÇ×·Â
-					pNpc->m_byColdR			= pNpcTable->m_byColdR;		// ³Ã±â ÀúÇ×·Â
-					pNpc->m_byLightningR	= pNpcTable->m_byLightningR;	// Àü±â ÀúÇ×·Â
-					pNpc->m_byMagicR		= pNpcTable->m_byMagicR;	// ¸¶¹ı ÀúÇ×·Â
-					pNpc->m_byDiseaseR		= pNpcTable->m_byDiseaseR;	// ÀúÁÖ ÀúÇ×·Â
-					pNpc->m_byPoisonR		= pNpcTable->m_byPoisonR;	// µ¶ ÀúÇ×·Â
-					pNpc->m_byLightR		= pNpcTable->m_byLightR;	// ºû ÀúÇ×·Â
+					pNpc->m_fSpeed_1		= (float)pNpcTable->m_bySpeed_1 * (dbSpeed / 1000);	// å ì©ë³¸ å ì‹±ë“¸ì˜™ íƒ€å ì™ì˜™
+					pNpc->m_fSpeed_2		= (float)pNpcTable->m_bySpeed_2 * (dbSpeed / 1000);	// å ìŒ•ëŒì˜™ å ì‹±ë“¸ì˜™ íƒ€å ì™ì˜™..
+					pNpc->m_fOldSpeed_1		= (float)pNpcTable->m_bySpeed_1 * (dbSpeed / 1000);	// å ì©ë³¸ å ì‹±ë“¸ì˜™ íƒ€å ì™ì˜™
+					pNpc->m_fOldSpeed_2		= (float)pNpcTable->m_bySpeed_2 * (dbSpeed / 1000);	// å ìŒ•ëŒì˜™ å ì‹±ë“¸ì˜™ íƒ€å ì™ì˜™..
+					pNpc->m_fSecForMetor    = 4.0f;						// å ì‹­ëŒì˜™ å ì™ì˜™ å ì™ì˜™ å ìŒëŒì˜™ å ì‹ ëªŒì˜™..
+					pNpc->m_sStandTime		= pNpcTable->m_sStandTime;	// å ì™ì˜™å ìŒëŒì˜™ å ì‹œê³¤ì˜™
+					pNpc->m_iMagic1			= pNpcTable->m_iMagic1;		// å ì™ì˜™é‡‰ë°ì˜™å ï¿½ 1
+					pNpc->m_iMagic2			= pNpcTable->m_iMagic2;		// å ì™ì˜™é‡‰ë°ì˜™å ï¿½ 2
+					pNpc->m_iMagic3			= pNpcTable->m_iMagic3;		// å ì™ì˜™é‡‰ë°ì˜™å ï¿½ 3
+					pNpc->m_byFireR			= pNpcTable->m_byFireR;		// í™”å ì™ì˜™ å ì™ì˜™å ìŒ“ë¤„ì˜™
+					pNpc->m_byColdR			= pNpcTable->m_byColdR;		// å ì‹œê¹ì˜™ å ì™ì˜™å ìŒ“ë¤„ì˜™
+					pNpc->m_byLightningR	= pNpcTable->m_byLightningR;	// å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ìŒ“ë¤„ì˜™
+					pNpc->m_byMagicR		= pNpcTable->m_byMagicR;	// å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ìŒ“ë¤„ì˜™
+					pNpc->m_byDiseaseR		= pNpcTable->m_byDiseaseR;	// å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ìŒ“ë¤„ì˜™
+					pNpc->m_byPoisonR		= pNpcTable->m_byPoisonR;	// å ì™ì˜™ å ì™ì˜™å ìŒ“ë¤„ì˜™
+					pNpc->m_byLightR		= pNpcTable->m_byLightR;	// å ì™ì˜™ å ì™ì˜™å ìŒ“ë¤„ì˜™
 					pNpc->m_fBulk			= (float)( ((double)pNpcTable->m_sBulk / 100) * ((double)pNpcTable->m_sSize / 100) );
-					pNpc->m_bySearchRange	= pNpcTable->m_bySearchRange;	// Àû Å½Áö ¹üÀ§
-					pNpc->m_byAttackRange	= pNpcTable->m_byAttackRange;	// »çÁ¤°Å¸®
-					pNpc->m_byTracingRange	= pNpcTable->m_byTracingRange;	// Ãß°İ°Å¸®
-					pNpc->m_sAI				= pNpcTable->m_sAI;				// ÀÎ°øÁö´É ÀÎµ¦½º
+					pNpc->m_bySearchRange	= pNpcTable->m_bySearchRange;	// å ì™ì˜™ íƒå ì™ì˜™ å ì™ì˜™å ì™ì˜™
+					pNpc->m_byAttackRange	= pNpcTable->m_byAttackRange;	// å ì™ì˜™å ì™ì˜™å ì‹ ëªŒì˜™
+					pNpc->m_byTracingRange	= pNpcTable->m_byTracingRange;	// å ìŒ©ê²©ê±°ëªŒì˜™
+					pNpc->m_sAI				= pNpcTable->m_sAI;				// å ì‹¸ê³¤ì˜™å ì™ì˜™å ì™ì˜™ å ì‹¸ë“¸ì˜™å ì™ì˜™
 					pNpc->m_tNpcType		= pNpcTable->m_tNpcType;		// NPC Type
-					pNpc->m_byFamilyType	= pNpcTable->m_byFamilyType;		// ¸÷µé»çÀÌ¿¡¼­ °¡Á·°ü°è¸¦ °áÁ¤ÇÑ´Ù.
-					pNpc->m_iMoney			= pNpcTable->m_iMoney;			// ¶³¾îÁö´Â µ·
-					pNpc->m_iItem			= pNpcTable->m_iItem;			// ¶³¾îÁö´Â ¾ÆÀÌÅÛ
+					pNpc->m_byFamilyType	= pNpcTable->m_byFamilyType;		// å ì™ì˜™å ì™ì˜™å ì™ì˜™çµå ì™ì˜™å ï¿½ å ì™ì˜™å ì™ì˜™å ì™ì˜™å ì¼ë¥¼ å ì™ì˜™å ì™ì˜™å ì‹¼ëŒì˜™.
+					pNpc->m_iMoney			= pNpcTable->m_iMoney;			// å ì™ì˜™å ì™ì˜™å ì™ì˜™å ì™ì˜™ å ì™ì˜™
+					pNpc->m_iItem			= pNpcTable->m_iItem;			// å ì™ì˜™å ì™ì˜™å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™å ì™ì˜™
 					pNpc->m_tNpcLongType    = pNpcTable->m_byDirectAttack;
 					pNpc->m_byWhatAttackType = pNpcTable->m_byMagicAttack;
 
 					//////// MONSTER POS ////////////////////////////////////////
 					pNpc->m_sCurZone = NpcPosSet.m_ZoneID;
 
-					// map¿¡ ¸ó½ºÅÍÀÇ À§Ä¡¸¦ ·£´ıÇÏ°Ô À§Ä¡½ÃÅ²´Ù.. (Å×½ºÆ® ¿ë : ¼öÁ¤-DB¿¡¼­ ÀĞ¾î¿À´Âµ¥·Î ¸ó À§Ä¡ °áÁ¤)
+					// mapå ì™ì˜™ å ì™ì˜™å ì™ì˜™å ì™ì˜™ å ì™ì˜™ì¹˜å ì™ì˜™ å ì™ì˜™å ì™ì˜™å ì‹¹ê³¤ì˜™ å ì™ì˜™ì¹˜å ì™ì˜™í‚¨å ì™ì˜™.. (å ìŒ“ì™ì˜™íŠ¸ å ì™ì˜™ : å ì™ì˜™å ì™ì˜™-DBå ì™ì˜™å ì™ì˜™ å ì‹»ì–µì˜™å ì™ì˜™ì¨‰å ì™ì˜™å ï¿½ å ì™ì˜™ å ì™ì˜™ì¹˜ å ì™ì˜™å ì™ì˜™)
 					nRandom = abs(NpcPosSet.m_LeftX - NpcPosSet.m_RightX);
 					if(nRandom <= 1)
 						fRandom_X = (float)NpcPosSet.m_LeftX;
@@ -1136,7 +1136,7 @@ BOOL CServerDlg::CreateNpcThread()
 						NpcPosSet.m_RegTime = 30;
 					}
 
-					pNpc->m_sRegenTime		= NpcPosSet.m_RegTime * 1000;	// ÃÊ(DB)´ÜÀ§-> ¹Ğ¸®¼¼ÄÁµå·Î
+					pNpc->m_sRegenTime		= NpcPosSet.m_RegTime * 1000;	// å ì™ì˜™(DB)å ì™ì˜™å ì™ì˜™-> å ì‹»ëªŒì˜™å ì™ì˜™å ì™ì˜™å ì™ì˜™å ï¿½
 
 					pNpc->m_sMaxPathCount = NpcPosSet.m_DotCnt;
 
@@ -1296,7 +1296,7 @@ BOOL CServerDlg::CreateNpcThread()
 	pNpcThread->pIOCP = &m_Iocport;
 	pNpcThread->m_sThreadNumber = 1000;
 
-	for(i = 0; i < NPC_NUM; i++) // ¹Ì¸® ÃÖ´ë ¼ÒÈ¯ NPC_NUM¸¶¸® ¸Ş¸ğ¸® ÇÒ´ç
+	for(i = 0; i < NPC_NUM; i++) // å ì‹±ëªŒì˜™ å ìŒëŒì˜™ å ì™ì˜™í™˜ NPC_NUMå ì™ì˜™å ì™ì˜™ å ìŒ¨ëªŒì˜™ å ìŒ€ëŒì˜™
 	{
 		CNpc*	pNpc = new CNpc;
 		pNpc->m_sNid = nSerial++;
@@ -1324,7 +1324,7 @@ BOOL CServerDlg::CreateNpcThread()
 	return TRUE;
 }
 
-//	NPC Thread µéÀ» ÀÛµ¿½ÃÅ²´Ù.
+//	NPC Thread å ì™ì˜™å ì™ì˜™ å ìŒœë“¸ì˜™å ì™ì˜™í‚¨å ì™ì˜™.
 void CServerDlg::ResumeAI()
 {
 	int i, j;
@@ -1346,7 +1346,7 @@ void CServerDlg::ResumeAI()
 /*	m_arEventNpcThread[0]->m_ThreadInfo.hWndMsg = this->GetSafeHwnd();
 	for(j = 0; j < NPC_NUM; j++)
 	{
-		m_arEventNpcThread[0]->m_ThreadInfo.pNpc[j] = NULL;	// ÃÊ±â ¼ÒÈ¯ ¸÷ÀÌ ´ç¿¬È÷ ¾øÀ¸¹Ç·Î NULL·Î ÀÛµ¿À» ¾È½ÃÅ´
+		m_arEventNpcThread[0]->m_ThreadInfo.pNpc[j] = NULL;	// å ì‹­ê¹ì˜™ å ì™ì˜™í™˜ å ì™ì˜™å ì™ì˜™ å ì¹ì—°å ì™ì˜™ å ì™ì˜™å ì™ì˜™å ì‹¤ë¤„ì˜™ NULLå ì™ì˜™ å ìŒœë“¸ì˜™å ì™ì˜™ å ì‹«ì™ì˜™í‚´
 		m_arEventNpcThread[0]->m_ThreadInfo.m_byNpcUsed[j] = 0;
 	}
 	m_arEventNpcThread[0]->m_ThreadInfo.pIOCP = &m_Iocport;
@@ -1357,7 +1357,7 @@ void CServerDlg::ResumeAI()
 	::ResumeThread(m_pZoneEventThread->m_hThread);
 }
 
-//	¸Ş¸ğ¸® Á¤¸®
+//	å ìŒ¨ëªŒì˜™ å ì™ì˜™å ì™ì˜™
 BOOL CServerDlg::DestroyWindow() 
 {
 	// TODO: Add your specialized code here and/or call the base class
@@ -1384,7 +1384,7 @@ BOOL CServerDlg::DestroyWindow()
 
 	WaitForSingleObject(m_pZoneEventThread, INFINITE);
 
-	// DBÅ×ÀÌºí »èÁ¦ ºÎºĞ
+	// DBå ì™ì˜™å ì‹±ë¸ì˜™ å ì™ì˜™å ì™ì˜™ å ì‹¸ë¸ì˜™
 
 	// Map(Zone) Array Delete...
 	for( i=0; i<g_arZone.size(); i++ )
@@ -1491,7 +1491,7 @@ void CServerDlg::DeleteUserList(int uid)
 	}
 
 	if( pUser->m_iUserId == uid )	{
-		TRACE("*** UserLogOutÀ¸·Î Æ÷ÀÎÅÍ ¹İÈ¯ : uid=%d, %s ***\n", uid, pUser->m_strUserID);
+		TRACE("*** UserLogOutå ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™å ì™ì˜™ å ì™ì˜™í™˜ : uid=%d, %s ***\n", uid, pUser->m_strUserID);
 		pUser->m_lUsed = 1;
 		delete m_pUser[uid];
 		m_pUser[uid] = NULL;
@@ -1529,11 +1529,11 @@ BOOL CServerDlg::MapFileLoad()
 	{
 		sZoneName = ZoneInfoSet.m_strZoneName;
 
-		szFullPath.Format("..\\MAP\\%s", sZoneName);
+		szFullPath.Format("LoadMap%s", sZoneName);
 		
 		if (!file.Open(szFullPath, CFile::modeRead))
 		{
-			errormsg.Format( "ÆÄÀÏ Open ½ÇÆĞ - %s\n", szFullPath );
+			errormsg.Format( "å ì™ì˜™å ì™ì˜™ Open å ì™ì˜™å ì™ì˜™ - %s\n", szFullPath );
 			AfxMessageBox(errormsg);
 			return FALSE;
 		}
@@ -1544,7 +1544,7 @@ BOOL CServerDlg::MapFileLoad()
 		strcpy( pMap->m_MapName, (char*)(LPCTSTR)sZoneName );
 
 		if( !pMap->LoadMap( (HANDLE)file.m_hFile ) ) {
-			errormsg.Format( "Map Load ½ÇÆĞ - %s\n", szFullPath );
+			errormsg.Format( "Map Load å ì™ì˜™å ì™ì˜™ - %s\n", szFullPath );
 			AfxMessageBox(errormsg);
 			delete pMap;
 			return FALSE;
@@ -1553,7 +1553,7 @@ BOOL CServerDlg::MapFileLoad()
 		// dungeon work
 		if( ZoneInfoSet.m_RoomEvent > 0 )	{
 			if( !pMap->LoadRoomEvent( ZoneInfoSet.m_RoomEvent ) )	{
-				errormsg.Format( "Map Room Event Load ½ÇÆĞ - %s\n", szFullPath );
+				errormsg.Format( "Map Room Event Load å ì™ì˜™å ì™ì˜™ - %s\n", szFullPath );
 				AfxMessageBox(errormsg);
 				delete pMap;
 				return FALSE;
@@ -1573,7 +1573,7 @@ BOOL CServerDlg::MapFileLoad()
 }
 
 // sungyong 2002.05.23
-// game server¿¡ ¸ğµç npcÁ¤º¸¸¦ Àü¼Û..
+// game serverå ì™ì˜™ å ì™ì˜™å ï¿½ npcå ì™ì˜™å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™..
 void CServerDlg::AllNpcInfo()
 {
 	// server alive check
@@ -1672,13 +1672,13 @@ CUser* CServerDlg::GetUserPtr(int nid)
 /*	if( !m_ppUserActive[nid] )
 		return NULL;
 
-	if( m_ppUserActive[nid]->m_lUsed == 1 ) return NULL;	// Æ÷ÀÎÅÍ »ç¿ëÀ» Çã¶ôÄ¡ ¾ÊÀ½.. (logoutÁß)
+	if( m_ppUserActive[nid]->m_lUsed == 1 ) return NULL;	// å ì™ì˜™å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™å ï¿½ å ì™ì˜™å ì‹ï¿½ å ì™ì˜™å ì™ì˜™.. (logoutå ì™ì˜™)
 
 	pUser = (CUser*)m_ppUserActive[nid];
 */
 	pUser = m_pUser[nid];
 	if(pUser == NULL)	return NULL;
-	if( pUser->m_lUsed == 1 ) return NULL;	// Æ÷ÀÎÅÍ »ç¿ëÀ» Çã¶ôÄ¡ ¾ÊÀ½.. (logoutÁß)
+	if( pUser->m_lUsed == 1 ) return NULL;	// å ì™ì˜™å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™å ï¿½ å ì™ì˜™å ì‹ï¿½ å ì™ì˜™å ì™ì˜™.. (logoutå ì™ì˜™)
 	if(pUser->m_iUserId < 0 || pUser->m_iUserId >= MAX_USER)	return NULL;
 
 	if( pUser->m_iUserId == nid )	return pUser;
@@ -1743,7 +1743,7 @@ void CServerDlg::DeleteAllUserList(int zone)
 
 	CString logstr;
 
-	if(zone == 9999 && m_bFirstServerFlag == TRUE)	{						// ¸ğµç ¼ÒÄÏÀÌ ²÷¾îÁø »óÅÂ...
+	if(zone == 9999 && m_bFirstServerFlag == TRUE)	{						// å ì™ì˜™å ï¿½ å ì™ì˜™å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™...
 		CUser* pUser = NULL;
 		MAP* pMap = NULL;
 		int i=0;
@@ -1771,7 +1771,7 @@ void CServerDlg::DeleteAllUserList(int zone)
 			delete m_pUser[i];
 			m_pUser[i] = NULL;
 		}
-		// ÆÄÆ¼ Á¤º¸ »èÁ¦..
+		// å ì™ì˜™í‹° å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™..
 		LeaveCriticalSection( &g_User_critical );
 
 		// Party Array Delete 
@@ -2039,7 +2039,7 @@ CNpc*  CServerDlg::GetNpcPtr(TCHAR* pNpcName)
 }
 
 
-//	Ãß°¡ÇÒ ¼ÒÈ¯¸÷ÀÇ ¸Ş¸ğ¸®¸¦ ÂüÁ¶ÇÏ±âÀ§ÇØ ÇÃ·¡±×°¡ 0ÀÎ »óÅÂ°Í¸¸ ³Ñ±ä´Ù.
+//	å ìŒ©ê³¤ì˜™å ì™ì˜™ å ì™ì˜™í™˜å ì™ì˜™å ì™ì˜™ å ìŒ¨ëª¨ë¦¬ëªŒì˜™ å ì™ì˜™å ì™ì˜™å ì‹¹ê¹ì˜™å ì™ì˜™å ì™ì˜™ å ì‹œë¤„ì˜™å ìŒ“ê³¤ì˜™ 0å ì™ì˜™ å ì™ì˜™å ìŠ¹ê²ƒëªŒì˜™ å ì‹¼ê¹ì˜™å ï¿½.
 CNpc* CServerDlg::GetEventNpcPtr()
 {
 	CNpc* pNpc = NULL;
@@ -2059,13 +2059,13 @@ CNpc* CServerDlg::GetEventNpcPtr()
 int  CServerDlg::MonsterSummon(TCHAR* pNpcName, int zone, float fx, float fz)
 {
 	if(zone < 0 || zone > (g_arZone.size() + 1) ) {
-		TRACE("#### ¼ÒÈ¯ ½ÇÆĞ : %s, zoneindex=%d #####\n", pNpcName, zone);
+		TRACE("#### å ì™ì˜™í™˜ å ì™ì˜™å ì™ì˜™ : %s, zoneindex=%d #####\n", pNpcName, zone);
 		return -1;
 	}
 
 	CNpc* pNpc = GetNpcPtr(pNpcName);
 	if(pNpc == NULL)	{
-		TRACE("¼ÒÈ¯ÇÒ  ¸ó½ºÅÍÀÇ ÀÌ¸§(%s)ÀÌ Àß¸øµÇ¾ú½À´Ï´Ù.\n", pNpcName);
+		TRACE("å ì™ì˜™í™˜å ì™ì˜™  å ì™ì˜™å ì™ì˜™å ì™ì˜™ å ì‹±ëªŒì˜™(%s)å ì™ì˜™ å ìŒ©ëªŒì˜™å ì‹¤ì–µì˜™å ì™ì˜™å ì‹¹ëŒì˜™.\n", pNpcName);
 		return  -1;
 	}
 
@@ -2075,7 +2075,7 @@ int  CServerDlg::MonsterSummon(TCHAR* pNpcName, int zone, float fx, float fz)
 	return 1;
 }
 
-//	¼ÒÈ¯ÇÒ ¸÷ÀÇ µ¥ÀÌÅ¸°ªÀ» ¼ÂÆÃÇÑ´Ù.
+//	å ì™ì˜™í™˜å ì™ì˜™ å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™íƒ€å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™å ì‹¼ëŒì˜™.
 BOOL CServerDlg::SetSummonNpcData(CNpc* pNpc, int zone, float fx, float fz)
 {
 	int  iCount = 0;
@@ -2083,7 +2083,7 @@ BOOL CServerDlg::SetSummonNpcData(CNpc* pNpc, int zone, float fx, float fz)
 
 	if(pEventNpc == NULL)
 	{
-		TRACE("¼ÒÈ¯ÇÒ¼ö ÀÖ´Â ¸÷Àº ÃÖ´ë 20¸¶¸®ÀÔ´Ï´Ù.\n");
+		TRACE("å ì™ì˜™í™˜å ìŒ€ì‡½ì˜™ å ìŒëŒì˜™ å ì™ì˜™å ì™ì˜™ å ìŒëŒì˜™ 20å ì™ì˜™å ì™ì˜™å ìŒ‰ë‹ˆëŒì˜™.\n");
 		return FALSE;
 	}
 
@@ -2095,53 +2095,53 @@ BOOL CServerDlg::SetSummonNpcData(CNpc* pNpc, int zone, float fx, float fz)
 	pEventNpc->m_byBattlePos = 0;
 	_tcscpy(pEventNpc->m_strName, pNpc->m_strName);	// MONSTER(NPC) Name
 	pEventNpc->m_sPid		= pNpc->m_sPid;				// MONSTER(NPC) Picture ID
-	pEventNpc->m_sSize		= pNpc->m_sSize;			// Ä³¸¯ÅÍÀÇ ºñÀ²(100 ÆÛ¼¾Æ® ±âÁØ)
-	pEventNpc->m_iWeapon_1		= pNpc->m_iWeapon_1;	// Âø¿ë¹«±â
-	pEventNpc->m_iWeapon_2		= pNpc->m_iWeapon_2;	// Âø¿ë¹«±â
-	pEventNpc->m_byGroup		= pNpc->m_byGroup;		// ¼Ò¼ÓÁı´Ü
-	pEventNpc->m_byActType		= pNpc->m_byActType;	// Çàµ¿ÆĞÅÏ
-	pEventNpc->m_byRank			= pNpc->m_byRank;		// ÀÛÀ§
-	pEventNpc->m_byTitle		= pNpc->m_byTitle;		// ÁöÀ§
+	pEventNpc->m_sSize		= pNpc->m_sSize;			// ìºå ì™ì˜™å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™(100 å ìŒœì‡½ì˜™íŠ¸ å ì™ì˜™å ì™ì˜™)
+	pEventNpc->m_iWeapon_1		= pNpc->m_iWeapon_1;	// å ì™ì˜™å ìˆë¬´å ì™ì˜™
+	pEventNpc->m_iWeapon_2		= pNpc->m_iWeapon_2;	// å ì™ì˜™å ìˆë¬´å ì™ì˜™
+	pEventNpc->m_byGroup		= pNpc->m_byGroup;		// å ìŒ€ì‡½ì˜™å ì™ì˜™å ì™ì˜™
+	pEventNpc->m_byActType		= pNpc->m_byActType;	// å ì…ë™å ì™ì˜™å ì™ì˜™
+	pEventNpc->m_byRank			= pNpc->m_byRank;		// å ì™ì˜™å ì™ì˜™
+	pEventNpc->m_byTitle		= pNpc->m_byTitle;		// å ì™ì˜™å ì™ì˜™
 	pEventNpc->m_iSellingGroup = pNpc->m_iSellingGroup;
 	pEventNpc->m_sLevel			= pNpc->m_sLevel;		// level
-	pEventNpc->m_iExp			= pNpc->m_iExp;			// °æÇèÄ¡
+	pEventNpc->m_iExp			= pNpc->m_iExp;			// å ì™ì˜™å ì™ì˜™ì¹˜
 	pEventNpc->m_iLoyalty		= pNpc->m_iLoyalty;		// loyalty
-	pEventNpc->m_iHP			= pNpc->m_iMaxHP;		// ÃÖ´ë HP
-	pEventNpc->m_iMaxHP			= pNpc->m_iMaxHP;		// ÇöÀç HP
-	pEventNpc->m_sMP			= pNpc->m_sMaxMP;		// ÃÖ´ë MP
-	pEventNpc->m_sMaxMP			= pNpc->m_sMaxMP;		// ÇöÀç MP
-	pEventNpc->m_sAttack		= pNpc->m_sAttack;		// °ø°İ°ª
-	pEventNpc->m_sDefense		= pNpc->m_sDefense;		// ¹æ¾î°ª
-	pEventNpc->m_sHitRate		= pNpc->m_sHitRate;		// Å¸°İ¼º°ø·ü
-	pEventNpc->m_sEvadeRate		= pNpc->m_sEvadeRate;	// È¸ÇÇ¼º°ø·ü
-	pEventNpc->m_sDamage		= pNpc->m_sDamage;		// ±âº» µ¥¹ÌÁö
-	pEventNpc->m_sAttackDelay	= pNpc->m_sAttackDelay; // °ø°İµô·¹ÀÌ
-	pEventNpc->m_sSpeed			= pNpc->m_sSpeed;		// ÀÌµ¿¼Óµµ
-	pEventNpc->m_fSpeed_1		= pNpc->m_fSpeed_1;	// ±âº» ÀÌµ¿ Å¸ÀÔ
-	pEventNpc->m_fSpeed_2		= pNpc->m_fSpeed_2;	// ¶Ù´Â ÀÌµ¿ Å¸ÀÔ..
-	pEventNpc->m_fOldSpeed_1	= pNpc->m_fOldSpeed_1;	// ±âº» ÀÌµ¿ Å¸ÀÔ
-	pEventNpc->m_fOldSpeed_2	= pNpc->m_fOldSpeed_2;	// ¶Ù´Â ÀÌµ¿ Å¸ÀÔ..
-	pEventNpc->m_fSecForMetor   = 4.0f;					// ÃÊ´ç °¥ ¼ö ÀÖ´Â °Å¸®..
-	pEventNpc->m_sStandTime		= pNpc->m_sStandTime;	// ¼­ÀÖ´Â ½Ã°£
-	pEventNpc->m_iMagic1		= pNpc->m_iMagic1;		// »ç¿ë¸¶¹ı 1
-	pEventNpc->m_iMagic2		= pNpc->m_iMagic2;		// »ç¿ë¸¶¹ı 2
-	pEventNpc->m_iMagic3		= pNpc->m_iMagic3;		// »ç¿ë¸¶¹ı 3
-	pEventNpc->m_byFireR		= pNpc->m_byFireR;		// È­¿° ÀúÇ×·Â
-	pEventNpc->m_byColdR		= pNpc->m_byColdR;		// ³Ã±â ÀúÇ×·Â
-	pEventNpc->m_byLightningR	= pNpc->m_byLightningR;	// Àü±â ÀúÇ×·Â
-	pEventNpc->m_byMagicR		= pNpc->m_byMagicR;		// ¸¶¹ı ÀúÇ×·Â
-	pEventNpc->m_byDiseaseR		= pNpc->m_byDiseaseR;	// ÀúÁÖ ÀúÇ×·Â
-	pEventNpc->m_byPoisonR		= pNpc->m_byPoisonR;	// µ¶ ÀúÇ×·Â
-	pEventNpc->m_byLightR		= pNpc->m_byLightR;		// ºû ÀúÇ×·Â
+	pEventNpc->m_iHP			= pNpc->m_iMaxHP;		// å ìŒëŒì˜™ HP
+	pEventNpc->m_iMaxHP			= pNpc->m_iMaxHP;		// å ì™ì˜™å ì™ì˜™ HP
+	pEventNpc->m_sMP			= pNpc->m_sMaxMP;		// å ìŒëŒì˜™ MP
+	pEventNpc->m_sMaxMP			= pNpc->m_sMaxMP;		// å ì™ì˜™å ì™ì˜™ MP
+	pEventNpc->m_sAttack		= pNpc->m_sAttack;		// å ì™ì˜™å ìŒ¥ê³¤ì˜™
+	pEventNpc->m_sDefense		= pNpc->m_sDefense;		// å ì™ì˜™è¼‰ï¿½
+	pEventNpc->m_sHitRate		= pNpc->m_sHitRate;		// íƒ€å ìŒ¥ì‡½ì˜™å ì™ì˜™å ì™ì˜™
+	pEventNpc->m_sEvadeRate		= pNpc->m_sEvadeRate;	// íšŒå ì‹¤ì‡½ì˜™å ì™ì˜™å ì™ì˜™
+	pEventNpc->m_sDamage		= pNpc->m_sDamage;		// å ì©ë³¸ å ì™ì˜™å ì™ì˜™å ì™ì˜™
+	pEventNpc->m_sAttackDelay	= pNpc->m_sAttackDelay; // å ì™ì˜™å ìŒ¥ë“¸ì˜™å ì™ì˜™å ì™ì˜™
+	pEventNpc->m_sSpeed			= pNpc->m_sSpeed;		// å ì‹±ë“¸ì˜™å ìŒˆë“¸ì˜™
+	pEventNpc->m_fSpeed_1		= pNpc->m_fSpeed_1;	// å ì©ë³¸ å ì‹±ë“¸ì˜™ íƒ€å ì™ì˜™
+	pEventNpc->m_fSpeed_2		= pNpc->m_fSpeed_2;	// å ìŒ•ëŒì˜™ å ì‹±ë“¸ì˜™ íƒ€å ì™ì˜™..
+	pEventNpc->m_fOldSpeed_1	= pNpc->m_fOldSpeed_1;	// å ì©ë³¸ å ì‹±ë“¸ì˜™ íƒ€å ì™ì˜™
+	pEventNpc->m_fOldSpeed_2	= pNpc->m_fOldSpeed_2;	// å ìŒ•ëŒì˜™ å ì‹±ë“¸ì˜™ íƒ€å ì™ì˜™..
+	pEventNpc->m_fSecForMetor   = 4.0f;					// å ì‹­ëŒì˜™ å ì™ì˜™ å ì™ì˜™ å ìŒëŒì˜™ å ì‹ ëªŒì˜™..
+	pEventNpc->m_sStandTime		= pNpc->m_sStandTime;	// å ì™ì˜™å ìŒëŒì˜™ å ì‹œê³¤ì˜™
+	pEventNpc->m_iMagic1		= pNpc->m_iMagic1;		// å ì™ì˜™é‡‰ë°ì˜™å ï¿½ 1
+	pEventNpc->m_iMagic2		= pNpc->m_iMagic2;		// å ì™ì˜™é‡‰ë°ì˜™å ï¿½ 2
+	pEventNpc->m_iMagic3		= pNpc->m_iMagic3;		// å ì™ì˜™é‡‰ë°ì˜™å ï¿½ 3
+	pEventNpc->m_byFireR		= pNpc->m_byFireR;		// í™”å ì™ì˜™ å ì™ì˜™å ìŒ“ë¤„ì˜™
+	pEventNpc->m_byColdR		= pNpc->m_byColdR;		// å ì‹œê¹ì˜™ å ì™ì˜™å ìŒ“ë¤„ì˜™
+	pEventNpc->m_byLightningR	= pNpc->m_byLightningR;	// å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ìŒ“ë¤„ì˜™
+	pEventNpc->m_byMagicR		= pNpc->m_byMagicR;		// å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ìŒ“ë¤„ì˜™
+	pEventNpc->m_byDiseaseR		= pNpc->m_byDiseaseR;	// å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ìŒ“ë¤„ì˜™
+	pEventNpc->m_byPoisonR		= pNpc->m_byPoisonR;	// å ì™ì˜™ å ì™ì˜™å ìŒ“ë¤„ì˜™
+	pEventNpc->m_byLightR		= pNpc->m_byLightR;		// å ì™ì˜™ å ì™ì˜™å ìŒ“ë¤„ì˜™
 	pEventNpc->m_fBulk			= pNpc->m_fBulk;
-	pEventNpc->m_bySearchRange	= pNpc->m_bySearchRange;	// Àû Å½Áö ¹üÀ§
-	pEventNpc->m_byAttackRange	= pNpc->m_byAttackRange;	// »çÁ¤°Å¸®
-	pEventNpc->m_byTracingRange	= pNpc->m_byTracingRange;	// Ãß°İ°Å¸®
-	pEventNpc->m_sAI			= pNpc->m_sAI;				// ÀÎ°øÁö´É ÀÎµ¦½º
+	pEventNpc->m_bySearchRange	= pNpc->m_bySearchRange;	// å ì™ì˜™ íƒå ì™ì˜™ å ì™ì˜™å ì™ì˜™
+	pEventNpc->m_byAttackRange	= pNpc->m_byAttackRange;	// å ì™ì˜™å ì™ì˜™å ì‹ ëªŒì˜™
+	pEventNpc->m_byTracingRange	= pNpc->m_byTracingRange;	// å ìŒ©ê²©ê±°ëªŒì˜™
+	pEventNpc->m_sAI			= pNpc->m_sAI;				// å ì‹¸ê³¤ì˜™å ì™ì˜™å ì™ì˜™ å ì‹¸ë“¸ì˜™å ì™ì˜™
 	pEventNpc->m_tNpcType		= pNpc->m_tNpcType;			// NPC Type
-	pEventNpc->m_byFamilyType	= pNpc->m_byFamilyType;		// ¸÷µé»çÀÌ¿¡¼­ °¡Á·°ü°è¸¦ °áÁ¤ÇÑ´Ù.
-	pEventNpc->m_iMoney			= pNpc->m_iMoney;			// ¶³¾îÁö´Â µ·
-	pEventNpc->m_iItem			= pNpc->m_iItem;			// ¶³¾îÁö´Â ¾ÆÀÌÅÛ
+	pEventNpc->m_byFamilyType	= pNpc->m_byFamilyType;		// å ì™ì˜™å ì™ì˜™å ì™ì˜™çµå ì™ì˜™å ï¿½ å ì™ì˜™å ì™ì˜™å ì™ì˜™å ì¼ë¥¼ å ì™ì˜™å ì™ì˜™å ì‹¼ëŒì˜™.
+	pEventNpc->m_iMoney			= pNpc->m_iMoney;			// å ì™ì˜™å ì™ì˜™å ì™ì˜™å ì™ì˜™ å ì™ì˜™
+	pEventNpc->m_iItem			= pNpc->m_iItem;			// å ì™ì˜™å ì™ì˜™å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™å ì™ì˜™
 	pEventNpc->m_tNpcLongType    = pNpc->m_tNpcLongType;
 	pEventNpc->m_byWhatAttackType = pNpc->m_byWhatAttackType;
 
@@ -2154,14 +2154,14 @@ BOOL CServerDlg::SetSummonNpcData(CNpc* pNpc, int zone, float fx, float fz)
 	pEventNpc->m_nInitMinY			= pNpc->m_nInitMinY;
 	pEventNpc->m_nInitMaxX			= pNpc->m_nInitMaxX;
 	pEventNpc->m_nInitMaxY			= pNpc->m_nInitMaxY;
-	pEventNpc->m_sRegenTime		= pNpc->m_sRegenTime;	// ÃÊ(DB)´ÜÀ§-> ¹Ğ¸®¼¼ÄÁµå·Î
+	pEventNpc->m_sRegenTime		= pNpc->m_sRegenTime;	// å ì™ì˜™(DB)å ì™ì˜™å ì™ì˜™-> å ì‹»ëªŒì˜™å ì™ì˜™å ì™ì˜™å ì™ì˜™å ï¿½
 	pEventNpc->m_tItemPer		= pNpc->m_tItemPer;	// NPC Type
 	pEventNpc->m_tDnPer			= pNpc->m_tDnPer;	// NPC Type
 
 	pEventNpc->m_ZoneIndex		= -1;
 
-	pEventNpc->m_NpcState = NPC_DEAD;	// »óÅÂ´Â Á×Àº°ÍÀ¸·Î ÇØ¾ß ÇÑ´Ù.. 
-	pEventNpc->m_bFirstLive = 1;		// Ã³À½ »ì¾Æ³­ °æ¿ì·Î ÇØÁà¾ß ÇÑ´Ù..
+	pEventNpc->m_NpcState = NPC_DEAD;	// å ì™ì˜™å ìŠ¹ëŒì˜™ å ì™ì˜™å ì™ì˜™å ì™ì˜™å ì™ì˜™å ì™ì˜™ å ìŒ”ì–µì˜™ å ì‹¼ëŒì˜™.. 
+	pEventNpc->m_bFirstLive = 1;		// ì²˜å ì™ì˜™ å ì™ì˜™í‹‚å ï¿½ å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™å ï¿½ å ì‹¼ëŒì˜™..
 
 	for(int i = 0; i < g_arZone.size(); i++)	{
 		if(g_arZone[i]->m_nZoneNumber == zone)	{
@@ -2194,11 +2194,11 @@ BOOL CServerDlg::SetSummonNpcData(CNpc* pNpc, int zone, float fx, float fz)
 
 	if(!bSuccess)	{
 		pEventNpc->m_lEventNpc = 0;
-		TRACE("### ¼ÒÈ¯¿¡ ½ÇÆĞÇß½À´Ï´Ù. ###\n");
+		TRACE("### å ì™ì˜™í™˜å ì™ì˜™ å ì™ì˜™å ì™ì˜™å ìŒ©ì™ì˜™å ì‹¹ëŒì˜™. ###\n");
 		return FALSE;
 	}
 
-	TRACE("*** %d, %s ¸¦ ¼ÒÈ¯ÇÏ¿´½À´Ï´Ù. state = %d ***\n", pEventNpc->m_sNid+NPC_BAND, pEventNpc->m_strName, pEventNpc->m_NpcState);
+	TRACE("*** %d, %s å ì™ì˜™ å ì™ì˜™í™˜å ì‹¹ìš¸ì˜™å ì™ì˜™å ì‹¹ëŒì˜™. state = %d ***\n", pEventNpc->m_sNid+NPC_BAND, pEventNpc->m_strName, pEventNpc->m_NpcState);
 
 	return TRUE;
 }
@@ -2440,7 +2440,7 @@ BOOL CServerDlg::AddObjectEventNpc(_OBJECT_EVENT* pEvent, int zone_number)
 
 	CNpc*		pNpc		= new CNpc;
 	
-	pNpc->m_sNid	= m_sMapEventNpc++;				// ¼­¹ö ³»¿¡¼­ÀÇ °íÀ¯ ¹øÈ£
+	pNpc->m_sNid	= m_sMapEventNpc++;				// å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™ å ì™ì˜™í˜¸
 	pNpc->m_sSid	= (short)pEvent->sIndex;		// MONSTER(NPC) Serial ID
 
 	pNpc->m_byMoveType = 100;
@@ -2454,53 +2454,53 @@ BOOL CServerDlg::AddObjectEventNpc(_OBJECT_EVENT* pEvent, int zone_number)
 
 	_tcscpy(pNpc->m_strName, pNpcTable->m_strName);	// MONSTER(NPC) Name
 	pNpc->m_sPid		= pNpcTable->m_sPid;		// MONSTER(NPC) Picture ID
-	pNpc->m_sSize		= pNpcTable->m_sSize;		// Ä³¸¯ÅÍÀÇ ºñÀ²(100 ÆÛ¼¾Æ® ±âÁØ)
-	pNpc->m_iWeapon_1		= pNpcTable->m_iWeapon_1;	// Âø¿ë¹«±â
-	pNpc->m_iWeapon_2		= pNpcTable->m_iWeapon_2;	// Âø¿ë¹«±â
-	pNpc->m_byGroup			= pNpcTable->m_byGroup;		// ¼Ò¼ÓÁı´Ü
-	pNpc->m_byActType		= pNpcTable->m_byActType;	// Çàµ¿ÆĞÅÏ
-	pNpc->m_byRank			= pNpcTable->m_byRank;		// ÀÛÀ§
-	pNpc->m_byTitle			= pNpcTable->m_byTitle;		// ÁöÀ§
+	pNpc->m_sSize		= pNpcTable->m_sSize;		// ìºå ì™ì˜™å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™(100 å ìŒœì‡½ì˜™íŠ¸ å ì™ì˜™å ì™ì˜™)
+	pNpc->m_iWeapon_1		= pNpcTable->m_iWeapon_1;	// å ì™ì˜™å ìˆë¬´å ì™ì˜™
+	pNpc->m_iWeapon_2		= pNpcTable->m_iWeapon_2;	// å ì™ì˜™å ìˆë¬´å ì™ì˜™
+	pNpc->m_byGroup			= pNpcTable->m_byGroup;		// å ìŒ€ì‡½ì˜™å ì™ì˜™å ì™ì˜™
+	pNpc->m_byActType		= pNpcTable->m_byActType;	// å ì…ë™å ì™ì˜™å ì™ì˜™
+	pNpc->m_byRank			= pNpcTable->m_byRank;		// å ì™ì˜™å ì™ì˜™
+	pNpc->m_byTitle			= pNpcTable->m_byTitle;		// å ì™ì˜™å ì™ì˜™
 	pNpc->m_iSellingGroup  = pNpcTable->m_iSellingGroup;
 	pNpc->m_sLevel			= pNpcTable->m_sLevel;		// level
-	pNpc->m_iExp			= pNpcTable->m_iExp;		// °æÇèÄ¡
+	pNpc->m_iExp			= pNpcTable->m_iExp;		// å ì™ì˜™å ì™ì˜™ì¹˜
 	pNpc->m_iLoyalty		= pNpcTable->m_iLoyalty;	// loyalty
-	pNpc->m_iHP				= pNpcTable->m_iMaxHP;		// ÃÖ´ë HP
-	pNpc->m_iMaxHP			= pNpcTable->m_iMaxHP;		// ÇöÀç HP
-	pNpc->m_sMP				= pNpcTable->m_sMaxMP;		// ÃÖ´ë MP
-	pNpc->m_sMaxMP			= pNpcTable->m_sMaxMP;		// ÇöÀç MP
-	pNpc->m_sAttack			= pNpcTable->m_sAttack;		// °ø°İ°ª
-	pNpc->m_sDefense		= pNpcTable->m_sDefense;	// ¹æ¾î°ª
-	pNpc->m_sHitRate		= pNpcTable->m_sHitRate;	// Å¸°İ¼º°ø·ü
-	pNpc->m_sEvadeRate		= pNpcTable->m_sEvadeRate;	// È¸ÇÇ¼º°ø·ü
-	pNpc->m_sDamage			= pNpcTable->m_sDamage;		// ±âº» µ¥¹ÌÁö
-	pNpc->m_sAttackDelay	= pNpcTable->m_sAttackDelay;// °ø°İµô·¹ÀÌ
-	pNpc->m_sSpeed			= pNpcTable->m_sSpeed;		// ÀÌµ¿¼Óµµ
-	pNpc->m_fSpeed_1		= (float)pNpcTable->m_bySpeed_1;	// ±âº» ÀÌµ¿ Å¸ÀÔ
-	pNpc->m_fSpeed_2		= (float)pNpcTable->m_bySpeed_2;	// ¶Ù´Â ÀÌµ¿ Å¸ÀÔ..
-	pNpc->m_fOldSpeed_1		= (float)pNpcTable->m_bySpeed_1;	// ±âº» ÀÌµ¿ Å¸ÀÔ
-	pNpc->m_fOldSpeed_2		= (float)pNpcTable->m_bySpeed_2;	// ¶Ù´Â ÀÌµ¿ Å¸ÀÔ..
-	pNpc->m_fSecForMetor    = 4.0f;						// ÃÊ´ç °¥ ¼ö ÀÖ´Â °Å¸®..
-	pNpc->m_sStandTime		= pNpcTable->m_sStandTime;	// ¼­ÀÖ´Â ½Ã°£
-	pNpc->m_iMagic1			= pNpcTable->m_iMagic1;		// »ç¿ë¸¶¹ı 1
-	pNpc->m_iMagic2			= pNpcTable->m_iMagic2;		// »ç¿ë¸¶¹ı 2
-	pNpc->m_iMagic3			= pNpcTable->m_iMagic3;		// »ç¿ë¸¶¹ı 3
-	pNpc->m_byFireR			= pNpcTable->m_byFireR;		// È­¿° ÀúÇ×·Â
-	pNpc->m_byColdR			= pNpcTable->m_byColdR;		// ³Ã±â ÀúÇ×·Â
-	pNpc->m_byLightningR	= pNpcTable->m_byLightningR;	// Àü±â ÀúÇ×·Â
-	pNpc->m_byMagicR		= pNpcTable->m_byMagicR;	// ¸¶¹ı ÀúÇ×·Â
-	pNpc->m_byDiseaseR		= pNpcTable->m_byDiseaseR;	// ÀúÁÖ ÀúÇ×·Â
-	pNpc->m_byPoisonR		= pNpcTable->m_byPoisonR;	// µ¶ ÀúÇ×·Â
-	pNpc->m_byLightR		= pNpcTable->m_byLightR;	// ºû ÀúÇ×·Â
+	pNpc->m_iHP				= pNpcTable->m_iMaxHP;		// å ìŒëŒì˜™ HP
+	pNpc->m_iMaxHP			= pNpcTable->m_iMaxHP;		// å ì™ì˜™å ì™ì˜™ HP
+	pNpc->m_sMP				= pNpcTable->m_sMaxMP;		// å ìŒëŒì˜™ MP
+	pNpc->m_sMaxMP			= pNpcTable->m_sMaxMP;		// å ì™ì˜™å ì™ì˜™ MP
+	pNpc->m_sAttack			= pNpcTable->m_sAttack;		// å ì™ì˜™å ìŒ¥ê³¤ì˜™
+	pNpc->m_sDefense		= pNpcTable->m_sDefense;	// å ì™ì˜™è¼‰ï¿½
+	pNpc->m_sHitRate		= pNpcTable->m_sHitRate;	// íƒ€å ìŒ¥ì‡½ì˜™å ì™ì˜™å ì™ì˜™
+	pNpc->m_sEvadeRate		= pNpcTable->m_sEvadeRate;	// íšŒå ì‹¤ì‡½ì˜™å ì™ì˜™å ì™ì˜™
+	pNpc->m_sDamage			= pNpcTable->m_sDamage;		// å ì©ë³¸ å ì™ì˜™å ì™ì˜™å ì™ì˜™
+	pNpc->m_sAttackDelay	= pNpcTable->m_sAttackDelay;// å ì™ì˜™å ìŒ¥ë“¸ì˜™å ì™ì˜™å ì™ì˜™
+	pNpc->m_sSpeed			= pNpcTable->m_sSpeed;		// å ì‹±ë“¸ì˜™å ìŒˆë“¸ì˜™
+	pNpc->m_fSpeed_1		= (float)pNpcTable->m_bySpeed_1;	// å ì©ë³¸ å ì‹±ë“¸ì˜™ íƒ€å ì™ì˜™
+	pNpc->m_fSpeed_2		= (float)pNpcTable->m_bySpeed_2;	// å ìŒ•ëŒì˜™ å ì‹±ë“¸ì˜™ íƒ€å ì™ì˜™..
+	pNpc->m_fOldSpeed_1		= (float)pNpcTable->m_bySpeed_1;	// å ì©ë³¸ å ì‹±ë“¸ì˜™ íƒ€å ì™ì˜™
+	pNpc->m_fOldSpeed_2		= (float)pNpcTable->m_bySpeed_2;	// å ìŒ•ëŒì˜™ å ì‹±ë“¸ì˜™ íƒ€å ì™ì˜™..
+	pNpc->m_fSecForMetor    = 4.0f;						// å ì‹­ëŒì˜™ å ì™ì˜™ å ì™ì˜™ å ìŒëŒì˜™ å ì‹ ëªŒì˜™..
+	pNpc->m_sStandTime		= pNpcTable->m_sStandTime;	// å ì™ì˜™å ìŒëŒì˜™ å ì‹œê³¤ì˜™
+	pNpc->m_iMagic1			= pNpcTable->m_iMagic1;		// å ì™ì˜™é‡‰ë°ì˜™å ï¿½ 1
+	pNpc->m_iMagic2			= pNpcTable->m_iMagic2;		// å ì™ì˜™é‡‰ë°ì˜™å ï¿½ 2
+	pNpc->m_iMagic3			= pNpcTable->m_iMagic3;		// å ì™ì˜™é‡‰ë°ì˜™å ï¿½ 3
+	pNpc->m_byFireR			= pNpcTable->m_byFireR;		// í™”å ì™ì˜™ å ì™ì˜™å ìŒ“ë¤„ì˜™
+	pNpc->m_byColdR			= pNpcTable->m_byColdR;		// å ì‹œê¹ì˜™ å ì™ì˜™å ìŒ“ë¤„ì˜™
+	pNpc->m_byLightningR	= pNpcTable->m_byLightningR;	// å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ìŒ“ë¤„ì˜™
+	pNpc->m_byMagicR		= pNpcTable->m_byMagicR;	// å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ìŒ“ë¤„ì˜™
+	pNpc->m_byDiseaseR		= pNpcTable->m_byDiseaseR;	// å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ìŒ“ë¤„ì˜™
+	pNpc->m_byPoisonR		= pNpcTable->m_byPoisonR;	// å ì™ì˜™ å ì™ì˜™å ìŒ“ë¤„ì˜™
+	pNpc->m_byLightR		= pNpcTable->m_byLightR;	// å ì™ì˜™ å ì™ì˜™å ìŒ“ë¤„ì˜™
 	pNpc->m_fBulk			= (float)( ((double)pNpcTable->m_sBulk / 100) * ((double)pNpcTable->m_sSize / 100) );
-	pNpc->m_bySearchRange	= pNpcTable->m_bySearchRange;	// Àû Å½Áö ¹üÀ§
-	pNpc->m_byAttackRange	= pNpcTable->m_byAttackRange;	// »çÁ¤°Å¸®
-	pNpc->m_byTracingRange	= pNpcTable->m_byTracingRange;	// Ãß°İ°Å¸®
-	pNpc->m_sAI				= pNpcTable->m_sAI;				// ÀÎ°øÁö´É ÀÎµ¦½º
+	pNpc->m_bySearchRange	= pNpcTable->m_bySearchRange;	// å ì™ì˜™ íƒå ì™ì˜™ å ì™ì˜™å ì™ì˜™
+	pNpc->m_byAttackRange	= pNpcTable->m_byAttackRange;	// å ì™ì˜™å ì™ì˜™å ì‹ ëªŒì˜™
+	pNpc->m_byTracingRange	= pNpcTable->m_byTracingRange;	// å ìŒ©ê²©ê±°ëªŒì˜™
+	pNpc->m_sAI				= pNpcTable->m_sAI;				// å ì‹¸ê³¤ì˜™å ì™ì˜™å ì™ì˜™ å ì‹¸ë“¸ì˜™å ì™ì˜™
 	pNpc->m_tNpcType		= pNpcTable->m_tNpcType;		// NPC Type
-	pNpc->m_byFamilyType	= pNpcTable->m_byFamilyType;		// ¸÷µé»çÀÌ¿¡¼­ °¡Á·°ü°è¸¦ °áÁ¤ÇÑ´Ù.
-	pNpc->m_iMoney			= pNpcTable->m_iMoney;			// ¶³¾îÁö´Â µ·
-	pNpc->m_iItem			= pNpcTable->m_iItem;			// ¶³¾îÁö´Â ¾ÆÀÌÅÛ
+	pNpc->m_byFamilyType	= pNpcTable->m_byFamilyType;		// å ì™ì˜™å ì™ì˜™å ì™ì˜™çµå ì™ì˜™å ï¿½ å ì™ì˜™å ì™ì˜™å ì™ì˜™å ì¼ë¥¼ å ì™ì˜™å ì™ì˜™å ì‹¼ëŒì˜™.
+	pNpc->m_iMoney			= pNpcTable->m_iMoney;			// å ì™ì˜™å ì™ì˜™å ì™ì˜™å ì™ì˜™ å ì™ì˜™
+	pNpc->m_iItem			= pNpcTable->m_iItem;			// å ì™ì˜™å ì™ì˜™å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™å ì™ì˜™
 	pNpc->m_tNpcLongType    = pNpcTable->m_byDirectAttack;
 	pNpc->m_byWhatAttackType = pNpcTable->m_byDirectAttack;
 
@@ -2518,15 +2518,15 @@ BOOL CServerDlg::AddObjectEventNpc(_OBJECT_EVENT* pEvent, int zone_number)
 	pNpc->m_nInitMaxX			= pEvent->fPosX+1;
 	pNpc->m_nInitMaxY			= pEvent->fPosZ+1;	
 
-	pNpc->m_sRegenTime		= 10000 * 1000;	// ÃÊ(DB)´ÜÀ§-> ¹Ğ¸®¼¼ÄÁµå·Î
-	//pNpc->m_sRegenTime		= 30 * 1000;	// ÃÊ(DB)´ÜÀ§-> ¹Ğ¸®¼¼ÄÁµå·Î
+	pNpc->m_sRegenTime		= 10000 * 1000;	// å ì™ì˜™(DB)å ì™ì˜™å ì™ì˜™-> å ì‹»ëªŒì˜™å ì™ì˜™å ì™ì˜™å ì™ì˜™å ï¿½
+	//pNpc->m_sRegenTime		= 30 * 1000;	// å ì™ì˜™(DB)å ì™ì˜™å ì™ì˜™-> å ì‹»ëªŒì˜™å ì™ì˜™å ì™ì˜™å ì™ì˜™å ï¿½
 	pNpc->m_sMaxPathCount = 0;
 	pNpc->m_tItemPer		= pNpcTable->m_tItemPer;	// NPC Type
 	pNpc->m_tDnPer			= pNpcTable->m_tDnPer;	// NPC Type
 
 	pNpc->m_ZoneIndex = -1;
 	pNpc->m_byObjectType = SPECIAL_OBJECT;
-	pNpc->m_bFirstLive = 1;		// Ã³À½ »ì¾Æ³­ °æ¿ì·Î ÇØÁà¾ß ÇÑ´Ù..
+	pNpc->m_bFirstLive = 1;		// ì²˜å ì™ì˜™ å ì™ì˜™í‹‚å ï¿½ å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™å ï¿½ å ì‹¼ëŒì˜™..
 	//pNpc->m_ZoneIndex = GetZoneIndex(pNpc->m_sCurZone);
 /*
 	if(pNpc->m_ZoneIndex == -1)	{
@@ -2605,8 +2605,8 @@ void CServerDlg::SendSystemMsg( char* pMsg, int zone, int type, int who )
 	short sLength = _tcslen(pMsg);
 
 	SetByte(buff, AG_SYSTEM_MSG, send_index );
-	SetByte(buff, type, send_index );				// Ã¤ÆÃÇü½Ä
-	SetShort(buff, who, send_index );				// ´©±¸¿¡°Ô
+	SetByte(buff, type, send_index );				// ì±„å ì™ì˜™å ì™ì˜™å ì™ì˜™
+	SetShort(buff, who, send_index );				// å ì™ì˜™å ì™ì˜™å ì™ì˜™å ì™ì˜™
 	SetShort(buff, sLength, send_index );
 	SetString( buff, pMsg, sLength, send_index );
 
@@ -2623,8 +2623,8 @@ void CServerDlg::ResetBattleZone()
 	for( i=0; i<g_arZone.size(); i++)	{
 		pMap = g_arZone[i];
 		if( !pMap ) continue;
-		if( pMap->m_byRoomEvent == 0 ) continue;		// ÇöÀçÀÇ Á¸ÀÌ ´øÁ¯´ã´çÇÏ´Â Á¸ÀÌ ¾Æ´Ï¸é ¸®ÅÏ..
-		//if( pMap->IsRoomStatusCheck() == TRUE )	continue;	// ÀüÃ¼¹æÀÌ Å¬¸®¾î µÇ¾ú´Ù¸é
+		if( pMap->m_byRoomEvent == 0 ) continue;		// å ì™ì˜™å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™å ì™ì˜™å ì™ì˜™æ±‚å ï¿½ å ì™ì˜™å ì™ì˜™ å ì‹£ë‹ˆëªŒì˜™ å ì™ì˜™å ì™ì˜™..
+		//if( pMap->IsRoomStatusCheck() == TRUE )	continue;	// å ì™ì˜™ì²´å ì™ì˜™å ì™ì˜™ í´å ì™ì˜™å ì™ì˜™ å ì‹¤ì–µì˜™å ìŒ•ëªŒì˜™
 		pMap->InitializeRoom();
 	}
 	TRACE("ServerDlg - ResetBattleZone() : end \n");
