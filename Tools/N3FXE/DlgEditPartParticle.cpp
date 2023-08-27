@@ -227,7 +227,7 @@ void CDlgEditPartParticle::OnPartParticleBtnSave()
 	FILE* file = fopen((LPCTSTR)m_strPathName, "w");
 	if(!file)
 	{
-		MessageBox("n3fxpartíŒŒì¼ ìƒì„± ì‹¤íŒ¨..-.-;;","ERR02",MB_OK);
+		MessageBox("n3fxpartÆÄÀÏ »ı¼º ½ÇÆĞ..-.-;;","ERR02",MB_OK);
 		return;
 	}
 
@@ -329,7 +329,7 @@ bool CDlgEditPartParticle::LoadPartScript(const char* szPath)
 	}
 
 	//////////////////////////////////////////////////
-	//ê° ì»¨íŠ¸ë¡¤ ì…‹íŒ…...
+	//°¢ ÄÁÆ®·Ñ ¼ÂÆÃ...
 	m_bOnGround = pPart->m_bOnGround;
 	m_bAlphaBlend = pPart->m_bAlpha;
 
@@ -507,15 +507,15 @@ void CDlgEditPartParticle::OnPartParticleBtnLoadTex()
 		else
 		{
 			m_strTexName = _T("");
-			MessageBox("íŒŒì¼ ì´ë¦„ëì´ 0000ì´ ì•„ë‹ˆë˜ë°ìš”..-.-;;","ERR05",MB_OK);
+			MessageBox("ÆÄÀÏ ÀÌ¸§³¡ÀÌ 0000ÀÌ ¾Æ´Ï´øµ¥¿ä..-.-;;","ERR05",MB_OK);
 		}		
 
-		//íŒŒì¼ ê°¯ìˆ˜ ì„¸ëŠ” ê¸°ëŠ¥ ë„£ì„ê¹Œ ë§ê¹Œ..^^
+		//ÆÄÀÏ °¹¼ö ¼¼´Â ±â´É ³ÖÀ»±î ¸»±î..^^
 
 		UpdateData(FALSE);
 	}
 	else
-		MessageBox("TextureíŒŒì¼ì€ fxí´ë” ì•„ë˜, í˜¹ì€ fxí´ë” ì•„ë˜ì— ìˆëŠ” í´ë”ì— ìœ„ì¹˜í•´ì•¼ í•©ë‹ˆë‹¤..-.-;;","ERR04",MB_OK);
+		MessageBox("TextureÆÄÀÏÀº fxÆú´õ ¾Æ·¡, È¤Àº fxÆú´õ ¾Æ·¡¿¡ ÀÖ´Â Æú´õ¿¡ À§Ä¡ÇØ¾ß ÇÕ´Ï´Ù..-.-;;","ERR04",MB_OK);
 
 	delete pBaseFileAccess;
 }
@@ -623,7 +623,7 @@ void CDlgEditPartParticle::OnPartParticleBtnLoadMesh()
 	}
 	else
 	{
-		MessageBox("N3ShapeíŒŒì¼ì€ fxí´ë” ì•„ë˜, í˜¹ì€ fxí´ë” ì•„ë˜ì— ìˆëŠ” í´ë”ì— ìœ„ì¹˜í•´ì•¼ í•©ë‹ˆë‹¤..-.-;;","ERR03",MB_OK);
+		MessageBox("N3ShapeÆÄÀÏÀº fxÆú´õ ¾Æ·¡, È¤Àº fxÆú´õ ¾Æ·¡¿¡ ÀÖ´Â Æú´õ¿¡ À§Ä¡ÇØ¾ß ÇÕ´Ï´Ù..-.-;;","ERR03",MB_OK);
 	}
 
 	delete pBaseFileAccess;	

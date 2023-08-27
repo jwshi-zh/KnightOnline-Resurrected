@@ -94,7 +94,7 @@ void CTransDummy::InitDummyCube(int iType, __DUMMYCUBE* pDummyCube, __Vector3& v
 void CTransDummy::Tick()
 {
 	if (m_SelObjArray.GetSize()==0) return;
-	// Scale Ï°∞Ï†ï
+	// Scale ¡∂¡§
 	__Vector3 vL = s_CameraData.vEye - m_vPos;
 	float fL = vL.Magnitude()*0.01f;
 	m_vScale.Set(fL, fL, fL);
@@ -102,7 +102,7 @@ void CTransDummy::Tick()
 	CN3Transform::Tick(-1000.0f);
 	ReCalcMatrix();
 
-	// Í±∞Î¶¨Ïóê Îî∞Îùº Ï†ïÎ†¨
+	// ∞≈∏Æø° µ˚∂Û ¡§∑ƒ
 	int i;
 	for (i=0; i<NUM_DUMMY; ++i)
 	{
@@ -130,7 +130,7 @@ void CTransDummy::Render()
 	HRESULT hr;
 
 	// set transform
-	hr = s_lpD3DDev->SetTransform(D3DTS_WORLD, &m_Matrix); // ÏõîÎìú ÌñâÎ†¨ Ï†ÅÏö©..
+	hr = s_lpD3DDev->SetTransform(D3DTS_WORLD, &m_Matrix); // ø˘µÂ «‡∑ƒ ¿˚øÎ..
 
 	// set texture
 	hr = s_lpD3DDev->SetTexture(0, NULL);
@@ -146,11 +146,11 @@ void CTransDummy::Render()
 	hr = s_lpD3DDev->SetRenderState(D3DRS_ZENABLE, D3DZB_FALSE);
 	hr = s_lpD3DDev->SetRenderState(D3DRS_LIGHTING, FALSE);
 
-	// Ïù¥Ïñ¥ÏßÄ ÏÑ† Í∑∏Î¶¨Í∏∞
+	// ¿ÃæÓ¡ˆ º± ±◊∏Æ±‚
 	hr = s_lpD3DDev->SetVertexShader(FVF_XYZCOLOR);
 	hr = s_lpD3DDev->DrawPrimitiveUP(D3DPT_LINELIST, 3, m_LineVertices, sizeof(__VertexXyzColor));
 
-	// Cube Í∑∏Î¶¨Í∏∞
+	// Cube ±◊∏Æ±‚
 	hr = s_lpD3DDev->SetVertexShader(FVF_XYZNORMALCOLOR);
 	int i;
 	for (i=0; i<NUM_DUMMY; ++i)
@@ -231,7 +231,7 @@ BOOL CTransDummy::MouseMsgFilter(LPMSG pMsg)
 				m_qPrevRot = pSelObj0->Rot();
 				if (m_vPrevScaleArray) {delete [] m_vPrevScaleArray; m_vPrevScaleArray = NULL;}
 				m_vPrevScaleArray = new __Vector3[iSize];
-				for (int i=0; i<iSize; ++i)	// Î™®Îì† ÏÑ†ÌÉùÎêú Í∞ùÏ≤¥Ïùò Ïä§ÏºÄÏùº Ï†ÄÏû•
+				for (int i=0; i<iSize; ++i)	// ∏µÁ º±≈√µ» ∞¥√º¿« Ω∫ƒ…¿œ ¿˙¿Â
 				{
 					CN3Transform* pSelObj = m_SelObjArray.GetAt(i);
 					_ASSERT(pSelObj);
@@ -253,7 +253,7 @@ BOOL CTransDummy::MouseMsgFilter(LPMSG pMsg)
 			}
 		}
 		break;
-	case WM_RBUTTONUP:	// ÌÅêÎ∏å ÏÑ†ÌÉù Ï∑®ÏÜå Î∞è Ïù¥Î≤à ÎìúÎûòÍ∑∏Î°ú ÏõÄÏßÅÏù∏Í≤É ÎêòÎèåÎ†§ ÎÜìÍ∏∞
+	case WM_RBUTTONUP:	// ≈•∫Í º±≈√ √Îº“ π◊ ¿Ãπ¯ µÂ∑°±◊∑Œ øÚ¡˜¿Œ∞Õ µ«µπ∑¡ ≥ı±‚
 		{
 			if (m_pSelectedCube)
 			{
@@ -339,7 +339,7 @@ void CTransDummy::TransDiff(__Vector3* pvDiffPos, __Quaternion* pqDiffRot, __Vec
 			qtRot *= (*pqDiffRot);
 			pSelObj->RotSet(qtRot);
 
-			vPos = pSelObj->Pos();	//	ÎßµÏÉÅÏóêÏÑúÏùò ÏúÑÏπò
+			vPos = pSelObj->Pos();	//	∏ ªÛø°º≠¿« ¿ßƒ°
 			vPos -= vCenter;
 			vPos *= mtx44Rotate;
 			vPos += vCenter;

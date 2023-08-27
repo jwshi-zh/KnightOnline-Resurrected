@@ -137,4 +137,173 @@ BOOL CEbenezerDlg::OnInitDialog()
 	szFullPath.Format(".\\MAP\\%s", "test.smd");
 	if (!file.Open(szFullPath, CFile::modeRead))
 	{
-		errormsg.Format( "
+		errormsg.Format( "파일 Open 실패 - %s\n", szFullPath );
+		AfxMessageBox(errormsg);
+		return FALSE;
+	}
+
+	if( m_Map.LoadMap( (HANDLE)file.m_hFile ) == FALSE ) {
+		errormsg.Format( "Map Load 실패 - %s\n", szFullPath );
+		AfxMessageBox(errormsg);
+		return FALSE;
+	}
+
+	file.Close();
+
+	::ResumeThread( m_Iocport.m_hAcceptThread );
+
+	SetTimer( 1, 5000, NULL );
+
+	for(i=0; i<5; i++) {
+		m_pInitPos[i].initx = 640.0f + 5*i;
+		m_pInitPos[i].initz = 590.0f + 5*i;
+	}
+	return TRUE;  // return TRUE  unless you set the focus to a control
+}
+
+void CEbenezerDlg::OnSysCommand(UINT nID, LPARAM lParam)
+{
+	if ((nID & 0xFFF0) == IDM_ABOUTBOX)
+	{
+		CAboutDlg dlgAbout;
+		dlgAbout.DoModal();
+	}
+	else
+	{
+		CDialog::OnSysCommand(nID, lParam);
+	}
+}
+
+// If you add a minimize button to your dialog, you will need the code below
+//  to draw the icon.  For MFC applications using the document/view model,
+//  this is automatically done for you by the framework.
+
+void CEbenezerDlg::OnPaint() 
+{
+	if (IsIconic())
+	{
+		CPaintDC dc(this); // device context for painting
+
+		SendMessage(WM_ICONERASEBKGND, (WPARAM) dc.GetSafeHdc(), 0);
+
+		// Center icon in client rectangle
+		int cxIcon = GetSystemMetrics(SM_CXICON);
+		int cyIcon = GetSystemMetrics(SM_CYICON);
+		CRect rect;
+		GetClientRect(&rect);
+		int x = (rect.Width() - cxIcon + 1) / 2;
+		int y = (rect.Height() - cyIcon + 1) / 2;
+
+		// Draw the icon
+		dc.DrawIcon(x, y, m_hIcon);
+	}
+	else
+	{
+		CDialog::OnPaint();
+	}
+}
+
+// The system calls this to obtain the cursor to display while the user drags
+//  the minimized window.
+HCURSOR CEbenezerDlg::OnQueryDragIcon()
+{
+	return (HCURSOR) m_hIcon;
+}
+
+BOOL CEbenezerDlg::DestroyWindow() 
+{
+	KillTimer( 1 );
+	
+	return CDialog::DestroyWindow();
+}
+
+CUser* CEbenezerDlg::GetUserPtr(char *userid)
+{
+	CUser* pUser = NULL;
+
+	for(int i=0; i<MAX_USER; i++) {
+		pUser = (CUser*)m_Iocport.m_SockArray[i];
+		if( pUser ) {
+			if( !_strnicmp( pUser->m_UserId, userid, MAX_ID_SIZE ) )
+				break;
+		}
+	}
+
+	return pUser;
+}
+
+void CEbenezerDlg::OnTimer(UINT nIDEvent) 
+{
+	CString count;
+	count.Format("%d", m_nCount);
+	m_CountCtrl.SetWindowText(count);
+	m_CountCtrl.UpdateWindow();
+
+	CDialog::OnTimer(nIDEvent);
+}
+
+void CEbenezerDlg::Send_All(char *pBuf, int len, BOOL tome)
+{
+	CUser* pUser = NULL;
+
+	for(int i=0; i<MAX_USER; i++) {
+		pUser = (CUser*)m_Iocport.m_SockArray[i];
+		if( pUser && (pUser->GetState() == STATE_GAMESTART) ) {
+			pUser->Send( pBuf, len );
+		}
+	}
+}
+
+void CEbenezerDlg::Send_Region(char *pBuf, int len, int x, int z, BOOL tome)
+{
+	CUser* pUser = NULL;
+
+	for(int i=0; i<MAX_USER; i++) {
+		pUser = (CUser*)m_Iocport.m_SockArray[i];
+		if( pUser && (pUser->GetState() == STATE_GAMESTART) ) {
+			if( pUser->m_RegionX == x && pUser->m_RegionZ == z )
+				pUser->Send( pBuf, len );
+		}
+	}
+}
+
+int CEbenezerDlg::GetRegionCount(int x, int z)
+{
+	CUser* pUser = NULL;
+	int count = 0;
+
+	for(int i=0; i<MAX_USER; i++) {
+		pUser = (CUser*)m_Iocport.m_SockArray[i];
+		if( pUser && (pUser->GetState() != STATE_GAMESTART) ) {
+			if( pUser->m_RegionX == x && pUser->m_RegionZ == z )
+				count++;
+		}
+	}
+
+	return count;
+}
+
+void CEbenezerDlg::UserInOutForMe(CUser *pSendUser)
+{
+	int send_index = 0;
+	CUser* pUser = NULL;
+	char buff[1024];
+	memset( buff, 0x00, 1024 );
+
+	for(int i=0; i<MAX_USER; i++) {
+		pUser = (CUser*)m_Iocport.m_SockArray[i];
+		if( pUser && pUser->GetSocketID() == pSendUser->GetSocketID() )
+			continue;
+		if( pUser && pUser->GetState() != STATE_DISCONNECTED ) {
+			SetByte( buff, WIZ_USERINOUT, send_index );
+			SetByte( buff, 0x01, send_index );
+			SetShort( buff, pUser->GetSocketID(), send_index );
+			SetShort( buff, strlen(pUser->m_UserId), send_index );
+			SetString( buff, pUser->m_UserId, strlen(pUser->m_UserId), send_index );
+			Setfloat( buff, pUser->m_curx, send_index );
+			Setfloat( buff, pUser->m_curz, send_index );
+
+			pSendUser->Send( buff, send_index );
+		}
+	}
+}

@@ -115,7 +115,7 @@ bool CDlgEditPartGround::LoadPartScript(const char* szPath)
 	}
 
 	//////////////////////////////////////////////////
-	//ê° ì»¨íŠ¸ë¡¤ ì…‹íŒ…...
+	//°¢ ÄÁÆ®·Ñ ¼ÂÆÃ...
 	m_chkAlpha = pPart->m_bAlpha;
 	m_chkTexLoop = pPart->m_bTexLoop;
 
@@ -195,7 +195,7 @@ void CDlgEditPartGround::OnPartGroundBtnSave()
 	FILE* file = fopen((LPCTSTR)m_strPathName, "w");
 	if(!file)
 	{
-		MessageBox("n3fxpartíŒŒì¼ ìƒì„± ì‹¤íŒ¨..-.-;;","ERR02",MB_OK);
+		MessageBox("n3fxpartÆÄÀÏ »ı¼º ½ÇÆĞ..-.-;;","ERR02",MB_OK);
 		return;
 	}
 
@@ -278,18 +278,18 @@ void CDlgEditPartGround::OnPartGroundBtnLoadTex()
 			_makepath(szPath, szDrive, szDir, (LPCTSTR)strFName, szExt);
 			m_strTexName = szPath;
 
-			//íŒŒì¼ ê°¯ìˆ˜ ì„¸ëŠ” ê¸°ëŠ¥ ë„£ì„ê¹Œ ë§ê¹Œ..
+			//ÆÄÀÏ °¹¼ö ¼¼´Â ±â´É ³ÖÀ»±î ¸»±î..
 		}
 		else
 		{
 			m_strTexName = _T("");
-			MessageBox("íŒŒì¼ ì´ë¦„ëì´ 0000ì´ ì•„ë‹ˆë˜ë°ìš”..-.-;;","ERR05",MB_OK);
+			MessageBox("ÆÄÀÏ ÀÌ¸§³¡ÀÌ 0000ÀÌ ¾Æ´Ï´øµ¥¿ä..-.-;;","ERR05",MB_OK);
 		}
 		
 		UpdateData(FALSE);
 	}
 	else
-		MessageBox("TextureíŒŒì¼ì€ fxí´ë” ì•„ë˜, í˜¹ì€ fxí´ë” ì•„ë˜ì— ìˆëŠ” í´ë”ì— ìœ„ì¹˜í•´ì•¼ í•©ë‹ˆë‹¤..-.-;;","ERR04",MB_OK);
+		MessageBox("TextureÆÄÀÏÀº fxÆú´õ ¾Æ·¡, È¤Àº fxÆú´õ ¾Æ·¡¿¡ ÀÖ´Â Æú´õ¿¡ À§Ä¡ÇØ¾ß ÇÕ´Ï´Ù..-.-;;","ERR04",MB_OK);
 
 	delete pBaseFileAccess;	
 }

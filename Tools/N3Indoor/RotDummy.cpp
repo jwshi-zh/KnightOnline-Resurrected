@@ -98,13 +98,13 @@ void CRotDummy::SetSelObj(SelectElement Obj, bool bOne)
 		m_SelObjArray.RemoveAll();
 	else
 	{
-		// ì´ë¯¸ ìˆìœ¼ë©´ ì¶”ê°€í•˜ì§€ ì•ŠëŠ”ë‹¤..
+		// ÀÌ¹Ì ÀÖÀ¸¸é Ãß°¡ÇÏÁö ¾Ê´Â´Ù..
 		int iSize = m_SelObjArray.GetSize();
 		for ( int i = 0; i < iSize; i++ )
 		{
 			if (m_SelObjArray[i].pSelectPointer == Obj.pSelectPointer)
 			{
-				// ì´ë¯¸ ìˆìœ¼ë¯€ë¡œ ì„ íƒëª©ë¡ì—ì„œ ì œê±°
+				// ÀÌ¹Ì ÀÖÀ¸¹Ç·Î ¼±ÅÃ¸ñ·Ï¿¡¼­ Á¦°Å
 				m_SelObjArray.RemoveAt(i);
 				return;
 			}
@@ -115,5 +115,5 @@ void CRotDummy::SetSelObj(SelectElement Obj, bool bOne)
 	m_vPos = Obj.pSelectPointer->Pos();
 		
 	m_qRot = Obj.pSelectPointer->Rot();
-	m_qRot.Identity(); // Quaternion íšŒì „ì´ê¸° ë•œì‹œ... ì´ˆê¸°í™”ë¥¼ í•´ì¤€ë‹¤..
+	m_qRot.Identity(); // Quaternion È¸ÀüÀÌ±â ¶«½Ã... ÃÊ±âÈ­¸¦ ÇØÁØ´Ù..
 }

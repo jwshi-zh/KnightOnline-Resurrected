@@ -98,10 +98,10 @@ void CN3MEView::Render()
 
 	pEng->s_lpD3DDev->BeginScene();
 
-	//	ê·¸ë¦¬ê¸°...
+	//	±×¸®±â...
 	if (m_pMapMng) m_pMapMng->Render();
 
-	CN3Base::s_AlphaMgr.Render(); // Alpha Primitive Manager Rendering.. ì•ˆí•˜ë©´ ì–¸ì  ê°€ ë»‘ë‚œë‹¤.
+	CN3Base::s_AlphaMgr.Render(); // Alpha Primitive Manager Rendering.. ¾ÈÇÏ¸é ¾ðÁ¨°¡ »¶³­´Ù.
 	pEng->s_lpD3DDev->EndScene();
 	pEng->Present(m_hWnd);
 }

@@ -78,4 +78,114 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	EnableDocking(CBRS_ALIGN_ANY);
 	DockControlBar(&m_wndToolBar);
 
-	// Engine 
+	// Engine 생성
+//	m_Eng.InitEnv();
+	if(m_Eng.Init(TRUE, m_hWnd, 64, 64, 0, TRUE) == false) return -1;
+	m_Eng.GridCreate(20, 20); // 그리드 만들기..
+	m_SndMgr.Init(m_hWnd);
+
+	return 0;
+}
+
+BOOL CMainFrame::OnCreateClient(LPCREATESTRUCT /*lpcs*/,
+	CCreateContext* pContext)
+{
+	// create splitter window
+	if (!m_wndSplitter.CreateStatic(this, 2, 2))
+		return FALSE;
+
+	CRect rc;
+	GetClientRect(rc);
+	int nW1 = rc.Width() / 4;
+	int nH1 = rc.Height() * 186 / 300;
+	if (!m_wndSplitter.CreateView(0, 0, RUNTIME_CLASS(CFormViewProperty), CSize(nW1, nH1), pContext) ||
+		!m_wndSplitter.CreateView(0, 1, RUNTIME_CLASS(CN3CEView), CSize(nW1, nH1), pContext) || 
+		!m_wndSplitter.CreateView(1, 0, RUNTIME_CLASS(CFormViewTool), CSize(nW1, nH1), pContext) ||
+		!m_wndSplitter.CreateView(1, 1, RUNTIME_CLASS(CFormViewAnimation), CSize(nW1, nH1), pContext) )
+	{
+		m_wndSplitter.DestroyWindow();
+		return FALSE;
+	}
+
+	return TRUE;
+}
+
+BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
+{
+	if( !CFrameWnd::PreCreateWindow(cs) )
+		return FALSE;
+	// TODO: Modify the Window class or styles here by modifying
+	//  the CREATESTRUCT cs
+	cs.style = WS_OVERLAPPED | WS_CAPTION | FWS_ADDTOTITLE
+		| WS_THICKFRAME | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX;
+	cs.x = GetSystemMetrics(SM_CXSCREEN) / 6;
+	cs.y = GetSystemMetrics(SM_CYSCREEN) / 6;
+	cs.cx = GetSystemMetrics(SM_CXSCREEN) * 2 / 3;
+	cs.cy = GetSystemMetrics(SM_CYSCREEN) * 2 / 3;
+
+	return TRUE;
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// CMainFrame diagnostics
+
+#ifdef _DEBUG
+void CMainFrame::AssertValid() const
+{
+	CFrameWnd::AssertValid();
+}
+
+void CMainFrame::Dump(CDumpContext& dc) const
+{
+	CFrameWnd::Dump(dc);
+}
+
+#endif //_DEBUG
+
+/////////////////////////////////////////////////////////////////////////////
+// CMainFrame message handlers
+
+CFormViewProperty* CMainFrame::GetPaneProperty()
+{
+	if(m_wndSplitter.GetSafeHwnd() == NULL) return NULL;
+
+	CWnd* pWnd = m_wndSplitter.GetPane(0, 0);
+	CFormViewProperty* pView = DYNAMIC_DOWNCAST(CFormViewProperty, pWnd);
+	return pView;
+}
+
+CN3CEView* CMainFrame::GetPaneRender()
+{
+	if(m_wndSplitter.GetSafeHwnd() == NULL) return NULL;
+
+	CWnd* pWnd = m_wndSplitter.GetPane(0, 1);
+	CN3CEView* pView = DYNAMIC_DOWNCAST(CN3CEView, pWnd);
+	return pView;
+}
+
+CFormViewTool* CMainFrame::GetPaneTool()
+{
+	if(m_wndSplitter.GetSafeHwnd() == NULL) return NULL;
+
+	CWnd* pWnd = m_wndSplitter.GetPane(1, 0);
+	CFormViewTool* pView = DYNAMIC_DOWNCAST(CFormViewTool, pWnd);
+	return pView;
+}
+
+CFormViewAnimation* CMainFrame::GetPaneAnimation()
+{
+	if(m_wndSplitter.GetSafeHwnd() == NULL) return NULL;
+
+	CWnd* pWnd = m_wndSplitter.GetPane(1, 1);
+	CFormViewAnimation* pView = DYNAMIC_DOWNCAST(CFormViewAnimation, pWnd);
+	return pView;
+}
+
+
+void CMainFrame::OnEditChrProperty() 
+{
+//	if(m_DlgProperty.GetSafeHwnd() == NULL) m_DlgProperty.Create(IDD_CHR_PROPERTY, this);
+//	
+//	m_DlgProperty.UpdateInfo();
+//	m_DlgProperty.ShowWindow(SW_SHOW);
+}

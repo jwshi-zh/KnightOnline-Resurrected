@@ -117,18 +117,18 @@ void CPropertyView::OnInitialUpdate()
 		m_UIBase.AddPropItem("Tooltip text", "", PIT_EDIT, "");		// m_pszTooltipText
 		m_UIBase.AddPropItem("Open sound", "", PIT_FILE, "");		// sound
 		m_UIBase.AddPropItem("Close sound", "", PIT_FILE, "");		// sound
-		m_UIBase.AddPropItem("Delete sound", "", PIT_BUTTON, "");		// sound ì„¤ì • ì§€ìš°ê¸°
+		m_UIBase.AddPropItem("Delete sound", "", PIT_BUTTON, "");		// sound ¼³Á¤ Áö¿ì±â
 		m_UIBase.AddPropItem("Visible", "", PIT_BUTTON, "");		// visible
 
 		// image
 		m_UIImage.AddPropItem("Texture", "", PIT_FILE, "");			// texture
-		m_UIImage.AddPropItem("UV left", "", PIT_BUTTON, "");			// m_frcUVRect (UVì¢Œí‘œ)
+		m_UIImage.AddPropItem("UV left", "", PIT_BUTTON, "");			// m_frcUVRect (UVÁÂÇ¥)
 		m_UIImage.AddPropItem("UV top", "", PIT_BUTTON, "");
 		m_UIImage.AddPropItem("UV right", "", PIT_BUTTON, "");
 		m_UIImage.AddPropItem("UV bottom", "", PIT_BUTTON, "");
 		m_UIImage.AddPropItem("Color", "", PIT_COLOR, "");			// m_Color
-		m_UIImage.AddPropItem("Animate Frame", "", PIT_EDIT, "");			// Animate frame ì´ˆë‹¹ ëª‡ í”„ë ˆìž„ìœ¼ë¡œ ì—ë‹ˆë©”ì´íŠ¸ ë  ê²ƒì¸ê°€?
-		m_UIImage.AddPropItem("Make Animation", "", PIT_BUTTON, "");			// Animationìœ¼ë¡œ ë§Œë“¤ê¸°
+		m_UIImage.AddPropItem("Animate Frame", "", PIT_EDIT, "");			// Animate frame ÃÊ´ç ¸î ÇÁ·¹ÀÓÀ¸·Î ¿¡´Ï¸ÞÀÌÆ® µÉ °ÍÀÎ°¡?
+		m_UIImage.AddPropItem("Make Animation", "", PIT_BUTTON, "");			// AnimationÀ¸·Î ¸¸µé±â
 
 		// string
 		m_UIString.AddPropItem("Line", "", PIT_COMBO, "SINGLE LINE|MULTI LINE|");		// style(line)
@@ -154,27 +154,27 @@ void CPropertyView::OnInitialUpdate()
 		m_UIButton.AddPropItem("ClickRect bottom","", PIT_BUTTON, "");
 		m_UIButton.AddPropItem("On sound", "", PIT_FILE, "");		// sound
 		m_UIButton.AddPropItem("Click sound", "", PIT_FILE, "");		// sound
-		m_UIButton.AddPropItem("Delete sound", "", PIT_BUTTON, "");		// sound ì„¤ì • ì§€ìš°ê¸°
+		m_UIButton.AddPropItem("Delete sound", "", PIT_BUTTON, "");		// sound ¼³Á¤ Áö¿ì±â
 
 		// static
 		m_UIStatic.AddPropItem("Click sound", "", PIT_FILE, "");		// sound
-		m_UIStatic.AddPropItem("Delete sound", "", PIT_BUTTON, "");		// sound ì„¤ì • ì§€ìš°ê¸°
+		m_UIStatic.AddPropItem("Delete sound", "", PIT_BUTTON, "");		// sound ¼³Á¤ Áö¿ì±â
 		m_UIStatic.AddPropItem("Delete bkgnd image", "", PIT_BUTTON,"");
 
 		// edit
 		m_UIEdit.AddPropItem("Style", "", PIT_COMBO,"Normal Edit|Password Edit|Number Only Edit|");
 		m_UIEdit.AddPropItem("Typing sound", "", PIT_FILE, "");		// sound
-		m_UIEdit.AddPropItem("Delete sound", "", PIT_BUTTON, "");		// sound ì„¤ì • ì§€ìš°ê¸°
+		m_UIEdit.AddPropItem("Delete sound", "", PIT_BUTTON, "");		// sound ¼³Á¤ Áö¿ì±â
 
 		// progress
-		m_UIProgress.AddPropItem("Style","", PIT_COMBO, "ì˜¤ë¥¸ìª½ ì¦ê°€|ì™¼ìª½ ì¦ê°€|ì•„ëž˜ë¡œ ì¦ê°€|ìœ„ë¡œ ì¦ê°€|");
+		m_UIProgress.AddPropItem("Style","", PIT_COMBO, "¿À¸¥ÂÊ Áõ°¡|¿ÞÂÊ Áõ°¡|¾Æ·¡·Î Áõ°¡|À§·Î Áõ°¡|");
 		m_UIProgress.AddPropItem("MaxValue", "", PIT_EDIT, "");
 		m_UIProgress.AddPropItem("MinValue", "", PIT_EDIT, "");
 		m_UIProgress.AddPropItem("CurValue", "", PIT_EDIT, "");
-		m_UIProgress.AddPropItem("Delete BkGnd", "click", PIT_BUTTON, "");	// ë°°ê²½ ì´ë¯¸ì§€ ì§€ìš°ëŠ” ë²„íŠ¼
+		m_UIProgress.AddPropItem("Delete BkGnd", "click", PIT_BUTTON, "");	// ¹è°æ ÀÌ¹ÌÁö Áö¿ì´Â ¹öÆ°
 
 		// trackbar
-		m_UITrackBar.AddPropItem("Style","", PIT_COMBO, "ê°€ë¡œ|ì„¸ë¡œ|");
+		m_UITrackBar.AddPropItem("Style","", PIT_COMBO, "°¡·Î|¼¼·Î|");
 		m_UITrackBar.AddPropItem("Max pos", "", PIT_EDIT, "");
 		m_UITrackBar.AddPropItem("Min pos", "", PIT_EDIT, "");
 		m_UITrackBar.AddPropItem("Cur pos", "", PIT_EDIT, "");
@@ -182,7 +182,7 @@ void CPropertyView::OnInitialUpdate()
 		m_UITrackBar.AddPropItem("Delete bkgnd image", "", PIT_BUTTON,"");
 
 		// scrollbar
-		m_UIScrollBar.AddPropItem("Style","", PIT_COMBO, "ê°€ë¡œ|ì„¸ë¡œ|");
+		m_UIScrollBar.AddPropItem("Style","", PIT_COMBO, "°¡·Î|¼¼·Î|");
 		m_UIScrollBar.AddPropItem("Line size", "", PIT_EDIT, "");
 
 		// area
@@ -223,13 +223,13 @@ BOOL CPropertyView::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 		else if(pItem->m_propName == "Region left" || pItem->m_propName == "Region top" ||
 			pItem->m_propName == "Region right" || pItem->m_propName == "Region bottom")
 		{
-			// region ê°±ì‹ í•˜ëŠ” í•¨ìˆ˜ ë§Œë“¤ì–´ì„œ ì²˜ë¦¬í•˜ê¸°
+			// region °»½ÅÇÏ´Â ÇÔ¼ö ¸¸µé¾î¼­ Ã³¸®ÇÏ±â
 			pFrm->GetRightPane()->SelectRectType(CUIEView::RT_REGION);
 		}
 		else if(pItem->m_propName == "MoveRect left" || pItem->m_propName == "MoveRect top" ||
 			pItem->m_propName == "MoveRect right" || pItem->m_propName == "MoveRect bottom")
 		{
-			// move rect ê°±ì‹ í•˜ëŠ” í•¨ìˆ˜ ë§Œë“¤ì–´ì„œ ì²˜ë¦¬í•˜ê¸°
+			// move rect °»½ÅÇÏ´Â ÇÔ¼ö ¸¸µé¾î¼­ Ã³¸®ÇÏ±â
 			pFrm->GetRightPane()->SelectRectType(CUIEView::RT_MOVE);
 		}
 		else if(pItem->m_propName == "Tooltip text") pUI->SetTooltipText(pItem->m_curValue);
@@ -256,7 +256,7 @@ BOOL CPropertyView::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 		}
 		else if(pItem->m_propName == "Visible")
 		{
-			pUI->SetVisible(!pUI->IsVisible());	// ë³´ì˜€ë‹¤ ì•ˆë³´ì˜€ë‹¤í•˜ê²Œ í•˜ê¸°
+			pUI->SetVisible(!pUI->IsVisible());	// º¸¿´´Ù ¾Èº¸¿´´ÙÇÏ°Ô ÇÏ±â
 			GetDocument()->UpdateAllViews(NULL);
 		}
 	}
@@ -267,16 +267,16 @@ BOOL CPropertyView::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 		if (pItem->m_propName == "Texture")
 		{
 			CN3BaseFileAccess tmpBase;
-			tmpBase.FileNameSet((LPCTSTR)pItem->m_curValue);	// Baseê²½ë¡œì— ëŒ€í•´ì„œ ìƒëŒ€ì  ê²½ë¡œë¥¼ ë„˜ê²¨ì¤€ë‹¤.
+			tmpBase.FileNameSet((LPCTSTR)pItem->m_curValue);	// Base°æ·Î¿¡ ´ëÇØ¼­ »ó´ëÀû °æ·Î¸¦ ³Ñ°ÜÁØ´Ù.
 
 			pImage->SetTex(tmpBase.FileName());
-			pItem->m_curValue = tmpBase.FileName().c_str();	//tex file name ë‹¤ì‹œ ì„¤ì •
+			pItem->m_curValue = tmpBase.FileName().c_str();	//tex file name ´Ù½Ã ¼³Á¤
 			m_UIImage.Invalidate();
 		}
 		else if (pItem->m_propName == "UV left" || pItem->m_propName == "UV top" ||
 			pItem->m_propName == "UV right" || pItem->m_propName == "UV bottom")
 		{
-			// UV ì„¤ì •í•˜ëŠ” í•¨ìˆ˜ ë§Œë“¤ì–´ì„œ ì²˜ë¦¬í•˜ê¸°
+			// UV ¼³Á¤ÇÏ´Â ÇÔ¼ö ¸¸µé¾î¼­ Ã³¸®ÇÏ±â
 			CN3Texture* pTex = pImage->GetTex();
 			if (pTex && pTex->FileName().size() > 0)
 			{
@@ -293,7 +293,7 @@ BOOL CPropertyView::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 					}
 				}
 
-				// ì˜ˆì™¸ìƒí™© : ë¶€ëª¨ê°€ Progressì¼ë•ŒëŠ” ì•„ëž˜ í•¨ìˆ˜ë¥¼ ë¶ˆëŸ¬ì¤˜ì•¼ í•œë‹¤.
+				// ¿¹¿Ü»óÈ² : ºÎ¸ð°¡ ProgressÀÏ¶§´Â ¾Æ·¡ ÇÔ¼ö¸¦ ºÒ·¯Áà¾ß ÇÑ´Ù.
 				CN3UIBase* pParent = pUI->GetParent();
 				if (pParent && UI_TYPE_PROGRESS == pParent->UIType()) ((CN3UIProgress*)pParent)->SetFrGndUVFromFrGndImage();
 			}
@@ -302,22 +302,22 @@ BOOL CPropertyView::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 		else if (pItem->m_propName == "Color") pImage->SetColor(pItem->D3DColorGet());
 		else if (pItem->m_propName == "Animate Frame") pImage->m_fAnimFrame = atof(pItem->m_curValue);
 		else if (pItem->m_propName == "Make Animation")
-		{	// Animation imageë¡œ ë§Œë“¤ê¸°
+		{	// Animation image·Î ¸¸µé±â
 			CN3UIBase* pParentUI = pImage->GetParent();
 			while(1)
 			{
 				if (NULL == pParentUI || (UI_TYPE_IMAGE == pParentUI->UIType()))
-				{	// ë°˜ë“œì‹œ ë¶€ëª¨ëŠ” imageê°€ ì•„ë‹ˆì–´ì•¼ í•œë‹¤.
-					pFrm->MessageBox("Animate imageì˜ ìžì‹ imageëŠ” animate imageë¡œ ë§Œë“¤ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
+				{	// ¹Ýµå½Ã ºÎ¸ð´Â image°¡ ¾Æ´Ï¾î¾ß ÇÑ´Ù.
+					pFrm->MessageBox("Animate imageÀÇ ÀÚ½Ä image´Â animate image·Î ¸¸µé ¼ö ¾ø½À´Ï´Ù.");
 					break;	
 				}
 				CDlgAnimate dlgAnim;
-				if (IDCANCEL == dlgAnim.DoModal())	break;// animateë˜ëŠ” ê·¸ë¦¼ì´ ëª‡ìž¥ì¸ê°€?
-				pImage->SetAnimImage(dlgAnim.m_iCount);	// ìž¥ìˆ˜ ì„¸íŒ…
-				if (dlgAnim.m_iCount<=0)	break; // 1ìž¥ ì´ìƒì´ë©´ textureì™€ uvì¢Œí‘œ ì„¸íŒ…
+				if (IDCANCEL == dlgAnim.DoModal())	break;// animateµÇ´Â ±×¸²ÀÌ ¸îÀåÀÎ°¡?
+				pImage->SetAnimImage(dlgAnim.m_iCount);	// Àå¼ö ¼¼ÆÃ
+				if (dlgAnim.m_iCount<=0)	break; // 1Àå ÀÌ»óÀÌ¸é texture¿Í uvÁÂÇ¥ ¼¼ÆÃ
 				char szTexFName[_MAX_PATH];
-				if (FALSE == SelectTexture(szTexFName))	break;// textureì´ë¦„ ì •í•˜ê¸°
-				// ì—¬ëŸ¬ìž¥ì˜ ì´ë¯¸ì§€ ì„¸íŒ…í•˜ê²Œ í•˜ê¸°
+				if (FALSE == SelectTexture(szTexFName))	break;// textureÀÌ¸§ Á¤ÇÏ±â
+				// ¿©·¯ÀåÀÇ ÀÌ¹ÌÁö ¼¼ÆÃÇÏ°Ô ÇÏ±â
 				CDlgTexture	dlgTex;
 				dlgTex.SetTexture(szTexFName);
 				char szNames[1000][20];
@@ -329,7 +329,7 @@ BOOL CPropertyView::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 					szImageTypeNames[i] = szNames[i];
 				}
 				dlgTex.SetImageTypes(dlgAnim.m_iCount, szImageTypeNames);
-				if (IDCANCEL == dlgTex.DoModal()) break;	// ì·¨ì†Œì˜ ê²½ìš°
+				if (IDCANCEL == dlgTex.DoModal()) break;	// Ãë¼ÒÀÇ °æ¿ì
 				CN3UIImage* pChildImage;
 				for (i=0; i<dlgAnim.m_iCount; ++i)
 				{
@@ -337,12 +337,12 @@ BOOL CPropertyView::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 					dlgTex.GetImageRect(i, &frcUV);
 					pChildImage = pImage->GetChildImage(i);
 					if (NULL == pChildImage) continue;
-					pChildImage->SetTex(szTexFName);	// textureì„¤ì •
-					pChildImage->SetUVRect(frcUV.left, frcUV.top, frcUV.right, frcUV.bottom);		// uv ì„¤ì •
+					pChildImage->SetTex(szTexFName);	// texture¼³Á¤
+					pChildImage->SetUVRect(frcUV.left, frcUV.top, frcUV.right, frcUV.bottom);		// uv ¼³Á¤
 				}
-				// ìœ„ì¹˜ ì„¤ì •
+				// À§Ä¡ ¼³Á¤
 				CRect rcRegion = dlgTex.GetImageRect(0);
-				if (-1 == rcRegion.left) break;			// ì˜ì—­ì´ ë¹„ì •ìƒì ì´ë©´ ê·¸ëƒ¥ ë„˜ì–´ê°„ë‹¤.
+				if (-1 == rcRegion.left) break;			// ¿µ¿ªÀÌ ºñÁ¤»óÀûÀÌ¸é ±×³É ³Ñ¾î°£´Ù.
 				rcRegion.OffsetRect(-rcRegion.TopLeft());
 				pImage->SetRegion(rcRegion);
 				pFrm->GetRightPane()->SelectRectType(CUIEView::RT_REGION);
@@ -386,7 +386,7 @@ BOOL CPropertyView::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 		}
 		else if (pItem->m_propName == "Font" || pItem->m_propName == "Font size" || pItem->m_propName == "Font style")
 		{
-			// font ì •í•˜ëŠ” ë£¨í‹´
+			// font Á¤ÇÏ´Â ·çÆ¾
 			LOGFONT logfont;	ZeroMemory(&logfont, sizeof(logfont));
 			CDFont* pDFont = pString->m_pDFont;
 			if (pDFont)
@@ -401,10 +401,10 @@ BOOL CPropertyView::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 			CFontDialog dlg(&logfont);
 			if (IDOK == dlg.DoModal())
 			{
-				__ASSERT(dlg.GetSize()>0, "font heightê°€ 0ë³´ë‹¤ ìž‘ìŠµë‹ˆë‹¤.");
+				__ASSERT(dlg.GetSize()>0, "font height°¡ 0º¸´Ù ÀÛ½À´Ï´Ù.");
 				const std::string strFontName(dlg.GetFaceName());
 				pString->SetFont( strFontName, dlg.GetSize()/10, dlg.IsBold(), dlg.IsItalic());
-				UpdateUIStringInfo();	// string ì •ë³´ ë‹¤ì‹œ ê°±ì‹ í•˜ê¸°
+				UpdateUIStringInfo();	// string Á¤º¸ ´Ù½Ã °»½ÅÇÏ±â
 			}
 		}
 		else if (pItem->m_propName == "Text Color") pString->SetColor(pItem->D3DColorGet());
@@ -416,7 +416,7 @@ BOOL CPropertyView::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 		CN3UIList* pUIList = (CN3UIList*)pUI;
 		if (pItem->m_propName == "Font" || pItem->m_propName == "Font size" || pItem->m_propName == "Font style")
 		{
-			// font ì •í•˜ëŠ” ë£¨í‹´
+			// font Á¤ÇÏ´Â ·çÆ¾
 			LOGFONT logfont;	ZeroMemory(&logfont, sizeof(logfont));
 			logfont.lfHeight = 0; // pUIList->FontHeightInLogicalUnit();
 			lstrcpy(logfont.lfFaceName, pUIList->FontName().c_str());
@@ -426,10 +426,10 @@ BOOL CPropertyView::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 			CFontDialog dlg(&logfont);
 			if (IDOK == dlg.DoModal())
 			{
-				__ASSERT(dlg.GetSize()>0, "font heightê°€ 0ë³´ë‹¤ ìž‘ìŠµë‹ˆë‹¤.");
+				__ASSERT(dlg.GetSize()>0, "font height°¡ 0º¸´Ù ÀÛ½À´Ï´Ù.");
 				std::string szFontName = dlg.GetFaceName();
 				pUIList->SetFont( szFontName, dlg.GetSize()/10, dlg.IsBold(), dlg.IsItalic());
-				UpdateUIListInfo();	// List ì •ë³´ ë‹¤ì‹œ ê°±ì‹ í•˜ê¸°
+				UpdateUIListInfo();	// List Á¤º¸ ´Ù½Ã °»½ÅÇÏ±â
 			}
 		}
 		else if (pItem->m_propName == "Text Color") pUIList->SetFontColor(pItem->D3DColorGet());
@@ -450,7 +450,7 @@ BOOL CPropertyView::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 		else if (pItem->m_propName == "ClickRect left" || pItem->m_propName == "ClickRect top" ||
 			pItem->m_propName == "ClickRect right" || pItem->m_propName == "ClickRect bottom")
 		{
-			// í´ë¦­ ì˜ì—­ ì§€ì •í•˜ëŠ” ì½”ë“œ ë„£ê¸°
+			// Å¬¸¯ ¿µ¿ª ÁöÁ¤ÇÏ´Â ÄÚµå ³Ö±â
 			pFrm->GetRightPane()->SelectRectType(CUIEView::RT_CLICK);
 		}
 		else if (pItem->m_propName == "On sound")
@@ -665,7 +665,7 @@ void CPropertyView::UpdateInfo()
 	CMainFrame* pFrm = (CMainFrame*)AfxGetMainWnd();
 	CN3UIBase* pUIBase = GetDocument()->GetSelectedUI();
 
-	// ì¼ë‹¨ ëª¨ë‘ ê°ì¶”ê¸°
+	// ÀÏ´Ü ¸ðµÎ °¨Ãß±â
 	m_UIBase.ShowWindow(SW_HIDE);
 	m_UIImage.ShowWindow(SW_HIDE);
 	m_UIString.ShowWindow(SW_HIDE);
@@ -678,35 +678,35 @@ void CPropertyView::UpdateInfo()
 	m_UIArea.ShowWindow(SW_HIDE);
 	m_UIIconSlot.ShowWindow(SW_HIDE);
 	m_UIList.ShowWindow(SW_HIDE);
-	if (NULL == pUIBase)	return;	// ì„ íƒëœ UIê°€ ì—†ìœ¼ë¯€ë¡œ ê·¸ëƒ¥ ë¦¬í„´
+	if (NULL == pUIBase)	return;	// ¼±ÅÃµÈ UI°¡ ¾øÀ¸¹Ç·Î ±×³É ¸®ÅÏ
 
 	CPoint ptWndPos = -GetScrollPosition();
-	// baseì˜ ê°’ ë³´ì´ê¸°(baseëŠ” ì¼ë‹¨ ëª¨ë‘ ê°€ì§€ê³  ìžˆëŠ” ê°’ì´ë¯€ë¡œ í‘œì‹œí•´ì¤€ë‹¤.)
+	// baseÀÇ °ª º¸ÀÌ±â(base´Â ÀÏ´Ü ¸ðµÎ °¡Áö°í ÀÖ´Â °ªÀÌ¹Ç·Î Ç¥½ÃÇØÁØ´Ù.)
 	
-	UpdateUIBaseInfo();					// ì •ë³´ ê°±ì‹ 
+	UpdateUIBaseInfo();					// Á¤º¸ °»½Å
 
 	// image
-	UpdateUIImageInfo();					// ì •ë³´ ê°±ì‹ 
+	UpdateUIImageInfo();					// Á¤º¸ °»½Å
 	// string
-	UpdateUIStringInfo();					// ì •ë³´ ê°±ì‹ 
+	UpdateUIStringInfo();					// Á¤º¸ °»½Å
 	// button
-	UpdateUIButtonInfo();					// ì •ë³´ ê°±ì‹ 
+	UpdateUIButtonInfo();					// Á¤º¸ °»½Å
 	// static
-	UpdateUIStaticInfo();					// ì •ë³´ ê°±ì‹ 
+	UpdateUIStaticInfo();					// Á¤º¸ °»½Å
 	// edit
-	UpdateUIEditInfo();						// ì •ë³´ ê°±ì‹ 
+	UpdateUIEditInfo();						// Á¤º¸ °»½Å
 	// progress
-	UpdateUIProgressInfo();					// ì •ë³´ ê°±ì‹ 
+	UpdateUIProgressInfo();					// Á¤º¸ °»½Å
 	// trackbar
-	UpdateUITrackBarInfo();					// ì •ë³´ ê°±ì‹ 
+	UpdateUITrackBarInfo();					// Á¤º¸ °»½Å
 	// scrollbar
-	UpdateUIScrollBarInfo();				// ì •ë³´ ê°±ì‹ 
+	UpdateUIScrollBarInfo();				// Á¤º¸ °»½Å
 	// area
-	UpdateUIAreaInfo();						// ì •ë³´ ê°±ì‹ 
+	UpdateUIAreaInfo();						// Á¤º¸ °»½Å
 	// icon slot
-	UpdateUIIconSlotInfo();					// ì •ë³´ ê°±ì‹ 
+	UpdateUIIconSlotInfo();					// Á¤º¸ °»½Å
 	// List
-	UpdateUIListInfo();						// ì •ë³´ ê°±ì‹ 
+	UpdateUIListInfo();						// Á¤º¸ °»½Å
 	
 	Resize();
 }
@@ -714,16 +714,16 @@ void CPropertyView::UpdateInfo()
 void CPropertyView::Resize()
 {
 	CPoint ptWndPos = -GetScrollPosition();
-	if (m_UIBase.IsWindowVisible()) SetPropertyListPos(&m_UIBase, ptWndPos);	// Property list window ìœ„ì¹˜ì¡°ì •
-	if (m_UIImage.IsWindowVisible()) SetPropertyListPos(&m_UIImage, ptWndPos);	// Property list window ìœ„ì¹˜ì¡°ì •
-	if (m_UIString.IsWindowVisible()) SetPropertyListPos(&m_UIString, ptWndPos);	// Property list window ìœ„ì¹˜ì¡°ì •
-	if (m_UIButton.IsWindowVisible()) SetPropertyListPos(&m_UIButton, ptWndPos);	// Property list window ìœ„ì¹˜ì¡°ì •
-	if (m_UIStatic.IsWindowVisible()) SetPropertyListPos(&m_UIStatic, ptWndPos);	// Property list window ìœ„ì¹˜ì¡°ì •
-	if (m_UIEdit.IsWindowVisible()) SetPropertyListPos(&m_UIEdit, ptWndPos);	// Property list window ìœ„ì¹˜ì¡°ì •
-	if (m_UIProgress.IsWindowVisible()) SetPropertyListPos(&m_UIProgress, ptWndPos);	// Property list window ìœ„ì¹˜ì¡°ì •
-	if (m_UITrackBar.IsWindowVisible()) SetPropertyListPos(&m_UITrackBar, ptWndPos);	// Property list window ìœ„ì¹˜ì¡°ì •
-	if (m_UIScrollBar.IsWindowVisible()) SetPropertyListPos(&m_UIScrollBar, ptWndPos);	// Property list window ìœ„ì¹˜ì¡°ì •
-	if (m_UIArea.IsWindowVisible()) SetPropertyListPos(&m_UIArea, ptWndPos);	// Property list window ìœ„ì¹˜ì¡°ì •
+	if (m_UIBase.IsWindowVisible()) SetPropertyListPos(&m_UIBase, ptWndPos);	// Property list window À§Ä¡Á¶Á¤
+	if (m_UIImage.IsWindowVisible()) SetPropertyListPos(&m_UIImage, ptWndPos);	// Property list window À§Ä¡Á¶Á¤
+	if (m_UIString.IsWindowVisible()) SetPropertyListPos(&m_UIString, ptWndPos);	// Property list window À§Ä¡Á¶Á¤
+	if (m_UIButton.IsWindowVisible()) SetPropertyListPos(&m_UIButton, ptWndPos);	// Property list window À§Ä¡Á¶Á¤
+	if (m_UIStatic.IsWindowVisible()) SetPropertyListPos(&m_UIStatic, ptWndPos);	// Property list window À§Ä¡Á¶Á¤
+	if (m_UIEdit.IsWindowVisible()) SetPropertyListPos(&m_UIEdit, ptWndPos);	// Property list window À§Ä¡Á¶Á¤
+	if (m_UIProgress.IsWindowVisible()) SetPropertyListPos(&m_UIProgress, ptWndPos);	// Property list window À§Ä¡Á¶Á¤
+	if (m_UITrackBar.IsWindowVisible()) SetPropertyListPos(&m_UITrackBar, ptWndPos);	// Property list window À§Ä¡Á¶Á¤
+	if (m_UIScrollBar.IsWindowVisible()) SetPropertyListPos(&m_UIScrollBar, ptWndPos);	// Property list window À§Ä¡Á¶Á¤
+	if (m_UIArea.IsWindowVisible()) SetPropertyListPos(&m_UIArea, ptWndPos);	// Property list window À§Ä¡Á¶Á¤
 	if (m_UIIconSlot.IsWindowVisible()) SetPropertyListPos(&m_UIIconSlot, ptWndPos);
 	if (m_UIList.IsWindowVisible()) SetPropertyListPos(&m_UIList, ptWndPos);
 }
@@ -731,7 +731,7 @@ void CPropertyView::Resize()
 void CPropertyView::SetPropertyListPos(CPropertyList* pList, CPoint& ptWndPos)
 {
 	if (NULL == pList) return;
-	// ìœ„ì¹˜ ì¡°ì • ë° ë³´ì´ê²Œ í•˜ê¸°
+	// À§Ä¡ Á¶Á¤ ¹× º¸ÀÌ°Ô ÇÏ±â
 	CRect rc;
 	GetClientRect(&rc);
 	int iHeight = pList->GetItemHeight(0) * pList->GetCount() + 4;
@@ -798,7 +798,7 @@ void CPropertyView::UpdateUIImageInfo()
 	m_UIImage.ShowWindow(SW_SHOW);
 	
 	CPropertyItem* pItem = NULL;
-	pItem = m_UIImage.GetPropItem("Texture");							// texture ì´ë¦„
+	pItem = m_UIImage.GetPropItem("Texture");							// texture ÀÌ¸§
 	if (pItem)
 	{
 		pItem->m_curValue = pUI->GetTexFN().c_str();
@@ -806,7 +806,7 @@ void CPropertyView::UpdateUIImageInfo()
 		if (pTex) pItem->m_curValue = pTex->FileName().c_str();
 		else pItem->m_curValue += " : Load fail.";
 	}
-	pItem = m_UIImage.GetPropItem("UV left");							// m_frcUVRect (UVì¢Œí‘œ)
+	pItem = m_UIImage.GetPropItem("UV left");							// m_frcUVRect (UVÁÂÇ¥)
 	if (pItem) pItem->m_curValue.Format("%f", pUI->m_frcUVRect.left);
 	pItem = m_UIImage.GetPropItem("UV top");
 	if (pItem) pItem->m_curValue.Format("%f", pUI->m_frcUVRect.top);
@@ -884,10 +884,10 @@ void CPropertyView::UpdateUIStringInfo()
 		if ( pUI->m_pDFont)
 		{
 			DWORD dwFlag = pUI->m_pDFont->GetFontFlags();
-			if (D3DFONT_BOLD & dwFlag)	pItem->m_curValue += "êµµê²Œ ";
-			if (D3DFONT_ITALIC & dwFlag)pItem->m_curValue += "ê¸°ìš¸ìž„ê¼´";
+			if (D3DFONT_BOLD & dwFlag)	pItem->m_curValue += "±½°Ô ";
+			if (D3DFONT_ITALIC & dwFlag)pItem->m_curValue += "±â¿ïÀÓ²Ã";
 		}
-		if (pItem->m_curValue.GetLength()==0) pItem->m_curValue = _T("ë³´í†µ");
+		if (pItem->m_curValue.GetLength()==0) pItem->m_curValue = _T("º¸Åë");
 	}
 	pItem = m_UIString.GetPropItem("Text Color");					// string color
 	if (pItem) pItem->D3DColorSet(pUI->m_Color);
@@ -925,9 +925,9 @@ void CPropertyView::UpdateUIListInfo()
 	if (pItem)
 	{
 		pItem->m_curValue = _T("");
-		if (pUI->FontIsBold())	pItem->m_curValue += "êµµê²Œ ";
-		if (pUI->FontIsItalic()) pItem->m_curValue += "ê¸°ìš¸ìž„ê¼´";
-		if (pItem->m_curValue.GetLength()==0) pItem->m_curValue = _T("ë³´í†µ");
+		if (pUI->FontIsBold())	pItem->m_curValue += "±½°Ô ";
+		if (pUI->FontIsItalic()) pItem->m_curValue += "±â¿ïÀÓ²Ã";
+		if (pItem->m_curValue.GetLength()==0) pItem->m_curValue = _T("º¸Åë");
 	}
 	pItem = m_UIList.GetPropItem("Text Color");					// string color
 	if (pItem) pItem->D3DColorSet(pUI->FontColor());
@@ -984,7 +984,7 @@ void CPropertyView::UpdateUIIconSlotInfo()
 }
 
 // Area
-void CPropertyView::UpdateUIAreaInfo()			// Areaì •ë³´ ê°±ì‹ 
+void CPropertyView::UpdateUIAreaInfo()			// AreaÁ¤º¸ °»½Å
 {
 	CN3UIBase* pUIBase = GetDocument()->GetSelectedUI();
 	if (NULL == pUIBase) return;
@@ -1062,7 +1062,7 @@ void CPropertyView::UpdateUIStaticInfo()
 	if (NULL == pUIBase) return;
 	CN3UIStatic* pUI = NULL;
 	if (UI_TYPE_STATIC == pUIBase->UIType() ||
-		UI_TYPE_EDIT == pUIBase->UIType() ) pUI = (CN3UIStatic*)pUIBase;	// editë„ staticì—ì„œ ìƒì† ë°›ì€ ê²ƒì´ë‹¤.
+		UI_TYPE_EDIT == pUIBase->UIType() ) pUI = (CN3UIStatic*)pUIBase;	// editµµ static¿¡¼­ »ó¼Ó ¹ÞÀº °ÍÀÌ´Ù.
 	else return;
 	m_UIStatic.ShowWindow(SW_SHOW);
 

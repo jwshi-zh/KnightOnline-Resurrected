@@ -66,7 +66,7 @@ COptionDlg::COptionDlg(CWnd* pParent /*=NULL*/)
 	// Note that LoadIcon does not require a subsequent DestroyIcon in Win32
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 
-	m_Option.InitDefault(); // ì˜µì…˜ ì´ˆê¸°í™”
+	m_Option.InitDefault(); // ¿É¼Ç ÃÊ±âÈ­
 }
 
 void COptionDlg::DoDataExchange(CDataExchange* pDX)
@@ -121,7 +121,7 @@ BOOL COptionDlg::OnInitDialog()
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 	
-	// ê°ì¢… ì»¨íŠ¸ë¡¤ ì´ˆê¸°í™”..
+	// °¢Á¾ ÄÁÆ®·Ñ ÃÊ±âÈ­..
 	m_SldViewDist.SetRange(256, 512);
 	m_SldEffectSoundDist.SetRange(20, 48);
 
@@ -134,7 +134,7 @@ BOOL COptionDlg::OnInitDialog()
 	iAdd = m_CB_ColorDepth.AddString("32 Bit");		m_CB_ColorDepth.SetItemData(iAdd, 32);
 
 
-	// ë ˆì§€ìŠ¤íŠ¸ë¦¬ì—ì„œ ì„¤ì¹˜ëœ í´ë”ë¥¼ ì½ì–´ì˜¨ë‹¤..
+	// ·¹Áö½ºÆ®¸®¿¡¼­ ¼³Ä¡µÈ Æú´õ¸¦ ÀĞ¾î¿Â´Ù..
 	CString szProduct, szKey = "SOFTWARE\\";
 	szProduct.LoadString(IDS_PRODUCT);
 	szKey += szProduct;
@@ -146,30 +146,30 @@ BOOL COptionDlg::OnInitDialog()
 	DWORD dwType = REG_SZ; DWORD dwBytes = 0;
 	char szBuff[256] = "";
 
-	// ì‹¤í–‰ íŒŒì¼ ê²½ë¡œ
+	// ½ÇÇà ÆÄÀÏ °æ·Î
 	dwType = REG_SZ; dwBytes = 256;
-	lStatus = RegQueryValueEx(hRegKey, "PATH", NULL, &dwType, (BYTE*)szBuff, &dwBytes); // ì¸ìŠ¤í†¨ ê²½ë¡œ
+	lStatus = RegQueryValueEx(hRegKey, "PATH", NULL, &dwType, (BYTE*)szBuff, &dwBytes); // ÀÎ½ºÅç °æ·Î
 	if(ERROR_SUCCESS != lStatus) { CString szErr; szErr.LoadString(IDS_ERR_REGISTRY_READ_PATH); MessageBox(szErr); exit(-1); }
 	m_szInstalledPath = szBuff;
 
-	// ì‹¤í–‰ íŒŒì¼ ì´ë¦„
+	// ½ÇÇà ÆÄÀÏ ÀÌ¸§
 //	dwType = REG_SZ; dwBytes = 256;
-//	lStatus = RegQueryValueEx(hRegKey, "EXE", NULL, &dwType, (BYTE*)szBuff, &dwBytes); // ì‹¤í–‰íŒŒì¼ ì´ë¦„
+//	lStatus = RegQueryValueEx(hRegKey, "EXE", NULL, &dwType, (BYTE*)szBuff, &dwBytes); // ½ÇÇàÆÄÀÏ ÀÌ¸§
 //	if(ERROR_SUCCESS != lStatus) { CString szErr; szErr.LoadString(IDS_ERR_REGISTRY_READ_EXE); MessageBox(szErr); exit(-1); }
 //	m_szExeName = szBuff;
 	m_szExeName = "Launcher.exe";
 
-	// Version í‘œì‹œ
+	// Version Ç¥½Ã
 	DWORD dwVersion = 0;
 	dwType = REG_DWORD; dwBytes = 4;
-	lStatus = RegQueryValueEx(hRegKey, "VERSION", NULL, &dwType, (BYTE*)(&dwVersion), &dwBytes); // ë²„ì „
+	lStatus = RegQueryValueEx(hRegKey, "VERSION", NULL, &dwType, (BYTE*)(&dwVersion), &dwBytes); // ¹öÀü
 	if(ERROR_SUCCESS != lStatus) { CString szErr; szErr.LoadString(IDS_ERR_REGISTRY_READ_VERSION); MessageBox(szErr); exit(-1); }
 	SetDlgItemInt(IDC_E_VERSION, dwVersion);
 
 	RegCloseKey(hRegKey);
 	hRegKey = NULL;
 
-	// ì„¸íŒ…ì„ ì½ì–´ì˜¨ë‹¤..
+	// ¼¼ÆÃÀ» ÀĞ¾î¿Â´Ù..
 	this->SettingLoad(m_szInstalledPath + "\\Option.ini");
 	this->SettingUpdate();
 
@@ -234,8 +234,8 @@ void COptionDlg::OnOK()
 
 void COptionDlg::OnBApplyAndExecute() 
 {
-	CString szExeFN = m_szInstalledPath + "\\" + m_szExeName; // ì‹¤í–‰ íŒŒì¼ ì´ë¦„ ë§Œë“¤ê³ ..
-	ShellExecute(NULL, "open", szExeFN, "", m_szInstalledPath, SW_SHOWNORMAL); // ê²Œì„ ì‹¤í–‰..
+	CString szExeFN = m_szInstalledPath + "\\" + m_szExeName; // ½ÇÇà ÆÄÀÏ ÀÌ¸§ ¸¸µé°í..
+	ShellExecute(NULL, "open", szExeFN, "", m_szInstalledPath, SW_SHOWNORMAL); // °ÔÀÓ ½ÇÇà..
 
 	this->OnOK();
 }
@@ -399,9 +399,9 @@ void COptionDlg::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 void COptionDlg::OnBVersion() 
 {
 	CString szMsg; szMsg.LoadString(IDS_CONFIRM_WRITE_REGISRY);
-	if(IDNO == MessageBox(szMsg, "", MB_YESNO)) return; // í•œë²ˆ ë¬¼ì–´ë³¸ë‹¤..
+	if(IDNO == MessageBox(szMsg, "", MB_YESNO)) return; // ÇÑ¹ø ¹°¾îº»´Ù..
 
-	// ë ˆì§€ìŠ¤íŠ¸ë¦¬ì—ì„œ ì„¤ì¹˜ëœ í´ë”ë¥¼ ì½ì–´ì˜¨ë‹¤..
+	// ·¹Áö½ºÆ®¸®¿¡¼­ ¼³Ä¡µÈ Æú´õ¸¦ ÀĞ¾î¿Â´Ù..
 	CString szProduct, szKey = "SOFTWARE\\";
 	szProduct.LoadString(IDS_PRODUCT);
 	szKey += szProduct;
@@ -413,7 +413,7 @@ void COptionDlg::OnBVersion()
 	{
 		DWORD dwVersion = GetDlgItemInt(IDC_E_VERSION);
 		DWORD dwType = REG_DWORD, dwBytes = 4;
-		lStatus = RegSetValueEx(hRegKey, "VERSION", NULL, dwType, (BYTE*)(&dwVersion), 4); // ë²„ì „
+		lStatus = RegSetValueEx(hRegKey, "VERSION", NULL, dwType, (BYTE*)(&dwVersion), 4); // ¹öÀü
 		if(ERROR_SUCCESS != lStatus) { CString szErr; szErr.LoadString(IDS_ERR_REGISTRY_WRITE_VERSION); MessageBox(szErr); }
 
 		RegCloseKey(hRegKey);

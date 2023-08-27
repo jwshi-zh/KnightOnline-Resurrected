@@ -210,12 +210,12 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_wndToolBar.SetBarStyle(m_wndToolBar.GetBarStyle() |
 		CBRS_TOOLTIPS | CBRS_FLYBY);
 
-	// ê²½ë¡œ ì„¤ì •..
+	// °æ·Î ¼³Á¤..
 	char szPathCur[256] = "";
 	GetCurrentDirectory(256, szPathCur);
 	CN3Base::PathSet(szPathCur);
 	
-	// ì—”ì§„ ì´ˆê¸°í™”
+	// ¿£Áø ÃÊ±âÈ­
 	m_pEng = new CN3EngTool();
 	//m_pEng->InitEnv();
 	m_pEng->Init(TRUE, m_hWnd, 32, 32, 0, TRUE);
@@ -231,17 +231,17 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_pDTexMng = new CDTexMng;
 	m_pDTexMng->Init(this);
 
-	// ê¸°ë³¸ ë¦¬ì†ŒìŠ¤ ì½ê¸°..
+	// ±âº» ¸®¼Ò½º ÀÐ±â..
 	m_pMapMng->LoadSourceObjects();
 	m_pDTexGroupMng->Init(this);
 	//m_pDTexGroupMng->LoadFromFile();
 	m_pDTexMng->Init(this);
 	//m_pDTexMng->LoadFromFile();
 
-	// íˆ´ë°” ë‹¤ì´ì–¼ë¡œê·¸ ì •ë³´..
+	// Åø¹Ù ´ÙÀÌ¾ó·Î±× Á¤º¸..
 	m_wndDlgBar.SetDlgItemText(IDC_E_PATH, m_pEng->PathGet().c_str());
 
-	//ì”¨ì•— ë¿Œë¦¬ê¸° ê´€ë ¨ í´ëž˜ìŠ¤ ì´ˆê¸°í™”..
+	//¾¾¾Ñ »Ñ¸®±â °ü·Ã Å¬·¡½º ÃÊ±âÈ­..
 	m_pDlgSowSeed = new CDlgSowSeed;
 	m_pDlgSowSeed->Create(IDD_SOW_SEED,this);
 	m_pDlgSowSeed->ShowWindow(FALSE);
@@ -345,11 +345,11 @@ void CMainFrame::OnCursorDtex()
 	hr = pBackBuff->GetDesc(&desc);
 	if(desc.Format!=D3DFMT_X8R8G8B8)
 	{
-		MessageBox("í™”ë©´ìƒ‰ìƒ ëª¨ë“œê°€ 32bitëª¨ë“œì´ì–´ì•¼ í•©ë‹ˆë‹¤..","ê²½ê³ !!");
+		MessageBox("È­¸é»ö»ó ¸ðµå°¡ 32bit¸ðµåÀÌ¾î¾ß ÇÕ´Ï´Ù..","°æ°í!!");
 	}
 */	
 	m_pMapMng->SetCursorMode(CM_SET_DTEX);
-//	this->OnViewDtex(); // í™”ë©´ì— íƒ€ì¼ í…ìŠ¤ì²˜ ê·¸ë£¹ ë‹¤ì´ì–¼ë¡œê·¸ë¥¼ ì—´ì–´ì¤€ë‹¤..
+//	this->OnViewDtex(); // È­¸é¿¡ Å¸ÀÏ ÅØ½ºÃ³ ±×·ì ´ÙÀÌ¾ó·Î±×¸¦ ¿­¾îÁØ´Ù..
 }
 void CMainFrame::OnCursorEditRiver() 
 {	ASSERT(m_pMapMng);	m_pMapMng->SetCursorMode(CM_EDIT_RIVER);}
@@ -474,8 +474,8 @@ void CMainFrame::OnUpdateViewHideObj(CCmdUI* pCmdUI)
 {
 	ASSERT(m_pMapMng);
 
-	if(m_pMapMng->m_bHideObj) pCmdUI->SetText("ì˜¤ë¸Œì íŠ¸ ë³´ì´ê¸°\tH");
-	if(!m_pMapMng->m_bHideObj) pCmdUI->SetText("ì˜¤ë¸Œì íŠ¸ ê°ì¶”ê¸°\tH");	
+	if(m_pMapMng->m_bHideObj) pCmdUI->SetText("¿ÀºêÁ§Æ® º¸ÀÌ±â\tH");
+	if(!m_pMapMng->m_bHideObj) pCmdUI->SetText("¿ÀºêÁ§Æ® °¨Ãß±â\tH");	
 }
 
 void CMainFrame::OnTipFocusSelobj() 
@@ -579,10 +579,10 @@ void CMainFrame::OnResourcePathSet()
 	if(IDCANCEL == dlg.DoModal()) return;
 	
 	std::string szPath = dlg.GetPath();
-	CN3Base::PathSet(szPath); // ê²½ë¡œ ì„¤ì •..
+	CN3Base::PathSet(szPath); // °æ·Î ¼³Á¤..
 	m_wndDlgBar.SetDlgItemText(IDC_E_PATH, szPath.c_str());
 	
-	// ê¸°ë³¸ ë¦¬ì†ŒìŠ¤ ì½ê¸°..
+	// ±âº» ¸®¼Ò½º ÀÐ±â..
 	m_pMapMng->LoadSourceObjects();
 	
 }
@@ -622,7 +622,7 @@ void CMainFrame::UpdateTransformInfo()
 	m_wndDlgBar.UpdateInfo();
 }
 
-void CMainFrame::OnTipDefaultMaterial() // ê¸°ë³¸ìž¬ì§ˆë¡œ ë§Œë“¤ê¸°.
+void CMainFrame::OnTipDefaultMaterial() // ±âº»ÀçÁú·Î ¸¸µé±â.
 {
 	ASSERT(m_pMapMng);
 
@@ -633,12 +633,12 @@ void CMainFrame::OnTipDefaultMaterial() // ê¸°ë³¸ìž¬ì§ˆë¡œ ë§Œë“¤ê¸°.
 		if(pObj->Type() & OBJ_SHAPE)
 		{
 			CN3Shape* pShape = (CN3Shape*)pObj;
-			pShape->MakeDefaultMaterial(); // ê¸°ë³¸ìž¬ì§ˆë¡œ ë§Œë“¤ê¸°.
+			pShape->MakeDefaultMaterial(); // ±âº»ÀçÁú·Î ¸¸µé±â.
 		}
 	}
 }
 
-void CMainFrame::OnTipRemoveAlphaflag() // ì•ŒíŒŒ ë¸”ë Œë”© í”Œëž˜ê·¸ ì œê±°..
+void CMainFrame::OnTipRemoveAlphaflag() // ¾ËÆÄ ºí·»µù ÇÃ·¡±× Á¦°Å..
 {
 	ASSERT(m_pMapMng);
 
@@ -649,7 +649,7 @@ void CMainFrame::OnTipRemoveAlphaflag() // ì•ŒíŒŒ ë¸”ë Œë”© í”Œëž˜ê·¸ ì œê±°..
 		if(pObj->Type() & OBJ_SHAPE)
 		{
 			CN3Shape* pShape = (CN3Shape*)pObj;
-			pShape->RemoveRenderFlags(RF_ALPHABLENDING); // ì•ŒíŒŒ ë¸”ë Œë”© í”Œëž˜ê·¸ ì œê±°..
+			pShape->RemoveRenderFlags(RF_ALPHABLENDING); // ¾ËÆÄ ºí·»µù ÇÃ·¡±× Á¦°Å..
 		}
 	}
 }
@@ -694,7 +694,7 @@ void CMainFrame::OnTipSowSeed()
 	if(!m_pDlgSowSeed->m_hWnd) m_pDlgSowSeed->Create(IDD_SOW_SEED);
 	m_pDlgSowSeed->ShowWindow(TRUE);
 
-	// í’€ì‹¬ê¸° 
+	// Ç®½É±â 
 	if( m_pMapMng)
 	{
 		m_pMapMng->SetCursorMode(CM_EDIT_SEED);

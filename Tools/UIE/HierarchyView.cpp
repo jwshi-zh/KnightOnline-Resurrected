@@ -113,7 +113,7 @@ void CHierarchyView::OnSelchanged(NMHDR* pNMHDR, LRESULT* pResult)
 
 	CN3UIBase* pUI = (CN3UIBase*)GetTreeCtrl().GetItemData(hItem);
 	if(0 == ::_IsKeyDown(VK_CONTROL))
-		GetDocument()->SetSelectedUI(NULL); // ì»¨íŠ¸ë¡¤ í‚¤ë¥¼ ì•ˆëˆŒë €ìœ¼ë©´.. ë‹¨ë… ì…€ë ‰íŠ¸..
+		GetDocument()->SetSelectedUI(NULL); // ÄÁÆ®·Ñ Å°¸¦ ¾È´­·¶À¸¸é.. ´Üµ¶ ¼¿·ºÆ®..
 	GetDocument()->SetSelectedUI(pUI);
 	
 	*pResult = 0;
@@ -129,7 +129,7 @@ void CHierarchyView::OnRclick(NMHDR* pNMHDR, LRESULT* pResult)
 /////////////////////////////////////////////////////////////////////////////
 // CHierarchyView Operations
 
-// ëª¨ë“  tree item ì •ë³´ ê°±ì‹ í•˜ê¸°
+// ¸ğµç tree item Á¤º¸ °»½ÅÇÏ±â
 void CHierarchyView::UpdateAllInfo()
 {
 	GetTreeCtrl().DeleteAllItems();
@@ -139,7 +139,7 @@ void CHierarchyView::UpdateAllInfo()
 	this->SelectObject(TVI_ROOT, GetDocument()->GetSelectedUI());
 }
 
-// tree item ì •ë³´ ê°±ì‹ í•˜ê¸°
+// tree item Á¤º¸ °»½ÅÇÏ±â
 void CHierarchyView::UpdateTreeItem(HTREEITEM hParent, CN3UIBase *pUIBase)
 {
 	if(pUIBase == NULL) return;
@@ -154,7 +154,7 @@ void CHierarchyView::UpdateTreeItem(HTREEITEM hParent, CN3UIBase *pUIBase)
 		{
 			str = _T("Button");
 			if (pParentUI && UI_TYPE_SCROLLBAR == pParentUI->UIType())
-			{	// ë¶€ëª¨ê°€ ìŠ¤í¬ë¡¤ì˜ ë²„íŠ¼ì¼ ê²½ìš°
+			{	// ºÎ¸ğ°¡ ½ºÅ©·ÑÀÇ ¹öÆ°ÀÏ °æ¿ì
 				if (CN3UIScrollBar::BTN_LEFTUP == pUIBase->GetReserved())
 					str = _T("Left/Up Button");
 				else if(CN3UIScrollBar::BTN_RIGHTDOWN == pUIBase->GetReserved())
@@ -169,7 +169,7 @@ void CHierarchyView::UpdateTreeItem(HTREEITEM hParent, CN3UIBase *pUIBase)
 			if (pParentUI == NULL) break;
 			if (UI_TYPE_IMAGE == pParentUI->UIType())
 			{
-				ASSERT(UISTYLE_IMAGE_ANIMATE & pParentUI->m_dwStyle);	// ë¶€ëª¨ëŠ” ë°˜ë“œì‹œ Animate imageì—¬ì•¼ í•œë‹¤.
+				ASSERT(UISTYLE_IMAGE_ANIMATE & pParentUI->m_dwStyle);	// ºÎ¸ğ´Â ¹İµå½Ã Animate image¿©¾ß ÇÑ´Ù.
 				str.Format("Image (%d)", pUIBase->GetReserved());
 			}
 			else if (UI_TYPE_BUTTON == pParentUI->UIType())
@@ -210,10 +210,10 @@ void CHierarchyView::UpdateTreeItem(HTREEITEM hParent, CN3UIBase *pUIBase)
 	}
 	
 	str += " - ";
-	str += pUIBase->m_szID.c_str(); // ì´ë¦„ì„ ë¶™ì—¬ì¤€ë‹¤... !!
+	str += pUIBase->m_szID.c_str(); // ÀÌ¸§À» ºÙ¿©ÁØ´Ù... !!
 
 	HTREEITEM hItem = GetTreeCtrl().InsertItem(str, hParent);	// insert
-	GetTreeCtrl().SetItemData(hItem, (DWORD)pUIBase);	// pointer ì €ì¥
+	GetTreeCtrl().SetItemData(hItem, (DWORD)pUIBase);	// pointer ÀúÀå
 	GetTreeCtrl().Expand(hItem, TVE_EXPAND);			// expand
 
 	// update child
@@ -224,7 +224,7 @@ void CHierarchyView::UpdateTreeItem(HTREEITEM hParent, CN3UIBase *pUIBase)
 	}
 }
 
-// UIBase í¬ì¸í„°ë¡œ tree item ì„ íƒí•˜ê¸°
+// UIBase Æ÷ÀÎÅÍ·Î tree item ¼±ÅÃÇÏ±â
 void CHierarchyView::SelectObject(HTREEITEM hItem, CN3UIBase* pUIBase)
 {
 	if(NULL == pUIBase || NULL == hItem) return;

@@ -99,4 +99,207 @@ void CFormViewTool::OnBMakeSmooth()
 			CN3Skin* pSkin = pPart->Skin(j);
 			if(NULL == pSkin) continue;
 
-			pSkin->ReGenerateSmoothNormal(); // 甕�
+			pSkin->ReGenerateSmoothNormal(); // 법선 벡터를 만들고.. // 부드럽게 게산..
+		}
+	}
+
+	CMainFrame* pFrm = (CMainFrame*)AfxGetMainWnd();
+	pFrm->GetPaneRender()->InvalidateRect(NULL, FALSE); // 렌더링..
+}
+
+void CFormViewTool::OnInitialUpdate() 
+{
+//	if(m_CBLOD.m_hWnd)
+//	{
+//		m_CBLOD.ResetContent();
+//		for(int i = 0; i < MAX_CHR_LOD; i++)
+//		{
+//			CString szLOD;
+//			szLOD.Format("LOD : %d", i);
+//			m_CBLOD.AddString(szLOD);
+//		}
+//		m_CBLOD.SetCurSel(0);
+//	}
+
+	CFormView::OnInitialUpdate();
+}
+
+void CFormViewTool::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint) 
+{
+	if(m_CBLOD.m_hWnd) 
+	{
+		int nSel = m_CBLOD.GetCurSel();
+		if(nSel < 0) m_CBLOD.SetCurSel(0);
+	}
+	this->UpdateAllInfo();
+}
+
+void CFormViewTool::OnSelchangeCbLod() 
+{
+	CMainFrame* pFrm = (CMainFrame*)AfxGetMainWnd();
+	pFrm->GetPaneRender()->InvalidateRect(NULL, FALSE); // 렌더링..
+}
+
+void CFormViewTool::OnBAddTestSound0() 
+{
+	char szBuff[10240] = "";
+	DWORD dwFlags = OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_ALLOWMULTISELECT;
+	CFileDialog dlg(TRUE, "wav", NULL, dwFlags, "Wave files(*.wav)|*.wav||", NULL);
+	char szCurPath[256]; GetCurrentDirectory(256, szCurPath);
+	dlg.m_ofn.lpstrInitialDir = szCurPath;
+	dlg.m_ofn.nMaxFile = 10240;
+	dlg.m_ofn.lpstrFile = szBuff;
+
+	if(dlg.DoModal() == IDCANCEL) return;
+
+	CMainFrame* pFrm = (CMainFrame*)AfxGetMainWnd();
+	POSITION pos = dlg.GetStartPosition();
+	CString FileName;
+	while(pos != NULL)
+	{
+		FileName = dlg.GetNextPathName(pos);
+		m_ListSound0.AddString(FileName);
+	}
+}
+
+void CFormViewTool::OnBDeleteTestSound0() 
+{
+	CMainFrame* pFrm = (CMainFrame*)AfxGetMainWnd();
+	
+	int iSel = m_ListSound0.GetCurSel();
+	if(iSel >= 0)
+	{
+		CString szFN;
+		m_ListSound0.GetText(iSel, szFN);
+		std::string szFN2(szFN);
+		pFrm->m_SndMgr.ReleaseObj(&(pFrm->m_pSndObj0));
+
+		m_ListSound0.DeleteString(iSel);
+		m_ListSound0.SetCurSel(iSel);
+	}
+}
+
+void CFormViewTool::OnSelchangeListSound0() 
+{
+	CMainFrame* pFrm = (CMainFrame*)AfxGetMainWnd();
+	
+	int iSel = m_ListSound0.GetCurSel();
+	if(iSel >= 0)
+	{
+		CString szFN;
+		m_ListSound0.GetText(iSel, szFN);
+		std::string szFN2(szFN);
+		pFrm->m_SndMgr.ReleaseObj(&(pFrm->m_pSndObj0));
+		pFrm->m_pSndObj0 = (pFrm->m_SndMgr.CreateObj(szFN2, SNDTYPE_3D));
+	}
+}
+
+void CFormViewTool::OnBAddTestSound1() 
+{
+	char szBuff[10240] = "";
+	DWORD dwFlags = OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_ALLOWMULTISELECT;
+	CFileDialog dlg(TRUE, "wav", NULL, dwFlags, "Wave files(*.wav)|*.wav||", NULL);
+	char szCurPath[256]; GetCurrentDirectory(256, szCurPath);
+	dlg.m_ofn.lpstrInitialDir = szCurPath;
+	dlg.m_ofn.nMaxFile = 10240;
+	dlg.m_ofn.lpstrFile = szBuff;
+
+	if(dlg.DoModal() == IDCANCEL) return;
+
+	CMainFrame* pFrm = (CMainFrame*)AfxGetMainWnd();
+	POSITION pos = dlg.GetStartPosition();
+	CString FileName;
+	while(pos != NULL)
+	{
+		FileName = dlg.GetNextPathName(pos);
+		m_ListSound1.AddString(FileName);
+	}
+}
+
+void CFormViewTool::OnBDeleteTestSound1() 
+{
+	CMainFrame* pFrm = (CMainFrame*)AfxGetMainWnd();
+	
+	int iSel = m_ListSound1.GetCurSel();
+	if(iSel >= 0)
+	{
+		CString szFN;
+		m_ListSound1.GetText(iSel, szFN);
+		std::string szFN2(szFN);
+		pFrm->m_SndMgr.ReleaseObj(&(pFrm->m_pSndObj0));
+
+		m_ListSound0.DeleteString(iSel);
+		m_ListSound0.SetCurSel(iSel);
+	}
+}
+
+void CFormViewTool::OnSelchangeListSound1() 
+{
+	CMainFrame* pFrm = (CMainFrame*)AfxGetMainWnd();
+	
+	int iSel = m_ListSound1.GetCurSel();
+	if(iSel >= 0)
+	{
+		CString szFN;
+		m_ListSound1.GetText(iSel, szFN);
+		std::string szFN2(szFN);
+		pFrm->m_SndMgr.ReleaseObj(&(pFrm->m_pSndObj1));
+		pFrm->m_pSndObj1 = pFrm->m_SndMgr.CreateObj(szFN2, SNDTYPE_3D);
+	}
+}
+
+void CFormViewTool::OnSize(UINT nType, int cx, int cy) 
+{
+	CFormView::OnSize(nType, cx, cy);
+	
+	if(m_ListSound0.GetSafeHwnd() != NULL)
+	{
+		CRect rcOrg, rcClient;
+		m_ListSound0.GetWindowRect(rcOrg); // 그래프 컨트롤의 원래 화면 좌표를 
+		this->GetClientRect(rcClient); // 
+		this->ClientToScreen(rcClient); // 화면 좌표로 바꾸고..
+
+		int cx2 = rcClient.right - rcOrg.left - 5;
+		int cy2 = rcOrg.Height();
+
+		m_ListSound0.SetWindowPos(NULL, 0, 0, cx2, cy2, SWP_NOMOVE | SWP_NOZORDER);
+	}
+
+	if(m_ListSound1.GetSafeHwnd() != NULL)
+	{
+		CRect rcOrg, rcClient;
+		m_ListSound1.GetWindowRect(rcOrg); // 그래프 컨트롤의 원래 화면 좌표를 
+		this->GetClientRect(rcClient); // 
+		this->ClientToScreen(rcClient); // 화면 좌표로 바꾸고..
+
+		int cx2 = rcClient.right - rcOrg.left - 5;
+		int cy2 = rcOrg.Height();
+
+		m_ListSound1.SetWindowPos(NULL, 0, 0, cx2, cy2, SWP_NOMOVE | SWP_NOZORDER);
+	}
+}
+
+void CFormViewTool::OnBApplyOffsetFrame() 
+{
+	CString str;
+	GetDlgItemText(IDC_E_OFFSET, str);
+	float fOffset = (float)atof(str);
+	if(0 == fOffset) return;
+
+	CN3CEDoc* pDoc = (CN3CEDoc*)(GetDocument());
+	CN3Chr* pChr = pDoc->m_Scene.ChrGet(0);
+	if(NULL == pChr) return;
+	CN3AnimControl* pAniCtrl = pChr->AniCtrl();
+	if(NULL == pAniCtrl || pAniCtrl->Count() <= 0) return;
+
+	int iCount = pAniCtrl->Count();
+	for(int i = 0; i < iCount; i++)
+	{
+		__AnimData* pData = pAniCtrl->DataGet(i);
+		if(pData) pData->Offset(fOffset);
+	}
+
+	CMainFrame* pFrm = (CMainFrame*)AfxGetMainWnd();
+	pFrm->GetPaneAnimation()->UpdateInfo();
+}
+

@@ -53,4 +53,69 @@ BOOL CPosDummy::MouseMsgFilter(LPMSG pMsg)
 			DWORD nFlags = pMsg->wParam;
 			if (m_pSelectedCube && (nFlags & MK_LBUTTON))
 			{
-				__Vector3 vRayDir, vRayOrig;	// 
+				__Vector3 vRayDir, vRayOrig;	// 화면 중앙(시점)과 마우스 포인터를 이은 직선의 방향과 원점
+				__Vector3 vPN, vPV;	// 평면의 법선과 포함된 점
+				__Vector3 vPos;	// 위의 평면과 직선의 만나는 점(구할 점)
+				__Vector3 vCameraDir = s_CameraData.vAt - s_CameraData.vEye;	vCameraDir.Normalize();
+				GetPickRay(point, vRayDir, vRayOrig);
+				vPV = m_vPrevPos;
+				__Matrix44 mat = m_Matrix;	mat.PosSet(0,0,0);
+
+				switch(m_pSelectedCube->iType)
+				{
+				case DUMMY_CENTER:
+					{
+						vPN = vCameraDir;
+						float fT = D3DXVec3Dot(&vPN,&(vPV-vRayOrig)) / D3DXVec3Dot(&vPN, &vRayDir);
+						vPos = vRayOrig + vRayDir*fT;
+
+						__Vector3 vDiffPos = vPos - m_vPos;
+						TransDiff(&vDiffPos, NULL, NULL);
+						m_vPos = vPos;
+					}
+					break;
+				case DUMMY_X:
+					{
+						vPN.Set(0, vCameraDir.y, vCameraDir.z);		vPN.Normalize();
+						float fT = D3DXVec3Dot(&vPN,&(vPV-vRayOrig)) / D3DXVec3Dot(&vPN, &vRayDir);
+						vPos = vRayOrig + vRayDir*fT;
+						vPos += ((m_pSelectedCube->vCenterPos*(-1.0f))*mat);
+
+						__Vector3 vDiffPos;	vDiffPos.Set(vPos.x - m_vPos.x, 0, 0);
+						TransDiff(&vDiffPos, NULL, NULL);
+						m_vPos.x = vPos.x;
+					}
+					break;
+				case DUMMY_Y:
+					{
+						vPN.Set(vCameraDir.x, 0, vCameraDir.z);		vPN.Normalize();
+						float fT = D3DXVec3Dot(&vPN,&(vPV-vRayOrig)) / D3DXVec3Dot(&vPN, &vRayDir);
+						vPos = vRayOrig + vRayDir*fT;
+						vPos += ((m_pSelectedCube->vCenterPos*(-1.0f))*mat);
+
+						__Vector3 vDiffPos;	vDiffPos.Set(0, vPos.y - m_vPos.y, 0);
+						TransDiff(&vDiffPos, NULL, NULL);
+						m_vPos.y = vPos.y;
+					}
+					break;
+				case DUMMY_Z:
+					{
+						vPN.Set(vCameraDir.x, vCameraDir.y, 0);		vPN.Normalize();
+						float fT = D3DXVec3Dot(&vPN,&(vPV-vRayOrig)) / D3DXVec3Dot(&vPN, &vRayDir);
+						vPos = vRayOrig + vRayDir*fT;
+						vPos += ((m_pSelectedCube->vCenterPos*(-1.0f))*mat);
+
+						__Vector3 vDiffPos;	vDiffPos.Set(0, 0, vPos.z - m_vPos.z);
+						TransDiff(&vDiffPos, NULL, NULL);
+						m_vPos.z = vPos.z;
+					}
+					break;
+				}
+				return TRUE;
+			}
+		}
+		break;
+	}
+
+	return CTransDummy::MouseMsgFilter(pMsg);
+}

@@ -333,14 +333,14 @@ void CPortalWall::Load(FILE* stream)
 
 void CPortalWall::Save(FILE* stream)
 {
-	// ë¨¼ì € ìì‹ ì˜ íƒ€ì…ì„ ì €ì¥..
+	// ¸ÕÀú ÀÚ½ÅÀÇ Å¸ÀÔÀ» ÀúÀå..
 	fwrite(&_iTypeWall, sizeof(int), 1, stream);
 	fwrite(&m_eWallType, sizeof(int), 1, stream);
 
-	// ìì‹ ì˜ ì•„ì´ë””ë¥¼ ì €ì¥..
+	// ÀÚ½ÅÀÇ ¾ÆÀÌµğ¸¦ ÀúÀå..
 	fwrite(&m_iID, sizeof(int), 1, stream);	
 
-	// ìì‹ ì˜ ë°ì´í„° ì €ì¥..
+	// ÀÚ½ÅÀÇ µ¥ÀÌÅÍ ÀúÀå..
 	CPvsBase::Save(stream);
 }
 

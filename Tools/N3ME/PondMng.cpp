@@ -165,7 +165,7 @@ bool CPondMng::Save(HANDLE hFile)
 
 	//	version 1000 - alpha input
 	int nFileVersion = 1001;
-	WriteFile(hFile, &nFileVersion, sizeof(nFileVersion), &dwNum, NULL);		// ì—°ëª» ë²ˆí˜¸
+	WriteFile(hFile, &nFileVersion, sizeof(nFileVersion), &dwNum, NULL);		// ¿¬¸ø ¹øÈ£
 
 	int iSize = m_PondMeshes.size();
 	WriteFile(hFile, &iSize, 4, &dwNum, NULL);
@@ -198,7 +198,7 @@ void CPondMng::Render()
 	if(dwLighting != FALSE)			hr = s_lpD3DDev->SetRenderState(D3DRS_LIGHTING, FALSE);
 	if(dwFog != FALSE)				hr = s_lpD3DDev->SetRenderState(D3DRS_FOGENABLE, FALSE);
 
-	// ê¸°ì¡´ì— ìˆë˜ ì—°ëª» ê·¸ë¦¬ê¸°
+	// ±âÁ¸¿¡ ÀÖ´ø ¿¬¸ø ±×¸®±â
 	it_PondMesh it = m_PondMeshes.begin();
 	int iSize = m_PondMeshes.size();
 	for(int i = 0; i < iSize; i++, it++)
@@ -209,7 +209,7 @@ void CPondMng::Render()
 
 	if (m_bEditMode)
 	{
-		// ì—°ëª» ìƒˆë¡œ ë§Œë“œëŠ” ì¤‘ì´ë©´ ë“œë˜ê·¸ ì„  ê·¸ë¦¬ê¸°
+		// ¿¬¸ø »õ·Î ¸¸µå´Â ÁßÀÌ¸é µå·¡±× ¼± ±×¸®±â
 		if (m_PCursorMode == PCM_CREATE)
 		{
 			__Matrix44 matWorld;	matWorld.Identity();
@@ -225,7 +225,7 @@ void CPondMng::Render()
 			s_lpD3DDev->DrawPrimitiveUP(D3DPT_LINESTRIP, 4, m_CreateLine, sizeof(__VertexXyzColor));
 		}
 
-		// dummy ìƒì ê·¸ë¦¬ê¸°
+		// dummy »óÀÚ ±×¸®±â
 		m_VtxPosDummy.Render();
 
 		BOOL bisFix=FALSE;
@@ -238,12 +238,12 @@ void CPondMng::Render()
 			pSelPond= *it;
 			if(pSelPond)
 			{
-				// ì„ íƒëœ ì—°ëª»ì˜ ì ê·¸ë¦¬ê¸° (ì‚˜ê¹…)
+				// ¼±ÅÃµÈ ¿¬¸øÀÇ Á¡±×¸®±â (»â±ë)
 				pSelPond->RenderVertexPoint();
 			}
 		}
 
-		// ì„ íƒëœ ì  ê·¸ë¦¬ê¸° (ì´ˆë¡)
+		// ¼±ÅÃµÈ Á¡ ±×¸®±â (ÃÊ·Ï)
 		iSize = m_SelVtxArray.GetSize();
 		if (iSize>0)
 		{
@@ -275,7 +275,7 @@ void CPondMng::Render()
 				if (iScreenX >= (int)vp.X && iScreenX <= (int)vp.Width &&
 					iScreenY >= (int)vp.Y && iScreenY <= (int)vp.Height)
 				{
-					// set X (ì ì„ ì°ìœ¼ë©´ 1í”½ì…€ë°–ì— ì•ˆì°ìœ¼ë¯€ë¡œ Xí‘œì‹œë¥¼ ê·¸ë¦°ë‹¤.
+					// set X (Á¡À» ÂïÀ¸¸é 1ÇÈ¼¿¹Û¿¡ ¾ÈÂïÀ¸¹Ç·Î XÇ¥½Ã¸¦ ±×¸°´Ù.
 					Vertices[0].Set(float(iScreenX-2), float(iScreenY-2), 0.5f, 0.5f, clr);
 					Vertices[1].Set(float(iScreenX+2), float(iScreenY+2), 0.5f, 0.5f, clr);
 					Vertices[2].Set(float(iScreenX+2), float(iScreenY-2), 0.5f, 0.5f, clr);
@@ -286,7 +286,7 @@ void CPondMng::Render()
 			}
 		}
 
-		// ë“œë˜ê·¸ ì˜ì—­ ê·¸ë¦¬ê¸°
+		// µå·¡±× ¿µ¿ª ±×¸®±â
 		if (PCM_SELECTING == m_PCursorMode) m_pMainFrm->GetMapMng()->RenderDragRect(&m_rcSelDrag);
 	}
 
@@ -301,41 +301,41 @@ CPondMesh*	CPondMng::CreateNewPondMesh()
 	CPondMesh* pRM = new CPondMesh;
 	__Vector3 vPos[4];
 
-	vPos[0].Set(m_CreateLine[0].x,m_CreateLine[0].y,m_CreateLine[0].z);	//	ì™¼ìª½ìœ„
-	vPos[1].Set(m_CreateLine[1].x,m_CreateLine[1].y,m_CreateLine[1].z);	//	ì˜¤ë¥¸ìª½ìœ„
-	vPos[2].Set(m_CreateLine[2].x,m_CreateLine[2].y,m_CreateLine[2].z);	//	ì˜¤ë¥¸ìª½ ì•„ë˜
-	vPos[3].Set(m_CreateLine[3].x,m_CreateLine[3].y,m_CreateLine[3].z);	//	ì™¼ìª½ì•„ë˜
+	vPos[0].Set(m_CreateLine[0].x,m_CreateLine[0].y,m_CreateLine[0].z);	//	¿ŞÂÊÀ§
+	vPos[1].Set(m_CreateLine[1].x,m_CreateLine[1].y,m_CreateLine[1].z);	//	¿À¸¥ÂÊÀ§
+	vPos[2].Set(m_CreateLine[2].x,m_CreateLine[2].y,m_CreateLine[2].z);	//	¿À¸¥ÂÊ ¾Æ·¡
+	vPos[3].Set(m_CreateLine[3].x,m_CreateLine[3].y,m_CreateLine[3].z);	//	¿ŞÂÊ¾Æ·¡
 
 	CLyTerrain* pTerrain = m_pMainFrm->GetMapMng()->GetTerrain();				
-	pRM->SetTerrain(pTerrain);	//	ì§€í˜•í¬ì¸í„° ì…ë ¥
-	pRM->MakeDrawRect(vPos);	//	ì˜ì—­ì…ë ¥
+	pRM->SetTerrain(pTerrain);	//	ÁöÇüÆ÷ÀÎÅÍ ÀÔ·Â
+	pRM->MakeDrawRect(vPos);	//	¿µ¿ªÀÔ·Â
 	pRM->MakePondPos();
 
-	SelPondRelease();	//	ì§€ê¸ˆê¹Œì • ì„ íƒí•œê±° ì¼ë‹¨ ì§€ìš°ê¸°
+	SelPondRelease();	//	Áö±İ±îÁ¤ ¼±ÅÃÇÑ°Å ÀÏ´Ü Áö¿ì±â
 
 	int iID = 0;
-	m_pSelPonds.push_back(pRM);	//	ì¼ë‹¨ ë„£ê¸°(ì•„ë’¤ê²€ì‚¬ìœ„í•´)
-	while( SetPondID(pRM, iID) == FALSE) iID++;	//	ìƒˆë¡œìš´ ì•„ë’¤ì°¾ìŒ
+	m_pSelPonds.push_back(pRM);	//	ÀÏ´Ü ³Ö±â(¾ÆµÚ°Ë»çÀ§ÇØ)
+	while( SetPondID(pRM, iID) == FALSE) iID++;	//	»õ·Î¿î ¾ÆµÚÃ£À½
 
 	CDlgPondProperty dlg(this);
 	dlg.m_IsModalDialog = TRUE;
 
-	if (dlg.DoModal() == IDCANCEL)	//	ì§€ê¸ˆ ë§Œë“ ì—°ëª»ì§€ìš°ê¸°
+	if (dlg.DoModal() == IDCANCEL)	//	Áö±İ ¸¸µç¿¬¸øÁö¿ì±â
 	{
 		SelPondDelete(pRM);
 		pRM = NULL;
 	}
-	if (pRM)	//	ë§Œë“¤ë ¤ëŠ” ì—°ëª»
+	if (pRM)	//	¸¸µé·Á´Â ¿¬¸ø
 	{
 		m_PondMeshes.push_back(pRM);
 		SelPondRelease();
-		//	ì™¸ê³½ì ë“¤ì„ ë°”íƒ•ìœ¼ë¡œ ê°€ìš´ë° ì ì„ í–¥í•˜ì—¬ ì¼ì •ê±°ë¦¬ë§ˆë‹¤ ì ë“¤ì„ ë°°ì¹˜í•œë‹¤////
+		//	¿Ü°ûÁ¡µéÀ» ¹ÙÅÁÀ¸·Î °¡¿îµ¥ Á¡À» ÇâÇÏ¿© ÀÏÁ¤°Å¸®¸¶´Ù Á¡µéÀ» ¹èÄ¡ÇÑ´Ù////
 	}
 
 	return pRM;
 }
 
-void CPondMng::RemovePondMesh(int iPondID)	//	ì—°ëª»ì„ ë§Œë“¤ê±°ë‚˜ ì„ íƒí•˜ì—¬ ì§€ìš°ê³ ì ë²„íŠ¼ ëˆŒë €ì„ì‹œ
+void CPondMng::RemovePondMesh(int iPondID)	//	¿¬¸øÀ» ¸¸µé°Å³ª ¼±ÅÃÇÏ¿© Áö¿ì°íÀÚ ¹öÆ° ´­·¶À»½Ã
 {
 	it_PondMesh it = m_PondMeshes.begin();
 	int iSize = m_PondMeshes.size();
@@ -404,7 +404,7 @@ BOOL CPondMng::MouseMsgFilter(LPMSG pMsg)
 	case WM_MOUSEMOVE:
 		{
 			POINT point = {short(LOWORD(pMsg->lParam)), short(HIWORD(pMsg->lParam))};
-			if(bCtrlKeyState==2)	//	ì—°ëª»ì„ íšŒì „í•˜ëŠ” ì¤‘
+			if(bCtrlKeyState==2)	//	¿¬¸øÀ» È¸ÀüÇÏ´Â Áß
 			{
 				SetRotatePonds(ptDownBuff.x - point.x);
 				ptDownBuff = point;
@@ -412,17 +412,17 @@ BOOL CPondMng::MouseMsgFilter(LPMSG pMsg)
 			}
 
 			if (PCM_CREATE == m_PCursorMode)
-			{	// ìƒˆë¡œìš´ ì—°ëª» ì¶”ê°€í• ë•Œ ë“œë˜ê·¸ í•˜ëŠ” ì„  ì„¤ì •
-				__Vector3 vRayDir, vRayOrig;	// í™”ë©´ ì¤‘ì•™(ì‹œì )ê³¼ ë§ˆìš°ìŠ¤ í¬ì¸í„°ë¥¼ ì´ì€ ì§ì„ ì˜ ë°©í–¥ê³¼ ì›ì 
-				__Vector3 vPN, vPV;	// í‰ë©´ì˜ ë²•ì„ ê³¼ í¬í•¨ëœ ì 
-				__Vector3 vPos;	// ìœ„ì˜ í‰ë©´ê³¼ ì§ì„ ì˜ ë§Œë‚˜ëŠ” ì (êµ¬í•  ì )
+			{	// »õ·Î¿î ¿¬¸ø Ãß°¡ÇÒ¶§ µå·¡±× ÇÏ´Â ¼± ¼³Á¤
+				__Vector3 vRayDir, vRayOrig;	// È­¸é Áß¾Ó(½ÃÁ¡)°ú ¸¶¿ì½º Æ÷ÀÎÅÍ¸¦ ÀÌÀº Á÷¼±ÀÇ ¹æÇâ°ú ¿øÁ¡
+				__Vector3 vPN, vPV;	// Æò¸éÀÇ ¹ı¼±°ú Æ÷ÇÔµÈ Á¡
+				__Vector3 vPos;	// À§ÀÇ Æò¸é°ú Á÷¼±ÀÇ ¸¸³ª´Â Á¡(±¸ÇÒ Á¡)
 
 				vPN.Set(0,1,0); vPV = vMouseStrPos;
-				m_VtxPosDummy.GetPickRay(point, vRayDir, vRayOrig);	// ì´í•¨ìˆ˜ ì ì‹œ ë¹Œë ¤ì”€.
+				m_VtxPosDummy.GetPickRay(point, vRayDir, vRayOrig);	// ÀÌÇÔ¼ö Àá½Ã ºô·Á¾¸.
 				float fT = D3DXVec3Dot(&vPN,&(vPV-vRayOrig)) / D3DXVec3Dot(&vPN, &vRayDir);
-				vPos = vRayOrig + vRayDir*fT;	//	ì‹œì‘ì ê³¼ ë§ˆìš°ìŠ¤ì ì„ êµ¬í–ˆìŒ
+				vPos = vRayOrig + vRayDir*fT;	//	½ÃÀÛÁ¡°ú ¸¶¿ì½ºÁ¡À» ±¸ÇßÀ½
 
-				ReSetDrawRect(vMouseStrPos,vPos);	//	ë°›ì€ ë‘ì ì„ ë§µìƒì˜ ì‚¬ê°í˜•íƒœë¡œ ë³€í™˜
+				ReSetDrawRect(vMouseStrPos,vPos);	//	¹ŞÀº µÎÁ¡À» ¸Ê»óÀÇ »ç°¢ÇüÅÂ·Î º¯È¯
 				return TRUE;
 			}
 			else if (PCM_SELECTING == m_PCursorMode)
@@ -442,7 +442,7 @@ BOOL CPondMng::MouseMsgFilter(LPMSG pMsg)
 			if(m_bMovePond==TRUE) m_bMovePond = FALSE;
 
 			ptDownBuff = point;
-			if(bCtrlKeyState>0)	//	ì—°ëª»ì„ íšŒì „í•˜ëŠ” ì¤‘
+			if(bCtrlKeyState>0)	//	¿¬¸øÀ» È¸ÀüÇÏ´Â Áß
 			{				
 				if(bCtrlKeyState<2) bCtrlKeyState++;
 				SetVtxCenter();
@@ -450,7 +450,7 @@ BOOL CPondMng::MouseMsgFilter(LPMSG pMsg)
 			}
 
 			if (PCM_CREATE == m_PCursorMode)
-			{	// ìƒˆë¡œìš´ ì—°ëª» ì¶”ê°€ ì·¨ì†Œ
+			{	// »õ·Î¿î ¿¬¸ø Ãß°¡ Ãë¼Ò
 				m_PCursorMode = PCM_NONE;
 				ReleaseCapture();
 				return TRUE;
@@ -466,7 +466,7 @@ BOOL CPondMng::MouseMsgFilter(LPMSG pMsg)
 		break;
 	case WM_LBUTTONUP:
 		{
-			if(bCtrlKeyState>0)	//	ì—°ëª»ì„ íšŒì „í•˜ëŠ” ì¤‘
+			if(bCtrlKeyState>0)	//	¿¬¸øÀ» È¸ÀüÇÏ´Â Áß
 			{
 				bCtrlKeyState--;
 				return TRUE;
@@ -485,16 +485,16 @@ BOOL CPondMng::MouseMsgFilter(LPMSG pMsg)
 				{	m_rcSelDrag.bottom = m_rcSelDrag.top; m_rcSelDrag.top = point.y; }
 				else m_rcSelDrag.bottom = point.y;
 
-				// ë“œë ˆê·¸ê°€ ì•„ë‹ˆê³  ê·¸ëƒ¥ í´ë¦­ì¼ê²½ìš° ë“œë˜ê·¸ ì˜ì—­ì„ 3x3ì •ë„ë¡œ ì¡ì•„ì¤€ë‹¤.
+				// µå·¹±×°¡ ¾Æ´Ï°í ±×³É Å¬¸¯ÀÏ°æ¿ì µå·¡±× ¿µ¿ªÀ» 3x3Á¤µµ·Î Àâ¾ÆÁØ´Ù.
 				if (m_rcSelDrag.right-m_rcSelDrag.left < 3 && m_rcSelDrag.bottom-m_rcSelDrag.top < 3)
 				{
 					m_rcSelDrag.left = point.x-1;	m_rcSelDrag.right = point.x+1;
 					m_rcSelDrag.top = point.y-1;	m_rcSelDrag.bottom = point.y+1;
 				}
-				//	shiftí‚¤ëŠ” ì—¬ëŸ¬ê°œì˜ ë¶„ì‚°ëœ ì (ë“¤)ì„ ì„ íƒì‹œ
+				//	shiftÅ°´Â ¿©·¯°³ÀÇ ºĞ»êµÈ Á¡(µé)À» ¼±ÅÃ½Ã
 				if(SelectVtxByDragRect(&m_rcSelDrag, (pMsg->wParam & MK_SHIFT) ? TRUE : FALSE))
-					vMouseStrPos = m_VtxPosDummy.m_vPos;	//	ë”ë¯¸ì˜ ìœ„ì¹˜ ì…ë ¥
-				else m_PCursorMode = PCM_NONE;	//	ì„ íƒëœ ì ì´ ì—†ìœ¼ë¯€ë¡œ 
+					vMouseStrPos = m_VtxPosDummy.m_vPos;	//	´õ¹ÌÀÇ À§Ä¡ ÀÔ·Â
+				else m_PCursorMode = PCM_NONE;	//	¼±ÅÃµÈ Á¡ÀÌ ¾øÀ¸¹Ç·Î 
 
 				return TRUE;
 			}
@@ -502,18 +502,18 @@ BOOL CPondMng::MouseMsgFilter(LPMSG pMsg)
 		break;
 	case WM_RBUTTONDOWN:
 		{
-			if(bCtrlKeyState)	//	ì—°ëª»ì˜ ì„ íƒëœ ì ì—ì„œ íšŒì „ì„ í•¨
+			if(bCtrlKeyState)	//	¿¬¸øÀÇ ¼±ÅÃµÈ Á¡¿¡¼­ È¸ÀüÀ» ÇÔ
 				return TRUE;
 			if(m_bMovePond==TRUE) m_bMovePond = FALSE;
 			
 			if (PCM_SELECT == m_PCursorMode)
-			{	// Select ì·¨ì†Œ
+			{	// Select Ãë¼Ò
 				m_PCursorMode = PCM_NONE;
 				ReleaseCapture();
 				return TRUE;
 			}
 			else if (PCM_NONE == m_PCursorMode)
-			{	// ìƒˆë¡œìš´ ì—°ëª» ì¶”ê°€
+			{	// »õ·Î¿î ¿¬¸ø Ãß°¡
 				POINT point = {short(LOWORD(pMsg->lParam)), short(HIWORD(pMsg->lParam))};
 				CLyTerrain* pTerrain = m_pMainFrm->GetMapMng()->GetTerrain();				
 
@@ -522,10 +522,10 @@ BOOL CPondMng::MouseMsgFilter(LPMSG pMsg)
 				{
 					m_PCursorMode = PCM_CREATE;
 
-					vMouseStrPos = vPos;	//	ì²˜ìŒì§€ì  ì…ë ¥
+					vMouseStrPos = vPos;	//	Ã³À½ÁöÁ¡ ÀÔ·Â
 
-					DWORD color = 0xffffff00;	//	ê·¸ë ¤ì§ˆ ì„ ìƒ‰
-					for(int i=0;i<5;++i) m_CreateLine[i].Set(vPos,color);	//	ì´ˆê¸°í™”
+					DWORD color = 0xffffff00;	//	±×·ÁÁú ¼±»ö
+					for(int i=0;i<5;++i) m_CreateLine[i].Set(vPos,color);	//	ÃÊ±âÈ­
 
 					return TRUE;
 				}
@@ -534,27 +534,27 @@ BOOL CPondMng::MouseMsgFilter(LPMSG pMsg)
 		break;
 	case WM_RBUTTONUP:
 		{
-			if(bCtrlKeyState)	//	ì—°ëª»ì˜ ì„ íƒëœ ì ì—ì„œ íšŒì „ì„ í•¨
+			if(bCtrlKeyState)	//	¿¬¸øÀÇ ¼±ÅÃµÈ Á¡¿¡¼­ È¸ÀüÀ» ÇÔ
 				return TRUE;
 
 			POINT point = {short(LOWORD(pMsg->lParam)), short(HIWORD(pMsg->lParam))};
 			if (PCM_CREATE == m_PCursorMode)
-			{	// ìƒˆë¡œìš´ ì—°ëª» ì¶”ê°€
+			{	// »õ·Î¿î ¿¬¸ø Ãß°¡
 				m_PCursorMode = PCM_NONE;
 				ReleaseCapture();
 
-				__Vector3 vRayDir, vRayOrig;	// í™”ë©´ ì¤‘ì•™(ì‹œì )ê³¼ ë§ˆìš°ìŠ¤ í¬ì¸í„°ë¥¼ ì´ì€ ì§ì„ ì˜ ë°©í–¥ê³¼ ì›ì 
-				__Vector3 vPN, vPV;	// í‰ë©´ì˜ ë²•ì„ ê³¼ í¬í•¨ëœ ì 
-				__Vector3 vPos;	// ìœ„ì˜ í‰ë©´ê³¼ ì§ì„ ì˜ ë§Œë‚˜ëŠ” ì (êµ¬í•  ì )
+				__Vector3 vRayDir, vRayOrig;	// È­¸é Áß¾Ó(½ÃÁ¡)°ú ¸¶¿ì½º Æ÷ÀÎÅÍ¸¦ ÀÌÀº Á÷¼±ÀÇ ¹æÇâ°ú ¿øÁ¡
+				__Vector3 vPN, vPV;	// Æò¸éÀÇ ¹ı¼±°ú Æ÷ÇÔµÈ Á¡
+				__Vector3 vPos;	// À§ÀÇ Æò¸é°ú Á÷¼±ÀÇ ¸¸³ª´Â Á¡(±¸ÇÒ Á¡)
 
 				vPN.Set(0,1,0); vPV = vMouseStrPos;
-				m_VtxPosDummy.GetPickRay(point, vRayDir, vRayOrig);	// ì´í•¨ìˆ˜ ì ì‹œ ë¹Œë ¤ì”€.
+				m_VtxPosDummy.GetPickRay(point, vRayDir, vRayOrig);	// ÀÌÇÔ¼ö Àá½Ã ºô·Á¾¸.
 				float fT = D3DXVec3Dot(&vPN,&(vPV-vRayOrig)) / D3DXVec3Dot(&vPN, &vRayDir);
 				vPos = vRayOrig + vRayDir*fT;
 
 				ReSetDrawRect(vMouseStrPos,vPos);
 
-				CPondMesh* pRM = CreateNewPondMesh();	//	ìƒˆë¡œìš´ ì—°ëª»
+				CPondMesh* pRM = CreateNewPondMesh();	//	»õ·Î¿î ¿¬¸ø
 				SetSelPond(pRM);
 				return TRUE;
 			}
@@ -585,13 +585,13 @@ BOOL CPondMng::MouseMsgFilter(LPMSG pMsg)
 		{
 			if(bCtrlKeyState>0)
 			{
-				if(!(GetAsyncKeyState(VK_CONTROL) & 0xff00))	//	ì²´í¬í•˜ì—¬ ë–¼ì–´ì§„ ìƒíƒœë©´ ì›ìƒë³µê·€
+				if(!(GetAsyncKeyState(VK_CONTROL) & 0xff00))	//	Ã¼Å©ÇÏ¿© ¶¼¾îÁø »óÅÂ¸é ¿ø»óº¹±Í
 				{
 					if(bCtrlKeyState!=0) bCtrlKeyState=0;
 					return FALSE;
 				}
 
-				if(GetAsyncKeyState('A') & 0xff00)	//	í˜„ì¬ ì„ íƒëœ ì—°ëª»(ë“¤)ì˜ ëª¨ë“ ì ì„ ëŒ€ìƒìœ¼ë¡œ í•œë‹¤
+				if(GetAsyncKeyState('A') & 0xff00)	//	ÇöÀç ¼±ÅÃµÈ ¿¬¸ø(µé)ÀÇ ¸ğµçÁ¡À» ´ë»óÀ¸·Î ÇÑ´Ù
 					MovePond();
 				return TRUE;
 			}
@@ -604,7 +604,7 @@ BOOL CPondMng::MouseMsgFilter(LPMSG pMsg)
 	return FALSE;
 }
 
-void CPondMng::ReSetDrawRect(__Vector3 vStrPos,__Vector3 vEndPos)	//	ë°›ì€ ë‘ ì ìœ¼ë¡œ ë§µìƒì˜ ì‚¬ê°í˜•íƒœì˜ ì  ë§Œë“¬
+void CPondMng::ReSetDrawRect(__Vector3 vStrPos,__Vector3 vEndPos)	//	¹ŞÀº µÎ Á¡À¸·Î ¸Ê»óÀÇ »ç°¢ÇüÅÂÀÇ Á¡ ¸¸µë
 {
 	if(vStrPos.x > vEndPos.x)
 	{
@@ -729,7 +729,7 @@ BOOL CPondMng::SelectVtxByDragRect(RECT* pRect, BOOL bAdd,BOOL bSelectPond)
 		if (bAdd == FALSE)
 		{
 			m_SelVtxArray.RemoveAll();
-			SetSelPond(NULL);	// ì„ íƒí•œì—°ëª» í•´ì œ..
+			SetSelPond(NULL);	// ¼±ÅÃÇÑ¿¬¸ø ÇØÁ¦..
 		}
 	}
 
@@ -747,15 +747,15 @@ BOOL CPondMng::SelectVtxByDragRect(RECT* pRect, BOOL bAdd,BOOL bSelectPond)
 	int iSize = m_pSelPonds.size();
 	it_PondMesh it = m_pSelPonds.begin();
 	int i,k;
-	for(i = 0; i < iSize; ++i, ++it) 	// ì´ë¯¸ ì„ íƒëœ ì—°ëª»ì´ ìˆë‹¤ë©´..
+	for(i = 0; i < iSize; ++i, ++it) 	// ÀÌ¹Ì ¼±ÅÃµÈ ¿¬¸øÀÌ ÀÖ´Ù¸é..
 	{
 		pSelPond= *it;
 		if(pSelPond==NULL) continue;
 
-		int iVC = pSelPond->VertexCount();	// ê·¸ì—°ëª»ì˜ ì  ìˆ«ìë¥¼ êµ¬í•˜ê¸°
+		int iVC = pSelPond->VertexCount();	// ±×¿¬¸øÀÇ Á¡ ¼ıÀÚ¸¦ ±¸ÇÏ±â
 		for (k=0; k<iVC;++k)
 		{
-			__VertexXyzT2* pVtx = pSelPond->GetVertex(k);	// ì  í•˜ë‚˜ êµ¬í•˜ê¸°
+			__VertexXyzT2* pVtx = pSelPond->GetVertex(k);	// Á¡ ÇÏ³ª ±¸ÇÏ±â
 			if (pVtx == NULL) continue;
 
 			if(bSelectPond == FALSE)
@@ -773,10 +773,10 @@ BOOL CPondMng::SelectVtxByDragRect(RECT* pRect, BOOL bAdd,BOOL bSelectPond)
 					BOOL bAleadySelected = FALSE;
 					int j, ivtxSize = m_SelVtxArray.GetSize();
 					for (j=0; j<ivtxSize;++j) if (m_SelVtxArray.GetAt(j) == pVtx) {bAleadySelected=TRUE;break;}
-					if (bAleadySelected) m_SelVtxArray.RemoveAt(j);	// ì´ë¯¸ ìˆìœ¼ë¯€ë¡œ ì„ íƒëª©ë¡ì—ì„œ ì œê±°
-					else m_SelVtxArray.InsertAt(0, pVtx);			// ì¶”ê°€
+					if (bAleadySelected) m_SelVtxArray.RemoveAt(j);	// ÀÌ¹Ì ÀÖÀ¸¹Ç·Î ¼±ÅÃ¸ñ·Ï¿¡¼­ Á¦°Å
+					else m_SelVtxArray.InsertAt(0, pVtx);			// Ãß°¡
 
-					pSelPond->InputSelectPos(pVtx->x,pVtx->y,pVtx->z,k);	//	ì¢Œí‘œì…ë ¥í•˜ì—¬ ê°€ìƒì˜ ì˜ì—­ì¡ìŒ
+					pSelPond->InputSelectPos(pVtx->x,pVtx->y,pVtx->z,k);	//	ÁÂÇ¥ÀÔ·ÂÇÏ¿© °¡»óÀÇ ¿µ¿ªÀâÀ½
 				}
 			}
 			else
@@ -784,15 +784,15 @@ BOOL CPondMng::SelectVtxByDragRect(RECT* pRect, BOOL bAdd,BOOL bSelectPond)
 				BOOL bAleadySelected = FALSE;
 				int j, ivtxSize = m_SelVtxArray.GetSize();
 				for (j=0; j<ivtxSize;++j) if (m_SelVtxArray.GetAt(j) == pVtx) {bAleadySelected=TRUE;break;}
-				if (bAleadySelected) m_SelVtxArray.RemoveAt(j);	// ì´ë¯¸ ìˆìœ¼ë¯€ë¡œ ì„ íƒëª©ë¡ì—ì„œ ì œê±°
-				else m_SelVtxArray.InsertAt(0, pVtx);			// ì¶”ê°€
+				if (bAleadySelected) m_SelVtxArray.RemoveAt(j);	// ÀÌ¹Ì ÀÖÀ¸¹Ç·Î ¼±ÅÃ¸ñ·Ï¿¡¼­ Á¦°Å
+				else m_SelVtxArray.InsertAt(0, pVtx);			// Ãß°¡
 			
-				pSelPond->InputSelectPos(pVtx->x,pVtx->y,pVtx->z);	//	ì¢Œí‘œì…ë ¥í•˜ì—¬ ê°€ìƒì˜ ì˜ì—­ì¡ìŒ
+				pSelPond->InputSelectPos(pVtx->x,pVtx->y,pVtx->z);	//	ÁÂÇ¥ÀÔ·ÂÇÏ¿© °¡»óÀÇ ¿µ¿ªÀâÀ½
 			}
 		}
 	}
 	
-	if(iSize==0)	// ì„ íƒëœ ì—°ëª»ì´ ì•„ë¬´ê²ƒë„ ì—†ë‹¤ë©´ (ëª¨ë“ ì—°ëª» ê²€ìƒ‰í•´ì„œ ì—°ëª» ì„ íƒí›„ ê·¸ ì—°ëª» ì ë“¤ë§Œ ì„ íƒ..)
+	if(iSize==0)	// ¼±ÅÃµÈ ¿¬¸øÀÌ ¾Æ¹«°Íµµ ¾ø´Ù¸é (¸ğµç¿¬¸ø °Ë»öÇØ¼­ ¿¬¸ø ¼±ÅÃÈÄ ±× ¿¬¸ø Á¡µé¸¸ ¼±ÅÃ..)
 	{
 		ASSERT(m_SelVtxArray.GetSize() == 0);
 
@@ -804,12 +804,12 @@ BOOL CPondMng::SelectVtxByDragRect(RECT* pRect, BOOL bAdd,BOOL bSelectPond)
 			CPondMesh* pRM = *it;
 			if (pRM == NULL) continue;
 
-			int j, iVC = pRM->VertexCount();				// ì´ì—°ëª»ì˜ ì  ê°¯ìˆ˜
+			int j, iVC = pRM->VertexCount();				// ÀÌ¿¬¸øÀÇ Á¡ °¹¼ö
 			pSelPond = NULL;
 			bChkSamePond=TRUE;
 			for (j=0; j<iVC; ++j)
 			{
-				__VertexXyzT2* pVtx = pRM->GetVertex(j);	// ì  í•˜ë‚˜ êµ¬í•˜ê¸°
+				__VertexXyzT2* pVtx = pRM->GetVertex(j);	// Á¡ ÇÏ³ª ±¸ÇÏ±â
 				if (pVtx == NULL) continue;
 
 				D3DXVECTOR4 v;
@@ -822,8 +822,8 @@ BOOL CPondMng::SelectVtxByDragRect(RECT* pRect, BOOL bAdd,BOOL bSelectPond)
 				if (fScreenX >= pRect->left && fScreenX <= pRect->right &&
 					fScreenY >= pRect->top && fScreenY <= pRect->bottom)
 				{
-					m_SelVtxArray.Add(pVtx);			// ì¶”ê°€
-					pRM->InputSelectPos(pVtx->x,pVtx->y,pVtx->z,j);	//	ì¢Œí‘œì…ë ¥í•˜ì—¬ ê°€ìƒì˜ ì˜ì—­ì¡ìŒ
+					m_SelVtxArray.Add(pVtx);			// Ãß°¡
+					pRM->InputSelectPos(pVtx->x,pVtx->y,pVtx->z,j);	//	ÁÂÇ¥ÀÔ·ÂÇÏ¿© °¡»óÀÇ ¿µ¿ªÀâÀ½
 					if(bChkSamePond==TRUE)
 					{
 						pSelPond = pRM;
@@ -884,12 +884,12 @@ void CPondMng::MakeGameFiles(HANDLE hFile, float fSize)
 		int iVC = pRM->VertexCount();
 		__VertexXyzT2* pVtx0 = pRM->GetVertex(0), *pSrcVtx=NULL;
 		ASSERT(pVtx0);
-		WriteFile(hFile, &iVC, sizeof(iVC), &dwNum, NULL);				// ì  ê°¯ìˆ˜
+		WriteFile(hFile, &iVC, sizeof(iVC), &dwNum, NULL);				// Á¡ °¹¼ö
 
 		if(iVC<=0) continue;
 
 		int iWidthVtxNum = pRM->GetWaterScaleWidht();
-		WriteFile(hFile, &iWidthVtxNum, sizeof(int), &dwNum, NULL);				// ì  ê°¯ìˆ˜
+		WriteFile(hFile, &iWidthVtxNum, sizeof(int), &dwNum, NULL);				// Á¡ °¹¼ö
 
 		CN3Texture* pPondTex = pRM->TexGet();
 		int iLen = 0;
@@ -974,7 +974,7 @@ void CPondMng::ReCalcSelectedVertex()
 	m_pMainFrm->Invalidate(FALSE);
 }
 
-void CPondMng::SetVtxCenter()	//	ì—°ëª»(ë“¤)ì˜ ì¤‘ê°„ì ì„ ì°¾ì•„ ì„¸íŒ…,ì˜ˆì „ ìŠ¤ì¼€ì¼ë„ ë°±ì—…
+void CPondMng::SetVtxCenter()	//	¿¬¸ø(µé)ÀÇ Áß°£Á¡À» Ã£¾Æ ¼¼ÆÃ,¿¹Àü ½ºÄÉÀÏµµ ¹é¾÷
 {
 	int iSize = m_pSelPonds.size();
 	m_vPondsCenter.Zero();
@@ -993,7 +993,7 @@ void CPondMng::SetVtxCenter()	//	ì—°ëª»(ë“¤)ì˜ ì¤‘ê°„ì ì„ ì°¾ì•„ ì„¸íŒ…,ì˜ˆì 
 		CPondMesh* pRM = *it;
 		if(pRM) 
 		{
-			pvCenter[i] = pRM->GetCenter();	//	ì—°ëª»(ë“¤)ì˜ ì¤‘ê°„ì ì„ ë°›ìŒ, í˜„ì¬ì˜ ìŠ¤ì¼€ì¼ë„ ë°±ì—…
+			pvCenter[i] = pRM->GetCenter();	//	¿¬¸ø(µé)ÀÇ Áß°£Á¡À» ¹ŞÀ½, ÇöÀçÀÇ ½ºÄÉÀÏµµ ¹é¾÷
 			nCenterCnt++;
 		}
 	}
@@ -1113,7 +1113,7 @@ void CPondMng::InputDummyMovePos(__Vector3 vMovePos)
 		}
 	}
 
-	if (m_pDlgProperty && (vMovePos.y!=0.0f || m_bMovePond==TRUE)) //	ë†’ì´ë‚˜ ì›€ì§ì—¬ì„œ ì •ë³´ë¥¼ ê°±ì‹ 
+	if (m_pDlgProperty && (vMovePos.y!=0.0f || m_bMovePond==TRUE)) //	³ôÀÌ³ª ¿òÁ÷¿©¼­ Á¤º¸¸¦ °»½Å
 	{
 		m_pDlgProperty->UpdateInfo();	
 		MainInvalidate();
@@ -1136,7 +1136,7 @@ void CPondMng::StationPond()
 
 void CPondMng::MovePond()
 {
-	SelectVtxByDragRect(NULL,FALSE,TRUE);	//	ì¼ë‹¨ í˜„ì¬ ì„ íƒëœ ëª¨ë“  ì—°ëª»ì˜ ì ë“¤ ì „ë¶€ ì„ íƒ
+	SelectVtxByDragRect(NULL,FALSE,TRUE);	//	ÀÏ´Ü ÇöÀç ¼±ÅÃµÈ ¸ğµç ¿¬¸øÀÇ Á¡µé ÀüºÎ ¼±ÅÃ
 	m_bMovePond = TRUE;
 	MainInvalidate();
 }

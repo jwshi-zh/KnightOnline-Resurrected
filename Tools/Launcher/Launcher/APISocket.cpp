@@ -182,4 +182,62 @@ BOOL CAPISocket::ReceiveProcess()
 			short siCore = *((short*)(pData+2));
 			if ( siCore <= iCount )
 			{
-				if ( PACKET_TAIL == ntohs(*((WORD*)(pData+iCount-2))) ) // 
+				if ( PACKET_TAIL == ntohs(*((WORD*)(pData+iCount-2))) ) // 패킷 꼬리 부분 검사..
+				{
+					DataPack *pDP = new DataPack(siCore, pData+4);
+					m_qRecvPkt.push(pDP);
+					m_CB.HeadIncrease(siCore + 6); // 환형 버퍼 인덱스 증가 시키기..
+
+					bFoundTail = TRUE;
+				}
+			}
+		}
+
+		delete[] pData, pData = NULL;
+	}
+
+	return bFoundTail;
+}
+
+void CAPISocket::Send(BYTE* pData, int nSize)
+{
+	if (m_hSocket == INVALID_SOCKET)	return;
+
+	// UZDream 패킷 형식에 맞춰주는 부분. STX, ETX, size만 붙여준다. 따라서 나머지 부분은 패킷만들때 붙여서 넣어줘야 함. 
+	// 불합리하지만 이전의 패킷 형식에 맞추기 위해선... 
+//	int nTotalSize = nSize+10;
+//	BYTE *pSndData = m_RecvBuf;
+//	*((WORD*)pSndData) = STX;			pSndData+=2;
+//	*((WORD*)pSndData) = nTotalSize;	pSndData+=2;
+//	*((WORD*)pSndData) = 0x0000;		pSndData+=2;
+//	*((WORD*)pSndData) = 0x0000;		pSndData+=2;
+//	memcpy(pSndData, pData, nSize);		pSndData += nSize;
+//	*((WORD*)pSndData) = ETX;			pSndData+=2;	
+	
+	int nTotalSize = nSize+6;
+	BYTE *pSendData = m_RecvBuf;
+	*((WORD*)pSendData) = htons(PACKET_HEADER);	pSendData+=2;
+	*((WORD*)pSendData) = nSize;			pSendData+=2;
+	memcpy(pSendData, pData, nSize);		pSendData += nSize;
+	*((WORD*)pSendData) = htons(PACKET_TAIL);		pSendData+=2;
+
+	int nSent = 0;
+	int count = 0;
+	while(nSent < nTotalSize)
+	{
+		count = send(m_hSocket, (char*)m_RecvBuf, nTotalSize, 0);
+		if (count == SOCKET_ERROR)
+		{
+//			__ASSERT(0,"socket send error!");
+//			DWORD dwErr = GetLastError();
+//			TRACE("%d\n", dwErr);
+			break;
+		}
+		if (count)
+		{
+			nSent += count;
+		}
+	}
+
+	m_iSendByteCount += nTotalSize;
+}

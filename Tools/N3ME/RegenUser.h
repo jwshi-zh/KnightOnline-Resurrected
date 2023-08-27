@@ -28,7 +28,7 @@ class CRegenUser : public CN3Base
 public:
 	CDlgRegenUser*			m_pDlg;
 
-	CMapMng*				m_pRefMapMng;				// ì§€í˜• ì°¸ì¡° í¬ì¸í„°..
+	CMapMng*				m_pRefMapMng;				// ÁöÇü ÂüÁ¶ Æ÷ÀÎÅÍ..
 	bool					m_bActive;
 
 	std::list<VERTEXRECT*>	m_vrListRegion;

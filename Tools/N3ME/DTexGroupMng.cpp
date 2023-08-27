@@ -96,7 +96,7 @@ int CDTexGroupMng::GetBrushSize()
 void CDTexGroupMng::SetGroup(const char* pName)
 {
 	//^^
-	//ì…‹íŒ…í•˜ë ¤ëŠ” ê·¸ë£¹ì´ ìˆìœ¼ë©´ ê± ë¦¬í„´í•´ë²„ë ¤..
+	//¼ÂÆÃÇÏ·Á´Â ±×·ìÀÌ ÀÖÀ¸¸é °Á ¸®ÅÏÇØ¹ö·Á..
 	it_DTexGroup it = m_Groups.begin();
 	int iSize = m_Groups.size();
 	for(int i = 0; i < iSize; i++, it++)
@@ -112,7 +112,7 @@ void CDTexGroupMng::SetGroup(const char* pName)
 
 	wsprintf(pGroup->m_Name, pName);
 
-	//ìƒˆë¡œìš´ idxë¥¼ ì§€ì •í•˜ê¸° ìœ„í•´ì„œ ì¼ë‹¨ ì •ë ¬ì„ í•˜ì..
+	//»õ·Î¿î idx¸¦ ÁöÁ¤ÇÏ±â À§ÇØ¼­ ÀÏ´Ü Á¤·ÄÀ» ÇÏÀÚ..
 	it = m_Groups.begin();
 	iSize = m_Groups.size();
 	int* ArrayIdx = new int[iSize];
@@ -140,7 +140,7 @@ void CDTexGroupMng::SetGroup(const char* pName)
 
 //
 //	SetGroupID..
-//	IDë¡œ ê·¸ë£¹ ë„£ê¸°..
+//	ID·Î ±×·ì ³Ö±â..
 //
 void CDTexGroupMng::SetGroupID(const char* pName, int id)
 {
@@ -157,7 +157,7 @@ void CDTexGroupMng::SetGroupID(const char* pName, int id)
 
 
 //
-//	qsortë¥¼ ìœ„í•´ ì •ë ¬í•˜ëŠ” í•¨ìˆ˜...
+//	qsort¸¦ À§ÇØ Á¤·ÄÇÏ´Â ÇÔ¼ö...
 //
 int CDTexGroupMng::CompareIdx( const void *arg1, const void *arg2 )
 {
@@ -172,7 +172,7 @@ int CDTexGroupMng::CompareIdx( const void *arg1, const void *arg2 )
 
 
 //
-//	ê·¸ë£¹ ì§€ìš°ê¸°..
+//	±×·ì Áö¿ì±â..
 //
 void CDTexGroupMng::DelGroup(int ID)
 {
@@ -197,7 +197,7 @@ void CDTexGroupMng::DelGroup(int ID)
 
 
 //
-//	ê·¸ë£¹ì•ˆì— íƒ€ì¼ ë„£ê¸°..
+//	±×·ì¾È¿¡ Å¸ÀÏ ³Ö±â..
 //
 void CDTexGroupMng::SetTile(int ID, int attr, __DTexTileAttr tile)
 {

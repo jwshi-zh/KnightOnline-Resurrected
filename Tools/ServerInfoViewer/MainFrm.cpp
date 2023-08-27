@@ -84,4 +84,46 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	m_Eng.InitEnv();
 	m_Eng.Init(TRUE, m_hWnd, 0, 0, 0, TRUE);
-	m_Eng.GridCreate(64, 64); // 64 沃섎챸
+	m_Eng.GridCreate(64, 64); // 64 미터씩 4096 미터 표현..
+
+	return 0;
+}
+
+BOOL CMainFrame::OnCreateClient(LPCREATESTRUCT /*lpcs*/,
+	CCreateContext* pContext)
+{
+	return m_wndSplitter.Create(this,
+		2, 2,               // TODO: adjust the number of rows, columns
+		CSize(10, 10),      // TODO: adjust the minimum pane size
+		pContext);
+}
+
+BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
+{
+	if( !CFrameWnd::PreCreateWindow(cs) )
+		return FALSE;
+	// TODO: Modify the Window class or styles here by modifying
+	//  the CREATESTRUCT cs
+
+	return TRUE;
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// CMainFrame diagnostics
+
+#ifdef _DEBUG
+void CMainFrame::AssertValid() const
+{
+	CFrameWnd::AssertValid();
+}
+
+void CMainFrame::Dump(CDumpContext& dc) const
+{
+	CFrameWnd::Dump(dc);
+}
+
+#endif //_DEBUG
+
+/////////////////////////////////////////////////////////////////////////////
+// CMainFrame message handlers
+

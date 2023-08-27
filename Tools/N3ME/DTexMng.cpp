@@ -126,7 +126,7 @@ void CDTexMng::DelDTexByID(int id)
 
 //
 //	Load..
-//	DTexì •ë³´ë“¤ê³¼ ì‹¤ì œ í…ìŠ¤ì³ ì†ŒìŠ¤ë“¤ì„ ì½ì–´ë“¤ì¸ë‹¤.
+//	DTexÁ¤º¸µé°ú ½ÇÁ¦ ÅØ½ºÃÄ ¼Ò½ºµéÀ» ÀĞ¾îµéÀÎ´Ù.
 //
 void CDTexMng::LoadFromFile(CString RealFileName)
 {
@@ -162,13 +162,13 @@ void CDTexMng::LoadFromFile(CString RealFileName)
 
 			ProgressBar.StepIt();
 
-			//	ì‹¤ì œ í…ìŠ¤ì³ ì†ŒìŠ¤ë¥¼ ì½ê³ ..
+			//	½ÇÁ¦ ÅØ½ºÃÄ ¼Ò½º¸¦ ÀĞ°í..
 			CDTex* pDTex = new CDTex;
 			pDTex->Init();
 			pDTex->m_ID = i;
 			pDTex->m_pTex->LoadFromFile(szDTexFileName);
 			
-			//	ê·¸ì— ê´€í•œ íƒ€ì¼ ì •ë³´ë“¤ì„ ì½ê³ ..
+			//	±×¿¡ °üÇÑ Å¸ÀÏ Á¤º¸µéÀ» ÀĞ°í..
 			char szDir[_MAX_DIR], szFName[_MAX_FNAME];
 			_splitpath(szDTexFileName, NULL, szDir, szFName, NULL);
 			wsprintf(szDTexInfoFileName, "%s%s%s.dif", s_szPath.c_str(), szDir, szFName); // Texture Information file
@@ -224,7 +224,7 @@ void CDTexMng::LoadFromFile(CString RealFileName)
 
 			if(m_NextID <= id) m_NextID = id + 1;
 
-			//	ì‹¤ì œ í…ìŠ¤ì³ ì†ŒìŠ¤ë¥¼ ì½ê³ ..
+			//	½ÇÁ¦ ÅØ½ºÃÄ ¼Ò½º¸¦ ÀĞ°í..
 			CDTex* pDTex = new CDTex;
 			pDTex->Init();
 			pDTex->m_ID = id;
@@ -253,7 +253,7 @@ void CDTexMng::LoadFromFile(CString RealFileName)
 
 			if(version==1)
 			{
-				//	ê·¸ì— ê´€í•œ íƒ€ì¼ ì •ë³´ë“¤ì„ ì½ê³ ..
+				//	±×¿¡ °üÇÑ Å¸ÀÏ Á¤º¸µéÀ» ÀĞ°í..
 				char szDir[_MAX_DIR], szFName[_MAX_FNAME];
 				_splitpath(szDTexFileName, NULL, szDir, szFName, NULL);
 				wsprintf(szDTexInfoFileName, "%s%s%s.dif", s_szPath.c_str(), szDir, szFName); // Texture Information file
@@ -291,7 +291,7 @@ void CDTexMng::SaveToFile(CString RealFileName)
 {
 	char szDTexDir[_MAX_PATH];
 	wsprintf(szDTexDir, "%sDTex", s_szPath.c_str());
-	CreateDirectory("dtex", NULL); // ê²½ë¡œ ë§Œë“¤ê³ ..
+	CreateDirectory("dtex", NULL); // °æ·Î ¸¸µé°í..
 
 	char szDTexInfoFileName[_MAX_PATH];
 	wsprintf(szDTexInfoFileName, "%sDTEX\\%s.dtx", s_szPath.c_str(), (LPCTSTR)RealFileName);
@@ -326,15 +326,15 @@ void CDTexMng::SaveToFile(CString RealFileName)
 
 		/*
 		//
-		//	version1 ì €ì¥ë°©ì‹...
-		//	difíŒŒì¼ë§Œë“¤ê¸°...
+		//	version1 ÀúÀå¹æ½Ä...
+		//	difÆÄÀÏ¸¸µé±â...
 		//
 		char szDir[_MAX_DIR], szFName[_MAX_FNAME];
 		
 		_splitpath(szDTexFileName, NULL, szDir, szFName, NULL);
 		wsprintf(szDTexInfoFileName, "%s%s%s.dif", s_szPath.c_str(), szDir, szFName); // Texture Information file
 
-		//	ê·¸ì— ê´€í•œ íƒ€ì¼ ì •ë³´ë“¤ì„ ì½ê³ ..
+		//	±×¿¡ °üÇÑ Å¸ÀÏ Á¤º¸µéÀ» ÀĞ°í..
 		HANDLE hFile = CreateFile(szDTexInfoFileName, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
 		if(hFile != INVALID_HANDLE_VALUE)
@@ -355,12 +355,12 @@ void CDTexMng::SaveToFile(CString RealFileName)
 
 
 //
-//	ê²Œì„ì—ì„œ ì“¸ìˆ˜ ìˆëŠ” íƒ€ì¼ í…ìŠ¤ì³ í¬ë©§ìœ¼ë¡œ ë³€í™˜í›„ ì €ì¥..
+//	°ÔÀÓ¿¡¼­ ¾µ¼ö ÀÖ´Â Å¸ÀÏ ÅØ½ºÃÄ Æ÷¸äÀ¸·Î º¯È¯ÈÄ ÀúÀå..
 //
 void CDTexMng::SaveGameTile()
 {
 	D3DFORMAT	Format;
-	int			Size = DTEX_SIZE / NUM_DTEXTILE;		//ë‹¨ìœ„í…ìŠ¤ì³ì˜ ê¸¸ì´..
+	int			Size = DTEX_SIZE / NUM_DTEXTILE;		//´ÜÀ§ÅØ½ºÃÄÀÇ ±æÀÌ..
 	D3DLOCKED_RECT d3dlr;
 
 	HANDLE hFile;
@@ -410,7 +410,7 @@ void CDTexMng::SaveGameTile()
 
 				for(ix=0; ix<NUM_DTEXTILE; ix++)
 				{
-					//í…ìŠ¤ì³ ì„œí˜ì´ìŠ¤ ë§Œë“¤ê³ , í…ìŠ¤ì³ ì±„ìš°ê³ , í˜•ì‹ ë³€í™˜í•˜ê³ , ì €ì¥.
+					//ÅØ½ºÃÄ ¼­ÆäÀÌ½º ¸¸µé°í, ÅØ½ºÃÄ Ã¤¿ì°í, Çü½Ä º¯È¯ÇÏ°í, ÀúÀå.
 					TileTex.Create(Size, Size, Format, TRUE);
 					TileTex.Get()->LockRect( 0, &d3dlrTarget, 0, 0 );
 					pSourceImg = (char*)((char*)d3dlr.pBits + (ix*Size*Bits) + (iz*Size*d3dlr.Pitch));

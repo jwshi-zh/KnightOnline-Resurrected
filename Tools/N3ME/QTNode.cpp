@@ -61,7 +61,7 @@ void CQTNode::Init(int level, CLyTerrain* pTerrain)
 
 	int i;
 
-	// ìì‹ë…¸ë“œë§Œë“¤ê¸°..
+	// ÀÚ½Ä³ëµå¸¸µé±â..
 	if(level != m_pRefTerrain->m_iMaxLevel)
 	{
 		for(i=0;i<DIR_NUM;i++)
@@ -82,11 +82,11 @@ void CQTNode::Init(int level, CLyTerrain* pTerrain)
 
 //
 //	LinkFriend..
-//	ì¹œêµ¬ë“¤ ì—°ê²°í•˜ê¸°..
-//	- ì›ë˜ëŠ” Inití•¨ìˆ˜ì— ë„£ì„ë ¤ê³  í–ˆì—ˆëŠ”ë°,
-//	 ì¹œêµ¬ë“¤ì´ ë¯¸ì²˜ ë§Œë“¤ì–´ì§€ê¸° ì „ì— ì—°ê²°ì„
-//	 ì‹œë„í•˜ëŠ” ê²½ìš°ê°€ ìˆê¸°ë•œì— ëª¨ë“  ë…¸ë“œë“¤ì„
-//	 ë‹¤ ìƒì„±í•œ ë‹¤ìŒì— ì¹œêµ¬ì—°ê²°ì„ ì‹œë„í•´ì•¼í•œë‹¤.
+//	Ä£±¸µé ¿¬°áÇÏ±â..
+//	- ¿ø·¡´Â InitÇÔ¼ö¿¡ ³ÖÀ»·Á°í Çß¾ú´Âµ¥,
+//	 Ä£±¸µéÀÌ ¹ÌÃ³ ¸¸µé¾îÁö±â Àü¿¡ ¿¬°áÀ»
+//	 ½ÃµµÇÏ´Â °æ¿ì°¡ ÀÖ±â¶«¿¡ ¸ğµç ³ëµåµéÀ»
+//	 ´Ù »ı¼ºÇÑ ´ÙÀ½¿¡ Ä£±¸¿¬°áÀ» ½ÃµµÇØ¾ßÇÑ´Ù.
 //
 void CQTNode::LinkFriend()
 {
@@ -169,7 +169,7 @@ void CQTNode::Release()
 
 
 //
-//	Center pointë¥¼ ì„¤ì •í•˜ê¸°..
+//	Center point¸¦ ¼³Á¤ÇÏ±â..
 //
 void CQTNode::SetCenterPoint(int x, int z)
 {
@@ -202,7 +202,7 @@ void CQTNode::SetCenterPoint(int x, int z)
 //
 void CQTNode::SetMinMaxY()
 {
-	if(m_Level == m_pRefTerrain->m_iMaxLevel)	//ì ¤ ë§ˆì§€ë§‰ ë…¸ë“œì¼ë•Œ..
+	if(m_Level == m_pRefTerrain->m_iMaxLevel)	//Á© ¸¶Áö¸· ³ëµåÀÏ¶§..
 	{
 		for(int x=-1; x<2; x++)
 		{
@@ -215,7 +215,7 @@ void CQTNode::SetMinMaxY()
 		return;
 	}
 
-	//ì ¤ ë§ˆì§€ë§‰ ë…¸ë“œê°€ ì•„ë‹ë•Œ...
+	//Á© ¸¶Áö¸· ³ëµå°¡ ¾Æ´Ò¶§...
 	int i;
 	for(i=0;i<DIR_NUM;i++)
 	{
@@ -261,31 +261,31 @@ void CQTNode::SetWholeClipped()
 
 //
 //	tick...
-//	ì¿¼ë“œíŠ¸ë¦¬ì˜ ì‹¤ì²´...^^
-//	ì¼ë‹¨ ê°€ì‹œì˜ì—­ì•ˆì— ë“œëŠ”ì§€ ê²€ì‚¬(IntersectRect()..)ë¥¼ í•˜ê³ ..
-//	ê°€ì‹œì˜ì—­ì•ˆì— ë“¤ë©´ ê·¸ë¦´ê²ƒì¸ì§€ ë” ë‚´ë ¤ê°ˆ ê²ƒì¸ì§€ ê²€ì‚¬..
+//	ÄõµåÆ®¸®ÀÇ ½ÇÃ¼...^^
+//	ÀÏ´Ü °¡½Ã¿µ¿ª¾È¿¡ µå´ÂÁö °Ë»ç(IntersectRect()..)¸¦ ÇÏ°í..
+//	°¡½Ã¿µ¿ª¾È¿¡ µé¸é ±×¸±°ÍÀÎÁö ´õ ³»·Á°¥ °ÍÀÎÁö °Ë»ç..
 //
 void CQTNode::Tick()
 {
-	m_State = QTNODESTATE_CLIPPED;	//ìƒíƒœ ì´ˆê¸°í™”..
+	m_State = QTNODESTATE_CLIPPED;	//»óÅÂ ÃÊ±âÈ­..
 
-	//ê°€ì‹œì˜ì—­ì•ˆì—ë“œëŠ”ì§€ê²€ì‚¬.
+	//°¡½Ã¿µ¿ª¾È¿¡µå´ÂÁö°Ë»ç.
 	RECT rt;
-	int Range = 1 << (m_pRefTerrain->m_iMaxLevel - m_Level);	// ì¤‘ì‹¬ì ë¶€í„° ê°€ì¥ìë¦¬ê¹Œì§€ ê±°ë¦¬.
+	int Range = 1 << (m_pRefTerrain->m_iMaxLevel - m_Level);	// Áß½ÉÁ¡ºÎÅÍ °¡ÀåÀÚ¸®±îÁö °Å¸®.
 	SetRect(&rt, m_CenterX - Range, m_CenterZ - Range, m_CenterX + Range, m_CenterZ + Range);
 	
 	RECT rt1;
-	if(IntersectRect(&rt1, &rt, &(m_pRefTerrain->m_VisibleRect))==0) return;	//ê°€ì‹œì˜ì—­ì•ˆì— ë“¤ì§€ ì•Šìœ¼ë©´ ë‚˜ê°€..
+	if(IntersectRect(&rt1, &rt, &(m_pRefTerrain->m_VisibleRect))==0) return;	//°¡½Ã¿µ¿ª¾È¿¡ µéÁö ¾ÊÀ¸¸é ³ª°¡..
 
-	//ê·¸ë¦´ê²ƒì¸ì§€ ë” ë‚´ë ¤ ê°ˆ ê²ƒì¸ì§€ ê²€ì‚¬..
+	//±×¸±°ÍÀÎÁö ´õ ³»·Á °¥ °ÍÀÎÁö °Ë»ç..
 	if(IsRender(&(m_pRefTerrain->m_EyePos)))
 	{
-		// ê·¸ë§Œ ë‚´ë ¤ê°€ëŠ” ê²½ìš°..
+		// ±×¸¸ ³»·Á°¡´Â °æ¿ì..
 		m_pRefTerrain->m_RenderNodes.push_back(this);
 		return;
 	}
 
-	//ë‚´ë ¤ê°€ëŠ” ê²½ìš°..	
+	//³»·Á°¡´Â °æ¿ì..	
 	int i;
 	for(i=0;i<DIR_NUM;i++)
 	{
@@ -297,10 +297,10 @@ void CQTNode::Tick()
 
 //
 //	IsRender..
-//	ë‚´ë ¤ê°€ëŠ” ê±¸ ê·¸ë§Œë‘ê³  ê·¸ë¦´ê²ƒì¸ì§€, ì•„ë‹ˆë©´ ë” ë‚´ë ¤ê°ˆê²ƒì¸ì§€ ê²€ì‚¬...
-//	return true -> ê·¸ë§Œ ë‚´ë ¤ê°€ê³  Render;
-//	return false -> ë” ë‚´ë ¤ê°...
-//	ì—¬ê¸°ì— ë“¤ì–´ê°€ëŠ”ê²Œ ì§€í˜• ë””í…Œì¼ ë°©ë²•ì˜ í•µì‹¬...^^
+//	³»·Á°¡´Â °É ±×¸¸µÎ°í ±×¸±°ÍÀÎÁö, ¾Æ´Ï¸é ´õ ³»·Á°¥°ÍÀÎÁö °Ë»ç...
+//	return true -> ±×¸¸ ³»·Á°¡°í Render;
+//	return false -> ´õ ³»·Á°¨...
+//	¿©±â¿¡ µé¾î°¡´Â°Ô ÁöÇü µğÅ×ÀÏ ¹æ¹ıÀÇ ÇÙ½É...^^
 //
 bool CQTNode::IsRender(POINT* pEye)
 {
@@ -326,7 +326,7 @@ bool CQTNode::IsRender(POINT* pEye)
 		return false;
 	}
 	
-	// ë†’ì´ê°€ ì–´ëŠìˆ˜ì¤€ì´ìƒì´ë©´ ë‚˜ëˆˆë‹¤.
+	// ³ôÀÌ°¡ ¾î´À¼öÁØÀÌ»óÀÌ¸é ³ª´«´Ù.
 	float height = m_MaxY - m_MinY;
 	//if( height > (1<<(DiffLevel+1)) )
 	if( height > m_pRefTerrain->m_iHeightLimit )
@@ -335,7 +335,7 @@ bool CQTNode::IsRender(POINT* pEye)
 		return false;
 	}
 
-	//ê±°ë¦¬ì— ë”°ë¼..
+	//°Å¸®¿¡ µû¶ó..
 	int Dist = Distance(pEye->x, pEye->y, m_CenterX, m_CenterZ);
 	if( Dist < ( m_pRefTerrain->m_iDistLimit + (1<<(DiffLevel+1))) )
 	{
@@ -354,7 +354,7 @@ bool CQTNode::IsRender(POINT* pEye)
 
 
 //
-//	ê°„ë‹¨í•œ ê±°ë¦¬ê³„ì‚° ë°©ë²•..
+//	°£´ÜÇÑ °Å¸®°è»ê ¹æ¹ı..
 //
 inline int CQTNode::Distance(int sx, int sz, int tx, int tz)
 {
@@ -386,7 +386,7 @@ void CQTNode::Render()
 
 
 //
-//	ê°€ì¥ ë””í…Œì¼í•œ íƒ€ì¼ì„ ê·¸ë¦¬ëŠ” í•¨ìˆ˜..
+//	°¡Àå µğÅ×ÀÏÇÑ Å¸ÀÏÀ» ±×¸®´Â ÇÔ¼ö..
 //
 void CQTNode::RenderMaxLevel()
 {
@@ -415,7 +415,7 @@ void CQTNode::RenderMaxLevel()
 	cx = m_CenterX - 1;
 	cz = m_CenterZ - 1;
 
-	//lightmapì„ ê·¸ë¦¬ê¸° ìœ„í•œ ì¤€ë¹„..
+	//lightmapÀ» ±×¸®±â À§ÇÑ ÁØºñ..
 	//
 	CN3Texture* pRefLightMapTex[4];
 	int NumLightMapUse = 0;
@@ -454,7 +454,7 @@ void CQTNode::RenderMaxLevel()
 		}
 
 		tmpTIdx = m_pRefTerrain->m_ppMapData[cx][cz].DTexInfo1.TexIdx.TexID;
-		if((m_pRefTerrain->m_ppMapData[cx][cz].DTexInfo1.Attr.Group<=0) || m_pRefTerrain->GetTileTex(tmpTIdx)==NULL)	//íƒ€ì¼ì´ ì—†ì„ë•Œ...
+		if((m_pRefTerrain->m_ppMapData[cx][cz].DTexInfo1.Attr.Group<=0) || m_pRefTerrain->GetTileTex(tmpTIdx)==NULL)	//Å¸ÀÏÀÌ ¾øÀ»¶§...
 		{
 			int NumTileInColorTex = m_pRefTerrain->m_iColorMapTexSize / m_pRefTerrain->m_iColorMapPixelPerUnitDistance;
 			u1 = (float)(cx % NumTileInColorTex);
@@ -522,7 +522,7 @@ void CQTNode::RenderMaxLevel()
 							0,0);
 			}
 
-			else	//ìˆœìˆ˜í•˜ê²Œ íƒ€ì¼ë§Œ ì°ëŠ” ê²½ìš°..
+			else	//¼ø¼öÇÏ°Ô Å¸ÀÏ¸¸ Âï´Â °æ¿ì..
 			{
 				dir1 = m_pRefTerrain->m_ppMapData[cx][cz].DTexInfo1.Dir;
 				dir2 = m_pRefTerrain->m_ppMapData[cx][cz].DTexInfo2.Dir;
@@ -588,7 +588,7 @@ void CQTNode::RenderMaxLevel()
 		}
 
 		tmpTIdx = m_pRefTerrain->m_ppMapData[cx][cz].DTexInfo1.TexIdx.TexID;
-		if((m_pRefTerrain->m_ppMapData[cx][cz].DTexInfo1.Attr.Group<=0) || m_pRefTerrain->GetTileTex(tmpTIdx)==NULL)	//íƒ€ì¼ì´ ì—†ì„ë•Œ...
+		if((m_pRefTerrain->m_ppMapData[cx][cz].DTexInfo1.Attr.Group<=0) || m_pRefTerrain->GetTileTex(tmpTIdx)==NULL)	//Å¸ÀÏÀÌ ¾øÀ»¶§...
 		{
 			int NumTileInColorTex = m_pRefTerrain->m_iColorMapTexSize / m_pRefTerrain->m_iColorMapPixelPerUnitDistance;
 			u1 = (float)(cx % NumTileInColorTex);
@@ -987,7 +987,7 @@ void CQTNode::RenderMaxLevel()
 
 
 //
-//	m_pRefTerrain->m_iMaxLevelì´ ì•„ë‹Œ Levelë“¤ Render..
+//	m_pRefTerrain->m_iMaxLevelÀÌ ¾Æ´Ñ Levelµé Render..
 //
 void CQTNode::RenderNormalLevel()
 {
@@ -1006,7 +1006,7 @@ void CQTNode::RenderNormalLevel()
 	__VertexT1* pVertices;
 	m_pRefTerrain->m_ColorMapVB->Lock( 0, 0, (BYTE**)&pVertices, 0 );
 
-	//ì ë§Œë“¤ê¸°..
+	//Á¡¸¸µé±â..
 	int NumTileInColorTex = m_pRefTerrain->m_iColorMapTexSize / m_pRefTerrain->m_iColorMapPixelPerUnitDistance;
 	//float cx = (float)((m_CenterX % NumTileInColorTex) * m_pRefTerrain->m_iColorMapPixelPerUnitDistance);
 	//float cz = (float)(((NumTileInColorTex-m_CenterZ) % NumTileInColorTex) * m_pRefTerrain->m_iColorMapPixelPerUnitDistance);
@@ -1026,9 +1026,9 @@ void CQTNode::RenderNormalLevel()
 					(cz + (float)half) / (float)NumTileInColorTex);
 	VC++;
 
-	//ì™¼ìª½ë³€..
+	//¿ŞÂÊº¯..
 	int interval = 1;
-	int sp;	//ì‹œì‘ì ..
+	int sp;	//½ÃÀÛÁ¡..
 	float UVInterval;
 	if(m_Level<LeftLevel)
 	{
@@ -1053,7 +1053,7 @@ void CQTNode::RenderNormalLevel()
 					(float)(cz - half) / (float)NumTileInColorTex);
 	VC++;
 	
-	//ìœ—ìª½ë³€..
+	//À­ÂÊº¯..
 	if(m_Level<TopLevel)
 	{
 		if(TopLevel==m_pRefTerrain->m_iMaxLevel) interval = 1;
@@ -1076,7 +1076,7 @@ void CQTNode::RenderNormalLevel()
 					(float)(cz - half) / (float)NumTileInColorTex);
 	VC++;
 	
-	//ì˜¤ë¥¸ìª½ë³€..
+	//¿À¸¥ÂÊº¯..
 	if(m_Level<RightLevel)
 	{
 		if(RightLevel==m_pRefTerrain->m_iMaxLevel) interval = 1;
@@ -1100,7 +1100,7 @@ void CQTNode::RenderNormalLevel()
 					(float)(cz + half) / (float)NumTileInColorTex);
 	VC++;
 	
-	//ì•„ë«ë³€..
+	//¾Æ·§º¯..
 	if(m_Level<BottomLevel)
 	{
 		if(BottomLevel==m_pRefTerrain->m_iMaxLevel) interval = 1;

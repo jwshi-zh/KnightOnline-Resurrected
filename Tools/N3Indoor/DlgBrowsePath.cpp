@@ -68,7 +68,7 @@ BOOL CDlgBrowsePath::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 
-	// ìµœê·¼ì— ì“´ í´ë”ë¥¼ ê°€ì ¸ì˜¨ë‹¤...
+	// ÃÖ±Ù¿¡ ¾´ Æú´õ¸¦ °¡Á®¿Â´Ù...
 	char szInitDir[256];
 	DWORD dwLength = 256;
 	memset(szInitDir, 0, 256);
@@ -183,13 +183,13 @@ void CDlgBrowsePath::OnSynchFolders()
 
 void CDlgBrowsePath::OnOK() 
 {
-	m_CBPath.GetWindowText(m_szPath); // ê²½ë¡œ ê¸°ì–µ..
+	m_CBPath.GetWindowText(m_szPath); // °æ·Î ±â¾ï..
 	if(m_szPath.GetLength() > 0)
 	{
-		m_CBPath.InsertString(0, m_szPath); // ê²½ë¡œ ë„£ê³ ...
+		m_CBPath.InsertString(0, m_szPath); // °æ·Î ³Ö°í...
 	}
 
-	// ìµœê·¼ì— ì“´ í´ë”ë¥¼ ì €ì¥í•´ë‘”ë‹¤....
+	// ÃÖ±Ù¿¡ ¾´ Æú´õ¸¦ ÀúÀåÇØµĞ´Ù....
 	char szInitDir[256] = "";
 	CString szKey;
 	HKEY hKey;

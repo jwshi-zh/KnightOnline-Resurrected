@@ -205,7 +205,7 @@ void CPVSManager::DeleteTotalShapeLinkByiOrder(int iOrder)
 
 	pSI = *siit;
 
-	// ë¨¼ì € ì§€ì›Œì§ˆ Shapeë¥¼ ê°€ì§€ê³  ìˆëŠ” Volumeë“¤ì„ ì°¾ì•„ì„œ..	ì²˜ë¦¬í•œë‹¤..
+	// ¸ÕÀú Áö¿öÁú Shape¸¦ °¡Áö°í ÀÖ´Â VolumeµéÀ» Ã£¾Æ¼­..	Ã³¸®ÇÑ´Ù..
 	ShapePart* pSP = NULL;
 
 	CPortalVolume* pVol = NULL;
@@ -234,7 +234,7 @@ void CPVSManager::DeleteTotalShapeLinkByiOrder(int iOrder)
 	m_plShapeInfoList.erase(siit);
 }
 
-// Edit ëª¨ë“œ..
+// Edit ¸ğµå..
 void CPVSManager::TickEdit()
 {
 	CPortalVolume* pVol = NULL;
@@ -358,7 +358,7 @@ void CPVSManager::RenderEdit()
 	}
 }
 
-// Compile ëª¨ë“œ..
+// Compile ¸ğµå..
 void CPVSManager::TickCompile()
 {
 	CPortalVolume* pVol = NULL;
@@ -415,13 +415,13 @@ bool CPVSManager::StartExecuteMode()
 
 	if (iSize < 1)
 	{
-		AfxMessageBox("ì„ íƒë˜ì–´ìˆëŠ” Volumeì´ ì—†ìŠµë‹ˆë‹¤....");
+		AfxMessageBox("¼±ÅÃµÇ¾îÀÖ´Â VolumeÀÌ ¾ø½À´Ï´Ù....");
 		return false;
 	}
 
 	m_pCurVol = pFrm->m_SelVolArray.GetAt(0);
 
-	// Cameraë¥¼ ì…‹íŒ…í•œë‹¤..
+	// Camera¸¦ ¼ÂÆÃÇÑ´Ù..
 	m_vBackupEye = pFrm->m_Camera.EyePos();
 	m_vBackupAt  = pFrm->m_Camera.AtPos();
 
@@ -436,7 +436,7 @@ bool CPVSManager::StartExecuteMode()
 
 void CPVSManager::EndExecuteMode()
 {
-	// Camera ì…‹íŒ…ì„ ë³µêµ¬í•œë‹¤..
+	// Camera ¼ÂÆÃÀ» º¹±¸ÇÑ´Ù..
 	CMainFrame* pFrm = (CMainFrame* )AfxGetMainWnd();
 	pFrm->m_Camera.EyePosSet(m_vBackupEye);
 	pFrm->m_Camera.UpVectorSet(__Vector3(0.0f, 1.0f, 0.0f));
@@ -448,13 +448,13 @@ void CPVSManager::ExecuteCameraChange()
 {
 	if (m_pPvsList.size() < 1)
 	{
-		AfxMessageBox("ì„ íƒ ê°€ëŠ¥í•œ ë¦¬ìŠ¤íŠ¸ê°€ ì—†ìŠµë‹ˆë‹¤....");
+		AfxMessageBox("¼±ÅÃ °¡´ÉÇÑ ¸®½ºÆ®°¡ ¾ø½À´Ï´Ù....");
 		return;
 	}
 	
 	if (!m_pCurVol)
 	{
-		AfxMessageBox("ì„ íƒë˜ì–´ìˆëŠ” Volumeì´ ì—†ìŠµë‹ˆë‹¤....");
+		AfxMessageBox("¼±ÅÃµÇ¾îÀÖ´Â VolumeÀÌ ¾ø½À´Ï´Ù....");
 		return;
 	}
 
@@ -478,7 +478,7 @@ void CPVSManager::RestoreExecuteCameraChange()
 	pFrm->m_Camera.Apply();
 }
 
-// Execute ëª¨ë“œ..
+// Execute ¸ğµå..
 void CPVSManager::TickExecute()
 {
 	CPortalVolume* pVol = NULL;
@@ -633,7 +633,7 @@ void CPVSManager::TotalCollisionRenderEdit()
 		{
 			pSI->m_pShape->Tick(-1000);
 
-			// ë¡œë”©í• ë•Œ ë¯¸ë¦¬ ê³„ì‚°í•´ ë†“ì€ ì›”ë“œ í–‰ë ¬ ì ìš©..
+			// ·ÎµùÇÒ¶§ ¹Ì¸® °è»êÇØ ³õÀº ¿ùµå Çà·Ä Àû¿ë..
 			__Matrix44 mtxBackup;
 			CN3Base::s_lpD3DDev->GetTransform(D3DTS_WORLD, &mtxBackup);
 			CN3Base::s_lpD3DDev->SetTransform(D3DTS_WORLD, &pSI->m_Matrix);
@@ -652,7 +652,7 @@ void CPVSManager::TotalCollisionRenderEdit()
 			pSI = *siit++;
 			pSI->m_pShape->Tick(-1000);
 
-			// ë¡œë”©í• ë•Œ ë¯¸ë¦¬ ê³„ì‚°í•´ ë†“ì€ ì›”ë“œ í–‰ë ¬ ì ìš©..
+			// ·ÎµùÇÒ¶§ ¹Ì¸® °è»êÇØ ³õÀº ¿ùµå Çà·Ä Àû¿ë..
 			__Matrix44 mtxBackup;
 			CN3Base::s_lpD3DDev->GetTransform(D3DTS_WORLD, &mtxBackup);
 			CN3Base::s_lpD3DDev->SetTransform(D3DTS_WORLD, &pSI->m_Matrix);
@@ -686,7 +686,7 @@ void CPVSManager::SplitShapeToVolumn(CDialog* pDlg)
 		pSI->m_pShape->Tick();
 		pSI->m_pShape->SetMaxLOD();
 		
-		// ë½€ê° ë‹¤..
+		// »Ç°µ´Ù..
 		CPortalVolume* pVol = NULL;
 
 		iter it = m_pPvsList.begin();
@@ -698,7 +698,7 @@ void CPVSManager::SplitShapeToVolumn(CDialog* pDlg)
 
 			pVol = *it++;	
 
-			// Shapeì˜í´ë¦¬ê³¤ ê°¯ìˆ˜ë§Œí¼ ëŒë©´ì„œ.. ë¨¼ì € Transform ì‹œí‚¤ê³ .. ê²€ì‚¬.. 								
+			// ShapeÀÇÆú¸®°ï °¹¼ö¸¸Å­ µ¹¸é¼­.. ¸ÕÀú Transform ½ÃÅ°°í.. °Ë»ç.. 								
 			pVol->SplitAndMakeShape(pSI);
 			pVol->SplitAndMakeCollision(pSI);
 		}
@@ -723,7 +723,7 @@ void CPVSManager::DoAllCompile()
 {
 	if (m_pPvsList.size() < 1)
 	{
-		AfxMessageBox("ì„ íƒ ê°€ëŠ¥í•œ ë¦¬ìŠ¤íŠ¸ê°€ ì—†ìŠµë‹ˆë‹¤....");
+		AfxMessageBox("¼±ÅÃ °¡´ÉÇÑ ¸®½ºÆ®°¡ ¾ø½À´Ï´Ù....");
 		return;
 	}
 
@@ -816,7 +816,7 @@ void CPVSManager::ComputeVisibilty(CPortalVolume * const pVol)
 {
 	SetPriority(pVol);
 
-	// ë Œë”ë§ ì†ë„ë¥¼ ë¹ ë¥´ê²Œ í•˜ê¸° ìœ„í•´ì„œ.. ìš°ì„ ìˆœìœ„ëŒ€ë¡œ ì •ë ¬í•œ í›„.. ìˆœì„œëŒ€ë¡œ ë Œë”ë§í•œë‹¤..
+	// ·»´õ¸µ ¼Óµµ¸¦ ºü¸£°Ô ÇÏ±â À§ÇØ¼­.. ¿ì¼±¼øÀ§´ë·Î Á¤·ÄÇÑ ÈÄ.. ¼ø¼­´ë·Î ·»´õ¸µÇÑ´Ù..
 	std::priority_queue< CPortalVolume*, std::vector<CPortalVolume*>, Myless<CPortalVolume*> > pQueue; 
 
 	CPortalVolume* pVolTo = NULL;
@@ -838,7 +838,7 @@ void CPVSManager::ComputeVisibilty(CPortalVolume * const pVol)
 		pQueue.pop();
 	}
 
-	// ë””ë²„ê·¸ìš© í•¨ìˆ˜.. ^^
+	// µğ¹ö±×¿ë ÇÔ¼ö.. ^^
 	DebugFunc();
 }
 
@@ -1005,7 +1005,7 @@ bool CPVSManager::Save(HANDLE hFile)
 	iT = pView->GetDlgItemInt(IDC_TOTAL_MOVE_Z);
 	WriteFile(hFile, &iT, sizeof(int), &dwNum, NULL);	
 
-	// ì „ì²´ Shape.. 
+	// ÀüÃ¼ Shape.. 
 	int iCount  = m_plShapeInfoList.size();
 	WriteFile(hFile, &iCount, sizeof(int), &dwNum, NULL);	
 
@@ -1017,7 +1017,7 @@ bool CPVSManager::Save(HANDLE hFile)
 		WriteFile(hFile, &pSI->m_iID, sizeof(int), &dwNum, NULL);
 		WriteCryptographString(hFile, pSI->m_strShapeFile);
 
-		// Shapeì˜ ë°ì´í„° ì €ì¥..
+		// ShapeÀÇ µ¥ÀÌÅÍ ÀúÀå..
 		WriteFile(hFile, &pSI->m_iBelong, sizeof(int), &dwNum, NULL);	
 		WriteFile(hFile, &pSI->m_iEventID, sizeof(int), &dwNum, NULL);	
 		WriteFile(hFile, &pSI->m_iEventType, sizeof(int), &dwNum, NULL);	
@@ -1033,7 +1033,7 @@ bool CPVSManager::Save(HANDLE hFile)
 
 	while(it != m_pPvsList.end())
 	{
-		// ìì‹ ì˜ ë°ì´í„° ì €ì¥..
+		// ÀÚ½ÅÀÇ µ¥ÀÌÅÍ ÀúÀå..
 		pVol = *it++;
 		pVol->Save(hFile, m_bGameData);
 	}
@@ -1098,7 +1098,7 @@ bool CPVSManager::Load(HANDLE hFile)
 
 	if (!pFrm->m_pSceneSource)
 	{
-		AfxMessageBox("SourceListë¥¼ Loadí•˜ì§€ ëª»í–ˆìŠµë‹ˆë‹¤..DataëŠ” ë¡œë“œë˜ì§€ ì•Šì„ê²ƒ ì…ë‹ˆë‹¤..");
+		AfxMessageBox("SourceList¸¦ LoadÇÏÁö ¸øÇß½À´Ï´Ù..Data´Â ·ÎµåµÇÁö ¾ÊÀ»°Í ÀÔ´Ï´Ù..");
 		return false;
 	}
 
@@ -1117,7 +1117,7 @@ bool CPVSManager::Load(HANDLE hFile)
 	m_iTotalCount = 0;
 	m_iCurIndex = -1;
 
-	// ì „ì²´ Shape ê°¯ìˆ˜ ë¡œë“œ..
+	// ÀüÃ¼ Shape °¹¼ö ·Îµå..
 	int iCount, iCount2;
 	ReadFile(hFile, &iCount, sizeof(int), &dwNum, NULL);
 
@@ -1126,11 +1126,11 @@ bool CPVSManager::Load(HANDLE hFile)
 		ShapeInfo*	pSI = new ShapeInfo;
 		ReadFile(hFile, &pSI->m_iID, sizeof(int), &dwNum, NULL);
 		
-		// ë¬¸ìì—´ ê¸¸ì´..
+		// ¹®ÀÚ¿­ ±æÀÌ..
 		strSrc = ReadDecryptString(hFile);
 		pSI->m_strShapeFile = strSrc;
 
-		// SourceListì—ì„œ.. Shapeì˜ Pointerë¥¼ ì—°ê²°í•œë‹¤..
+		// SourceList¿¡¼­.. ShapeÀÇ Pointer¸¦ ¿¬°áÇÑ´Ù..
 		pSI->m_pShape = pFrm->m_pSceneSource->ShapeGetByFileName(strSrc);
 		ASSERT(pSI->m_pShape);
 
@@ -1159,7 +1159,7 @@ bool CPVSManager::Load(HANDLE hFile)
 		m_pPvsList.push_back(pVol);
 	}
 
-	// ë§í¬ëœ ì•„ì´ë””ë“¤ì„ ì½ì–´ì„œ ì—°ê²°ì‹œí‚´..
+	// ¸µÅ©µÈ ¾ÆÀÌµğµéÀ» ÀĞ¾î¼­ ¿¬°á½ÃÅ´..
 	WVID wvid;
 	WVOL wvol;
 	IDAndPriority IDAP;
@@ -1269,7 +1269,7 @@ CPortalVolume* CPVSManager::GetPortalVolPointerByID(int iID)
 
 	while(it != m_pPvsList.end())
 	{
-		// ìì‹ ì˜ ë°ì´í„° ì €ì¥..
+		// ÀÚ½ÅÀÇ µ¥ÀÌÅÍ ÀúÀå..
 		pVol = *it++;
 		if (pVol->m_iID == iID)
 			return pVol;
@@ -1406,7 +1406,7 @@ CPortalVolume* CPVSManager::PickCollision(float fx, float fy)
 	while(it != m_pPvsList.end())
 	{
 		pVol = *it++;	
-		if(pVol->PickWithVolume(vPos, vDir, &vPick))		// ì–‘ë©´ ì²´í¬ í• ê¹Œí•˜ë‹¤ê°€.. 
+		if(pVol->PickWithVolume(vPos, vDir, &vPick))		// ¾ç¸é Ã¼Å© ÇÒ±îÇÏ´Ù°¡.. 
 		{
 			fDT = (vPick - CN3Base::s_CameraData.vEye).Magnitude();
 			if (fDT <= fDistMax)
@@ -1419,4 +1419,38 @@ CPortalVolume* CPVSManager::PickCollision(float fx, float fy)
 
 	return pVolNe;
 
-	// ë¨¼ì € Volume ê°¯ìˆ˜ë§Œí¼ ëŒë©´ì„œ.. Volumeì— ë§
+	// ¸ÕÀú Volume °¹¼ö¸¸Å­ µ¹¸é¼­.. Volume¿¡ ¸µ´ƒµÈ ShapeµéÀ» ¸ÕÀú °Ë»çÇÑ´Ù..	³ªÁß¿¡ ±¸Çö..
+}
+
+void CPVSManager::UpdatePosAll(float fx, float fy, float fz)
+{
+	m_vBackupTotalMove;
+
+	CPortalVolume* pVol = NULL;
+	iter it = m_pPvsList.begin();
+	while(it != m_pPvsList.end())
+	{
+		pVol = *it++;
+		pVol->UpdatePosAll(pVol->Pos().x + fx - m_vBackupTotalMove.x, pVol->Pos().y + fy - m_vBackupTotalMove.y, pVol->Pos().z + fz - m_vBackupTotalMove.z);
+	}
+
+	ShapeInfo*	pSI = NULL;	
+	siiter siit = m_plShapeInfoList.begin();
+	while( siit != m_plShapeInfoList.end() )
+	{
+		pSI = *siit++;	
+		pSI->PosSet(pSI->Pos().x + fx - m_vBackupTotalMove.x, pSI->Pos().y + fy - m_vBackupTotalMove.y, pSI->Pos().z + fz - m_vBackupTotalMove.z);
+	}
+
+	m_vBackupTotalMove.Set(fx, fy, fz);
+}
+
+
+
+
+
+
+
+
+
+

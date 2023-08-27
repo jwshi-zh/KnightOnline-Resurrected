@@ -71,7 +71,7 @@ void CShapeTypeDlg::OnOK()
 
 	if (!pBut->GetCheck() && !pBut2->GetCheck())
 	{
-		AfxMessageBox("ë¨¼ì € Shape Typeì„ ì„¤ì •í•˜ì„¸ì—¬..");
+		AfxMessageBox("¸ÕÀú Shape TypeÀ» ¼³Á¤ÇÏ¼¼¿©..");
 		return;
 	}
 

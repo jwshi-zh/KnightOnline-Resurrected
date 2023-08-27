@@ -141,4 +141,189 @@ bool CZipFileHeader::ReadLocal(CZipStorage *pStorage, WORD& iLocExtrFieldSize)
 		|| (memcmp(buf + 26, &uFileNameSize, 2) != 0))
 		return false;
 
-// jeszcze mo
+// jeszcze mo¿naby porównaæ nazwy plików
+
+	if (!bIsDataDescr/* || !pStorage->IsSpanMode()*/)
+		if (!CheckCrcAndSizes(buf + 14))
+			return false;
+
+	memcpy(&iLocExtrFieldSize, buf + 28, 2);
+	pStorage->m_pFile->Seek(uFileNameSize, CFile::current);
+
+	return true;
+}
+
+// set the m_uModDate, m_uModTime values using CTime object
+void CZipFileHeader::SetTime(const CTime &time)
+{
+    WORD year = (WORD)time.GetYear();
+    if (year <= 1980)
+		year = 0;
+	else
+		year -= 1980;
+    m_uModDate = (WORD) (time.GetDay() + (time.GetMonth() << 5) + (year << 9));
+    m_uModTime = (WORD) ((time.GetSecond() >> 1) + (time.GetMinute() << 5) + 
+		(time.GetHour() << 11));
+}
+//	the buffer contains crc32, compressed and uncompressed sizes to be compared 
+//	with the actual values
+bool CZipFileHeader::CheckCrcAndSizes(char *pBuf)
+{
+	return (memcmp(pBuf, &m_uCrc32, 4) == 0) && (memcmp(pBuf + 4, &m_uComprSize, 4) == 0)
+		&& (memcmp(pBuf + 8, &m_uUncomprSize, 4) == 0);
+}
+
+// write the local header
+void CZipFileHeader::WriteLocal(CZipStorage& storage)
+{
+	// extra field is local by now
+	WORD uFileNameSize = GetFileNameSize(),	uExtraFieldSize = GetExtraFieldSize();
+	DWORD iLocalSize = LOCALZipFileHeaderSIZE + uExtraFieldSize + uFileNameSize;
+	CZipAutoBuffer buf(iLocalSize);
+	memcpy(buf, m_gszLocalSignature, 4);
+	memcpy(buf + 4, &m_uVersionNeeded, 2);
+	memcpy(buf + 6, &m_uFlag, 2);
+	memcpy(buf + 8, &m_uMethod, 2);
+	memcpy(buf + 10, &m_uModTime, 2);
+	memcpy(buf + 12, &m_uModDate, 2);
+	memcpy(buf + 14, &m_uCrc32, 4);
+	memcpy(buf + 18, &m_uComprSize, 4);
+	memcpy(buf + 22, &m_uUncomprSize, 4);
+	memcpy(buf + 26, &uFileNameSize, 2);
+	memcpy(buf + 28, &uExtraFieldSize, 2);
+	memcpy(buf + 30, m_pszFileName, uFileNameSize);
+	memcpy(buf + 30 + uFileNameSize, m_pExtraField, uExtraFieldSize);
+
+	// possible disk change before writting to the file in the disk spanning mode
+	// so write the local header first 
+	storage.Write(buf, iLocalSize, true);
+	// it was only local information, use CZipArchive::SetExtraField to set the file extra field in the central directory
+	m_pExtraField.Release();
+
+	m_uDiskStart = (WORD)storage.GetCurrentDisk();
+	m_uOffset = storage.GetPosition() - iLocalSize;
+}
+
+// prepare the data before adding a new file
+bool CZipFileHeader::PrepareData(int iLevel, bool bExtraHeader, bool bEncrypted)
+{
+	memcpy(m_szSignature, m_gszSignature, 4);
+	m_uInternalAttr = 0;
+	m_uVersionMadeBy = VERSIONMADEBY;
+	m_uVersionNeeded = 20;
+
+	m_uCrc32 = 0;
+	m_uComprSize = 0;
+	m_uUncomprSize = 0;
+	if (iLevel == 0)
+		m_uMethod = 0;
+
+	if ((m_uMethod != Z_DEFLATED) && (m_uMethod != 0))
+		m_uMethod = Z_DEFLATED;
+
+	m_uFlag  = 0;
+	if (m_uMethod == Z_DEFLATED)
+		switch (iLevel)
+		{
+		case 1:
+			m_uFlag  |= 6;
+			break;
+		case 2:
+			m_uFlag  |= 4;
+			break;
+		case 8:
+		case 9:
+			m_uFlag  |= 2;
+			break;
+		}
+
+	if (bExtraHeader)
+		m_uFlag  |= 8; // data descriptor present
+
+	if (bEncrypted)
+	{
+		m_uComprSize = ENCR_HEADER_LEN;	// encrypted header
+		m_uFlag  |= 9;		// encrypted file
+	}
+
+	return !(m_pszComment.GetSize() > USHRT_MAX || m_pszFileName.GetSize() > USHRT_MAX
+		|| m_pExtraField.GetSize() > USHRT_MAX);
+}
+
+// fill the buffer with the current values
+void CZipFileHeader::GetCrcAndSizes(char * pBuffer)
+{
+	memcpy(pBuffer, &m_uCrc32, 4);
+	memcpy(pBuffer + 4, &m_uComprSize, 4);
+	memcpy(pBuffer + 8, &m_uUncomprSize, 4);
+}
+
+DWORD CZipFileHeader::GetSize()
+{
+	return ZipFileHeaderSIZE + GetExtraFieldSize() + GetFileNameSize() + GetCommentSize();
+}
+
+
+bool CZipFileHeader::IsEncrypted()
+{
+	return (m_uFlag & (WORD) 1) != 0;
+}
+
+bool CZipFileHeader::IsDataDescr()
+{
+	return (m_uFlag & (WORD) 8) != 0;
+}
+
+bool CZipFileHeader::SetComment(LPCTSTR lpszComment)
+{
+	return CZipArchive::WideToSingle(lpszComment, m_pszComment)	!= -1;
+}
+
+CString CZipFileHeader::GetComment()
+{
+	CString temp;
+	CZipArchive::SingleToWide(m_pszComment, temp);
+	return temp;
+
+}
+
+bool CZipFileHeader::SetFileName(LPCTSTR lpszFileName)
+{
+	return CZipArchive::WideToSingle(lpszFileName, m_pszFileName) != -1;
+}
+
+CString CZipFileHeader::GetFileName()
+{
+	CString temp;
+	CZipArchive::SingleToWide(m_pszFileName, temp);
+	return temp;
+}
+
+
+void CZipFileHeader::SlashChange(bool bWindowsStyle)
+{
+	char t1 = '\\', t2 = '/', c1, c2;
+	if (bWindowsStyle)
+	{
+		c1 = t1;
+		c2 = t2;
+	}
+	else
+	{
+		c1 = t2;
+		c2 = t1;
+	}
+	for (DWORD i = 0; i < m_pszFileName.GetSize(); i++)
+	{
+		if (m_pszFileName[i] == c2)
+			m_pszFileName[i] = c1;
+	}
+}
+
+void CZipFileHeader::AnsiOem(bool bAnsiToOem)
+{
+	if (bAnsiToOem)
+		CharToOemBuffA(m_pszFileName, m_pszFileName, m_pszFileName.GetSize());
+	else
+		OemToCharBuffA(m_pszFileName, m_pszFileName, m_pszFileName.GetSize());
+}

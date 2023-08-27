@@ -31,7 +31,7 @@ typedef struct tagDEBUGCOLLISION {
 } __DCollision;
 
 
-// ìš°ì„ ìˆœìœ„ëŒ€ë¡œ ì •ë ¬..
+// ¿ì¼±¼øÀ§´ë·Î Á¤·Ä..
 template<class T> struct Myless : public std::less<T> {
 bool operator()(const T& x, const T& y) const
 {
@@ -51,8 +51,8 @@ class CPvsMgr
 	bool					m_bShapePerVolumn;
 
 	std::list<CPvsBase*>	m_pPvsList;
-	std::list<__Collision>	m_ColList;		//	ì¶©ëŒì²´í¬ Structure ë¦¬ìŠ¤íŠ¸..
-	std::list<CPortalVol*>  m_pVoltList;	// ì •ë ¬ëœ ì¶©ëŒì²´í¬ Volumn ë¦¬ìŠ¤íŠ¸..
+	std::list<__Collision>	m_ColList;		//	Ãæµ¹Ã¼Å© Structure ¸®½ºÆ®..
+	std::list<CPortalVol*>  m_pVoltList;	// Á¤·ÄµÈ Ãæµ¹Ã¼Å© Volumn ¸®½ºÆ®..
 	__DCollision			m_dcol;
 
 	//.. Main Shape.. ^^
@@ -90,15 +90,15 @@ private:
 	void	Load(FILE* stream);
 	void	Save(FILE* stream);
 
-	// Edit ëª¨ë“œ..
+	// Edit ¸ğµå..
 	void	TickEdit();
 	void	RenderEdit();
 
-	// Compile ëª¨ë“œ..
+	// Compile ¸ğµå..
 	void	TickCompile();
 	void	RenderCompile();
 
-	// Execute ëª¨ë“œ..
+	// Execute ¸ğµå..
 	void	TickExecute();
 	void	RenderExecute();
 
@@ -109,7 +109,7 @@ private:
 	void	TotalShapeRender();
 	void	TotalCollisionRender();
 
-	// Visibilityë¥¼ ê²°ì •í•œë‹¤..
+	// Visibility¸¦ °áÁ¤ÇÑ´Ù..
 	void	ComputeVisibilty(CPortalVol * const pVol);
 	void	SetPriority(CPortalVol * const pVol);
 	void	SetPriorityRecursive(CPortalVol* const pVol, int iRecursive);
@@ -124,10 +124,10 @@ private:
 	bool			CheckPvsWall(const __Vector3& vOrig, const __Vector3& vDir, CPortalVol* pVolMy, e_WallType eWT);
 	bool			CheckPvsVolumnWall(const __Vector3& vOrig, const __Vector3& vDir, CPortalVol* pVolMy, e_WallType eWT);
 
-	// Shapeë¥¼ ê³µê°„ì— ë§ê²Œ ìª¼ê° ë‹¤..
+	// Shape¸¦ °ø°£¿¡ ¸Â°Ô ÂÉ°µ´Ù..
 	void	SplitShapeToVolumn();
 
-	// Debug ìš© ë Œë”ë§..
+	// Debug ¿ë ·»´õ¸µ..
 //	void	RenderCollision(__Collision& col);
 
 public:

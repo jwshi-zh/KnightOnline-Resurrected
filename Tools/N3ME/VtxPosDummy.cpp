@@ -35,7 +35,7 @@ void CVtxPosDummy::Tick()
 {
 	if (m_SelVtxArray.GetSize()==0) return;
 
-	// Scale ì¡°ì •
+	// Scale Á¶Á¤
 	__Vector3 vL = s_CameraData.vEye - m_vPos;
 	float fL = vL.Magnitude()*0.01f;
 	m_vScale.Set(fL, fL, fL);
@@ -43,7 +43,7 @@ void CVtxPosDummy::Tick()
 	CN3Transform::Tick(-1000.0f);
 	ReCalcMatrix();
 
-	// ê±°ë¦¬ì— ë”°ë¼ ì •ë ¬
+	// °Å¸®¿¡ µû¶ó Á¤·Ä
 	int i;
 	for (i=0; i<NUM_DUMMY; ++i)
 	{
@@ -61,7 +61,7 @@ void CVtxPosDummy::Render()
 	HRESULT hr;
 
 	// set transform
-	hr = s_lpD3DDev->SetTransform(D3DTS_WORLD, &m_Matrix); // ì›”ë“œ í–‰ë ¬ ì ìš©..
+	hr = s_lpD3DDev->SetTransform(D3DTS_WORLD, &m_Matrix); // ¿ùµå Çà·Ä Àû¿ë..
 
 	// set texture
 	hr = s_lpD3DDev->SetTexture(0, NULL);
@@ -77,17 +77,17 @@ void CVtxPosDummy::Render()
 	hr = s_lpD3DDev->SetRenderState(D3DRS_ZENABLE, D3DZB_FALSE);
 	hr = s_lpD3DDev->SetRenderState(D3DRS_LIGHTING, FALSE);
 
-	// ì´ì–´ì§€ ì„  ê·¸ë¦¬ê¸°
+	// ÀÌ¾îÁö ¼± ±×¸®±â
 	hr = s_lpD3DDev->SetVertexShader(FVF_XYZCOLOR);
 	hr = s_lpD3DDev->DrawPrimitiveUP(D3DPT_LINELIST, 3, m_LineVertices, sizeof(__VertexXyzColor));
 
-	// Cube ê·¸ë¦¬ê¸°
+	// Cube ±×¸®±â
 	hr = s_lpD3DDev->SetVertexShader(FVF_XYZNORMALCOLOR);
 	int i;
 	for (i=0; i<NUM_DUMMY; ++i)
 	{
 		ASSERT(m_pSortedCubes[i]);
-		if (m_pSortedCubes[i]->iType == DUMMY_CENTER) continue;	// ê°€ìš´ë° íë¸ŒëŠ” ê·¸ë¦¬ì§€ ì•ŠëŠ”ë‹¤.
+		if (m_pSortedCubes[i]->iType == DUMMY_CENTER) continue;	// °¡¿îµ¥ Å¥ºê´Â ±×¸®Áö ¾Ê´Â´Ù.
 		hr = s_lpD3DDev->DrawPrimitiveUP(D3DPT_TRIANGLELIST, 12, m_pSortedCubes[i]->Vertices, sizeof(__VertexXyzNormalColor));
 	}
 
@@ -106,7 +106,7 @@ void CVtxPosDummy::AddSelObj(CN3Transform* pObj)
 	ASSERT(0);
 }
 
-void CVtxPosDummy::SetSelVtx(__VertexXyzT1* pVtx)			// ì„ íƒëœ ì  ë°”ê¾¸ê¸°
+void CVtxPosDummy::SetSelVtx(__VertexXyzT1* pVtx)			// ¼±ÅÃµÈ Á¡ ¹Ù²Ù±â
 {
 	m_SelVtxArray.RemoveAll();
 	if (pVtx)
@@ -117,13 +117,13 @@ void CVtxPosDummy::SetSelVtx(__VertexXyzT1* pVtx)			// ì„ íƒëœ ì  ë°”ê¾¸ê¸°
 	}
 }
 
-void CVtxPosDummy::AddSelVtx(__VertexXyzT1* pVtx)			// ì„ íƒëœ ì  ì¶”ê°€
+void CVtxPosDummy::AddSelVtx(__VertexXyzT1* pVtx)			// ¼±ÅÃµÈ Á¡ Ãß°¡
 {
 	_ASSERT(pVtx);
 	m_SelVtxArray.Add(pVtx);
 }
 
-BOOL CVtxPosDummy::MouseMsgFilter(LPMSG pMsg)				// ë§ˆìš°ìŠ¤ ë©”ì„¸ì§€ ì²˜ë¦¬
+BOOL CVtxPosDummy::MouseMsgFilter(LPMSG pMsg)				// ¸¶¿ì½º ¸Ş¼¼Áö Ã³¸®
 {
 	int iSize = m_SelVtxArray.GetSize();
 	if (iSize == 0) return FALSE;
@@ -136,9 +136,9 @@ BOOL CVtxPosDummy::MouseMsgFilter(LPMSG pMsg)				// ë§ˆìš°ìŠ¤ ë©”ì„¸ì§€ ì²˜ë¦¬
 			DWORD nFlags = pMsg->wParam;
 			if (m_pSelectedCube && (nFlags & MK_LBUTTON))
 			{
-				__Vector3 vRayDir, vRayOrig;	// í™”ë©´ ì¤‘ì•™(ì‹œì )ê³¼ ë§ˆìš°ìŠ¤ í¬ì¸í„°ë¥¼ ì´ì€ ì§ì„ ì˜ ë°©í–¥ê³¼ ì›ì 
-				__Vector3 vPN, vPV;	// í‰ë©´ì˜ ë²•ì„ ê³¼ í¬í•¨ëœ ì 
-				__Vector3 vPos;	// ìœ„ì˜ í‰ë©´ê³¼ ì§ì„ ì˜ ë§Œë‚˜ëŠ” ì (êµ¬í•  ì )
+				__Vector3 vRayDir, vRayOrig;	// È­¸é Áß¾Ó(½ÃÁ¡)°ú ¸¶¿ì½º Æ÷ÀÎÅÍ¸¦ ÀÌÀº Á÷¼±ÀÇ ¹æÇâ°ú ¿øÁ¡
+				__Vector3 vPN, vPV;	// Æò¸éÀÇ ¹ı¼±°ú Æ÷ÇÔµÈ Á¡
+				__Vector3 vPos;	// À§ÀÇ Æò¸é°ú Á÷¼±ÀÇ ¸¸³ª´Â Á¡(±¸ÇÒ Á¡)
 				__Vector3 vCameraDir = s_CameraData.vAt - s_CameraData.vEye;	vCameraDir.Normalize();
 				GetPickRay(point, vRayDir, vRayOrig);
 				vPV = m_vPrevPos;
@@ -148,7 +148,7 @@ BOOL CVtxPosDummy::MouseMsgFilter(LPMSG pMsg)				// ë§ˆìš°ìŠ¤ ë©”ì„¸ì§€ ì²˜ë¦¬
 				{
 				case DUMMY_CENTER:
 					{
-						// XZí‰ë©´ ìœ„ë¡œ ì›€ì§ì´ê²Œ..
+						// XZÆò¸é À§·Î ¿òÁ÷ÀÌ°Ô..
 						vPN.Set(0,1,0);
 						float fT = D3DXVec3Dot(&vPN,&(vPV-vRayOrig)) / D3DXVec3Dot(&vPN, &vRayDir);
 						vPos = vRayOrig + vRayDir*fT;
@@ -225,7 +225,7 @@ BOOL CVtxPosDummy::MouseMsgFilter(LPMSG pMsg)				// ë§ˆìš°ìŠ¤ ë©”ì„¸ì§€ ì²˜ë¦¬
 			}
 		}
 		break;
-	case WM_RBUTTONDOWN:	// íë¸Œ ì„ íƒ ì·¨ì†Œ ë° ì´ë²ˆ ë“œë˜ê·¸ë¡œ ì›€ì§ì¸ê²ƒ ë˜ëŒë ¤ ë†“ê¸°
+	case WM_RBUTTONDOWN:	// Å¥ºê ¼±ÅÃ Ãë¼Ò ¹× ÀÌ¹ø µå·¡±×·Î ¿òÁ÷ÀÎ°Í µÇµ¹·Á ³õ±â
 		{
 			if (m_pSelectedCube)
 			{
@@ -244,7 +244,7 @@ BOOL CVtxPosDummy::MouseMsgFilter(LPMSG pMsg)				// ë§ˆìš°ìŠ¤ ë©”ì„¸ì§€ ì²˜ë¦¬
 	return FALSE;
 }
 
-void CVtxPosDummy::TransDiff(__Vector3* pvDiffPos, __Quaternion* pqDiffRot, __Vector3* pvDiffScale)		// ì°¨ì´ë§Œí¼ ì„ íƒëœ ì˜¤ë¸Œì íŠ¸ë“¤ì„ ë³€í˜•ì‹œí‚¨ë‹¤.
+void CVtxPosDummy::TransDiff(__Vector3* pvDiffPos, __Quaternion* pqDiffRot, __Vector3* pvDiffScale)		// Â÷ÀÌ¸¸Å­ ¼±ÅÃµÈ ¿ÀºêÁ§Æ®µéÀ» º¯Çü½ÃÅ²´Ù.
 {
 	int i, iSize = m_SelVtxArray.GetSize();
 	if (iSize<=0) return;

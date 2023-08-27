@@ -60,4 +60,780 @@ CN3CEView::CN3CEView()
 	m_pJointSelected = NULL;
 	m_fTickPrev = CN3Base::TimeGet();
 
-	m_eCursorMode = eCM_Nothing; // è€Œã…¼
+	m_eCursorMode = eCM_Nothing; // Ä¿¼­ ¸ðµå º¸Åë..
+
+	m_pFXPosTransform = new CN3Transform;
+	m_pPosDummy = new CPosDummy;
+	m_pPosDummy->SetSelObj(m_pFXPosTransform);
+}
+
+CN3CEView::~CN3CEView()
+{
+	delete m_pFXPosTransform;
+	delete m_pPosDummy;
+}
+
+BOOL CN3CEView::PreCreateWindow(CREATESTRUCT& cs)
+{
+	// TODO: Modify the Window class or styles here by modifying
+	//  the CREATESTRUCT cs
+
+	return CView::PreCreateWindow(cs);
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// CN3CEView drawing
+
+void CN3CEView::OnDraw(CDC* pDC)
+{ 
+	CN3CEDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	if(TRUE == pDoc->m_bLoadingNow) return; // ÀÐ´Â µµÁß¿¡´Â ·»´õ¸µÇÏÁö ¾Ê´Â´Ù...
+
+
+	float fFrm = pDoc->m_Scene.m_fFrmCur; // ÀÏºÎ·¯ ÇÁ·¹ÀÓÀ» ÄÁÆ®·Ñ ÇÏ·Á°í ÀÌ·¸°Ô ÇØ³õ¾Ò´Ù..
+	pDoc->m_Scene.TickCameras(fFrm); // Ä«¸Þ¶ó¸¸ Tick
+	pDoc->m_Scene.TickLights(fFrm);
+	
+	CMainFrame* pFrm = (CMainFrame*)AfxGetMainWnd();
+	pFrm->m_Eng.Clear(0xff606060);
+	pFrm->m_Eng.s_lpD3DDev->BeginScene();
+	
+	__Matrix44 mtx; mtx.Identity(); mtx.Scale(0.2f, 0.2f, 0.2f);
+	pFrm->m_Eng.RenderGrid(mtx);
+	pFrm->m_Eng.RenderAxis();
+	
+	CN3Chr* pChr = pDoc->m_Scene.ChrGet(0);
+	if(NULL == pChr || NULL == pChr->Joint())
+	{
+		CN3Base::s_AlphaMgr.Render(); // Draw Alpha primitive...
+		pFrm->m_Eng.s_lpD3DDev->EndScene();
+		pFrm->m_Eng.Present(m_hWnd);
+		return;
+	}
+	
+	DWORD dwAlphaBlend, dwAlphaOP, dwAlphaArg1;
+	if(m_bRenderOptionXRay) // ¹ÝÅõ¸í ¿É¼ÇÀÌ ÄÑÁ® ÀÖÀ¸¸é..
+	{
+		// backup state
+		pFrm->m_Eng.s_lpD3DDev->GetRenderState(D3DRS_ALPHABLENDENABLE, &dwAlphaBlend);
+		pFrm->m_Eng.s_lpD3DDev->GetTextureStageState(0, D3DTSS_ALPHAOP, &dwAlphaOP);
+		pFrm->m_Eng.s_lpD3DDev->GetTextureStageState(0, D3DTSS_ALPHAARG1, &dwAlphaArg1);
+
+		// render state ¼¼ÆÃ
+		pFrm->m_Eng.s_lpD3DDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+		pFrm->m_Eng.s_lpD3DDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+		pFrm->m_Eng.s_lpD3DDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+		pFrm->m_Eng.s_lpD3DDev->SetRenderState(D3DRS_TEXTUREFACTOR, 0x80000000);	// alpha factor ¼³Á¤
+		
+		// texture state ¼¼ÆÃ(alpha)
+		pFrm->m_Eng.s_lpD3DDev->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
+		pFrm->m_Eng.s_lpD3DDev->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TFACTOR);
+	}
+	else
+	{
+		pFrm->m_Eng.s_lpD3DDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+	}
+	
+	if(m_pJointSelected) // °üÀýÀÌ ¼±ÅÃµÇ¾î ÀÖÀ¸¸é..
+	{
+		DWORD dwZ = 0;
+		pFrm->m_Eng.s_lpD3DDev->GetRenderState(D3DRS_ZENABLE, &dwZ);
+		pFrm->m_Eng.s_lpD3DDev->SetRenderState(D3DRS_ZENABLE, FALSE);
+		m_pJointSelected->Render(&(pChr->m_Matrix), 0.02f);
+//		m_pJointSelected->CN3Transform::Render(&(pChr->m_Matrix), 0.3f); // Ãà ±×¸®±â..
+		pFrm->m_Eng.s_lpD3DDev->SetRenderState(D3DRS_ZENABLE, dwZ);
+	}
+	
+	// Character rendering
+	pFrm->m_SndMgr.Tick(); // Sound Tick...
+	if(m_bPlayingNow)
+	{
+		pChr->Tick();
+		if(pChr->IsAnimEnd())
+		{
+			pChr->PosSet(0,0,0);
+			if(!m_DequeAnimation.empty()) // ¿¡´Ï¸ÞÀÌ¼Ç Å¥°¡ ÀÖÀ¸¸é..
+			{
+				int iAni = m_DequeAnimation[0];
+				pChr->AniCurSet(iAni);
+				m_DequeAnimation.pop_front();
+			}
+		}
+		else
+		{
+			CString szMS;
+			pFrm->GetPaneAnimation()->GetDlgItemText(IDC_E_MOVE_SPEED, szMS);
+			float fZ = (float)(atof(szMS));
+			__Vector3 vDir(0,0,fZ);
+			__Vector3 vPos = pChr->Pos();
+			vPos += vDir * CN3Base::s_fSecPerFrm;
+			pChr->PosSet(vPos);
+		}
+	}
+	else
+	{
+		pChr->PosSet(0,0,0);
+		pChr->Tick(fFrm);
+	}
+	
+	int nLOD = pFrm->GetPaneTool()->m_CBLOD.GetCurSel();
+	if(nLOD < 0) nLOD = 0;
+	if(nLOD >= MAX_CHR_LOD) nLOD = MAX_CHR_LOD - 1;
+	pChr->m_nLOD = nLOD; // LOD °­Á¦ ¼³Á¤..
+
+	pChr->Render();
+
+	/////////////////////////////////////////////
+	// Wire Frame Render
+	CFormViewProperty* pPView = pFrm->GetPaneProperty();
+	HTREEITEM hItem = pPView->m_TreeChr.GetSelectedItem();
+	if(hItem)
+	{
+		CN3Base* pBase = (CN3Base*)pPView->m_TreeChr.GetItemData(hItem);
+		if(pBase && (pBase->Type() & OBJ_CHARACTER_PART) )
+		{
+			CN3CPart* pPart = (CN3CPart*)pBase;
+			
+			int nLOD = pFrm->GetPaneTool()->m_CBLOD.GetCurSel();
+			CN3Base::s_lpD3DDev->SetTransform(D3DTS_WORLD, &(pChr->m_Matrix));
+			pPart->RenderSelected(nLOD);
+		}
+		else if(pBase && (pBase->Type() & OBJ_CHARACTER_PLUG) )
+		{
+			CN3CPlug* pPlug = (CN3CPlug*)pBase;
+			if(pChr->MatrixGet(pPlug->m_nJointIndex))
+			{
+				__Matrix44 mtxJ = *(pChr->MatrixGet(pPlug->m_nJointIndex));
+				pPlug->RenderFXLines(pChr->m_Matrix, mtxJ); // FX µé¾î°¥ °÷¿¡ ¼±À» ±×·ÁÁØ´Ù.
+			}
+		}
+	}
+	// Wire Frame Render
+	/////////////////////////////////////////////
+
+	if(eCM_PlugFXPosition0 == m_eCursorMode ||
+		eCM_PlugFXPosition1 == m_eCursorMode ||
+		eCM_PlugFXPosition2 == m_eCursorMode ||
+		eCM_PlugFXPosition3 == m_eCursorMode ||
+		eCM_PlugFXPosition4 == m_eCursorMode ||
+		eCM_PlugFXPosition5 == m_eCursorMode ||
+		eCM_PlugFXPosition6 == m_eCursorMode ||
+		eCM_PlugFXPosition7 == m_eCursorMode ) // ÇÃ·¯±× È¿°ú À§Ä¡ 0
+	{
+		m_pPosDummy->Tick();
+		m_pPosDummy->Render();
+	}
+
+	if(m_bRenderOptionJoint && pChr->Joint())
+	{
+		pChr->Joint()->Render(&(pChr->m_Matrix), 0.02f);
+	}
+/*
+	pChr->BuildMesh();
+	int nPC = pChr->PartCount();
+	pChr->s_lpD3DDev->SetTransform(D3DTS_WORLD, &pChr->m_Matrix);
+	for(int i = 0; i < nPC; i++)
+	{
+		CN3CPart* pPart = pChr->Part(i);
+		if(NULL == pPart) continue;
+		
+		pPart->Render(0);
+	}
+
+	// Character Plug Rendering...
+	CN3Base* pBase = pFrm->GetPaneProperty()->GetSelectedObject();
+	if(pBase && (pBase->Type() & OBJ_CHARACTER_PLUG))
+	{
+		CN3CPlug* pPlug = (CN3CPlug*)pBase;
+		__Matrix44* pMtxJ = pChr->MatrixGet(pPlug->m_nJointIndex);
+		if(pMtxJ) pPlug->Render(pChr->m_Matrix, *pMtxJ);
+	}
+*/
+	if(m_bRenderOptionXRay) // ¹ÝÅõ¸í ¿É¼ÇÀÌ ÄÑÁ® ÀÖÀ¸¸é..
+	{
+		// Restore state
+		pFrm->m_Eng.s_lpD3DDev->SetRenderState(D3DRS_ALPHABLENDENABLE, dwAlphaBlend);
+		pFrm->m_Eng.s_lpD3DDev->SetTextureStageState(0, D3DTSS_ALPHAOP, dwAlphaOP);
+		pFrm->m_Eng.s_lpD3DDev->SetTextureStageState(0, D3DTSS_ALPHAARG1, dwAlphaArg1);
+	}
+
+	// Sound Àç»ý Å×½ºÆ®...
+	if(pFrm->m_pSndObj0 && pChr->NeedPlaySound0())
+	{
+		pFrm->m_pSndObj0->Play();
+	}
+	if(pFrm->m_pSndObj1 && pChr->NeedPlaySound1())
+	{
+		pFrm->m_pSndObj1->Play();
+	}
+
+
+	CN3Base::s_AlphaMgr.Render(); // Draw Alpha primitive...
+	pFrm->m_Eng.s_lpD3DDev->EndScene();
+	pFrm->m_Eng.Present(m_hWnd);
+
+	// ÇÁ·¹ÀÓ Ç¥½Ã
+	float fTick = CN3Base::TimeGet();
+	if(fTick > m_fTickPrev + 0.3f)
+	{
+		CString szAniName;
+		if(pChr->AniDataCur()) szAniName = pChr->AniDataCur()->szName.c_str();
+		m_szFPS.Format("%s - %6.2f Frame/Sec", szAniName, pFrm->m_Eng.s_fFrmPerSec);
+		m_fTickPrev = fTick;
+	}
+	pDC->TextOut(0, 0, m_szFPS);
+
+	int iAC = m_DequeAnimation.size();
+	for(int i = 0; i < iAC; i++)
+	{
+		CN3AnimControl* pAC = pChr->AniCtrl();
+		int iAI = m_DequeAnimation[i];
+		if(NULL == pAC || NULL == pAC->DataGet(iAI)) continue;
+
+		CString szAniName = pAC->DataGet(iAI)->szName.c_str();
+		pDC->TextOut(20, 20 + i * 18, szAniName);
+	}
+}
+
+void CN3CEView::OnInitialUpdate()
+{
+	CView::OnInitialUpdate();
+
+	// TODO: You may populate your ListView with items by directly accessing
+	//  its list control through a call to GetListCtrl().
+
+	DragAcceptFiles(); // Drag File À» ¹Þ´Â´Ù..
+
+	m_pJointSelected = NULL;
+
+	CMainFrame* pFrm = (CMainFrame*)AfxGetMainWnd();
+	CRect rc; GetClientRect(rc);
+	pFrm->m_Eng.Reset(TRUE, rc.Width(), rc.Height(), 0);
+
+	this->SetCameraToDefault(); // Ä«¸Þ¶ó¸¦ ±âº»°ªÀ¸·Î ÇÏ°í..
+	this->InvalidateRect(NULL, FALSE);
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// CN3CEView printing
+
+BOOL CN3CEView::OnPreparePrinting(CPrintInfo* pInfo)
+{
+	// default preparation
+	return DoPreparePrinting(pInfo);
+}
+
+void CN3CEView::OnBeginPrinting(CDC* /*pDC*/, CPrintInfo* /*pInfo*/)
+{
+	// TODO: add extra initialization before printing
+}
+
+void CN3CEView::OnEndPrinting(CDC* /*pDC*/, CPrintInfo* /*pInfo*/)
+{
+	// TODO: add cleanup after printing
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// CN3CEView diagnostics
+
+#ifdef _DEBUG
+void CN3CEView::AssertValid() const
+{
+	CView::AssertValid();
+}
+
+void CN3CEView::Dump(CDumpContext& dc) const
+{
+	CView::Dump(dc);
+}
+
+CN3CEDoc* CN3CEView::GetDocument() // non-debug version is inline
+{
+	ASSERT(m_pDocument->IsKindOf(RUNTIME_CLASS(CN3CEDoc)));
+	return (CN3CEDoc*)m_pDocument;
+}
+#endif //_DEBUG
+
+void CN3CEView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) 
+{
+	if('F' == nChar)
+	{
+		SetCameraToDefault();
+	} // TODO: Add your message handler code here and/or call default
+	
+	CView::OnKeyDown(nChar, nRepCnt, nFlags);
+}
+
+void CN3CEView::SetCameraToDefault()
+{
+	CN3Camera* pCamera = GetDocument()->m_Scene.CameraGetActive();
+	if(NULL == pCamera) return;
+
+	pCamera->m_Data.fNP = 0.1f;
+	pCamera->m_Data.fFP = 256.0f;
+	pCamera->m_Data.fFOV = D3DXToRadian(72.0f);
+	pCamera->EyePosSet(1.0f, 1.2f, 1.5f);
+	pCamera->AtPosSet(0.0f, 0.8f, 0.0f);
+	pCamera->UpVectorSet(0.0f, 1.0f, 0.0f);
+
+	this->InvalidateRect(NULL, FALSE);
+}
+
+BOOL CN3CEView::OnEraseBkgnd(CDC* pDC) 
+{
+	return 0;
+	return CView::OnEraseBkgnd(pDC);
+}
+
+void CN3CEView::OnLButtonDown(UINT nFlags, CPoint point) 
+{
+	if(	!(nFlags & MK_CONTROL) &&
+		!(nFlags & MK_SHIFT) &&
+		!::_IsKeyDown(VK_MENU))
+	{
+		m_pJointSelected = NULL;
+		
+		CMainFrame* pFrm = (CMainFrame*)AfxGetMainWnd();
+		CN3Scene* pScene = &(GetDocument()->m_Scene);
+		CN3Chr* pChr = pScene->ChrGet(0);
+		CN3Joint* pJoint = pChr->Joint();
+		if(pJoint)
+		{
+			int n = 0;
+			static __Matrix44 mtxs[256];
+			pJoint->MatricesGet(mtxs, n);
+		
+			float fC = 100000.0f;
+			int nJI = -1;
+			for(int i = 0; i < n; i++)
+			{
+				mtxs[i] *= pChr->m_Matrix;
+				__Vector3 vPos = mtxs[i].Pos();
+				CPoint pt = ::_Convert3D_To_2DCoordinate(vPos, 
+														pScene->s_CameraData.mtxView,
+														pScene->s_CameraData.mtxProjection,
+														pScene->s_CameraData.vp.Width,
+														pScene->s_CameraData.vp.Height );
+
+				if(pt.x < 0 || pt.y < 0) continue;
+
+				int x = point.x - pt.x;
+				int y = point.y - pt.y;
+				float fC2 = sqrtf((float)(x*x + y*y));
+
+				if(fC2 < fC) 
+				{
+					nJI = i;
+					fC = fC2;
+				}
+			}
+
+			if(nJI >= 0 && nJI < n)
+			{
+				pJoint->FindPointerByID(nJI, m_pJointSelected);
+			}
+
+			CN3Base* pBase = pFrm->GetPaneProperty()->GetSelectedObject(); // Plug ¿¡ Joint Index ¸¦ ³Ö´Â´Ù..
+			if(	eCM_PickJoint == this->m_eCursorMode && // Á¶ÀÎÆ® ¼±ÅÃ ¸ðµå..
+				pBase && (pBase->Type() & OBJ_CHARACTER_PLUG))
+			{
+				CN3CPlug* pPlug = (CN3CPlug*)pBase;
+				pPlug->m_nJointIndex = nJI;
+
+				pFrm->GetPaneProperty()->UpdateInfo();
+			}
+//////////////////////////////////////////////////
+//	Coded (By Dino On 2002-10-11 ¿ÀÈÄ 1:50:47 )
+//	FXPlug
+			else if (pBase && (pBase->Type() & OBJ_FX_PLUG_PART)	// FXPlugPart°¡ ¼±ÅÃµÇ¾î ÀÖÀ»°æ¿ì ÂüÁ¶ÇÏ´Â Á¶ÀÎÆ®¸¦ ¼³Á¤ÇÑ´Ù.
+				&&( nJI >= 0 && nJI < n))
+			{
+				CN3FXPlugPart* pFXPPart = (CN3FXPlugPart*)pBase;
+				pFXPPart->SetRefIdx(nJI);
+
+				pFrm->GetPaneProperty()->UpdateInfo();
+			}
+//	End Of Code (By Dino On 2002-10-11 ¿ÀÈÄ 1:50:47 )
+//////////////////////////////////////////////////
+			else if(m_pJointSelected && m_bRenderOptionJoint)
+			{
+				pFrm->GetPaneProperty()->SelectJointNode(TVI_ROOT, m_pJointSelected);
+			}
+		}
+	}
+	
+	this->InvalidateRect(NULL, FALSE);
+	
+	m_ptPrev = point;
+
+	CView::OnLButtonDown(nFlags, point);
+}
+
+void CN3CEView::OnViewXray() 
+{
+	m_bRenderOptionXRay = !m_bRenderOptionXRay;
+	this->InvalidateRect(NULL, FALSE);
+}
+
+void CN3CEView::OnUpdateViewXray(CCmdUI* pCmdUI) 
+{
+}
+
+void CN3CEView::OnViewJoint() 
+{
+	m_bRenderOptionJoint = !m_bRenderOptionJoint;
+	this->InvalidateRect(NULL, FALSE);
+}
+
+void CN3CEView::OnUpdateViewJoint(CCmdUI* pCmdUI) 
+{
+}
+
+void CN3CEView::UpdateAllInfo()
+{
+	SetCameraToDefault(); // Ä«¸Þ¶ó¸¦ ±âº»°ªÀ¸·Î ¸¸µé°í...
+	m_pJointSelected = NULL;
+	this->InvalidateRect(NULL, FALSE);
+}
+
+DROPEFFECT CN3CEView::OnDragEnter(COleDataObject* pDataObject, DWORD dwKeyState, CPoint point) 
+{
+	// TODO: Add your specialized code here and/or call the base class
+	
+	return CView::OnDragEnter(pDataObject, dwKeyState, point);
+}
+
+void CN3CEView::OnDragLeave() 
+{
+	// TODO: Add your specialized code here and/or call the base class
+	
+	CView::OnDragLeave();
+}
+
+DROPEFFECT CN3CEView::OnDragOver(COleDataObject* pDataObject, DWORD dwKeyState, CPoint point) 
+{
+	// TODO: Add your specialized code here and/or call the base class
+	
+	return CView::OnDragOver(pDataObject, dwKeyState, point);
+}
+
+BOOL CN3CEView::OnDrop(COleDataObject* pDataObject, DROPEFFECT dropEffect, CPoint point) 
+{
+	// TODO: Add your specialized code here and/or call the base class
+	
+	return CView::OnDrop(pDataObject, dropEffect, point);
+}
+
+void CN3CEView::OnDropFiles(HDROP hDropInfo) 
+{
+	// TODO: Add your message handler code here and/or call default
+	char szFN[256];
+	::DragQueryFile(hDropInfo, 0, szFN, 256);
+	::DragFinish(hDropInfo);
+
+	if(lstrlen(szFN) > 0)
+	{
+		GetDocument()->OnOpenDocument(szFN);
+	}
+	
+	CView::OnDropFiles(hDropInfo);
+}
+
+void CN3CEView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint) 
+{
+	this->InvalidateRect(NULL, FALSE);
+}
+
+void CN3CEView::OnSize(UINT nType, int cx, int cy) 
+{
+	CView::OnSize(nType, cx, cy);
+	
+	CMainFrame* pFrm = (CMainFrame*)AfxGetMainWnd();
+	if(pFrm)
+	{
+		pFrm->m_Eng.Reset(TRUE, cx, cy, 0);
+		this->InvalidateRect(NULL, FALSE);
+	}
+}
+
+LRESULT CN3CEView::WindowProc(UINT message, WPARAM wParam, LPARAM lParam) 
+{
+	if(m_pDocument)
+	{
+		CN3CEDoc* pDoc = GetDocument();
+		CN3Camera* pCamera = pDoc->m_Scene.CameraGetActive();
+		if(pCamera)
+		{
+			MSG	msg;	msg.hwnd = m_hWnd;	msg.message = message;	msg.wParam = wParam;	msg.lParam = lParam;
+			if(pCamera->MoveByWindowMessage(&msg))
+			{
+				this->Invalidate(FALSE);
+				return TRUE;
+			}
+		}
+
+		if(GetDocument()->m_Scene.ChrGet(0) && m_pPosDummy)
+		{
+			m_pPosDummy->Tick();
+			MSG	msg;	msg.hwnd = m_hWnd;	msg.message = message;	msg.wParam = wParam;	msg.lParam = lParam;
+			if (m_pPosDummy->MouseMsgFilter(&msg))
+			{
+				CMainFrame* pFrm = (CMainFrame*)AfxGetMainWnd();
+				CN3CEDoc* pDoc = GetDocument();
+
+				if(!pDoc || !pFrm) return TRUE;
+
+				CN3CPlug* pPlug = (CN3CPlug*)(pFrm->GetPaneProperty()->GetSelectedObject());
+				CN3Chr* pChr = pDoc->m_Scene.ChrGet(0);
+
+				if(eCM_PlugFXPosition0 == m_eCursorMode ||
+					eCM_PlugFXPosition1 == m_eCursorMode ||
+					eCM_PlugFXPosition2 == m_eCursorMode ||
+					eCM_PlugFXPosition3 == m_eCursorMode ||
+					eCM_PlugFXPosition4 == m_eCursorMode ||
+					eCM_PlugFXPosition5 == m_eCursorMode ||
+					eCM_PlugFXPosition6 == m_eCursorMode ||
+					eCM_PlugFXPosition7 == m_eCursorMode ) // ÇÃ·¯±× È¿°ú À§Ä¡ 0
+				{
+					int iIndex = m_eCursorMode - eCM_PlugFXPosition0;
+					if(iIndex >= 0 && iIndex < MAX_PLUG_FX_POSITION)
+					{
+						__Matrix44 mtx;
+						if(pChr->MatrixGet(pPlug->m_nJointIndex))
+						{
+							__Matrix44 mtxJ = *(pChr->MatrixGet(pPlug->m_nJointIndex));
+							mtx = pPlug->m_Matrix;
+							mtx *= mtxJ;
+							mtx *= pChr->m_Matrix;
+						}
+
+						__Matrix44 inv_mtx;
+						float M;
+
+						D3DXMatrixInverse(&inv_mtx, &M, &mtx);
+
+						__Vector3 vPos = m_pFXPosTransform->Pos() * inv_mtx;
+
+						//pPlug->m_vFXs[iIndex] = vPos;
+					}
+				}
+				
+				pPlug->ReCalcMatrix();
+				pFrm->GetPaneProperty()->UpdateInfo();
+				this->Invalidate(FALSE);
+			}
+		}
+	}
+	
+	return CView::WindowProc(message, wParam, lParam);
+}
+
+void CN3CEView::OnMouseMove(UINT nFlags, CPoint point) 
+{
+	if(	!::_IsKeyDown(VK_MENU) && 
+		((nFlags & MK_LBUTTON) || (nFlags & MK_MBUTTON) || (nFlags & MK_RBUTTON)) ) // Ä¿¼­ ¸ðµå¿¡ µû¶ó Á¶Á¤..
+	{
+		// ÀÏ´Ü ÇÃ·¯±×°¡ ¼±ÅÃµÇ¾ú´ÂÁö º»´Ù.
+		CMainFrame* pFrm = (CMainFrame*)AfxGetMainWnd();
+		CN3Base* pBase = pFrm->GetPaneProperty()->GetSelectedObject();
+		CN3Chr* pChr = GetDocument()->m_Scene.ChrGet(0);
+		if(	eCM_Nothing != m_eCursorMode && // Ä¿¼­ ¸ðµå°¡ º¸Åë°Ô ¾Æ´Ï°í..
+			pChr && pBase && (pBase->Type() & OBJ_CHARACTER_PLUG))
+		{
+			CN3CPlug* pPlug = (CN3CPlug*)pBase;
+
+			__Vector3 vAxis;
+			if(nFlags & MK_LBUTTON) vAxis.Set(1,0,0);
+			else if(nFlags & MK_MBUTTON) vAxis.Set(0,1,0);
+			else if(nFlags & MK_RBUTTON) vAxis.Set(0,0,1);
+
+			if(eCM_PlugPosition == m_eCursorMode) // ÇÃ·¯±× À§Ä¡
+			{
+				const __Matrix44* pMtxTmp = pChr->MatrixGet(pPlug->m_nJointIndex);
+				if(pMtxTmp)
+				{
+					__Matrix44 mtx = CN3Base::s_CameraData.mtxViewInverse;
+					mtx.PosSet(0,0,0);
+
+					CPoint ptDelta = point - m_ptPrev;
+					__Vector3 vDelta(ptDelta.x * 0.003f, -ptDelta.y * 0.003f, 0);
+					vDelta *= mtx;
+
+					::D3DXMatrixInverse(&mtx, NULL, pMtxTmp);
+					mtx.PosSet(0,0,0);
+					vDelta *= mtx;
+
+					pPlug->PositionSet(pPlug->Position() + vDelta);
+				}
+			}
+			else if(eCM_PlugScale == m_eCursorMode) // ÇÃ·¯±× ½ºÄÉÀÏ
+			{
+				CPoint ptDelta = point - m_ptPrev;
+				if(_IsKeyDown(VK_CONTROL))
+					vAxis.Set(1,1,1);
+				
+				__Vector3 vScale = pPlug->Scale() + vAxis * (ptDelta.x * 0.003f);
+				
+				pPlug->ScaleSet(vScale);
+			}
+			else if(eCM_PlugRotation == m_eCursorMode) // ÇÃ·¯±× ½ºÄÉÀÏ
+			{
+				const __Matrix44* pMtxTmp = pChr->MatrixGet(pPlug->m_nJointIndex);
+				if(pMtxTmp)
+				{
+					__Matrix44 mtx;
+					mtx.Identity();
+
+					::D3DXMatrixInverse(&mtx, NULL, pMtxTmp);
+					mtx.PosSet(0,0,0);
+
+					vAxis = CN3Base::s_CameraData.vAt - CN3Base::s_CameraData.vEye;
+					vAxis *= mtx;
+					vAxis.Normalize();
+
+					CPoint ptDelta = point - m_ptPrev;
+					float fAngle = (ptDelta.x) * 0.01f;
+					__Quaternion qtRot;
+					qtRot.RotationAxis(vAxis, fAngle);
+
+					mtx = qtRot;
+					mtx = pPlug->Rotation() * mtx;
+					pPlug->RotationSet(mtx);
+				}
+			}
+			/*
+			else if(eCM_PlugFXPosition0 == m_eCursorMode ||
+					eCM_PlugFXPosition1 == m_eCursorMode ||
+					eCM_PlugFXPosition2 == m_eCursorMode ||
+					eCM_PlugFXPosition3 == m_eCursorMode ||
+					eCM_PlugFXPosition4 == m_eCursorMode ||
+					eCM_PlugFXPosition5 == m_eCursorMode ||
+					eCM_PlugFXPosition6 == m_eCursorMode ||
+					eCM_PlugFXPosition7 == m_eCursorMode ) // ÇÃ·¯±× È¿°ú À§Ä¡ 0
+			{
+				int iIndex = m_eCursorMode - eCM_PlugFXPosition0;
+				if(iIndex >= 0 && iIndex < MAX_PLUG_FX_POSITION)
+				{
+					CPoint ptDelta = point - m_ptPrev;
+					vAxis *= (ptDelta.x) * 0.001f;
+					
+					pPlug->m_vFXs[iIndex] += vAxis;
+				}
+			}
+			*/
+
+			pPlug->ReCalcMatrix();
+			pFrm->GetPaneProperty()->UpdateInfo();
+
+			this->InvalidateRect(NULL, FALSE);
+		}
+//////////////////////////////////////////////////
+//	Coded (By Dino On 2002-10-11 ¿ÀÈÄ 2:04:29 )
+//	FXPlug
+		else if(pChr && pBase && (pBase->Type() & OBJ_FX_PLUG_PART))
+		{
+			CN3FXPlugPart* pFXPPart = (CN3FXPlugPart*)pBase;
+
+			__Vector3 vAxis;
+			if(nFlags & MK_LBUTTON) vAxis.Set(1,0,0);
+			else if(nFlags & MK_MBUTTON) vAxis.Set(0,1,0);
+			else if(nFlags & MK_RBUTTON) vAxis.Set(0,0,1);
+
+			if (nFlags & MK_SHIFT)	// À§Ä¡
+			{
+				const __Matrix44* pMtxTmp = pChr->MatrixGet(pFXPPart->GetRefIndex());
+				if(pMtxTmp)
+				{
+					__Matrix44 mtx = CN3Base::s_CameraData.mtxViewInverse;
+					mtx.PosSet(0,0,0);
+
+					CPoint ptDelta = point - m_ptPrev;
+					__Vector3 vDelta(ptDelta.x * 0.003f, -ptDelta.y * 0.003f, 0);
+					vDelta *= mtx;
+
+					::D3DXMatrixInverse(&mtx, NULL, pMtxTmp);
+					mtx.PosSet(0,0,0);
+					vDelta *= mtx;
+
+					pFXPPart->m_vOffsetPos += vDelta;
+				}
+			}
+			else if (nFlags & MK_CONTROL)	// È¸Àü
+			{
+				const __Matrix44* pMtxTmp = pChr->MatrixGet(pFXPPart->GetRefIndex());
+				if(pMtxTmp)
+				{
+					__Matrix44 mtx;
+					mtx.Identity();
+
+					::D3DXMatrixInverse(&mtx, NULL, pMtxTmp);
+					mtx.PosSet(0,0,0);
+
+					vAxis = CN3Base::s_CameraData.vAt - CN3Base::s_CameraData.vEye;
+					vAxis *= mtx;
+					vAxis.Normalize();
+
+					CPoint ptDelta = point - m_ptPrev;
+					float fAngle = (ptDelta.x) * 0.01f;
+					__Quaternion qtRot;
+					qtRot.RotationAxis(vAxis, fAngle);
+
+					mtx = qtRot;
+					pFXPPart->m_vOffsetDir *= mtx;
+					pFXPPart->m_vOffsetDir.Normalize();
+				}
+			}
+
+			pFrm->GetPaneProperty()->UpdateInfo();
+			this->InvalidateRect(NULL, FALSE);
+		}
+//	End Of Code (By Dino On 2002-10-11 ¿ÀÈÄ 2:04:29 )
+//////////////////////////////////////////////////
+	}
+
+	m_ptPrev = point;
+	
+	CView::OnMouseMove(nFlags, point);
+}
+
+void CN3CEView::InitFXPos()
+{
+	CMainFrame* pFrm = (CMainFrame*)AfxGetMainWnd();
+	CN3CEDoc* pDoc = GetDocument();
+
+	if(!pDoc || !pFrm) return;
+
+	CN3CPlug* pPlug = (CN3CPlug*)(pFrm->GetPaneProperty()->GetSelectedObject());
+	CN3Chr* pChr = pDoc->m_Scene.ChrGet(0);
+
+	if(!pChr || !pPlug) return;
+
+	if(eCM_PlugFXPosition0 == m_eCursorMode ||
+		eCM_PlugFXPosition1 == m_eCursorMode ||
+		eCM_PlugFXPosition2 == m_eCursorMode ||
+		eCM_PlugFXPosition3 == m_eCursorMode ||
+		eCM_PlugFXPosition4 == m_eCursorMode ||
+		eCM_PlugFXPosition5 == m_eCursorMode ||
+		eCM_PlugFXPosition6 == m_eCursorMode ||
+		eCM_PlugFXPosition7 == m_eCursorMode ) // ÇÃ·¯±× È¿°ú À§Ä¡ 0
+	{
+		int iIndex = m_eCursorMode - eCM_PlugFXPosition0;
+		if(iIndex >= 0 && iIndex < MAX_PLUG_FX_POSITION)
+		{
+			__Matrix44 mtx;
+			if(pChr->MatrixGet(pPlug->m_nJointIndex))
+			{
+				__Matrix44 mtxJ = *(pChr->MatrixGet(pPlug->m_nJointIndex));
+				mtx = pPlug->m_Matrix;
+				mtx *= mtxJ;
+				mtx *= pChr->m_Matrix;
+			}
+
+			__Vector3 vPos;
+			//vPos = pPlug->m_vFXs[iIndex] * mtx;			
+			m_pFXPosTransform->PosSet(vPos);
+			m_pPosDummy->SetSelObj(m_pFXPosTransform);
+		}
+	}
+}

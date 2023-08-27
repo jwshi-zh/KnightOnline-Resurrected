@@ -43,7 +43,7 @@ static char THIS_FILE[]=__FILE__;
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-// ìƒì„±ì
+// »ı¼ºÀÚ
 CMapMng::CMapMng(CMainFrame* pMainFrm)
 :m_RiverMng(pMainFrm),m_PondMng(pMainFrm)
 {
@@ -52,7 +52,7 @@ CMapMng::CMapMng(CMainFrame* pMainFrm)
 	m_pMainFrm = pMainFrm;
 	m_pTerrain = NULL;
 
-	// Path ì§€ì •í•˜ê¸°
+	// Path ÁöÁ¤ÇÏ±â
 	m_pSceneSource = new CN3Scene;
 	m_pSceneSource->m_szName = "SourceList";
 	m_pSceneSource->FileNameSet("SourceList.N3Scene");
@@ -111,7 +111,7 @@ CMapMng::CMapMng(CMainFrame* pMainFrm)
 
 	m_bLoadingComplete = false;
 
-	// ìœˆë„ ë°°ì¹˜
+	// À©µµ ¹èÄ¡
 	CRect rc(0,0,980,1000);
 	pMainFrm->MoveWindow(&rc);
 	m_pDlgSourceList->MoveWindow(rc.right, rc.top, 300, 500);
@@ -120,7 +120,7 @@ CMapMng::CMapMng(CMainFrame* pMainFrm)
 	Release();
 }
 
-// íŒŒê´´ì
+// ÆÄ±«ÀÚ
 CMapMng::~CMapMng()
 {
 	Release();
@@ -139,7 +139,7 @@ CMapMng::~CMapMng()
 	if (m_pLightObjMgr) {delete m_pLightObjMgr; m_pLightObjMgr = NULL;}
 }
 
-// ì´ˆê¸°í™”
+// ÃÊ±âÈ­
 void CMapMng::Release()
 {
 	if(m_pTerrain) { delete m_pTerrain; m_pTerrain = NULL;}
@@ -180,14 +180,14 @@ void CMapMng::Release()
 	m_PondMng.Release();
 }
 
-//FarPlane ê°±ì‹ ...
+//FarPlane °»½Å...
 void CMapMng::UpDateFP()
 {
 	m_pSceneOutput->CameraGetActive()->m_Data.fFP = m_pMainFrm->GetFP();
 	Invalidate();
 }
 
-// m_pSceneSource ìºë¦­í„°ì™€ ì˜¤ë¸Œì íŠ¸ë¥¼ ì¶”ê°€í•˜ëŠ” í•¨ìˆ˜
+// m_pSceneSource Ä³¸¯ÅÍ¿Í ¿ÀºêÁ§Æ®¸¦ Ãß°¡ÇÏ´Â ÇÔ¼ö
 void CMapMng::LoadSourceObjects()
 {
 	ASSERT(m_pSceneSource && m_pDlgSourceList);
@@ -196,10 +196,10 @@ void CMapMng::LoadSourceObjects()
 
 	WIN32_FIND_DATA FindFileData;
 
-	// source\Chr í´ë”ì˜ ëª¨ë“  ìºë¦­í„° ì¶”ê°€
+	// source\Chr Æú´õÀÇ ¸ğµç Ä³¸¯ÅÍ Ãß°¡
 	CString szChrPath;
 	szChrPath.Format("%sChr\\", CN3Base::s_szPath.c_str());
-	SetCurrentDirectory(szChrPath); // szFolder\Chr í´ë”ë¡œ ê²½ë¡œë¥¼ ë°”ê¾¸ê³ ..
+	SetCurrentDirectory(szChrPath); // szFolder\Chr Æú´õ·Î °æ·Î¸¦ ¹Ù²Ù°í..
 	HANDLE hFind = FindFirstFile("*.N3Chr", &FindFileData);
 
 	if (hFind != INVALID_HANDLE_VALUE)
@@ -212,11 +212,11 @@ void CMapMng::LoadSourceObjects()
 		FindClose(hFind);
 	}
 
-	// source\Data í´ë”ì˜ ëª¨ë“  shape ì¶”ê°€
+	// source\Data Æú´õÀÇ ¸ğµç shape Ãß°¡
 	CString szShapePath;
 	szShapePath.Format("%sObject\\", CN3Base::s_szPath.c_str());
-	SetCurrentDirectory(szShapePath); // szFolder\Mesh í´ë”ë¡œ ê²½ë¡œë¥¼ ë°”ê¾¸ê³ ..
-	hFind = FindFirstFile("*.N3Shape", &FindFileData); // íŒŒì¼ ì°¾ê¸°.
+	SetCurrentDirectory(szShapePath); // szFolder\Mesh Æú´õ·Î °æ·Î¸¦ ¹Ù²Ù°í..
+	hFind = FindFirstFile("*.N3Shape", &FindFileData); // ÆÄÀÏ Ã£±â.
 
 	if (hFind != INVALID_HANDLE_VALUE)
 	{
@@ -228,15 +228,15 @@ void CMapMng::LoadSourceObjects()
 		FindClose(hFind);
 	}	
 
-	m_pSceneSource->Tick();	// Object ì´ˆê¸°í™”
-	m_pDlgSourceList->UpdateTree(m_pSceneSource);	// ëª©ë¡ ê°±ì‹ 
+	m_pSceneSource->Tick();	// Object ÃÊ±âÈ­
+	m_pDlgSourceList->UpdateTree(m_pSceneSource);	// ¸ñ·Ï °»½Å
 }
 
-// ì§€ì •í•œ Sceneì— ìºë¦­í„° ì¶”ê°€í•˜ëŠ” í•¨ìˆ˜
+// ÁöÁ¤ÇÑ Scene¿¡ Ä³¸¯ÅÍ Ãß°¡ÇÏ´Â ÇÔ¼ö
 CN3Transform* CMapMng::AddChr(CN3Scene* pDestScene, const std::string& szFN, BOOL bGenerateChainNumber)
 {
 	CN3Chr* pChr = new CN3Chr;
-	if(false == pChr->LoadFromFile(szFN)) // ë¶€ë¥´ê¸°ê°€ ì‹¤íŒ¨í•˜ë©´..
+	if(false == pChr->LoadFromFile(szFN)) // ºÎ¸£±â°¡ ½ÇÆĞÇÏ¸é..
 	{
 		delete pChr;
 		return NULL;
@@ -253,8 +253,8 @@ CN3Transform* CMapMng::AddChr(CN3Scene* pDestScene, const std::string& szFN, BOO
 			int nL = lstrlen(szCompare);
 			if(nL < 5) continue;
 
-			szCompare[nL-5] = NULL; // ë’¤ì— ë¶™ëŠ” ì–¸ë”ë°”ì™€ ë„¤ìë¦¬ ë²ˆí˜¸ëŠ” ëº€ë‹¤..
-			if(pChr->m_szName == szCompare) // ì´ë¦„ì´ ê°™ìœ¼ë©´..
+			szCompare[nL-5] = NULL; // µÚ¿¡ ºÙ´Â ¾ğ´õ¹Ù¿Í ³×ÀÚ¸® ¹øÈ£´Â »«´Ù..
+			if(pChr->m_szName == szCompare) // ÀÌ¸§ÀÌ °°À¸¸é..
 			{
 				nChainNumber = atoi(&(szCompare[nL-4])) + 1;
 			}
@@ -262,18 +262,18 @@ CN3Transform* CMapMng::AddChr(CN3Scene* pDestScene, const std::string& szFN, BOO
 
 		char szName[_MAX_PATH];
 		wsprintf(szName, "%s_%.4d", pChr->m_szName.c_str(), nChainNumber);
-		pChr->m_szName = szName; // .. ì´ë¦„ì„ ì§“ëŠ”ë‹¤..
+		pChr->m_szName = szName; // .. ÀÌ¸§À» Áş´Â´Ù..
 	}
 
 	pDestScene->ChrAdd(pChr);
 	return pChr;
 }
 
-// ì§€ì •í•œ Sceneì— Shape ì¶”ê°€í•˜ëŠ” í•¨ìˆ˜
+// ÁöÁ¤ÇÑ Scene¿¡ Shape Ãß°¡ÇÏ´Â ÇÔ¼ö
 CN3Transform* CMapMng::AddShape(CN3Scene* pDestScene, const std::string& szFN, BOOL bGenerateChainNumber)
 {
 	CN3Shape* pShape = new CN3Shape;
-	if(false == pShape->LoadFromFile(szFN)) // ë¶€ë¥´ê¸°ê°€ ì‹¤íŒ¨í•˜ë©´..
+	if(false == pShape->LoadFromFile(szFN)) // ºÎ¸£±â°¡ ½ÇÆĞÇÏ¸é..
 	{
 		delete pShape;
 		return NULL;
@@ -290,8 +290,8 @@ CN3Transform* CMapMng::AddShape(CN3Scene* pDestScene, const std::string& szFN, B
 			int nL = lstrlen(szCompare);
 			if(nL < 5) continue;
 
-			szCompare[nL-5] = NULL; // ë’¤ì— ë¶™ëŠ” ì–¸ë”ë°”ì™€ ë„¤ìë¦¬ ë²ˆí˜¸ëŠ” ëº€ë‹¤..
-			if(0 == lstrcmpi(pShape->Name(), szCompare)) // ì´ë¦„ì´ ê°™ìœ¼ë©´..
+			szCompare[nL-5] = NULL; // µÚ¿¡ ºÙ´Â ¾ğ´õ¹Ù¿Í ³×ÀÚ¸® ¹øÈ£´Â »«´Ù..
+			if(0 == lstrcmpi(pShape->Name(), szCompare)) // ÀÌ¸§ÀÌ °°À¸¸é..
 			{
 				nChainNumber = atoi(&(szCompare[nL-4])) + 1;
 			}
@@ -299,26 +299,26 @@ CN3Transform* CMapMng::AddShape(CN3Scene* pDestScene, const std::string& szFN, B
 
 		char szName[_MAX_PATH];
 		wsprintf(szName, "%s_%.4d", pShape->Name(), nChainNumber);
-		pShape->m_szName = szName; // .. ì´ë¦„ì„ ì§“ëŠ”ë‹¤..
+		pShape->m_szName = szName; // .. ÀÌ¸§À» Áş´Â´Ù..
 		
 		char szFileName2[_MAX_PATH];
 		char szDrive[_MAX_DRIVE], szDir[_MAX_DIR], szFName[_MAX_FNAME], szExt[_MAX_EXT];
 		_splitpath(szFileName, szDrive, szDir, szFName, szExt);
 		_makepath(szFileName2, szDrive, szDir, szName, szExt);
-		pShape->FileNameSet(szFileName2); // íŒŒì¼ ì´ë¦„ ì§“ê¸°...
+		pShape->FileNameSet(szFileName2); // ÆÄÀÏ ÀÌ¸§ Áş±â...
 	}
 */
-	pDestScene->ShapeAdd(pShape); // ì¶”ê°€ í•˜ê³ 
+	pDestScene->ShapeAdd(pShape); // Ãß°¡ ÇÏ°í
 	return pShape;
 }
 
-// pObjë¥¼ m_pSceneOutputì— ì¶”ê°€í•œë‹¤.
+// pObj¸¦ m_pSceneOutput¿¡ Ãß°¡ÇÑ´Ù.
 CN3Transform* CMapMng::AddObjectToOutputScene(CN3Transform* pObj)
 {
 	if (pObj == NULL) return NULL;
 	ASSERT(m_pSceneOutput && pObj->m_szName.size() );
 
-	// m_pSceneOutputì— ë„£ê¸°
+	// m_pSceneOutput¿¡ ³Ö±â
 	CN3Transform* pDestObj;
 	if (pObj->Type() & OBJ_CHARACTER)
 	{
@@ -338,10 +338,10 @@ CN3Transform* CMapMng::AddObjectToOutputScene(CN3Transform* pObj)
 	return NULL;
 }
 
-// ì„ íƒí•œ ê°ì²´ë¥¼ ì§€ì›€
+// ¼±ÅÃÇÑ °´Ã¼¸¦ Áö¿ò
 void CMapMng::DeleteSelObjectFromOutputScene()
 {
-	if (GetCursorMode() == CM_EDIT_RIVER)		// ê°•ë¬¼ í¸ì§‘ì¼ ê²½ìš° ì„ íƒ ì  ì§€ìš°ê¸°
+	if (GetCursorMode() == CM_EDIT_RIVER)		// °­¹° ÆíÁıÀÏ °æ¿ì ¼±ÅÃ Á¡ Áö¿ì±â
 	{
 		m_RiverMng.DeleteSelectedVertex();
 		return;
@@ -378,16 +378,16 @@ void CMapMng::DeleteSelObjectFromOutputScene()
 void CMapMng::SavePartition(float x, float z, float width)
 {
 	DWORD dwFlags = OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT;	
-	CFileDialog dlg(FALSE, "n3m", NULL, dwFlags, "N3ME íŒŒì¼(*.n3m)|*.n3m||", NULL);
+	CFileDialog dlg(FALSE, "n3m", NULL, dwFlags, "N3ME ÆÄÀÏ(*.n3m)|*.n3m||", NULL);
 	if(dlg.DoModal() == IDCANCEL) return;
 
 	CString lpszPathName = dlg.GetPathName();
 	
-	// íŒŒì¼ ì´ë¦„
+	// ÆÄÀÏ ÀÌ¸§
 	char szDrive[_MAX_DRIVE], szDir[_MAX_DIR], szFName[_MAX_FNAME], szExt[_MAX_EXT];
 	_splitpath((LPCTSTR)lpszPathName, szDrive, szDir, szFName, szExt);
 
-	//n3më§Œë“¤ê¸°..^^
+	//n3m¸¸µé±â..^^
 	char szN3M[_MAX_PATH];
 	_makepath(szN3M, szDrive, szDir, szFName, "n3m");
 	HANDLE hFile = CreateFile(szN3M, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
@@ -396,12 +396,12 @@ void CMapMng::SavePartition(float x, float z, float width)
 		MessageBox(::GetActiveWindow(), lpszPathName, "Fail to open map data file for save, Pleas retry.", MB_OK);
 		return;
 	}
-	char comment[80] = {"ì´íŒŒì¼ ì—¬ëŠ” ì‚¬ëŒ ë°”ë³´..^^"};
+	char comment[80] = {"ÀÌÆÄÀÏ ¿©´Â »ç¶÷ ¹Ùº¸..^^"};
 	DWORD dwRWC;
 	WriteFile(hFile, &comment, sizeof(char)*80, &dwRWC, NULL);
 	CloseHandle(hFile);
 
-	// ì§€í˜•
+	// ÁöÇü
 	if(m_pTerrain)
 	{
 		char szTerrain[_MAX_PATH];
@@ -409,18 +409,18 @@ void CMapMng::SavePartition(float x, float z, float width)
 		m_pTerrain->SaveToFilePartition(szTerrain, x, z, width);
 	}
 	
-	// sdtíŒŒì¼ ì €ì¥(shape data text)
+	// sdtÆÄÀÏ ÀúÀå(shape data text)
 	char szSceneText[_MAX_PATH];
 	_makepath(szSceneText, szDrive, szDir, szFName, "sdt");
 	SaveObjectPostDataPartition(szSceneText, x, z, width);
 
 	/*
-	// warp ì •ë³´ load..
+	// warp Á¤º¸ load..
 	char szWarp[_MAX_PATH];
 	_makepath(szWarp, szDrive, szDir, szFName, "wap");
 	m_pWarpMgr->SaveToFile(szWarp);
 
-	//ì´ë²¤íŠ¸ ì •ë³´ ì €ì¥..
+	//ÀÌº¥Æ® Á¤º¸ ÀúÀå..
 	//char szEvent[_MAX_PATH];
 	//_makepath(szEvent, szDrive, szDir, szFName, "evt");
 	//m_pEventMgr->SaveToFile(szEvent);	
@@ -431,11 +431,11 @@ void CMapMng::SaveToFile(LPCTSTR lpszPathName)
 {
 	if (lstrlen(lpszPathName) == 0) return;
 
-	// íŒŒì¼ ì´ë¦„
+	// ÆÄÀÏ ÀÌ¸§
 	char szDrive[_MAX_DRIVE], szDir[_MAX_DIR], szFName[_MAX_FNAME], szExt[_MAX_EXT];
 	_splitpath(lpszPathName, szDrive, szDir, szFName, szExt);
 
-	//n3më§Œë“¤ê¸°..^^
+	//n3m¸¸µé±â..^^
 	char szN3M[_MAX_PATH];
 	_makepath(szN3M, szDrive, szDir, szFName, "n3m");
 	HANDLE hFile = CreateFile(szN3M, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
@@ -445,12 +445,12 @@ void CMapMng::SaveToFile(LPCTSTR lpszPathName)
 		return;
 	}
 
-	char comment[80] = {"ì´íŒŒì¼ ì—¬ëŠ” ì‚¬ëŒ ë°”ë³´..^^"};
+	char comment[80] = {"ÀÌÆÄÀÏ ¿©´Â »ç¶÷ ¹Ùº¸..^^"};
 	DWORD dwRWC;
 	WriteFile(hFile, &comment, sizeof(char)*80, &dwRWC, NULL);
 	CloseHandle(hFile);
 
-	// ì§€í˜•
+	// ÁöÇü
 	if(m_pTerrain)
 	{
 		char szTerrain[_MAX_PATH];
@@ -458,42 +458,42 @@ void CMapMng::SaveToFile(LPCTSTR lpszPathName)
 		m_pTerrain->SaveToFile(szTerrain);
 	}
 	
-	// sdtíŒŒì¼ ì €ì¥(shape data text)
+	// sdtÆÄÀÏ ÀúÀå(shape data text)
 	char szSceneText[_MAX_PATH];
 	_makepath(szSceneText, szDrive, szDir, szFName, "sdt");
 	SaveObjectPostData(szSceneText);
 	
-	// ê°•ë¬¼ í¸ì§‘ ì •ë³´ ì €ì¥..
+	// °­¹° ÆíÁı Á¤º¸ ÀúÀå..
 	char szRiver[_MAX_PATH];
 	_makepath(szRiver, szDrive, szDir, szFName, "rvr");
 	m_RiverMng.SaveToFile(szRiver);
 
-	// ì—°ëª» í¸ì§‘ ì •ë³´ ì €ì¥..
+	// ¿¬¸ø ÆíÁı Á¤º¸ ÀúÀå..
 	char szPond[_MAX_PATH];
 	_makepath(szPond, szDrive, szDir, szFName, "pvr");
 	m_PondMng.SaveToFile(szPond);
 
-	//ë²½ ì •ë³´ ì €ì¥..
+	//º® Á¤º¸ ÀúÀå..
 	char szWall[_MAX_PATH];
 	_makepath(szWall, szDrive, szDir, szFName, "wal");
 	m_pWall->SaveToFile(szWall);
 
-	// warp ì •ë³´ load..
+	// warp Á¤º¸ load..
 	char szWarp[_MAX_PATH];
 	_makepath(szWarp, szDrive, szDir, szFName, "wap");
 	m_pWarpMgr->SaveToFile(szWarp);
 
-	// sound ì •ë³´ Load..
+	// sound Á¤º¸ Load..
 	char szSound[_MAX_PATH];
 	_makepath(szSound, szDrive, szDir, szFName, "tsd");
 	m_pSoundMgr->SaveToFile(szSound);
 
-	// light object ì •ë³´..
+	// light object Á¤º¸..
 	char szLightObj[_MAX_PATH];
 	_makepath(szLightObj, szDrive, szDir, szFName, "tld");
 	m_pLightObjMgr->SaveToFile(szLightObj);
 
-	//ì´ë²¤íŠ¸ ì •ë³´ ì €ì¥..
+	//ÀÌº¥Æ® Á¤º¸ ÀúÀå..
 	//char szEvent[_MAX_PATH];
 	//_makepath(szEvent, szDrive, szDir, szFName, "evt");
 	//m_pEventMgr->SaveToFile(szEvent);
@@ -503,11 +503,11 @@ void CMapMng::LoadFromFile(LPCTSTR lpszPathName)
 {
 	if (lstrlen(lpszPathName) == 0) return;
 
-	// íŒŒì¼ ì´ë¦„
+	// ÆÄÀÏ ÀÌ¸§
 	char szDrive[_MAX_DRIVE], szDir[_MAX_DIR], szFName[_MAX_PATH], szExt[_MAX_EXT];
 	_splitpath(lpszPathName, szDrive, szDir, szFName, szExt);
 
-	// ì§€í˜•
+	// ÁöÇü
 	delete m_pTerrain;
 	m_pTerrain = new CLyTerrain;
 	m_pTerrain->Init();
@@ -531,27 +531,27 @@ void CMapMng::LoadFromFile(LPCTSTR lpszPathName)
 	_makepath(szPond, szDrive, szDir, szFName, "pvr");
 	m_PondMng.LoadFromFile(szPond);
 
-	//ë²½ ì •ë³´ load..
+	//º® Á¤º¸ load..
 	char szWall[_MAX_PATH];
 	_makepath(szWall, szDrive, szDir, szFName, "wal");
 	m_pWall->LoadFromFile(szWall);
 
-	// warp ì •ë³´ load..
+	// warp Á¤º¸ load..
 	char szWarp[_MAX_PATH];
 	_makepath(szWarp, szDrive, szDir, szFName, "wap");
 	m_pWarpMgr->LoadFromFile(szWarp);
 
-	// sound ì •ë³´ Load..
+	// sound Á¤º¸ Load..
 	char szSound[_MAX_PATH];
 	_makepath(szSound, szDrive, szDir, szFName, "tsd");
 	m_pSoundMgr->LoadFromFile(szSound);
 
-	// light object ì •ë³´..
+	// light object Á¤º¸..
 	char szLightObj[_MAX_PATH];
 	_makepath(szLightObj, szDrive, szDir, szFName, "tld");
 	m_pLightObjMgr->LoadFromFile(szLightObj);
 
-	//ì´ë²¤íŠ¸ ì •ë³´..
+	//ÀÌº¥Æ® Á¤º¸..
 	//char szEvent[_MAX_PATH];
 	//_makepath(szEvent, szDrive, szDir, szFName, "evt");
 	//m_pEventMgr->LoadFromFile(szEvent);
@@ -572,7 +572,7 @@ void CMapMng::Tick()
 
 void CMapMng::Render()
 {
-	if(false == m_bLoadingComplete) return; // ë¡œë”©ì´ ì•„ì§ ì•ˆ ëë‚¬ë‹¤...
+	if(false == m_bLoadingComplete) return; // ·ÎµùÀÌ ¾ÆÁ÷ ¾È ³¡³µ´Ù...
 
 	CN3EngTool* pEng = m_pMainFrm->m_pEng;
 	if (pEng == NULL) return;
@@ -580,19 +580,19 @@ void CMapMng::Render()
 	pEng->s_lpD3DDev->SetRenderState(D3DRS_FILLMODE, m_FillMode);
 	pEng->s_lpD3DDev->SetRenderState(D3DRS_SHADEMODE, m_ShadeMode);
 
-	if (m_bRenderAxisAndGrid) // ì¶•ê³¼ ê·¸ë¦¬ë“œ ê·¸ë¦¬ê¸°...
+	if (m_bRenderAxisAndGrid) // Ãà°ú ±×¸®µå ±×¸®±â...
 	{
 		pEng->RenderAxis();
 		__Matrix44 mtxWorld; mtxWorld.Scale(32.0f, 32.0f, 32.0f);
 		if(m_SelOutputObjArray.GetSize() > 0)
 		{
 			CN3Transform* pSelObj = m_SelOutputObjArray.GetAt(0);
-			if(pSelObj) // ì„ íƒëœ ê°ì²´ê°€ ìˆìœ¼ë©´..
+			if(pSelObj) // ¼±ÅÃµÈ °´Ã¼°¡ ÀÖÀ¸¸é..
 			{
-				mtxWorld.PosSet(0, pSelObj->Pos().y, 0); // ë†’ì´ë¥¼ ì˜¬ë¦°ë‹¤.
+				mtxWorld.PosSet(0, pSelObj->Pos().y, 0); // ³ôÀÌ¸¦ ¿Ã¸°´Ù.
 			}
 		}
-		pEng->RenderGrid(mtxWorld); // ê·¸ë¦¬ë“œ ê·¸ë¦¬ê¸°...
+		pEng->RenderGrid(mtxWorld); // ±×¸®µå ±×¸®±â...
 	}
 
 	if (m_pTerrain) m_pTerrain->Render();
@@ -607,8 +607,8 @@ void CMapMng::Render()
 		if(pSelObj->Type() & OBJ_SHAPE)
 		{
 			((CN3Shape*)pSelObj)->RenderSelected(m_bViewWireFrame);
-			((CN3Shape*)pSelObj)->RenderCollisionMesh(); // ì¶©ëŒ ë©”ì‹œ ê·¸ë¦¬ê¸°...
-			((CN3Shape*)pSelObj)->RenderClimbMesh(); // ì˜¬ë¼ê°€ëŠ” ë©”ì‹œ ê·¸ë¦¬ê¸°..
+			((CN3Shape*)pSelObj)->RenderCollisionMesh(); // Ãæµ¹ ¸Ş½Ã ±×¸®±â...
+			((CN3Shape*)pSelObj)->RenderClimbMesh(); // ¿Ã¶ó°¡´Â ¸Ş½Ã ±×¸®±â..
 		}
 	}
 
@@ -637,7 +637,7 @@ void CMapMng::Render()
 	if(m_pSoundMgr && m_pSoundMgr->m_bActive) m_pSoundMgr->Render();
 	if(m_pLightObjMgr && m_pLightObjMgr->m_bActive) m_pLightObjMgr->Render();
 	
-	// í’€ì‹¬ê¸° í…ŒìŠ¤íŠ¸ 
+	// Ç®½É±â Å×½ºÆ® 
 	if( m_SowSeedMng.bActive == TRUE)
 		m_SowSeedMng.Render(s_lpD3DDev);
 
@@ -699,14 +699,14 @@ void CMapMng::FocusSelObj()
 	}
 
 	if (vMin.x != FLT_MAX && vMax.x != -FLT_MAX)
-	{	// ë¬¼ì²´ í¬ê¸°ì— ë§ì¶° ì¹´ë©”ë¼ ê±°ë¦¬ ì¡°ì ˆ
+	{	// ¹°Ã¼ Å©±â¿¡ ¸ÂÃç Ä«¸Ş¶ó °Å¸® Á¶Àı
 		__Vector3 vDir = pCamera->Dir();
 		__Vector3 vAt = vMin + ((vMax-vMin)/2);
 		pCamera->AtPosSet(vAt);
 		pCamera->EyePosSet(vAt - vDir*(vMax-vMin).Magnitude());
 	}
 //	else {ASSERT(0);}
-//	{	// ë¬¼ì²´ í¬ê¸°ë¥¼ ì•Œ ìˆ˜ ì—†ìœ¼ë¯€ë¡œ ì§€ê¸ˆ ê±°ë¦¬ ìœ ì§€
+//	{	// ¹°Ã¼ Å©±â¸¦ ¾Ë ¼ö ¾øÀ¸¹Ç·Î Áö±İ °Å¸® À¯Áö
 //		CN3TransformCollision* pSelObj = m_SelOutputObjArray.GetAt(0);
 //		pCamera->m_vRot = pSelObj->m_vPos;
 //		__Vector3 vDiff = pSelObj->m_vPos - pCamera->m_vRot;
@@ -805,28 +805,28 @@ BOOL CMapMng::CameraMove(LPMSG pMsg)
 
 			}
 			break;
-		case '2':	// '1'ê³¼ ê°™ì€ ë‚´ìš©ì„ (í•¨ìˆ˜ë¡œ ë§Œë“¤ì§€ ì•Šì€ ì´ìœ ëŠ” staticë³€ìˆ˜ ë•Œë¬¸ì—..)
+		case '2':	// '1'°ú °°Àº ³»¿ëÀÓ (ÇÔ¼ö·Î ¸¸µéÁö ¾ÊÀº ÀÌÀ¯´Â staticº¯¼ö ¶§¹®¿¡..)
 			{	static BOOL bSet = FALSE;
 				if (pCamera) { static __Vector3 vEye(0, 0, 0);	static __Vector3 vAt(0, 0, 1); static __Vector3 vUp(0, 1, 0); 
 					if (GetAsyncKeyState(VK_CONTROL) & 0xff00) { vEye = pCamera->EyePos();	vAt = pCamera->AtPos();	vUp = pCamera->UpVector(); pCamera->Apply(); bSet = TRUE; return FALSE; }
 					else if (bSet) { pCamera->EyePosSet(vEye); pCamera->AtPosSet(vAt);	pCamera->UpVectorSet(vUp); pCamera->Apply(); return TRUE;}
 					else return FALSE;}
 			} break;
-		case '3':	// '1'ê³¼ ê°™ì€ ë‚´ìš©ì„ (í•¨ìˆ˜ë¡œ ë§Œë“¤ì§€ ì•Šì€ ì´ìœ ëŠ” staticë³€ìˆ˜ ë•Œë¬¸ì—..)
+		case '3':	// '1'°ú °°Àº ³»¿ëÀÓ (ÇÔ¼ö·Î ¸¸µéÁö ¾ÊÀº ÀÌÀ¯´Â staticº¯¼ö ¶§¹®¿¡..)
 			{	static BOOL bSet = FALSE;
 				if (pCamera) { static __Vector3 vEye(0, 0, 0);	static __Vector3 vAt(0, 0, 1); static __Vector3 vUp(0, 1, 0);
 					if (GetAsyncKeyState(VK_CONTROL) & 0xff00) { vEye = pCamera->EyePos();	vAt = pCamera->AtPos();	vUp = pCamera->UpVector(); pCamera->Apply(); bSet = TRUE; return FALSE; }
 					else if (bSet) { pCamera->EyePosSet(vEye); pCamera->AtPosSet(vAt);	pCamera->UpVectorSet(vUp); pCamera->Apply(); return TRUE;}
 					else return FALSE;}
 			} break;
-		case '4':	// '1'ê³¼ ê°™ì€ ë‚´ìš©ì„ (í•¨ìˆ˜ë¡œ ë§Œë“¤ì§€ ì•Šì€ ì´ìœ ëŠ” staticë³€ìˆ˜ ë•Œë¬¸ì—..)
+		case '4':	// '1'°ú °°Àº ³»¿ëÀÓ (ÇÔ¼ö·Î ¸¸µéÁö ¾ÊÀº ÀÌÀ¯´Â staticº¯¼ö ¶§¹®¿¡..)
 			{	static BOOL bSet = FALSE;
 				if (pCamera) { static __Vector3 vEye(0, 0, 0);	static __Vector3 vAt(0, 0, 1); static __Vector3 vUp(0, 1, 0);
 					if (GetAsyncKeyState(VK_CONTROL) & 0xff00) { vEye = pCamera->EyePos();	vAt = pCamera->AtPos();	vUp = pCamera->UpVector(); pCamera->Apply(); bSet = TRUE; return FALSE; }
 					else if (bSet) { pCamera->EyePosSet(vEye); pCamera->AtPosSet(vAt);	pCamera->UpVectorSet(vUp); pCamera->Apply(); return TRUE;}
 					else return FALSE;}
 			} break;
-		case '5':	// '1'ê³¼ ê°™ì€ ë‚´ìš©ì„ (í•¨ìˆ˜ë¡œ ë§Œë“¤ì§€ ì•Šì€ ì´ìœ ëŠ” staticë³€ìˆ˜ ë•Œë¬¸ì—..)
+		case '5':	// '1'°ú °°Àº ³»¿ëÀÓ (ÇÔ¼ö·Î ¸¸µéÁö ¾ÊÀº ÀÌÀ¯´Â staticº¯¼ö ¶§¹®¿¡..)
 			{	static BOOL bSet = FALSE;
 				if (pCamera) { static __Vector3 vEye(0, 0, 0);	static __Vector3 vAt(0, 0, 1); static __Vector3 vUp(0, 1, 0);
 					if (GetAsyncKeyState(VK_CONTROL) & 0xff00) { vEye = pCamera->EyePos();	vAt = pCamera->AtPos();	vUp = pCamera->UpVector(); pCamera->Apply(); bSet = TRUE; return FALSE; }
@@ -835,7 +835,7 @@ BOOL CMapMng::CameraMove(LPMSG pMsg)
 			} break;
 		}
 	}
-	else if (iButtonDownCount == 0 && !(GetAsyncKeyState(VK_MENU) & 0xff00) ) return FALSE;	// alt í‚¤ê°€ ì•ˆëˆŒë ¸ì„ê²½ìš°ëŠ” ì¹´ë©”ë¼ ì›€ì§ì„ì´ ì•„ë‹ˆë‹¤.
+	else if (iButtonDownCount == 0 && !(GetAsyncKeyState(VK_MENU) & 0xff00) ) return FALSE;	// alt Å°°¡ ¾È´­·ÈÀ»°æ¿ì´Â Ä«¸Ş¶ó ¿òÁ÷ÀÓÀÌ ¾Æ´Ï´Ù.
 
 	static CPoint ptPrev;
 	switch(pMsg->message)
@@ -860,7 +860,7 @@ BOOL CMapMng::CameraMove(LPMSG pMsg)
 		break;
 	case WM_MOUSEMOVE:
 		break;
-	default:	// ë§ˆìš°ìŠ¤ ë©”ì„¸ì§€ê°€ ì•„ë‹ê²½ìš° ì¹´ë©”ë¼ ì›€ì§ì„ì´ ì•„ë‹ˆë‹¤.
+	default:	// ¸¶¿ì½º ¸Ş¼¼Áö°¡ ¾Æ´Ò°æ¿ì Ä«¸Ş¶ó ¿òÁ÷ÀÓÀÌ ¾Æ´Ï´Ù.
 		return FALSE;
 	}
 
@@ -957,11 +957,11 @@ BOOL CMapMng::MouseMsgFilter(LPMSG pMsg)
 	}
 
 	static BOOL bSelectDrag = FALSE;
-	if (bSelectDrag == FALSE &&							// Object drag select ëª¨ë“œê°€ ì•„ë‹ˆê³ 
-		RCM_SELECT != m_RiverMng.GetRCursorMode())		// ê°•í¸ì§‘ì˜ drag selectëª¨ë“œê°€ ì•„ë‹ë•Œ
+	if (bSelectDrag == FALSE &&							// Object drag select ¸ğµå°¡ ¾Æ´Ï°í
+		RCM_SELECT != m_RiverMng.GetRCursorMode())		// °­ÆíÁıÀÇ drag select¸ğµå°¡ ¾Æ´Ò¶§
 	{
 		CN3Camera* pCamera = m_pSceneOutput->CameraGetActive();
-		if(pCamera && pCamera->MoveByWindowMessage(pMsg)) return TRUE; // ì¹´ë©”ë¼ ì´ë™ ë©”ì„¸ì§€ ê±°ë¥´ê¸°
+		if(pCamera && pCamera->MoveByWindowMessage(pMsg)) return TRUE; // Ä«¸Ş¶ó ÀÌµ¿ ¸Ş¼¼Áö °Å¸£±â
 	}
 	if(bSelectDrag == FALSE &&
 		PCM_SELECT != m_PondMng.GetPCursorMode())
@@ -970,10 +970,10 @@ BOOL CMapMng::MouseMsgFilter(LPMSG pMsg)
 		if(pCamera && pCamera->MoveByWindowMessage(pMsg)) return TRUE;
 	}
 
-	if (m_pTerrain && m_pTerrain->MouseMsgFilter(pMsg))	return TRUE;// ì§€í˜• í¸ì§‘ ë©”ì„¸ì§€ ê±°ë¥´ê¸°
-	if (m_RiverMng.MouseMsgFilter(pMsg)) return TRUE;				// ê°• í¸ì§‘ ë©”ì„¸ì§€ ê±°ë¥´ê¸°
-	if (m_PondMng.MouseMsgFilter(pMsg)) return TRUE;				// ì—°ëª» í¸ì§‘ ë©”ì‹œì§€ ê±°ë¥´ê¸° 
-	if (m_pNPCPath && m_pNPCPath->MouseMsgFilter(pMsg)) return TRUE;// NPC ê¸¸ë§Œë“¤ê¸° ë©”ì„¸ì§€ ê±°ë¥´ê¸°
+	if (m_pTerrain && m_pTerrain->MouseMsgFilter(pMsg))	return TRUE;// ÁöÇü ÆíÁı ¸Ş¼¼Áö °Å¸£±â
+	if (m_RiverMng.MouseMsgFilter(pMsg)) return TRUE;				// °­ ÆíÁı ¸Ş¼¼Áö °Å¸£±â
+	if (m_PondMng.MouseMsgFilter(pMsg)) return TRUE;				// ¿¬¸ø ÆíÁı ¸Ş½ÃÁö °Å¸£±â 
+	if (m_pNPCPath && m_pNPCPath->MouseMsgFilter(pMsg)) return TRUE;// NPC ±æ¸¸µé±â ¸Ş¼¼Áö °Å¸£±â
 	if (m_pWall && m_pWall->MouseMsgFilter(pMsg)) return TRUE;
 	if (m_pEventMgr && m_pEventMgr->MouseMsgFilter(pMsg)) return TRUE;
 	if (m_pRegenUser && m_pRegenUser->MouseMsgFilter(pMsg)) return TRUE;
@@ -981,7 +981,7 @@ BOOL CMapMng::MouseMsgFilter(LPMSG pMsg)
 	if (m_pLightObjMgr && m_pLightObjMgr->MouseMsgFilter(pMsg)) return TRUE;
 
 
-	// Dummy Cubeì›€ì§ì´ëŠ” ë©”ì„¸ì§€ ê±°ë¥´ê¸°
+	// Dummy Cube¿òÁ÷ÀÌ´Â ¸Ş¼¼Áö °Å¸£±â
 	if (m_pDummy && m_pDummy->MouseMsgFilter(pMsg)) return TRUE;
 
 	{
@@ -1002,7 +1002,7 @@ BOOL CMapMng::MouseMsgFilter(LPMSG pMsg)
 		}
 	}
 
-	// ë‚˜ë¨¸ì§€ ê°ì²´ ì„ íƒ ë° ë°°ì¹˜
+	// ³ª¸ÓÁö °´Ã¼ ¼±ÅÃ ¹× ¹èÄ¡
 	switch(pMsg->message)
 	{
 	case WM_MOUSEMOVE:
@@ -1050,7 +1050,7 @@ BOOL CMapMng::MouseMsgFilter(LPMSG pMsg)
 			}
 		}
 		break;
-	case WM_LBUTTONDOWN:	// ê°ì²´ ì„ íƒ
+	case WM_LBUTTONDOWN:	// °´Ã¼ ¼±ÅÃ
 		{
 			POINT point = {short(LOWORD(pMsg->lParam)), short(HIWORD(pMsg->lParam))};
 			if (m_CursorMode == CM_OBJECT_BRUSH && m_pSelSourceObj)
@@ -1076,24 +1076,24 @@ BOOL CMapMng::MouseMsgFilter(LPMSG pMsg)
 			}
 		}
 		break;
-	case WM_LBUTTONUP:	// ê°ì²´ ì„ íƒ
+	case WM_LBUTTONUP:	// °´Ã¼ ¼±ÅÃ
 		{
 			if (bSelectDrag)
 			{
 				POINT point = {short(LOWORD(pMsg->lParam)), short(HIWORD(pMsg->lParam))};
-				if (abs(m_rcSelDrag.left-point.x)<4 && abs(m_rcSelDrag.top-point.y) < 4) // í´ë¦­í•œê±¸ë¡œ ê°„ì£¼
+				if (abs(m_rcSelDrag.left-point.x)<4 && abs(m_rcSelDrag.top-point.y) < 4) // Å¬¸¯ÇÑ°É·Î °£ÁÖ
 				{
 					int nPart = -1;
 					CN3Base* pBaseSel = Pick(point, &nPart);
 										
 					SelectObject(pBaseSel, FALSE, (GetAsyncKeyState(VK_SHIFT) & 0xff00) ? TRUE : FALSE );
-					if(m_pDlgBase && pBaseSel && pBaseSel->Type() & OBJ_SHAPE) // íŒŒíŠ¸ ì„ íƒ..
+					if(m_pDlgBase && pBaseSel && pBaseSel->Type() & OBJ_SHAPE) // ÆÄÆ® ¼±ÅÃ..
 					{
 						m_pDlgBase->m_CBShapePart.SetCurSel(nPart);
 					}
 				}
 				else
-				{	// ë“œë ˆê·¸ í•œ ê²ƒ
+				{	// µå·¹±× ÇÑ °Í
 					if (m_rcSelDrag.left > point.x)
 					{	m_rcSelDrag.right = m_rcSelDrag.left; m_rcSelDrag.left = point.x; }
 					else m_rcSelDrag.right = point.x;
@@ -1106,13 +1106,13 @@ BOOL CMapMng::MouseMsgFilter(LPMSG pMsg)
 				bSelectDrag = FALSE;
 				m_rcSelDrag.left = m_rcSelDrag.top = m_rcSelDrag.right = m_rcSelDrag.bottom = 0;
 
-				m_pMainFrm->UpdateTransformInfo(); // ìœ„ì¹˜, íšŒì „ê°’ë“±ì„ ì—…ë°ì´íŠ¸í•œë‹¤.
+				m_pMainFrm->UpdateTransformInfo(); // À§Ä¡, È¸Àü°ªµîÀ» ¾÷µ¥ÀÌÆ®ÇÑ´Ù.
 				
 				return TRUE;
 			}
 		}
 		break;
-	case WM_RBUTTONUP:	// ê°ì²´ ì„ íƒ í•´ì œ
+	case WM_RBUTTONUP:	// °´Ã¼ ¼±ÅÃ ÇØÁ¦
 		{
 			if (bSelectDrag)
 			{
@@ -1214,38 +1214,38 @@ CN3Base* CMapMng::Pick(POINT point, int* pnPart)	// Object Picking...
 void CMapMng::SelectObject(CN3Base* pObj, BOOL IsSourceObj, BOOL bAdd)
 {
 	if (IsSourceObj)
-	{	// source ì„ íƒ
+	{	// source ¼±ÅÃ
 		if (pObj && pObj->Type() & (OBJ_CHARACTER | OBJ_SHAPE))	m_pSelSourceObj = (CN3Transform*)pObj;
 		else m_pSelSourceObj = NULL;
 	}
 	else
-	{	// ì´ë¯¸ ë°°ì¹˜ëœ ê°ì²´ ì„ íƒ
+	{	// ÀÌ¹Ì ¹èÄ¡µÈ °´Ã¼ ¼±ÅÃ
 		CN3Transform* pSelObj=NULL;
 		if (pObj && pObj->Type() & (OBJ_CHARACTER | OBJ_SHAPE))
 		{
 			pSelObj = (CN3Transform*)pObj;
-			if (bAdd)	// ì¶”ê°€
+			if (bAdd)	// Ãß°¡
 			{
 				BOOL bAleadySelected = FALSE;
 				int i, iSize = m_SelOutputObjArray.GetSize();
 				for (i=0; i<iSize; ++i) if (m_SelOutputObjArray.GetAt(i) == pSelObj) {bAleadySelected=TRUE;break;}
-				if (bAleadySelected) m_SelOutputObjArray.RemoveAt(i);	// ì´ë¯¸ ìˆìœ¼ë¯€ë¡œ ì„ íƒëª©ë¡ì—ì„œ ì œê±°
-				else m_SelOutputObjArray.InsertAt(0, pSelObj);			// ì¶”ê°€
+				if (bAleadySelected) m_SelOutputObjArray.RemoveAt(i);	// ÀÌ¹Ì ÀÖÀ¸¹Ç·Î ¼±ÅÃ¸ñ·Ï¿¡¼­ Á¦°Å
+				else m_SelOutputObjArray.InsertAt(0, pSelObj);			// Ãß°¡
 			}
-			else	// ìƒˆë¡œ ì„ íƒ
+			else	// »õ·Î ¼±ÅÃ
 			{
 				m_SelOutputObjArray.RemoveAll();
 				m_SelOutputObjArray.Add(pSelObj);
 			}
 		}
-		else	// ì˜ëª» ì„ íƒí–ˆê±°ë‚˜ ìºë¦­í„°ë‚˜ shapeë¥¼ ì„ íƒí•˜ì§€ ì•Šì•˜ë‹¤.
+		else	// Àß¸ø ¼±ÅÃÇß°Å³ª Ä³¸¯ÅÍ³ª shape¸¦ ¼±ÅÃÇÏÁö ¾Ê¾Ò´Ù.
 		{
 			if (bAdd==FALSE) m_SelOutputObjArray.RemoveAll();
 		}
 		OnSelChanged();
 	}
 
-	if(m_SelOutputObjArray.GetSize() == 1) // í•œê°œë¥¼ ì„ íƒí–ˆë‹¤ë©´..
+	if(m_SelOutputObjArray.GetSize() == 1) // ÇÑ°³¸¦ ¼±ÅÃÇß´Ù¸é..
 	{
 		m_pMainFrm->UpdateTransformInfo();
 	}
@@ -1308,8 +1308,8 @@ void CMapMng::SelectObjectByDragRect(RECT* pRect, BOOL bAdd)
 				BOOL bAleadySelected = FALSE;
 				int j, iSize = m_SelOutputObjArray.GetSize();
 				for (j=0; j<iSize;++j) if (m_SelOutputObjArray.GetAt(j) == pObj) {bAleadySelected=TRUE;break;}
-				if (bAleadySelected) m_SelOutputObjArray.RemoveAt(j);	// ì´ë¯¸ ìˆìœ¼ë¯€ë¡œ ì„ íƒëª©ë¡ì—ì„œ ì œê±°
-				else m_SelOutputObjArray.InsertAt(0, pObj);			// ì¶”ê°€
+				if (bAleadySelected) m_SelOutputObjArray.RemoveAt(j);	// ÀÌ¹Ì ÀÖÀ¸¹Ç·Î ¼±ÅÃ¸ñ·Ï¿¡¼­ Á¦°Å
+				else m_SelOutputObjArray.InsertAt(0, pObj);			// Ãß°¡
 			}
 		}
 		++i;
@@ -1335,20 +1335,20 @@ void CMapMng::MakeGameFiles(LPCTSTR lpszPathName, float fSize)
 	char szDrive[_MAX_DRIVE], szDir[_MAX_DIR], szFName[_MAX_FNAME], szExt[_MAX_EXT];
 	_splitpath(lpszPathName, szDrive, szDir, szFName, szExt);
 
-	// íŒŒì¼ ì €ì¥.
+	// ÆÄÀÏ ÀúÀå.
 	HANDLE hFile = CreateFile(lpszPathName, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 	if (INVALID_HANDLE_VALUE == hFile)
 	{
 		MessageBox(::GetActiveWindow(), lpszPathName, "Fail to open map game data file for save, Pleas retry.", MB_OK);
 		return;
 	}
-	char comment[80] = {"ì´íŒŒì¼ ì—¬ëŠ” ì‚¬ëŒ ë°”ë³´..^^"};
+	char comment[80] = {"ÀÌÆÄÀÏ ¿©´Â »ç¶÷ ¹Ùº¸..^^"};
 	DWORD dwRWC;
 	WriteFile(hFile, &m_iZoneID, sizeof(int), &dwRWC, NULL);
 	WriteFile(hFile, &comment, sizeof(char)*80, &dwRWC, NULL);
 	CloseHandle(hFile);
 
-	// ì§€í˜•ì •ë³´ ì €ì¥
+	// ÁöÇüÁ¤º¸ ÀúÀå
 	HANDLE hTerrainGameFile = NULL;
 	char szTerrain[_MAX_PATH] = "";
 	_makepath(szTerrain, szDrive, szDir, szFName, ".gtd");
@@ -1360,7 +1360,7 @@ void CMapMng::MakeGameFiles(LPCTSTR lpszPathName, float fSize)
 	}
 	else
 	{
-		m_pTerrain->m_szName = szFName; // ì´ë¦„ì„ ì§€ì •í•œë‹¤.. ì´ ì´ë¦„ëŒ€ë¡œ ì €ì¥ëœë‹¤.
+		m_pTerrain->m_szName = szFName; // ÀÌ¸§À» ÁöÁ¤ÇÑ´Ù.. ÀÌ ÀÌ¸§´ë·Î ÀúÀåµÈ´Ù.
 		m_pTerrain->SaveGameData(hTerrainGameFile);
 		char szColorMapName[_MAX_PATH];
 		_makepath(szColorMapName, szDrive, szDir, szFName, ".tct");
@@ -1379,15 +1379,15 @@ void CMapMng::MakeGameFiles(LPCTSTR lpszPathName, float fSize)
 
 	
 
-	// Shape Manager ë§Œë“¤ê³  ì €ì¥...
-//	if(true == m_pSceneOutput->CheckOverlappedShapesAndReport()) // ì´ë¦„ì´ë‚˜ ìœ„ì¹˜ ì¤‘ë³µ í™•ì¸..
+	// Shape Manager ¸¸µé°í ÀúÀå...
+//	if(true == m_pSceneOutput->CheckOverlappedShapesAndReport()) // ÀÌ¸§ÀÌ³ª À§Ä¡ Áßº¹ È®ÀÎ..
 //	{
-//		int idYesNo = ::MessageBox(::GetActiveWindow(), "ì¤‘ë³µëœ ì˜¤ë¸Œì íŠ¸ë“¤ì„ ì‚­ì œ í•˜ì‹œê² ìŠµë‹ˆê¹Œ?", "ì¤‘ë³µëœ ì˜¤ë¸Œì íŠ¸ ì²˜ë¦¬", MB_YESNO);
+//		int idYesNo = ::MessageBox(::GetActiveWindow(), "Áßº¹µÈ ¿ÀºêÁ§Æ®µéÀ» »èÁ¦ ÇÏ½Ã°Ú½À´Ï±î?", "Áßº¹µÈ ¿ÀºêÁ§Æ® Ã³¸®", MB_YESNO);
 //		if(IDYES == idYesNo)
 //		{
 //			m_pSceneOutput->DeleteOverlappedShapes();
-//			m_pDlgOutputList->UpdateTree(m_pSceneOutput); // ì•„ì›ƒí’‹ ë¦¬ìŠ¤íŠ¸ ì²´í¬..
-//			m_SelOutputObjArray.RemoveAll(); // ì…€ë ‰ì…˜ ì´ˆê¸°í™”..
+//			m_pDlgOutputList->UpdateTree(m_pSceneOutput); // ¾Æ¿ôÇ² ¸®½ºÆ® Ã¼Å©..
+//			m_SelOutputObjArray.RemoveAll(); // ¼¿·º¼Ç ÃÊ±âÈ­..
 //		}
 //	}
 
@@ -1396,17 +1396,17 @@ void CMapMng::MakeGameFiles(LPCTSTR lpszPathName, float fSize)
 	int nSC = m_pSceneOutput->ShapeCount();
 	for(int i = 0; i < nSC; i++)
 	{
-		ShapeMgr.Add(m_pSceneOutput->ShapeGet(i)); // Shape ì¶”ê°€.
+		ShapeMgr.Add(m_pSceneOutput->ShapeGet(i)); // Shape Ãß°¡.
 	}
 
 	if(m_pWall) 
 		m_pWall->AddWall2Coll(&ShapeMgr);
-	ShapeMgr.GenerateCollisionData(); // ì¶©ëŒ ë©”ì‹œ ë°ì´í„°ë¥¼ ìƒì„±í•œë‹¤...
+	ShapeMgr.GenerateCollisionData(); // Ãæµ¹ ¸Ş½Ã µ¥ÀÌÅÍ¸¦ »ı¼ºÇÑ´Ù...
 	char szObjPosting[_MAX_PATH] = "";
-	_makepath(szObjPosting, szDrive, szDir, szFName, ".opd");  // "Object Posting Data" - Shape Manager file ì´ë¦„ì„ ì •í•˜ê³ ..
+	_makepath(szObjPosting, szDrive, szDir, szFName, ".opd");  // "Object Posting Data" - Shape Manager file ÀÌ¸§À» Á¤ÇÏ°í..
 	ShapeMgr.SaveToFile(szObjPosting);
 
-	//ì´ë²¤íŠ¸ ì €ì¥..
+	//ÀÌº¥Æ® ÀúÀå..
 	char szEventName[_MAX_PATH] = "";
 	_makepath(szEventName, szDrive, szDir, szFName, ".gev");  //
 	if(!m_pEventMgr->MakeGameFile(szEventName, m_pTerrain->m_iHeightMapSize))
@@ -1424,8 +1424,8 @@ void CMapMng::MakeGameFiles(LPCTSTR lpszPathName, float fSize)
 
 void CMapMng::MakeTerrainMovableAttr(CN3ShapeMgr* pShapeMgr)
 {
-	m_pTerrain->MakeMoveTable(m_pEventMgr->m_ppEvent); //ì›€ì§ì„ ì†ì„± ì…‹íŒ…...
-	pShapeMgr->MakeMoveTable(m_pEventMgr->m_ppEvent);	//ì›€ì§ì„ ì†ì„± ì…‹íŒ…...
+	m_pTerrain->MakeMoveTable(m_pEventMgr->m_ppEvent); //¿òÁ÷ÀÓ ¼Ó¼º ¼ÂÆÃ...
+	pShapeMgr->MakeMoveTable(m_pEventMgr->m_ppEvent);	//¿òÁ÷ÀÓ ¼Ó¼º ¼ÂÆÃ...
 }
 
 void CMapMng::MakeServerDataFiles(LPCTSTR lpszPathName)
@@ -1443,19 +1443,19 @@ void CMapMng::MakeServerDataFiles(LPCTSTR lpszPathName)
 		return;		
 	}
 
-	//terrain ì €ì¥..
+	//terrain ÀúÀå..
 	m_pTerrain->SaveServerData(hFile);
 	//
 
-	// Shape Manager ë§Œë“¤ê³  ì €ì¥...
-//	if(true == m_pSceneOutput->CheckOverlappedShapesAndReport()) // ì´ë¦„ì´ë‚˜ ìœ„ì¹˜ ì¤‘ë³µ í™•ì¸..
+	// Shape Manager ¸¸µé°í ÀúÀå...
+//	if(true == m_pSceneOutput->CheckOverlappedShapesAndReport()) // ÀÌ¸§ÀÌ³ª À§Ä¡ Áßº¹ È®ÀÎ..
 //	{
-//		int idYesNo = ::MessageBox(::GetActiveWindow(), "ì¤‘ë³µëœ ì˜¤ë¸Œì íŠ¸ë“¤ì„ ì‚­ì œ í•˜ì‹œê² ìŠµë‹ˆê¹Œ?", "ì¤‘ë³µëœ ì˜¤ë¸Œì íŠ¸ ì²˜ë¦¬", MB_YESNO);
+//		int idYesNo = ::MessageBox(::GetActiveWindow(), "Áßº¹µÈ ¿ÀºêÁ§Æ®µéÀ» »èÁ¦ ÇÏ½Ã°Ú½À´Ï±î?", "Áßº¹µÈ ¿ÀºêÁ§Æ® Ã³¸®", MB_YESNO);
 //		if(IDYES == idYesNo)
 //		{
 //			m_pSceneOutput->DeleteOverlappedShapes();
-//			m_pDlgOutputList->UpdateTree(m_pSceneOutput); // ì•„ì›ƒí’‹ ë¦¬ìŠ¤íŠ¸ ì²´í¬..
-//			m_SelOutputObjArray.RemoveAll(); // ì…€ë ‰ì…˜ ì´ˆê¸°í™”..
+//			m_pDlgOutputList->UpdateTree(m_pSceneOutput); // ¾Æ¿ôÇ² ¸®½ºÆ® Ã¼Å©..
+//			m_SelOutputObjArray.RemoveAll(); // ¼¿·º¼Ç ÃÊ±âÈ­..
 //		}
 //	}
 
@@ -1464,21 +1464,21 @@ void CMapMng::MakeServerDataFiles(LPCTSTR lpszPathName)
 	int nSC = m_pSceneOutput->ShapeCount();
 	for(int i = 0; i < nSC; i++)
 	{
-		ShapeMgr.Add(m_pSceneOutput->ShapeGet(i)); // Shape ì¶”ê°€.
+		ShapeMgr.Add(m_pSceneOutput->ShapeGet(i)); // Shape Ãß°¡.
 	}
 	if(m_pWall) m_pWall->AddWall2Coll(&ShapeMgr);
-	ShapeMgr.GenerateCollisionData(); // ì¶©ëŒ ë©”ì‹œ ë°ì´í„°ë¥¼ ìƒì„±í•œë‹¤..
+	ShapeMgr.GenerateCollisionData(); // Ãæµ¹ ¸Ş½Ã µ¥ÀÌÅÍ¸¦ »ı¼ºÇÑ´Ù..
 	MakeTerrainMovableAttr(&ShapeMgr);
-	ShapeMgr.SaveCollisionData(hFile); // ì¶©ëŒ ë°ì´í„°ë§Œ ì €ì¥...
+	ShapeMgr.SaveCollisionData(hFile); // Ãæµ¹ µ¥ÀÌÅÍ¸¸ ÀúÀå...
 
-	// Object Event ì €ì¥.
+	// Object Event ÀúÀå.
 	//
 	DWORD dwNum;
-	int iEventObjectCount = 0; // ë¨¼ì € ê°¯ìˆ˜ë¥¼ ì„¸ê³ ..
+	int iEventObjectCount = 0; // ¸ÕÀú °¹¼ö¸¦ ¼¼°í..
 	for(i = 0; i < nSC; i++)
 	{
 		CN3Shape* pShape = m_pSceneOutput->ShapeGet(i);
-		if(pShape->m_iEventID || pShape->m_iEventType || pShape->m_iNPC_ID || pShape->m_iNPC_Status ) // ì´ë²¤íŠ¸ê°€ ìˆìœ¼ë©´
+		if(pShape->m_iEventID || pShape->m_iEventType || pShape->m_iNPC_ID || pShape->m_iNPC_Status ) // ÀÌº¥Æ®°¡ ÀÖÀ¸¸é
 			iEventObjectCount++;
 	}
 
@@ -1487,7 +1487,7 @@ void CMapMng::MakeServerDataFiles(LPCTSTR lpszPathName)
 	{
 		CN3Shape* pShape = m_pSceneOutput->ShapeGet(i);
 		short sEvent = 0; __Vector3 vPos;
-		if(pShape->m_iEventID || pShape->m_iEventType || pShape->m_iNPC_ID || pShape->m_iNPC_Status ) // ì´ë²¤íŠ¸ê°€ ìˆìœ¼ë©´
+		if(pShape->m_iEventID || pShape->m_iEventType || pShape->m_iNPC_ID || pShape->m_iNPC_Status ) // ÀÌº¥Æ®°¡ ÀÖÀ¸¸é
 		{
 			WriteFile(hFile, &(pShape->m_iBelong), 4, &dwNum, NULL);
 			sEvent = (short)(pShape->m_iEventID); WriteFile(hFile, &sEvent, 2, &dwNum, NULL);
@@ -1502,7 +1502,7 @@ void CMapMng::MakeServerDataFiles(LPCTSTR lpszPathName)
 		}
 	}
 
-	//MapTileì†ì„± ì €ì¥...
+	//MapTile¼Ó¼º ÀúÀå...
 	//
 	m_pEventMgr->MakeEventArray();
 	/*
@@ -1520,19 +1520,19 @@ void CMapMng::MakeServerDataFiles(LPCTSTR lpszPathName)
 	m_pRegenUser->SaveServerData(hFile);
 	m_pWarpMgr->SaveServerData(hFile);
 
-	// ì´ë²¤íŠ¸ ì •ë³´..
-	// íŒŒì¼ ì´ë¦„
+	// ÀÌº¥Æ® Á¤º¸..
+	// ÆÄÀÏ ÀÌ¸§
 	char szDrive[_MAX_DRIVE], szDir[_MAX_DIR], szFName[_MAX_PATH], szExt[_MAX_EXT];
 	_splitpath(lpszPathName, szDrive, szDir, szFName, szExt);
 
-	//ì´ë²¤íŠ¸ ì •ë³´ ì €ì¥..
+	//ÀÌº¥Æ® Á¤º¸ ÀúÀå..
 	char szEvent[_MAX_PATH];
 	char szEvtFName[_MAX_PATH];
 	sprintf(szEvtFName, "%s_Event", szFName);
 	_makepath(szEvent, szDrive, szDir, szEvtFName, "txt");
-	m_pEventMgr->SaveInfoTextFile(szEvent);	//ì„œë²„ì—ì„œ ì“°ëŠ” ì´ë²¤íŠ¸ ì•„ì´ë”” ì¡°ê±´ë“¤ì´ ë“¤ì–´ ìˆëŠ” í…ìŠ¤íŠ¸ íŒŒì¼..
+	m_pEventMgr->SaveInfoTextFile(szEvent);	//¼­¹ö¿¡¼­ ¾²´Â ÀÌº¥Æ® ¾ÆÀÌµğ Á¶°ÇµéÀÌ µé¾î ÀÖ´Â ÅØ½ºÆ® ÆÄÀÏ..
 
-	// í…ìŠ¤íŠ¸íŒŒì¼ë¡œ í•¨ ë½‘ì•„ë³´ì..
+	// ÅØ½ºÆ®ÆÄÀÏ·Î ÇÔ »Ì¾Æº¸ÀÚ..
 	FILE* stream = fopen("c:\\move.txt", "w");
 	for(int z=m_pTerrain->m_iHeightMapSize-1; z>=0; z--)
 	{
@@ -1544,16 +1544,16 @@ void CMapMng::MakeServerDataFiles(LPCTSTR lpszPathName)
 		fprintf(stream, "\n");
 	}
 	fclose(stream);
-	//ë½‘ì•˜ë‹¤.
+	//»Ì¾Ò´Ù.
 
 /*	
 	char szCollisionFN[512];
 	char szDrive[_MAX_DRIVE], szDir[_MAX_DIR], szFName[_MAX_FNAME], szExt[_MAX_EXT];
 	_splitpath(lpszPathName, szDrive, szDir, szFName, szExt);
-	_makepath(szCollisionFN, szDrive,szDir, szFName, ".scd"); // ë‹¤ë¥¸ ì´ë¦„ìœ¼ë¡œ ì €ì¥..
+	_makepath(szCollisionFN, szDrive,szDir, szFName, ".scd"); // ´Ù¸¥ ÀÌ¸§À¸·Î ÀúÀå..
 	CFile file;
 	file.Open(szCollisionFN, CFile::modeCreate | CFile::modeWrite);
-	ShapeMgr.SaveCollisionData((HANDLE)file.m_hFile); // ì¶©ëŒ ë°ì´í„°ë§Œ ì €ì¥...
+	ShapeMgr.SaveCollisionData((HANDLE)file.m_hFile); // Ãæµ¹ µ¥ÀÌÅÍ¸¸ ÀúÀå...
 	file.Close();
 */
 	CloseHandle(hFile);
@@ -1643,7 +1643,7 @@ void CMapMng::RenderObjectToWindow(CN3TransformCollision* pObj, HWND hWnd)
 	// begin
 	pD3DDev->BeginScene();
 
-	// Objectì˜ ìœ„ì¹˜ ë° í¬ê¸° íŒŒì•…
+	// ObjectÀÇ À§Ä¡ ¹× Å©±â ÆÄ¾Ç
 	__Vector3 vDir(-1,-1,3);	vDir.Normalize();
 	__Vector3 vMin = pObj->Min();
 	__Vector3 vMax = pObj->Max();
@@ -1652,7 +1652,7 @@ void CMapMng::RenderObjectToWindow(CN3TransformCollision* pObj, HWND hWnd)
 	vAt = vMin + (vMax-vMin)/2.0f;
 	vAt.y -= (vMax-vMin).Magnitude() / 8.0f;
 	vEye = vAt - vDir*((vMax-vMin).Magnitude() * 0.7f);
-//	pEng->s_CameraData.vEye = vEye;	// Shapeì˜ LODì„¤ì • ë•Œë¬¸ì—..
+//	pEng->s_CameraData.vEye = vEye;	// ShapeÀÇ LOD¼³Á¤ ¶§¹®¿¡..
 
 	// back up
 	__Matrix44 mtxOldView, mtxOldProj;
@@ -1661,7 +1661,7 @@ void CMapMng::RenderObjectToWindow(CN3TransformCollision* pObj, HWND hWnd)
 	DWORD dwLighting;
 	pD3DDev->GetRenderState(D3DRS_LIGHTING, &dwLighting);
 
-	// camera frustum ì„¸íŒ…..(Applyí•¨ìˆ˜ ë‚´ë¶€ì—ì„œ transformì„ ë°”ê¾¸ê¸°ë•Œë¬¸ì— ì´ ìœ„ì¹˜ì— ë„£ì–´ì•¼ í•œë‹¤.)
+	// camera frustum ¼¼ÆÃ..(ApplyÇÔ¼ö ³»ºÎ¿¡¼­ transformÀ» ¹Ù²Ù±â¶§¹®¿¡ ÀÌ À§Ä¡¿¡ ³Ö¾î¾ß ÇÑ´Ù.)
 //	pEng->s_CameraData.vAt = vAt;
 //	TempCamera.s_CameraData = pEng->s_CameraData;
 	CN3Camera TempCamera;
@@ -1669,9 +1669,9 @@ void CMapMng::RenderObjectToWindow(CN3TransformCollision* pObj, HWND hWnd)
 	TempCamera.AtPosSet(vAt);
 	TempCamera.UpVectorSet(vUp);
 	TempCamera.Tick();
-	TempCamera.Apply();	// ì„ì‹œì¹´ë©”ë¼ì— ë°ì´í„°ë¥¼ ë„£ê³  frustum ì •ë³´ë¥¼ ê³„ì‚°..
+	TempCamera.Apply();	// ÀÓ½ÃÄ«¸Ş¶ó¿¡ µ¥ÀÌÅÍ¸¦ ³Ö°í frustum Á¤º¸¸¦ °è»ê..
 
-	// View Matrix ë° Projection Matrix Setting
+	// View Matrix ¹× Projection Matrix Setting
 //	__Matrix44 viewmtx;
 //	::D3DXMatrixLookAtLH(&viewmtx, &vEye, &vAt, &vUp);
 //	pD3DDev->SetTransform(D3DTS_VIEW, &viewmtx);
@@ -1682,7 +1682,7 @@ void CMapMng::RenderObjectToWindow(CN3TransformCollision* pObj, HWND hWnd)
 	// Set Render State
 	pD3DDev->SetRenderState(D3DRS_LIGHTING, FALSE);
 
-	// ê·¸ë¦¬ê¸°
+	// ±×¸®±â
 	if (dwType & OBJ_CHARACTER)
 	{
 		CN3Chr* pChr = (CN3Chr*)pObj;
@@ -1696,11 +1696,11 @@ void CMapMng::RenderObjectToWindow(CN3TransformCollision* pObj, HWND hWnd)
 		pShape->Render();
 	}
 
-	CN3Base::s_AlphaMgr.Render(); // Alpha primitive ê·¸ë¦¬ê¸°...
+	CN3Base::s_AlphaMgr.Render(); // Alpha primitive ±×¸®±â...
 	pD3DDev->EndScene(); // end
 	pEng->Present(hWnd); // present
 
-	// restore (ì´ì „ ìƒíƒœë¡œ ë˜ëŒë ¤ì£¼ì§€ ì•Šìœ¼ë©´ ì§€í˜•ì—ì„œ pickingì´ ì œëŒ€ë¡œ ë˜ì§€ ì•ŠëŠ”ë‹¤)
+	// restore (ÀÌÀü »óÅÂ·Î µÇµ¹·ÁÁÖÁö ¾ÊÀ¸¸é ÁöÇü¿¡¼­ pickingÀÌ Á¦´ë·Î µÇÁö ¾Ê´Â´Ù)
 	pD3DDev->SetTransform(D3DTS_VIEW, &mtxOldView);
 	pD3DDev->SetTransform(D3DTS_PROJECTION, &mtxOldProj);
 	CopyMemory(&CN3Base::s_CameraData, &CameraDataBackUp, sizeof(CameraDataBackUp));
@@ -1719,7 +1719,7 @@ void CMapMng::SetCursorMode(int iMode)
 
 	if (m_pDummy) m_pDummy->SetSelObj(NULL);
 	
-	m_pBrushDlg->SetTerrain(NULL);			// Brush ì°½ì„ ë³´ì´ì§€ ì•Šê²Œí•œë‹¤.
+	m_pBrushDlg->SetTerrain(NULL);			// Brush Ã¢À» º¸ÀÌÁö ¾Ê°ÔÇÑ´Ù.
 	if(m_pTerrain) m_pTerrain->SetEditMode(TEM_NOT);
 	if(m_pNPCPath) m_pNPCPath->SetActive(false);
 	if(m_pWall) m_pWall->SetActive(false);
@@ -1730,7 +1730,7 @@ void CMapMng::SetCursorMode(int iMode)
 	
 	m_RiverMng.SetEditMode(FALSE);	
 	m_PondMng.SetEditMode(FALSE);
-	// í’€ì‹¬ê¸° 
+	// Ç®½É±â 
 	m_SowSeedMng.SetActive(FALSE);
 
 	switch(iMode)
@@ -1743,14 +1743,14 @@ void CMapMng::SetCursorMode(int iMode)
 		break;
 	case CM_POS:
 		m_pDummy = &m_PosDummy;
-		m_pMainFrm->UpdateTransformInfo(); // ìœ„ì¹˜, íšŒì „ê°’ë“±ì„ ì—…ë°ì´íŠ¸í•œë‹¤.
+		m_pMainFrm->UpdateTransformInfo(); // À§Ä¡, È¸Àü°ªµîÀ» ¾÷µ¥ÀÌÆ®ÇÑ´Ù.
 		break;
 	case CM_ROTATE:
 		m_pDummy = &m_RotDummy;
 		break;
 	case CM_SCALE:
 		m_pDummy = &m_ScaleDummy;
-		m_pMainFrm->UpdateTransformInfo(); // ìœ„ì¹˜, íšŒì „ê°’ë“±ì„ ì—…ë°ì´íŠ¸í•œë‹¤.
+		m_pMainFrm->UpdateTransformInfo(); // À§Ä¡, È¸Àü°ªµîÀ» ¾÷µ¥ÀÌÆ®ÇÑ´Ù.
 		break;
 	case CM_EDIT_TERRAIN:
 		m_pBrushDlg->SetTerrain(m_pTerrain);
@@ -1789,10 +1789,10 @@ void CMapMng::SetCursorMode(int iMode)
 				int nSC = m_pSceneOutput->ShapeCount();
 				for(int i = 0; i < nSC; i++)
 				{
-					ShapeMgr.Add(m_pSceneOutput->ShapeGet(i)); // Shape ì¶”ê°€.
+					ShapeMgr.Add(m_pSceneOutput->ShapeGet(i)); // Shape Ãß°¡.
 				}
 				if(m_pWall) m_pWall->AddWall2Coll(&ShapeMgr);
-				ShapeMgr.GenerateCollisionData(); // ì¶©ëŒ ë©”ì‹œ ë°ì´í„°ë¥¼ ìƒì„±í•œë‹¤..
+				ShapeMgr.GenerateCollisionData(); // Ãæµ¹ ¸Ş½Ã µ¥ÀÌÅÍ¸¦ »ı¼ºÇÑ´Ù..
 				
 				MakeTerrainMovableAttr(&ShapeMgr);
 				m_pNPCPath->m_pppRefEvent = m_pEventMgr->m_ppEvent;
@@ -1824,7 +1824,7 @@ void CMapMng::SetCursorMode(int iMode)
 			m_pSoundMgr->SetActive(true);
 		}
 		break;
-		// í’€ì‹¬ê¸° 
+		// Ç®½É±â 
 	case CM_EDIT_SEED:
 		{
 			m_SowSeedMng.SetActive(TRUE);
@@ -1852,7 +1852,7 @@ void CMapMng::SetCursorMode(int iMode)
 		}
 		else m_pDummy->SetSelObj(NULL);
 
-		m_pDummy->m_pTerrainRef = m_pTerrain; // ë”ë¯¸ì— ì§€í˜• í¬ì¸í„°ë¥¼ ë„£ì–´ì¤€ë‹¤.
+		m_pDummy->m_pTerrainRef = m_pTerrain; // ´õ¹Ì¿¡ ÁöÇü Æ÷ÀÎÅÍ¸¦ ³Ö¾îÁØ´Ù.
 	}
 	m_pMainFrm->GetActiveView()->Invalidate(FALSE);
 }
@@ -1867,7 +1867,7 @@ void CMapMng::Invalidate()
 }
 
 void CMapMng::DropSelObjToTerrain()
-{// ì„ íƒí•œ ê°ì²´ë¥¼ ì§€í˜•ì— ë¶™ì¸ë‹¤.(Yê°’ë§Œ ì¡°ì •)
+{// ¼±ÅÃÇÑ °´Ã¼¸¦ ÁöÇü¿¡ ºÙÀÎ´Ù.(Y°ª¸¸ Á¶Á¤)
 	if (m_pTerrain == NULL) return;
 	int i, iSize = m_SelOutputObjArray.GetSize();
 	for (i=0; i<iSize; ++i)
@@ -1924,7 +1924,7 @@ void CMapMng::ImportTerrainHeight(const char* szMeshFN)
 	m_bLoadingComplete = true;
 }
 
-void CMapMng::RenderGrid(float fGridSize, float fMaxDistance)	// fGridSizeí¬ê¸°ë¡œ fMaxDistanceê±°ë¦¬ê¹Œì§€ ê²©ìë¥¼ ê·¸ë ¤ì¤€ë‹¤
+void CMapMng::RenderGrid(float fGridSize, float fMaxDistance)	// fGridSizeÅ©±â·Î fMaxDistance°Å¸®±îÁö °İÀÚ¸¦ ±×·ÁÁØ´Ù
 {
 	if (m_pMainFrm == NULL) return;
 	CN3Eng* pEng = m_pMainFrm->m_pEng;
@@ -1987,11 +1987,11 @@ void CMapMng::SaveObjectPostData(LPCTSTR lpszFileName)
 	FILE* stream = fopen(lpszFileName, "w");
 	if (stream == NULL)
 	{
-		m_pMainFrm->MessageBox("íŒŒì¼ì„ ë§Œë“¤ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
+		m_pMainFrm->MessageBox("ÆÄÀÏÀ» ¸¸µé¼ö ¾ø½À´Ï´Ù.");
 		return;
 	}
 
-	// í´ë” ì´ë¦„ì„ ë¶„ë¦¬í•˜ê³ ..
+	// Æú´õ ÀÌ¸§À» ºĞ¸®ÇÏ°í..
 	char szDrive[_MAX_DRIVE], szDir[_MAX_DIR], szFName[_MAX_FNAME], szExt[_MAX_EXT];
 	_splitpath(lpszFileName, szDrive, szDir, szFName, szExt);
 
@@ -2006,9 +2006,9 @@ void CMapMng::SaveObjectPostData(LPCTSTR lpszFileName)
 
 		char szSFN[MAX_PATH];
 		_makepath(szSFN, szDrive, szDir, pShape->Name(), ".n3shape");
-		pShape->SaveToFile(szSFN); // Shape ì •ë³´ binary fileë¡œ ì €ì¥..
+		pShape->SaveToFile(szSFN); // Shape Á¤º¸ binary file·Î ÀúÀå..
 
-		fprintf(stream, "%s\n", pShape->Name()); // í…ìŠ¤íŠ¸ì— Shape íŒŒì¼ ì´ë¦„ì„ ì“´ë‹¤..
+		fprintf(stream, "%s\n", pShape->Name()); // ÅØ½ºÆ®¿¡ Shape ÆÄÀÏ ÀÌ¸§À» ¾´´Ù..
 	}
 	fclose(stream);
 	// OldData
@@ -2025,13 +2025,13 @@ void CMapMng::SaveObjectPostData(LPCTSTR lpszFileName)
 	FILE* stream = fopen(lpszFileName, "w");
 	if (stream == NULL)
 	{
-		m_pMainFrm->MessageBox("íŒŒì¼ì„ ë§Œë“¤ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
+		m_pMainFrm->MessageBox("ÆÄÀÏÀ» ¸¸µé¼ö ¾ø½À´Ï´Ù.");
 		return;
 	}
 
-	// í´ë” ì´ë¦„ì„ ë¶„ë¦¬í•˜ê³ ..
+	// Æú´õ ÀÌ¸§À» ºĞ¸®ÇÏ°í..
 	char szDrive[_MAX_DRIVE], szDir[_MAX_DIR], szFName[_MAX_FNAME], szExt[_MAX_EXT];
-	_splitpath(lpszFileName, szDrive, szDir, szFName, szExt); // íŒŒì¼ ì´ë¦„ê³¼ í™•ì¥ìë§Œ ê°–ê³ ..
+	_splitpath(lpszFileName, szDrive, szDir, szFName, szExt); // ÆÄÀÏ ÀÌ¸§°ú È®ÀåÀÚ¸¸ °®°í..
 
 	int i, iSC = m_pSceneOutput->ShapeCount();
 	fprintf(stream, "Shape Post Count : %d\n", iSC);
@@ -2041,8 +2041,8 @@ void CMapMng::SaveObjectPostData(LPCTSTR lpszFileName)
 	{
 		CN3Shape* pShape = m_pSceneOutput->ShapeGet(i);
 
-		_splitpath(pShape->FileName().c_str(), NULL, NULL, szFName, szExt); // íŒŒì¼ ì´ë¦„ê³¼ í™•ì¥ìë§Œ ê°–ê³ ..
-		_makepath(szSFN, NULL, NULL, szFName, szExt); // íŒŒì¼ ì´ë¦„ì„ ë‹¤ì‹œ ë§Œë“ ë‹¤.
+		_splitpath(pShape->FileName().c_str(), NULL, NULL, szFName, szExt); // ÆÄÀÏ ÀÌ¸§°ú È®ÀåÀÚ¸¸ °®°í..
+		_makepath(szSFN, NULL, NULL, szFName, szExt); // ÆÄÀÏ ÀÌ¸§À» ´Ù½Ã ¸¸µç´Ù.
 		
 		__Vector3 vPos = pShape->Pos();
 		__Vector3 vScale = pShape->Scale();
@@ -2074,13 +2074,13 @@ void CMapMng::SaveObjectPostDataPartition(LPCTSTR lpszFileName, float psx, float
 	FILE* stream = fopen(lpszFileName, "w");
 	if (stream == NULL)
 	{
-		m_pMainFrm->MessageBox("íŒŒì¼ì„ ë§Œë“¤ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
+		m_pMainFrm->MessageBox("ÆÄÀÏÀ» ¸¸µé¼ö ¾ø½À´Ï´Ù.");
 		return;
 	}
 
-	// í´ë” ì´ë¦„ì„ ë¶„ë¦¬í•˜ê³ ..
+	// Æú´õ ÀÌ¸§À» ºĞ¸®ÇÏ°í..
 	char szDrive[_MAX_DRIVE], szDir[_MAX_DIR], szFName[_MAX_FNAME], szExt[_MAX_EXT];
-	_splitpath(lpszFileName, szDrive, szDir, szFName, szExt); // íŒŒì¼ ì´ë¦„ê³¼ í™•ì¥ìë§Œ ê°–ê³ ..
+	_splitpath(lpszFileName, szDrive, szDir, szFName, szExt); // ÆÄÀÏ ÀÌ¸§°ú È®ÀåÀÚ¸¸ °®°í..
 
 	float sx = (int)(psx / TERRAIN_CELL_SIZE) * TERRAIN_CELL_SIZE;
 	float sz = (int)(psz / TERRAIN_CELL_SIZE) * TERRAIN_CELL_SIZE;
@@ -2122,8 +2122,8 @@ void CMapMng::SaveObjectPostDataPartition(LPCTSTR lpszFileName, float psx, float
 		int idx = (*it);
 		CN3Shape* pShape = m_pSceneOutput->ShapeGet(idx);
 		
-		_splitpath(pShape->FileName().c_str(), NULL, NULL, szFName, szExt); // íŒŒì¼ ì´ë¦„ê³¼ í™•ì¥ìë§Œ ê°–ê³ ..
-		_makepath(szSFN, NULL, NULL, szFName, szExt); // íŒŒì¼ ì´ë¦„ì„ ë‹¤ì‹œ ë§Œë“ ë‹¤.
+		_splitpath(pShape->FileName().c_str(), NULL, NULL, szFName, szExt); // ÆÄÀÏ ÀÌ¸§°ú È®ÀåÀÚ¸¸ °®°í..
+		_makepath(szSFN, NULL, NULL, szFName, szExt); // ÆÄÀÏ ÀÌ¸§À» ´Ù½Ã ¸¸µç´Ù.
 		
 		__Vector3 vPos = pShape->Pos();
 		vPos.x -= sx;
@@ -2155,27 +2155,27 @@ void CMapMng::LoadObjectPostData(LPCTSTR lpszFileName)
 {
 	if (m_pSceneOutput == NULL) return;
 	
-	// Scene ì— ìˆëŠ” ì˜¤ë¸Œì íŠ¸ë“¤ Release...
+	// Scene ¿¡ ÀÖ´Â ¿ÀºêÁ§Æ®µé Release...
 	m_pSceneOutput->ShapeRelease();
 	m_pSceneOutput->ChrRelease();
 
 	FILE* stream = fopen(lpszFileName, "r");
-	if (stream == NULL) {m_pMainFrm->MessageBox("ì§€ì •í•œ í…ìŠ¤íŠ¸ íŒŒì¼ì„ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤."); return;}
+	if (stream == NULL) {m_pMainFrm->MessageBox("ÁöÁ¤ÇÑ ÅØ½ºÆ® ÆÄÀÏÀ» Ã£À» ¼ö ¾ø½À´Ï´Ù."); return;}
 
-	// í´ë” ì´ë¦„ì„ ë¶„ë¦¬í•˜ê³ ..
+	// Æú´õ ÀÌ¸§À» ºĞ¸®ÇÏ°í..
 	char szDrive[_MAX_DRIVE], szDir[_MAX_DIR], szFName[_MAX_FNAME], szExt[_MAX_EXT];
 	_splitpath(lpszFileName, szDrive, szDir, szFName, szExt);
 
 	char szFirstLine[256];
-	fgets(szFirstLine, 256, stream); // ì²«ì§¸ ì¤„ì„ ì½ê³ ..
-	if(strstr(szFirstLine, "Shape Count : ")) // ë¬¸ìì—´ì´ ìˆìœ¼ë©´ ì˜ˆì „ ë°ì´í„°ì´ë‹¤..
+	fgets(szFirstLine, 256, stream); // Ã¹Â° ÁÙÀ» ÀĞ°í..
+	if(strstr(szFirstLine, "Shape Count : ")) // ¹®ÀÚ¿­ÀÌ ÀÖÀ¸¸é ¿¹Àü µ¥ÀÌÅÍÀÌ´Ù..
 	{
 		int iSC = 0, result = 0;
 		sscanf(szFirstLine, "Shape Count : %d\n", &iSC);
 		for(int i=0; i < iSC; ++i)
 		{
 			char szDestName[_MAX_PATH];
-			result = fscanf(stream, "%s\n", szDestName); // íŒŒì¼ ì´ë¦„ì„ ì½ê³ ..
+			result = fscanf(stream, "%s\n", szDestName); // ÆÄÀÏ ÀÌ¸§À» ÀĞ°í..
 			if (result == EOF) break;
 
 			char szSFN[MAX_PATH];
@@ -2185,18 +2185,18 @@ void CMapMng::LoadObjectPostData(LPCTSTR lpszFileName)
 			if(false == pShape->LoadFromFile(szSFN))
 			{
 				delete pShape; pShape = NULL;
-				continue; // Shape ì •ë³´ binary fileë¡œ ì½ê¸°..
+				continue; // Shape Á¤º¸ binary file·Î ÀĞ±â..
 			}
 
-			szDestName[lstrlen(szDestName) - 5] = NULL; // _0000 ë¬¸ìì—´ì„ ëº€ë‹¤..
+			szDestName[lstrlen(szDestName) - 5] = NULL; // _0000 ¹®ÀÚ¿­À» »«´Ù..
 			_makepath(szSFN, NULL, NULL, szDestName, ".n3shape");
 			pShape->m_szName = szDestName;
-			pShape->FileNameSet(std::string(szSFN)); // ë‹¤ì‹œ íŒŒì¼ ì´ë¦„ ì„¤ì •..
+			pShape->FileNameSet(std::string(szSFN)); // ´Ù½Ã ÆÄÀÏ ÀÌ¸§ ¼³Á¤..
 
 			m_pSceneOutput->ShapeAdd(pShape);
 		}
 	}
-	else // ìƒˆë¡œ ë§Œë“  ë°ì´í„°ì´ë‹¤..
+	else // »õ·Î ¸¸µç µ¥ÀÌÅÍÀÌ´Ù..
 	{
 		int i = 0, iSC = 0;
 		sscanf(szFirstLine, "Shape Post Count : %d\n", &iSC);
@@ -2206,7 +2206,7 @@ void CMapMng::LoadObjectPostData(LPCTSTR lpszFileName)
 		for(i=0; i<iSC; ++i)
 		{
 			CN3Shape* pShape = new CN3Shape();
-			m_pSceneOutput->ShapeAdd(pShape); // ì¶”ê°€..
+			m_pSceneOutput->ShapeAdd(pShape); // Ãß°¡..
 
 			int iSPC = 0, iBelong = 0, iEventID = 0, iEventType = 0, iNPC_ID = 0, iNPC_Status = 0;
 			__Vector3 vPos(0,0,0);
@@ -2220,9 +2220,9 @@ void CMapMng::LoadObjectPostData(LPCTSTR lpszFileName)
 					&(qtRot.x), &(qtRot.y), &(qtRot.z), &(qtRot.w), 
 					&(vScale.x), &(vScale.y), &(vScale.z), 
 					&(iBelong), &(iEventID), &(iEventType), &(iNPC_ID), &(iNPC_Status) );
-			// í…ìŠ¤íŠ¸ì— Shape íŒŒì¼ ì´ë¦„ì„ ì“´ë‹¤..
+			// ÅØ½ºÆ®¿¡ Shape ÆÄÀÏ ÀÌ¸§À» ¾´´Ù..
 			wsprintf(szSFN2, "Object\\%s", szSFN);
-			pShape->LoadFromFile(szSFN2); // íŒŒì¼ì—ì„œ ì½ê³ ..
+			pShape->LoadFromFile(szSFN2); // ÆÄÀÏ¿¡¼­ ÀĞ°í..
 			for(int j = 0; j < iSPC; j++)
 			{
 				fgets(szLine, 1024, stream);
@@ -2239,7 +2239,7 @@ void CMapMng::LoadObjectPostData(LPCTSTR lpszFileName)
 			pShape->PosSet(vPos);
 			pShape->RotSet(qtRot);
 			pShape->ScaleSet(vScale);
-			pShape->ReCalcMatrix(); // í–‰ë ¬ ë‹¤ì‹œ ê³„ì‚°..
+			pShape->ReCalcMatrix(); // Çà·Ä ´Ù½Ã °è»ê..
 
 			pShape->m_iBelong = iBelong;
 			pShape->m_iEventID = iEventID;
@@ -2279,14 +2279,14 @@ void CMapMng::ImportPostDataFromScene(const char *szFileName)
 	int nCameraActive; float fFrmCur, fFrmStart, fFrmEnd;
 	ReadFile(hFile, &nCameraActive, 4, &dwRWC, NULL);
 	ReadFile(hFile, &fFrmCur, 4, &dwRWC, NULL); // Animation Frame;
-	ReadFile(hFile, &fFrmStart, 4, &dwRWC, NULL); // ì „ì²´ í”„ë ˆì„.
-	ReadFile(hFile, &fFrmEnd, 4, &dwRWC, NULL); // ì „ì²´ í”„ë ˆì„.
+	ReadFile(hFile, &fFrmStart, 4, &dwRWC, NULL); // ÀüÃ¼ ÇÁ·¹ÀÓ.
+	ReadFile(hFile, &fFrmEnd, 4, &dwRWC, NULL); // ÀüÃ¼ ÇÁ·¹ÀÓ.
 
 	int i = 0, nL = 0;
 	char szName[512] = "";
 
 	int nCC = 0;
-	ReadFile(hFile, &nCC, 4, &dwRWC, NULL); // ì¹´ë©”ë¼..
+	ReadFile(hFile, &nCC, 4, &dwRWC, NULL); // Ä«¸Ş¶ó..
 	for(i = 0; i < nCC; i++)
 	{
 		ReadFile(hFile, &nL, 4, &dwRWC, NULL);
@@ -2297,7 +2297,7 @@ void CMapMng::ImportPostDataFromScene(const char *szFileName)
 	}
 
 	int nLC = 0;
-	ReadFile(hFile, &nLC, 4, &dwRWC, NULL); // ì¹´ë©”ë¼..
+	ReadFile(hFile, &nLC, 4, &dwRWC, NULL); // Ä«¸Ş¶ó..
 	for(i = 0; i < nLC; i++) 
 	{
 		ReadFile(hFile, &nL, 4, &dwRWC, NULL);
@@ -2322,7 +2322,7 @@ void CMapMng::ImportPostDataFromScene(const char *szFileName)
 	}
 
 	int nChrC = 0;
-	ReadFile(hFile, &nChrC, 4, &dwRWC, NULL); // ìºë¦­í„°
+	ReadFile(hFile, &nChrC, 4, &dwRWC, NULL); // Ä³¸¯ÅÍ
 	for(i = 0; i < nChrC; i++)
 	{
 		ReadFile(hFile, &nL, 4, &dwRWC, NULL);
@@ -2332,7 +2332,7 @@ void CMapMng::ImportPostDataFromScene(const char *szFileName)
 		szName[nL] = NULL;
 	}
 
-	m_pDlgOutputList->UpdateTree(m_pSceneOutput); // íŠ¸ë¦¬ ì—…ë°ì´íŠ¸...
+	m_pDlgOutputList->UpdateTree(m_pSceneOutput); // Æ®¸® ¾÷µ¥ÀÌÆ®...
 
 	CloseHandle(hFile);
 }
@@ -2353,7 +2353,7 @@ void CMapMng::DeleteUnusedFiles()
 	std::vector<std::string> unusedFNs;
 	std::string szFN;
 	
-	//  ì¼ë‹¨ ëª½ë•… ë‹¤ ë§µì— ë„£ëŠ”ë‹¤..
+	//  ÀÏ´Ü ¸ù¶¥ ´Ù ¸Ê¿¡ ³Ö´Â´Ù..
 	mapBase mBases;
 	int iSC = m_pSceneOutput->ShapeCount();
 	
@@ -2390,7 +2390,7 @@ void CMapMng::DeleteUnusedFiles()
 			if(NULL == pPart)
 			{
 				CString szErr;
-				szErr.Format("NULL Part : %s - %dë²ˆì§¸ Part", pShape->FileName().c_str(), j);
+				szErr.Format("NULL Part : %s - %d¹øÂ° Part", pShape->FileName().c_str(), j);
 				invalidFNs.push_back(szErr.operator LPCTSTR());
 				continue;
 			}
@@ -2405,7 +2405,7 @@ void CMapMng::DeleteUnusedFiles()
 			else
 			{
 				CString szErr;
-				szErr.Format("NULL PMesh : %s - %dë²ˆì§¸ Part", pShape->FileName().c_str(), j);
+				szErr.Format("NULL PMesh : %s - %d¹øÂ° Part", pShape->FileName().c_str(), j);
 				invalidFNs.push_back(szErr.operator LPCTSTR());
 			}
 
@@ -2422,7 +2422,7 @@ void CMapMng::DeleteUnusedFiles()
 				else
 				{
 					CString szErr;
-					szErr.Format("NULL Texture : %s - %dë²ˆì§¸ Part, %dë²ˆì§¸ Texture", pShape->FileName().c_str(), j, k);
+					szErr.Format("NULL Texture : %s - %d¹øÂ° Part, %d¹øÂ° Texture", pShape->FileName().c_str(), j, k);
 					invalidFNs.push_back(szErr.operator LPCTSTR());
 					continue;
 				}
@@ -2430,7 +2430,7 @@ void CMapMng::DeleteUnusedFiles()
 		}
 	}
 
-	// íŒŒì¼ì„ ì°¾ê³ ..
+	// ÆÄÀÏÀ» Ã£°í..
 	std::string szPath = CN3Base::PathGet() + "object\\";
 	::SetCurrentDirectory(szPath.c_str());
 	CFileFind ff;
@@ -2450,7 +2450,7 @@ void CMapMng::DeleteUnusedFiles()
 		
 		szFN = szFNTmp;
 		it_Base it = mBases.find(szFN);
-		if(it != mBases.end()) continue; // ì°¾ì•˜ìœ¼ë©´ ì“´ê±°ë‹¤..
+		if(it != mBases.end()) continue; // Ã£¾ÒÀ¸¸é ¾´°Å´Ù..
 
 		unusedFNs.push_back(szFN);
 	}
@@ -2468,7 +2468,7 @@ void CMapMng::DeleteUnusedFiles()
 			unusedFNs.push_back(szFN);
 	}
 	
-	// íŒŒì¼ ì§€ìš°ê¸° ëŒ€í™”ìƒì ë„ìš°ê¸°..
+	// ÆÄÀÏ Áö¿ì±â ´ëÈ­»óÀÚ ¶ç¿ì±â..
 	CDlgUnusedFiles dlg;
 	int iUFC = unusedFNs.size();
 	for(i = 0; i < iUFC; i++)
@@ -2484,14 +2484,14 @@ void CMapMng::DeleteUnusedFiles()
 
 	dlg.DoModal();
 	
-	// ëª¨ë‘ ì—…ë°ì´íŠ¸..
-	m_pSelSourceObj = NULL; // ì´ë ‡ê²Œ í•´ì£¼ì–´ì•¼ ë»‘ì´ ì•ˆë‚œë‹¤.
+	// ¸ğµÎ ¾÷µ¥ÀÌÆ®..
+	m_pSelSourceObj = NULL; // ÀÌ·¸°Ô ÇØÁÖ¾î¾ß »¶ÀÌ ¾È³­´Ù.
 	m_SelOutputObjArray.RemoveAll();
-	this->LoadSourceObjects(); // Source Object ë¥¼ ë‹¤ì‹œ ì½ê³ ..
-	this->UpdateAll(); // ëª½ë•… ì—…ë°ì´íŠ¸...
+	this->LoadSourceObjects(); // Source Object ¸¦ ´Ù½Ã ÀĞ°í..
+	this->UpdateAll(); // ¸ù¶¥ ¾÷µ¥ÀÌÆ®...
 }
 
-void CMapMng::DeleteOverlappedObjects() // ìœ„ì¹˜ê°€ ê²¹ì¹œ ì íŠ¸ë¥¼ ì°¾ëŠ”ë‹¤.
+void CMapMng::DeleteOverlappedObjects() // À§Ä¡°¡ °ãÄ£ Á§Æ®¸¦ Ã£´Â´Ù.
 {
 	std::vector<CN3Shape*> OverlappedObjects;
 	int iSC = m_pSceneOutput->ShapeCount();
@@ -2523,13 +2523,13 @@ void CMapMng::DeleteOverlappedObjects() // ìœ„ì¹˜ê°€ ê²¹ì¹œ ì íŠ¸ë¥¼ ì°¾ëŠ”ë‹¤.
 	iSC = OverlappedObjects.size();
 	for(i = 0; i < iSC; i++)
 	{
-		m_pSceneOutput->ShapeDelete(OverlappedObjects[i]); // ê²¹ì¹œê±° ì§€ìš°ê¸°..
+		m_pSceneOutput->ShapeDelete(OverlappedObjects[i]); // °ãÄ£°Å Áö¿ì±â..
 	}
 
-	// ì—…ë°ì´íŠ¸...
-	m_pSelSourceObj = NULL; // ì´ë ‡ê²Œ í•´ì£¼ì–´ì•¼ ë»‘ì´ ì•ˆë‚œë‹¤.
+	// ¾÷µ¥ÀÌÆ®...
+	m_pSelSourceObj = NULL; // ÀÌ·¸°Ô ÇØÁÖ¾î¾ß »¶ÀÌ ¾È³­´Ù.
 	m_SelOutputObjArray.RemoveAll();
-	if (m_pDlgOutputList) m_pDlgOutputList->UpdateTree(m_pSceneOutput); // ëª½ë•… ì—…ë°ì´íŠ¸...
+	if (m_pDlgOutputList) m_pDlgOutputList->UpdateTree(m_pSceneOutput); // ¸ù¶¥ ¾÷µ¥ÀÌÆ®...
 }
 
 void CMapMng::DeleteSelectedSourceObjects()
@@ -2552,14 +2552,14 @@ void CMapMng::DeleteSelectedSourceObjects()
 	iSC = SameObjects.size();
 	for(i = 0; i < iSC; i++)
 	{
-		m_pSceneOutput->ShapeDelete(SameObjects[i]); // ê²¹ì¹œê±° ì§€ìš°ê¸°..
+		m_pSceneOutput->ShapeDelete(SameObjects[i]); // °ãÄ£°Å Áö¿ì±â..
 	}
 
-	// ì—…ë°ì´íŠ¸...
+	// ¾÷µ¥ÀÌÆ®...
 	m_pSceneSource->ShapeDelete((CN3Shape*)m_pSelSourceObj);
-	m_pSelSourceObj = NULL; // ì´ë ‡ê²Œ í•´ì£¼ì–´ì•¼ ë»‘ì´ ì•ˆë‚œë‹¤.
+	m_pSelSourceObj = NULL; // ÀÌ·¸°Ô ÇØÁÖ¾î¾ß »¶ÀÌ ¾È³­´Ù.
 	m_SelOutputObjArray.RemoveAll();
-	this->UpdateAll(); // ëª½ë•… ì—…ë°ì´íŠ¸...
+	this->UpdateAll(); // ¸ù¶¥ ¾÷µ¥ÀÌÆ®...
 }
 
 CN3Camera* CMapMng::CameraGet()
@@ -2618,11 +2618,11 @@ void CMapMng::SetEditState(ENUM_EDIT_STATE eEditStat)
 
 	case eEDIT_COPY:
 		{
-			//	ê¸°ì¡´ë°±ì—…í•œê±° ì§€ìš°ê³ 
+			//	±âÁ¸¹é¾÷ÇÑ°Å Áö¿ì°í
 			m_SelOutputObjBack.RemoveAll();
 			vOldPos.Zero();
 
-			//	ì„ íƒí•œ ê²ƒë“¤ì„ ë°±ì—…í•˜ê³ 
+			//	¼±ÅÃÇÑ °ÍµéÀ» ¹é¾÷ÇÏ°í
 			CN3Transform* pDestObj = NULL;
 			int j, iSize = m_SelOutputObjArray.GetSize();
 			for(j=0;j<iSize;++j)
@@ -2650,39 +2650,39 @@ void CMapMng::SetEditState(ENUM_EDIT_STATE eEditStat)
 				iSize = m_SelOutputObjBack.GetSize();
 				if(iSize==0) return;	
 
-				//	ì°ì„ ìƒˆë¡œìš´ìœ„ì¹˜ë¥¼ ì…ë ¥
+				//	ÂïÀ» »õ·Î¿îÀ§Ä¡¸¦ ÀÔ·Â
 				ASSERT(m_pTerrain);
 				CPoint point = ((CN3MEView*)m_pMainFrm->GetActiveView())->m_CurrMousePos;
 				m_pTerrain->Pick(point.x, point.y, &vNewPos);
 
 				if(vOldPos.Magnitude() == 0.0f || vNewPos.Magnitude() == 0.0f) return;
 
-				vNewPos -= vOldPos;	//	ìƒˆë¡œ ì´ì‚¬ê°ˆ ë°±í„°ë¥¼ êµ¬í•¨ 
+				vNewPos -= vOldPos;	//	»õ·Î ÀÌ»ç°¥ ¹éÅÍ¸¦ ±¸ÇÔ 
 
-				if (m_pDummy)	//	ë”ë¯¸ì˜ ìƒˆë¡œìš´ ì¢Œí‘œ ì…ë ¥
+				if (m_pDummy)	//	´õ¹ÌÀÇ »õ·Î¿î ÁÂÇ¥ ÀÔ·Â
 				{
 					m_pDummy->PosSet(m_pDummy->Pos() + vNewPos);
 				}
 
-				m_SelOutputObjArray.RemoveAll();	//	ê¸°ì¡´ ì„ íƒëœ ì •ë³´ë¥¼ ì§€ìš°ê³ 
+				m_SelOutputObjArray.RemoveAll();	//	±âÁ¸ ¼±ÅÃµÈ Á¤º¸¸¦ Áö¿ì°í
 				for(j=0;j<iSize;++j)
 				{
-					pDestObj = m_SelOutputObjBack.GetAt(j);	//	ë°±ì—…ëœ ë°ì´í„°ë¥¼ ì°¾ëŠ”ë‹¤
+					pDestObj = m_SelOutputObjBack.GetAt(j);	//	¹é¾÷µÈ µ¥ÀÌÅÍ¸¦ Ã£´Â´Ù
 					if(pDestObj==NULL) continue;
 
-					pNewObj = AddObjectToOutputScene(pDestObj);	//	ì£¼ì†Œì˜ ì •ë³´ë¡œë§Œ ìƒˆë¡œìš´ ë°ì´í„°ë¥¼ ë§Œë“ ë‹¤
+					pNewObj = AddObjectToOutputScene(pDestObj);	//	ÁÖ¼ÒÀÇ Á¤º¸·Î¸¸ »õ·Î¿î µ¥ÀÌÅÍ¸¦ ¸¸µç´Ù
 					if(pNewObj == NULL) continue;
 
-					m_SelOutputObjArray.InsertAt(0,pNewObj);	//	ê¸°ì¡´ ì •ë³´ì— ìƒˆë¡œ ì…ë ¥í•œë‹¤
+					m_SelOutputObjArray.InsertAt(0,pNewObj);	//	±âÁ¸ Á¤º¸¿¡ »õ·Î ÀÔ·ÂÇÑ´Ù
 
-					pNewObj->ScaleSet(pDestObj->Scale());	//	í¬ê¸° ì…ë ¥
-					pNewObj->RotSet(pDestObj->Rot());	//	íšŒì „ê° ì…ë ¥
+					pNewObj->ScaleSet(pDestObj->Scale());	//	Å©±â ÀÔ·Â
+					pNewObj->RotSet(pDestObj->Rot());	//	È¸Àü°¢ ÀÔ·Â
 
 					vObjPos = pDestObj->Pos() + vNewPos;
 					vObjPos.y = m_pTerrain->GetHeight(vObjPos.x,vObjPos.z);
-					pNewObj->PosSet(vObjPos);		//	ìƒˆë¡œìš´ ìœ„ì¹˜ì  ì…ë ¥
+					pNewObj->PosSet(vObjPos);		//	»õ·Î¿î À§Ä¡Á¡ ÀÔ·Â
 				}
-				OnSelChanged();	//	ë°ì´í„°ì…ë ¥ë“± ìƒˆë¡œìš´ë°ì´í„°ë¡œ ê°±ì‹ 
+				OnSelChanged();	//	µ¥ÀÌÅÍÀÔ·Âµî »õ·Î¿îµ¥ÀÌÅÍ·Î °»½Å
 			}
 		}
 		break;

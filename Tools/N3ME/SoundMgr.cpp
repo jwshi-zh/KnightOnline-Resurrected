@@ -192,7 +192,7 @@ void CSoundMgr::Render()
 	D3DXMATRIX mtx;
 	D3DXMatrixIdentity(&mtx);
 		
-	hr = s_lpD3DDev->SetTransform(D3DTS_WORLD, &mtx); // ì›”ë“œ í–‰ë ¬ ì ìš©..
+	hr = s_lpD3DDev->SetTransform(D3DTS_WORLD, &mtx); // ¿ùµå Çà·Ä Àû¿ë..
 	
 	// set texture
 	hr = s_lpD3DDev->SetTexture(0, NULL);
@@ -213,7 +213,7 @@ void CSoundMgr::Render()
 
 	hr = s_lpD3DDev->SetVertexShader(FVF_XYZCOLOR);
 
-	//ì´ë¯¸ ë§Œë“¤ì–´ì§„ ê¸¸ ê·¸ë¦¬ê¸°...
+	//ÀÌ¹Ì ¸¸µé¾îÁø ±æ ±×¸®±â...
 	std::list<CSoundCell*>::iterator itSound;
 
 	CSoundCell* pSound;
@@ -225,10 +225,10 @@ void CSoundMgr::Render()
 		pSound->Render(0xff0000ff);
 	}
 
-	//ëŒ€í™”ìƒìì—ì„œ ì„ íƒëœ ê¸¸ ê·¸ë¦¬ê¸°.
+	//´ëÈ­»óÀÚ¿¡¼­ ¼±ÅÃµÈ ±æ ±×¸®±â.
 	if(m_pDlgSound->m_pSelSound) m_pDlgSound->m_pSelSound->Render(0xff00ff00);
 
-	//ë§Œë“¤ê³  ìˆëŠ” ê¸¸ & ì˜ì—­ ê·¸ë¦¬ê¸°..
+	//¸¸µé°í ÀÖ´Â ±æ & ¿µ¿ª ±×¸®±â..
 	m_pCurrSound->Render(0xffff0000);
 
 	// restore
@@ -239,14 +239,14 @@ void CSoundMgr::Render()
 
 bool CSoundMgr::Load(HANDLE hFile)
 {
-	//dlg í´ë¦¬ì–´..
+	//dlg Å¬¸®¾î..
 	m_pDlgSound->Clear();
 
 	DWORD dwRWC;
 	ReadFile(hFile, &m_iVersion, sizeof(int), &dwRWC, NULL);
 	if(!m_pDlgSound->LoadSoundGroup(hFile)) return false;
 
-	//m_pSoundí´ë¦¬ì–´...
+	//m_pSoundÅ¬¸®¾î...
 	std::list<CSoundCell*>::iterator it;
 	for(it = m_pSound.begin(); it != m_pSound.end(); it++)
 	{
@@ -264,7 +264,7 @@ bool CSoundMgr::Load(HANDLE hFile)
 		pSoundCell->Load(hFile);
 
 		m_pSound.push_back(pSoundCell);
-		//dlgì— ì¶”ê°€...
+		//dlg¿¡ Ãß°¡...
 		m_pDlgSound->AddSoundInfo(pSoundCell);		
 	}
 	m_pRefMapMng->Invalidate();
@@ -298,8 +298,8 @@ void CSoundMgr::SaveGameData(HANDLE hFile)
 	char* pSound = (char*)GlobalAlloc(GMEM_FIXED, sizeof(char)*m_MapSize*m_MapSize);
 	memset(pSound, -1, sizeof(char)*m_MapSize*m_MapSize);
 
-	//sound cellë“¤ì„ ë©´ì ìˆœìœ¼ë¡œ(í°ê²Œ ì•ìœ¼ë¡œ ì˜¤ê²Œ..)ì •ë ¬í•˜ê³ ...
-	//ë©´ì ìˆœìœ¼ë¡œ ì •ë¦¬í•˜ë©´ì„œ ì•„ì´ë””ì •ë ¬ë„ í•˜ê³ ...
+	//sound cellµéÀ» ¸éÀû¼øÀ¸·Î(Å«°Ô ¾ÕÀ¸·Î ¿À°Ô..)Á¤·ÄÇÏ°í...
+	//¸éÀû¼øÀ¸·Î Á¤¸®ÇÏ¸é¼­ ¾ÆÀÌµğÁ¤·Äµµ ÇÏ°í...
 	//
 	//
 	SCSort();
@@ -327,10 +327,10 @@ void CSoundMgr::SaveGameData(HANDLE hFile)
 		LPSOUNDINFO pSI = m_pDlgSound->GetSoundGroup(dwID);
 		if(!pSI)
 		{
-			AfxMessageBox("Sound Groupì´ ìœ íš¨í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.ã… .ã… ");
+			AfxMessageBox("Sound GroupÀÌ À¯È¿ÇÏÁö ¾Ê½À´Ï´Ù.¤Ğ.¤Ğ");
 			return;
 		}
-		//sound groupì„ ì–´ì¼€ ì €ì¥í•œë‹´?
+		//sound groupÀ» ¾îÄÉ ÀúÀåÇÑ´ã?
 		for(int j=0;j<4;j++)
 		{
 			int str_size = 0;
@@ -350,7 +350,7 @@ void CSoundMgr::SaveGameData(HANDLE hFile)
 		}
 	}
 	
-	// íƒ€ì¼ì— Sound Info ì…‹íŒ…í•˜ê³  ì €ì¥...
+	// Å¸ÀÏ¿¡ Sound Info ¼ÂÆÃÇÏ°í ÀúÀå...
 	for(it = m_pSound.begin(); it != m_pSound.end(); it++)
 	{
 		CSoundCell* pSoundCell = (*it);
@@ -372,8 +372,8 @@ void CSoundMgr::SaveGameData(HANDLE hFile)
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // related sort list...
-// listì˜ sortí•¨ìˆ˜ ë² ê¼ˆë‹¹..-.-
-// ì œëŒ€ë¡œ ë™ì‘ ì•ˆí•˜ë”ë¼..ã… .ã… 
+// listÀÇ sortÇÔ¼ö º£²¼´ç..-.-
+// Á¦´ë·Î µ¿ÀÛ ¾ÈÇÏ´õ¶ó..¤Ğ.¤Ğ
 //
 
 void CSoundMgr::SCSort()

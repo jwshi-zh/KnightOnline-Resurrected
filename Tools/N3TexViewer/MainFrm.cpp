@@ -127,7 +127,7 @@ void CMainFrame::OnAdjustWindowSize()
 
 void CMainFrame::AdjustWindowSize() 
 {	
-	// ê·¸ë¦¼í¬ê¸°ì— ìœˆë„ìš° ì‚¬ì´ì¦ˆ ë§ì¶”ê¸°..
+	// ±×¸²Å©±â¿¡ À©µµ¿ì »çÀÌÁî ¸ÂÃß±â..
 	DWORD dwStyle = this->GetStyle();
 	CRect rcFrm, rcView;
 	this->GetWindowRect(rcFrm);
@@ -160,7 +160,7 @@ void CMainFrame::OnFileConvert()
 	if(IDOK != nOK) return;
 
 	pDoc->m_pTex->Convert(dlg.m_Fmt, dlg.m_nWidth, dlg.m_nHeight, dlg.m_bMipMap);
-	pDoc->SetTitle(""); // íƒ€ì´í‹€ ë°”ê¾¸ê¸°..
+	pDoc->SetTitle(""); // Å¸ÀÌÆ² ¹Ù²Ù±â..
 }
 
 void CMainFrame::OnToolConvertFilesAutomaticaly() 
@@ -190,7 +190,7 @@ void CMainFrame::OnToolConvertFilesAutomaticaly()
 			char szFN2[_MAX_PATH], szDrv[_MAX_DRIVE], szDir[_MAX_DIR], szFN[_MAX_FNAME], szExt[_MAX_EXT];
 			::_splitpath(FileName, szDrv, szDir, szFN, szExt);
 			lstrcpy(szExt, ".DXT");
-			::_makepath(szFN2, szDrv, szDir, szFN, szExt); // íŒŒì¼ ì´ë¦„ì˜ í™•ì¥ìë¥¼ DXT ë¡œ ë°”ê¿ˆ...
+			::_makepath(szFN2, szDrv, szDir, szFN, szExt); // ÆÄÀÏ ÀÌ¸§ÀÇ È®ÀåÀÚ¸¦ DXT ·Î ¹Ù²Ş...
 	
 			D3DFORMAT Fmt = Tex.PixelFormat();
 			if(	Fmt == D3DFMT_R8G8B8 ||
@@ -228,9 +228,9 @@ void CMainFrame::OnToolConvertFilesManually()
 	CN3Texture Tex;
 	std::string szFN;
 	szFN = dlg.GetPathName();
-	Tex.LoadFromFile(szFN); // ì²¨ í•˜ë‚˜ ì½ì–´ë³´ê³ ..
+	Tex.LoadFromFile(szFN); // Ã· ÇÏ³ª ÀĞ¾îº¸°í..
 
-	CDlgFormat dlgFormat; // í¬ë§· ì •í•™...
+	CDlgFormat dlgFormat; // Æ÷¸Ë Á¤ÇĞ...
 	dlgFormat.m_nWidth = Tex.Width();
 	dlgFormat.m_nHeight = Tex.Height();
 	dlgFormat.m_bMipMap = Tex.MipMapCount() > 1 ? TRUE : FALSE;
@@ -250,7 +250,7 @@ void CMainFrame::OnToolConvertFilesManually()
 			char szFN2[_MAX_PATH] = "", szDrv[_MAX_DRIVE], szDir[_MAX_DIR], szFN[_MAX_FNAME], szExt[_MAX_EXT];
 			::_splitpath(FileName, szDrv, szDir, szFN, szExt);
 			lstrcpy(szExt, ".DXT");
-			::_makepath(szFN2, szDrv, szDir, szFN, szExt); // íŒŒì¼ ì´ë¦„ì˜ í™•ì¥ìë¥¼ DXT ë¡œ ë°”ê¿ˆ...
+			::_makepath(szFN2, szDrv, szDir, szFN, szExt); // ÆÄÀÏ ÀÌ¸§ÀÇ È®ÀåÀÚ¸¦ DXT ·Î ¹Ù²Ş...
 			
 			Tex.Convert(dlgFormat.m_Fmt, dlgFormat.m_nWidth, dlgFormat.m_nHeight, dlgFormat.m_bMipMap);
 			Tex.m_szName = szFN2;
@@ -265,14 +265,14 @@ void CMainFrame::OnToolCutBmp()
 	CFileDialog dlg(TRUE, "bmp", NULL, dwFlags, "Bitmap file(*.bmp)|*.bmp||", NULL);
 	if(dlg.DoModal() == IDCANCEL) return;
 
-	CDlgFormat dlgFmt; // í¬ê¸° ë° ì €ì¥ í˜•ì‹ ì§€ì •.
+	CDlgFormat dlgFmt; // Å©±â ¹× ÀúÀå Çü½Ä ÁöÁ¤.
 	if(IDCANCEL == dlgFmt.DoModal()) return;
 
-	int nW = dlgFmt.m_nWidth; // ë„ˆë¹„ 
-	int nH = dlgFmt.m_nHeight; // ë†’ì´
-	D3DFORMAT fmtSave = dlgFmt.m_Fmt; // í¬ë§· - BitMap ì¼ë•ŒëŠ” ë¬´ì‹œ..
+	int nW = dlgFmt.m_nWidth; // ³Êºñ 
+	int nH = dlgFmt.m_nHeight; // ³ôÀÌ
+	D3DFORMAT fmtSave = dlgFmt.m_Fmt; // Æ÷¸Ë - BitMap ÀÏ¶§´Â ¹«½Ã..
 
-	int nYesNo = MessageBox("DXT File ë¡œ ì €ì¥í•˜ì‹œê² ìŠµë‹ˆê¹Œ?", "ì €ì¥ í˜•ì‹", MB_YESNO);
+	int nYesNo = MessageBox("DXT File ·Î ÀúÀåÇÏ½Ã°Ú½À´Ï±î?", "ÀúÀå Çü½Ä", MB_YESNO);
 	bool bSaveToDXT = false;
 	if(IDYES == nYesNo)
 	{
@@ -287,12 +287,12 @@ BOOL CMainFrame::BMPCutter(LPCTSTR lpszFileName, int iWidth, int iHeight, bool b
 	CBitMapFile BMF;
 	if(false == BMF.LoadFromFile(lpszFileName)) return FALSE;
 
-	// ì €ì¥í•  file ì´ë¦„
+	// ÀúÀåÇÒ file ÀÌ¸§
 	char szDrive[_MAX_DRIVE];
 	char szDir[_MAX_DIR];
 	char szFName[_MAX_FNAME];
 	_splitpath(lpszFileName, szDrive, szDir, szFName, NULL);
-	CreateDirectory(szFName, NULL);	// í•˜ìœ„ í´ë” ë§Œë“¤ê¸°
+	CreateDirectory(szFName, NULL);	// ÇÏÀ§ Æú´õ ¸¸µé±â
 
 	int xx = BMF.Width() / iWidth;
 	int yy = BMF.Height() / iHeight;
@@ -335,86 +335,86 @@ BOOL CMainFrame::BMPCutter(LPCTSTR lpszFileName, int iWidth, int iHeight, bool b
 /*
 	if (lstrlen(lpszFileName) == 0 || iWidth<=0 || iHeight<=0)
 	{
-		MessageBox("ê°€ë¡œ ì„¸ë¡œê°€ 0ì´í•˜ì¸ bitmapìœ¼ë¡œ ë‚˜ëˆŒ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.", "error");
+		MessageBox("°¡·Î ¼¼·Î°¡ 0ÀÌÇÏÀÎ bitmapÀ¸·Î ³ª´­ ¼ö ¾ø½À´Ï´Ù.", "error");
 		return FALSE;
 	}
 
 	CFile file;
 	CFileException fe;
 
-	// ì½ê¸° ëª¨ë“œë¡œ íŒŒì¼ ì—´ê¸°
+	// ÀĞ±â ¸ğµå·Î ÆÄÀÏ ¿­±â
 	if (!file.Open(lpszFileName, CFile::modeRead|CFile::shareDenyWrite, &fe))
 	{
-		MessageBox("ì›ë³¸ bitmapì„ ì—´ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.", "error");
+		MessageBox("¿øº» bitmapÀ» ¿­ ¼ö ¾ø½À´Ï´Ù.", "error");
 		return FALSE;
 	}
 
-	// íŒŒì¼ ê¸¸ì´
+	// ÆÄÀÏ ±æÀÌ
 	DWORD dwBitsSize;
 	dwBitsSize = file.GetLength();
 
-	// íŒŒì¼ í—¤ë” ì½ê¸°
+	// ÆÄÀÏ Çì´õ ÀĞ±â
 	BITMAPFILEHEADER bmfHeader;
 	if (file.Read(&bmfHeader, sizeof(bmfHeader)) != sizeof(bmfHeader))
 	{
-		MessageBox("ì›ë³¸ bitmapì´ ì´ìƒí•©ë‹ˆë‹¤.", "error");
+		MessageBox("¿øº» bitmapÀÌ ÀÌ»óÇÕ´Ï´Ù.", "error");
 		return FALSE;
 	}
 
-	// bmp íŒŒì¼ì„ì„ ë‚˜íƒ€ë‚´ëŠ” "BM"ë§ˆì»¤ í™•ì¸
+	// bmp ÆÄÀÏÀÓÀ» ³ªÅ¸³»´Â "BM"¸¶Ä¿ È®ÀÎ
 	if (bmfHeader.bfType != 0x4D42)
 	{
-		MessageBox("ì›ë³¸ íŒŒì¼ì´ bitmapíŒŒì¼ì´ ì•„ë‹™ë‹ˆë‹¤.", "error");
+		MessageBox("¿øº» ÆÄÀÏÀÌ bitmapÆÄÀÏÀÌ ¾Æ´Õ´Ï´Ù.", "error");
 		return FALSE;
 	}
 
-	// BITMAPINFOHEADER ì–»ê¸°
+	// BITMAPINFOHEADER ¾ò±â
 	BITMAPINFOHEADER bmInfoHeader;
 	if (file.Read(&bmInfoHeader, sizeof(bmInfoHeader)) != sizeof(bmInfoHeader)) return FALSE;
 
-	// í”½ì…€ë‹¹ ë¹„íŠ¸ ìˆ˜ í™•ì¸
+	// ÇÈ¼¿´ç ºñÆ® ¼ö È®ÀÎ
 	WORD wBitCount = bmInfoHeader.biBitCount;
-	if (24 != wBitCount)		// 24ë¹„íŠ¸ bmpê°€ ì•„ë‹ˆë©´ returní•´ ë²„ë¦°ë‹¤.
+	if (24 != wBitCount)		// 24ºñÆ® bmp°¡ ¾Æ´Ï¸é returnÇØ ¹ö¸°´Ù.
 	{
-		MessageBox("ì›ë³¸ bitmapì´ 24bitíŒŒì¼ì´ ì•„ë‹™ë‹ˆë‹¤.", "error");
+		MessageBox("¿øº» bitmapÀÌ 24bitÆÄÀÏÀÌ ¾Æ´Õ´Ï´Ù.", "error");
 		return FALSE;
 	}
 
-	// ê°€ë¡œ, ì„¸ë¡œë¡œ ë‚˜ëˆ„ì–´ì•¼ í•  ìˆ˜ ê³„ì‚°
+	// °¡·Î, ¼¼·Î·Î ³ª´©¾î¾ß ÇÒ ¼ö °è»ê
 	int iCX, iCY;
 	iCX = (bmInfoHeader.biWidth+iWidth-1) / iWidth;
 	iCY = (bmInfoHeader.biHeight+iHeight-1) / iHeight;
 	if (iCX <= 0 || iCY <= 0)
 	{
-		MessageBox("ë‚˜ëˆŒ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.", "error");
+		MessageBox("³ª´­ ¼ö ¾ø½À´Ï´Ù.", "error");
 		return FALSE;
 	}
 
-	// ì‹¤ì œ ì´ë¯¸ì§€ ë¹„íŠ¸ ì£¼ì†Œ
+	// ½ÇÁ¦ ÀÌ¹ÌÁö ºñÆ® ÁÖ¼Ò
 //	LPVOID pSrcImageBit;
 //	pSrcImageBit = (LPVOID)((BYTE*)pSrcDIB + (bmfHeader.bfOffBits - sizeof(bmfHeader)));
 
-	// ì‹¤ì œ ì´ë¯¸ì§€ì˜ ë©”ëª¨ë¦¬ìƒì— ì¡íŒ ê°€ë¡œ ê¸¸ì´ (24bit)
+	// ½ÇÁ¦ ÀÌ¹ÌÁöÀÇ ¸Ş¸ğ¸®»ó¿¡ ÀâÈù °¡·Î ±æÀÌ (24bit)
 	int iRealWidthSrc = ((int)((bmInfoHeader.biWidth*3 + 3)/4))*4;	
 
-	// ìƒˆë¡œ ë§Œë“¤ ì´ë¯¸ì§€ ë©”ëª¨ë¦¬ í• ë‹¹
+	// »õ·Î ¸¸µé ÀÌ¹ÌÁö ¸Ş¸ğ¸® ÇÒ´ç
 	int iRealWidthDest = ((int)((iWidth*3 + 3)/4))*4;	
 	int iDestDIBSize = sizeof(BITMAPINFOHEADER) + iRealWidthDest * iHeight;
 	LPVOID pDestDIB;
 	if ((pDestDIB = ::GlobalAlloc(GMEM_FIXED | GMEM_ZEROINIT, iDestDIBSize )) == NULL )
 	{
-		MessageBox("ë©”ëª¨ë¦¬ë¥¼ í• ë‹¹í•˜ì§€ ëª»í–ˆìŠµë‹ˆë‹¤.", "error");
+		MessageBox("¸Ş¸ğ¸®¸¦ ÇÒ´çÇÏÁö ¸øÇß½À´Ï´Ù.", "error");
 		return FALSE;
 	}
 
-	// ìƒˆë¡œ ë§Œë“¤ ì´ë¯¸ì§€ file header ì •ë³´ ì±„ìš°ê¸°
+	// »õ·Î ¸¸µé ÀÌ¹ÌÁö file header Á¤º¸ Ã¤¿ì±â
 	BITMAPFILEHEADER bmfHeaderDest;
 	memset(&bmfHeaderDest, 0, sizeof(bmfHeaderDest));
 	bmfHeaderDest.bfType = 0x4D42; // "BM"
 	bmfHeaderDest.bfSize = sizeof(bmfHeaderDest) + iDestDIBSize;
 	bmfHeaderDest.bfOffBits = sizeof(bmfHeaderDest) + sizeof(BITMAPINFOHEADER);
 
-	// ìƒˆë¡œ ë§Œë“¤ ì´ë¯¸ì§€ bitmap info header ì •ë³´ ì±„ìš°ê¸°
+	// »õ·Î ¸¸µé ÀÌ¹ÌÁö bitmap info header Á¤º¸ Ã¤¿ì±â
 	BITMAPINFOHEADER bmInfoHeaderDest;
 	memset(&bmInfoHeaderDest, 0, sizeof(bmInfoHeaderDest));
 	bmInfoHeaderDest.biSize = sizeof(bmInfoHeaderDest);
@@ -425,15 +425,15 @@ BOOL CMainFrame::BMPCutter(LPCTSTR lpszFileName, int iWidth, int iHeight, bool b
 	bmInfoHeaderDest.biSizeImage = iRealWidthDest * iHeight;
 	memcpy(pDestDIB, &bmInfoHeaderDest, sizeof(bmInfoHeaderDest));
 
-	// ì €ì¥í•  file ì´ë¦„
+	// ÀúÀåÇÒ file ÀÌ¸§
 	char szDrive[_MAX_DRIVE];
 	char szDir[_MAX_DIR];
 	char szFName[_MAX_FNAME];
 	char szFNameDest[_MAX_FNAME];
 	_splitpath(lpszFileName, szDrive, szDir, szFName, NULL);
-	CreateDirectory(szFName, NULL);	// í•˜ìœ„ í´ë” ë§Œë“¤ê¸°
+	CreateDirectory(szFName, NULL);	// ÇÏÀ§ Æú´õ ¸¸µé±â
 
-	// ìª¼ê°  ì •ë³´ë¥¼ tcdíŒŒì¼ì— ë„£ì–´ì„œ ì €ì¥
+	// ÂÉ°µ Á¤º¸¸¦ tcdÆÄÀÏ¿¡ ³Ö¾î¼­ ÀúÀå
 	DWORD dwNum;
 	wsprintf(szFNameDest, "%s\\%s.tcd", szFName, szFName);
 	HANDLE hFile = CreateFile(szFNameDest, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
@@ -449,7 +449,7 @@ BOOL CMainFrame::BMPCutter(LPCTSTR lpszFileName, int iWidth, int iHeight, bool b
 	ProgressBar.Create("cutting bitmap..", 50, iCY*iCX);
 	ProgressBar.SetStep(1);
 
-	// ìƒˆë¡œ ìª¼ê°œì„œ ì €ì¥í•˜ê¸°
+	// »õ·Î ÂÉ°³¼­ ÀúÀåÇÏ±â
 	BYTE *pTmpBitDest;
 	pTmpBitDest = ((BYTE*)pDestDIB) + sizeof(BITMAPINFOHEADER);
 	int i, j, y;
@@ -460,16 +460,16 @@ BOOL CMainFrame::BMPCutter(LPCTSTR lpszFileName, int iWidth, int iHeight, bool b
 			memset(pTmpBitDest, 0, iDestDIBSize - sizeof(BITMAPINFOHEADER));
 			for(y=0; y<iHeight; ++y)
 			{
-				if ( (iHeight*j + y) >= bmInfoHeader.biHeight) break;	// ë§¨ ì•„ë˜ê°€ ì§¤ë¦´ ê²½ìš°ê°€ ìˆë‹¤
+				if ( (iHeight*j + y) >= bmInfoHeader.biHeight) break;	// ¸Ç ¾Æ·¡°¡ Â©¸± °æ¿ì°¡ ÀÖ´Ù
 
-				// ì›ë³¸íŒŒì¼ì˜ ì½ì–´ì˜¬ ë¶€ë¶„ì˜ file positionì„ ë§ê²Œ ì„¸íŒ…í•œë‹¤.
+				// ¿øº»ÆÄÀÏÀÇ ÀĞ¾î¿Ã ºÎºĞÀÇ file positionÀ» ¸Â°Ô ¼¼ÆÃÇÑ´Ù.
 				file.Seek(bmfHeader.bfOffBits + 
 					iRealWidthSrc*(bmInfoHeader.biHeight - 1 - (iHeight*j + y)) + 
 					3*(iWidth*i),
 					CFile::begin);
 
 				if (i == (iCX-1))
-				{	// ë§¨ ì˜¤ë¥¸ìª½ ëì€ ì§¤ë¦´ ê°€ëŠ¥ì„±ì´ ìˆë‹¤.
+				{	// ¸Ç ¿À¸¥ÂÊ ³¡Àº Â©¸± °¡´É¼ºÀÌ ÀÖ´Ù.
 					file.Read(pTmpBitDest + iRealWidthDest*(iHeight-1-y), bmInfoHeader.biWidth*3 - iRealWidthDest*(iCX-1));
 				}
 				else
@@ -478,7 +478,7 @@ BOOL CMainFrame::BMPCutter(LPCTSTR lpszFileName, int iWidth, int iHeight, bool b
 				}
 			}
 
-			// ì €ì¥í•˜ê¸°
+			// ÀúÀåÇÏ±â
 			if(bSaveToDXT)
 			{
 				wsprintf(szFNameDest, "%s%s%s\\ConversionTmp.bmp", szDrive, szDir, szFName, szFName, i, iCY-1-j);
@@ -498,24 +498,24 @@ BOOL CMainFrame::BMPCutter(LPCTSTR lpszFileName, int iWidth, int iHeight, bool b
 			ProgressBar.StepIt();
 			this->UpdateWindow();
 
-			if(bSaveToDXT) // DXT ë¥¼ ì €ì¥í•˜ë ¤ë©´..
+			if(bSaveToDXT) // DXT ¸¦ ÀúÀåÇÏ·Á¸é..
 			{
 				char szDXT_FName[_MAX_PATH];
 				wsprintf(szDXT_FName, "%s%s%s\\%s_%02d%02d.DXT", szDrive, szDir, szFName, szFName, i, iCY-1-j);
 
 				CN3Texture TexTmp;
-				TexTmp.LoadFromFile(szFNameDest); // ë¡œë”©
-				if(true == TexTmp.Convert(fmtDXT)) // ë³€í™˜
+				TexTmp.LoadFromFile(szFNameDest); // ·Îµù
+				if(true == TexTmp.Convert(fmtDXT)) // º¯È¯
 				{
 					TexTmp.SaveToFile(szDXT_FName);
 				}
 
-				DeleteFile(szFNameDest); // ì„ì‹œ ë¹„íŠ¸ë§µ íŒŒì¼ ì§€ìš°ê¸°..
+				DeleteFile(szFNameDest); // ÀÓ½Ã ºñÆ®¸Ê ÆÄÀÏ Áö¿ì±â..
 			}
 		}
 	}
 
-	// ë©”ëª¨ë¦¬ í’€ì–´ì¤Œ
+	// ¸Ş¸ğ¸® Ç®¾îÁÜ
 	::GlobalFree(pDestDIB);
 	file.Close();
 	

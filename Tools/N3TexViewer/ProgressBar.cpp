@@ -37,21 +37,21 @@ END_MESSAGE_MAP()
 
 BOOL CProgressBar::Create(LPCTSTR strMessage, int nSize, int MaxValue)
 {
-	// ìƒíƒœë°”ë¥¼ ì–»ìŒ
+	// »óÅÂ¹Ù¸¦ ¾òÀ½
 	CStatusBar * pStatusBar = GetStatusBar();
 	if (pStatusBar == NULL) return FALSE;
 
-	// ìƒíƒœë°” ìœ„ì— í”„ë¡œê·¸ë ˆìŠ¤ ì»¨íŠ¸ë¡¤ìƒì„±
+	// »óÅÂ¹Ù À§¿¡ ÇÁ·Î±×·¹½º ÄÁÆ®·Ñ»ý¼º
 	if(!CProgressCtrl::Create(WS_CHILD|WS_VISIBLE, CRect(0,0,0,0), pStatusBar, 1)) return FALSE;
 
-	// í”„ë¡œê·¸ë ˆìŠ¤ ì»¨íŠ¸ë¡¤ì˜ ë²”ìœ„ì™€ ìŠ¤í… ì„¤ì •
+	// ÇÁ·Î±×·¹½º ÄÁÆ®·ÑÀÇ ¹üÀ§¿Í ½ºÅÜ ¼³Á¤
 	SetRange(0, MaxValue);
 	SetStep(1);
 
 	m_strMessage = strMessage;
 	m_nSize = nSize;
 
-	// ìœ„ì¹˜ì™€ í¬ê¸° ì¡°ì •
+	// À§Ä¡¿Í Å©±â Á¶Á¤
 	Resize();
 	return TRUE;
 }
@@ -72,33 +72,33 @@ void CProgressBar::Resize()
 	CStatusBar* pStatusBar = GetStatusBar();
 	if (pStatusBar == NULL) return;
 
-	// í…ìŠ¤íŠ¸ ì¶œë ¥
+	// ÅØ½ºÆ® Ãâ·Â
 	if (::IsWindow(m_hWnd) && IsWindowVisible())
 	{
 		pStatusBar->SetWindowText(m_strMessage);
 		pStatusBar->UpdateWindow();
 	}
 
-	// í…ìŠ¤íŠ¸ê°€ ì°¨ì§€í•˜ëŠ” ì˜ì—­ ê³„ì‚°
+	// ÅØ½ºÆ®°¡ Â÷ÁöÇÏ´Â ¿µ¿ª °è»ê
 	CClientDC dc(pStatusBar);
 	CFont* pOldFont = dc.SelectObject(pStatusBar->GetFont());
 	CSize size = dc.GetTextExtent(m_strMessage);
 	int margin = dc.GetTextExtent(_T(" ")).cx*2;
 	dc.SelectObject(pOldFont);
 
-	// í”„ë¡œê·¸ë ˆìŠ¤ ì»¨íŠ¸ë¡¤ì´ ê·¸ë ¤ì§ˆ ì˜ì—­ ê³„ì‚°
+	// ÇÁ·Î±×·¹½º ÄÁÆ®·ÑÀÌ ±×·ÁÁú ¿µ¿ª °è»ê
 	CRect rc;
 	pStatusBar->GetItemRect(0, rc);
 	rc.left = size.cx + 2*margin;
 	rc.right = rc.left + (rc.right-rc.left)*m_nSize/100;
 	if (rc.right < rc.left) rc.right = rc.left;
 
-	// ìƒíƒœë°” ìƒí•˜ë¡œ 10%ì˜ ì—¬ë°±ì„ ë‘ 
+	// »óÅÂ¹Ù »óÇÏ·Î 10%ÀÇ ¿©¹éÀ» µÒ
 	int Height = rc.bottom - rc.top;
 	rc.bottom -= Height/10;
 	rc.top += Height/10;
 
-	// í”„ë¡œê·¸ë ˆìŠ¤ ì»¨íŠ¸ë¡¤ì˜ ìœ„ì¹˜ì™€ í¬ê¸°ë¥¼ ìž¬ì¡°ì •
+	// ÇÁ·Î±×·¹½º ÄÁÆ®·ÑÀÇ À§Ä¡¿Í Å©±â¸¦ ÀçÁ¶Á¤
 	if (::IsWindow(m_hWnd) && (rc != m_Rect)) MoveWindow(&rc);
 	m_Rect = rc;
 }

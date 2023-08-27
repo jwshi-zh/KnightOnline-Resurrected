@@ -948,4 +948,434 @@ void CZipArchive::DeleteInternal(WORD uIndex)
 	
 	m_centralDir.RemoveFile(uIndex);
 	
-	// teraz uaktualnij offsety w pozosta
+	// teraz uaktualnij offsety w pozosta³ych pozycjach central dir 
+	// (update offsets in file headers in the central dir)
+	if (uOtherOffsetChanged)
+		for (int i = uIndex; i < GetNoEntries(); i++)
+			m_centralDir.m_headers[i]->m_uOffset -= uOtherOffsetChanged;
+}
+
+bool CZipArchive::IsDriveRemovable(LPCTSTR lpszFilePath)
+{
+	return GetDriveType(GetDrive(lpszFilePath)) == DRIVE_REMOVABLE;
+}
+
+CString CZipArchive::GetDrive(LPCTSTR lpszFilePath)
+{
+	TCHAR szDrive[_MAX_DRIVE];
+	_tsplitpath(lpszFilePath, szDrive, NULL, NULL, NULL);
+	return szDrive;
+}
+
+bool CZipArchive::AddNewFile(LPCTSTR lpszFilePath,  
+							 int iLevel,          
+                             bool bFullPath,      
+                             ZIPCALLBACKFUN pCallback,
+                             void* pUserData,         
+                             unsigned long nBufSize)
+{
+	if (!nBufSize)
+		return false;
+	
+	CZipFileHeader header;
+	header.SetFileName(bFullPath ? GetFileDirAndName(lpszFilePath) : GetFileName(lpszFilePath));
+	if (header.GetFileNameSize() == 0)
+		return false;
+	if (!OpenNewFile(header, iLevel, lpszFilePath))
+		return false;
+	
+	if (!IsDirectory(header.m_uExternalAttr))
+	{
+		CFile f;
+		CFileException* e = new CFileException;
+		BOOL bRet = f.Open(lpszFilePath, CFile::modeRead | CFile::shareDenyWrite, e);
+		e->Delete();
+		if (!bRet)
+			return false;
+		
+		DWORD iRead, iFileLength = pCallback ? f.GetLength() : 0, iSoFar = 0;
+		CZipAutoBuffer buf(nBufSize);
+		do
+		{
+			iRead = f.Read(buf, nBufSize);
+			if (iRead)
+			{
+				WriteNewFile(buf, iRead);
+				iSoFar += iRead;
+				if (pCallback)
+					if (!pCallback(iFileLength, iSoFar, pUserData))
+						break;
+			}
+		}
+		while (iRead == buf.GetSize());
+	}
+	CloseNewFile();
+	return true;
+}
+
+int CZipArchive::GetSpanMode()
+{
+	return m_storage.m_iSpanMode * m_storage.IsSpanMode();
+}
+
+CString CZipArchive::GetArchivePath()
+{
+	return m_storage.m_pFile->GetFilePath();
+}
+
+CString CZipArchive::GetGlobalComment()
+{
+	if (IsClosed())
+	{
+		TRACE(_T("ZipArchive is closed.\n"));
+		return _T("");
+	}
+	CString temp;	
+	if (SingleToWide(m_centralDir.m_pszComment, temp) != -1)
+		return temp;
+	else 
+		return _T("");
+}
+
+bool CZipArchive::SetGlobalComment(const CString &szComment)
+{
+	if (IsClosed())
+	{
+		TRACE(_T("ZipArchive is closed.\n"));
+		return false;
+	}
+	if (m_storage.IsSpanMode() == -1)
+	{
+		TRACE(_T("You cannot modify the global comment of the existing disk spanning archive.\n"));
+		return false;
+	}
+
+	WideToSingle(szComment, m_centralDir.m_pszComment);
+	m_centralDir.RemoveFromDisk();
+	return true;
+}
+
+bool CZipArchive::IsDirectory(DWORD uAttr)
+{
+	return (uAttr & FILE_ATTRIBUTE_DIRECTORY) != 0;
+}
+
+int CZipArchive::GetCurrentDisk()
+{
+	return m_storage.GetCurrentDisk() + 1;
+}
+
+bool CZipArchive::SetFileComment(WORD uIndex, CString szComment)
+{
+	if (IsClosed())
+	{
+		TRACE(_T("ZipArchive is closed.\n"));
+		return false;
+	}
+	if (m_storage.IsSpanMode() == -1)
+	{
+		TRACE(_T("You cannot modify the file comment in the existing disk spanning archive.\n"));
+		return false;
+	}
+	
+	if (!m_centralDir.IsValidIndex(uIndex))
+		return false;
+	m_centralDir.m_headers[uIndex]->SetComment(szComment);
+	m_centralDir.RemoveFromDisk();
+	return true;
+}
+
+int CZipArchive::CompareWords(const void *pArg1, const void *pArg2)
+{
+	WORD w1 = *(WORD*)pArg1;
+	WORD w2 = *(WORD*)pArg2;
+	return w1 == w2 ? 0 :(w1 < w2 ? - 1 : 1);
+}
+
+void CZipArchive::CryptInitKeys()
+{
+	ASSERT(m_pszPassword.GetSize());
+	m_keys[0] = 305419896L;
+	m_keys[1] = 591751049L;
+	m_keys[2] = 878082192L;
+	for (DWORD i = 0; i < m_pszPassword.GetSize(); i++)
+		CryptUpdateKeys(m_pszPassword[i]);
+}
+
+void CZipArchive::CryptUpdateKeys(char c)
+{
+	
+	m_keys[0] = CryptCRC32(m_keys[0], c);
+	m_keys[1] += m_keys[0] & 0xff;
+	m_keys[1] = m_keys[1] * 134775813L + 1;
+	c = char(m_keys[1] >> 24);
+	m_keys[2] = CryptCRC32(m_keys[2], c);
+}
+
+bool CZipArchive::CryptCheck()
+{
+	CZipAutoBuffer buf(ENCR_HEADER_LEN);
+	m_storage.Read(buf, ENCR_HEADER_LEN, false);
+	BYTE b = 0;
+	for (int i = 0; i < ENCR_HEADER_LEN; i++)
+	{
+		b = buf[i]; // only temporary
+		CryptDecode((char&)b);
+	}
+	// check the last byte
+	if (CurrentFile()->IsDataDescr()) // Data descriptor present
+		return BYTE(CurrentFile()->m_uModTime >> 8) == b;
+	else
+		return BYTE(CurrentFile()->m_uCrc32 >> 24) == b;
+}
+
+char CZipArchive::CryptDecryptByte()
+{
+	int temp = (m_keys[2] & 0xffff) | 2;
+	return (char)(((temp * (temp ^ 1)) >> 8) & 0xff);
+}
+
+void CZipArchive::CryptDecode(char &c)
+{
+	c ^= CryptDecryptByte();
+	CryptUpdateKeys(c);
+}
+
+bool CZipArchive::SetPassword(LPCTSTR lpszPassword)
+{
+	if (m_iFileOpened != nothing)
+	{
+		TRACE(_T("You cannot change the password when the file is opened\n"));
+		return false; // it's important not to change the password when the file inside archive is opened
+	}
+	if (IsClosed())
+	{
+		TRACE(_T("Setting the password for a closed archive has no effect.\n"));
+	}
+	if (lpszPassword)
+	{
+		int iLen = WideToSingle(lpszPassword, m_pszPassword);
+		if (iLen == -1)
+			return false;
+		for (size_t i = 0; (int)i < iLen; i++)
+			if (m_pszPassword[i] > 127)
+			{
+				m_pszPassword.Release();
+				TRACE(_T("The password contains forbidden characters. Password cleared.\n"));
+				return false;
+			}
+	}
+	else
+		m_pszPassword.Release();
+	return true;
+}
+
+DWORD CZipArchive::CryptCRC32(DWORD l, char c)
+{
+	const DWORD *CRC_TABLE = get_crc_table();
+	return CRC_TABLE[(l ^ c) & 0xff] ^ (l >> 8);
+}
+
+void CZipArchive::CryptCryptHeader(long iCrc, CZipAutoBuffer &buf)
+{
+	CryptInitKeys();
+	srand(UINT(GetTickCount()*time(NULL)));
+	// genereate pseudo-random sequence
+	char c;
+	for (int i = 0; i < ENCR_HEADER_LEN - 2; i++)
+	{
+		int t1 = rand();
+		c = (char)(t1 >> 6);
+		if (!c)
+			c = (char)t1;
+		CryptEncode(c);
+		buf[i] = c;
+
+	}
+	c = (char)((iCrc >> 16) & 0xff);
+	CryptEncode(c);
+	buf[ENCR_HEADER_LEN - 2] = c;
+	c = (char)((iCrc >> 24) & 0xff);
+	CryptEncode(c);
+	buf[ENCR_HEADER_LEN - 1] = c;
+}
+
+void CZipArchive::CryptEncode(char &c)
+{
+	char t = CryptDecryptByte();
+	CryptUpdateKeys(c);
+	c ^= t;
+}
+
+void CZipArchive::CryptEncodeBuffer()
+{
+	if (CurrentFile()->IsEncrypted())
+		for (DWORD i = 0; i < m_info.m_uComprLeft; i++)
+			CryptEncode(m_info.m_pBuffer[i]);
+}
+
+void CZipArchive::CloseFileAfterTestFailed()
+{
+	if (m_iFileOpened != extract)
+	{
+		TRACE(_T("No file opened.\n"));
+		return;
+	}
+	m_info.m_pBuffer.Release();
+	m_centralDir.Clear(false);
+	m_iFileOpened = nothing;
+}
+
+bool CZipArchive::TestFile(WORD uIndex, ZIPCALLBACKFUN pCallback, void* pUserData, DWORD uBufSize)
+{
+	if (!uBufSize)
+		return false;
+	CZipFileHeader* pHeader = m_centralDir.m_headers[uIndex];
+	if (IsFileDirectory(uIndex))
+	{
+		
+			// we do not test whether the password for the encrypted directory
+		// is correct, since it seems to be senseless (anyway password 
+		// encrypted directories should be avoided - it adds 12 bytes)
+		DWORD iSize = pHeader->m_uComprSize;
+		if ((iSize != 0 || iSize != pHeader->m_uUncomprSize)
+			// different treating compressed directories
+			&& !(pHeader->IsEncrypted() && iSize == 12 && !pHeader->m_uUncomprSize))
+			ThrowError(CZipException::dirWithSize);
+		return true;
+	}
+	else
+	{
+		try
+		{
+			if (!OpenFile(uIndex))
+				return false;
+			CZipAutoBuffer buf(uBufSize);
+			DWORD iRead, iSoFar = 0;
+			do
+			{	
+				iRead = ReadFile(buf, buf.GetSize());
+				iSoFar += iRead;
+				if (pCallback)
+					if (!pCallback(pHeader->m_uUncomprSize, iSoFar, pUserData))
+						break;
+			}
+			while (iRead == buf.GetSize());
+			CloseFile();
+		}
+		catch(CException*)
+		{
+			CloseFileAfterTestFailed();
+			throw;
+		}
+	}
+	return true;
+
+}
+
+int CZipArchive::WideToSingle(LPCTSTR lpWide, CZipAutoBuffer &szSingle)
+{
+	size_t wideLen = _tcslen(lpWide);
+	if (wideLen == 0)
+	{
+		szSingle.Release();
+		return 0;
+	}
+
+#ifdef _UNICODE	
+	// iLen does not include terminating character
+	int iLen = WideCharToMultiByte(CP_ACP,0, lpWide, wideLen, szSingle, 
+		0, NULL, NULL);
+	if (iLen > 0)
+	{
+		szSingle.Allocate(iLen, true);
+		iLen = WideCharToMultiByte(CP_ACP,0, lpWide , wideLen, szSingle, 
+			iLen, NULL, NULL);
+		ASSERT(iLen != 0);
+	}
+	else // here it means error
+	{
+		szSingle.Release();
+		iLen --;
+	}
+	return iLen;
+		
+#else // if not UNICODE just copy
+	// 	iLen does not include the NULL character
+	szSingle.Allocate(wideLen);
+	memcpy(szSingle, lpWide, wideLen);
+	return wideLen;
+#endif
+
+}
+
+int CZipArchive::SingleToWide(CZipAutoBuffer &szSingle, CString& szWide)
+{
+	int singleLen = szSingle.GetSize();
+#ifdef _UNICODE	
+	// iLen doesn't include terminating character
+	int iLen = MultiByteToWideChar(CP_ACP, MB_PRECOMPOSED, szSingle, singleLen, NULL, 0);
+	if (iLen > 0)
+	{
+		iLen = MultiByteToWideChar(CP_ACP, MB_PRECOMPOSED, szSingle, singleLen, 
+			szWide.GetBuffer(iLen) , iLen);
+		szWide.ReleaseBuffer(iLen);
+		ASSERT(iLen != 0);
+	}
+	else
+	{
+		szWide.Empty();
+		iLen --;
+	}
+	return iLen;
+
+#else // if not UNICODE just copy
+	// 	iLen does not include the NULL character
+	memcpy(szWide.GetBuffer(singleLen), szSingle, singleLen);
+	szWide.ReleaseBuffer(singleLen);
+	return singleLen;
+#endif
+}
+
+const DWORD* CZipArchive::GetCRCTable()
+{
+	return get_crc_table();
+}
+
+void CZipArchive::CryptDecodeBuffer(DWORD uCount)
+{
+	if (CurrentFile()->IsEncrypted())
+		for (DWORD i = 0; i < uCount; i++)
+			CryptDecode(m_info.m_pBuffer[i]);
+}
+
+void CZipArchive::EmptyPtrList()
+{
+	if (m_list.GetCount())
+	{
+		// if some memory hasn't been freed due to an error in zlib, so free it now
+		POSITION pos = m_list.GetHeadPosition();
+		while (pos)
+			delete[] m_list.GetNext(pos);
+	}
+
+}
+
+
+
+void CZipArchive::EnableFindFast(bool bEnable)
+{
+	if (IsClosed())
+	{
+		TRACE(_T("Set it after opening the archive"));
+		return;
+	}
+
+	if (m_centralDir.m_bFindFastEnabled == bEnable)
+		return;
+	m_centralDir.m_bFindFastEnabled = bEnable;
+	if (bEnable)
+		m_centralDir.BuildFindFastArray();
+	else
+		m_centralDir.m_findarray.RemoveAll();
+}
