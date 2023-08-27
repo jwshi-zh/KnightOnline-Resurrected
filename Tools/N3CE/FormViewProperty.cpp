@@ -67,7 +67,7 @@ void CFormViewProperty::OnInitialUpdate()
 		CRect rc;
 		this->GetClientRect(&rc);
 		/////////////////////////////////////
-		// Material 등록 정보
+		// Material registration information
 		CString strTmp;
 
 		m_LPMtl.AddPropItem("Render Flags", "0", PIT_EDIT, "", 0);
@@ -92,12 +92,12 @@ void CFormViewProperty::OnInitialUpdate()
 		m_LPMtl.AddPropItem("Emissive Color", "", PIT_COLOR, "");
 		m_LPMtl.AddPropItem("Texture", "", PIT_FILE, "");
 
-		m_LPMtl.SetDividerWidth(100); // 중간 분할선 조정
-		// Material 등록 정보
+		m_LPMtl.SetDividerWidth(100); // Adjust the middle split line
+		// Material registration information
 		/////////////////////////////////////
 
 		/////////////////////////////////////
-		// Plug 등록 정보
+		// Plug registration information
 		m_LPPlug.AddPropItem("Joint", "", PIT_BUTTON, "", 0);
 		m_LPPlug.AddPropItem("Position", "", PIT_BUTTON, "", 0);
 		m_LPPlug.AddPropItem("Scale", "", PIT_BUTTON, "", 0);
@@ -115,20 +115,20 @@ void CFormViewProperty::OnInitialUpdate()
 		for(int i = 0; i < MAX_PLUG_FX_POSITION; i++) { strTmp += ('0' + i); strTmp += "|"; }
 		m_LPPlug.AddPropItem("FX Pos", "", PIT_COMBO, strTmp);
 		
-		m_LPPlug.SetDividerWidth(100); // 중간 분할선 조정
-		// Plug 등록 정보
+		m_LPPlug.SetDividerWidth(100); // Adjust the middle split line
+		// Plug registration information
 		/////////////////////////////////////
 
 //////////////////////////////////////////////////
-//	Coded (By Dino On 2002-10-11 오전 9:53:37 )
-//	FX Plug 등록 정보
+//	Coded (By Dino On 2002-10-11 AM 9:53:37 )
+//	FX Plug registration information
 		m_LPFXPlugPart.AddPropItem("FXB", "", PIT_FILE, "FX Bundle(*.FXB)|*.FXB||", 0);
 		m_LPFXPlugPart.AddPropItem("Referance Index", "", PIT_EDIT, "", 0);
 		m_LPFXPlugPart.AddPropItem("Offset Pos", "", PIT_EDIT, "", 0);
 		m_LPFXPlugPart.AddPropItem("Offset Dir", "", PIT_EDIT, "", 0);
 
 		m_LPFXPlugPart.SetDividerWidth(100);
-//	End Of Code (By Dino On 2002-10-11 오전 9:53:37 )
+//	End Of Code (By Dino On 2002-10-11 AM 9:53:37 )
 //////////////////////////////////////////////////
 
 		// Tree Control 에 이미지 리스트 연결
@@ -185,7 +185,7 @@ END_MESSAGE_MAP()
 // CFormViewProperty message handlers
 void CFormViewProperty::UpdateWindowPos()
 {
-	// 일단 숨기고..
+	// Hide it once...
 	m_LPPlug.ShowWindow(SW_HIDE);
 	m_LPMtl.ShowWindow(SW_HIDE);
 	m_LPFXPlugPart.ShowWindow(SW_HIDE);
@@ -229,7 +229,7 @@ void CFormViewProperty::UpdateWindowPos()
 	}
 
 //////////////////////////////////////////////////
-//	Coded (By Dino On 2002-10-11 오전 10:24:21 )
+//	Coded (By Dino On 2002-10-11 AM 10:24:21 )
 //	FXPlugPart
 	if (pBase && pBase->Type() & OBJ_FX_PLUG_PART)
 	{
@@ -239,7 +239,7 @@ void CFormViewProperty::UpdateWindowPos()
 		m_LPFXPlugPart.ShowWindow(SW_SHOW);
 		y -= 5;
 	}
-//	End Of Code (By Dino On 2002-10-11 오전 10:24:21 )
+//	End Of Code (By Dino On 2002-10-11 AM 10:24:21 )
 //////////////////////////////////////////////////
 
 	m_TreeChr.SetWindowPos(NULL, x, 5, cx, y, SWP_NOZORDER);
@@ -296,7 +296,7 @@ void CFormViewProperty::UpdateInfo()
 		if(pItem) pItem->m_curValue.Format("%d", 0);		
 	}
 //////////////////////////////////////////////////
-//	Coded (By Dino On 2002-10-11 오전 10:31:36 )
+//	Coded (By Dino On 2002-10-11 AM 10:31:36 )
 //	FXPlugPart
 	else if(pBase->Type() & OBJ_FX_PLUG_PART)
 	{
@@ -317,7 +317,7 @@ void CFormViewProperty::UpdateInfo()
 
 		m_LPFXPlugPart.Invalidate();
 	}
-//	End Of Code (By Dino On 2002-10-11 오전 10:31:36 )
+//	End Of Code (By Dino On 2002-10-11 AM 10:31:36 )
 //////////////////////////////////////////////////
 
 	// 재질
@@ -406,7 +406,7 @@ BOOL CFormViewProperty::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 		CPropertyItem* pItem = (CPropertyItem*)lParam;
 
 		CN3CPlug* pPlug = (CN3CPlug*)pBase;
-		pFrm->GetPaneRender()->m_eCursorMode = eCM_Nothing; // 커서모드를 보통으로 해놓고..
+		pFrm->GetPaneRender()->m_eCursorMode = eCM_Nothing; // Set cursor mode to normal..
 		if(pItem->m_propName == "Joint") pFrm->GetPaneRender()->m_eCursorMode = eCM_PickJoint;
 		else if(pItem->m_propName == "Position") pFrm->GetPaneRender()->m_eCursorMode = eCM_PlugPosition;
 		else if(pItem->m_propName == "Scale") pFrm->GetPaneRender()->m_eCursorMode = eCM_PlugScale;
@@ -442,7 +442,7 @@ BOOL CFormViewProperty::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 		pFrm->GetPaneRender()->InvalidateRect(NULL, FALSE);
 	}
 //////////////////////////////////////////////////
-//	Coded (By Dino On 2002-10-11 오전 10:37:54 )
+//	Coded (By Dino On 2002-10-11 AM 10:37:54 )
 //	FXPlugPart
 	else if ((void*)wParam == &m_LPFXPlugPart)
 	{
@@ -474,7 +474,7 @@ BOOL CFormViewProperty::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 			pItem->VectorSet(pFXPPart->m_vOffsetDir);
 		}
 	}
-//	End Of Code (By Dino On 2002-10-11 오전 10:37:54 )
+//	End Of Code (By Dino On 2002-10-11 AM 10:37:54 )
 //////////////////////////////////////////////////
 	else
 	{
@@ -496,14 +496,14 @@ void CFormViewProperty::UpdateAllInfo()
 {
 	if(m_TreeChr.GetSafeHwnd() == NULL) return;
 
-	int nNodeCur = this->GetSelectedNode(); // 현재 선택되어 있는 노드 번호..
+	int nNodeCur = this->GetSelectedNode(); // The currently selected node number..
 
 	CMainFrame* pFrm = (CMainFrame*)AfxGetMainWnd();
 	CN3CEDoc* pDoc = (CN3CEDoc*)pFrm->GetActiveDocument();
 	CN3Chr* pChr = pDoc->m_Scene.ChrGet(0);
 
-	// Character Tree 에 노드 삽입..
-	m_TreeChr.DeleteAllItems(); // 모두 지우고..
+	// Character Tree Insert node into..
+	m_TreeChr.DeleteAllItems(); // erase all...
 	m_hTI_Joint = m_TreeChr.InsertItem("Joints", 9, 9);
 	m_hTI_Parts = m_TreeChr.InsertItem("Parts", 10, 10);
 	m_hTI_Plugs = m_TreeChr.InsertItem("Plugs", 11, 11);
@@ -513,7 +513,7 @@ void CFormViewProperty::UpdateAllInfo()
 	if(NULL == pChr) return;
 	HTREEITEM hInsert = NULL;
 //////////////////////////////////////////////////
-//	Coded (By Dino On 2002-10-10 오후 4:44:49 )
+//	Coded (By Dino On 2002-10-10 PM 4:44:49 )
 //	FXPlug
 	CN3FXPlug* pFXP = pChr->FXPlugGet();
 	if (pFXP)
@@ -527,13 +527,13 @@ void CFormViewProperty::UpdateAllInfo()
 			m_TreeChr.SetItemData(hInsert, (DWORD)pFXP->m_FXPParts[i]);
 		}
 	}
-//	End Of Code (By Dino On 2002-10-10 오후 4:44:49 )
+//	End Of Code (By Dino On 2002-10-10 PM 4:44:49 )
 //////////////////////////////////////////////////
 		
 	CN3Joint* pJoint = pChr->Joint();
 	if(pJoint)
 	{
-		CString szJN; szJN.Format(	"Joints - 상체(%d ~ %d), 하체(%d ~ %d), 머리카락(%d ~ %d), 망토(%d ~ %d)", 
+		CString szJN; szJN.Format(	"Joints - upper body (%d to %d), lower body (%d to %d), hair (%d to %d), cape (%d to %d)", 
 									pChr->JointPartStart(0), pChr->JointPartEnd(0), 
 									pChr->JointPartStart(1), pChr->JointPartEnd(1), 
 									pChr->JointPartStart(2), pChr->JointPartEnd(2), 
@@ -576,7 +576,7 @@ void CFormViewProperty::UpdateAllInfo()
 	}
 	m_TreeChr.Expand(m_hTI_Plugs, TVE_EXPAND);
 
-	this->SelectNode(nNodeCur); // 전의 선택된 노드 번호대로 선택한다..
+	this->SelectNode(nNodeCur); // Select according to the previously selected node number.
 	this->UpdateWindowPos();
 }
 
@@ -598,7 +598,7 @@ void CFormViewProperty::OnTreeChrEndLabelEdit(NMHDR* pNMHDR, LRESULT* pResult)
 		{
 			int nS0 = -1, nS1 = -1, nS2 = -1, nS3 = -10;
 			int nE0 = -1, nE1 = -1, nE2 = -1, nE3 = -1;
-			sscanf(pTDI->item.pszText, "Joints - 상체(%d ~ %d), 하체(%d ~ %d), 머리카락(%d ~ %d), 망토(%d ~ %d)",
+			sscanf(pTDI->item.pszText, "Joints - upper body (%d to %d), lower body (%d to %d), hair (%d to %d), cape (%d to %d)",
 				&nS0, &nE0, &nS1, &nE1, &nS2, &nE2, &nS3, &nE3);
 			pChr->JointPartSet(0, nS0, nE0);
 			pChr->JointPartSet(1, nS1, nE1);
@@ -622,7 +622,7 @@ void CFormViewProperty::OnTreeChrEndLabelEdit(NMHDR* pNMHDR, LRESULT* pResult)
 		if(pTDI->item.pszText)
 		{
 			if(pBase->Type() & OBJ_BASE_FILEACCESS)
-				((CN3BaseFileAccess*)pBase)->FileNameSet(pTDI->item.pszText); // 파일 이름을 바꾸어 준다..
+				((CN3BaseFileAccess*)pBase)->FileNameSet(pTDI->item.pszText); // Change the file name..
 			else
 				pBase->m_szName = pTDI->item.pszText;
 			*pResult = 1;
@@ -636,7 +636,7 @@ void CFormViewProperty::OnTreeChrRclick(NMHDR* pNMHDR, LRESULT* pResult)
 	::GetCursorPos(&pt);
 	CPoint pt2 = pt;
 	m_TreeChr.ScreenToClient(&pt2);
-	HTREEITEM hI = m_TreeChr.HitTest(pt2); // 현재 위치에서 찍힌
+	HTREEITEM hI = m_TreeChr.HitTest(pt2); // taken at the current location
 	if(NULL == hI) return;
 
 	m_TreeChr.SelectItem(hI);
@@ -645,29 +645,29 @@ void CFormViewProperty::OnTreeChrRclick(NMHDR* pNMHDR, LRESULT* pResult)
 
 	CMainFrame* pFrm = (CMainFrame*)AfxGetMainWnd();
 	CMenu* pMenu = pFrm->GetMenu();
-	CMenu* pSM = pMenu->GetSubMenu(1); // 편집 메뉴
+	CMenu* pSM = pMenu->GetSubMenu(1); // edit menu
 
 	if(m_hTI_Joint == hI || m_hTI_Joint == hPI)
 	{
-		pSM = pSM->GetSubMenu(0); // Joint 편집 메뉴
+		pSM = pSM->GetSubMenu(0); // Joint edit menu
 		pSM->TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON, pt.x, pt.y, this);
 	}
 
 	if(m_hTI_Parts == hI || m_hTI_Parts == hPI)
 	{
-		pSM = pSM->GetSubMenu(1); // Part 편집 메뉴
+		pSM = pSM->GetSubMenu(1); // Part edit menu
 		pSM->TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON, pt.x, pt.y, this);
 	}
 
 	if(m_hTI_Plugs == hI || m_hTI_Plugs == hPI)
 	{
-		pSM = pSM->GetSubMenu(2); // Plug 편집 메뉴
+		pSM = pSM->GetSubMenu(2); // Plug edit menu
 		pSM->TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON, pt.x, pt.y, this);
 	}
 
 	if(m_hTI_FXPlug == hI || m_hTI_FXPlug == hPI)
 	{
-		pSM = pSM->GetSubMenu(4); // FXPlug 편집 메뉴
+		pSM = pSM->GetSubMenu(4); // FXPlug edit menu
 		pSM->TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON, pt.x, pt.y, this);
 	}
 	*pResult = 0;
@@ -683,11 +683,11 @@ void CFormViewProperty::OnTreeChrDblclk(NMHDR* pNMHDR, LRESULT* pResult)
 	{
 		this->OnEditChrJointSet();
 	}
-	else if(pBase && (pBase->Type() & OBJ_CHARACTER_PART)) // Part일 경우.
+	else if(pBase && (pBase->Type() & OBJ_CHARACTER_PART)) // In case of Part.
 	{
 		this->OnEditChrPartSet();
 	}
-	else if(pBase && (pBase->Type() & OBJ_CHARACTER_PLUG)) // 플러그일 경우.
+	else if(pBase && (pBase->Type() & OBJ_CHARACTER_PLUG)) // if it is a plug.
 	{
 		this->OnEditChrPlugSet();
 	}
@@ -766,7 +766,7 @@ void CFormViewProperty::OnEditChrPartSet()
 
 	FileName = dlg.GetPathName();
 	pPart->Release();
-	pPart->LoadFromFile(std::string(FileName)); // 파일에서 읽기.
+	pPart->LoadFromFile(std::string(FileName)); // read from file.
 
 	CMainFrame* pFrm = (CMainFrame*)AfxGetMainWnd();
 	GetDocument()->UpdateAllViews(NULL);;
@@ -963,7 +963,7 @@ void CFormViewProperty::OnEditChrPlugRotationReset()
 		CN3CPlug* pPlug = (CN3CPlug*)pBase;
 		__Matrix44 mtxRot;
 		mtxRot.Identity();
-		pPlug->RotationSet(mtxRot); // 회전값 초기화..
+		pPlug->RotationSet(mtxRot); // Rotation value reset..
 
 		CMainFrame* pFrm = (CMainFrame*)AfxGetMainWnd();
 		pFrm->GetPaneRender()->InvalidateRect(NULL, FALSE);
@@ -987,7 +987,7 @@ void CFormViewProperty::SelectJointNode(HTREEITEM hItemParent, CN3Joint *pJoint)
 			return;
 		}
 
-		this->SelectJointNode(hNext, pJoint); // 재귀 호출..
+		this->SelectJointNode(hNext, pJoint); // recursive call...
 	}
 }
 
@@ -1022,8 +1022,8 @@ void CFormViewProperty::OnUpdateEditSetVisible(CCmdUI* pCmdUI)
 	else if(pBase->Type() & OBJ_CHARACTER_PLUG) bVisible = ((CN3CPlug*)pBase)->m_bVisible;
 	else return;
 
-	if(bVisible) pCmdUI->SetText("숨기기\t(&V)");
-	else pCmdUI->SetText("보이기\t(&V)");
+	if(bVisible) pCmdUI->SetText("Hide\t(&V)");
+	else pCmdUI->SetText("Show\t(&V)");
 }
 
 void CFormViewProperty::OnEditChrPlugImportPMesh() 

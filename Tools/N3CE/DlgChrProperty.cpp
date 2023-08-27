@@ -61,38 +61,38 @@ BOOL CDlgChrProperty::OnInitDialog()
 	CString str, strTmp;
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// 캐릭터
+	// character
 	m_LPChr.AddPropItem("Joint File", "", PIT_FILE, "N3 Joint File(*.N3Joint)|*.N3Joint||");
 	m_LPChr.AddPropItem("Collision Mesh File", "", PIT_FILE, "N3 Vector Mesh(*.N3VMesh)|*.N3VMesh||");
-	m_LPChr.AddPropItem("Collision Mesh Delete", "Collision Mesh 삭제", PIT_BUTTON, "");
+	m_LPChr.AddPropItem("Collision Mesh Delete", "Collision Mesh delete", PIT_BUTTON, "");
 //	m_LPChr.AddPropItem("Collision Skin File", "", PIT_FILE, "N3 Skin File(*.N3Skin)|*.N3Skin||");
-//	m_LPChr.AddPropItem("Collision Skin Delete", "Collision Skin 삭제", PIT_BUTTON, "");
+//	m_LPChr.AddPropItem("Collision Skin Delete", "Collision Skin delete", PIT_BUTTON, "");
 
-	m_LPChr.AddPropItem("Part Add", "Part 추가", PIT_BUTTON, "");
-	m_LPChr.AddPropItem("Part Delete", "Part 삭제", PIT_BUTTON, "");
-	m_LPChr.AddPropItem("Plug Add", "Plug 추가", PIT_BUTTON, "");
-	m_LPChr.AddPropItem("Plug Delete", "Plug 삭제", PIT_BUTTON, "");
+	m_LPChr.AddPropItem("Part Add", "Part add", PIT_BUTTON, "");
+	m_LPChr.AddPropItem("Part Delete", "Part delete", PIT_BUTTON, "");
+	m_LPChr.AddPropItem("Plug Add", "Plug add", PIT_BUTTON, "");
+	m_LPChr.AddPropItem("Plug Delete", "Plug delete", PIT_BUTTON, "");
 
 	m_CBChrPart.ResetContent();
 	m_CBChrPart.SetCurSel(0);
 
 	m_LPCPart.AddPropItem("Part File", "", PIT_FILE, "N3 Character part file(*.N3CPart)|*.N3CPart||");
-	m_LPCPart.AddPropItem("Part Type", "", PIT_COMBO, "머리카락|얼굴|상체|하체|손|발|??|");
-	m_LPCPart.AddPropItem("Texture File", "", PIT_FILE, "Texture 로 쓸수 있는 그림 파일(*.DXT; *.BMP; *.TGA)|*.DXT; *.BMP; *.TGA|");
+	m_LPCPart.AddPropItem("Part Type", "", PIT_COMBO, "Hair|face|upper body|lower body|hands|feet|??|");
+	m_LPCPart.AddPropItem("Texture File", "", PIT_FILE, "Texture image files that can be written to(*.DXT; *.BMP; *.TGA)|*.DXT; *.BMP; *.TGA|");
 
 	m_LPCPlug.AddPropItem("Plug Name", "", PIT_EDIT, "");
-	m_LPCPlug.AddPropItem("Plug Type", "", PIT_COMBO, "오른손장착|왼손장착|양손장착");
+	m_LPCPlug.AddPropItem("Plug Type", "", PIT_COMBO, "Right Hand Mounting|Left Hand Mounting|Ambidextrous Mounting");
 	m_LPCPlug.AddPropItem("Plug Joint", "", PIT_EDIT, "");
 	m_LPCPlug.AddPropItem("Plug Mesh File", "", PIT_FILE, "N3 Progressive Mesh File(*.N3PMesh)|*.N3PMesh||");
-	m_LPCPlug.AddPropItem("Plug Texture File", "", PIT_FILE, "Texture 로 쓸수 있는 그림 파일(*.DXT; *.BMP; *.TGA)|*.DXT; *.BMP; *.TGA|");
+	m_LPCPlug.AddPropItem("Plug Texture File", "", PIT_FILE, "Picture files that can be used as textures(*.DXT; *.BMP; *.TGA)|*.DXT; *.BMP; *.TGA|");
 	m_LPCPlug.AddPropItem("Plug Offset", "", PIT_EDIT, "");
 	m_LPCPlug.AddPropItem("Plug Rotation", "Reset", PIT_BUTTON, "");
 	m_LPCPlug.AddPropItem("Plug Scale", "", PIT_EDIT, "");
-	// 캐릭터
+	// character
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/////////////////////////////////////
-	// Material 등록 정보
+	// Material registration information
 	m_LPMaterial.AddPropItem("Render Flags", "0", PIT_EDIT, "", 0);
 	strTmp = "Null|D3DBLEND_ZERO|D3DBLEND_ONE|D3DBLEND_SRCCOLOR|D3DBLEND_INVSRCCOLOR|D3DBLEND_SRCALPHA|D3DBLEND_INVSRCALPHA|D3DBLEND_DESTALPHA|\
 D3DBLEND_INVDESTALPHA|D3DBLEND_DESTCOLOR|D3DBLEND_INVDESTCOLOR|D3DBLEND_SRCALPHASAT|D3DBLEND_BOTHSRCALPHA|D3DBLEND_BOTHINVSRCALPHA|";
@@ -113,10 +113,10 @@ D3DTOP_BUMPENVMAP|D3DTOP_BUMPENVMAPLUMINANCE|D3DTOP_DOTPRODUCT|D3DTOP_MULTIPLYAD
 	m_LPMaterial.AddPropItem("Diffuse Color", "", PIT_COLOR, "");
 	m_LPMaterial.AddPropItem("Specular Color", "", PIT_COLOR, "");
 	m_LPMaterial.AddPropItem("Emissive Color", "", PIT_COLOR, "");
-	// Material 등록 정보
+	// Material registration information
 	/////////////////////////////////////
 
-	// 창크기 및 위치 조정하기.
+	// Adjust window size and position
 	m_LPChr.GetWindowRect(&rc); 
 	nH = m_LPChr.GetItemHeight(0) * m_LPChr.GetCount() + 4;
 	m_LPChr.SetWindowPos(NULL, rc.left, y, rc.Width(), nH, SWP_NOZORDER);
@@ -148,11 +148,11 @@ D3DTOP_BUMPENVMAP|D3DTOP_BUMPENVMAPLUMINANCE|D3DTOP_DOTPRODUCT|D3DTOP_MULTIPLYAD
 	m_LPMaterial.SetWindowPos(NULL, rc.left, y, rc.Width(), nH, SWP_NOZORDER);
 	y += nH + 4;
 
-	// 대화상자 전체 크기..
+	// Dialog full size
 	this->GetWindowRect(&rc);
 	this->SetWindowPos(NULL, 0, 0, rc.Width(), y + GetSystemMetrics(SM_CYCAPTION) + 5, SWP_NOZORDER | SWP_NOMOVE);
 
-	// 중간 분할선 조정
+	// Adjust the middle split line
 	int nW = 100;
 	m_LPChr.SetDividerWidth(nW);
 	m_LPCPart.SetDividerWidth(nW);
@@ -234,7 +234,7 @@ void CDlgChrProperty::UpdateInfo()
 		}
 	}
 
-	// 붙이는 오브젝트(무기, 장신구 등...) 정보 표시
+	// Attached object (weapon, accessory, etc...) information display
 	int nPlug = m_CBChrPlug.GetCurSel();
 	int nPlugCount = pChr->PlugCount();
 	m_CBChrPlug.ResetContent();
@@ -405,13 +405,13 @@ BOOL CDlgChrProperty::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 				CN3CPart* pPD = pChr->Part(nPart);
 				if(pPD)
 				{
-					if(pItem->m_curValue == "머리카락") pPD->m_Type = PART_HAIR;
-					else if(pItem->m_curValue == "얼굴") pPD->m_Type = PART_FACE;
-					else if(pItem->m_curValue == "상체") pPD->m_Type = PART_UPPER;
-					else if(pItem->m_curValue == "하체") pPD->m_Type = PART_LOWER;
-					else if(pItem->m_curValue == "손") pPD->m_Type = PART_HAND;
-					else if(pItem->m_curValue == "발") pPD->m_Type = PART_FOOT;
-					else if(pItem->m_curValue == "??") pPD->m_Type = PART_UNKNOWN;
+					if(pItem->m_curValue == "hair") pPD->m_Type = PART_HAIR;
+					else if(pItem->m_curValue == "face") pPD->m_Type = PART_FACE;
+					else if(pItem->m_curValue == "upper body") pPD->m_Type = PART_UPPER;
+					else if(pItem->m_curValue == "lower body") pPD->m_Type = PART_LOWER;
+					else if(pItem->m_curValue == "hand") pPD->m_Type = PART_HAND;
+					else if(pItem->m_curValue == "feet") pPD->m_Type = PART_FOOT;
+					else if(pItem->m_curValue == "unknown??") pPD->m_Type = PART_UNKNOWN;
 				}
 				this->UpdateInfo();
 			}
@@ -439,7 +439,7 @@ BOOL CDlgChrProperty::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 			else if(pItem->m_propName == "Plug Type") pPlug->m_Type = (e_PlugType)pItem->m_crColor;
 			else if(pItem->m_propName == "Plug Joint")
 			{
-				int nJI = atoi(pItem->m_curValue); // Joint Index 가 영역을 벗어나지 못하도록...
+				int nJI = atoi(pItem->m_curValue); // Joint Index do not leave the area
 				int nJC = 0;
 				CN3Joint* pJ = pChr->Joint();
 				if(pJ) pJ->NodeCount(nJC); // Joint Node Count;

@@ -21,7 +21,7 @@ class CFormViewAnimation : public CFormView
 {
 public:
 	BOOL		m_bUpdatingNow;
-	__AnimData	m_AnimDataTemp; // 임시 복사 및 붙이기용..
+	__AnimData	m_AnimDataTemp; // For temporary copy and paste
 
 public:
 	static int SortByName(const void *pArg1, const void *pArg2);

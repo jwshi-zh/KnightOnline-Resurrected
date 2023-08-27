@@ -3,7 +3,7 @@
 //      are changed infrequently
 //
 
-// stl 쓸려고...
+// stl to write...
 #pragma warning(disable : 4786)
 
 #if !defined(AFX_STDAFX_H__1B203DCE_1641_4364_9609_4FE29D5690FC__INCLUDED_)
