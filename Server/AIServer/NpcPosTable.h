@@ -20,7 +20,7 @@ public:
 	float	m_sY;				// MONSTER(NPC) y position
 	float	m_sZ;				// MONSTER(NPC) z position
 	int		m_sArea;			// MONSTER(NPC) area
-	int		m_sMinX;			// 몬스터의 움직임 영역..
+	int		m_sMinX;			// The monster's movement area.
 	int		m_sMinY;
 	int		m_sMaxX;
 	int		m_sMaxY;

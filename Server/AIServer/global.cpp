@@ -161,7 +161,7 @@ int myrand( int min, int max, BOOL bSame )
 }
 
 ///////////////////////////////////////////////////////////////////////////
-//	XdY 형식의 주사위 굴리기
+//	Rolling dice in XdY format
 //
 int XdY(int x, int y)
 {
@@ -173,7 +173,7 @@ int XdY(int x, int y)
 }
 
 ///////////////////////////////////////////////////////////////////////////
-//	string의 길이가 size 보다 작으면 size 만큼 공백을 채워서 복사한다.
+//	If the length of the string is less than size, it is copied by filling in spaces as much as size.
 //
 void SpaceCopy(LPSTR source, CString dest, int size)
 {
@@ -187,7 +187,7 @@ void SpaceCopy(LPSTR source, CString dest, int size)
 }
 
 ///////////////////////////////////////////////////////////////////////////
-//	string의 길이가 size 보다 작으면 size 만큼 공백을 채워서 복사한다.
+//	If the length of the string is less than size, it is copied by filling in spaces as much as size.
 //
 void SpaceCopy(CString& source, CString dest, int size)
 {
@@ -204,7 +204,7 @@ void SpaceCopy(CString& source, CString dest, int size)
 }
 
 ///////////////////////////////////////////////////////////////////////////
-//	DWORD 의 Max 값을 채크하면서 증가시킨다.
+//	Increase while checking the Max value of DWORD.
 //
 void CheckMaxValue(DWORD& dest, DWORD add)
 {
@@ -215,7 +215,7 @@ void CheckMaxValue(DWORD& dest, DWORD add)
 }
 
 ///////////////////////////////////////////////////////////////////////////
-//	int 의 Max 값을 채크하면서 증가시킨다.
+//	Increase while checking Max value of int.
 //
 void CheckMaxValue(int& dest, int add)
 {
@@ -226,7 +226,7 @@ void CheckMaxValue(int& dest, int add)
 }
 
 ///////////////////////////////////////////////////////////////////////////
-//	short 의 Max 값을 채크하면서 증가시킨다.
+//	Increase while checking Max value of short.
 //
 void CheckMaxValue(short& dest, short add)
 {

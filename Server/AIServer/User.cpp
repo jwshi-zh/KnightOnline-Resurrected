@@ -10,38 +10,11 @@
 #include "Region.h"
 #include "GameSocket.h"
 
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
 #include "extern.h"
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
-
-/*
-     ** Repent AI Server 작업시 참고 사항 **
-	1. Initialize() 수정
-	2. SendAttackSuccess() 수정
-	3. GetDamage() 수정
-*/
 
 #define MORAL_GOOD		0x01
 #define MORAL_BAD		0x02
 #define MORAL_NEUTRAL	0x03
-
-// 운영자 아이디 넣기..
-/*const char* g_pszOPID[] = 
-{
-	//"여우야2",
-	//"난강해",
-	//"이쁜여우2"
-	//"Morpheus"
-//	"맨순",
-//	"민순"
-};*/
 
 float surround_fx[8] = {0.0f, -0.7071f, -1.0f, -0.7083f,  0.0f,  0.7059f,  1.0000f, 0.7083f};
 float surround_fz[8] = {1.0f,  0.7071f,  0.0f, -0.7059f, -1.0f, -0.7083f, -0.0017f, 0.7059f};
@@ -67,39 +40,39 @@ void CUser::Initialize()
 	m_MagicProcess.m_pMain = m_pMain;
 	m_MagicProcess.m_pSrcUser = this;
 
-	memset(m_strUserID, 0, MAX_ID_SIZE+1);	// 캐릭터의 이름
-	m_iUserId = -1;					// User의 번호
-	m_bLive = USER_DEAD;			// 죽었니? 살았니?
-	m_curx = 0.0f;				// 현재 X 좌표
-	m_cury = 0.0f;				// 현재 Y 좌표
-	m_curz = 0.0f;				// 현재 Z 좌표
+	memset(m_strUserID, 0, MAX_ID_SIZE+1);
+	m_iUserId = -1;
+	m_bLive = USER_DEAD;
+	m_curx = 0.0f;
+	m_cury = 0.0f;
+	m_curz = 0.0f;
 	m_fWill_x = 0.0f;
 	m_fWill_y = 0.0f;
 	m_fWill_z = 0.0f;
-	m_curZone = -1;				// 현재 존
+	m_curZone = -1;
 	m_sZoneIndex = -1;
-	m_bNation = 0;						// 소속국가
-	m_sLevel = 0;						// 레벨
-	m_sHP = 0;							// HP
-	m_sMP = 0;							// MP
-	m_sSP = 0;							// SP
-	m_sMaxHP = 0;							// MaxHP
-	m_sMaxMP = 0;							// MaxMP
-	m_sMaxSP = 0;							// MaxSP
-	m_state = 0;				// User의 상태
-	m_sRegionX = 0;						// 현재 영역 X 좌표
-	m_sRegionZ = 0;						// 현재 영역 Z 좌표
+	m_bNation = 0;
+	m_sLevel = 0;
+	m_sHP = 0;
+	m_sMP = 0;
+	m_sSP = 0;
+	m_sMaxHP = 0;
+	m_sMaxMP = 0;
+	m_sMaxSP = 0;
+	m_state = 0;
+	m_sRegionX = 0;
+	m_sRegionZ = 0;
 	m_sOldRegionX = 0;	
 	m_sOldRegionZ = 0;	
-	m_bResHp = 0;						// 회복량
+	m_bResHp = 0;
 	m_bResMp = 0;
 	m_bResSta = 0;
-	m_sHitDamage = 0;					// Hit
+	m_sHitDamage = 0;
 	m_sAC = 0;
 	m_sItemAC = 0;
-	m_fHitrate = 0.0f;					// 타격 성공률
-	m_fAvoidrate = 0;					// 회피 성공률
-	m_bLogOut = FALSE;				// Logout 중인가?
+	m_fHitrate = 0.0f;
+	m_fAvoidrate = 0;
+	m_bLogOut = FALSE;
 	m_byNowParty = 0;
 	m_sPartyTotalLevel = 0;
 	m_byPartyTotalMan = 0;
@@ -121,7 +94,7 @@ void CUser::Attack(int sid, int tid)
 	if(pNpc->m_NpcState == NPC_DEAD) return;
 	if(pNpc->m_iHP == 0) return;
 
-/*	if(pNpc->m_tNpcType == NPCTYPE_GUARD)					// 경비병이면 타겟을 해당 유저로
+/*	if(pNpc->m_tNpcType == NPCTYPE_GUARD)					// If it is a guard, the target is that user.
 	{
 		pNpc->m_Target.id = m_iUserId + USER_BAND;
 		pNpc->m_Target.x = m_curx;
@@ -132,29 +105,26 @@ void CUser::Attack(int sid, int tid)
 	}	*/
 
 	int nDefence = 0, nFinalDamage = 0;
-	// NPC 방어값 
+	// NPC defense value
 	nDefence = pNpc->GetDefense();
 
-	// 명중이면 //Damage 처리 ----------------------------------------------------------------//
 	nFinalDamage = GetDamage(tid);
 	if( m_pMain->m_byTestMode )		nFinalDamage = 3000;	// sungyong test
 		
-	// Calculate Target HP	 -------------------------------------------------------//
 	short sOldNpcHP = pNpc->m_iHP;
 
 	if(pNpc->SetDamage(0, nFinalDamage, m_strUserID, m_iUserId + USER_BAND, m_pIocport) == FALSE)
 	{
-		// Npc가 죽은 경우,,
-		pNpc->SendExpToUserList(); // 경험치 분배!!
+		pNpc->SendExpToUserList();
 		pNpc->SendDead(m_pIocport);
 		SendAttackSuccess(tid, ATTACK_TARGET_DEAD, nFinalDamage, pNpc->m_iHP);
 
-	//	CheckMaxValue(m_dwXP, 1);		// 몹이 죽을때만 1 증가!	
+	//	CheckMaxValue(m_dwXP, 1);		// Increases by 1 only when a mob dies!	
 	//	SendXP();
 	}
 	else
 	{
-		// 공격 결과 전송
+		// Transmission of attack results
 		SendAttackSuccess(tid, ATTACK_SUCCESS, nFinalDamage, pNpc->m_iHP);
 	}
 	//	m_dwLastAttackTime = GetTickCount();
@@ -185,7 +155,7 @@ void CUser::SendAttackSuccess(int tuid, BYTE result, short sDamage, int nHP, sho
 
 	//TRACE("User - SendAttackSuccess() : [sid=%d, tid=%d, result=%d], damage=%d, hp = %d\n", sid, tid, bResult, sDamage, sHP);
 
-	SendAll(buff, send_index);   // thread 에서 send
+	SendAll(buff, send_index);
 }
 
 void CUser::SendMagicAttackResult(int tuid, BYTE result, short sDamage, short sHP)
@@ -212,10 +182,9 @@ void CUser::SendMagicAttackResult(int tuid, BYTE result, short sDamage, short sH
 
 	//TRACE("User - SendAttackSuccess() : [sid=%d, tid=%d, result=%d], damage=%d, hp = %d\n", sid, tid, bResult, sDamage, sHP);
 
-	SendAll(buff, send_index);   // thread 에서 send
+	SendAll(buff, send_index);
 }
 
-// sungyong 2002.05.22
 void CUser::SendAll(TCHAR *pBuf, int nLength)
 {
 	if(nLength <= 0 || nLength >= SOCKET_BUFF_SIZE) return;
@@ -242,9 +211,8 @@ void CUser::SendAll(TCHAR *pBuf, int nLength)
 
 	PostQueuedCompletionStatus( m_pIocport->m_hSendIOCP, 0, 0, NULL );
 }
-// ~sungyong 2002.05.22
 
-//	Damage 계산, 만약 m_sHP 가 0 이하이면 사망처리
+//	Damage calculation, death if m_sHP is less than 0
 void CUser::SetDamage(int damage, int tid)
 {
 	if(damage <= 0) return;
@@ -262,20 +230,20 @@ void CUser::SetDamage(int damage, int tid)
 	}
 
 	//SendHP();
-	// 버디중이면 다른 버디원에게 날린다.
+	// If in buddy, blow it to another buddy.
 }
 
 void CUser::Dead(int tid, int nDamage)
 {
 	if(m_bLive == USER_DEAD) return;
 
-	// 이 부분에서 update를 해야 함,,  게임서버에서,, 처리하도록,,,
+	// You need to update in this part,, in the game server,, to process it,,,
 	m_sHP = 0;
 	m_bLive = USER_DEAD;
 
 	InitNpcAttack();
 
-	// region에서 삭제...
+	// Delete from region...
 	if(m_sZoneIndex < 0 || m_sZoneIndex > m_pMain->g_arZone.size())	{ 
 		TRACE("#### User-Dead ZoneIndex Fail : [name=%s], zoneindex=%d #####\n", m_strUserID, m_sZoneIndex);
 		return;
@@ -285,14 +253,14 @@ void CUser::Dead(int tid, int nDamage)
 		TRACE("#### CUser-Dead() Fail : [nid=%d, name=%s], pMap == NULL #####\n", m_iUserId, m_strUserID);
 		return;
 	}
-	// map에 region에서 나의 정보 삭제..
+	// Delete my information from the region on the map..
 	if(m_sRegionX < 0 || m_sRegionZ < 0 || m_sRegionX > pMap->GetXRegionMax() || m_sRegionZ > pMap->GetZRegionMax())	{
 		TRACE("#### CUser-Dead() Fail : [nid=%d, name=%s], x1=%d, z1=%d #####\n", m_iUserId, m_strUserID, m_sRegionX, m_sRegionZ);
 		return;
 	}
 	//pMap->m_ppRegion[m_sRegionX][m_sRegionZ].DeleteUser(m_iUserId);
 	pMap->RegionUserRemove(m_sRegionX, m_sRegionZ, m_iUserId);
-	//TRACE("*** User Dead()-> User(%s, %d)를 Region에 삭제,, region_x=%d, y=%d\n", m_strUserID, m_iUserId, m_sRegionX, m_sRegionZ);
+	//TRACE("*** User Dead()-> User(%s, %d)to Region,, region_x=%d, y=%d\n", m_strUserID, m_iUserId, m_sRegionX, m_sRegionZ);
 
 	m_sRegionX = -1;		m_sRegionZ = -1;
 
@@ -326,20 +294,20 @@ void CUser::Dead(int tid, int nDamage)
 	//TRACE("Npc - SendAttackSuccess()-User Dead : [sid=%d, tid=%d, result=%d], damage=%d, hp = %d\n", sid, targid, result, nDamage, m_sHP);
 
 	if(tid > 0)
-		SendAll(buff, send_index);   // thread 에서 send
+		SendAll(buff, send_index);
 
 /*	SetByte(buff, AG_DEAD, send_index );
 	SetShort(buff, m_iUserId, send_index );
 	Setfloat(buff, m_curx, send_index);
 	Setfloat(buff, m_curz, send_index);
 
-	SendAll(buff, send_index);   // thread 에서 send	*/
+	SendAll(buff, send_index);	*/
 }
 
 void CUser::SendHP()
 {
 	if(m_bLive == USER_DEAD) return;
-	// HP 변동량을 게임서버로...
+	// HP variation amount to game server...
 	int send_index = 0;
 	char buff[256];
 	memset( buff, 0x00, 256 );
@@ -436,7 +404,7 @@ void CUser::SetPartyExp(int iNpcExp, int iLoyalty, int iPartyLevel, int iMan)
 	SendExp(iNpcExp, iLoyalty);
 }
 
-//  경험치를 보낸다. (레벨업일때 관련 수치를 준다)
+//  send experience. (Relevant figures are given when leveling up)
 void CUser::SendExp(int iExp, int iLoyalty, int tType)
 {
 	int send_index = 0;
@@ -469,12 +437,12 @@ short CUser::GetDamage(int tid, int magicid)
 	if(pNpc == NULL)		return damage;
 	if(pNpc->m_tNpcType == NPC_ARTIFACT || pNpc->m_tNpcType == NPC_PHOENIX_GATE || pNpc->m_tNpcType == NPC_GATE_LEVER || pNpc->m_tNpcType == NPC_SPECIAL_GATE ) return damage;
 	
-	Attack = (float)m_fHitrate;			// 공격민첩
-	Avoid = (float)pNpc->m_sEvadeRate;	// 방어민첩	
-	Hit = m_sHitDamage;					// 공격자 Hit 
-//	Ac = (short)(pNpc->m_sDefense) + pNpc->m_sLevel;		// 방어자 Ac 2002.07.06
-	Ac = (short)(pNpc->m_sDefense);		// 방어자 Ac 
-	HitB = (int)((Hit * 200) / (Ac + 240)) ;	// 새로운 공격식의 B
+	Attack = (float)m_fHitrate;
+	Avoid = (float)pNpc->m_sEvadeRate;
+	Hit = m_sHitDamage;
+//	Ac = (short)(pNpc->m_sDefense) + pNpc->m_sLevel;
+	Ac = (short)(pNpc->m_sDefense);
+	HitB = (int)((Hit * 200) / (Ac + 240)) ;	// A new attack type B
 
 	if( magicid > 0 )	{	 // Skill Hit.
 		pTable = m_pMain->m_MagictableArray.GetData( magicid );     // Get main magic table.
@@ -527,14 +495,14 @@ short CUser::GetDamage(int tid, int magicid)
 		}
 	}
 	else	{	// Normal Hit.
-		result = GetHitRate(Attack/Avoid);		// 타격비 구하기
+		result = GetHitRate(Attack/Avoid);		// Finding the Hitting Ratio
 	}
 
 	switch(result)	{
 		case GREAT_SUCCESS:
 		case SUCCESS:
 		case NORMAL:		
-			if( magicid > 0 ) {	 // 스킬 공격
+			if( magicid > 0 ) {	 // skill attack
 				damage = (short)Hit;
 				random = myrand(0, damage);
 //				damage = (short)((0.85f * (float)Hit) + 0.3f * (float)random);
@@ -545,14 +513,14 @@ short CUser::GetDamage(int tid, int magicid)
 					damage = (short)((float)(Hit*0.6f) + 1.0f * (float)random + 0.99);
 				}
 			}				
-			else {			//일반 공격	
+			else {			//normal attack
 				damage = (short)(HitB);
 				random = myrand(0, damage);
 				damage = (short)((0.85f * (float)HitB) + 0.3f * (float)random);
 			}
 
 			break;
-		case FAIL:  // 사장님 요구 
+		case FAIL:  // boss request
 				damage = 0;
 			break;
 	}
@@ -909,8 +877,8 @@ void CUser::SendSystemMsg(TCHAR *pMsg, BYTE type, int nWho)
 	short sLength = _tcslen(pMsg);
 
 	SetByte(buff, AG_SYSTEM_MSG, send_index );
-	SetByte(buff, type, send_index );				// 채팅형식
-	SetShort(buff, nWho, send_index );				// 누구에게
+	SetByte(buff, type, send_index );				// chat format
+	SetShort(buff, nWho, send_index );				// to whom
 	SetShort(buff, m_iUserId, send_index );
 	SetShort(buff, sLength, send_index );
 	SetString( buff, pMsg, sLength, send_index );
@@ -1038,7 +1006,7 @@ void CUser::HealAreaCheck(int rx, int rz)
 
 	MAP* pMap = m_pMain->g_arZone[m_sZoneIndex];
 	if(pMap == NULL) return;
-	// 자신의 region에 있는 NpcArray을 먼저 검색하여,, 가까운 거리에 Monster가 있는지를 판단..
+	// Search the NpcArray in your region first to determine if there is a Monster nearby.
 	if(rx < 0 || rz < 0 || rx > pMap->GetXRegionMax() || rz > pMap->GetZRegionMax())	{
 		TRACE("#### CUser-HealAreaCheck() Fail : [nid=%d, name=%s], nRX=%d, nRZ=%d #####\n", m_iUserId, m_strUserID, rx, rz);
 		return;
@@ -1080,7 +1048,7 @@ void CUser::HealAreaCheck(int rx, int rz)
 			vEnd.Set(pNpc->m_fCurX, pNpc->m_fCurY, pNpc->m_fCurZ); 
 			fDis = pNpc->GetDistance(vStart, vEnd);
 
-			if(fDis <= fRadius)	{	// NPC가 반경안에 있을 경우...
+			if(fDis <= fRadius)	{	// If NPCs are within range...
 				pNpc->ChangeTarget(1004, this, m_pIocport);
 			}	
 			else continue;

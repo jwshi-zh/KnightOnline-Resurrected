@@ -47,7 +47,7 @@ char* CIni::GetProfileString(const char* lpAppName,
 	static char retString[200]="";
 	if (m_szFileName[0] == '\0') {
 		m_nError = 0X01;
-		strcpy(m_strError, "File이 Set되지 않았습니다.");
+		strcpy(m_strError, "File is not set.");
 		strcpy(retString , "");
 		return retString;
 	}
@@ -87,7 +87,7 @@ int CIni::SetProfileInt(const char* lpAppName,
 	int nRet  = -1;
 	if (m_szFileName[0] == '\0') {
 		m_nError = 0X01;
-		strcpy(m_strError, "File이 Set되지 않았습니다.");
+		strcpy(m_strError, "File is not set.");
 		return nRet;
 	}
 
@@ -106,7 +106,7 @@ int CIni::SetProfileString(const char* lpAppName,
 	int nRet  = -1;
 	if (m_szFileName[0] == '\0') {
 		m_nError = 0X01;
-		strcpy(m_strError, "File이 Set되지 않았습니다.");
+		strcpy(m_strError, "File is not set.");
 		return nRet;
 	}
 

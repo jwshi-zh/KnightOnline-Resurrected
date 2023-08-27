@@ -53,7 +53,7 @@ UINT NpcThreadProc(LPVOID pParam /* NPC_THREAD_INFO ptr */)
 			if( !pNpc ) continue;
 			//if((pNpc->m_tNpcType == NPCTYPE_DOOR || pNpc->m_tNpcType == NPCTYPE_ARTIFACT || pNpc->m_tNpcType == NPCTYPE_PHOENIX_GATE || pNpc->m_tNpcType == NPCTYPE_GATE_LEVER) && !pNpc->m_bFirstLive) continue;
 			//if( pNpc->m_bFirstLive ) continue;
-			if( pNpc->m_sNid < 0 ) continue;		// 잘못된 몬스터 (임시코드 2002.03.24)
+			if( pNpc->m_sNid < 0 ) continue;		// Wrong monster (temporary code 2002.03.24)
 
 			fTime3 = fTime2 - pNpc->m_fDelayTime;
 			dwTickTime = fTime3 * 1000;
@@ -65,7 +65,7 @@ UINT NpcThreadProc(LPVOID pParam /* NPC_THREAD_INFO ptr */)
 			{
 				if(pNpc->m_Delay < 0) pNpc->m_Delay = 0;
 
-				//적발견시... (2002. 04.23수정, 부하줄이기)
+				//When an enemy is found... (2002. 04.23 modified, load reduction)
 				if(pNpc->m_NpcState == NPC_STANDING && pNpc->CheckFindEnermy() )	{
 					if( pNpc->FindEnemy() )	{
 						pNpc->m_NpcState = NPC_ATTACKING;
@@ -78,20 +78,20 @@ UINT NpcThreadProc(LPVOID pParam /* NPC_THREAD_INFO ptr */)
 			fTime3 = fTime2 - pNpc->m_fHPChangeTime;
 			dwTickTime = fTime3 * 1000;
 
-			if( 10000 < dwTickTime )	{	// 10초마다 HP를 회복 시켜준다
+			if( 10000 < dwTickTime )	{	// Restores HP every 10 seconds
 				pNpc->HpChange(pIOCP);
 			}
 
-			pNpc->DurationMagic_4(pIOCP, fTime2);		// 마법 처리...
-			pNpc->DurationMagic_3(pIOCP, fTime2);		// 지속마법..
+			pNpc->DurationMagic_4(pIOCP, fTime2);
+			pNpc->DurationMagic_3(pIOCP, fTime2);
 
 			switch(pNpc->m_NpcState)
 			{
-			case NPC_LIVE:					// 방금 살아난 경우
+			case NPC_LIVE:
 				pNpc->NpcLive(pIOCP);
 				break;
 
-			case NPC_STANDING:						// 하는 일 없이 서있는 경우
+			case NPC_STANDING:
 				pNpc->NpcStanding();
 				break;
 			
@@ -161,17 +161,17 @@ UINT ZoneEventThreadProc(LPVOID pParam /* = NULL */)
 		for( i=0; i<m_pMain->g_arZone.size(); i++)	{
 			pMap = m_pMain->g_arZone[i];
 			if( !pMap ) continue;
-			if( pMap->m_byRoomEvent == 0 ) continue;		// 현재의 존이 던젼담당하는 존이 아니면 리턴..
-			if( pMap->IsRoomStatusCheck() == TRUE )	continue;	// 전체방이 클리어 되었다면
-			for( j=1; j<pMap->m_arRoomEventArray.GetSize()+1; j++)	{	// 방번호는 1번부터 시작
+			if( pMap->m_byRoomEvent == 0 ) continue;		// Return if the current zone is not the zone in charge of the dungeon.
+			if( pMap->IsRoomStatusCheck() == TRUE )	continue;	// If all rooms are cleared
+			for( j=1; j<pMap->m_arRoomEventArray.GetSize()+1; j++)	{	// Room number starts from number 1
 				pRoom = pMap->m_arRoomEventArray.GetData( j );
 				if( !pRoom ) continue;
 				if( pRoom->m_byStatus == 1 || pRoom->m_byStatus == 3 )   continue; // 1:init, 2:progress, 3:clear
-				// 여기서 처리하는 로직...
+				// Logic here...
 				pRoom->MainRoom( fCurrentTime );
 			}
 		}
-		Sleep(1000);	// 1초당 한번
+		Sleep(1000);	// once per second
 	}
 
 	return 0;

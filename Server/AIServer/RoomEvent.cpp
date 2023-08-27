@@ -75,7 +75,7 @@ void CRoomEvent::MainRoom( float fcurtime )
 		event_num = m_Exec[m_byLogicNumber-1].sNumber; 
 		bRunCheck = RunEvent( event_num );
 		if( bRunCheck )	{
-			//wsprintf(notify, "** 알림 : [%d]방이 클리어 되어습니다. **", m_sRoomNumber);
+			//wsprintf(notify, "** Notification: Room [%d] has been cleared. **", m_sRoomNumber);
 			//m_pMain->SendSystemMsg( notify, m_iZoneNumber, PUBLIC_CHAT, SEND_ALL);
 			m_byStatus = 3;
 		}
@@ -94,7 +94,7 @@ BOOL  CRoomEvent::CheckEvent( int event_num, float fcurtime )
 	}
 
 	switch( event_num )	{
-	case 1:					// 특정 몬스터를 죽이는 경우
+	case 1:					// When killing certain monsters
 		nOption_1 = m_Logic[ m_byLogicNumber-1 ].sOption_1;
 		pNpc = GetNpcPtr( nOption_1 );
 		if( pNpc )	{
@@ -105,32 +105,32 @@ BOOL  CRoomEvent::CheckEvent( int event_num, float fcurtime )
 		}
 		//TRACE("---Check Event : monster dead = %d \n", nMonsterNid);
 		break;
-	case 2:					// 모든 몬스터를 죽여라
+	case 2:					// kill all monsters
 		bRetValue = CheckMonsterCount( 0, 0, 3 );
 		if( bRetValue )	{
-			TRACE("모든 몬스터를 죽여라 죽임\n");
+			TRACE("kill all monsters kill\n");
 			return TRUE;
 		}
 		break;
-	case 3:					// 몇분동안 버텨라
+	case 3:					// hold out for a few minutes
 		nMinute = m_Logic[ m_byLogicNumber-1 ].sOption_1;
-		nMinute = nMinute * 60;								// 분을 초로 변환
-		if( fcurtime >= m_fDelayTime + nMinute )	{		// 제한시간 종료
+		nMinute = nMinute * 60;								// convert minutes to seconds
+		if( fcurtime >= m_fDelayTime + nMinute )	{		// end of time limit
 			TRACE("---Check Event : curtime=%.2f, starttime=%.2f \n", fcurtime, m_fDelayTime);
-			TRACE("버티기 성공\n");
+			TRACE("enduring success\n");
 			return TRUE;
 		}
 		//TRACE("---Check Event : curtime=%.2f, starttime=%.2f \n", fcurtime, m_fDelayTime);
 		break;
-	case 4:					// 목표지점까지 이동
+	case 4:					// move to the target point
 		
 		break;
-	case 5:					// 특정몬스터를 옵션2의 마리수 만큼 죽여라
+	case 5:					// Kill specific monsters as many as option 2
 		nOption_1 = m_Logic[ m_byLogicNumber-1 ].sOption_1;
 		nOption_2 = m_Logic[ m_byLogicNumber-1 ].sOption_2;
 		bRetValue = CheckMonsterCount( nOption_1, nOption_2, 1 );
 		if( bRetValue )	{
-			TRACE("특정몬스터(%d)를 %d마리 죽임\n", nOption_1, nOption_2);
+			TRACE("Kill %d specific monsters (%d)\n", nOption_1, nOption_2);
 			return TRUE;
 		}
 		break;
@@ -149,23 +149,23 @@ BOOL  CRoomEvent::RunEvent( int event_num )
 	int nOption_1 = 0, nOption_2 = 0;
 	BOOL bRetValue = FALSE;
 	switch( event_num )	{
-	case 1:					// 다른 몬스터의 출현
+	case 1:					// Appearance of other monsters
 		nOption_1 = m_Exec[ m_byLogicNumber-1 ].sOption_1;
 		pNpc = GetNpcPtr( nOption_1 );
 		if( pNpc )	{
-			pNpc->m_byChangeType = 3;	// 몬스터 출현해주세여...
+			pNpc->m_byChangeType = 3;	// Let the monsters appear...
 			pNpc->SetLive( &m_pMain->m_Iocport );
 		}
 		else	{
 			TRACE("### RunEvent Error : 몬스터 출현 할 수 없당 = %d, logic=%d ###\n", nOption_1, m_byLogicNumber);
 		}
-		if( m_byCheck == m_byLogicNumber )	{	// 방이 클리어
+		if( m_byCheck == m_byLogicNumber )	{	// the room is clear
 			return TRUE;
 		}
 		else		m_byLogicNumber++;
 
 		break;
-	case 2:					// 문이 열림
+	case 2:					// door open
 		nOption_1 = m_Exec[ m_byLogicNumber-1 ].sOption_1;
 		pNpc = GetNpcPtr( nOption_1 );
 		if( pNpc )	{
@@ -175,34 +175,34 @@ BOOL  CRoomEvent::RunEvent( int event_num )
 			TRACE("### RunEvent Error : 문 담당 몬스터 출현 할 수 없당 = %d, logic=%d ###\n", nOption_1, m_byLogicNumber);
 		}
 
-		//wsprintf(notify, "** 알림 : [%d] 문이 열립니다 **", m_sRoomNumber);
+		//wsprintf(notify, "** Notice: Door [%d] opens **", m_sRoomNumber);
 		//m_pMain->SendSystemMsg( notify, m_iZoneNumber, PUBLIC_CHAT, SEND_ALL);
 
-		if( m_byCheck == m_byLogicNumber )	{	// 방이 클리어
+		if( m_byCheck == m_byLogicNumber )	{	// the room is clear
 			return TRUE;
 		}
 		else		m_byLogicNumber++;
 
 		break;
-	case 3:					// 다른 몬스터로 변환
-		if( m_byCheck == m_byLogicNumber )	{	// 방이 클리어
+	case 3:					// transform into another monster
+		if( m_byCheck == m_byLogicNumber )	{	// the room is clear
 			return TRUE;
 		}
 		break;
-	case 4:					// 특정몬스터 옵션2의 마리수만큼 출현
+	case 4:					// Appears as much as the number of specific monster option 2
 		nOption_1 = m_Exec[ m_byLogicNumber-1 ].sOption_1;
 		nOption_2 = m_Exec[ m_byLogicNumber-1 ].sOption_2;
 		bRetValue = CheckMonsterCount( nOption_1, nOption_2, 2 );
 
-		//wsprintf(notify, "** 알림 : [%d, %d] 몬스터 출현 **", nOption_1, nOption_2);
+		//wsprintf(notify, "** Notification: [%d, %d] monster appearance **", nOption_1, nOption_2);
 		//m_pMain->SendSystemMsg( notify, m_iZoneNumber, PUBLIC_CHAT, SEND_ALL);
 
-		if( m_byCheck == m_byLogicNumber )	{	// 방이 클리어
+		if( m_byCheck == m_byLogicNumber )	{	// the room is clear
 			return TRUE;
 		}
 		else		m_byLogicNumber++;
 		break;
-	case 100:					// 특정몬스터 옵션2의 마리수만큼 출현
+	case 100:					// Appears as much as the number of specific monster option 2
 		nOption_1 = m_Exec[ m_byLogicNumber-1 ].sOption_1;
 		nOption_2 = m_Exec[ m_byLogicNumber-1 ].sOption_2;
 
@@ -210,7 +210,7 @@ BOOL  CRoomEvent::RunEvent( int event_num )
 		if( nOption_1 != 0 )	{
 			EndEventSay( nOption_1, nOption_2 );
 		}
-		if( m_byCheck == m_byLogicNumber )	{	// 방이 클리어
+		if( m_byCheck == m_byLogicNumber )	{	// the room is clear
 			return TRUE;
 		}
 		else		m_byLogicNumber++;
@@ -312,16 +312,16 @@ BOOL  CRoomEvent::CheckMonsterCount( int sid, int count, int type )
 			if( pNpc->m_byRegenType == 2 )	pNpc->m_byRegenType = 0;
 			pNpc->m_byChangeType = 0;
 		}
-		else if( type == 3 )	{				// 모든 몬스터를 죽었는지를 판단
+		else if( type == 3 )	{				// Determine if all monsters are dead
 			if( pNpc->m_byDeadType == 100 )	nMonsterCount++;
 			if( nMonsterCount == nMonster )	bRetValue = TRUE;
 		}
 		else	if( pNpc->m_sSid == sid )	{
-			if( type == 1 )	{					// 특정 몬스터가 마리수 만큼 죽었는지를 판단
+			if( type == 1 )	{					// Determines whether a specific monster has died by the number of monsters
 				if( pNpc->m_byChangeType == 100 )	nMonsterCount++;
 				if( nMonsterCount == count )	bRetValue = TRUE;
 			}
-			else if( type == 2 )	{			// 특정 몬스터를 마리수 만큼 출현 시켜라,,
+			else if( type == 2 )	{			// Make certain monsters appear as much as the number of them,,
 				pNpc->m_byChangeType = 3;	nMonsterCount++;
 				if( nMonsterCount == count )	bRetValue = TRUE;
 			}
@@ -342,7 +342,7 @@ void CRoomEvent::InitializeRoom()
 	m_fDelayTime = 0.0f;
 	m_byLogicNumber = 1;
 
-	CheckMonsterCount( 0, 0, 4);	// 몬스터의 m_byChangeType=0으로 초기화 
+	CheckMonsterCount( 0, 0, 4);	// Initialize the monster's m_byChangeType=0
 }
 
 void CRoomEvent::EndEventSay( int option1, int option2 )
@@ -354,7 +354,7 @@ void CRoomEvent::EndEventSay( int option1, int option2 )
 	std::string buff;
 
 	switch( option1 )	{
-	case 1:							// 클리어 상태에서 클라이언트에 내려줄 내용
+	case 1:							// What to give to the client in the cleared state
 		switch( option2 )	{
 		case 1:
 			::_LoadStringFromResource(IDS_KARUS_CATCH_1, buff);
@@ -377,7 +377,7 @@ void CRoomEvent::EndEventSay( int option1, int option2 )
 		m_pMain->SendSystemMsg( notify, m_iZoneNumber, WAR_SYSTEM_CHAT, SEND_ALL);
 
 		break;
-	case 2:							// 클리어 상태에서 클라이언트에 내려줄 내용와 적국으로 갈 수 있는 이벤트 존 열어주기
+	case 2:							// Open the event zone where you can go to the enemy country and contents to be given to the client in the clear state
 		if( option2 == KARUS_ZONE )	{
 			::_LoadStringFromResource(IDS_KARUS_PATHWAY, buff);
 			sprintf( notify, buff.c_str());
@@ -400,7 +400,7 @@ void CRoomEvent::EndEventSay( int option1, int option2 )
 		m_pMain->SendSystemMsg( notify, m_iZoneNumber, WAR_SYSTEM_CHAT, SEND_ALL);
 
 		break;
-	case 3:							// 클리어 상태에서 클라이언트에 내려줄 내용와 승리팀을 알려준다.
+	case 3:							// In the clear state, it tells the client what to give and the winning team.
 		if( option2 == KARUS_ZONE )	{
 			SetByte( send_buff, AG_BATTLE_EVENT, send_index );
 			SetByte( send_buff, BATTLE_EVENT_RESULT, send_index );

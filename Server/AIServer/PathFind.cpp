@@ -84,7 +84,7 @@ void CPathFind::SetMap(int x, int y, int *pMap)
 		m_pMap = map;
 		::InterlockedExchange(&m_lMapUse, 0);
 	}
-	else TRACE("잘못된 맵셋팅\n");	*/
+	else TRACE("wrong map settings\n");	*/
 }
 
 _PathNode *CPathFind::FindPath(int start_x, int start_y, int dest_x, int dest_y)
@@ -105,7 +105,7 @@ _PathNode *CPathFind::FindPath(int start_x, int start_y, int dest_x, int dest_y)
 	t_node->x = start_x;
 	t_node->y = start_y;
 
-//	int maxtry = (X 이동폭 * 최대 X구간 ) + (Y 이동폭 * 최대 Y구간) + 1;
+//	int maxtry = (X movement width * Max. X section) + (Y movement width * Max. Y section) + 1;
 	int maxtry = abs(start_x-dest_x)*m_vMapSize.cx + abs(start_y-dest_y)*m_vMapSize.cy + 1;
 	int count = 0;
 	
@@ -114,7 +114,7 @@ _PathNode *CPathFind::FindPath(int start_x, int start_y, int dest_x, int dest_y)
 		if( count > maxtry * 2 )
 		{
 //			BREAKPOINT();
-			//TRACE("패스파인드 중도포기...%d\n", count);
+			//TRACE("Giving up on Pathfind...%d\n", count);
 			return NULL;
 		}
 		count += 1;

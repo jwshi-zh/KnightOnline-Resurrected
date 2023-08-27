@@ -26,8 +26,8 @@ extern CRITICAL_SECTION g_region_critical;
 //////////////////////////////////////////////////////////////////////
 
 /*
-     ** Repent AI Server 작업시 참고 사항 **
-	1. RecvUserInfo(), RecvAttackReq(), RecvUserUpdate() 수정
+     ** Notes when working with Repent AI Server **
+1. RecvUserInfo(), RecvAttackReq(), RecvUserUpdate() modified
 */
 
 CGameSocket::CGameSocket()
@@ -152,7 +152,7 @@ void CGameSocket::RecvServerConnect(char *pBuf)
 	char pData[1024];
 	memset(pData, 0, 1024);
 	BYTE byZoneNumber = GetByte(pBuf, index);
-	BYTE byReConnect = GetByte(pBuf, index);	// 0 : 처음접속, 1 : 재접속
+	BYTE byReConnect = GetByte(pBuf, index);	// 0: first connection, 1: reconnection
 
 	CString logstr;
 	logstr.Format("[GameServer Connect - %d]", byZoneNumber);
@@ -172,13 +172,13 @@ void CGameSocket::RecvServerConnect(char *pBuf)
 	SetByte(pData, byReConnect, outindex);
 	Send(pData, outindex);
 
-	if(byReConnect == 1)	{	// 재접속해서 리스트 받기 (강제로)
+	if(byReConnect == 1)	{	// Reconnect to get the list (forced)
 		if(m_pMain->m_sReSocketCount == 0)
 			m_pMain->m_fReConnectStart = TimeGet();
 		m_pMain->m_sReSocketCount++;
 		TRACE("**** ReConnect - zone=%d,  socket = %d ****\n ", byZoneNumber, m_pMain->m_sReSocketCount);
 		fReConnectEndTime = TimeGet();
-		if(fReConnectEndTime > m_pMain->m_fReConnectStart+120)	{	// 2분안에 모든 소켓이 재접됐다면...
+		if(fReConnectEndTime > m_pMain->m_fReConnectStart+120)	{	// If all sockets were reconnected in 2 minutes...
 			TRACE("**** ReConnect - 단순한 접속... socket = %d ****\n ", m_pMain->m_sReSocketCount);
 			m_pMain->m_sReSocketCount = 0;
 			m_pMain->m_fReConnectStart = 0.0f;
@@ -186,13 +186,13 @@ void CGameSocket::RecvServerConnect(char *pBuf)
 
 		if(m_pMain->m_sReSocketCount == MAX_AI_SOCKET)	{
 			fReConnectEndTime = TimeGet();
-			if(fReConnectEndTime < m_pMain->m_fReConnectStart+60)	{	// 1분안에 모든 소켓이 재접됐다면...
+			if(fReConnectEndTime < m_pMain->m_fReConnectStart+60)	{	// If all sockets were reconnected in 1 minute...
 				TRACE("**** ReConnect - 모든 소켓 초기화 완료 socket = %d ****\n ", m_pMain->m_sReSocketCount);
 				m_pMain->m_bFirstServerFlag = TRUE;
 				m_pMain->m_sReSocketCount = 0;
 				m_pMain->AllNpcInfo();
 			}
-			else	{								// 하나의 떨어진 소켓이라면...
+			else	{								// If it's just one missing socket...
 				m_pMain->m_sReSocketCount = 0;
 				m_pMain->m_fReConnectStart = 0.0f;
 			}
@@ -332,7 +332,7 @@ void CGameSocket::RecvUserInOut(char* pBuf)
 	region_x = (int)fX / VIEW_DIST; 
 	region_z = (int)fZ / VIEW_DIST;
 
-	// 수정할것,,, : 지금 존 번호를 0으로 했는데.. 유저의 존 정보의 번호를 읽어야,, 함,,
+	// To fix,,, : I set the zone number to 0 now.. I need to read the number of the user's zone information.
 	MAP* pMap = NULL;
 	//m_pMain->g_arZone[pUser->m_curZone];
 
@@ -355,7 +355,7 @@ void CGameSocket::RecvUserInOut(char* pBuf)
 			else
 			{
 				TRACE("##### CGameSocket-RecvUserInOut Fail : UserDead  [id=%s, bLive=%d, hp=%d], fX=%.2f, fZ=%.2f ######\n", pUser->m_strUserID, pUser->m_bLive, pUser->m_sHP, fX, fZ);
-				// 죽은 유저이므로 게임서버에 죽은 처리를 한다...
+				// Since the user is dead, the game server is treated as dead...
 				//Send_UserError(uid);
 				//return;
 			}
@@ -380,7 +380,7 @@ void CGameSocket::RecvUserInOut(char* pBuf)
 			TRACE("#### RecvUserInOut Fail : [name=%s], x1=%d, z1=%d #####\n", pUser->m_strUserID, pUser->m_sZoneIndex);
 			return;
 		}
-		// map 이동이 불가능이면 User등록 실패..
+		// User registration fails if map movement is impossible.
 		//if(pMap->m_pMap[x1][z1].m_sEvent == 0) return;
 		if(region_x > pMap->GetXRegionMax() || region_z > pMap->GetZRegionMax())
 		{
@@ -396,15 +396,15 @@ void CGameSocket::RecvUserInOut(char* pBuf)
 		//if(bFlag)	pUser->m_byIsOP = 1;
 
 		if(bType == 2)	{		// region out
-			// 기존의 region정보에서 User의 정보 삭제..
+			// Delete user information from existing region information..
 			pMap->RegionUserRemove(region_x, region_z, uid);
-			//TRACE("^^& RecvUserInOut()-> User(%s, %d)를 Region에서 삭제..,, zone=%d, index=%d, region_x=%d, y=%d\n", pUser->m_strUserID, pUser->m_iUserId, pUser->m_curZone, pUser->m_sZoneIndex, region_x, region_z);
+			//TRACE("^^& RecvUserInOut()-> Delete User(%s, %d) from Region..,, zone=%d, index=%d, region_x=%d, y=%d\n", pUser->m_strUserID, pUser->m_iUserId, pUser->m_curZone, pUser->m_sZoneIndex, region_x, region_z);
 		}
 		else	{				// region in
 			if(pUser->m_sRegionX != region_x || pUser->m_sRegionZ != region_z)	{
 				pUser->m_sRegionX = region_x;		pUser->m_sRegionZ = region_z;
 				pMap->RegionUserAdd(region_x, region_z, uid);
-				//TRACE("^^& RecvUserInOut()-> User(%s, %d)를 Region에 등록,, zone=%d, index=%d, region_x=%d, y=%d\n", pUser->m_strUserID, pUser->m_iUserId, pUser->m_curZone, pUser->m_sZoneIndex, region_x, region_z);
+				//TRACE("^^& RecvUserInOut()-> User(%s, %d)를 Region에 registration,, zone=%d, index=%d, region_x=%d, y=%d\n", pUser->m_strUserID, pUser->m_iUserId, pUser->m_curZone, pUser->m_sZoneIndex, region_x, region_z);
 			}
 		}
 	}
@@ -453,7 +453,7 @@ BOOL CGameSocket::SetUid(float x, float z, int id, int speed)
 	CUser* pUser = m_pMain->GetUserPtr(id);
 	if(pUser == NULL) 
 	{
-		TRACE("#### User등록 실패 sid = %d ####\n", id);
+		TRACE("#### Userregistration failed sid = %d ####\n", id);
 		return FALSE;
 	}
 
@@ -466,7 +466,7 @@ BOOL CGameSocket::SetUid(float x, float z, int id, int speed)
 	MAP* pMap = m_pMain->g_arZone[pUser->m_sZoneIndex];
 	if(pMap == NULL)
 	{
-		TRACE("#### User등록 실패 sid = %d ####\n", id);
+		TRACE("#### Userregistration failed sid = %d ####\n", id);
 		return FALSE;
 	}
 	
@@ -480,7 +480,7 @@ BOOL CGameSocket::SetUid(float x, float z, int id, int speed)
 		TRACE("#### GameSocket , SetUid Fail : [nid=%d, name=%s], nRX=%d, nRZ=%d #####\n", id, pUser->m_strUserID, nRX, nRZ);
 		return FALSE;
 	}
-	// map 이동이 불가능이면 User등록 실패..
+	// User registration fails if map movement is impossible.
 	// if(pMap->m_pMap[x1][z1].m_sEvent == 0) return FALSE;
 
 	if(pUser != NULL)
@@ -516,16 +516,16 @@ BOOL CGameSocket::SetUid(float x, float z, int id, int speed)
 		//TRACE("GameSocket : SetUid()--> uid = %d, x=%f, z=%f \n", id, x, z);
 		if(pUser->m_sRegionX != nRX || pUser->m_sRegionZ != nRZ)
 		{
-			//TRACE("*** SetUid()-> User(%s, %d)를 Region에 삭제,, zone=%d, index=%d, region_x=%d, y=%d\n", pUser->m_strUserID, pUser->m_iUserId, pUser->m_curZone, pUser->m_sZoneIndex, pUser->m_sRegionX, pUser->m_sRegionZ);
+			//TRACE("*** SetUid()-> Delete User(%s, %d) to Region,, zone=%d, index=%d, region_x=%d, y=%d\n", pUser->m_strUserID, pUser->m_iUserId, pUser->m_curZone, pUser->m_sZoneIndex, pUser->m_sRegionX, pUser->m_sRegionZ);
 			pMap->RegionUserRemove(pUser->m_sRegionX, pUser->m_sRegionZ, id);
 			pUser->m_sRegionX = nRX;		pUser->m_sRegionZ = nRZ;
 			pMap->RegionUserAdd(pUser->m_sRegionX, pUser->m_sRegionZ, id);
-			//TRACE("*** SetUid()-> User(%s, %d)를 Region에 등록,, zone=%d, index=%d, region_x=%d, y=%d\n", pUser->m_strUserID, pUser->m_iUserId, pUser->m_curZone, pUser->m_sZoneIndex, nRX, nRZ);
+			//TRACE("*** SetUid()-> Register User(%s, %d) to Region,, zone=%d, index=%d, region_x=%d, y=%d\n", pUser->m_strUserID, pUser->m_iUserId, pUser->m_curZone, pUser->m_sZoneIndex, nRX, nRZ);
 		}
 	}
 
 	// dungeon work
-	// if( pUser->m_curZone == 던젼 ) 
+	// if( pUser->m_curZone == Dungeon ) 
 	int room = pMap->IsRoomCheck( x, z );
 
 	return TRUE;
@@ -583,7 +583,7 @@ void CGameSocket::RecvAttackReq(char* pBuf)
 		else
 		{
 			TRACE("##### CGameSocket-Attack Fail : UserDead  [id=%d, %s, bLive=%d, hp=%d] ######\n", pUser->m_iUserId, pUser->m_strUserID, pUser->m_bLive, pUser->m_sHP);
-			// 죽은 유저이므로 게임서버에 죽은 처리를 한다...
+			// Since the user is dead, the game server is treated as dead...
 			Send_UserError(sid, tid);
 			return;
 		}
@@ -618,7 +618,7 @@ void CGameSocket::RecvUserLogOut(char* pBuf)
 		//return;
 	}
 
-	// User List에서 User정보,, 삭제...
+	// User information,, deletion from User List...
 	CUser* pUser = m_pMain->GetUserPtr(uid);
 	if(pUser == NULL)	return;
 
@@ -645,7 +645,7 @@ void CGameSocket::RecvUserRegene(char* pBuf)
 	uid = GetShort( pBuf, index );
 	sHP = GetShort( pBuf, index );
 
-	// User List에서 User정보,, 삭제...
+	// User information,, deletion from User List...
 	CUser* pUser = m_pMain->GetUserPtr(uid);
 	if(pUser == NULL)	return;
 
@@ -713,7 +713,7 @@ void CGameSocket::RecvUserUpdate(char* pBuf)
 	sAmountRight = GetShort(pBuf, index);
 //
 
-	// User List에서 User정보,, 삭제...
+	// User information,, deletion from User List...
 	CUser* pUser = m_pMain->GetUserPtr(uid);
 	if(pUser == NULL)	return;
 
@@ -759,7 +759,7 @@ void CGameSocket::Send_UserError(short uid, short tid)
 	SetShort(buff, tid, send_index);
 	Send(buff, send_index);
 
-	TRACE("#### GameSocket-Send_UserError : 유령 유저죽이기 uid=%d, tid=%d\n", uid, tid);
+	TRACE("#### GameSocket-Send_UserError : kill ghost user uid=%d, tid=%d\n", uid, tid);
 }
 
 void CGameSocket::RecvZoneChange(char* pBuf)
@@ -772,7 +772,7 @@ void CGameSocket::RecvZoneChange(char* pBuf)
 	byZoneIndex = GetByte(pBuf, index);
 	byZoneNumber = GetByte(pBuf, index);
 
-	// User List에서 User zone정보 수정
+	// Edit user zone information in User List
 	CUser* pUser = m_pMain->GetUserPtr(uid);
 	if(pUser == NULL)	return;
 
@@ -805,7 +805,7 @@ void CGameSocket::RecvMagicAttackReq(char* pBuf)
 		else
 		{
 			TRACE("##### CGameSocket-Magic Attack Fail : UserDead  [id=%s, bLive=%d, hp=%d] ######\n", pUser->m_strUserID, pUser->m_bLive, pUser->m_sHP);
-			// 죽은 유저이므로 게임서버에 죽은 처리를 한다...
+			// Since the user is dead, the game server is treated as dead...
 			Send_UserError(sid, tid);
 			return;
 		}
@@ -822,20 +822,20 @@ void CGameSocket::RecvCompressedData(char* pBuf)
 	char pTempBuf[10001];
 	memset(pTempBuf, 0x00, 10001);
 	DWORD dwCrcValue;
-	sCompLen = GetShort(pBuf,index);	// 압축된 데이타길이얻기...
-	sOrgLen = GetShort(pBuf,index);		// 원래데이타길이얻기...
-	dwCrcValue = GetDWORD(pBuf,index);	// CRC값 얻기...
-	sCompCount = GetShort(pBuf,index);	// 압축 데이타 수 얻기...
-	// 압축 데이타 얻기...
+	sCompLen = GetShort(pBuf,index);	// Get Compressed Data Length...
+	sOrgLen = GetShort(pBuf,index);		// Get original data length...
+	dwCrcValue = GetDWORD(pBuf,index);	// Get CRC Value...
+	sCompCount = GetShort(pBuf,index);	// Get compressed data count...
+	// Get Compressed Data...
 	memcpy( pTempBuf, pBuf+index, sCompLen );
 	index += sCompLen;
 
 	CCompressManager cmpMgrDecode;
 	
 
-	/// 압축 해제	
+	/// decompress
 	cmpMgrDecode.FlushAddData();
-	cmpMgrDecode.PreUncompressWork(sCompLen, sOrgLen);	// 압축 풀기... 
+	cmpMgrDecode.PreUncompressWork(sCompLen, sOrgLen);	// Unzip...
 	char *pEncodeBuf = cmpMgrDecode.GetCompressionBufferPtr();
 	memcpy(pEncodeBuf, pTempBuf, sCompLen);
 
@@ -859,19 +859,19 @@ void CGameSocket::RecvCompressedData(char* pBuf)
 		return;
 	} 
 	
-	// 압축 풀린 데이타 읽기
+	// Read uncompressed data
 	char *pDecodeBuf = (char*)cmpMgrDecode.GetExtractedBufferPtr();
 
 	Parsing(sOrgLen, pDecodeBuf);
 
-	// 압축 풀기 끝
+	// end of decompression
 	cmpMgrDecode.FlushExtractedData();
 }
 
 void CGameSocket::RecvUserInfoAllData(char* pBuf)
 {
 	int index = 0;
-	BYTE		byCount = 0;			// 마리수
+	BYTE		byCount = 0;
 	short uid=-1, sHp, sMp, sZoneIndex, len;
 	BYTE bNation, bLevel, bZone, bAuthority=1;
 	short sDamage, sAC, sPartyIndex=0;
@@ -929,8 +929,8 @@ void CGameSocket::RecvUserInfoAllData(char* pBuf)
 		pUser->m_bLive = USER_LIVE;
 
 		if(sPartyIndex != -1)	{
-			pUser->m_byNowParty = 1;					// 파티중
-			pUser->m_sPartyNumber = sPartyIndex;		// 파티 번호 셋팅
+			pUser->m_byNowParty = 1;					// during a party
+			pUser->m_sPartyNumber = sPartyIndex;		// set party number
 		}
 
 		TRACE("****  RecvUserInfoAllData()---> uid = %d, %s, party_number=%d  ******\n", uid, strName, pUser->m_sPartyNumber);
@@ -940,7 +940,7 @@ void CGameSocket::RecvUserInfoAllData(char* pBuf)
 		}
 	}
 
-	TRACE(" ***** 유저의 모든 정보를 다 받았습니다 ****** \n");
+	TRACE(" ***** Received all user information ****** \n");
 }
 
 void CGameSocket::RecvGateOpen(char* pBuf)
@@ -1042,7 +1042,7 @@ void CGameSocket::RecvHealMagic(char* pBuf)
 		else
 		{
 			TRACE("##### CGameSocket-RecvHealMagic Fail : UserDead  [id=%d, %s, bLive=%d, hp=%d] ######\n", pUser->m_iUserId, pUser->m_strUserID, pUser->m_bLive, pUser->m_sHP);
-			// 죽은 유저이므로 게임서버에 죽은 처리를 한다...
+			// Since the user is dead, the game server is treated as dead...
 			//Send_UserError(sid, tid);
 			return;
 		}
@@ -1063,10 +1063,10 @@ void CGameSocket::RecvTimeAndWeather(char* pBuf)
 	m_pMain->m_iWeather = GetByte( pBuf, index );
 	m_pMain->m_iAmount = GetShort( pBuf, index );
 
-	if(m_pMain->m_iHour >=5 && m_pMain->m_iHour < 21)	m_pMain->m_byNight = 1;		// 낮
-	else												m_pMain->m_byNight = 2;     // 밤
+	if(m_pMain->m_iHour >=5 && m_pMain->m_iHour < 21)	m_pMain->m_byNight = 1;		// afternoon
+	else												m_pMain->m_byNight = 2;     // night
 
-	m_pMain->m_sErrorSocketCount = 0;	// Socket Check도 같이 하기 때문에...
+	m_pMain->m_sErrorSocketCount = 0;	// Because the socket check is also done at the same time...
 }
 
 void CGameSocket::RecvUserFail(char* pBuf)
@@ -1116,11 +1116,11 @@ void CGameSocket::RecvBattleEvent(char* pBuf)
 	for( i = 0; i < nSize; i++)	{
 		pNpc = m_pMain->m_arNpc.GetData( i );
 		if( !pNpc ) continue;
-		if( pNpc->m_tNpcType > 10 && (pNpc->m_byGroup == KARUS_ZONE || pNpc->m_byGroup == ELMORAD_ZONE) )	{	// npc에만 적용되고, 국가에 소속된 npc
-			if( nEvent == BATTLEZONE_OPEN )	{		// 전쟁 이벤트 시작 (npc의 능력치 다운)
+		if( pNpc->m_tNpcType > 10 && (pNpc->m_byGroup == KARUS_ZONE || pNpc->m_byGroup == ELMORAD_ZONE) )	{	// Applies only to npc, npc belonging to the country
+			if( nEvent == BATTLEZONE_OPEN )	{		// War event starts (npc's stats down)
 				pNpc->ChangeAbility( BATTLEZONE_OPEN );
 			}
-			else if( nEvent == BATTLEZONE_CLOSE )	{	// 전쟁 이벤트 끝 (npc의 능력치 회복)	
+			else if( nEvent == BATTLEZONE_CLOSE )	{	// End of war event (npc's stats restored)
 				pNpc->ChangeAbility( BATTLEZONE_CLOSE );
 			}
 		}

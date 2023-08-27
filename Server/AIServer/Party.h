@@ -19,8 +19,8 @@ class CParty
 {
 public:
 	//int		m_iSid;				// Party Number
-	//short	m_sCurUser;			// 파티 인원 수 
-	//short	m_sCurLevel;		// 파티원의 총 레벨 합
+	//short	m_sCurUser;
+	//short	m_sCurLevel;
 	CServerDlg* m_pMain;
 	//PartyUserArray	m_arPartyUser;
 

@@ -35,7 +35,7 @@ public:
 	void RecvServerConnect(char* pBuf);
 
 	BOOL SetUid(float x, float z, int id, int speed);
-	// GameServer에서 User정보 받는 부분
+	// Receiving user information from GameServer
 	void RecvUserInfo(char* pBuf);
 	void RecvUserInOut(char* pBuf);
 	void RecvUserMove(char* pBuf);

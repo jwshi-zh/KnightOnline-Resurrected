@@ -106,7 +106,7 @@ void CParty::PartyInsert(char *pBuf)
 	//sClass = GetShort(pBuf, index);
 
 	pParty = m_pMain->m_arParty.GetData( sPartyIndex );
-	if( !pParty ) {				// 이상한 경우
+	if( !pParty ) {
 			return;
 	}
 
@@ -136,7 +136,7 @@ void CParty::PartyRemove(char *pBuf)
 	if( sPartyIndex <= -1 ) return;
 
 	pParty = m_pMain->m_arParty.GetData( sPartyIndex );
-	if( !pParty ) {				// 이상한 경우
+	if( !pParty ) {
 			return;
 	}
 
@@ -167,7 +167,7 @@ void CParty::PartyDelete(char *pBuf)
 	if( sPartyIndex <= -1 ) return;
 
 	pParty = m_pMain->m_arParty.GetData( sPartyIndex );
-	if( !pParty ) {				// 이상한 경우
+	if( !pParty ) {
 			return;
 	}
 

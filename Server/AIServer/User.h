@@ -29,61 +29,59 @@ public:
 
 	UserLogList	m_UserLogList;
 
-	// 필요한 정보 변수만 선언,,,
-	// 캐릭터 기본 속성
-	char m_strUserID[MAX_ID_SIZE+1];	// 캐릭터의 이름
-	int		m_iUserId;					// User의 번호
-	BYTE	m_bLive;					// 죽었니? 살았니?
+	char m_strUserID[MAX_ID_SIZE+1];
+	int		m_iUserId;
+	BYTE	m_bLive;
 
-	float			m_curx;				// 현재 X 좌표
-	float			m_cury;				// 현재 Y 좌표
-	float			m_curz;				// 현재 Z 좌표
-	float			m_fWill_x;			// 다음 X 좌표
-	float			m_fWill_y;			// 다음 Y 좌표
-	float			m_fWill_z;			// 다음 Z 좌표
-	short			m_sSpeed;			// 유저의 스피드	
-	BYTE 			m_curZone;			// 현재 존
-	short			m_sZoneIndex;		// 현재 존의 index 번호..
+	float			m_curx;
+	float			m_cury;
+	float			m_curz;
+	float			m_fWill_x;
+	float			m_fWill_y;
+	float			m_fWill_z;
+	short			m_sSpeed;
+	BYTE 			m_curZone;
+	short			m_sZoneIndex;
 
-	BYTE	m_bNation;						// 소속국가
-	short	m_sLevel;						// 레벨
+	BYTE	m_bNation;
+	short	m_sLevel;
 
-	short	m_sHP;							// HP
-	short	m_sMP;							// MP
-	short	m_sSP;							// SP
-	short	m_sMaxHP;						// HP
-	short	m_sMaxMP;						// MP
-	short	m_sMaxSP;						// SP
+	short	m_sHP;
+	short	m_sMP;
+	short	m_sSP;
+	short	m_sMaxHP;
+	short	m_sMaxMP;
+	short	m_sMaxSP;
 
-	BYTE	m_state;						// User의 상태
+	BYTE	m_state;
 
-	short	m_sRegionX;						// 현재 영역 X 좌표
-	short	m_sRegionZ;						// 현재 영역 Z 좌표
-	short	m_sOldRegionX;					// 이전 영역 X 좌표
-	short	m_sOldRegionZ;					// 이전 영역 Z 좌표
+	short	m_sRegionX;
+	short	m_sRegionZ;
+	short	m_sOldRegionX;
+	short	m_sOldRegionZ;
 
-	BYTE	m_bResHp;						// 회복량
+	BYTE	m_bResHp;
 	BYTE	m_bResMp;
 	BYTE	m_bResSta;
 
-	BYTE    m_byNowParty;				// 파티중이면 1, 부대중이면 2, 둘다 아니면 0
-	BYTE	m_byPartyTotalMan;			// 파티 맺은 총 구성 인원수 
-	short   m_sPartyTotalLevel;			// 파티 맺은 사람의 총 레벨
-	short	m_sPartyNumber;				// 파티 번호
+	BYTE    m_byNowParty;
+	BYTE	m_byPartyTotalMan;
+	short   m_sPartyTotalLevel;
+	short	m_sPartyNumber;
 
-	short	m_sHitDamage;				// Hit
-	float	m_fHitrate;					// 공격 민첩률
-	float	m_fAvoidrate;				// 방어 민첩률
-	short	m_sAC;						// 방어율
-	short   m_sItemAC;                  // 아이템 방어률
+	short	m_sHitDamage;
+	float	m_fHitrate;	
+	float	m_fAvoidrate;
+	short	m_sAC;
+	short   m_sItemAC;
 	
 
-	short  m_sSurroundNpcNumber[8];		// Npc 다굴~
+	short  m_sSurroundNpcNumber[8];
 
-	BYTE   m_byIsOP;					// 운영자인지를 판단..
-	long   m_lUsed;						// 포인터 사용유무.. (1:사용중.. 접근 허락치 않음. 0:사용해도 무방)
+	BYTE   m_byIsOP;					// Determine if you are an operator.
+	long   m_lUsed;						// Use of pointer.. (1: In use.. Access not allowed. 0: It is okay to use)
 
-	BOOL		m_bLogOut;				// Logout 중인가?
+	BOOL		m_bLogOut;				// Are you logging out?
 
 	// 2002.7.10 - Yookozuna
 	BYTE    m_bMagicTypeLeftHand;			// The type of magic item in user's left hand  
@@ -97,23 +95,23 @@ public:
 	short GetMagicDamage(int damage, short tid);
 	void Initialize();
 	void InitNpcAttack();
-	void Attack(int sid, int tid);	// ATTACK
-	void SetDamage(int damage, int tid);				// user damage
-	void Dead(int tid, int nDamage);					// user dead
-	void SetExp(int iNpcExp, int iLoyalty, int iLevel);		// user exp
-	void SetPartyExp(int iNpcExp, int iLoyalty, int iPartyLevel, int iMan);		// user exp
+	void Attack(int sid, int tid);
+	void SetDamage(int damage, int tid);
+	void Dead(int tid, int nDamage);
+	void SetExp(int iNpcExp, int iLoyalty, int iLevel);
+	void SetPartyExp(int iNpcExp, int iLoyalty, int iPartyLevel, int iMan);
 	short GetDamage(int tid, int magicid=0);
 	BYTE GetHitRate(float rate);
 	int IsSurroundCheck(float fX, float fY, float fZ, int NpcID);
 	void HealMagic();
 	void HealAreaCheck(int rx, int rz);
 
-	void SendAttackSuccess(int tuid, BYTE result, short sDamage, int nHP=0, short sAttack_type=1);  // 공격 성공
-	void SendMagicAttackResult(int tuid, BYTE result, short sDamage, short sHP=0);  // 공격 성공
-	void SendHP();												// user의 HP
+	void SendAttackSuccess(int tuid, BYTE result, short sDamage, int nHP=0, short sAttack_type=1);
+	void SendMagicAttackResult(int tuid, BYTE result, short sDamage, short sHP=0);
+	void SendHP();
 	void SendExp(int iExp, int iLoyalty, int tType = 1);
 	void SendSystemMsg(TCHAR *pMsg, BYTE type, int nWho);
-	void SendAll(TCHAR *pBuf, int nLength);						// game server로 패킷 전송...
+	void SendAll(TCHAR *pBuf, int nLength);
 	BOOL IsOpIDCheck(char* szName);
 
 	CUser();

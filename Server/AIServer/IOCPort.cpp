@@ -228,7 +228,7 @@ DWORD WINAPI ClientWorkerThread(LPVOID lp)
 						TRACE("AISocket Closed By 0 Byte Notify\n" );
 						pSocket->CloseProcess();
 						pIocport->RidIOCPSocket( pSocket->GetSocketID(), pSocket );
-//						pIocport->PutOldSid( pSocket->GetSocketID() );		// 클라이언트 소켓은 Sid 관리하지 않음
+//						pIocport->PutOldSid( pSocket->GetSocketID() );		// Client sockets do not manage Sid
 						LeaveCriticalSection( &g_critical );
 						break;
 					}
@@ -443,7 +443,7 @@ void CIOCPort::Init(int serversocksize, int clientsocksize, int workernum)
 		m_SockArrayInActive[i] = NULL;
 	}
 
-	m_ClientSockArray = new CIOCPSocket2* [clientsocksize];		// 해당 서버가 클라이언트로서 다른 컴터에 붙는 소켓수
+	m_ClientSockArray = new CIOCPSocket2* [clientsocksize];		// The number of sockets that the server attaches to other computers as clients
 	for(int i=0; i<clientsocksize; i++ ) {
 		m_ClientSockArray[i] = NULL;
 	}
@@ -709,7 +709,7 @@ int CIOCPort::GetClientSid()
 }
 
 // sungyong~ 2002.05.22
-//	Send 를 담당할 Thread를 만든다. (현재는 CPU 갯수 * 2)
+//	Create a Thread to handle Send. (currently number of CPUs * 2)
 void CIOCPort::CreateSendThread()
 {
 	m_hSendIOCP = INVALID_HANDLE_VALUE;

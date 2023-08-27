@@ -4,7 +4,7 @@
 const BYTE INFO_MODIFY			=	1;
 const BYTE INFO_DELETE			= 	2;
 
-// 상태이상 정보
+// status information
 #define _ABNORMAL_DB			5
 
 const BYTE ABNORMAL_NONE		=	0;
@@ -19,13 +19,13 @@ const BYTE ABNORMAL_HASTE		=	8;
 const BYTE ABNORMAL_SHIELD		=	9;
 const BYTE ABNORMAL_INFRAVISION =	10;
 
-const int TYPE_MONEY_SID		=	900000000;	// 아이템 과 돈을 구분하기위해 sid를 크게 잡았다.
+const int TYPE_MONEY_SID		=	900000000;	// In order to distinguish between items and money, sid was set large.
 
 #define SERVER_INFO_START			0X01
 #define SERVER_INFO_END				0X02
 
 // ---------------------------------------------------------------------
-// AI Server와 게임서버간의 Npc에 관련된 패킷은 1번~49번 
+// Packets related to NPCs between the AI Server and the game server are numbers 1 to 49.
 // ---------------------------------------------------------------------
 
 // A : AIServer , G : GameServer
@@ -43,7 +43,7 @@ const BYTE	AG_NPC_INOUT		= 11;
 const BYTE	AG_NPC_EVENT_ITEM	= 12;	
 
 // ---------------------------------------------------------------------
-// AI Server와 게임서버간의 User, Npc 공통 관련된 패킷은 50번~100번 
+// User, Npc common related packets between AI Server and game server are 50 to 100 times
 // ---------------------------------------------------------------------
 const BYTE	AG_SERVER_INFO			= 50;	// 
 const BYTE	AG_ATTACK_REQ			= 51;	// Attck Packet
@@ -55,9 +55,9 @@ const BYTE	AG_COMPRESSED_DATA		= 56;	// Packet Data compressed
 const BYTE	AG_ZONE_CHANGE			= 57;	// Zone change
 const BYTE	AG_MAGIC_ATTACK_REQ		= 58;	// Magic Attck Packet (User->Monster
 const BYTE	AG_MAGIC_ATTACK_RESULT	= 59;	// Magic Attck Packet
-const BYTE	AG_USER_INFO_ALL		= 60;	// User의 모든 정보 전송
+const BYTE	AG_USER_INFO_ALL		= 60;	// Send all user information
 const BYTE	AG_LONG_MAGIC_ATTACK	= 61;	// Magic Attck Packet
-const BYTE	AG_PARTY_INFO_ALL		= 62;	// Party의 모든 정보 전송
+const BYTE	AG_PARTY_INFO_ALL		= 62;	// Sending all information of Party
 const BYTE	AG_HEAL_MAGIC			= 63;	// Healing magic
 const BYTE	AG_TIME_WEATHER			= 64;	// time and whether info
 const BYTE	AG_BATTLE_EVENT			= 65;	// battle event
@@ -71,20 +71,20 @@ const BYTE	AG_BATTLE_EVENT			= 65;	// battle event
 	
 
 // ---------------------------------------------------------------------
-// AI Server와 게임서버간의 User에 관련된 패킷은 101번 부터 시작
+// Packets related to users between the AI Server and the game server start from number 101.
 // ---------------------------------------------------------------------
 
-const BYTE	AG_USER_INFO		= 101;	// User의 정보
-const BYTE	AG_USER_INOUT		= 102;	// User의 In,Out 정보
-const BYTE	AG_USER_MOVE		= 103;	// User의 move
-const BYTE	AG_USER_MOVEEDGE	= 104;	// User의 move end
-const BYTE	AG_USER_SET_HP		= 105;	// User의 HP
-const BYTE	AG_USER_LOG_OUT		= 106;	// User의 LogOut
-const BYTE	AG_USER_REGENE		= 107;	// User의 Regene
-const BYTE	AG_USER_EXP			= 108;	// User의 경험치
-const BYTE	AG_USER_UPDATE		= 109;	// User의 Update Info
-const BYTE	AG_USER_FAIL		= 110;	// 잘못된 유저 처리...
-const BYTE	AG_USER_PARTY		= 111;	// 파티처리 담당
+const BYTE	AG_USER_INFO		= 101;	// User Info
+const BYTE	AG_USER_INOUT		= 102;	// User In,Out
+const BYTE	AG_USER_MOVE		= 103;	// User move
+const BYTE	AG_USER_MOVEEDGE	= 104;	// User move end
+const BYTE	AG_USER_SET_HP		= 105;	// User HP
+const BYTE	AG_USER_LOG_OUT		= 106;	// User LogOut
+const BYTE	AG_USER_REGENE		= 107;	// User Regene
+const BYTE	AG_USER_EXP			= 108;	// User
+const BYTE	AG_USER_UPDATE		= 109;	// User Update Info
+const BYTE	AG_USER_FAIL		= 110;
+const BYTE	AG_USER_PARTY		= 111;
 
 ////////////////////////////////////////////////////////////////
 // Party Related subpacket define

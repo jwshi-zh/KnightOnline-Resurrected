@@ -179,14 +179,14 @@ BYTE CMagicProcess::ExecuteType1(int magicid, int tid, int data1, int data2, int
 		}
 
 		if(pNpc->SetDamage(magicid, damage, m_pSrcUser->m_strUserID, m_pSrcUser->m_iUserId + USER_BAND, m_pSrcUser->m_pIocport) == FALSE)	{
-			// Npc가 죽은 경우,,
-			pNpc->SendExpToUserList(); // 경험치 분배!!
+			// If the NPC is dead,
+			pNpc->SendExpToUserList(); // Distribution of experience!
 			pNpc->SendDead(m_pSrcUser->m_pIocport);
 			//m_pSrcUser->SendAttackSuccess(tid, MAGIC_ATTACK_TARGET_DEAD, 0, pNpc->m_iHP);
 			m_pSrcUser->SendAttackSuccess(tid, ATTACK_TARGET_DEAD, damage, pNpc->m_iHP);
 		}
 		else	{
-			// 공격 결과 전송
+			// Transmission of attack results
 			m_pSrcUser->SendAttackSuccess(tid, ATTACK_SUCCESS, damage, pNpc->m_iHP);
 		}
 //	}
@@ -258,8 +258,7 @@ BYTE CMagicProcess::ExecuteType2(int magicid, int tid, int data1, int data2, int
 			}
 
 			m_pMain->Send( send_buff, send_index, m_pSrcUser->m_curZone );
-			// Npc가 죽은 경우,,
-			pNpc->SendExpToUserList(); // 경험치 분배!!
+			pNpc->SendExpToUserList();
 			pNpc->SendDead(m_pSrcUser->m_pIocport);
 			m_pSrcUser->SendAttackSuccess(tid, MAGIC_ATTACK_TARGET_DEAD, damage, pNpc->m_iHP);
 			//m_pSrcUser->SendAttackSuccess(tid, ATTACK_TARGET_DEAD, damage, pNpc->m_iHP);
@@ -267,7 +266,6 @@ BYTE CMagicProcess::ExecuteType2(int magicid, int tid, int data1, int data2, int
 			return result;
 		}
 		else	{
-			// 공격 결과 전송
 			m_pSrcUser->SendAttackSuccess(tid, ATTACK_SUCCESS, damage, pNpc->m_iHP);
 		}
 	}
@@ -310,7 +308,7 @@ void CMagicProcess::ExecuteType3(int magicid, int tid, int data1, int data2, int
 	pMagic = m_pMain->m_MagictableArray.GetData( magicid );   // Get main magic table.
 	if( !pMagic ) return; 
 
-	if(tid == -1)	{	// 지역 공격
+	if(tid == -1)	{
 		result = AreaAttack(3, magicid, moral, data1, data2, data3, dexpoint, righthand_damage);
 		//if(result == 0)		goto packet_send;
 		//else 
@@ -345,17 +343,15 @@ void CMagicProcess::ExecuteType3(int magicid, int tid, int data1, int data2, int
 			}
 			else	{
 				damage = abs(damage);
-				if(pType->bAttribute == 3)   attack_type = 3; // 기절시키는 마법이라면.....
+				if(pType->bAttribute == 3)   attack_type = 3; // If it's magic that stuns you...
 				else attack_type = magicid;
 
 				if(pNpc->SetDamage(attack_type, damage, m_pSrcUser->m_strUserID, m_pSrcUser->m_iUserId + USER_BAND, m_pSrcUser->m_pIocport) == FALSE)	{
-					// Npc가 죽은 경우,,
-					pNpc->SendExpToUserList(); // 경험치 분배!!
+					pNpc->SendExpToUserList();
 					pNpc->SendDead(m_pSrcUser->m_pIocport);
 					m_pSrcUser->SendAttackSuccess(tid, MAGIC_ATTACK_TARGET_DEAD, damage, pNpc->m_iHP, MAGIC_ATTACK);
 				}
 				else	{
-					// 공격 결과 전송
 					m_pSrcUser->SendAttackSuccess(tid, ATTACK_SUCCESS, damage, pNpc->m_iHP, MAGIC_ATTACK);
 				}
 			}
@@ -370,17 +366,15 @@ void CMagicProcess::ExecuteType3(int magicid, int tid, int data1, int data2, int
 		}
 		else	{
 			damage = abs(damage);
-			if(pType->bAttribute == 3)   attack_type = 3; // 기절시키는 마법이라면.....
+			if(pType->bAttribute == 3)   attack_type = 3; // If it's magic that stuns you...
 			else attack_type = magicid;
 				
 			if(pNpc->SetDamage(attack_type, damage, m_pSrcUser->m_strUserID, m_pSrcUser->m_iUserId + USER_BAND, m_pSrcUser->m_pIocport) == FALSE)	{
-				// Npc가 죽은 경우,,
-				pNpc->SendExpToUserList(); // 경험치 분배!!
+				pNpc->SendExpToUserList();
 				pNpc->SendDead(m_pSrcUser->m_pIocport);
 				m_pSrcUser->SendAttackSuccess(tid, MAGIC_ATTACK_TARGET_DEAD, damage, pNpc->m_iHP);
 			}
 			else	{
-				// 공격 결과 전송
 				m_pSrcUser->SendAttackSuccess(tid, ATTACK_SUCCESS, damage, pNpc->m_iHP);
 			}
 		}
@@ -427,7 +421,7 @@ void CMagicProcess::ExecuteType4(int magicid, int sid, int tid, int data1, int d
 	_MAGIC_TYPE4* pType = NULL;
 	CNpc* pNpc = NULL ;      // Pointer initialization!
 
-	if(tid == -1)	{	// 지역 공격
+	if(tid == -1)	{
 		result = AreaAttack(4, magicid, moral, data1, data2, data3, 0, 0);
 		if(result == 0)		goto fail_return;
 		else return;
@@ -445,19 +439,19 @@ void CMagicProcess::ExecuteType4(int magicid, int sid, int tid, int data1, int d
 	//TRACE("magictype4 ,, magicid=%d\n", magicid);
 
 	switch (pType->bBuffType) {	// Depending on which buff-type it is.....
-		case 1 :				// HP 올리기..
+		case 1 :				// Raising HP...
 			break;
 
-		case 2 :				// 방어력 올리기..
+		case 2 :				// Raise your defense...
 			break;
 
-		case 4 :				// 공격력 올리기..
+		case 4 :				// Increase attack power...
 			break;
 
-		case 5 :				// 공격 속도 올리기..
+		case 5 :				// Increase attack speed...
 			break;
 
-		case 6 :				// 이동 속도 올리기..
+		case 6 :				// Increase movement speed...
 //			if (pNpc->m_MagicType4[pType->bBuffType-1].sDurationTime > 0) {
 //				result = 0 ;
 //				goto fail_return ;					
@@ -472,13 +466,13 @@ void CMagicProcess::ExecuteType4(int magicid, int sid, int tid, int data1, int d
 //			}
 			break;
 
-		case 7 :				// 능력치 올리기...
+		case 7 :				// Level up...
 			break;
 
-		case 8 :				// 저항력 올리기...
+		case 8 :				// Increase resistance...
 			break;
 
-		case 9 :				// 공격 성공율 및 회피 성공율 올리기..
+		case 9 :				// Increase attack success rate and evasion success rate.
 			break;	
 
 		default :
@@ -550,7 +544,7 @@ short CMagicProcess::GetMagicDamage(int tid, int total_hit, int attribute, int d
 	short damage = 0, temp_hit = 0 ; 
 	int random = 0, total_r = 0 ;
 	BYTE result;
-	BOOL bSign = TRUE;			// FALSE이면 -, TRUE이면 +
+	BOOL bSign = TRUE;
 
 	if( tid < NPC_BAND || tid > INVALID_BAND) return 0;     // Check if target id is valid.
 
@@ -687,7 +681,7 @@ void CMagicProcess::AreaAttackDamage(int magictype, int rx, int rz, int magicid,
 
 	MAP* pMap = m_pMain->g_arZone[m_pSrcUser->m_sZoneIndex];
 	if(pMap == NULL) return;
-	// 자신의 region에 있는 UserArray을 먼저 검색하여,, 가까운 거리에 유저가 있는지를 판단..
+	// Search the UserArray in your own region first, and determine if there is a user nearby.
 	if(rx < 0 || rz < 0 || rx > pMap->GetXRegionMax() || rz > pMap->GetZRegionMax())	{
 		TRACE("#### CMagicProcess-AreaAttackDamage() Fail : [nid=%d, name=%s], nRX=%d, nRZ=%d #####\n", m_pSrcUser->m_iUserId, m_pSrcUser->m_strUserID, rx, rz);
 		return;
@@ -765,8 +759,8 @@ void CMagicProcess::AreaAttackDamage(int magictype, int rx, int rz, int magicid,
 			vEnd.Set(pNpc->m_fCurX, pNpc->m_fCurY, pNpc->m_fCurZ); 
 			fDis = pNpc->GetDistance(vStart, vEnd);
 
-			if(fDis <= fRadius)	{	// NPC가 반경안에 있을 경우...
-				if(magictype == 3)	{	// 타잎 3일 경우...
+			if(fDis <= fRadius)	{	// If NPCs are within range...
+				if(magictype == 3)	{	// If it's type 3...
 					damage = GetMagicDamage(pNpc->m_sNid+NPC_BAND, target_damage, attribute, dexpoint, righthand_damage);
 					TRACE("Area magictype3 ,, magicid=%d, damage=%d\n", magicid, damage);
 					if(damage >= 0)	{
@@ -774,12 +768,11 @@ void CMagicProcess::AreaAttackDamage(int magictype, int rx, int rz, int magicid,
 					}
 					else	{
 						damage = abs(damage);
-						if(pType3->bAttribute == 3)   attack_type = 3; // 기절시키는 마법이라면.....
+						if(pType3->bAttribute == 3)   attack_type = 3; // If it's magic that stuns you...
 						else attack_type = magicid;
 
 						if(pNpc->SetDamage(attack_type, damage, m_pSrcUser->m_strUserID, m_pSrcUser->m_iUserId + USER_BAND, m_pSrcUser->m_pIocport) == FALSE)	{
-							// Npc가 죽은 경우,,
-							pNpc->SendExpToUserList(); // 경험치 분배!!
+							pNpc->SendExpToUserList();
 							pNpc->SendDead(m_pSrcUser->m_pIocport);
 							m_pSrcUser->SendAttackSuccess(pNpc->m_sNid+NPC_BAND, MAGIC_ATTACK_TARGET_DEAD, damage, pNpc->m_iHP);
 						}
@@ -789,7 +782,7 @@ void CMagicProcess::AreaAttackDamage(int magictype, int rx, int rz, int magicid,
 					}
 
 					memset(send_buff, 0x00, 256);	send_index = 0;	
-					// 패킷 전송.....
+					// send packets.....
 					//if ( pMagic->bType2 == 0 || pMagic->bType2 == 3 ) 
 					{
 						SetByte( send_buff, AG_MAGIC_ATTACK_RESULT, send_index );
@@ -807,22 +800,22 @@ void CMagicProcess::AreaAttackDamage(int magictype, int rx, int rz, int magicid,
 						m_pMain->Send( send_buff, send_index, m_pSrcUser->m_curZone );
 					}
 				}
-				else if(magictype == 4)	{	// 타잎 4일 경우...
+				else if(magictype == 4)	{	// In the case of type 4...
 					memset(send_buff, 0x00, 256);	send_index = 0;		result = 1;
 					switch (pType4->bBuffType) {	// Depending on which buff-type it is.....
-						case 1 :				// HP 올리기..
+						case 1 :				// Raising HP...
 							break;
 
-						case 2 :				// 방어력 올리기..
+						case 2 :				// Raise your defense...
 							break;
 
-						case 4 :				// 공격력 올리기..
+						case 4 :				// Increase attack power...
 							break;
 
-						case 5 :				// 공격 속도 올리기..
+						case 5 :				// Increase attack speed...
 							break;
 
-						case 6 :				// 이동 속도 올리기..
+						case 6 :				// Increase movement speed...
 							//if (pNpc->m_MagicType4[pType4->bBuffType-1].sDurationTime > 0) {
 							//	result = 0 ;
 							//}
@@ -835,13 +828,13 @@ void CMagicProcess::AreaAttackDamage(int magictype, int rx, int rz, int magicid,
 							//}
 							break;
 
-						case 7 :				// 능력치 올리기...
+						case 7 :				// Level up...
 							break;
 
-						case 8 :				// 저항력 올리기...
+						case 8 :				// Increase resistance...
 							break;
 
-						case 9 :				// 공격 성공율 및 회피 성공율 올리기..
+						case 9 :				// Increase attack success rate and evasion success rate.
 							break;	
 
 						default :

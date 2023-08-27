@@ -17,11 +17,11 @@ public:
 
 	void	PutData(char *pData, int len);
 	void	GetData(char *pData, int len);
-	int		GetOutData(char *pData); //HeadPos, 변화
+	int		GetOutData(char *pData); //HeadPos, change
 	void	PutData(char& data);
 	char&	GetHeadData(){return m_pBuffer[m_iHeadPos];}
 	//1 Byte Operation;
-	//false : 모든데이터 다빠짐, TRUE: 정상적으로 진행중
+	//false : All data is lost, TRUE: normal progress
 	BOOL	HeadIncrease(int increasement=1);
 	void	SetEmpty() {m_iHeadPos=0; m_iTailPos=0;}
 
@@ -30,10 +30,10 @@ public:
 	int&	GetTailPos() {return m_iTailPos;}
 	int		GetValidCount();
 protected:
-	//over flow 먼저 점검한 후 IndexOverFlow 점검
+	//Check overflow first, then check Index OverFlow
 	BOOL	IsOverFlowCondition(int &len) {return (len >= m_iBufSize-GetValidCount()) ? TRUE: FALSE;}
 	BOOL	IsIndexOverFlow(int &len) {return (len+m_iTailPos>=m_iBufSize) ? TRUE:FALSE;}
-	void	BufferResize(); //overflow condition 일때 size를 현재의 두배로 늘림
+	void	BufferResize(); //Double the current size when overflow condition
 protected:
 	int		m_iBufSize;
 	char	*m_pBuffer;

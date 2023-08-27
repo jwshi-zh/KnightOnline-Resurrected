@@ -24,7 +24,7 @@
 #include "Compress.h"
 #include "Party.h"
 
-#include "extern.h"			// 전역 객체
+#include "extern.h"
 
 #include "STLMap.h"
 #include <vector>
@@ -48,14 +48,6 @@ typedef CSTLMap <_MAKE_ITEM_LARE_CODE>		MakeLareItemTableArray;
 typedef std::list <int>						ZoneNpcInfoList;
 typedef std::vector <MAP*>				ZoneArray;
 
-/*
-     ** Repent AI Server 작업시 참고 사항 **
-	1. 3개의 함수 추가
-		int GetSpeed(BYTE bySpeed); 
-		int GetAttackSpeed(BYTE bySpeed); 
-		int GetCatsSpeed(BYTE bySpeed); 
-*/
-
 class CServerDlg : public CDialog
 {
 private:
@@ -77,7 +69,7 @@ private:
 	void GetServerInfoIni();
 	
 	void SyncTest();
-	void RegionCheck();		// region안에 들어오는 유저 체크 (스레드에서 FindEnermy()함수의 부하를 줄이기 위한 꽁수)
+	void RegionCheck();		// Checking users entering the region (a trick to reduce the load of the FindEnermy() function in the thread)
 	void TestCode();
 // Construction
 public:
@@ -97,7 +89,7 @@ public:
 	void CheckAliveTest();
 	void DeleteUserList(int uid);
 	void DeleteAllUserList(int zone);
-	void SendCompressedData(int nZone);			// 패킷을 압축해서 보낸다..
+	void SendCompressedData(int nZone);			// Packets are compressed and sent.
 	int Send(char* pData, int length, int nZone=0);
 	void SendSystemMsg( char* pMsg, int zone, int type=0, int who=0 );
 	void ResetBattleZone();
@@ -144,32 +136,30 @@ public:
 
 	CUser* m_pUser[MAX_USER];
 
-	// class 객체
 	CNpcItem				m_NpcItem;
 
 	CFile					m_UserLogFile;
 	CFile					m_ItemLogFile;
 
-	// 전역 객체 변수
 	//BOOL			m_bNpcExit;
-	long			m_TotalNPC;			// DB에있는 총 수
-	long			m_CurrentNPCError;	// 세팅에서 실패한 수
-	long			m_CurrentNPC;		// 현재 게임상에서 실제로 셋팅된 수
-	short			m_sTotalMap;		// Zone 수 
-	short			m_sMapEventNpc;		// Map에서 읽어들이는 event npc 수
+	long			m_TotalNPC;
+	long			m_CurrentNPCError;
+	long			m_CurrentNPC;
+	short			m_sTotalMap;
+	short			m_sMapEventNpc;
 
 	// sungyong 2002.05.23
-	BOOL			m_bFirstServerFlag;		// 서버가 처음시작한 후 게임서버가 붙은 경우에는 1, 붙지 않은 경우 0
-	short m_sSocketCount;		// GameServer와 처음접시 필요
-	short m_sReSocketCount;		// GameServer와 재접시 필요
-	float m_fReConnectStart;	// 처음 소켓이 도착한 시간
-	short m_sErrorSocketCount;  // 이상소켓 감시용
+	BOOL			m_bFirstServerFlag;		// 1 if the game server is attached after the server is first started, 0 if not.
+	short m_sSocketCount;
+	short m_sReSocketCount;
+	float m_fReConnectStart;
+	short m_sErrorSocketCount;
 	// ~sungyong 2002.05.23
-	BYTE  m_byBattleEvent;				   // 전쟁 이벤트 관련 플래그( 1:전쟁중이 아님, 0:전쟁중)
-	short m_sKillKarusNpc, m_sKillElmoNpc; // 전쟁동안에 죽은 npc숫자
+	BYTE  m_byBattleEvent;				   // Flags related to war events ( 1: not at war, 0: at war)
+	short m_sKillKarusNpc, m_sKillElmoNpc; // Number of NPCs killed during the war
 
 	int m_iYear, m_iMonth, m_iDate, m_iHour, m_iMin, m_iWeather, m_iAmount;
-	BYTE	m_byNight;			// 밤인지,, 낮인지를 판단... 1:낮, 2:밤
+	BYTE	m_byNight;			// Determine whether it is night or day... 1: day, 2: night
 	BYTE    m_byTestMode;
 
 	char	m_ODBCServer[32];
@@ -180,12 +170,10 @@ public:
 	CIOCPort m_Iocport;	
 
 private:
-	// 패킷 압축에 필요 변수   -------------
 	CCompressManager	m_CompMng;				
 	int					m_CompCount;
 	TCHAR				m_CompBuf[10240];
 	int					m_iCompIndex;
-	// ~패킷 압축에 필요 변수   -------------
 
 	BYTE				m_byZone;
 	

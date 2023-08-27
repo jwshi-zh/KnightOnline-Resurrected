@@ -166,7 +166,7 @@ _MAGIC_TABLE* CNpcMagicProcess::IsAvailable(int magicid, int tid, BYTE type )
 	}
 	else if ( tid == -1) {  // Party Moral check routine.
 		if (pTable->bMoral == MORAL_AREA_ENEMY) {
-			if( m_pSrcNpc->m_byGroup == 0) {	// Switch morals. 작업할것 : 몬스터는 국가라는 개념이 없기 때문에.. 나중에 NPC가 이 마법을 사용하면 문제가 됨
+			if( m_pSrcNpc->m_byGroup == 0) {	// Switch morals. What to work on: Because monsters don't have the concept of a country.
 				moral = 2 ;
 			}
 			else {
@@ -273,7 +273,7 @@ void CNpcMagicProcess::ExecuteType3(int magicid, int tid, int data1, int data2, 
 	pMagic = m_pMain->m_MagictableArray.GetData( magicid );   // Get main magic table.
 	if( !pMagic ) return; 
 
-	if(tid == -1)	{	// 지역 공격,, 몬스터의 지역공격은 게임서버에서 처리한다.. 유저들을 상대로..
+	if(tid == -1)	{	// Area attacks, area attacks by monsters are handled by the game server.. against users..
 		goto packet_send;
 	}
 
@@ -298,12 +298,12 @@ void CNpcMagicProcess::ExecuteType3(int magicid, int tid, int data1, int data2, 
 			}
 			else	{
 				damage = abs(damage);
-/*				if(pType->bAttribute == 3)   attack_type = 3; // 기절시키는 마법이라면.....
+/*				if(pType->bAttribute == 3)   attack_type = 3; // If it's magic that stuns you...
 				else attack_type = magicid;
 
 				if(pNpc->SetDamage(attack_type, damage, m_pSrcUser->m_strUserID, m_pSrcUser->m_iUserId + USER_BAND, m_pSrcUser->m_pIocport) == FALSE)	{
 					// Npc가 죽은 경우,,
-					pNpc->SendExpToUserList(); // 경험치 분배!!
+					pNpc->SendExpToUserList(); // Distribution of experience!
 					pNpc->SendDead(m_pSrcUser->m_pIocport);
 					m_pSrcUser->SendAttackSuccess(tid, MAGIC_ATTACK_TARGET_DEAD, damage, pNpc->m_iHP, MAGIC_ATTACK);
 				}
@@ -392,7 +392,7 @@ short CNpcMagicProcess::GetMagicDamage(int tid, int total_hit, int attribute, in
 	short damage = 0, temp_hit = 0 ; 
 	int random = 0, total_r = 0 ;
 	BYTE result;
-	BOOL bSign = TRUE;			// FALSE이면 -, TRUE이면 +
+	BOOL bSign = TRUE;
 
 	if( tid < NPC_BAND || tid > INVALID_BAND) return 0;     // Check if target id is valid.
 

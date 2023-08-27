@@ -2,14 +2,14 @@
 #define _EXTERN_H_
 
 // -------------------------------------------------
-// 전역 객체 변수
+// global object variable
 // -------------------------------------------------
 extern BOOL	g_bNpcExit;
 
 struct	_PARTY_GROUP
 {
 	WORD wIndex;
-	short uid[8];		// 하나의 파티에 8명까지 가입가능
+	short uid[8];		// Up to 8 people can join a party
 	_PARTY_GROUP() {
 		for(int i=0;i<8;i++)
 			uid[i] = -1;
@@ -18,8 +18,8 @@ struct	_PARTY_GROUP
 
 struct _MAKE_WEAPON
 {
-	BYTE	byIndex;		// 몹의 레벨 기준
-	short	sClass[MAX_UPGRADE_WEAPON];		// 1차무기 확률
+	BYTE	byIndex;		// based on mob level
+	short	sClass[MAX_UPGRADE_WEAPON];		// 1st weapon probability
 	_MAKE_WEAPON() {
 		for(int i=0;i<MAX_UPGRADE_WEAPON;i++)
 			sClass[i] = 0;
@@ -29,7 +29,7 @@ struct _MAKE_WEAPON
 struct _MAKE_ITEM_GRADE_CODE
 {
 	BYTE	byItemIndex;		// item grade
-	short	sGrade_1;			// 단계별 확률
+	short	sGrade_1;			// step-by-step probability
 	short	sGrade_2;
 	short	sGrade_3;
 	short	sGrade_4;
@@ -42,10 +42,10 @@ struct _MAKE_ITEM_GRADE_CODE
 
 struct _MAKE_ITEM_LARE_CODE
 {
-	BYTE	byItemLevel;			// item level 판단 
-	short	sLareItem;				// lareitem 나올 확률
-	short	sMagicItem;				// magicitem 나올 확률
-	short	sGereralItem;			// gereralitem 나올 확률
+	BYTE	byItemLevel;			// item level judgment
+	short	sLareItem;				// Probability of lareitem
+	short	sMagicItem;				// Probability of getting a magicitem
+	short	sGereralItem;			// Probability of geralitem
 };
 
 struct _MAGIC_TABLE
@@ -136,7 +136,7 @@ struct	_USERLOG
 	CTime t;
 	BYTE  byFlag;	// 
 	BYTE  byLevel;
-	char  strUserID[MAX_ID_SIZE+1];		// 아이디(캐릭터 이름)
+	char  strUserID[MAX_ID_SIZE+1];		// ID (character name)
 };
 
 #endif

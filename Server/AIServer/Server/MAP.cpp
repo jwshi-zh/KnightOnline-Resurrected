@@ -101,7 +101,7 @@ BOOL MAP::IsMovable(int dest_x, int dest_y)
 }
 
 ///////////////////////////////////////////////////////////////////////
-//	각 서버가 담당하고 있는 zone의 Map을 로드한다.
+//	Loads the map of the zone that each server is in charge of.
 //
 BOOL MAP::LoadMap(HANDLE hFile)
 {
@@ -141,7 +141,7 @@ BOOL MAP::LoadMap(HANDLE hFile)
 void MAP::LoadTerrain(HANDLE hFile)
 {
 	DWORD dwRWC;
-	ReadFile(hFile, &m_nMapSize, sizeof(int), &dwRWC, NULL);	// 가로세로 정보가 몇개씩인가?
+	ReadFile(hFile, &m_nMapSize, sizeof(int), &dwRWC, NULL);	// How many pieces of horizontal and vertical information are there?
 	ReadFile(hFile, &m_fUnitDist, sizeof(float), &dwRWC, NULL);
 
 	m_fHeight = new float*[m_nMapSize];
@@ -154,7 +154,7 @@ void MAP::LoadTerrain(HANDLE hFile)
 	{
 		for(x=0;x<m_nMapSize;x++)
 		{
-			ReadFile(hFile, &(m_fHeight[x][z]), sizeof(float), &dwRWC, NULL);	// 높이값 읽어오기
+			ReadFile(hFile, &(m_fHeight[x][z]), sizeof(float), &dwRWC, NULL);	// read height value
 		}
 	}
 }
@@ -164,7 +164,7 @@ float MAP::GetHeight(float x, float z)
 	int iX, iZ;
 	iX = (int)(x/m_fUnitDist);
 	iZ = (int)(z/m_fUnitDist);
-	//_ASSERT( iX, iZ가 범위내에 있는 값인지 체크하기);
+	//_ASSERT( iX, Check if iZ is in range);
 
 	float y;
 	float h1, h2, h3;
@@ -186,9 +186,9 @@ float MAP::GetHeight(float x, float z)
 
 			//if (dX == 1.0f) return h2;
 
-			float h12 = h1+(h2-h1)*dX;	// h1과 h2사이의 높이값
-			float h32 = h3+(h2-h3)*dX;	// h3과 h2사이의 높이값
-			y = h32 + (h12-h32)*((dZ)/(1.0f-dX));	// 찾고자 하는 높이값
+			float h12 = h1+(h2-h1)*dX;	// Height value between h1 and h2
+			float h32 = h3+(h2-h3)*dX;
+			y = h32 + (h12-h32)*((dZ)/(1.0f-dX));	// the height you want to find
 		}
 		else
 		{
@@ -198,9 +198,9 @@ float MAP::GetHeight(float x, float z)
 
 			if (dX == 0.0f) return h1;
 
-			float h12 = h1+(h2-h1)*dX;	// h1과 h2사이의 높이값
-			float h13 = h1+(h3-h1)*dX;	// h1과 h3사이의 높이값
-			y = h13 + (h12-h13)*((1.0f-dZ)/(dX));	// 찾고자 하는 높이값
+			float h12 = h1+(h2-h1)*dX
+			float h13 = h1+(h3-h1)*dX;
+			y = h13 + (h12-h13)*((1.0f-dZ)/(dX));	// the height you want to find
 		}
 	}
 	else
@@ -213,9 +213,9 @@ float MAP::GetHeight(float x, float z)
 
 			//if (dX == 1.0f) return h2;
 
-			float h12 = h1+(h2-h1)*dX;	// h1과 h2사이의 높이값
-			float h32 = h3+(h2-h3)*dX;	// h3과 h2사이의 높이값
-			y = h12 + (h32-h12)*((1.0f-dZ)/(1.0f-dX));	// 찾고자 하는 높이값
+			float h12 = h1+(h2-h1)*dX;
+			float h32 = h3+(h2-h3)*dX;
+			y = h12 + (h32-h12)*((1.0f-dZ)/(1.0f-dX));	// the height you want to find
 		}
 		else
 		{
@@ -225,9 +225,9 @@ float MAP::GetHeight(float x, float z)
 
 			if (dX == 0.0f) return h1;
 
-			float h12 = h1+(h2-h1)*dX;	// h1과 h2사이의 높이값
-			float h13 = h1+(h3-h1)*dX;	// h1과 h3사이의 높이값
-			y = h12 + (h13-h12)*((dZ)/(dX));	// 찾고자 하는 높이값
+			float h12 = h1+(h2-h1)*dX;
+			float h13 = h1+(h3-h1)*dX;
+			y = h12 + (h13-h12)*((dZ)/(dX));	// the height you want to find
 		}
 	}
 	return y;
@@ -318,10 +318,10 @@ Iterator MAP::RegionNpcRemove(int rx, int rz, int nid)
 
 void MAP::LoadMapTile(HANDLE hFile)
 {
-	//MapTile속성 읽기..
-	//	속성이 0이면 못 가는 곳.
-	//	1이면 그냥 가는 곳...
-	//	그외는 이벤트 ID.
+	//Read MapTile properties..
+	// A place where you can't go if the attribute is 0.
+	// If it's 1, it just goes...
+	// Other event IDs.
 	//
 	int x1 = m_sizeMap.cx;
 	int z1 = m_sizeMap.cy;
@@ -421,7 +421,7 @@ void MAP::LoadObjectEvent(HANDLE hFile)
 	for( int i=0; i<iEventObjectCount; i++)
 	{
 		pEvent = new _OBJECT_EVENT;
-		ReadFile(hFile, &(pEvent->sBelong), 4, &dwNum, NULL);					// 소속 
+		ReadFile(hFile, &(pEvent->sBelong), 4, &dwNum, NULL);					// belong
 		ReadFile(hFile, &(pEvent->sIndex), 2, &dwNum, NULL);				// Event Index
 		ReadFile(hFile, &(pEvent->sType), 2, &dwNum, NULL);
 		ReadFile(hFile, &(pEvent->sControlNpcID), 2, &dwNum, NULL);
@@ -430,7 +430,7 @@ void MAP::LoadObjectEvent(HANDLE hFile)
 		ReadFile(hFile, &(pEvent->fPosY), 4, &dwNum, NULL);
 		ReadFile(hFile, &(pEvent->fPosZ), 4, &dwNum, NULL);
 
-		// 작업할것 : 맵데이터가 바뀌면 Param1이 2이면 성문인것을 판단..  3이면 레버..
+		// What to do: When the map data changes, if Param1 is 2, it is determined that it is a gate.. If it is 3, it is a lever..
 		if( pEvent->sType == 1 || pEvent->sType == 2 || pEvent->sType == 3) {
 			// sungyong test
 			m_pMain->AddObjectEventNpc(pEvent, m_nZoneNumber);

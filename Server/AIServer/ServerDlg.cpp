@@ -24,8 +24,6 @@
 #include "Region.h"
 #include "ini.h"
 
-//#include "extern.h"			// 占쏙옙占쏙옙 占쏙옙체
-
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #undef THIS_FILE
@@ -40,26 +38,9 @@ CRITICAL_SECTION g_User_critical;
 CRITICAL_SECTION g_region_critical;
 CRITICAL_SECTION g_LogFileWrite;
 
-#define CHECK_ALIVE 	100		//  占쏙옙占쌈쇽옙占쏙옙占쏙옙 占쏙옙占쏙옙占� 占쏙옙占썼여占쏙옙 占실댐옙, 타占싱몌옙 占쏙옙占쏙옙
+#define CHECK_ALIVE 	100
 #define REHP_TIME		200
 #define MONSTER_SPEED	1500
-
-/////////////////////////////////////////////////////////////////////////////
-// CAboutDlg dialog used for App About
-
-/*
-     ** Repent AI Server 占쌜억옙占쏙옙 占쏙옙占쏙옙 占쏙옙占쏙옙 **
-	1. 3占쏙옙占쏙옙 占쌉쇽옙 占쌩곤옙
-		int GetSpeed(BYTE bySpeed); 
-		int GetAttackSpeed(BYTE bySpeed); 
-		int GetCatsSpeed(BYTE bySpeed); 
-	2. Repent占쏙옙  占승곤옙 占싣뤄옙占쏙옙 占쌉쇽옙 占쏙옙占쏙옙
-		CreateNpcThread();
-		GetMonsterTableData();
-		GetNpcTableData();
-		GetNpcItemTable();
-*/
-
 
 class CAboutDlg : public CDialog
 {
@@ -157,12 +138,6 @@ BEGIN_MESSAGE_MAP(CServerDlg, CDialog)
 	ON_MESSAGE( WM_GAMESERVER_LOGIN, OnGameServerLogin )
 END_MESSAGE_MAP()
 
-/////////////////////////////////////////////////////////////////////////////
-// CServerDlg message handlers
-
-///////////////////////////////////////////////////////////////////////////////
-//	占쏙옙占쏙옙 占십깍옙화
-//
 BOOL CServerDlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
@@ -180,9 +155,9 @@ BOOL CServerDlg::OnInitDialog()
 	srand( (unsigned)time(NULL) );
 	for(int i = 0; i < 10; i++) myrand(1, 10000);	// don't delete
 	// Compress Init
-	memset( m_CompBuf, NULL, 10240 );		// 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占싶몌옙 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙
-	m_iCompIndex = 0;						// 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙
-	m_CompCount = 0;						// 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙
+	memset( m_CompBuf, NULL, 10240 );
+	m_iCompIndex = 0;
+	m_CompCount = 0;
 	InitializeCriticalSection( &g_User_critical );
 	InitializeCriticalSection( &g_LogFileWrite );
 	m_sSocketCount = 0;
@@ -304,12 +279,12 @@ BOOL CServerDlg::OnInitDialog()
 	//----------------------------------------------------------------------
 	//	Load NPC Data & Activate NPC
 	//----------------------------------------------------------------------
-	if(!GetMonsterTableData())	{		// Monster 특占쏙옙치 占쏙옙占싱븝옙 Load
+	if(!GetMonsterTableData())	{
 		EndDialog(IDCANCEL);
 		return FALSE;
 	}
 
-	if(!GetNpcTableData())	{			// NPC 특占쏙옙치 占쏙옙占싱븝옙 Load
+	if(!GetNpcTableData())	{
 		EndDialog(IDCANCEL);
 		return FALSE;
 	}
@@ -434,7 +409,6 @@ void CServerDlg::DefaultInit()
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 }
 
-//	Magic Table 占쏙옙 占싻는댐옙.
 BOOL CServerDlg::GetMagicTableData()
 {
 	CMagicTableSet	MagicTableSet;
@@ -642,9 +616,6 @@ BOOL CServerDlg::GetMakeLareItemTableData()
 	return TRUE;
 }
 
-/////////////////////////////////////////////////////////////////////////
-//	NPC Item Table 占쏙옙 占싻는댐옙.
-//
 BOOL CServerDlg::GetNpcItemTable()
 {
 	CNpcItemSet NpcItemSet;
@@ -726,7 +697,6 @@ BOOL CServerDlg::GetNpcItemTable()
 	return TRUE;
 }
 
-//	Monster Table Data 占쏙옙 占싻는댐옙.
 BOOL CServerDlg::GetMonsterTableData()
 {
 	CMonTableSet NpcTableSet;
@@ -754,57 +724,55 @@ BOOL CServerDlg::GetMonsterTableData()
 			CString tmpNpcName;
 			Npc->Initialize();
 			
-			Npc->m_sSid			= NpcTableSet.m_sSid;		// MONSTER(NPC) Serial ID
-			_tcscpy(Npc->m_strName, NpcTableSet.m_strName);	// MONSTER(NPC) Name
+			Npc->m_sSid			= NpcTableSet.m_sSid;
+			_tcscpy(Npc->m_strName, NpcTableSet.m_strName);
 			Npc->m_sPid = NpcTableSet.m_sPid;				// MONSTER(NPC) Picture ID
-			Npc->m_sSize = NpcTableSet.m_sSize;				// MONSTER(NPC) 캐占쏙옙 크占쏙옙 占쏙옙占쏙옙
-			Npc->m_iWeapon_1 = NpcTableSet.m_iWeapon1;			// 占쏙옙占쎈무占쏙옙
-			Npc->m_iWeapon_2 = NpcTableSet.m_iWeapon2;			// 占쏙옙占쎈무占쏙옙
-			Npc->m_byGroup = NpcTableSet.m_byGroup;			// 占쌀쇽옙占쏙옙占쏙옙
-			Npc->m_byActType = NpcTableSet.m_byActType;		// 占썅동占쏙옙占쏙옙
-			Npc->m_byRank = NpcTableSet.m_byRank;			// 占쏙옙占쏙옙
-			Npc->m_byTitle = NpcTableSet.m_byTitle;			// 占쏙옙占쏙옙
+			Npc->m_sSize = NpcTableSet.m_sSize;
+			Npc->m_iWeapon_1 = NpcTableSet.m_iWeapon1;
+			Npc->m_iWeapon_2 = NpcTableSet.m_iWeapon2;
+			Npc->m_byGroup = NpcTableSet.m_byGroup;
+			Npc->m_byActType = NpcTableSet.m_byActType;
+			Npc->m_byRank = NpcTableSet.m_byRank;
+			Npc->m_byTitle = NpcTableSet.m_byTitle;
 			Npc->m_iSellingGroup = NpcTableSet.m_iSellingGroup;		// item group
 			Npc->m_sLevel = NpcTableSet.m_sLevel;			// level
-			Npc->m_iExp = NpcTableSet.m_iExp;				// 占쏙옙占쏙옙치
+			Npc->m_iExp = NpcTableSet.m_iExp;
 			Npc->m_iLoyalty = NpcTableSet.m_iLoyalty;		// loyalty
-			Npc->m_iMaxHP = NpcTableSet.m_iHpPoint;	// 占쌍댐옙 HP
-			Npc->m_sMaxMP = NpcTableSet.m_sMpPoint;	// 占쌍댐옙 MP
-			Npc->m_sAttack = NpcTableSet.m_sAtk;			// 占쏙옙占쌥곤옙
-			Npc->m_sDefense = NpcTableSet.m_sAc;			// 占쏙옙載�
-			Npc->m_sHitRate = NpcTableSet.m_sHitRate;		// 타占쌥쇽옙占쏙옙占쏙옙
-			Npc->m_sEvadeRate = NpcTableSet.m_sEvadeRate;	// 회占실쇽옙占쏙옙占쏙옙
-			Npc->m_sDamage = NpcTableSet.m_sDamage;			// 占썩본 占쏙옙占쏙옙占쏙옙
-			Npc->m_sAttackDelay = NpcTableSet.m_sAttackDelay;	// 占쏙옙占쌥듸옙占쏙옙占쏙옙
-			Npc->m_bySpeed_1 = NpcTableSet.m_bySpeed1;				// 占싱듸옙占쌈듸옙	(占싫깍옙)
-			Npc->m_bySpeed_2 = NpcTableSet.m_bySpeed2;				// 占싱듸옙占쌈듸옙	(占쌕깍옙)
-			Npc->m_sSpeed = MONSTER_SPEED;			// 占싱듸옙占쌈듸옙	
-			Npc->m_sStandTime = NpcTableSet.m_sStandtime;		// 占쏙옙占쌍댐옙 占시곤옙
-			Npc->m_iMagic1 = NpcTableSet.m_iMagic1;			// 占쏙옙釉띰옙占� 1
-			Npc->m_iMagic2 = NpcTableSet.m_iMagic2;			// 占쏙옙釉띰옙占� 2
-			Npc->m_iMagic3 = NpcTableSet.m_iMagic3;			// 占쏙옙釉띰옙占� 3	
-			Npc->m_byFireR = NpcTableSet.m_byFireR;			// 화占쏙옙 占쏙옙占쌓뤄옙
-			Npc->m_byColdR = NpcTableSet.m_byColdR;			// 占시깍옙 占쏙옙占쌓뤄옙
-			Npc->m_byLightningR = NpcTableSet.m_byLightningR;			// 占쏙옙占쏙옙 占쏙옙占쌓뤄옙
-			Npc->m_byMagicR = NpcTableSet.m_byMagicR;			// 占쏙옙占쏙옙 占쏙옙占쌓뤄옙
-			Npc->m_byDiseaseR = NpcTableSet.m_byDiseaseR;		// 占쏙옙占쏙옙 占쏙옙占쌓뤄옙
-			Npc->m_byPoisonR = NpcTableSet.m_byPoisonR;		// 占쏙옙 占쏙옙占쌓뤄옙
-			Npc->m_byLightR = NpcTableSet.m_byLightR;		// 占쏙옙 占쏙옙占쌓뤄옙
+			Npc->m_iMaxHP = NpcTableSet.m_iHpPoint;
+			Npc->m_sMaxMP = NpcTableSet.m_sMpPoint;
+			Npc->m_sAttack = NpcTableSet.m_sAtk;
+			Npc->m_sDefense = NpcTableSet.m_sAc;
+			Npc->m_sHitRate = NpcTableSet.m_sHitRate;
+			Npc->m_sEvadeRate = NpcTableSet.m_sEvadeRate;
+			Npc->m_sDamage = NpcTableSet.m_sDamage;
+			Npc->m_sAttackDelay = NpcTableSet.m_sAttackDelay;
+			Npc->m_bySpeed_1 = NpcTableSet.m_bySpeed1;
+			Npc->m_bySpeed_2 = NpcTableSet.m_bySpeed2;
+			Npc->m_sSpeed = MONSTER_SPEED;
+			Npc->m_sStandTime = NpcTableSet.m_sStandtime;
+			Npc->m_iMagic1 = NpcTableSet.m_iMagic1;
+			Npc->m_iMagic2 = NpcTableSet.m_iMagic2;
+			Npc->m_iMagic3 = NpcTableSet.m_iMagic3;
+			Npc->m_byFireR = NpcTableSet.m_byFireR;
+			Npc->m_byColdR = NpcTableSet.m_byColdR;
+			Npc->m_byLightningR = NpcTableSet.m_byLightningR;
+			Npc->m_byMagicR = NpcTableSet.m_byMagicR;
+			Npc->m_byDiseaseR = NpcTableSet.m_byDiseaseR;
+			Npc->m_byPoisonR = NpcTableSet.m_byPoisonR;
+			Npc->m_byLightR = NpcTableSet.m_byLightR;
 			Npc->m_sBulk	= NpcTableSet.m_sBulk;
-			Npc->m_bySearchRange = NpcTableSet.m_bySearchRange;	// 占쏙옙 탐占쏙옙 占쏙옙占쏙옙
-			Npc->m_byAttackRange = NpcTableSet.m_byAttackRange;	// 占쏙옙占쏙옙占신몌옙
-			Npc->m_byTracingRange = NpcTableSet.m_byTracingRange;	// 占쌩격거몌옙
-			//Npc->m_sAI = NpcTableSet.m_sAI;				// 占싸곤옙占쏙옙占쏙옙 占싸듸옙占쏙옙
-			Npc->m_tNpcType = NpcTableSet.m_byType;			// NPC Type
-								// 0 : Monster
-								// 1 : Normal NPC
+			Npc->m_bySearchRange = NpcTableSet.m_bySearchRange;
+			Npc->m_byAttackRange = NpcTableSet.m_byAttackRange;
+			Npc->m_byTracingRange = NpcTableSet.m_byTracingRange;
+			//Npc->m_sAI = NpcTableSet.m_sAI;
+			Npc->m_tNpcType = NpcTableSet.m_byType;
 			
-			Npc->m_byFamilyType = NpcTableSet.m_byFamily;		// 占쏙옙占쏙옙占쏙옙結占쏙옙占� 占쏙옙占쏙옙占쏙옙占썼를 占쏙옙占쏙옙占싼댐옙.
-			//Npc->m_tItemPer;		// 占쏙옙占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙 확占쏙옙
-			//Npc->m_tDnPer;			// 占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙확占쏙옙
+			Npc->m_byFamilyType = NpcTableSet.m_byFamily;
+			//Npc->m_tItemPer;
+			//Npc->m_tDnPer;
 
-			Npc->m_iMoney = NpcTableSet.m_iMoney;			// 占쏙옙占쏙옙占쏙옙占쏙옙 占쏙옙
-			Npc->m_iItem = NpcTableSet.m_sItem;			// 占쏙옙占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙
+			Npc->m_iMoney = NpcTableSet.m_iMoney;
+			Npc->m_iItem = NpcTableSet.m_sItem;
 			Npc->m_byDirectAttack = NpcTableSet.m_byDirectAttack;
 			Npc->m_byMagicAttack = NpcTableSet.m_byMagicAttack;
 			
@@ -838,7 +806,6 @@ BOOL CServerDlg::GetMonsterTableData()
 	return TRUE;
 }
 
-//	NPC Table Data 占쏙옙 占싻는댐옙. (占쏙옙占� & NPC)
 BOOL CServerDlg::GetNpcTableData()
 {
 	CNpcTableSet NpcTableSet;
@@ -866,57 +833,51 @@ BOOL CServerDlg::GetNpcTableData()
 			CString tmpNpcName;
 			Npc->Initialize();
 			
-			Npc->m_sSid			= NpcTableSet.m_sSid;		// MONSTER(NPC) Serial ID
-			_tcscpy(Npc->m_strName, NpcTableSet.m_strName);	// MONSTER(NPC) Name
-			Npc->m_sPid = NpcTableSet.m_sPid;				// MONSTER(NPC) Picture ID
-			Npc->m_sSize = NpcTableSet.m_sSize;				// MONSTER(NPC) 캐占쏙옙 크占쏙옙 占쏙옙占쏙옙
-			Npc->m_iWeapon_1 = NpcTableSet.m_iWeapon1;			// 占쏙옙占쎈무占쏙옙
-			Npc->m_iWeapon_2 = NpcTableSet.m_iWeapon2;			// 占쏙옙占쎈무占쏙옙
-			Npc->m_byGroup = NpcTableSet.m_byGroup;			// 占쌀쇽옙占쏙옙占쏙옙
-			Npc->m_byActType = NpcTableSet.m_byActType;		// 占썅동占쏙옙占쏙옙
-			Npc->m_byRank = NpcTableSet.m_byRank;			// 占쏙옙占쏙옙
-			Npc->m_byTitle = NpcTableSet.m_byTitle;			// 占쏙옙占쏙옙
-			Npc->m_iSellingGroup = NpcTableSet.m_iSellingGroup;		// item group
-			Npc->m_sLevel = NpcTableSet.m_sLevel;			// level
-			Npc->m_iExp = NpcTableSet.m_iExp;				// 占쏙옙占쏙옙치
-			Npc->m_iLoyalty = NpcTableSet.m_iLoyalty;		// loyalty
-			Npc->m_iMaxHP = NpcTableSet.m_iHpPoint;	// 占쌍댐옙 HP
-			Npc->m_sMaxMP = NpcTableSet.m_sMpPoint;	// 占쌍댐옙 MP
-			Npc->m_sAttack = NpcTableSet.m_sAtk;			// 占쏙옙占쌥곤옙
-			Npc->m_sDefense = NpcTableSet.m_sAc;			// 占쏙옙載�
-			Npc->m_sHitRate = NpcTableSet.m_sHitRate;		// 타占쌥쇽옙占쏙옙占쏙옙
-			Npc->m_sEvadeRate = NpcTableSet.m_sEvadeRate;	// 회占실쇽옙占쏙옙占쏙옙
-			Npc->m_sDamage = NpcTableSet.m_sDamage;			// 占썩본 占쏙옙占쏙옙占쏙옙
-			Npc->m_sAttackDelay = NpcTableSet.m_sAttackDelay;	// 占쏙옙占쌥듸옙占쏙옙占쏙옙
-			Npc->m_bySpeed_1 = NpcTableSet.m_bySpeed1;				// 占싱듸옙占쌈듸옙	(占싫깍옙)
-			Npc->m_bySpeed_2 = NpcTableSet.m_bySpeed2;				// 占싱듸옙占쌈듸옙	(占쌕깍옙)
-			Npc->m_sSpeed = MONSTER_SPEED;			// 占싱듸옙占쌈듸옙	
-			Npc->m_sStandTime = NpcTableSet.m_sStandtime;		// 占쏙옙占쌍댐옙 占시곤옙
-			Npc->m_iMagic1 = NpcTableSet.m_iMagic1;			// 占쏙옙釉띰옙占� 1
-			Npc->m_iMagic2 = NpcTableSet.m_iMagic2;			// 占쏙옙釉띰옙占� 2
-			Npc->m_iMagic3 = NpcTableSet.m_iMagic3;			// 占쏙옙釉띰옙占� 3	
-			Npc->m_byFireR = NpcTableSet.m_byFireR;			// 화占쏙옙 占쏙옙占쌓뤄옙
-			Npc->m_byColdR = NpcTableSet.m_byColdR;			// 占시깍옙 占쏙옙占쌓뤄옙
-			Npc->m_byLightningR = NpcTableSet.m_byLightningR;			// 占쏙옙占쏙옙 占쏙옙占쌓뤄옙
-			Npc->m_byMagicR = NpcTableSet.m_byMagicR;			// 占쏙옙占쏙옙 占쏙옙占쌓뤄옙
-			Npc->m_byDiseaseR = NpcTableSet.m_byDiseaseR;		// 占쏙옙占쏙옙 占쏙옙占쌓뤄옙
-			Npc->m_byPoisonR = NpcTableSet.m_byPoisonR;		// 占쏙옙 占쏙옙占쌓뤄옙
-			Npc->m_byLightR = NpcTableSet.m_byLightR;		// 占쏙옙 占쏙옙占쌓뤄옙
+			Npc->m_sSid			= NpcTableSet.m_sSid;
+			_tcscpy(Npc->m_strName, NpcTableSet.m_strName);
+			Npc->m_sPid = NpcTableSet.m_sPid;
+			Npc->m_sSize = NpcTableSet.m_sSize;
+			Npc->m_iWeapon_1 = NpcTableSet.m_iWeapon1;
+			Npc->m_iWeapon_2 = NpcTableSet.m_iWeapon2;
+			Npc->m_byGroup = NpcTableSet.m_byGroup;
+			Npc->m_byActType = NpcTableSet.m_byActType;
+			Npc->m_byRank = NpcTableSet.m_byRank;
+			Npc->m_byTitle = NpcTableSet.m_byTitle;
+			Npc->m_iSellingGroup = NpcTableSet.m_iSellingGroup;
+			Npc->m_sLevel = NpcTableSet.m_sLevel;
+			Npc->m_iExp = NpcTableSet.m_iExp;
+			Npc->m_iLoyalty = NpcTableSet.m_iLoyalty;
+			Npc->m_iMaxHP = NpcTableSet.m_iHpPoint;
+			Npc->m_sMaxMP = NpcTableSet.m_sMpPoint;
+			Npc->m_sAttack = NpcTableSet.m_sAtk;
+			Npc->m_sDefense = NpcTableSet.m_sAc;
+			Npc->m_sHitRate = NpcTableSet.m_sHitRate;
+			Npc->m_sEvadeRate = NpcTableSet.m_sEvadeRate;
+			Npc->m_sDamage = NpcTableSet.m_sDamage;
+			Npc->m_sAttackDelay = NpcTableSet.m_sAttackDelay;
+			Npc->m_bySpeed_1 = NpcTableSet.m_bySpeed1;
+			Npc->m_bySpeed_2 = NpcTableSet.m_bySpeed2;
+			Npc->m_sSpeed = MONSTER_SPEED;
+			Npc->m_sStandTime = NpcTableSet.m_sStandtime;
+			Npc->m_iMagic1 = NpcTableSet.m_iMagic1;
+			Npc->m_iMagic2 = NpcTableSet.m_iMagic2;
+			Npc->m_iMagic3 = NpcTableSet.m_iMagic3;
+			Npc->m_byFireR = NpcTableSet.m_byFireR;
+			Npc->m_byColdR = NpcTableSet.m_byColdR;
+			Npc->m_byLightningR = NpcTableSet.m_byLightningR;
+			Npc->m_byMagicR = NpcTableSet.m_byMagicR;
+			Npc->m_byDiseaseR = NpcTableSet.m_byDiseaseR;
+			Npc->m_byPoisonR = NpcTableSet.m_byPoisonR;
+			Npc->m_byLightR = NpcTableSet.m_byLightR;
 			Npc->m_sBulk	= NpcTableSet.m_sBulk;
-			Npc->m_bySearchRange = NpcTableSet.m_bySearchRange;	// 占쏙옙 탐占쏙옙 占쏙옙占쏙옙
-			Npc->m_byAttackRange = NpcTableSet.m_byAttackRange;	// 占쏙옙占쏙옙占신몌옙
-			Npc->m_byTracingRange = NpcTableSet.m_byTracingRange;	// 占쌩격거몌옙
-			//Npc->m_sAI = NpcTableSet.m_sAI;				// 占싸곤옙占쏙옙占쏙옙 占싸듸옙占쏙옙
-			Npc->m_tNpcType = NpcTableSet.m_byType;			// NPC Type
-								// 0 : Monster
-								// 1 : Normal NPC
-
-			Npc->m_byFamilyType = NpcTableSet.m_byFamily;		// 占쏙옙占쏙옙占쏙옙結占쏙옙占� 占쏙옙占쏙옙占쏙옙占썼를 占쏙옙占쏙옙占싼댐옙.
-			//Npc->m_tItemPer;		// 占쏙옙占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙 확占쏙옙
-			//Npc->m_tDnPer;			// 占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙확占쏙옙
-
-			Npc->m_iMoney = NpcTableSet.m_iMoney;			// 占쏙옙占쏙옙占쏙옙占쏙옙 占쏙옙
-			Npc->m_iItem = NpcTableSet.m_sItem;			// 占쏙옙占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙
+			Npc->m_bySearchRange = NpcTableSet.m_bySearchRange;
+			Npc->m_byAttackRange = NpcTableSet.m_byAttackRange;
+			Npc->m_byTracingRange = NpcTableSet.m_byTracingRange;
+			//Npc->m_sAI = NpcTableSet.m_sAI;
+			Npc->m_tNpcType = NpcTableSet.m_byType;
+			Npc->m_byFamilyType = NpcTableSet.m_byFamily;
+			Npc->m_iMoney = NpcTableSet.m_iMoney;
+			Npc->m_iItem = NpcTableSet.m_sItem;
 			Npc->m_byDirectAttack = NpcTableSet.m_byDirectAttack;
 			Npc->m_byMagicAttack = NpcTableSet.m_byMagicAttack;
 			
@@ -950,7 +911,6 @@ BOOL CServerDlg::GetNpcTableData()
 	return TRUE;
 }
 
-//	Npc Thread 占쏙옙 占쏙옙占쏙옙占�.
 BOOL CServerDlg::CreateNpcThread()
 {
 	BOOL	bMoveNext	= TRUE;
@@ -961,7 +921,7 @@ BOOL CServerDlg::CreateNpcThread()
 	int nRandom = 0, nServerNum = 0;
 	double  dbSpeed = 0;
 
-	m_TotalNPC = 0;			// DB占쏙옙 占쌍댐옙 占쏙옙
+	m_TotalNPC = 0;
 	m_CurrentNPC = 0;
 	m_CurrentNPCError = 0;
 
@@ -969,7 +929,7 @@ BOOL CServerDlg::CreateNpcThread()
 	CRoomEvent* pRoom = NULL;
 
 	// sungyong test
-	//CRNpcPosSet NpcPosSet;		// 占싼몌옙占쏙옙 占쌓쏙옙트占쏙옙
+	//CRNpcPosSet NpcPosSet;
 	CNpcPosSet NpcPosSet;
 
 	char szPath[500];
@@ -998,7 +958,7 @@ BOOL CServerDlg::CreateNpcThread()
 
 		while(!NpcPosSet.IsEOF())	{
 			nMonsterNumber = NpcPosSet.m_NumNPC;
-			//if( NpcPosSet.m_ZoneID == 101 )	{	// 占쌓쏙옙트占쏙옙 占쏙옙占쌔쇽옙,, 
+			//if( NpcPosSet.m_ZoneID == 101 )	{
 			//	nMonsterNumber = 1;
 				//if(nMonsterNumber > 4)	{
 				//	nMonsterNumber = nMonsterNumber / 4;
@@ -1010,7 +970,7 @@ BOOL CServerDlg::CreateNpcThread()
 			if(m_byZone == nServerNum || m_byZone == UNIFY_ZONE)	{
 				for(j=0; j<nMonsterNumber; j++)		{
 					CNpc*		pNpc		= new CNpc;
-					pNpc->m_sNid	= nSerial++;			// 占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙호
+					pNpc->m_sNid	= nSerial++;
 					pNpc->m_sSid	= (short)NpcPosSet.m_NpcID;		// MONSTER(NPC) Serial ID
 
 					pNpc->m_byMoveType = NpcPosSet.m_ActType;
@@ -1051,63 +1011,61 @@ BOOL CServerDlg::CreateNpcThread()
 						nNpcCount = NpcPosSet.m_NumNPC;
 					}
 					
-					_tcscpy(pNpc->m_strName, pNpcTable->m_strName);	// MONSTER(NPC) Name
-					pNpc->m_sPid		= pNpcTable->m_sPid;		// MONSTER(NPC) Picture ID
-					pNpc->m_sSize		= pNpcTable->m_sSize;		// 캐占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙(100 占쌜쇽옙트 占쏙옙占쏙옙)
-					pNpc->m_iWeapon_1		= pNpcTable->m_iWeapon_1;	// 占쏙옙占쎈무占쏙옙
-					pNpc->m_iWeapon_2		= pNpcTable->m_iWeapon_2;	// 占쏙옙占쎈무占쏙옙
-					pNpc->m_byGroup			= pNpcTable->m_byGroup;		// 占쌀쇽옙占쏙옙占쏙옙
-					pNpc->m_byActType		= pNpcTable->m_byActType;	// 占썅동占쏙옙占쏙옙
-					pNpc->m_byRank			= pNpcTable->m_byRank;		// 占쏙옙占쏙옙
-					pNpc->m_byTitle			= pNpcTable->m_byTitle;		// 占쏙옙占쏙옙
+					_tcscpy(pNpc->m_strName, pNpcTable->m_strName);
+					pNpc->m_sPid		= pNpcTable->m_sPid;
+					pNpc->m_sSize		= pNpcTable->m_sSize;
+					pNpc->m_iWeapon_1		= pNpcTable->m_iWeapon_1;
+					pNpc->m_iWeapon_2		= pNpcTable->m_iWeapon_2;
+					pNpc->m_byGroup			= pNpcTable->m_byGroup;
+					pNpc->m_byActType		= pNpcTable->m_byActType;
+					pNpc->m_byRank			= pNpcTable->m_byRank;
+					pNpc->m_byTitle			= pNpcTable->m_byTitle;
 					pNpc->m_iSellingGroup  = pNpcTable->m_iSellingGroup;
-					pNpc->m_sLevel			= pNpcTable->m_sLevel;		// level
-					pNpc->m_iExp			= pNpcTable->m_iExp;		// 占쏙옙占쏙옙치
-					pNpc->m_iLoyalty		= pNpcTable->m_iLoyalty;	// loyalty
-					pNpc->m_iHP				= pNpcTable->m_iMaxHP;		// 占쌍댐옙 HP
-					pNpc->m_iMaxHP			= pNpcTable->m_iMaxHP;		// 占쏙옙占쏙옙 HP
-					pNpc->m_sMP				= pNpcTable->m_sMaxMP;		// 占쌍댐옙 MP
-					pNpc->m_sMaxMP			= pNpcTable->m_sMaxMP;		// 占쏙옙占쏙옙 MP
-					pNpc->m_sAttack			= pNpcTable->m_sAttack;		// 占쏙옙占쌥곤옙
-					pNpc->m_sDefense		= pNpcTable->m_sDefense;	// 占쏙옙載�
-					pNpc->m_sHitRate		= pNpcTable->m_sHitRate;	// 타占쌥쇽옙占쏙옙占쏙옙
-					pNpc->m_sEvadeRate		= pNpcTable->m_sEvadeRate;	// 회占실쇽옙占쏙옙占쏙옙
-					pNpc->m_sDamage			= pNpcTable->m_sDamage;		// 占썩본 占쏙옙占쏙옙占쏙옙
-					pNpc->m_sAttackDelay	= pNpcTable->m_sAttackDelay;// 占쏙옙占쌥듸옙占쏙옙占쏙옙
-					pNpc->m_sSpeed			= pNpcTable->m_sSpeed;		// 占싱듸옙占쌈듸옙
+					pNpc->m_sLevel			= pNpcTable->m_sLevel;
+					pNpc->m_iExp			= pNpcTable->m_iExp;
+					pNpc->m_iLoyalty		= pNpcTable->m_iLoyalty;
+					pNpc->m_iHP				= pNpcTable->m_iMaxHP;
+					pNpc->m_iMaxHP			= pNpcTable->m_iMaxHP;
+					pNpc->m_sMP				= pNpcTable->m_sMaxMP;
+					pNpc->m_sMaxMP			= pNpcTable->m_sMaxMP;
+					pNpc->m_sAttack			= pNpcTable->m_sAttack;
+					pNpc->m_sDefense		= pNpcTable->m_sDefense;
+					pNpc->m_sHitRate		= pNpcTable->m_sHitRate;
+					pNpc->m_sEvadeRate		= pNpcTable->m_sEvadeRate;
+					pNpc->m_sDamage			= pNpcTable->m_sDamage;
+					pNpc->m_sAttackDelay	= pNpcTable->m_sAttackDelay;
+					pNpc->m_sSpeed			= pNpcTable->m_sSpeed;
 					dbSpeed = pNpcTable->m_sSpeed;	
-					pNpc->m_fSpeed_1		= (float)pNpcTable->m_bySpeed_1 * (dbSpeed / 1000);	// 占썩본 占싱듸옙 타占쏙옙
-					pNpc->m_fSpeed_2		= (float)pNpcTable->m_bySpeed_2 * (dbSpeed / 1000);	// 占쌕댐옙 占싱듸옙 타占쏙옙..
-					pNpc->m_fOldSpeed_1		= (float)pNpcTable->m_bySpeed_1 * (dbSpeed / 1000);	// 占썩본 占싱듸옙 타占쏙옙
-					pNpc->m_fOldSpeed_2		= (float)pNpcTable->m_bySpeed_2 * (dbSpeed / 1000);	// 占쌕댐옙 占싱듸옙 타占쏙옙..
-					pNpc->m_fSecForMetor    = 4.0f;						// 占십댐옙 占쏙옙 占쏙옙 占쌍댐옙 占신몌옙..
-					pNpc->m_sStandTime		= pNpcTable->m_sStandTime;	// 占쏙옙占쌍댐옙 占시곤옙
-					pNpc->m_iMagic1			= pNpcTable->m_iMagic1;		// 占쏙옙釉띰옙占� 1
-					pNpc->m_iMagic2			= pNpcTable->m_iMagic2;		// 占쏙옙釉띰옙占� 2
-					pNpc->m_iMagic3			= pNpcTable->m_iMagic3;		// 占쏙옙釉띰옙占� 3
-					pNpc->m_byFireR			= pNpcTable->m_byFireR;		// 화占쏙옙 占쏙옙占쌓뤄옙
-					pNpc->m_byColdR			= pNpcTable->m_byColdR;		// 占시깍옙 占쏙옙占쌓뤄옙
-					pNpc->m_byLightningR	= pNpcTable->m_byLightningR;	// 占쏙옙占쏙옙 占쏙옙占쌓뤄옙
-					pNpc->m_byMagicR		= pNpcTable->m_byMagicR;	// 占쏙옙占쏙옙 占쏙옙占쌓뤄옙
-					pNpc->m_byDiseaseR		= pNpcTable->m_byDiseaseR;	// 占쏙옙占쏙옙 占쏙옙占쌓뤄옙
-					pNpc->m_byPoisonR		= pNpcTable->m_byPoisonR;	// 占쏙옙 占쏙옙占쌓뤄옙
-					pNpc->m_byLightR		= pNpcTable->m_byLightR;	// 占쏙옙 占쏙옙占쌓뤄옙
+					pNpc->m_fSpeed_1		= (float)pNpcTable->m_bySpeed_1 * (dbSpeed / 1000);
+					pNpc->m_fSpeed_2		= (float)pNpcTable->m_bySpeed_2 * (dbSpeed / 1000);
+					pNpc->m_fOldSpeed_1		= (float)pNpcTable->m_bySpeed_1 * (dbSpeed / 1000);
+					pNpc->m_fOldSpeed_2		= (float)pNpcTable->m_bySpeed_2 * (dbSpeed / 1000);
+					pNpc->m_fSecForMetor    = 4.0f;
+					pNpc->m_sStandTime		= pNpcTable->m_sStandTime;
+					pNpc->m_iMagic1			= pNpcTable->m_iMagic1;
+					pNpc->m_iMagic2			= pNpcTable->m_iMagic2;
+					pNpc->m_iMagic3			= pNpcTable->m_iMagic3;
+					pNpc->m_byFireR			= pNpcTable->m_byFireR;
+					pNpc->m_byColdR			= pNpcTable->m_byColdR;
+					pNpc->m_byLightningR	= pNpcTable->m_byLightningR;
+					pNpc->m_byMagicR		= pNpcTable->m_byMagicR;
+					pNpc->m_byDiseaseR		= pNpcTable->m_byDiseaseR;
+					pNpc->m_byPoisonR		= pNpcTable->m_byPoisonR;
+					pNpc->m_byLightR		= pNpcTable->m_byLightR;
 					pNpc->m_fBulk			= (float)( ((double)pNpcTable->m_sBulk / 100) * ((double)pNpcTable->m_sSize / 100) );
-					pNpc->m_bySearchRange	= pNpcTable->m_bySearchRange;	// 占쏙옙 탐占쏙옙 占쏙옙占쏙옙
-					pNpc->m_byAttackRange	= pNpcTable->m_byAttackRange;	// 占쏙옙占쏙옙占신몌옙
-					pNpc->m_byTracingRange	= pNpcTable->m_byTracingRange;	// 占쌩격거몌옙
-					pNpc->m_sAI				= pNpcTable->m_sAI;				// 占싸곤옙占쏙옙占쏙옙 占싸듸옙占쏙옙
-					pNpc->m_tNpcType		= pNpcTable->m_tNpcType;		// NPC Type
-					pNpc->m_byFamilyType	= pNpcTable->m_byFamilyType;		// 占쏙옙占쏙옙占쏙옙結占쏙옙占� 占쏙옙占쏙옙占쏙옙占썼를 占쏙옙占쏙옙占싼댐옙.
-					pNpc->m_iMoney			= pNpcTable->m_iMoney;			// 占쏙옙占쏙옙占쏙옙占쏙옙 占쏙옙
-					pNpc->m_iItem			= pNpcTable->m_iItem;			// 占쏙옙占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙
+					pNpc->m_bySearchRange	= pNpcTable->m_bySearchRange;
+					pNpc->m_byAttackRange	= pNpcTable->m_byAttackRange;
+					pNpc->m_byTracingRange	= pNpcTable->m_byTracingRange;
+					pNpc->m_sAI				= pNpcTable->m_sAI;
+					pNpc->m_tNpcType		= pNpcTable->m_tNpcType;
+					pNpc->m_byFamilyType	= pNpcTable->m_byFamilyType;
+					pNpc->m_iMoney			= pNpcTable->m_iMoney;
+					pNpc->m_iItem			= pNpcTable->m_iItem;
 					pNpc->m_tNpcLongType    = pNpcTable->m_byDirectAttack;
 					pNpc->m_byWhatAttackType = pNpcTable->m_byMagicAttack;
 
-					//////// MONSTER POS ////////////////////////////////////////
 					pNpc->m_sCurZone = NpcPosSet.m_ZoneID;
 
-					// map占쏙옙 占쏙옙占쏙옙占쏙옙 占쏙옙치占쏙옙 占쏙옙占쏙옙占싹곤옙 占쏙옙치占쏙옙킨占쏙옙.. (占쌓쏙옙트 占쏙옙 : 占쏙옙占쏙옙-DB占쏙옙占쏙옙 占싻억옙占쏙옙쨉占쏙옙占� 占쏙옙 占쏙옙치 占쏙옙占쏙옙)
 					nRandom = abs(NpcPosSet.m_LeftX - NpcPosSet.m_RightX);
 					if(nRandom <= 1)
 						fRandom_X = (float)NpcPosSet.m_LeftX;
@@ -1136,7 +1094,7 @@ BOOL CServerDlg::CreateNpcThread()
 						NpcPosSet.m_RegTime = 30;
 					}
 
-					pNpc->m_sRegenTime		= NpcPosSet.m_RegTime * 1000;	// 占쏙옙(DB)占쏙옙占쏙옙-> 占싻몌옙占쏙옙占쏙옙占쏙옙占�
+					pNpc->m_sRegenTime		= NpcPosSet.m_RegTime * 1000;
 
 					pNpc->m_sMaxPathCount = NpcPosSet.m_DotCnt;
 
@@ -1296,7 +1254,7 @@ BOOL CServerDlg::CreateNpcThread()
 	pNpcThread->pIOCP = &m_Iocport;
 	pNpcThread->m_sThreadNumber = 1000;
 
-	for(i = 0; i < NPC_NUM; i++) // 占싱몌옙 占쌍댐옙 占쏙옙환 NPC_NUM占쏙옙占쏙옙 占쌨몌옙 占쌀댐옙
+	for(i = 0; i < NPC_NUM; i++)
 	{
 		CNpc*	pNpc = new CNpc;
 		pNpc->m_sNid = nSerial++;
@@ -1324,7 +1282,6 @@ BOOL CServerDlg::CreateNpcThread()
 	return TRUE;
 }
 
-//	NPC Thread 占쏙옙占쏙옙 占쌜듸옙占쏙옙킨占쏙옙.
 void CServerDlg::ResumeAI()
 {
 	int i, j;
@@ -1346,7 +1303,7 @@ void CServerDlg::ResumeAI()
 /*	m_arEventNpcThread[0]->m_ThreadInfo.hWndMsg = this->GetSafeHwnd();
 	for(j = 0; j < NPC_NUM; j++)
 	{
-		m_arEventNpcThread[0]->m_ThreadInfo.pNpc[j] = NULL;	// 占십깍옙 占쏙옙환 占쏙옙占쏙옙 占썹연占쏙옙 占쏙옙占쏙옙占실뤄옙 NULL占쏙옙 占쌜듸옙占쏙옙 占싫쏙옙킴
+		m_arEventNpcThread[0]->m_ThreadInfo.pNpc[j] = NULL;
 		m_arEventNpcThread[0]->m_ThreadInfo.m_byNpcUsed[j] = 0;
 	}
 	m_arEventNpcThread[0]->m_ThreadInfo.pIOCP = &m_Iocport;
@@ -1383,8 +1340,6 @@ BOOL CServerDlg::DestroyWindow()
 	}	*/
 
 	WaitForSingleObject(m_pZoneEventThread, INFINITE);
-
-	// DB占쏙옙占싱븝옙 占쏙옙占쏙옙 占싸븝옙
 
 	// Map(Zone) Array Delete...
 	for( i=0; i<g_arZone.size(); i++ )
@@ -1491,7 +1446,7 @@ void CServerDlg::DeleteUserList(int uid)
 	}
 
 	if( pUser->m_iUserId == uid )	{
-		TRACE("*** UserLogOut占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙 占쏙옙환 : uid=%d, %s ***\n", uid, pUser->m_strUserID);
+		TRACE("*** UserLogOut : uid=%d, %s ***\n", uid, pUser->m_strUserID);
 		pUser->m_lUsed = 1;
 		delete m_pUser[uid];
 		m_pUser[uid] = NULL;
@@ -1533,7 +1488,7 @@ BOOL CServerDlg::MapFileLoad()
 		
 		if (!file.Open(szFullPath, CFile::modeRead))
 		{
-			errormsg.Format( "占쏙옙占쏙옙 Open 占쏙옙占쏙옙 - %s\n", szFullPath );
+			errormsg.Format( "Open Error - %s\n", szFullPath );
 			AfxMessageBox(errormsg);
 			return FALSE;
 		}
@@ -1544,7 +1499,7 @@ BOOL CServerDlg::MapFileLoad()
 		strcpy( pMap->m_MapName, (char*)(LPCTSTR)sZoneName );
 
 		if( !pMap->LoadMap( (HANDLE)file.m_hFile ) ) {
-			errormsg.Format( "Map Load 占쏙옙占쏙옙 - %s\n", szFullPath );
+			errormsg.Format( "Map Load  - %s\n", szFullPath );
 			AfxMessageBox(errormsg);
 			delete pMap;
 			return FALSE;
@@ -1553,7 +1508,7 @@ BOOL CServerDlg::MapFileLoad()
 		// dungeon work
 		if( ZoneInfoSet.m_RoomEvent > 0 )	{
 			if( !pMap->LoadRoomEvent( ZoneInfoSet.m_RoomEvent ) )	{
-				errormsg.Format( "Map Room Event Load 占쏙옙占쏙옙 - %s\n", szFullPath );
+				errormsg.Format( "Map Room Event Load  - %s\n", szFullPath );
 				AfxMessageBox(errormsg);
 				delete pMap;
 				return FALSE;
@@ -1572,8 +1527,6 @@ BOOL CServerDlg::MapFileLoad()
 	return TRUE;
 }
 
-// sungyong 2002.05.23
-// game server占쏙옙 占쏙옙占� npc占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙..
 void CServerDlg::AllNpcInfo()
 {
 	// server alive check
@@ -1672,13 +1625,13 @@ CUser* CServerDlg::GetUserPtr(int nid)
 /*	if( !m_ppUserActive[nid] )
 		return NULL;
 
-	if( m_ppUserActive[nid]->m_lUsed == 1 ) return NULL;	// 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占� 占쏙옙占식� 占쏙옙占쏙옙.. (logout占쏙옙)
+	if( m_ppUserActive[nid]->m_lUsed == 1 ) return NULL;
 
 	pUser = (CUser*)m_ppUserActive[nid];
 */
 	pUser = m_pUser[nid];
 	if(pUser == NULL)	return NULL;
-	if( pUser->m_lUsed == 1 ) return NULL;	// 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占� 占쏙옙占식� 占쏙옙占쏙옙.. (logout占쏙옙)
+	if( pUser->m_lUsed == 1 ) return NULL;
 	if(pUser->m_iUserId < 0 || pUser->m_iUserId >= MAX_USER)	return NULL;
 
 	if( pUser->m_iUserId == nid )	return pUser;
@@ -1743,7 +1696,7 @@ void CServerDlg::DeleteAllUserList(int zone)
 
 	CString logstr;
 
-	if(zone == 9999 && m_bFirstServerFlag == TRUE)	{						// 占쏙옙占� 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙...
+	if(zone == 9999 && m_bFirstServerFlag == TRUE)	{
 		CUser* pUser = NULL;
 		MAP* pMap = NULL;
 		int i=0;
@@ -1771,7 +1724,7 @@ void CServerDlg::DeleteAllUserList(int zone)
 			delete m_pUser[i];
 			m_pUser[i] = NULL;
 		}
-		// 占쏙옙티 占쏙옙占쏙옙 占쏙옙占쏙옙..
+
 		LeaveCriticalSection( &g_User_critical );
 
 		// Party Array Delete 
@@ -2038,8 +1991,6 @@ CNpc*  CServerDlg::GetNpcPtr(TCHAR* pNpcName)
 	return NULL;
 }
 
-
-//	占쌩곤옙占쏙옙 占쏙옙환占쏙옙占쏙옙 占쌨모리몌옙 占쏙옙占쏙옙占싹깍옙占쏙옙占쏙옙 占시뤄옙占쌓곤옙 0占쏙옙 占쏙옙占승것몌옙 占싼깍옙占�.
 CNpc* CServerDlg::GetEventNpcPtr()
 {
 	CNpc* pNpc = NULL;
@@ -2059,13 +2010,13 @@ CNpc* CServerDlg::GetEventNpcPtr()
 int  CServerDlg::MonsterSummon(TCHAR* pNpcName, int zone, float fx, float fz)
 {
 	if(zone < 0 || zone > (g_arZone.size() + 1) ) {
-		TRACE("#### 占쏙옙환 占쏙옙占쏙옙 : %s, zoneindex=%d #####\n", pNpcName, zone);
+		TRACE("####  : %s, zoneindex=%d #####\n", pNpcName, zone);
 		return -1;
 	}
 
 	CNpc* pNpc = GetNpcPtr(pNpcName);
 	if(pNpc == NULL)	{
-		TRACE("占쏙옙환占쏙옙  占쏙옙占쏙옙占쏙옙 占싱몌옙(%s)占쏙옙 占쌩몌옙占실억옙占쏙옙占싹댐옙.\n", pNpcName);
+		TRACE(".\n", pNpcName);
 		return  -1;
 	}
 
@@ -2075,7 +2026,6 @@ int  CServerDlg::MonsterSummon(TCHAR* pNpcName, int zone, float fx, float fz)
 	return 1;
 }
 
-//	占쏙옙환占쏙옙 占쏙옙占쏙옙 占쏙옙占쏙옙타占쏙옙占쏙옙 占쏙옙占쏙옙占싼댐옙.
 BOOL CServerDlg::SetSummonNpcData(CNpc* pNpc, int zone, float fx, float fz)
 {
 	int  iCount = 0;
@@ -2083,7 +2033,7 @@ BOOL CServerDlg::SetSummonNpcData(CNpc* pNpc, int zone, float fx, float fz)
 
 	if(pEventNpc == NULL)
 	{
-		TRACE("占쏙옙환占쌀쇽옙 占쌍댐옙 占쏙옙占쏙옙 占쌍댐옙 20占쏙옙占쏙옙占쌉니댐옙.\n");
+		TRACE(".\n");
 		return FALSE;
 	}
 
@@ -2094,58 +2044,57 @@ BOOL CServerDlg::SetSummonNpcData(CNpc* pNpc, int zone, float fx, float fz)
 	pEventNpc->m_byInitMoveType = 1;
 	pEventNpc->m_byBattlePos = 0;
 	_tcscpy(pEventNpc->m_strName, pNpc->m_strName);	// MONSTER(NPC) Name
-	pEventNpc->m_sPid		= pNpc->m_sPid;				// MONSTER(NPC) Picture ID
-	pEventNpc->m_sSize		= pNpc->m_sSize;			// 캐占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙(100 占쌜쇽옙트 占쏙옙占쏙옙)
-	pEventNpc->m_iWeapon_1		= pNpc->m_iWeapon_1;	// 占쏙옙占쎈무占쏙옙
-	pEventNpc->m_iWeapon_2		= pNpc->m_iWeapon_2;	// 占쏙옙占쎈무占쏙옙
-	pEventNpc->m_byGroup		= pNpc->m_byGroup;		// 占쌀쇽옙占쏙옙占쏙옙
-	pEventNpc->m_byActType		= pNpc->m_byActType;	// 占썅동占쏙옙占쏙옙
-	pEventNpc->m_byRank			= pNpc->m_byRank;		// 占쏙옙占쏙옙
-	pEventNpc->m_byTitle		= pNpc->m_byTitle;		// 占쏙옙占쏙옙
+	pEventNpc->m_sPid		= pNpc->m_sPid;
+	pEventNpc->m_sSize		= pNpc->m_sSize;
+	pEventNpc->m_iWeapon_1		= pNpc->m_iWeapon_1;
+	pEventNpc->m_iWeapon_2		= pNpc->m_iWeapon_2;
+	pEventNpc->m_byGroup		= pNpc->m_byGroup;
+	pEventNpc->m_byActType		= pNpc->m_byActType;
+	pEventNpc->m_byRank			= pNpc->m_byRank;
+	pEventNpc->m_byTitle		= pNpc->m_byTitle;
 	pEventNpc->m_iSellingGroup = pNpc->m_iSellingGroup;
-	pEventNpc->m_sLevel			= pNpc->m_sLevel;		// level
-	pEventNpc->m_iExp			= pNpc->m_iExp;			// 占쏙옙占쏙옙치
-	pEventNpc->m_iLoyalty		= pNpc->m_iLoyalty;		// loyalty
-	pEventNpc->m_iHP			= pNpc->m_iMaxHP;		// 占쌍댐옙 HP
-	pEventNpc->m_iMaxHP			= pNpc->m_iMaxHP;		// 占쏙옙占쏙옙 HP
-	pEventNpc->m_sMP			= pNpc->m_sMaxMP;		// 占쌍댐옙 MP
-	pEventNpc->m_sMaxMP			= pNpc->m_sMaxMP;		// 占쏙옙占쏙옙 MP
-	pEventNpc->m_sAttack		= pNpc->m_sAttack;		// 占쏙옙占쌥곤옙
-	pEventNpc->m_sDefense		= pNpc->m_sDefense;		// 占쏙옙載�
-	pEventNpc->m_sHitRate		= pNpc->m_sHitRate;		// 타占쌥쇽옙占쏙옙占쏙옙
-	pEventNpc->m_sEvadeRate		= pNpc->m_sEvadeRate;	// 회占실쇽옙占쏙옙占쏙옙
-	pEventNpc->m_sDamage		= pNpc->m_sDamage;		// 占썩본 占쏙옙占쏙옙占쏙옙
-	pEventNpc->m_sAttackDelay	= pNpc->m_sAttackDelay; // 占쏙옙占쌥듸옙占쏙옙占쏙옙
-	pEventNpc->m_sSpeed			= pNpc->m_sSpeed;		// 占싱듸옙占쌈듸옙
-	pEventNpc->m_fSpeed_1		= pNpc->m_fSpeed_1;	// 占썩본 占싱듸옙 타占쏙옙
-	pEventNpc->m_fSpeed_2		= pNpc->m_fSpeed_2;	// 占쌕댐옙 占싱듸옙 타占쏙옙..
-	pEventNpc->m_fOldSpeed_1	= pNpc->m_fOldSpeed_1;	// 占썩본 占싱듸옙 타占쏙옙
-	pEventNpc->m_fOldSpeed_2	= pNpc->m_fOldSpeed_2;	// 占쌕댐옙 占싱듸옙 타占쏙옙..
-	pEventNpc->m_fSecForMetor   = 4.0f;					// 占십댐옙 占쏙옙 占쏙옙 占쌍댐옙 占신몌옙..
-	pEventNpc->m_sStandTime		= pNpc->m_sStandTime;	// 占쏙옙占쌍댐옙 占시곤옙
-	pEventNpc->m_iMagic1		= pNpc->m_iMagic1;		// 占쏙옙釉띰옙占� 1
-	pEventNpc->m_iMagic2		= pNpc->m_iMagic2;		// 占쏙옙釉띰옙占� 2
-	pEventNpc->m_iMagic3		= pNpc->m_iMagic3;		// 占쏙옙釉띰옙占� 3
-	pEventNpc->m_byFireR		= pNpc->m_byFireR;		// 화占쏙옙 占쏙옙占쌓뤄옙
-	pEventNpc->m_byColdR		= pNpc->m_byColdR;		// 占시깍옙 占쏙옙占쌓뤄옙
-	pEventNpc->m_byLightningR	= pNpc->m_byLightningR;	// 占쏙옙占쏙옙 占쏙옙占쌓뤄옙
-	pEventNpc->m_byMagicR		= pNpc->m_byMagicR;		// 占쏙옙占쏙옙 占쏙옙占쌓뤄옙
-	pEventNpc->m_byDiseaseR		= pNpc->m_byDiseaseR;	// 占쏙옙占쏙옙 占쏙옙占쌓뤄옙
-	pEventNpc->m_byPoisonR		= pNpc->m_byPoisonR;	// 占쏙옙 占쏙옙占쌓뤄옙
-	pEventNpc->m_byLightR		= pNpc->m_byLightR;		// 占쏙옙 占쏙옙占쌓뤄옙
+	pEventNpc->m_sLevel			= pNpc->m_sLevel;
+	pEventNpc->m_iExp			= pNpc->m_iExp;
+	pEventNpc->m_iLoyalty		= pNpc->m_iLoyalty;
+	pEventNpc->m_iHP			= pNpc->m_iMaxHP;
+	pEventNpc->m_iMaxHP			= pNpc->m_iMaxHP;
+	pEventNpc->m_sMP			= pNpc->m_sMaxMP;
+	pEventNpc->m_sMaxMP			= pNpc->m_sMaxMP;
+	pEventNpc->m_sAttack		= pNpc->m_sAttack;
+	pEventNpc->m_sDefense		= pNpc->m_sDefense;
+	pEventNpc->m_sHitRate		= pNpc->m_sHitRate;
+	pEventNpc->m_sEvadeRate		= pNpc->m_sEvadeRate;
+	pEventNpc->m_sDamage		= pNpc->m_sDamage;
+	pEventNpc->m_sAttackDelay	= pNpc->m_sAttackDelay;
+	pEventNpc->m_sSpeed			= pNpc->m_sSpeed;
+	pEventNpc->m_fSpeed_1		= pNpc->m_fSpeed_1;
+	pEventNpc->m_fSpeed_2		= pNpc->m_fSpeed_2;
+	pEventNpc->m_fOldSpeed_1	= pNpc->m_fOldSpeed_1;
+	pEventNpc->m_fOldSpeed_2	= pNpc->m_fOldSpeed_2;
+	pEventNpc->m_fSecForMetor   = 4.0f;
+	pEventNpc->m_sStandTime		= pNpc->m_sStandTime;
+	pEventNpc->m_iMagic1		= pNpc->m_iMagic1;
+	pEventNpc->m_iMagic2		= pNpc->m_iMagic2;
+	pEventNpc->m_iMagic3		= pNpc->m_iMagic3;
+	pEventNpc->m_byFireR		= pNpc->m_byFireR;
+	pEventNpc->m_byColdR		= pNpc->m_byColdR;
+	pEventNpc->m_byLightningR	= pNpc->m_byLightningR;
+	pEventNpc->m_byMagicR		= pNpc->m_byMagicR;
+	pEventNpc->m_byDiseaseR		= pNpc->m_byDiseaseR;
+	pEventNpc->m_byPoisonR		= pNpc->m_byPoisonR;
+	pEventNpc->m_byLightR		= pNpc->m_byLightR;
 	pEventNpc->m_fBulk			= pNpc->m_fBulk;
-	pEventNpc->m_bySearchRange	= pNpc->m_bySearchRange;	// 占쏙옙 탐占쏙옙 占쏙옙占쏙옙
-	pEventNpc->m_byAttackRange	= pNpc->m_byAttackRange;	// 占쏙옙占쏙옙占신몌옙
-	pEventNpc->m_byTracingRange	= pNpc->m_byTracingRange;	// 占쌩격거몌옙
-	pEventNpc->m_sAI			= pNpc->m_sAI;				// 占싸곤옙占쏙옙占쏙옙 占싸듸옙占쏙옙
-	pEventNpc->m_tNpcType		= pNpc->m_tNpcType;			// NPC Type
-	pEventNpc->m_byFamilyType	= pNpc->m_byFamilyType;		// 占쏙옙占쏙옙占쏙옙結占쏙옙占� 占쏙옙占쏙옙占쏙옙占썼를 占쏙옙占쏙옙占싼댐옙.
-	pEventNpc->m_iMoney			= pNpc->m_iMoney;			// 占쏙옙占쏙옙占쏙옙占쏙옙 占쏙옙
-	pEventNpc->m_iItem			= pNpc->m_iItem;			// 占쏙옙占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙
+	pEventNpc->m_bySearchRange	= pNpc->m_bySearchRange;
+	pEventNpc->m_byAttackRange	= pNpc->m_byAttackRange;
+	pEventNpc->m_byTracingRange	= pNpc->m_byTracingRange;
+	pEventNpc->m_sAI			= pNpc->m_sAI;
+	pEventNpc->m_tNpcType		= pNpc->m_tNpcType;
+	pEventNpc->m_byFamilyType	= pNpc->m_byFamilyType;
+	pEventNpc->m_iMoney			= pNpc->m_iMoney;
+	pEventNpc->m_iItem			= pNpc->m_iItem;
 	pEventNpc->m_tNpcLongType    = pNpc->m_tNpcLongType;
 	pEventNpc->m_byWhatAttackType = pNpc->m_byWhatAttackType;
 
-	//////// MONSTER POS ////////////////////////////////////////
 	pEventNpc->m_sCurZone = zone;
 	pEventNpc->m_fCurX	= fx;
 	pEventNpc->m_fCurY	= 0;
@@ -2154,14 +2103,14 @@ BOOL CServerDlg::SetSummonNpcData(CNpc* pNpc, int zone, float fx, float fz)
 	pEventNpc->m_nInitMinY			= pNpc->m_nInitMinY;
 	pEventNpc->m_nInitMaxX			= pNpc->m_nInitMaxX;
 	pEventNpc->m_nInitMaxY			= pNpc->m_nInitMaxY;
-	pEventNpc->m_sRegenTime		= pNpc->m_sRegenTime;	// 占쏙옙(DB)占쏙옙占쏙옙-> 占싻몌옙占쏙옙占쏙옙占쏙옙占�
-	pEventNpc->m_tItemPer		= pNpc->m_tItemPer;	// NPC Type
-	pEventNpc->m_tDnPer			= pNpc->m_tDnPer;	// NPC Type
+	pEventNpc->m_sRegenTime		= pNpc->m_sRegenTime;
+	pEventNpc->m_tItemPer		= pNpc->m_tItemPer;
+	pEventNpc->m_tDnPer			= pNpc->m_tDnPer;
 
 	pEventNpc->m_ZoneIndex		= -1;
 
-	pEventNpc->m_NpcState = NPC_DEAD;	// 占쏙옙占승댐옙 占쏙옙占쏙옙占쏙옙占쏙옙占쏙옙 占쌔억옙 占싼댐옙.. 
-	pEventNpc->m_bFirstLive = 1;		// 처占쏙옙 占쏙옙틂占� 占쏙옙占쏙옙 占쏙옙占쏙옙占� 占싼댐옙..
+	pEventNpc->m_NpcState = NPC_DEAD;
+	pEventNpc->m_bFirstLive = 1;
 
 	for(int i = 0; i < g_arZone.size(); i++)	{
 		if(g_arZone[i]->m_nZoneNumber == zone)	{
@@ -2194,11 +2143,11 @@ BOOL CServerDlg::SetSummonNpcData(CNpc* pNpc, int zone, float fx, float fz)
 
 	if(!bSuccess)	{
 		pEventNpc->m_lEventNpc = 0;
-		TRACE("### 占쏙옙환占쏙옙 占쏙옙占쏙옙占쌩쏙옙占싹댐옙. ###\n");
+		TRACE("#pEventNpc->m_lEventNpc = 0;. ###\n");
 		return FALSE;
 	}
 
-	TRACE("*** %d, %s 占쏙옙 占쏙옙환占싹울옙占쏙옙占싹댐옙. state = %d ***\n", pEventNpc->m_sNid+NPC_BAND, pEventNpc->m_strName, pEventNpc->m_NpcState);
+	TRACE("*** %d, %s. state = %d ***\n", pEventNpc->m_sNid+NPC_BAND, pEventNpc->m_strName, pEventNpc->m_NpcState);
 
 	return TRUE;
 }
@@ -2440,8 +2389,8 @@ BOOL CServerDlg::AddObjectEventNpc(_OBJECT_EVENT* pEvent, int zone_number)
 
 	CNpc*		pNpc		= new CNpc;
 	
-	pNpc->m_sNid	= m_sMapEventNpc++;				// 占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙호
-	pNpc->m_sSid	= (short)pEvent->sIndex;		// MONSTER(NPC) Serial ID
+	pNpc->m_sNid	= m_sMapEventNpc++;
+	pNpc->m_sSid	= (short)pEvent->sIndex;
 
 	pNpc->m_byMoveType = 100;
 	pNpc->m_byInitMoveType = 100;
@@ -2452,59 +2401,57 @@ BOOL CServerDlg::AddObjectEventNpc(_OBJECT_EVENT* pEvent, int zone_number)
 
 	pNpc->m_byBattlePos = 0;
 
-	_tcscpy(pNpc->m_strName, pNpcTable->m_strName);	// MONSTER(NPC) Name
-	pNpc->m_sPid		= pNpcTable->m_sPid;		// MONSTER(NPC) Picture ID
-	pNpc->m_sSize		= pNpcTable->m_sSize;		// 캐占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙(100 占쌜쇽옙트 占쏙옙占쏙옙)
-	pNpc->m_iWeapon_1		= pNpcTable->m_iWeapon_1;	// 占쏙옙占쎈무占쏙옙
-	pNpc->m_iWeapon_2		= pNpcTable->m_iWeapon_2;	// 占쏙옙占쎈무占쏙옙
-	pNpc->m_byGroup			= pNpcTable->m_byGroup;		// 占쌀쇽옙占쏙옙占쏙옙
-	pNpc->m_byActType		= pNpcTable->m_byActType;	// 占썅동占쏙옙占쏙옙
-	pNpc->m_byRank			= pNpcTable->m_byRank;		// 占쏙옙占쏙옙
-	pNpc->m_byTitle			= pNpcTable->m_byTitle;		// 占쏙옙占쏙옙
+	_tcscpy(pNpc->m_strName, pNpcTable->m_strName);
+	pNpc->m_sPid		= pNpcTable->m_sPid;
+	pNpc->m_sSize		= pNpcTable->m_sSize;
+	pNpc->m_iWeapon_1		= pNpcTable->m_iWeapon_1;
+	pNpc->m_iWeapon_2		= pNpcTable->m_iWeapon_2;
+	pNpc->m_byGroup			= pNpcTable->m_byGroup
+	pNpc->m_byActType		= pNpcTable->m_byActType;
+	pNpc->m_byRank			= pNpcTable->m_byRank;
+	pNpc->m_byTitle			= pNpcTable->m_byTitle;
 	pNpc->m_iSellingGroup  = pNpcTable->m_iSellingGroup;
-	pNpc->m_sLevel			= pNpcTable->m_sLevel;		// level
-	pNpc->m_iExp			= pNpcTable->m_iExp;		// 占쏙옙占쏙옙치
-	pNpc->m_iLoyalty		= pNpcTable->m_iLoyalty;	// loyalty
-	pNpc->m_iHP				= pNpcTable->m_iMaxHP;		// 占쌍댐옙 HP
-	pNpc->m_iMaxHP			= pNpcTable->m_iMaxHP;		// 占쏙옙占쏙옙 HP
-	pNpc->m_sMP				= pNpcTable->m_sMaxMP;		// 占쌍댐옙 MP
-	pNpc->m_sMaxMP			= pNpcTable->m_sMaxMP;		// 占쏙옙占쏙옙 MP
-	pNpc->m_sAttack			= pNpcTable->m_sAttack;		// 占쏙옙占쌥곤옙
-	pNpc->m_sDefense		= pNpcTable->m_sDefense;	// 占쏙옙載�
-	pNpc->m_sHitRate		= pNpcTable->m_sHitRate;	// 타占쌥쇽옙占쏙옙占쏙옙
-	pNpc->m_sEvadeRate		= pNpcTable->m_sEvadeRate;	// 회占실쇽옙占쏙옙占쏙옙
-	pNpc->m_sDamage			= pNpcTable->m_sDamage;		// 占썩본 占쏙옙占쏙옙占쏙옙
-	pNpc->m_sAttackDelay	= pNpcTable->m_sAttackDelay;// 占쏙옙占쌥듸옙占쏙옙占쏙옙
-	pNpc->m_sSpeed			= pNpcTable->m_sSpeed;		// 占싱듸옙占쌈듸옙
-	pNpc->m_fSpeed_1		= (float)pNpcTable->m_bySpeed_1;	// 占썩본 占싱듸옙 타占쏙옙
-	pNpc->m_fSpeed_2		= (float)pNpcTable->m_bySpeed_2;	// 占쌕댐옙 占싱듸옙 타占쏙옙..
-	pNpc->m_fOldSpeed_1		= (float)pNpcTable->m_bySpeed_1;	// 占썩본 占싱듸옙 타占쏙옙
-	pNpc->m_fOldSpeed_2		= (float)pNpcTable->m_bySpeed_2;	// 占쌕댐옙 占싱듸옙 타占쏙옙..
-	pNpc->m_fSecForMetor    = 4.0f;						// 占십댐옙 占쏙옙 占쏙옙 占쌍댐옙 占신몌옙..
-	pNpc->m_sStandTime		= pNpcTable->m_sStandTime;	// 占쏙옙占쌍댐옙 占시곤옙
-	pNpc->m_iMagic1			= pNpcTable->m_iMagic1;		// 占쏙옙釉띰옙占� 1
-	pNpc->m_iMagic2			= pNpcTable->m_iMagic2;		// 占쏙옙釉띰옙占� 2
-	pNpc->m_iMagic3			= pNpcTable->m_iMagic3;		// 占쏙옙釉띰옙占� 3
-	pNpc->m_byFireR			= pNpcTable->m_byFireR;		// 화占쏙옙 占쏙옙占쌓뤄옙
-	pNpc->m_byColdR			= pNpcTable->m_byColdR;		// 占시깍옙 占쏙옙占쌓뤄옙
-	pNpc->m_byLightningR	= pNpcTable->m_byLightningR;	// 占쏙옙占쏙옙 占쏙옙占쌓뤄옙
-	pNpc->m_byMagicR		= pNpcTable->m_byMagicR;	// 占쏙옙占쏙옙 占쏙옙占쌓뤄옙
-	pNpc->m_byDiseaseR		= pNpcTable->m_byDiseaseR;	// 占쏙옙占쏙옙 占쏙옙占쌓뤄옙
-	pNpc->m_byPoisonR		= pNpcTable->m_byPoisonR;	// 占쏙옙 占쏙옙占쌓뤄옙
-	pNpc->m_byLightR		= pNpcTable->m_byLightR;	// 占쏙옙 占쏙옙占쌓뤄옙
+	pNpc->m_sLevel			= pNpcTable->m_sLevel;
+	pNpc->m_iExp			= pNpcTable->m_iExp;
+	pNpc->m_iLoyalty		= pNpcTable->m_iLoyalty;
+	pNpc->m_iHP				= pNpcTable->m_iMaxHP;
+	pNpc->m_iMaxHP			= pNpcTable->m_iMaxHP;
+	pNpc->m_sMP				= pNpcTable->m_sMaxMP;
+	pNpc->m_sMaxMP			= pNpcTable->m_sMaxMP;
+	pNpc->m_sAttack			= pNpcTable->m_sAttack;
+	pNpc->m_sDefense		= pNpcTable->m_sDefense;
+	pNpc->m_sHitRate		= pNpcTable->m_sHitRate;
+	pNpc->m_sEvadeRate		= pNpcTable->m_sEvadeRate;
+	pNpc->m_sDamage			= pNpcTable->m_sDamage;
+	pNpc->m_sAttackDelay	= pNpcTable->m_sAttackDelay;
+	pNpc->m_sSpeed			= pNpcTable->m_sSpeed;
+	pNpc->m_fSpeed_1		= (float)pNpcTable->m_bySpeed_1;
+	pNpc->m_fSpeed_2		= (float)pNpcTable->m_bySpeed_2;
+	pNpc->m_fOldSpeed_1		= (float)pNpcTable->m_bySpeed_1;
+	pNpc->m_fOldSpeed_2		= (float)pNpcTable->m_bySpeed_2;
+	pNpc->m_fSecForMetor    = 4.0f;
+	pNpc->m_sStandTime		= pNpcTable->m_sStandTime;
+	pNpc->m_iMagic1			= pNpcTable->m_iMagic1;
+	pNpc->m_iMagic2			= pNpcTable->m_iMagic2;
+	pNpc->m_iMagic3			= pNpcTable->m_iMagic3;
+	pNpc->m_byFireR			= pNpcTable->m_byFireR;
+	pNpc->m_byColdR			= pNpcTable->m_byColdR;
+	pNpc->m_byLightningR	= pNpcTable->m_byLightningR;
+	pNpc->m_byMagicR		= pNpcTable->m_byMagicR;
+	pNpc->m_byDiseaseR		= pNpcTable->m_byDiseaseR;
+	pNpc->m_byPoisonR		= pNpcTable->m_byPoisonR;
+	pNpc->m_byLightR		= pNpcTable->m_byLightR;
 	pNpc->m_fBulk			= (float)( ((double)pNpcTable->m_sBulk / 100) * ((double)pNpcTable->m_sSize / 100) );
-	pNpc->m_bySearchRange	= pNpcTable->m_bySearchRange;	// 占쏙옙 탐占쏙옙 占쏙옙占쏙옙
-	pNpc->m_byAttackRange	= pNpcTable->m_byAttackRange;	// 占쏙옙占쏙옙占신몌옙
-	pNpc->m_byTracingRange	= pNpcTable->m_byTracingRange;	// 占쌩격거몌옙
-	pNpc->m_sAI				= pNpcTable->m_sAI;				// 占싸곤옙占쏙옙占쏙옙 占싸듸옙占쏙옙
-	pNpc->m_tNpcType		= pNpcTable->m_tNpcType;		// NPC Type
-	pNpc->m_byFamilyType	= pNpcTable->m_byFamilyType;		// 占쏙옙占쏙옙占쏙옙結占쏙옙占� 占쏙옙占쏙옙占쏙옙占썼를 占쏙옙占쏙옙占싼댐옙.
-	pNpc->m_iMoney			= pNpcTable->m_iMoney;			// 占쏙옙占쏙옙占쏙옙占쏙옙 占쏙옙
-	pNpc->m_iItem			= pNpcTable->m_iItem;			// 占쏙옙占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙
+	pNpc->m_bySearchRange	= pNpcTable->m_bySearchRange;
+	pNpc->m_byAttackRange	= pNpcTable->m_byAttackRange;
+	pNpc->m_byTracingRange	= pNpcTable->m_byTracingRange;
+	pNpc->m_sAI				= pNpcTable->m_sAI;
+	pNpc->m_tNpcType		= pNpcTable->m_tNpcType;
+	pNpc->m_byFamilyType	= pNpcTable->m_byFamilyType;
+	pNpc->m_iMoney			= pNpcTable->m_iMoney;
+	pNpc->m_iItem			= pNpcTable->m_iItem;
 	pNpc->m_tNpcLongType    = pNpcTable->m_byDirectAttack;
 	pNpc->m_byWhatAttackType = pNpcTable->m_byDirectAttack;
-
-	//////// MONSTER POS ////////////////////////////////////////
 
 	pNpc->m_sCurZone = zone_number;
 
@@ -2518,15 +2465,15 @@ BOOL CServerDlg::AddObjectEventNpc(_OBJECT_EVENT* pEvent, int zone_number)
 	pNpc->m_nInitMaxX			= pEvent->fPosX+1;
 	pNpc->m_nInitMaxY			= pEvent->fPosZ+1;	
 
-	pNpc->m_sRegenTime		= 10000 * 1000;	// 占쏙옙(DB)占쏙옙占쏙옙-> 占싻몌옙占쏙옙占쏙옙占쏙옙占�
-	//pNpc->m_sRegenTime		= 30 * 1000;	// 占쏙옙(DB)占쏙옙占쏙옙-> 占싻몌옙占쏙옙占쏙옙占쏙옙占�
+	pNpc->m_sRegenTime		= 10000 * 1000;
+	//pNpc->m_sRegenTime		= 30 * 1000;
 	pNpc->m_sMaxPathCount = 0;
-	pNpc->m_tItemPer		= pNpcTable->m_tItemPer;	// NPC Type
-	pNpc->m_tDnPer			= pNpcTable->m_tDnPer;	// NPC Type
+	pNpc->m_tItemPer		= pNpcTable->m_tItemPer;
+	pNpc->m_tDnPer			= pNpcTable->m_tDnPer;
 
 	pNpc->m_ZoneIndex = -1;
 	pNpc->m_byObjectType = SPECIAL_OBJECT;
-	pNpc->m_bFirstLive = 1;		// 처占쏙옙 占쏙옙틂占� 占쏙옙占쏙옙 占쏙옙占쏙옙占� 占싼댐옙..
+	pNpc->m_bFirstLive = 1;
 	//pNpc->m_ZoneIndex = GetZoneIndex(pNpc->m_sCurZone);
 /*
 	if(pNpc->m_ZoneIndex == -1)	{
@@ -2605,8 +2552,8 @@ void CServerDlg::SendSystemMsg( char* pMsg, int zone, int type, int who )
 	short sLength = _tcslen(pMsg);
 
 	SetByte(buff, AG_SYSTEM_MSG, send_index );
-	SetByte(buff, type, send_index );				// 채占쏙옙占쏙옙占쏙옙
-	SetShort(buff, who, send_index );				// 占쏙옙占쏙옙占쏙옙占쏙옙
+	SetByte(buff, type, send_index );
+	SetShort(buff, who, send_index );
 	SetShort(buff, sLength, send_index );
 	SetString( buff, pMsg, sLength, send_index );
 
@@ -2623,8 +2570,8 @@ void CServerDlg::ResetBattleZone()
 	for( i=0; i<g_arZone.size(); i++)	{
 		pMap = g_arZone[i];
 		if( !pMap ) continue;
-		if( pMap->m_byRoomEvent == 0 ) continue;		// 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙占쏙옙求占� 占쏙옙占쏙옙 占싣니몌옙 占쏙옙占쏙옙..
-		//if( pMap->IsRoomStatusCheck() == TRUE )	continue;	// 占쏙옙체占쏙옙占쏙옙 클占쏙옙占쏙옙 占실억옙占쌕몌옙
+		if( pMap->m_byRoomEvent == 0 ) continue;
+		//if( pMap->IsRoomStatusCheck() == TRUE )	continue;
 		pMap->InitializeRoom();
 	}
 	TRACE("ServerDlg - ResetBattleZone() : end \n");

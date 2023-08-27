@@ -17,9 +17,9 @@ typedef CSTLMap <int>			mapNpcArray;
 
 struct _RoomEvent
 {
-	short	sNumber;			// 명령어, 조건문 번호
-	short	sOption_1;			// option 1 (몬스터의 번호를 주로 가지고 있음)
-	short	sOption_2;			// option 2 (몬스터의 마리수)
+	short	sNumber;			// command, condition number
+	short	sOption_1;			// option 1 (usually has the number of the monster)
+	short	sOption_2;			// option 2 (number of monsters)
 };
 
 class CNpc;
@@ -31,21 +31,21 @@ public:
 	int     m_iZoneNumber;		// zone number
 	short	m_sRoomNumber;		// room number (0:empty room)
 	BYTE	m_byStatus;			// room status (1:init, 2:progress, 3:clear)
-	BYTE	m_byCheck;			// 조건문의 갯수
-	BYTE	m_byRoomType;		// 방의 타입(0:일반, 1:함정방, 2:,,,,)
+	BYTE	m_byCheck;			// number of conditionals
+	BYTE	m_byRoomType;		// Room type (0: normal, 1: trap room, 2:,,,,)
 
 	int		m_iInitMinX;		// room region x
 	int		m_iInitMinZ;
 	int		m_iInitMaxX;
 	int		m_iInitMaxZ;
 
-	int		m_iEndMinX;			// room end region x 도착지점,,
+	int		m_iEndMinX;			// room end region x arrival point,,
 	int		m_iEndMinZ;
 	int		m_iEndMaxX;
 	int		m_iEndMaxZ;
 
-	_RoomEvent  m_Logic[MAX_CHECK_EVENT];		// 조건들
-	_RoomEvent  m_Exec[MAX_CHECK_EVENT];		// 실행문
+	_RoomEvent  m_Logic[MAX_CHECK_EVENT];		// conditions
+	_RoomEvent  m_Exec[MAX_CHECK_EVENT];		// execution statement
 
 	float   m_fDelayTime;						// time
 
@@ -53,7 +53,7 @@ public:
 	CServerDlg* m_pMain;
 
 private:
-	BYTE    m_byLogicNumber;	// 현재의 조건문 검사 번호 (조건번호는 1부터 시작됨) (m_byCheck와 m_byLogicNumber이 같다면 클리어 상태)
+	BYTE    m_byLogicNumber;	// Current condition statement check number (Condition number starts from 1) (clear state if m_byCheck and m_byLogicNumber are the same)
 
 
 public:
