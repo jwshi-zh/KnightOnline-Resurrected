@@ -64,7 +64,7 @@ public:
 	void	Send(BYTE* pData, int nSize);
 
 
-	//패킷 만들기 함수
+	//Packet making function
 	static	void	MP_AddByte(BYTE *dest, int& iOffset, BYTE byte) { CopyMemory(dest+iOffset, &byte, 1); iOffset ++; }
 	static	void	MP_AddShort(BYTE *dest, int& iOffset, short value) { CopyMemory(dest+iOffset, &value, 2); iOffset += 2; }
 	static	void	MP_AddWord(BYTE *dest, int& offset, WORD value) { CopyMemory(dest+offset, &value, 2); offset += 2; }
@@ -79,7 +79,7 @@ public:
 		}
 	}
 
-	//패킷 Parsing 함수
+	//Packet Parsing Function
 	static	BYTE&	Parse_GetByte(const BYTE* buf, int &iOffset) { iOffset ++; return *(BYTE*)(buf+iOffset-1); }
 	static	short&	Parse_GetShort(const BYTE* buf, int& iOffset) { iOffset += 2; return *(short*)(buf+iOffset-2); }
 	static  WORD&	Parse_GetWord(const BYTE* buf, int &iOffset) { iOffset += 2; return *(PWORD)(buf+iOffset-2); }
