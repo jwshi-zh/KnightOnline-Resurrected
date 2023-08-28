@@ -72,16 +72,16 @@ public:
 	CN3Scene*       GetSceneOutput() { return m_pSceneOutput;}
 	D3DSHADEMODE	m_ShadeMode;
 	D3DFILLMODE		m_FillMode;
-	bool			m_bViewWireFrame; // 선택된 오브젝트를 와이어 프레임으로 보게 한다..
-	bool			m_bRenderAxisAndGrid;			// 축과 그리드를 그릴지 안그릴지 결정..
+	bool			m_bViewWireFrame; 				// View the selected object as a wire frame.
+	bool			m_bRenderAxisAndGrid;			// Determine whether to draw axes and grids or not..
 
-	int				m_iZoneID; // 존 아이디...
+	int				m_iZoneID; // zone id...
 	bool			m_bHideObj;
-	bool			m_bLoadingComplete; // 이게 참이어야만 렌더링을 한다..
+	bool			m_bLoadingComplete; // Render only if this is true.
 
-	CMainFrame*			m_pMainFrm;						// Main 윈도우
+	CMainFrame*			m_pMainFrm;						// Main window
 	CSowSeedMng			m_SowSeedMng;
-	CDlgShapeList*		m_pDlgSourceList;			// Object 목록을 보여줄 다이알로그
+	CDlgShapeList*		m_pDlgSourceList;			// Dialog to show object list
 	CN3Transform*		GetSelSourceObj(){ return m_pSelSourceObj;}
 
 protected:
@@ -91,40 +91,40 @@ protected:
 	CSoundMgr*			m_pSoundMgr;
 	CWarpMgr*			m_pWarpMgr;
 	CRegenUser*			m_pRegenUser;
-	CEventMgr*			m_pEventMgr;				//존 이벤트 관리...
-	CWallMgr*			m_pWall;					//존 외각 가지 못하는 벽관리..
-	CNPCPathMgr*		m_pNPCPath;					// NPC 길 만드는 클래스..
-	CLyTerrain*			m_pTerrain;						// 지형
-	CN3Scene*			m_pSceneSource;					// source object 목록에 보여줄 것들을 담은 Scene
-	CN3Scene*			m_pSceneOutput;					// 맵에 배치한 Object를 포함한 Scene
+	CEventMgr*			m_pEventMgr;					// Manage zone events...
+	CWallMgr*			m_pWall;						// Wall management that can't go outside the zone..
+	CNPCPathMgr*		m_pNPCPath;						// Class to make NPC paths..
+	CLyTerrain*			m_pTerrain;						// Terrain
+	CN3Scene*			m_pSceneSource;					// Scene containing what to show in the source object list
+	CN3Scene*			m_pSceneOutput;					// Scene including objects placed on the map
 	
-	//CDlgSceneGraph*		m_pDlgSourceList;			// Object 목록을 보여줄 다이알로그
-	//CDlgSceneGraph*		m_pDlgOutputList;			// 맵에 배치한 Object를 보여줄 다이알로그
-	CDlgShapeList*		m_pDlgOutputList;			// 맵에 배치한 Object를 보여줄 다이알로그
-	CDlgBase*			m_pDlgBase;						// 객체 등록정보 편집 대화상자..
-	CBrushDlg*			m_pBrushDlg;					// 지형 편집 브러쉬 옵션지정해주는 대화상자
+	//CDlgSceneGraph*		m_pDlgSourceList;			// Dialog to show object list
+	//CDlgSceneGraph*		m_pDlgOutputList;			// Dialog to show objects placed on the map
+	CDlgShapeList*		m_pDlgOutputList;				// Dialog to show objects placed on the map
+	CDlgBase*			m_pDlgBase;						// Edit object properties dialog box..
+	CBrushDlg*			m_pBrushDlg;					// Dialog box for specifying terrain editing brush options
 	
 
-	CN3Transform*		m_pSelSourceObj;				// source object 목록에서 선택한 것
-//	CTypedPtrArray<CPtrArray, CN3TransformCollision*> m_SelOutputObjArray;	// 맵에 배치한 Object 중 선택한 것들
-	CTypedPtrArray<CPtrArray, CN3Transform*>	m_SelOutputObjArray;	// 맵에 배치한 Object 중 선택한 것들
+	CN3Transform*		m_pSelSourceObj;				// Selected from source object list
+//	CTypedPtrArray<CPtrArray, CN3TransformCollision*> m_SelOutputObjArray;	// Selected objects among the objects placed on the map
+	CTypedPtrArray<CPtrArray, CN3Transform*>	m_SelOutputObjArray;	// Selected objects among the objects placed on the map
 
-	ENUM_EDIT_STATE		m_eSelObjBackState;		//	임시복사(ctrl+c)의 상태표시
-	CTypedPtrArray<CPtrArray, CN3Transform*>	m_SelOutputObjBack;	// 맵에 배치한 Object 중 선택한 것들 가지고 있음
+	ENUM_EDIT_STATE		m_eSelObjBackState;		//	Display the status of temporary copy (ctrl+c)
+	CTypedPtrArray<CPtrArray, CN3Transform*>	m_SelOutputObjBack;	// Contains the selected objects among the objects placed on the map
 
-	int					m_CursorMode;					// 마우스의 기능 모드 구분
-	BOOL				m_bRenderSelObj;				// source object 목록에서 선택된 것을 그릴지 안그릴지 결정
+	int					m_CursorMode;					// Differentiate function mode of mouse
+	BOOL				m_bRenderSelObj;				// Determine whether to draw the selected item in the source object list or n
 
-	CTransDummy*		m_pDummy;						// 물체를 이동 회전 확대/축소 하는 기능을 담당하는 클래스
-	CPosDummy			m_PosDummy;						// 이동
-	CRotDummy			m_RotDummy;						// 회전
-	CScaleDummy			m_ScaleDummy;					// 확대/축소
-	CRiverMng			m_RiverMng;						// 강물 정보관리
-	CPondMng			m_PondMng;						// 연못 정보관리
+	CTransDummy*		m_pDummy;						// Class responsible for moving, rotating and scaling the object
+	CPosDummy			m_PosDummy;						// movement
+	CRotDummy			m_RotDummy;						// rotation
+	CScaleDummy			m_ScaleDummy;					// Zoom in zoom out
+	CRiverMng			m_RiverMng;						// River water information management
+	CPondMng			m_PondMng;						// Pond information management
 
-	RECT				m_rcSelDrag;					// 드래그 영역
+	RECT				m_rcSelDrag;					// Drag area
 
-	struct __Sort										// Object picking할때 정렬하는 구조체
+	struct __Sort										// Structure to sort when picking objects
 	{
 		CN3TransformCollision*	pObj;
 		float		fCamDist;
@@ -138,56 +138,56 @@ public:
 	void	DeleteSelectedSourceObjects();
 	void	DeleteOverlappedObjects();
 	void	DeleteUnusedFiles();
-	void	SetZoneID(int id) { m_iZoneID = id; if(m_pTerrain) m_pTerrain->m_iZoneID = id; }	//지형 존 아이디 셋팅.
+	void	SetZoneID(int id) { m_iZoneID = id; if(m_pTerrain) m_pTerrain->m_iZoneID = id; }	// Set terrain zone ID.
 	void	ImportShape(const char* szFullPath);
-	void	MakeTerrainMovableAttr(CN3ShapeMgr* pShapeMgr);		//지형에서 갈수 있는 타일과 갈 수 없는 타일을 정리해라..
-	void	ImportPostDataFromScene(const char* szFileName); // Scene 에서 오브젝트 배치된걸 불러온다..
+	void	MakeTerrainMovableAttr(CN3ShapeMgr* pShapeMgr);		// Organize the tiles that can be reached and the tiles that cannot be reached on the terrain
+	void	ImportPostDataFromScene(const char* szFileName); // Load the objects placed in the scene..
 	void	UpDateFP(); 
 	void	Tick();
 	void	Render();
 	void	Release();
 	void	SavePartition(float x, float z, float width);
-	void	SaveToFile(LPCTSTR lpszPathName);			// Map 파일 저장
-	void	LoadFromFile(LPCTSTR lpszPathName);			// Map 파일 불러오기
-	BOOL	MouseMsgFilter(LPMSG pMsg);			// 마우스의 기능
-	void	ImportTerrain(const char* szMeshFN);			// VMesh 파일에서 지형 데이터 읽어오기
-	void	ImportTerrainHeight(const char* szMeshFN);		// VMesh 파일에서 지형의 높이값만 읽어오기..
-	void	MakeGameFiles(LPCTSTR lpszPathName, float fSize = 128.0f);	// 게임 데이터로 변환하기
+	void	SaveToFile(LPCTSTR lpszPathName);			// save map file
+	void	LoadFromFile(LPCTSTR lpszPathName);			// load map file
+	BOOL	MouseMsgFilter(LPMSG pMsg);			// function of mouse
+	void	ImportTerrain(const char* szMeshFN);			// Read terrain data from VMesh file
+	void	ImportTerrainHeight(const char* szMeshFN);		// Read only the height of the terrain from the VMesh file.
+	void	MakeGameFiles(LPCTSTR lpszPathName, float fSize = 128.0f);	// Convert to game data
 	void	MakeServerDataFiles(LPCTSTR lpszPathName);
-	void	SelectObject(CN3Base* pObj, BOOL IsSourceObj, BOOL bAdd = FALSE);	// 객체를 선택한다.
-	void	RenderObjectToWindow(CN3TransformCollision* pObj, HWND hWnd);	// 특정 윈도우에 Object를 그려준다.
-	void	SetCursorMode(int iMode);						// 마우스커서의 이용방법을 바꾼다.
-	int		GetCursorMode() const {return m_CursorMode;}	// 마우스 커서의 이용방법을 얻는다.
-	void	Invalidate();									// View 화면 갱신
-	void	FocusSelObj();									// 선택된 객체로 포터스를 옮긴다.
-	void	FocusAll();										// 전체 맵을 볼수 있도록 한다.
-	void	FocusAt(__Vector3 v);							// 지정된 점으로 포커스 옮겨.
-	void	DropSelObjToTerrain();							// 선택한 객체를 지형에 붙인다.(Y값만 조정)
-	void	DeleteSelObjectFromOutputScene();			// OutputScene에서 선택한 객체를 지운다.
-	void	RenderDragRect(RECT* rc);					// 드래그 영역을 그린다.
-	void	UpdateAll();								// source 와 output dialog를 update시킨다.
+	void	SelectObject(CN3Base* pObj, BOOL IsSourceObj, BOOL bAdd = FALSE);	// select the object
+	void	RenderObjectToWindow(CN3TransformCollision* pObj, HWND hWnd);	// Draw an object in a specific window.
+	void	SetCursorMode(int iMode);						// Change the way the mouse cursor is used.
+	int		GetCursorMode() const {return m_CursorMode;}	// Get how to use the mouse cursor.
+	void	Invalidate();									// Update View screen
+	void	FocusSelObj();									// Move the focus to the selected object.
+	void	FocusAll();										// Make the entire map visible.
+	void	FocusAt(__Vector3 v);							// Move the focus to the specified poin
+	void	DropSelObjToTerrain();							// Attach the selected object to the terrain (adjust only the Y value)
+	void	DeleteSelObjectFromOutputScene();			// Delete the selected object in OutputScene.
+	void	RenderDragRect(RECT* rc);					// Draw the drag area.
+	void	UpdateAll();								// Update the source and output dialogs
 
-	void	LoadObjectPostData(LPCTSTR lpszFileName);		// Shape 배치정보를 text파일에서 읽어온다.
-	void	SaveObjectPostData(LPCTSTR lpszFileName);		// Shape 배치정보를 text파일로 저장한다.
+	void	LoadObjectPostData(LPCTSTR lpszFileName);		// Read the shape arrangement information from the text file.
+	void	SaveObjectPostData(LPCTSTR lpszFileName);		// Save the shape arrangement information as a text file.
 	void	SaveObjectPostDataPartition(LPCTSTR lpszFileName, float psx, float psz, float width);
-	void	RenderGrid(float fGridSize, float fMaxDistance);	// 맵에 일정간격으로Grid를 그려준다
-	void	OnSelChanged();								// 선택한 객체가 바뀌었을때 해줄것들
-	void	SelectObjectByDragRect(RECT* pRect, BOOL bAdd);	// 드래그 해서 객체 선택하기
-	void	LoadSourceObjects();						// Folder 에서 Source Object 를 읽어온다.
-	CN3Transform* AddChr(CN3Scene* pDestScene, const std::string& szFN, BOOL bGenerateChainNumber);		// 특정Scene에 캐릭터 객체를 복사해 추가
-	CN3Transform* AddShape(CN3Scene* pDestScene, const std::string& szFN, BOOL bGenerateChainNumber);	// 특정Scene에 Shape 객체를 복사해 추가
-	CN3Transform* AddObjectToOutputScene(CN3Transform* pObj);	// 소스목록에서 선택한 Object를 넣으면 OutputScene으로 복사해서 넣어준다.
+	void	RenderGrid(float fGridSize, float fMaxDistance);	// Draw a grid on the map at regular intervals
+	void	OnSelChanged();								// What to do when the selected object changes
+	void	SelectObjectByDragRect(RECT* pRect, BOOL bAdd);	// select object by dragging
+	void	LoadSourceObjects();						// Read Source Object from Folder
+	CN3Transform* AddChr(CN3Scene* pDestScene, const std::string& szFN, BOOL bGenerateChainNumber);		// Copy and add a character object to a specific Scene
+	CN3Transform* AddShape(CN3Scene* pDestScene, const std::string& szFN, BOOL bGenerateChainNumber);	// Copy and add a Shape object to a specific Scene
+	CN3Transform* AddObjectToOutputScene(CN3Transform* pObj);	// If you put the object selected in the source list, it is copied and put into the OutputScene.
 	CN3Camera* CameraGet();
 
-	CN3Base*	Pick(POINT point, int* pnPart);												// 객체 picking 함수
-	static int SortByCameraDistance(const void *pArg1, const void *pArg2);	// 카메라 거리에 따른 정렬함수 qsort에 이용
+	CN3Base*	Pick(POINT point, int* pnPart);												// object picking function
+	static int SortByCameraDistance(const void *pArg1, const void *pArg2);	// Used for sorting function qsort according to camera distance
 
-//	BOOL	CameraMove(LPMSG pMsg);		// 카메라 이동에 관한 메세지 처리
-	BOOL	GetObjectMinMax(CN3Transform* pObj, __Vector3& vMin, __Vector3& vMax);	// 객체의 최대최소점 찾기
+//	BOOL	CameraMove(LPMSG pMsg);		// Handle messages about camera movement
+	BOOL	GetObjectMinMax(CN3Transform* pObj, __Vector3& vMin, __Vector3& vMax);	// Find the maximum and minimum points of the object
 
 	CStatusBar* GetStatusBar();
 
-	void	SetEditState(ENUM_EDIT_STATE eEditStat);	//	드로우해서 선택한 오브젝트를 edit
+	void	SetEditState(ENUM_EDIT_STATE eEditStat);	//	edit the selected object by drawing
 };
 
 #endif // !defined(AFX_MAPMNG_H__995D141A_97C5_4CE7_B100_D729B35E9959__INCLUDED_)
