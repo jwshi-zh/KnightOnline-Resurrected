@@ -71,7 +71,7 @@ void CDTex::Init()
 
 //
 //	SetAttr...
-//	타일하나에 속성 집어 넣기..
+//	Add attributes - properties to one tile.
 //
 void CDTex::SetAttr(int x, int y, DTEXATTR attr)
 {

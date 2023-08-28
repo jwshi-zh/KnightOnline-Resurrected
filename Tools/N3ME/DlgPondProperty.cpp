@@ -73,7 +73,7 @@ BOOL CDlgPondProperty::OnInitDialog()
 	m_LPPond.AddPropItem("WaterScaleWidth(int)", "", PIT_EDIT, "");
 	m_LPPond.AddPropItem("WaterScaleHeight(int)", "", PIT_EDIT, "");
 
-	m_LPPond.AddPropItem("Texture File", "", PIT_FILE, "Texture 로 쓸수 있는 그림 파일(*.DXT; *.BMP; *.TGA)|*.DXT; *.BMP; *.TGA|");
+	m_LPPond.AddPropItem("Texture File", "", PIT_FILE, "Picture files that can be used as textures(*.DXT; *.BMP; *.TGA)|*.DXT; *.BMP; *.TGA|");
 	m_LPPond.AddPropItem("Alpha factor(hex)", "", PIT_EDIT, "");
 
 	m_LPPond.AddPropItem("Water tu(float)", "", PIT_EDIT, "");
@@ -164,8 +164,8 @@ void CDlgPondProperty::UpdateInfo()
 		else GetDlgItem(IDC_BUTTON_EDITPOND)->SetWindowText("Pond UnLock Edit");
 
 		if(pSelPond->GetChangUVState()==TRUE)	
-			 GetDlgItem(IDC_BU_RECALCUV)->SetWindowText("점으로");
-		else GetDlgItem(IDC_BU_RECALCUV)->SetWindowText("평편하게");
+			 GetDlgItem(IDC_BU_RECALCUV)->SetWindowText("By Point");
+		else GetDlgItem(IDC_BU_RECALCUV)->SetWindowText("Flat");
 
 		if(m_pPondMng->GetChooseGroup()==TRUE)
 			 GetDlgItem(IDC_GROUP)->SetWindowText("Gup On");
@@ -311,7 +311,7 @@ BOOL CDlgPondProperty::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 				int iWidht = (int)atoi(pItem->m_curValue);
 				if(MAX_PONDMESH_VERTEX< iWidht*pSelPond->GetWaterScaleHeight())
 				{
-					MessageBox("만들수있는 한계를 넘었습니다.");
+					MessageBox("You have exceeded the limits of what you can create. Max PondMeshVertex");
 					pItem->m_curValue.Format("%d", pSelPond->GetWaterScaleWidht());
 					return TRUE;
 				}
@@ -326,7 +326,7 @@ BOOL CDlgPondProperty::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 				int iHeight = (int)atoi(pItem->m_curValue);
 				if(MAX_PONDMESH_VERTEX< iHeight*pSelPond->GetWaterScaleWidht())
 				{
-					MessageBox("만들수있는 한계를 넘었습니다.");
+					MessageBox("You have exceeded the limits of what you can create. WaterScaleHeight");
 					pItem->m_curValue.Format("%d", pSelPond->GetWaterScaleHeight());
 					return TRUE;
 				}
@@ -339,7 +339,7 @@ BOOL CDlgPondProperty::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 			else if (pItem->m_propName == "Texture File")
 			{
 				CN3Base tmp;
-				tmp.m_szName = pItem->m_curValue;		// 상대경로로 바꾸기
+				tmp.m_szName = pItem->m_curValue;		// change to relative path
 				if (pSelPond->SetTextureName(tmp.m_szName.c_str()) == FALSE)
 				{
 					CString strMsg;
@@ -366,11 +366,11 @@ void CDlgPondProperty::OnOK()
 		if (pSelPond && pSelPond->TexGet())
 		{
 			if (m_pPondMng->GetPondMesh(pSelPond->GetPondID()) == NULL) CDialog::OnOK();
-			else MessageBox("중복되는 아이디 입니다.");
+			else MessageBox("This is a duplicated Pond ID.");
 		}
 		else
 		{
-			MessageBox("Texture를 지정하지 않았습니다.");
+			MessageBox("Texture not specified.");
 		}
 	}
 }
@@ -408,12 +408,12 @@ void CDlgPondProperty::OnButtonRecalUV()
 	pSelPond->SetChangUVState();
 	if(pSelPond->GetChangUVState()==TRUE)
 	{
-		GetDlgItem(IDC_BU_RECALCUV)->SetWindowText("점으로");
+		GetDlgItem(IDC_BU_RECALCUV)->SetWindowText("By Point");
 		pSelPond->ReCalcUV();
 	}
 	else
 	{
-		GetDlgItem(IDC_BU_RECALCUV)->SetWindowText("평편하게");
+		GetDlgItem(IDC_BU_RECALCUV)->SetWindowText("Flat");
 		pSelPond->ReCalcVexUV();
 	}
 
@@ -426,7 +426,7 @@ void CDlgPondProperty::OnButtonDeletePond()
 	CPondMesh* pSelPond = m_pPondMng->GetSelPond();
 	if (pSelPond)
 	{
-		if (MessageBox("선택된 연못을 지우시겠습니까?", "Remove pond", MB_YESNO|MB_DEFBUTTON2) == IDNO) return;
+		if (MessageBox("Are you sure you want to clear the selected pond?", "Remove pond", MB_YESNO|MB_DEFBUTTON2) == IDNO) return;
 		m_pPondMng->RemovePondMesh(pSelPond->GetPondID());
 
 		UpdateInfo();

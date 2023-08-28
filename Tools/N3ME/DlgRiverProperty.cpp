@@ -65,12 +65,12 @@ BOOL CDlgRiverProperty::OnInitDialog()
 	m_LPRiver.AddPropItem("Speed1", "", PIT_EDIT, "");
 	m_LPRiver.AddPropItem("meter / u", "", PIT_EDIT, "");
 	m_LPRiver.AddPropItem("meter / v", "", PIT_EDIT, "");
-	m_LPRiver.AddPropItem("Texture File", "", PIT_FILE, "Texture 로 쓸수 있는 그림 파일(*.DXT; *.BMP; *.TGA)|*.DXT; *.BMP; *.TGA|");
+	m_LPRiver.AddPropItem("Texture File", "", PIT_FILE, "Texture image files that can be written to(*.DXT; *.BMP; *.TGA)|*.DXT; *.BMP; *.TGA|");
 	m_LPRiver.AddPropItem("Animation Texture FPS", "", PIT_EDIT, "");
 	m_LPRiver.AddPropItem("Speed2", "", PIT_EDIT, "");
 	m_LPRiver.AddPropItem("meter / u2", "", PIT_EDIT, "");
 	m_LPRiver.AddPropItem("meter / v2", "", PIT_EDIT, "");
-	m_LPRiver.AddPropItem("Animation Texture File", "", PIT_FILE, "Texture 로 쓸수 있는 그림 파일(*.DXT; *.BMP; *.TGA)|*.DXT; *.BMP; *.TGA|");
+	m_LPRiver.AddPropItem("Animation Texture File", "", PIT_FILE, "Texture image files that can be written to(*.DXT; *.BMP; *.TGA)|*.DXT; *.BMP; *.TGA|");
 	
 	int nW = 100;
 	m_LPRiver.SetDividerWidth(nW);
@@ -250,7 +250,7 @@ BOOL CDlgRiverProperty::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 			else if (pItem->m_propName == "meter / v") pSelRiver->SetMeterPerV((float)atof(pItem->m_curValue));
 			else if (pItem->m_propName == "Texture File")
 			{
-				CN3Base tmp;	tmp.m_szName = pItem->m_curValue;		// 상대경로로 바꾸기
+				CN3Base tmp;	tmp.m_szName = pItem->m_curValue;		// change to relative path
 				if (pSelRiver->SetTextureName(tmp.m_szName.c_str()) == FALSE)
 				{
 					CString strMsg;
@@ -266,15 +266,15 @@ BOOL CDlgRiverProperty::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 			else if (pItem->m_propName == "meter / v2") pSelRiver->SetMeterPerV2((float)atof(pItem->m_curValue));
 			else if (pItem->m_propName == "Animation Texture File")
 			{
-				// 에니메이션 되는 텍스쳐 지정 (갯수는 파일 이름으로부터 알아낸다. 따라서 맨 마지막번호파일을 지정해야함)
+				// Animated texture designation (the number is obtained from the file name. Therefore, the last number file must be specified)
 
-				CN3Base tmp;	tmp.m_szName = pItem->m_curValue;		// 상대경로로 바꾸기
-				// 화일 이름 분리
+				CN3Base tmp;	tmp.m_szName = pItem->m_curValue;		// change to relative path
+				// separate file names
 				char szDir[_MAX_DIR];
 				char szFName[_MAX_FNAME];
 				char szExt[_MAX_EXT];
 				_splitpath(tmp.m_szName.c_str(), NULL, szDir, szFName, szExt);
-				int iCount = atoi(szFName+lstrlen(szFName)-2) + 1;	// 파일 이름의 끝에 두자리를 숫자로 변환
+				int iCount = atoi(szFName+lstrlen(szFName)-2) + 1;	// Convert the last two digits of the filename to a number
 				CString strFName = szDir; strFName += szFName;
 				strFName = strFName.Left(strFName.GetLength()-2);
 
@@ -302,11 +302,11 @@ void CDlgRiverProperty::OnOK()
 		if (pSelRiver && pSelRiver->TexGet())
 		{
 			if (m_pRiverMng->GetRiverMesh(pSelRiver->GetRiverID()) == NULL) CDialog::OnOK();
-			else MessageBox("중복되는 아이디 입니다.");
+			else MessageBox("This is a duplicate ID.");
 		}
 		else
 		{
-			MessageBox("Texture를 지정하지 않았습니다.");
+			MessageBox("Texture Not Specified.");
 		}
 	}
 }
@@ -335,7 +335,7 @@ void CDlgRiverProperty::OnButtonDeleteRiver()
 	CRiverMesh* pSelRiver = m_pRiverMng->GetSelRiver();
 	if (pSelRiver)
 	{
-		if (MessageBox("선택된 강을 지우시겠습니까?", "Remove river", MB_YESNO|MB_DEFBUTTON2) == IDNO) return;
+		if (MessageBox("Are you sure you want to clear the selected river??", "Remove river", MB_YESNO|MB_DEFBUTTON2) == IDNO) return;
 		m_pRiverMng->RemoveRiverMesh(pSelRiver->GetRiverID());
 	}
 }

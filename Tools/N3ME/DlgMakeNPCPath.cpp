@@ -201,8 +201,8 @@ BOOL CDlgMakeNPCPath::OnInitDialog()
 	m_NPCList.GetLBText(0, m_strSelNPCName);
 	m_iSelNPCID = (int)m_NPCList.GetItemData(0);
 
-	//m_ActTypeList.AddString("움직이는");
-	//m_ActTypeList.AddString("안움직이는");
+	//m_ActTypeList.AddString("Moving");
+	//m_ActTypeList.AddString("Not Moving");
 	m_ActTypeList.SetCurSel(0);
 	m_iSelActType = (int)m_ActTypeList.GetItemData(0);
 
@@ -323,7 +323,7 @@ void CDlgMakeNPCPath::OnBtnSavePathset()
 
 void CDlgMakeNPCPath::OnBtnSaveServerPathset() 
 {
-	CFileDialog dlg(FALSE, "snr", "Noname", OFN_EXPLORER | OFN_LONGNAMES | OFN_OVERWRITEPROMPT, "서버 NPC Route파일(*.snr)|*.snr||");
+	CFileDialog dlg(FALSE, "snr", "Noname", OFN_EXPLORER | OFN_LONGNAMES | OFN_OVERWRITEPROMPT, "Server NPC Route File(*.snr)|*.snr||");
 
 	if(dlg.DoModal()==IDOK)
 	{

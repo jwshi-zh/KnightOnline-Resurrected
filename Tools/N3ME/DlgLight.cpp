@@ -111,7 +111,7 @@ void CDlgLight::OnBtnExport()
 void CDlgLight::OnBtnImport() 
 {
 	DWORD dwFlags = OFN_EXPLORER | OFN_FILEMUSTEXIST | OFN_LONGNAMES | OFN_HIDEREADONLY;
-	CFileDialog dlg(TRUE, "LightObjs", NULL, dwFlags, "Light Obejct Data File(*.LightObjs)|*.LightObjs||", NULL);
+	CFileDialog dlg(TRUE, "LightObjs", NULL, dwFlags, "Light Object Data File(*.LightObjs)|*.LightObjs||", NULL);
 
 	if(dlg.DoModal() == IDCANCEL) return;
 
@@ -127,7 +127,7 @@ void CDlgLight::OnBtnUpload()
 
 	if(m_strLightObjName.IsEmpty())
 	{
-		MessageBox("Light Object객체의 이름이 지정되어 있지 않습니다.","-.-;");
+		MessageBox("Light Object Object is not named empty.","-.-;");
 		return;
 	}
 

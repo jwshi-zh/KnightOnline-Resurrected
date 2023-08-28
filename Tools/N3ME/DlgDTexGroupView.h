@@ -20,7 +20,7 @@ public:
 	CN3Texture*				m_pPrevTex;
 	RECT					m_PrevTexRect;
 
-	int						m_iRadioState; //	0 자동찍기 2 강제찍기 3 강제풀타일 찍기
+	int						m_iRadioState; //	0 Auto shot 2 Forced shot 3 Forced full tile shot
 
 public:
 	CDTexGroupMng* m_pDTexGroupMng;

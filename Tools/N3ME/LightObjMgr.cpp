@@ -24,7 +24,7 @@ static char THIS_FILE[]=__FILE__;
 
 CLightObjMgr::CLightObjMgr()
 {
-	m_pRefMapMng = NULL;				// 지형 참조 포인터..
+	m_pRefMapMng = NULL;				// terrain reference pointer..
 	m_bActive = false;
 
 	m_iVersion = 1;
@@ -36,14 +36,14 @@ CLightObjMgr::CLightObjMgr()
 
 	m_ListObj.clear();
 
-	m_BaseCube[0].Set(0, 1, 0);	// 앞쪽 LT
-	m_BaseCube[1].Set(1, 1, 0);	// 앞쪽 RT
-	m_BaseCube[2].Set(0, 0, 0); // 앞쪽 LB
-	m_BaseCube[3].Set(1, 0, 0); // 앞쪽 RB
-	m_BaseCube[4].Set(0, 1, 1); // 뒤쪽 LT
-	m_BaseCube[5].Set(1, 1, 1); // 뒤쪽 RT
-	m_BaseCube[6].Set(0, 0, 1); // 뒤쪽 LB
-	m_BaseCube[7].Set(1, 0, 1);	// 뒤쪽 RB
+	m_BaseCube[0].Set(0, 1, 0);	// front LT
+	m_BaseCube[1].Set(1, 1, 0);	// front RT
+	m_BaseCube[2].Set(0, 0, 0); // front LB
+	m_BaseCube[3].Set(1, 0, 0); // front RB
+	m_BaseCube[4].Set(0, 1, 1); // back LT
+	m_BaseCube[5].Set(1, 1, 1); // back RT
+	m_BaseCube[6].Set(0, 0, 1); // back LB
+	m_BaseCube[7].Set(1, 0, 1);	// back RB
 
 	m_pCurrLO = NULL;
 	m_VtxPosDummy.Release();
@@ -232,7 +232,7 @@ void CLightObjMgr::Render()
 	D3DXMATRIX mtx;
 	D3DXMatrixIdentity(&mtx);
 		
-	hr = s_lpD3DDev->SetTransform(D3DTS_WORLD, &mtx); // 월드 행렬 적용..
+	hr = s_lpD3DDev->SetTransform(D3DTS_WORLD, &mtx); // Apply world matrix..
 	
 	// set texture
 	hr = s_lpD3DDev->SetTexture(0, NULL);
@@ -253,7 +253,7 @@ void CLightObjMgr::Render()
 
 	hr = s_lpD3DDev->SetVertexShader(FVF_XYZCOLOR);
 
-	//이미 만들어진 라이트오브젝트 그리기...
+	//Draw an already created light object...
 	std::list<LIGHTOBJ*>::iterator it;
 	LIGHTOBJ* pLO;	
 	for(it = m_ListObj.begin(); it != m_ListObj.end(); it++)
@@ -265,14 +265,14 @@ void CLightObjMgr::Render()
 		hr = s_lpD3DDev->DrawPrimitiveUP(D3DPT_TRIANGLELIST, 12, &(m_CubeVB[0]), sizeof(__VertexXyzColor));
 	}
 
-	//현재 만들고 있는 라이트오브젝트 그리기.
+	//Draw the light object you are currently creating.
 	if(m_pCurrLO && m_pCurrLO->pRefLight)
 	{
 		MakeCube(m_pCurrLO->pRefLight->Pos(), 0xffff0000);
 		hr = s_lpD3DDev->DrawPrimitiveUP(D3DPT_TRIANGLELIST, 12, &(m_CubeVB[0]), sizeof(__VertexXyzColor));		
 	}
 		
-	//다이얼로그 창에서 선택된 길 그리기..
+	//Draw the path selected in the dialog window..
 	pLO = m_pDlg->m_pSelLO;
 	if(pLO)
 	{

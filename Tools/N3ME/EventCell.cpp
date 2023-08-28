@@ -96,7 +96,7 @@ void CEventCell::MakeTileVB(int x, int z, DWORD color)
 {
 	if(!m_pRefTerrain) return;
 
-	if((x+z)%2==0)	// 슬래쉬 모양의 타일..
+	if((x+z)%2==0)	// Slash-shaped tiles..
 	{
 		__Vector3 v;
 		v.x = x*TERRAIN_CELL_SIZE;
@@ -118,7 +118,7 @@ void CEventCell::MakeTileVB(int x, int z, DWORD color)
 
 		return;
 	}
-	if((x+z)%2==1)	//백슬레쉬 모양의 타일..
+	if((x+z)%2==1)	//Backslash tile..
 	{
 		__Vector3 v;
 		v.x = x*TERRAIN_CELL_SIZE;

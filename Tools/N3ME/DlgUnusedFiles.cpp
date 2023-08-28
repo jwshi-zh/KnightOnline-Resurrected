@@ -49,7 +49,7 @@ void CDlgUnusedFiles::OnDelete()
 	int iSelFNC = m_ListFiles.GetSelCount();
 	if(iSelFNC <= 0) return;
 
-	int iYesNo = MessageBox("지우시겠습니까?", "확인", MB_YESNO);
+	int iYesNo = MessageBox("Are you sure you want to delete?", "OK", MB_YESNO);
 
 	if(IDYES != iYesNo) return;
 
