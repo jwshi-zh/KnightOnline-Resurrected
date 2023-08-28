@@ -48,7 +48,7 @@ BOOL CDlgFolderSelect::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 	
-	// 최근에 쓴 폴더를 가져온다...
+	// Get the recently written folder
 	char szInitDir[256];
 	DWORD dwLength = 256;
 	memset(szInitDir, 0, 256);
@@ -86,7 +86,7 @@ void CDlgFolderSelect::OnSelchangedBrowseTree(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	NM_TREEVIEW* pNMTreeView = (NM_TREEVIEW*)pNMHDR;
 
-	// 선택이 바뀌면... 파일 리스트를 바꾸어준다..
+	// If the selection changes... it changes the file list.
 	HTREEITEM hItem = m_DirTree.GetSelectedItem();
 	CString Path = m_DirTree.GetFullPath(hItem);
 
@@ -108,7 +108,7 @@ void CDlgFolderSelect::OnTunnelTree()
 void CDlgFolderSelect::OnOK() 
 {
 	// TODO: Add extra validation here
-	// 최근에 쓴 폴더를 저장해둔다....
+	// Save the recently written folder....
 	char szInitDir[256] = "";
 	DWORD dwLength = 256;
 	CString szKey;

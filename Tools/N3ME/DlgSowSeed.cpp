@@ -213,7 +213,7 @@ void CDlgSowSeed::RePaint()
 		char Name[60];
 		pFrame->GetMapMng()->m_pDlgSourceList->m_ListShape.GetText(group_list->Obj_ID,Name);
 		group_list->Group_id = groupCount;
-		sprintf(text,"풀 ID: %d , 파일명:%s", group_list->Group_id,Name);
+		sprintf(text,"pool id: %d , filename:%s", group_list->Group_id,Name);
 		int CurPos = m_CB_TileGroup.GetCount();
 		m_CB_TileGroup.AddString(text);
 		m_CB_TileGroup.SetCurSel(CurPos);
@@ -267,12 +267,12 @@ void CDlgSowSeed::OnBtnGrassRead()
 	int count = m_CB_Seed.GetCount();
 	if(count >= 8) 
 	{
-		MessageBox("더이상 텍스쳐를 넣을 수가 없어요.","빠떼루");
+		MessageBox("I can't add any more textures.", "Paterou");
 		return;
 	}
 
 	DWORD dwFlags = OFN_EXPLORER | OFN_FILEMUSTEXIST | OFN_LONGNAMES | OFN_HIDEREADONLY;
-	CFileDialog dlg(TRUE, "dxt", NULL, dwFlags, "풀 텍스쳐(*.dxt)|*.dxt||", NULL);
+	CFileDialog dlg(TRUE, "dxt", NULL, dwFlags, "full texture(*.dxt)|*.dxt||", NULL);
 
 	if(dlg.DoModal() == IDCANCEL) return;
 

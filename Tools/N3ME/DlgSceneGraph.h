@@ -18,13 +18,13 @@ class CDlgSceneGraph : public CDialog
 {
 public:
 	CN3Scene* m_pSceneRef;
-	BOOL	m_IsSourceObj;		// Display용이냐? (툴에서 오브젝트 목록)
+	BOOL	m_IsSourceObj;		// Is it for display? (list of objects in the tool)
 	CMapMng* m_pMapMng;
 
 	CImageList m_ImgList;
 protected:
 	void UpdateTreeItem(HTREEITEM hParent, CN3Base* pBase);
-	DWORD	m_dwFlag;	// 목록에 표시할 것들을 나타낸 플래그
+	DWORD	m_dwFlag;	// Flags indicating what to show in the list
 
 public:
 	void SelectObject(HTREEITEM hItem, void* pItemData);

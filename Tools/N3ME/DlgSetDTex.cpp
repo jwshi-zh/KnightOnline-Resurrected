@@ -119,7 +119,7 @@ BOOL CDlgSetDTex::OnInitDialog()
 	CWnd* pView = GetDlgItem(IDC_TEXTUREVIEW);
 	pView->SetWindowPos(NULL, 0, 0, (int)m_fTexSurfaceSize, (int)m_fTexSurfaceSize, SWP_DRAWFRAME|SWP_NOMOVE);
 
-	//	texture 그리는 버퍼..
+	//	texture draw buffer
 	pFrm->m_pEng->s_lpD3DDev->CreateVertexBuffer( 4*sizeof(__VertexTransformed), 0, FVF_TRANSFORMED, D3DPOOL_MANAGED, &m_pTexVB );
 	
 	__VertexTransformed* pVertices = NULL;
@@ -131,7 +131,7 @@ BOOL CDlgSetDTex::OnInitDialog()
 	pVertices[3].Set(0.0f,						m_fTexSurfaceSize-1.0f,	0.1f, 0.5f, 0x00000000, 1.0f/DTexSize,		DTexSize/DTexSize);
 	m_pTexVB->Unlock();
 
-	//	Grid 그리는 버퍼..
+	//	Grid draw buffer
 	pFrm->m_pEng->s_lpD3DDev->CreateVertexBuffer( ((NUM_DTEXTILE-1)<<2)*sizeof(__VertexTransformedColor), 0, FVF_TRANSFORMEDCOLOR, D3DPOOL_MANAGED, &m_pGridVB );
 
 	__VertexTransformedColor* pVerticesC = NULL;
@@ -475,7 +475,7 @@ void CDlgSetDTex::OnBtnDelgroup()
 		}
 		pDTexGroupMng->DelGroup(DelGroupID);
 
-		//맵정보도 갱신해야겠지? 무효한 그룹정보니까 지워버려야지....
+		//Should I update the map information as well? It's invalid group information, so I have to delete it...
 		CLyTerrain* pRefTerrain = pFrm->GetMapMng()->GetTerrain();
 		if(pRefTerrain)
 		{
@@ -562,7 +562,7 @@ void CDlgSetDTex::OnBtnDeldtex()
 	int index = m_FileList.GetCurSel();
 	int DelDTexID;
 
-	//dtex지우기...^^
+	//Clear dtex...^^
 	CMainFrame* pFrm = (CMainFrame*)AfxGetMainWnd();
 	CDTexGroupMng* pDTexGroupMng = pFrm->GetDTexGroupMng();
 
@@ -579,7 +579,7 @@ void CDlgSetDTex::OnBtnDeldtex()
 	if(index==count-1) m_FileList.SetCurSel(index-1);
 	else m_FileList.SetCurSel(index);
 
-	//맵정보도 갱신해야겠지? 없는 텍스쳐정보는 같은 그룹의 다른 텍스쳐로 갱신..
+	//Should I update the map information as well? Missing texture information is updated with other textures in the same group.
 	CLyTerrain* pRefTerrain = pFrm->GetMapMng()->GetTerrain();
 	if(pRefTerrain)
 	{
@@ -592,7 +592,7 @@ void CDlgSetDTex::OnBtnDeldtex()
 				int Group,Attr;
 				DTEXTILEATTR DTexTileAttr;
 
-				//2번...
+				//2number...
 				TargetID = pRefTerrain->m_ppMapData[ix][iz].DTexInfo2.TexIdx.TexID;
 				if(TargetID==DelDTexID)
 				{
@@ -607,7 +607,7 @@ void CDlgSetDTex::OnBtnDeldtex()
 					}
 				}
 
-				//1번...
+				//1number...
 				TargetID = pRefTerrain->m_ppMapData[ix][iz].DTexInfo1.TexIdx.TexID;
 				if(TargetID==DelDTexID)
 				{

@@ -140,7 +140,7 @@ void CEventMgr::Render()
 	D3DXMATRIX mtx;
 	D3DXMatrixIdentity(&mtx);
 		
-	hr = s_lpD3DDev->SetTransform(D3DTS_WORLD, &mtx); // 월드 행렬 적용..
+	hr = s_lpD3DDev->SetTransform(D3DTS_WORLD, &mtx); // Apply world matrix..
 	
 	// set texture
 	hr = s_lpD3DDev->SetTexture(0, NULL);
@@ -161,7 +161,7 @@ void CEventMgr::Render()
 
 	hr = s_lpD3DDev->SetVertexShader(FVF_XYZCOLOR);
 
-	//이미 만들어진 길 그리기...
+	//Draw a path that has already been created...
 	std::list<CEventCell*>::iterator itEvent;
 
 	CEventCell* pEvent;
@@ -173,10 +173,10 @@ void CEventMgr::Render()
 		pEvent->Render(0xff0000ff);
 	}
 
-	//대화상자에서 선택된 길 그리기.
+	//Draw the path selected in the dialog.
 	if(m_pDlgEventList->m_pSelEvent) m_pDlgEventList->m_pSelEvent->Render(0xff00ff00);
 
-	//만들고 있는 길 & 영역 그리기..
+	//Creating roads & drawing areas..
 	m_pCurrEvent->Render(0xffff0000);
 
 	// restore
@@ -303,7 +303,7 @@ void CEventMgr::SaveToFile(const char* RealFileName)
 	GetCurrentDirectory(_MAX_PATH, szOldPath);	
 	SetCurrentDirectory(s_szPath.c_str());
 
-	CreateDirectory("event", NULL); // 경로 만들고..
+	CreateDirectory("event", NULL); // create a path...
 	char szNPCPathFileName[_MAX_PATH];
 	wsprintf(szNPCPathFileName, "%sevent\\%s.evt", s_szPath.c_str(), (LPCTSTR)RealFileName);
 
@@ -390,7 +390,7 @@ void CEventMgr::MakeEventArray()
 
 void CEventMgr::SaveInfoTextFile(char* szEvent)
 {
-	// text 파일 버전...
+	// text file version...
 	FILE* stream = fopen(szEvent, "r");
 	//if(!stream)	return;
 
@@ -474,7 +474,7 @@ void CEventMgr::SaveInfoTextFile(char* szEvent)
 /*
 void CEventMgr::SaveInfoTextFile(char* szEvent)
 {
-	// text 파일 버전...
+	// text file version...
 	FILE* stream = fopen(szEvent, "w");
 	if(!stream)	return;
 

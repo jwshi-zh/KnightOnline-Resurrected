@@ -111,14 +111,14 @@ void CDTexGroup::DelAttrByDTexID(int DTexID)
 	it_DTexTileAttr it; 
 	for(int i=DTEX_FULL; i<DTEX_MAX; i++)
 	{
-		//리스트 돌면서 DTexIndx와 같은거 나오면 다 없애버려...
+		//If something like DTexIndx comes up while going through the list, get rid of it...
 		it = m_Attributes[i].begin();
 		while(it!=m_Attributes[i].end())
 		{
 			DTEXTILEATTR* pTile = *it;
 			if(pTile->TexID == DTexID)
 			{
-				//지우자...
+				//Let's erase...
 				delete (*it);
 				it = m_Attributes[i].erase(it);
 			}
@@ -129,8 +129,8 @@ void CDTexGroup::DelAttrByDTexID(int DTexID)
 
 
 //
-//	DTexMng에 있는 정보들 청소...
-//	DTex에 저장되어 있는 현재 그룹 정보를 NONE으로 셋팅..
+//	DTexMng Clean the information
+//	DTex Set the current group information stored in DTex to NONE..
 //
 void CDTexGroup::ClearDTex()
 {
