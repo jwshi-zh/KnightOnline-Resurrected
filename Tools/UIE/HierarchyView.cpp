@@ -113,7 +113,7 @@ void CHierarchyView::OnSelchanged(NMHDR* pNMHDR, LRESULT* pResult)
 
 	CN3UIBase* pUI = (CN3UIBase*)GetTreeCtrl().GetItemData(hItem);
 	if(0 == ::_IsKeyDown(VK_CONTROL))
-		GetDocument()->SetSelectedUI(NULL); // ƒ¡∆Æ∑— ≈∞∏¶ æ»¥≠∑∂¿∏∏È.. ¥‹µ∂ ºø∑∫∆Æ..
+		GetDocument()->SetSelectedUI(NULL);
 	GetDocument()->SetSelectedUI(pUI);
 	
 	*pResult = 0;
@@ -126,10 +126,6 @@ void CHierarchyView::OnRclick(NMHDR* pNMHDR, LRESULT* pResult)
 	*pResult = 0;
 }
 
-/////////////////////////////////////////////////////////////////////////////
-// CHierarchyView Operations
-
-// ∏µÁ tree item ¡§∫∏ ∞ªΩ≈«œ±‚
 void CHierarchyView::UpdateAllInfo()
 {
 	GetTreeCtrl().DeleteAllItems();
@@ -139,7 +135,6 @@ void CHierarchyView::UpdateAllInfo()
 	this->SelectObject(TVI_ROOT, GetDocument()->GetSelectedUI());
 }
 
-// tree item ¡§∫∏ ∞ªΩ≈«œ±‚
 void CHierarchyView::UpdateTreeItem(HTREEITEM hParent, CN3UIBase *pUIBase)
 {
 	if(pUIBase == NULL) return;
@@ -154,7 +149,7 @@ void CHierarchyView::UpdateTreeItem(HTREEITEM hParent, CN3UIBase *pUIBase)
 		{
 			str = _T("Button");
 			if (pParentUI && UI_TYPE_SCROLLBAR == pParentUI->UIType())
-			{	// ∫Œ∏∞° Ω∫≈©∑—¿« πˆ∆∞¿œ ∞ÊøÏ
+			{	// ÔøΩŒ∏ÔøΩ ÔøΩÔøΩ≈©ÔøΩÔøΩÔøΩÔøΩ ÔøΩÔøΩ∆∞ÔøΩÔøΩ ÔøΩÔøΩÔøΩ
 				if (CN3UIScrollBar::BTN_LEFTUP == pUIBase->GetReserved())
 					str = _T("Left/Up Button");
 				else if(CN3UIScrollBar::BTN_RIGHTDOWN == pUIBase->GetReserved())
@@ -169,7 +164,7 @@ void CHierarchyView::UpdateTreeItem(HTREEITEM hParent, CN3UIBase *pUIBase)
 			if (pParentUI == NULL) break;
 			if (UI_TYPE_IMAGE == pParentUI->UIType())
 			{
-				ASSERT(UISTYLE_IMAGE_ANIMATE & pParentUI->m_dwStyle);	// ∫Œ∏¥¬ π›µÂΩ√ Animate imageø©æﬂ «—¥Ÿ.
+				ASSERT(UISTYLE_IMAGE_ANIMATE & pParentUI->m_dwStyle);
 				str.Format("Image (%d)", pUIBase->GetReserved());
 			}
 			else if (UI_TYPE_BUTTON == pParentUI->UIType())
@@ -201,7 +196,6 @@ void CHierarchyView::UpdateTreeItem(HTREEITEM hParent, CN3UIBase *pUIBase)
 	case UI_TYPE_TRACKBAR:	str = _T("Trackbar");	break;
 	case UI_TYPE_EDIT:		str = _T("Edit");		break;
 
-	//cerberus 02, 01,02
 	case UI_TYPE_AREA:		str = _T("Area");		break;
 	case UI_TYPE_ICONSLOT:	str = _T("Icon Slot");	break;
 	case UI_TYPE_LIST:		str = _T("List");		break;
@@ -210,13 +204,12 @@ void CHierarchyView::UpdateTreeItem(HTREEITEM hParent, CN3UIBase *pUIBase)
 	}
 	
 	str += " - ";
-	str += pUIBase->m_szID.c_str(); // ¿Ã∏ß¿ª ∫Ÿø©¡ÿ¥Ÿ... !!
+	str += pUIBase->m_szID.c_str();
 
-	HTREEITEM hItem = GetTreeCtrl().InsertItem(str, hParent);	// insert
-	GetTreeCtrl().SetItemData(hItem, (DWORD)pUIBase);	// pointer ¿˙¿Â
-	GetTreeCtrl().Expand(hItem, TVE_EXPAND);			// expand
+	HTREEITEM hItem = GetTreeCtrl().InsertItem(str, hParent);
+	GetTreeCtrl().SetItemData(hItem, (DWORD)pUIBase);
+	GetTreeCtrl().Expand(hItem, TVE_EXPAND);
 
-	// update child
 	for(UIListItor itor = pUIBase->m_Children.begin(); pUIBase->m_Children.end() != itor; ++itor)
 	{
 		CN3UIBase* pChild = (*itor);
@@ -224,7 +217,6 @@ void CHierarchyView::UpdateTreeItem(HTREEITEM hParent, CN3UIBase *pUIBase)
 	}
 }
 
-// UIBase ∆˜¿Œ≈Õ∑Œ tree item º±≈√«œ±‚
 void CHierarchyView::SelectObject(HTREEITEM hItem, CN3UIBase* pUIBase)
 {
 	if(NULL == pUIBase || NULL == hItem) return;

@@ -46,7 +46,7 @@ void CServerMesh::Tick(CN3Terrain* pTerrain, const __Vector3& vPosPlayer)
 
 	D3DCOLOR color = D3DCOLOR_RGBA(50,25,25,0);
 
-	// 제일 왼쪽..	
+	// left most...
 	ixposL = ixpos - SGRID_SIZE;
 	izposL = izpos - SGRID_SIZE;
 	ixposR = ixpos - SGRID_SIZE;
@@ -69,7 +69,7 @@ void CServerMesh::Tick(CN3Terrain* pTerrain, const __Vector3& vPosPlayer)
 
 	AutoConcMesh( color, ixposL, ixposR, izposL, izposR, fHeightBottom, fHeightTop, 0 );	
 
-	// 왼쪽 두번째..
+	// second from the left...
 
 	ixposL = ixpos;
 	izposL = izpos - SGRID_SIZE;
@@ -93,7 +93,7 @@ void CServerMesh::Tick(CN3Terrain* pTerrain, const __Vector3& vPosPlayer)
 
 	AutoConcMesh( color, ixposL, ixposR, izposL, izposR, fHeightBottom, fHeightTop, 6 );	
 
-	// 왼쪽 세번째..
+	// third from the left...
 
 	ixposL = ixpos + SGRID_SIZE;
 	izposL = izpos - SGRID_SIZE;
@@ -117,7 +117,7 @@ void CServerMesh::Tick(CN3Terrain* pTerrain, const __Vector3& vPosPlayer)
 
 	AutoConcMesh( color, ixposL, ixposR, izposL, izposR, fHeightBottom, fHeightTop, 12 );	
 
-	// 왼쪽에서 끝..
+	// end on the left...
 
 	ixposL = ixpos + SGRID_SIZE*2;
 	izposL = izpos - SGRID_SIZE;
@@ -141,7 +141,7 @@ void CServerMesh::Tick(CN3Terrain* pTerrain, const __Vector3& vPosPlayer)
 
 	AutoConcMesh( color, ixposL, ixposR, izposL, izposR, fHeightBottom, fHeightTop, 18 );	
 
-	// 밑에서 첫번째..
+	// First one down...
 
 	ixposL = ixpos - SGRID_SIZE;
 	izposL = izpos - SGRID_SIZE;
@@ -165,7 +165,7 @@ void CServerMesh::Tick(CN3Terrain* pTerrain, const __Vector3& vPosPlayer)
 
 	AutoConcMesh( color, ixposL, ixposR, izposL, izposR, fHeightBottom, fHeightTop, 24 );	
 
-	// 밑에서 두번째..
+	// second from the bottom...
 
 	ixposL = ixpos - SGRID_SIZE;
 	izposL = izpos;
@@ -189,7 +189,7 @@ void CServerMesh::Tick(CN3Terrain* pTerrain, const __Vector3& vPosPlayer)
 
 	AutoConcMesh( color, ixposL, ixposR, izposL, izposR, fHeightBottom, fHeightTop, 30 );	
 	
-	// 밑에서 세번째..
+	// Third from the bottom...
 
 	ixposL = ixpos - SGRID_SIZE;
 	izposL = izpos + SGRID_SIZE;
@@ -213,7 +213,7 @@ void CServerMesh::Tick(CN3Terrain* pTerrain, const __Vector3& vPosPlayer)
 
 	AutoConcMesh( color, ixposL, ixposR, izposL, izposR, fHeightBottom, fHeightTop, 36 );	
 
-	// 밑에서 끝번째..
+	// Last one from the bottom...
 
 	ixposL = ixpos - SGRID_SIZE;
 	izposL = izpos + SGRID_SIZE*2;

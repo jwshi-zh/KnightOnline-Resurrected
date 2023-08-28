@@ -1814,7 +1814,7 @@ BOOL CJpegFile::EncryptJPEG(HANDLE hDib,			//Handle to DIB
 	BYTE *data_byte;
 	DWORD encrypt_len, i;
 
-	// JPEG ÆÄÀÏ ÀÐ¾î¿À±â
+	// JPEG ï¿½ï¿½ï¿½ï¿½ ï¿½Ð¾ï¿½ï¿½ï¿½ï¿½
 	fh = CreateFile(csJpeg.c_str(), GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 	if (fh == INVALID_HANDLE_VALUE) return false;
 
@@ -1839,14 +1839,14 @@ BOOL CJpegFile::EncryptJPEG(HANDLE hDib,			//Handle to DIB
 	CloseHandle(fh);
 
 	m_r = 1124;
-	// JPEG ÆÄÀÏ Encoding
+	// JPEG ï¿½ï¿½ï¿½ï¿½ Encoding
 	encrypt_len = loSize+8;
 	for(i = 0; i < encrypt_len; i++)
 	{
 		data_byte[i] = Encrypt(data_byte[i]);
 	}
 
-	// Encoding ÆÄÀÏ Writing
+	// Encoding ï¿½ï¿½ï¿½ï¿½ Writing
 	fh = CreateFile(csJpeg.c_str(), GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 	if (fh == INVALID_HANDLE_VALUE)
 	{
@@ -1879,14 +1879,12 @@ BOOL CJpegFile::DecryptJPEG(std::string csJpeg)
 
 	if(GetTempFileName((LPCTSTR)szDstpath.c_str(), "ksc", 0, szTempName) == 0)
 	{
-//		AfxMessageBox("ÀÓ½Ã ÆÄÀÏÀ» »ý¼ºÇÒ ¼ö°¡ ¾ø½À´Ï´Ù.", MB_ICONSTOP|MB_OK);
 		return FALSE;
 	}
 
 	hSrc = CreateFile((LPCTSTR)csJpeg.c_str(), GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 	if(hSrc == INVALID_HANDLE_VALUE)
 	{
-//		AfxMessageBox("¼Ò½º ÆÄÀÏÀÌ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù. ´Ù¸¥ ÆÄÀÏÀ» ¼±ÅÃÇØÁÖ¼¼¿ä.", MB_ICONSTOP|MB_OK);
 		return FALSE;
 	}
 
@@ -1924,7 +1922,7 @@ BOOL CJpegFile::DecryptJPEG(std::string csJpeg)
 
 	if(magic[0] == 'K' && magic[1] == 'S' && magic[2] == 'C' && magic[3] == 1)
 	{
-		//¹öÀü 1¹ø
+		
 	}
 	else
 	{

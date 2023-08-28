@@ -172,13 +172,13 @@ void CDlgEditPartBillBoard::OnPartBoardBtnLoadTex()
 		else
 		{
 			m_strTexName = _T("");
-			MessageBox("파일 이름끝이 0000이 아니던데요..-.-;;","ERR05",MB_OK);
+			MessageBox("The end of the file name is not 0000...-.-;;","ERR05",MB_OK);
 		}
 		
 		UpdateData(FALSE);
 	}
 	else
-		MessageBox("Texture파일은 fx폴더 아래, 혹은 fx폴더 아래에 있는 폴더에 위치해야 합니다..-.-;;","ERR04",MB_OK);
+		MessageBox("Texture files should be located under the fx folder or in a folder under the fx folder..-.-;;","ERR04",MB_OK);
 
 	delete pBaseFileAccess;		
 }
@@ -196,7 +196,7 @@ void CDlgEditPartBillBoard::OnPartBoardBtnSave()
 	FILE* file = fopen((LPCTSTR)m_strPathName, "w");
 	if(!file)
 	{
-		MessageBox("n3fxpart파일 생성 실패..-.-;;","ERR02",MB_OK);
+		MessageBox("Failed to create n3fxpart file..-.-;;","ERR02",MB_OK);
 		return;
 	}
 
@@ -344,7 +344,7 @@ bool CDlgEditPartBillBoard::LoadPartScript(const char* szPath)
 	}
 
 	//////////////////////////////////////////////////
-	//각 컨트롤 셋팅...
+	//Each control setting...
 	m_bOnGround = pPart->m_bOnGround;
 	m_bAlphaBlend = pPart->m_bAlpha;
 	m_bTexLoop = pPart->m_bTexLoop;

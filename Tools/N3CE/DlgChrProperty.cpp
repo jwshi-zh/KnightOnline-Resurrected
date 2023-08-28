@@ -286,7 +286,7 @@ void CDlgChrProperty::UpdateInfo()
 	m_LPCPart.Invalidate(); // Property List Update
 	m_LPCPlug.Invalidate(); // Property List Update
 
-	// ÀçÁú
+	// texture
 	if(pMtl)
 	{
 		pItem = m_LPMaterial.GetPropItem("Render Flags");

@@ -114,8 +114,6 @@ bool CDlgEditPartGround::LoadPartScript(const char* szPath)
 		return false;
 	}
 
-	//////////////////////////////////////////////////
-	//각 컨트롤 셋팅...
 	m_chkAlpha = pPart->m_bAlpha;
 	m_chkTexLoop = pPart->m_bTexLoop;
 
@@ -195,7 +193,7 @@ void CDlgEditPartGround::OnPartGroundBtnSave()
 	FILE* file = fopen((LPCTSTR)m_strPathName, "w");
 	if(!file)
 	{
-		MessageBox("n3fxpart파일 생성 실패..-.-;;","ERR02",MB_OK);
+		MessageBox("n3fxpart create failed..-.-;;","ERR02",MB_OK);
 		return;
 	}
 
@@ -277,19 +275,17 @@ void CDlgEditPartGround::OnPartGroundBtnLoadTex()
 			char szPath[_MAX_PATH];
 			_makepath(szPath, szDrive, szDir, (LPCTSTR)strFName, szExt);
 			m_strTexName = szPath;
-
-			//파일 갯수 세는 기능 넣을까 말까..
 		}
 		else
 		{
 			m_strTexName = _T("");
-			MessageBox("파일 이름끝이 0000이 아니던데요..-.-;;","ERR05",MB_OK);
+			MessageBox("filename does not end with 0000.-.-;;","ERR05",MB_OK);
 		}
 		
 		UpdateData(FALSE);
 	}
 	else
-		MessageBox("Texture파일은 fx폴더 아래, 혹은 fx폴더 아래에 있는 폴더에 위치해야 합니다..-.-;;","ERR04",MB_OK);
+		MessageBox("Textur.-.-;;","ERR04",MB_OK);
 
 	delete pBaseFileAccess;	
 }

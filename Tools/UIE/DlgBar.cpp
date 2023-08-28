@@ -52,7 +52,7 @@ void CDlgBar::OnButtonBasepath()
 	CString strPath;
 	if (pWnd) pWnd->GetWindowText(strPath);
 	char szFolder[_MAX_PATH] = "";
-	char szTitle[] = "리소스 base경로를 선택해주세요.";
+	char szTitle[] = "Please select the resource base path.";
 
     BROWSEINFO bi;
 	LPCITEMIDLIST lpidl;

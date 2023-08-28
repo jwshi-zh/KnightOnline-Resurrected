@@ -76,20 +76,20 @@ IDR_KSCVIETYPE          ICON    DISCARDABLE     "res\\KscViewerDoc.ico"
 
 IDR_MAINFRAME MENU PRELOAD DISCARDABLE 
 BEGIN
-    POPUP "∆ƒ¿œ(&F)"
+    POPUP "File(&F)"
     BEGIN
-        MENUITEM "ªı ∆ƒ¿œ(&N)\tCtrl+N",         ID_FILE_NEW
-        MENUITEM "ø≠±‚(&O)...\tCtrl+O",         ID_FILE_OPEN
-        MENUITEM "¿˙¿Â(&S)\tCtrl+S",            ID_FILE_SAVE
-        MENUITEM "¥Ÿ∏• ¿Ã∏ß¿∏∑Œ ¿˙¿Â(&A)...",   ID_FILE_SAVE_AS
+        MENUITEM "New File(&N)\tCtrl+N",         ID_FILE_NEW
+        MENUITEM "Open(&O)...\tCtrl+O",         ID_FILE_OPEN
+        MENUITEM "Save(&S)\tCtrl+S",            ID_FILE_SAVE
+        MENUITEM "Save As(&A)...",   ID_FILE_SAVE_AS
         MENUITEM SEPARATOR
-        MENUITEM "√÷±Ÿ ∆ƒ¿œ",                   ID_FILE_MRU_FILE1, GRAYED
+        MENUITEM "Recent Files",                   ID_FILE_MRU_FILE1, GRAYED
         MENUITEM SEPARATOR
-        MENUITEM "¡æ∑·(&X)",                    ID_APP_EXIT
+        MENUITEM "Exit(&X)",                    ID_APP_EXIT
     END
-    POPUP "µµøÚ∏ª(&H)"
+    POPUP "Help(&H)"
     BEGIN
-        MENUITEM "KscViewer ¡§∫∏(&A)...",       ID_APP_ABOUT
+        MENUITEM "KscViewer Ï†ïÎ≥¥(&A)...",       ID_APP_ABOUT
     END
 END
 
@@ -125,7 +125,7 @@ END
 IDD_ABOUTBOX DIALOG DISCARDABLE  0, 0, 235, 55
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "KscViewer"
-FONT 9, "±º∏≤"
+FONT 9, "Íµ¥Î¶º"
 BEGIN
     ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
     LTEXT           "KscViewer Version 1.0",IDC_STATIC,40,10,119,8,
@@ -159,13 +159,13 @@ BEGIN
         BLOCK "041204B0"
         BEGIN
             VALUE "CompanyName", "\0"
-            VALUE "FileDescription", "KscViewer MFC ¿¿øÎ «¡∑Œ±◊∑•\0"
+            VALUE "FileDescription", "KscViewer MFC Application\0"
             VALUE "FileVersion", "1, 0, 0, 1\0"
             VALUE "InternalName", "KscViewer\0"
             VALUE "LegalCopyright", "Copyright (C) 2002\0"
             VALUE "LegalTrademarks", "\0"
             VALUE "OriginalFilename", "KscViewer.EXE\0"
-            VALUE "ProductName", "KscViewer ¿¿øÎ «¡∑Œ±◊∑•\0"
+            VALUE "ProductName", "KscViewer application\0"
             VALUE "ProductVersion", "1, 0, 0, 1\0"
         END
     END
@@ -204,13 +204,13 @@ END
 
 STRINGTABLE PRELOAD DISCARDABLE 
 BEGIN
-    IDR_MAINFRAME           "KscViewer\n\nKscVie\nKsc ∆ƒ¿œ (*.ksc)\n.ksc\nKscViewer.Document\nKscVie Document"
+    IDR_MAINFRAME           "KscViewer\n\nKscVie\nKsc ÌååÏùº (*.ksc)\n.ksc\nKscViewer.Document\nKscVie Document"
 END
 
 STRINGTABLE PRELOAD DISCARDABLE 
 BEGIN
     AFX_IDS_APP_TITLE       "KscViewer"
-    AFX_IDS_IDLEMESSAGE     "¡ÿ∫Ò"
+    AFX_IDS_IDLEMESSAGE     "Preparing"
 END
 
 STRINGTABLE DISCARDABLE 
@@ -225,80 +225,80 @@ END
 
 STRINGTABLE DISCARDABLE 
 BEGIN
-    ID_FILE_NEW             "ªı πÆº≠∏¶ ¿€º∫«’¥œ¥Ÿ\nªı ∆ƒ¿œ"
-    ID_FILE_OPEN            "±‚¡∏ πÆº≠∏¶ ø±¥œ¥Ÿ\nø≠±‚"
-    ID_FILE_CLOSE           "«ˆ¿Á ø≠∏∞ πÆº≠∏¶ ¥›Ω¿¥œ¥Ÿ\n¥›±‚"
-    ID_FILE_SAVE            "«ˆ¿Á ø≠∏∞ πÆº≠∏¶ ¿˙¿Â«’¥œ¥Ÿ\n¿˙¿Â"
-    ID_FILE_SAVE_AS         "«ˆ¿Á ø≠∏∞ πÆº≠∏¶ ¥Ÿ∏• ¿Ã∏ß¿∏∑Œ ¿˙¿Â«’¥œ¥Ÿ\n¥Ÿ∏• ¿Ã∏ß¿∏∑Œ ¿˙¿Â"
+    ID_FILE_NEW             "Create a new document\nNew file"
+    ID_FILE_OPEN            "Open an existing document\nOpen"
+    ID_FILE_CLOSE           "Close the currently open document\nClose"
+    ID_FILE_SAVE            "Save the currently open document\nSave"
+    ID_FILE_SAVE_AS         "Save the currently open document as\nSave As"
 END
 
 STRINGTABLE DISCARDABLE 
 BEGIN
-    ID_APP_ABOUT            "«¡∑Œ±◊∑• ¡§∫∏øÕ πˆ¿¸ ¡§∫∏, ¿˙¿€±« ¡§∫∏∏¶ «•Ω√«’¥œ¥Ÿ\n¡§∫∏"
-    ID_APP_EXIT             "¿¿øÎ «¡∑Œ±◊∑•¿ª ¡æ∑·«œ±‚ ¿ß«ÿ πÆº≠∏¶ ¿˙¿Â«“ ∞Õ¿Œ¡ˆ πØΩ¿¥œ¥Ÿ\n¡æ∑·"
+    ID_APP_ABOUT            "Displays program information, version information, and copyright information\nAbout"
+    ID_APP_EXIT             "Ask if you want to save the document to exit the application\nExit"
 END
 
 STRINGTABLE DISCARDABLE 
 BEGIN
-    ID_FILE_MRU_FILE1       "¿Ã πÆº≠∏¶ ø±¥œ¥Ÿ"
-    ID_FILE_MRU_FILE2       "¿Ã πÆº≠∏¶ ø±¥œ¥Ÿ"
-    ID_FILE_MRU_FILE3       "¿Ã πÆº≠∏¶ ø±¥œ¥Ÿ"
-    ID_FILE_MRU_FILE4       "¿Ã πÆº≠∏¶ ø±¥œ¥Ÿ"
-    ID_FILE_MRU_FILE5       "¿Ã πÆº≠∏¶ ø±¥œ¥Ÿ"
-    ID_FILE_MRU_FILE6       "¿Ã πÆº≠∏¶ ø±¥œ¥Ÿ"
-    ID_FILE_MRU_FILE7       "¿Ã πÆº≠∏¶ ø±¥œ¥Ÿ"
-    ID_FILE_MRU_FILE8       "¿Ã πÆº≠∏¶ ø±¥œ¥Ÿ"
-    ID_FILE_MRU_FILE9       "¿Ã πÆº≠∏¶ ø±¥œ¥Ÿ"
-    ID_FILE_MRU_FILE10      "¿Ã πÆº≠∏¶ ø±¥œ¥Ÿ"
-    ID_FILE_MRU_FILE11      "¿Ã πÆº≠∏¶ ø±¥œ¥Ÿ"
-    ID_FILE_MRU_FILE12      "¿Ã πÆº≠∏¶ ø±¥œ¥Ÿ"
-    ID_FILE_MRU_FILE13      "¿Ã πÆº≠∏¶ ø±¥œ¥Ÿ"
-    ID_FILE_MRU_FILE14      "¿Ã πÆº≠∏¶ ø±¥œ¥Ÿ"
-    ID_FILE_MRU_FILE15      "¿Ã πÆº≠∏¶ ø±¥œ¥Ÿ"
-    ID_FILE_MRU_FILE16      "¿Ã πÆº≠∏¶ ø±¥œ¥Ÿ"
+    ID_FILE_MRU_FILE1       "Open This Document"
+    ID_FILE_MRU_FILE2       "Open This Document"
+    ID_FILE_MRU_FILE3       "Open This Document"
+    ID_FILE_MRU_FILE4       "Open This Document"
+    ID_FILE_MRU_FILE5       "Open This Document"
+    ID_FILE_MRU_FILE6       "Open This Document"
+    ID_FILE_MRU_FILE7       "Open This Document"
+    ID_FILE_MRU_FILE8       "Open This Document"
+    ID_FILE_MRU_FILE9       "Open This Document"
+    ID_FILE_MRU_FILE10      "Open This Document"
+    ID_FILE_MRU_FILE11      "Open This Document"
+    ID_FILE_MRU_FILE12      "Open This Document"
+    ID_FILE_MRU_FILE13      "Open This Document"
+    ID_FILE_MRU_FILE14      "Open This Document"
+    ID_FILE_MRU_FILE15      "Open This Document"
+    ID_FILE_MRU_FILE16      "Open This Document"
 END
 
 STRINGTABLE DISCARDABLE 
 BEGIN
-    ID_NEXT_PANE            "¥Ÿ¿Ω √¢¿∏∑Œ ¿¸»Ø«’¥œ¥Ÿ\n¥Ÿ¿Ω √¢"
-    ID_PREV_PANE            "¿Ã¿¸ √¢¿∏∑Œ ¿¸»Ø«’¥œ¥Ÿ\n¿Ã¿¸ √¢"
+    ID_NEXT_PANE            "Switch to the next window\nNext window"
+    ID_PREV_PANE            "Switch to previous window\nPrevious window"
 END
 
 STRINGTABLE DISCARDABLE 
 BEGIN
-    ID_WINDOW_SPLIT         "«ˆ¿Á ø≠∏∞ √¢¿ª ≥™¥Ø¥œ¥Ÿ\n≥™¥©±‚"
+    ID_WINDOW_SPLIT         "Split the currently open window\nSplit"
 END
 
 STRINGTABLE DISCARDABLE 
 BEGIN
-    ID_EDIT_CLEAR           "º±≈√ ∫Œ∫–¿ª ¡ˆøÛ¥œ¥Ÿ\n¡ˆøÏ±‚"
-    ID_EDIT_CLEAR_ALL       "∏µÁ ∞Õ¿ª ¡ˆøÛ¥œ¥Ÿ\n∏µŒ ¡ˆøÏ±‚"
-    ID_EDIT_COPY            "º±≈√ ∫Œ∫–¿ª ∫πªÁ«œø© ≈¨∏≥∫∏µÂø° ≥÷Ω¿¥œ¥Ÿ\n∫πªÁ"
-    ID_EDIT_CUT             "º±≈√ ∫Œ∫–¿ª ¿ﬂ∂Û≥ªæÓ ≈¨∏≥∫∏µÂø° ≥÷Ω¿¥œ¥Ÿ\n¿ﬂ∂Û≥ª±‚"
-    ID_EDIT_FIND            "¡ˆ¡§«— πÆ¿⁄ø≠¿ª √£Ω¿¥œ¥Ÿ\n√£±‚"
-    ID_EDIT_PASTE           "≈¨∏≥∫∏µÂ¿« ≥ªøÎ¿ª ∫Ÿø© ≥÷Ω¿¥œ¥Ÿ\n∫Ÿø©≥÷±‚"
-    ID_EDIT_REPEAT          "∏∂¡ˆ∏∑¿∏∑Œ Ω««‡«— µø¿€¿ª π›∫π«’¥œ¥Ÿ\nπ›∫π"
-    ID_EDIT_REPLACE         "¡ˆ¡§«— πÆ¿⁄ø≠¿ª ¥Ÿ∏• πÆ¿⁄ø≠∑Œ πŸ≤ﬂ¥œ¥Ÿ\nπŸ≤Ÿ±‚"
-    ID_EDIT_SELECT_ALL      "πÆº≠ ¿¸√º∏¶ º±≈√«’¥œ¥Ÿ\n¿¸√º º±≈√"
-    ID_EDIT_UNDO            "∏∂¡ˆ∏∑¿∏∑Œ «— µø¿€¿ª √Îº“«’¥œ¥Ÿ\nΩ««‡ √Îº“"
-    ID_EDIT_REDO            "¿Ã¿¸ø° √Îº“«— µø¿€¿ª ¥ŸΩ√ ºˆ«‡«’¥œ¥Ÿ\n¥ŸΩ√ Ω««‡"
+    ID_EDIT_CLEAR           "Clear selection\nClear"
+    ID_EDIT_CLEAR_ALL       "Clear everything\nClear everything"
+    ID_EDIT_COPY            "Copies the selection and puts it on the clipboard\nCopy"
+    ID_EDIT_CUT             "Cut the selection and put it on the clipboard\nCut"
+    ID_EDIT_FIND            "Finds the specified string\nFind"
+    ID_EDIT_PASTE           "Pastes the contents of the clipboard\nPaste"
+    ID_EDIT_REPEAT          "Repeat last action\nRepeat"
+    ID_EDIT_REPLACE         "Replaces the specified string with another string\nReplace"
+    ID_EDIT_SELECT_ALL      "Select all documents\nSelect all"
+    ID_EDIT_UNDO            "Undo the last action\nUndo"
+    ID_EDIT_REDO            "Redo a previously undone action\nRedo"
 END
 
 STRINGTABLE DISCARDABLE 
 BEGIN
-    AFX_IDS_SCSIZE          "√¢¿« ≈©±‚∏¶ ∫Ø∞Ê«’¥œ¥Ÿ"
-    AFX_IDS_SCMOVE          "√¢¿« ¿ßƒ°∏¶ ∫Ø∞Ê«’¥œ¥Ÿ"
-    AFX_IDS_SCMINIMIZE      "√¢¿ª æ∆¿Ãƒ‹¿∏∑Œ ¡Ÿø©º≠ «•Ω√«’¥œ¥Ÿ"
-    AFX_IDS_SCMAXIMIZE      "√¢¿ª √÷¥Î ≈©±‚∑Œ »Æ¿Â«’¥œ¥Ÿ"
-    AFX_IDS_SCNEXTWINDOW    "¥Ÿ¿Ω πÆº≠ √¢¿∏∑Œ ¿¸»Ø«’¥œ¥Ÿ"
-    AFX_IDS_SCPREVWINDOW    "¿Ã¿¸ πÆº≠ √¢¿∏∑Œ ¿¸»Ø«’¥œ¥Ÿ"
-    AFX_IDS_SCCLOSE         "«ˆ¿Á ø≠∏∞ √¢¿ª ¥›∞Ì πÆº≠∏¶ ¿˙¿Â«“ ∞Õ¿Œ¡ˆ∏¶ πØΩ¿¥œ¥Ÿ"
+    AFX_IDS_SCSIZE          "Change the window size"
+    AFX_IDS_SCMOVE          "Change the position of the window"
+    AFX_IDS_SCMINIMIZE      "Reduces the window to an icon"
+    AFX_IDS_SCMAXIMIZE      "Expand the window to its maximum size"
+    AFX_IDS_SCNEXTWINDOW    "Switch to the next document window"
+    AFX_IDS_SCPREVWINDOW    "Switch to the previous document window"
+    AFX_IDS_SCCLOSE         "Close the currently open window and ask if you want to save the document"
 END
 
 STRINGTABLE DISCARDABLE 
 BEGIN
-    AFX_IDS_SCRESTORE       "√¢¿ª ø¯∑° ≈©±‚∑Œ ∫πø¯«’¥œ¥Ÿ"
-    AFX_IDS_SCTASKLIST      "¿€æ˜ ∏Ò∑œ¿ª »∞º∫»≠«’¥œ¥Ÿ"
+    AFX_IDS_SCRESTORE       "Restore the window to its original size"
+    AFX_IDS_SCTASKLIST      "Activate the task list"
 END
 
 #endif    // Korean resources

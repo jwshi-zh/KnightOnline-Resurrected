@@ -184,7 +184,7 @@ BOOL SelectTexture(char* pszBuff)
 	lstrcpy(pszBuff, dlg.GetPathName());
 
 //	CN3BaseFileAccess tmpBase;
-//	tmpBase.FileNameSet(pszBuff);	// Base경로에 대해서 상대적 경로를 넘겨준다.
+//	tmpBase.FileNameSet(pszBuff);
 //	const std::string strFN(tmpBase.FileName());
 //	strcpy(pszBuff, strFN.c_str());
 	return TRUE;

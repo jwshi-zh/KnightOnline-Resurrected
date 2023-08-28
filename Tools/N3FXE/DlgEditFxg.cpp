@@ -97,12 +97,12 @@ BOOL CDlgEditFxg::OnInitDialog()
 
 		m_pJoint[i]->ResetContent();		
 		m_pJoint[i]->Clear();
-		m_pJoint[i]->InsertString(0,"배꼽");
+		m_pJoint[i]->InsertString(0,"navel");
 		m_pJoint[i]->SetCurSel(0);
 
-		//	m_CBPartName들 채우기..
-		m_pJoint[i]->InsertString(1, "오른손");
-		m_pJoint[i]->InsertString(2, "왼손");		
+		//	Fill m_CBPartNames..
+		m_pJoint[i]->InsertString(1, "right hand");
+		m_pJoint[i]->InsertString(2, "left hand");		
 	}
 	m_strFileName.Empty();
 
@@ -122,7 +122,7 @@ bool CDlgEditFxg::LoadScript(const char* szPath)
 	}
 
 	//////////////////////////////////////////////////
-	//각 컨트롤 셋팅...
+	//Each control setting...
 	int cnt = pGroup->GetCount();
 	for(int i=0;i<cnt;i++)
 	{
@@ -212,7 +212,7 @@ void CDlgEditFxg::OnBtnSave()
 	FILE* file = fopen((LPCTSTR)m_strFileName, "w");
 	if(!file)
 	{
-		MessageBox("n3fxgroup파일 생성 실패..-.-;;","ERR02",MB_OK);
+		MessageBox("Failed to create n3fxgroup file..-.-;;","ERR02",MB_OK);
 		return;
 	}
 

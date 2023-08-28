@@ -182,11 +182,9 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_wndToolBar.SetBarStyle(m_wndToolBar.GetBarStyle() |
 		CBRS_TOOLTIPS | CBRS_FLYBY);
 
-	// Engine 생성
 	if(m_Eng.Init(TRUE, m_hWnd, 64, 64, 0, TRUE) == false) return -1;
-	m_Eng.GridCreate(200, 200); // 그리드 만들기..
+	m_Eng.GridCreate(200, 200);
 
-	// 기본 카메라 & Light 만들기..
 	m_Camera.EyePosSet(0, 5, -15);
 	//D3DCOLORVALUE crLgt = { 1.0f, 1.0f, 1.0f, 1.0f };
 	//m_Light.m_Data.InitDirection(0, __Vector3(-1, -1, -1), crLgt);
@@ -194,7 +192,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	D3DCOLORVALUE crLgt;
 	crLgt.a = 0.0f, crLgt.r = crLgt.g = crLgt.b = 0.8f;
-	//CN3Light* pLightGlobal = new CN3Light(); // 전체를 비출 라이트..
+	//CN3Light* pLightGlobal = new CN3Light();
 	m_Light[0].m_Data.InitDirection(0, __Vector3(0,-1,0), crLgt);
 	m_Light[1].m_Data.InitDirection(1, __Vector3(0,1,0), crLgt);
 	
@@ -314,8 +312,7 @@ int CMainFrame::GetPartType(CString& PathName)
 			if(lstrcmpi(szBuf[0], "particle")==0) PartType = FX_PART_TYPE_PARTICLE;
 			else if(lstrcmpi(szBuf[0], "board")==0) PartType = FX_PART_TYPE_BOARD;
 			else if(lstrcmpi(szBuf[0], "mesh")==0) PartType = FX_PART_TYPE_MESH;
-			else if(lstrcmpi(szBuf[0], "ground")==0) PartType = FX_PART_TYPE_BOTTOMBOARD;			
-			//^^v 더 넣을꺼 있으면 넣어라..
+			else if(lstrcmpi(szBuf[0], "ground")==0) PartType = FX_PART_TYPE_BOTTOMBOARD;
 
 			fclose(stream);
 			return PartType;
@@ -357,7 +354,7 @@ void CMainFrame::OnFileLoadPart()
 				}
 				else
 				{
-					MessageBox("n3fxpart파일을 여는데 실패했습니다...-.-;;","ERR01",MB_OK);
+					MessageBox("n3fxpart...-.-;;","ERR01",MB_OK);
 					pEditPartWnd->DestroyWindow();
 					delete pEditPartWnd;
 				}
@@ -376,7 +373,7 @@ void CMainFrame::OnFileLoadPart()
 				}
 				else
 				{
-					MessageBox("n3fxpart파일을 여는데 실패했습니다...-.-;;","ERR01",MB_OK);
+					MessageBox("n3fxpart...-.-;;","ERR01",MB_OK);
 					pEditPartWnd->DestroyWindow();
 					delete pEditPartWnd;
 				}
@@ -395,7 +392,7 @@ void CMainFrame::OnFileLoadPart()
 				}
 				else
 				{
-					MessageBox("n3fxpart파일을 여는데 실패했습니다...-.-;;","ERR01",MB_OK);
+					MessageBox("n3fxpar...-.-;;","ERR01",MB_OK);
 					pEditPartWnd->DestroyWindow();
 					delete pEditPartWnd;
 				}
@@ -414,7 +411,7 @@ void CMainFrame::OnFileLoadPart()
 				}
 				else
 				{
-					MessageBox("n3fxpart파일을 여는데 실패했습니다...-.-;;","ERR01",MB_OK);
+					MessageBox("n3fxpart...-.-;;","ERR01",MB_OK);
 					pEditPartWnd->DestroyWindow();
 					delete pEditPartWnd;
 				}
@@ -437,12 +434,10 @@ void CMainFrame::OnFileLoadBundle()
 	{
 		CString PathName = dlg.GetNextPathName(pos);
 
-		//스크립트 에디트 창 만들고, 스크립트 정보들 읽고, 셋팅..
 		CDlgEditScript*	pEditWnd = new CDlgEditScript;
 		pEditWnd->Create(IDD_DLG_SCRIPTEDITOR, NULL);
 		pEditWnd->m_pRefFrm = this;
 
-		// load 해서 성공하면 그대로 하고 실패하면 다 지워버려..
 		if(pEditWnd->LoadBundle(PathName))
 		{
 			pEditWnd->ShowWindow(TRUE);
@@ -450,7 +445,7 @@ void CMainFrame::OnFileLoadBundle()
 		}
 		else
 		{
-			MessageBox("n3fxbundle파일을 여는데 실패했습니다.","-.-;;",MB_OK);
+			MessageBox("n3fxbundle.","-.-;;",MB_OK);
 			pEditWnd->DestroyWindow();
 			delete pEditWnd;
 		}
@@ -497,8 +492,7 @@ void CMainFrame::TickRender()
 	m_Eng.s_lpD3DDev->SetTransform(D3DTS_WORLD, &mtxWorld);
 
 	if(m_bRenderFloor) m_pGround->Render();
-	
-	//온갖 renderstate설정...	
+		
 	if(m_pCurrFX)
 	{
 		DWORD dwLgt; 
@@ -511,11 +505,11 @@ void CMainFrame::TickRender()
 		m_Eng.s_lpD3DDev->SetRenderState( D3DRS_LIGHTING, dwLgt );		
 	}
 
-	CN3Base::s_AlphaMgr.Render(); // 이걸 반드시 해줘야 알파블렌딩 버퍼 오버플로우가 안난다..
+	CN3Base::s_AlphaMgr.Render();
 	m_Eng.s_lpD3DDev->EndScene();
 	m_Eng.Present(GetActiveView()->m_hWnd);
 
-	// 프레임 표시
+	// 占쏙옙占쏙옙占쏙옙 표占쏙옙
 	DWORD dwTick = GetTickCount();
 	static DWORD dwTickPrev = dwTick;
 	static CString szFPS;
@@ -718,12 +712,10 @@ void CMainFrame::OnViewBgcolor()
 
 void CMainFrame::OnFileNewBundle() 
 {
-	//스크립트 에디트 창 만들고, 스크립트 정보들 읽고, 셋팅..
 	CDlgEditScript*	pEditWnd = new CDlgEditScript;
 	pEditWnd->Create(IDD_DLG_SCRIPTEDITOR, NULL);
 	pEditWnd->m_pRefFrm = this;
 
-	// load 해서 성공하면 그대로 하고 실패하면 다 지워버려..
 	if(pEditWnd->NewBundle())
 	{
 		pEditWnd->ShowWindow(TRUE);
@@ -731,7 +723,7 @@ void CMainFrame::OnFileNewBundle()
 	}
 	else
 	{
-		MessageBox("새 번들을 만드는데 실패했습니다.","ERR;;",MB_OK);
+		MessageBox(".","ERR;;",MB_OK);
 		pEditWnd->DestroyWindow();
 		delete pEditWnd;
 	}		
@@ -751,7 +743,6 @@ void CMainFrame::OnFileOpenFloorTex()
 
 void CMainFrame::OnFileNewGroup() 
 {
-	//스크립트 에디트 창 만들고, 스크립트 정보들 읽고, 셋팅..
 	CDlgEditFxg* pEditWnd = new CDlgEditFxg;
 	pEditWnd->Create(IDD_DLG_GROUP, NULL);
 	pEditWnd->m_pRefFrm = this;
@@ -773,12 +764,10 @@ void CMainFrame::OnFileLoadGroup()
 	{
 		CString PathName = dlg.GetNextPathName(pos);
 
-		//스크립트 에디트 창 만들고, 스크립트 정보들 읽고, 셋팅..
 		CDlgEditFxg* pEditWnd = new CDlgEditFxg;
 		pEditWnd->Create(IDD_DLG_GROUP, NULL);
 		pEditWnd->m_pRefFrm = this;
 
-		// load 해서 성공하면 그대로 하고 실패하면 다 지워버려..
 		if(pEditWnd->LoadScript((LPCTSTR)PathName))
 		{
 			pEditWnd->ShowWindow(TRUE);
@@ -786,7 +775,7 @@ void CMainFrame::OnFileLoadGroup()
 		}
 		else
 		{
-			MessageBox("n3fxgroup파일을 여는데 실패했습니다.","-.-;;",MB_OK);
+			MessageBox("n3fxgroup.","-.-;;",MB_OK);
 			pEditWnd->DestroyWindow();
 			delete pEditWnd;
 		}

@@ -161,7 +161,7 @@ void CDlgEditPartMesh::OnPartMeshBtnSave()
 	FILE* file = fopen((LPCTSTR)m_strPathName, "w");
 	if(!file)
 	{
-		MessageBox("n3fxpart파일 생성 실패..-.-;;","ERR02",MB_OK);
+		MessageBox("n3fxpart..-.-;;","ERR02",MB_OK);
 		return;
 	}
 
@@ -255,8 +255,6 @@ bool CDlgEditPartMesh::LoadPartScript(const char* szPath)
 		return false;
 	}
 
-	//////////////////////////////////////////////////
-	//각 컨트롤 셋팅...
 	m_bOnGround = pPart->m_bOnGround;
 	m_bAlphaBlend = pPart->m_bAlpha;
 
@@ -392,7 +390,7 @@ void CDlgEditPartMesh::OnPartMeshBtnLoadShape()
 	}
 	else
 	{
-		MessageBox("N3Shape파일은 fx폴더 아래, 혹은 fx폴더 아래에 있는 폴더에 위치해야 합니다..-.-;;","ERR03",MB_OK);
+		MessageBox("N3Shape..-.-;;","ERR03",MB_OK);
 	}
 
 	delete pBaseFileAccess;			

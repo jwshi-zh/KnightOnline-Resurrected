@@ -51,7 +51,7 @@ public:
 	virtual BOOL MouseMsgFilter(LPMSG pMsg);	// mouse message handling
 	void GetPickRay(POINT point, __Vector3& vDir, __Vector3& vOrig);	// A function that gets a line extending towards the direction the mouse pointer is pointing at.
 protected:
-	__DUMMYCUBE* Pick(int x, int y);	// 큐브 picking
+	__DUMMYCUBE* Pick(int x, int y);	// cube picking
 	void InitDummyCube(int iType, __DUMMYCUBE* pDummyCube, __Vector3& vOffset, D3DCOLOR color);	// cube initialization
 	static int SortCube(const void* pArg1, const void* pArg2);	// Sort function for cube camera distance
 	virtual void TransDiff(__Vector3* pvDiffPos, __Quaternion* pvDiffRot, __Vector3* pvDiffScale);		// Transforms the selected objects by the difference.

@@ -435,7 +435,7 @@ void CN3CEView::OnLButtonDown(UINT nFlags, CPoint point)
 			}
 
 			CN3Base* pBase = pFrm->GetPaneProperty()->GetSelectedObject(); // Enter the Joint Index into the Plug. - Insert Joint Index into Plug..
-			if(	eCM_PickJoint == this->m_eCursorMode && // Á¶ÀÎÆ® ¼±ÅÃ ¸ðµå..
+			if(	eCM_PickJoint == this->m_eCursorMode && // ì¡°ì¸íŠ¸ ì„ íƒ ëª¨ë“œ..
 				pBase && (pBase->Type() & OBJ_CHARACTER_PLUG))
 			{
 				CN3CPlug* pPlug = (CN3CPlug*)pBase;
@@ -632,7 +632,7 @@ LRESULT CN3CEView::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 void CN3CEView::OnMouseMove(UINT nFlags, CPoint point) 
 {
 	if(	!::_IsKeyDown(VK_MENU) && 
-		((nFlags & MK_LBUTTON) || (nFlags & MK_MBUTTON) || (nFlags & MK_RBUTTON)) ) // Ä¿¼­ ¸ðµå¿¡ µû¶ó Á¶Á¤..
+		((nFlags & MK_LBUTTON) || (nFlags & MK_MBUTTON) || (nFlags & MK_RBUTTON)) ) // Adjust according to cursor mode..
 	{
 		// First see if the plug is selected.
 		CMainFrame* pFrm = (CMainFrame*)AfxGetMainWnd();
