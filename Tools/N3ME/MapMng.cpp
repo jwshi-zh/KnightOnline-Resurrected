@@ -43,7 +43,7 @@ static char THIS_FILE[]=__FILE__;
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-// 생성자
+// constructor
 CMapMng::CMapMng(CMainFrame* pMainFrm)
 :m_RiverMng(pMainFrm),m_PondMng(pMainFrm)
 {
@@ -52,7 +52,7 @@ CMapMng::CMapMng(CMainFrame* pMainFrm)
 	m_pMainFrm = pMainFrm;
 	m_pTerrain = NULL;
 
-	// Path 지정하기
+	// Path to designate
 	m_pSceneSource = new CN3Scene;
 	m_pSceneSource->m_szName = "SourceList";
 	m_pSceneSource->FileNameSet("SourceList.N3Scene");
@@ -111,7 +111,7 @@ CMapMng::CMapMng(CMainFrame* pMainFrm)
 
 	m_bLoadingComplete = false;
 
-	// 윈도 배치
+	// window placement
 	CRect rc(0,0,980,1000);
 	pMainFrm->MoveWindow(&rc);
 	m_pDlgSourceList->MoveWindow(rc.right, rc.top, 300, 500);
@@ -120,7 +120,7 @@ CMapMng::CMapMng(CMainFrame* pMainFrm)
 	Release();
 }
 
-// 파괴자
+// destroyer
 CMapMng::~CMapMng()
 {
 	Release();
@@ -139,7 +139,7 @@ CMapMng::~CMapMng()
 	if (m_pLightObjMgr) {delete m_pLightObjMgr; m_pLightObjMgr = NULL;}
 }
 
-// 초기화
+// reset
 void CMapMng::Release()
 {
 	if(m_pTerrain) { delete m_pTerrain; m_pTerrain = NULL;}
@@ -180,14 +180,14 @@ void CMapMng::Release()
 	m_PondMng.Release();
 }
 
-//FarPlane 갱신...
+//FarPlane update...
 void CMapMng::UpDateFP()
 {
 	m_pSceneOutput->CameraGetActive()->m_Data.fFP = m_pMainFrm->GetFP();
 	Invalidate();
 }
 
-// m_pSceneSource 캐릭터와 오브젝트를 추가하는 함수
+// m_pSceneSource Functions to add characters and objects
 void CMapMng::LoadSourceObjects()
 {
 	ASSERT(m_pSceneSource && m_pDlgSourceList);
@@ -196,10 +196,10 @@ void CMapMng::LoadSourceObjects()
 
 	WIN32_FIND_DATA FindFileData;
 
-	// source\Chr 폴더의 모든 캐릭터 추가
+	// source\Chr Add all characters in folder
 	CString szChrPath;
 	szChrPath.Format("%sChr\\", CN3Base::s_szPath.c_str());
-	SetCurrentDirectory(szChrPath); // szFolder\Chr 폴더로 경로를 바꾸고..
+	SetCurrentDirectory(szChrPath); // szFolder\Chr Change the path to the folder...
 	HANDLE hFind = FindFirstFile("*.N3Chr", &FindFileData);
 
 	if (hFind != INVALID_HANDLE_VALUE)
@@ -212,11 +212,11 @@ void CMapMng::LoadSourceObjects()
 		FindClose(hFind);
 	}
 
-	// source\Data 폴더의 모든 shape 추가
+	// Add all shapes in source\Data folder
 	CString szShapePath;
 	szShapePath.Format("%sObject\\", CN3Base::s_szPath.c_str());
-	SetCurrentDirectory(szShapePath); // szFolder\Mesh 폴더로 경로를 바꾸고..
-	hFind = FindFirstFile("*.N3Shape", &FindFileData); // 파일 찾기.
+	SetCurrentDirectory(szShapePath); // szFolder\Mesh Change the path to the folder...
+	hFind = FindFirstFile("*.N3Shape", &FindFileData); // Find files.
 
 	if (hFind != INVALID_HANDLE_VALUE)
 	{
@@ -228,15 +228,15 @@ void CMapMng::LoadSourceObjects()
 		FindClose(hFind);
 	}	
 
-	m_pSceneSource->Tick();	// Object 초기화
-	m_pDlgSourceList->UpdateTree(m_pSceneSource);	// 목록 갱신
+	m_pSceneSource->Tick();	// Object reset
+	m_pDlgSourceList->UpdateTree(m_pSceneSource);	// List update
 }
 
-// 지정한 Scene에 캐릭터 추가하는 함수
+// A function that adds a character to the specified scene
 CN3Transform* CMapMng::AddChr(CN3Scene* pDestScene, const std::string& szFN, BOOL bGenerateChainNumber)
 {
 	CN3Chr* pChr = new CN3Chr;
-	if(false == pChr->LoadFromFile(szFN)) // 부르기가 실패하면..
+	if(false == pChr->LoadFromFile(szFN)) // If the call fails...
 	{
 		delete pChr;
 		return NULL;
@@ -253,8 +253,8 @@ CN3Transform* CMapMng::AddChr(CN3Scene* pDestScene, const std::string& szFN, BOO
 			int nL = lstrlen(szCompare);
 			if(nL < 5) continue;
 
-			szCompare[nL-5] = NULL; // 뒤에 붙는 언더바와 네자리 번호는 뺀다..
-			if(pChr->m_szName == szCompare) // 이름이 같으면..
+			szCompare[nL-5] = NULL; // Remove the trailing underscore and four-digit number.
+			if(pChr->m_szName == szCompare) // If the names are the same...
 			{
 				nChainNumber = atoi(&(szCompare[nL-4])) + 1;
 			}
@@ -262,18 +262,18 @@ CN3Transform* CMapMng::AddChr(CN3Scene* pDestScene, const std::string& szFN, BOO
 
 		char szName[_MAX_PATH];
 		wsprintf(szName, "%s_%.4d", pChr->m_szName.c_str(), nChainNumber);
-		pChr->m_szName = szName; // .. 이름을 짓는다..
+		pChr->m_szName = szName; // .. name it..
 	}
 
 	pDestScene->ChrAdd(pChr);
 	return pChr;
 }
 
-// 지정한 Scene에 Shape 추가하는 함수
+// A function that adds a shape to the specified scene
 CN3Transform* CMapMng::AddShape(CN3Scene* pDestScene, const std::string& szFN, BOOL bGenerateChainNumber)
 {
 	CN3Shape* pShape = new CN3Shape;
-	if(false == pShape->LoadFromFile(szFN)) // 부르기가 실패하면..
+	if(false == pShape->LoadFromFile(szFN)) // If the call fails...
 	{
 		delete pShape;
 		return NULL;
@@ -290,8 +290,8 @@ CN3Transform* CMapMng::AddShape(CN3Scene* pDestScene, const std::string& szFN, B
 			int nL = lstrlen(szCompare);
 			if(nL < 5) continue;
 
-			szCompare[nL-5] = NULL; // 뒤에 붙는 언더바와 네자리 번호는 뺀다..
-			if(0 == lstrcmpi(pShape->Name(), szCompare)) // 이름이 같으면..
+			szCompare[nL-5] = NULL; // Remove the trailing underscore and four-digit number.
+			if(0 == lstrcmpi(pShape->Name(), szCompare)) // If the names are the same...
 			{
 				nChainNumber = atoi(&(szCompare[nL-4])) + 1;
 			}
@@ -299,26 +299,26 @@ CN3Transform* CMapMng::AddShape(CN3Scene* pDestScene, const std::string& szFN, B
 
 		char szName[_MAX_PATH];
 		wsprintf(szName, "%s_%.4d", pShape->Name(), nChainNumber);
-		pShape->m_szName = szName; // .. 이름을 짓는다..
+		pShape->m_szName = szName; // .. name it..
 		
 		char szFileName2[_MAX_PATH];
 		char szDrive[_MAX_DRIVE], szDir[_MAX_DIR], szFName[_MAX_FNAME], szExt[_MAX_EXT];
 		_splitpath(szFileName, szDrive, szDir, szFName, szExt);
 		_makepath(szFileName2, szDrive, szDir, szName, szExt);
-		pShape->FileNameSet(szFileName2); // 파일 이름 짓기...
+		pShape->FileNameSet(szFileName2); // Naming the file...
 	}
 */
-	pDestScene->ShapeAdd(pShape); // 추가 하고
+	pDestScene->ShapeAdd(pShape); // add
 	return pShape;
 }
 
-// pObj를 m_pSceneOutput에 추가한다.
+// Add pObj to m_pSceneOutput.
 CN3Transform* CMapMng::AddObjectToOutputScene(CN3Transform* pObj)
 {
 	if (pObj == NULL) return NULL;
 	ASSERT(m_pSceneOutput && pObj->m_szName.size() );
 
-	// m_pSceneOutput에 넣기
+	// Put in m_pSceneOutput
 	CN3Transform* pDestObj;
 	if (pObj->Type() & OBJ_CHARACTER)
 	{
@@ -338,10 +338,10 @@ CN3Transform* CMapMng::AddObjectToOutputScene(CN3Transform* pObj)
 	return NULL;
 }
 
-// 선택한 객체를 지움
+// Clear selected objects
 void CMapMng::DeleteSelObjectFromOutputScene()
 {
-	if (GetCursorMode() == CM_EDIT_RIVER)		// 강물 편집일 경우 선택 점 지우기
+	if (GetCursorMode() == CM_EDIT_RIVER)		// Clear selection point in case of river edit
 	{
 		m_RiverMng.DeleteSelectedVertex();
 		return;
@@ -378,16 +378,16 @@ void CMapMng::DeleteSelObjectFromOutputScene()
 void CMapMng::SavePartition(float x, float z, float width)
 {
 	DWORD dwFlags = OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT;	
-	CFileDialog dlg(FALSE, "n3m", NULL, dwFlags, "N3ME 파일(*.n3m)|*.n3m||", NULL);
+	CFileDialog dlg(FALSE, "n3m", NULL, dwFlags, "N3ME files(*.n3m)|*.n3m||", NULL);
 	if(dlg.DoModal() == IDCANCEL) return;
 
 	CString lpszPathName = dlg.GetPathName();
 	
-	// 파일 이름
+	// file name
 	char szDrive[_MAX_DRIVE], szDir[_MAX_DIR], szFName[_MAX_FNAME], szExt[_MAX_EXT];
 	_splitpath((LPCTSTR)lpszPathName, szDrive, szDir, szFName, szExt);
 
-	//n3m만들기..^^
+	//Create n3m..^^
 	char szN3M[_MAX_PATH];
 	_makepath(szN3M, szDrive, szDir, szFName, "n3m");
 	HANDLE hFile = CreateFile(szN3M, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
@@ -396,12 +396,12 @@ void CMapMng::SavePartition(float x, float z, float width)
 		MessageBox(::GetActiveWindow(), lpszPathName, "Fail to open map data file for save, Pleas retry.", MB_OK);
 		return;
 	}
-	char comment[80] = {"이파일 여는 사람 바보..^^"};
+	char comment[80] = {"Fool who opens this file..^^"};
 	DWORD dwRWC;
 	WriteFile(hFile, &comment, sizeof(char)*80, &dwRWC, NULL);
 	CloseHandle(hFile);
 
-	// 지형
+	// terrain
 	if(m_pTerrain)
 	{
 		char szTerrain[_MAX_PATH];
@@ -409,18 +409,18 @@ void CMapMng::SavePartition(float x, float z, float width)
 		m_pTerrain->SaveToFilePartition(szTerrain, x, z, width);
 	}
 	
-	// sdt파일 저장(shape data text)
+	// Save sdt file (shape data text)
 	char szSceneText[_MAX_PATH];
 	_makepath(szSceneText, szDrive, szDir, szFName, "sdt");
 	SaveObjectPostDataPartition(szSceneText, x, z, width);
 
 	/*
-	// warp 정보 load..
+	// Warp information load..
 	char szWarp[_MAX_PATH];
 	_makepath(szWarp, szDrive, szDir, szFName, "wap");
 	m_pWarpMgr->SaveToFile(szWarp);
 
-	//이벤트 정보 저장..
+	// Event information save..
 	//char szEvent[_MAX_PATH];
 	//_makepath(szEvent, szDrive, szDir, szFName, "evt");
 	//m_pEventMgr->SaveToFile(szEvent);	
@@ -431,11 +431,11 @@ void CMapMng::SaveToFile(LPCTSTR lpszPathName)
 {
 	if (lstrlen(lpszPathName) == 0) return;
 
-	// 파일 이름
+	// file name
 	char szDrive[_MAX_DRIVE], szDir[_MAX_DIR], szFName[_MAX_FNAME], szExt[_MAX_EXT];
 	_splitpath(lpszPathName, szDrive, szDir, szFName, szExt);
 
-	//n3m만들기..^^
+	//Create n3m..^^
 	char szN3M[_MAX_PATH];
 	_makepath(szN3M, szDrive, szDir, szFName, "n3m");
 	HANDLE hFile = CreateFile(szN3M, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
@@ -445,12 +445,12 @@ void CMapMng::SaveToFile(LPCTSTR lpszPathName)
 		return;
 	}
 
-	char comment[80] = {"이파일 여는 사람 바보..^^"};
+	char comment[80] = {"Fool who opens this file..^^"};
 	DWORD dwRWC;
 	WriteFile(hFile, &comment, sizeof(char)*80, &dwRWC, NULL);
 	CloseHandle(hFile);
 
-	// 지형
+	// terrain
 	if(m_pTerrain)
 	{
 		char szTerrain[_MAX_PATH];
@@ -458,42 +458,42 @@ void CMapMng::SaveToFile(LPCTSTR lpszPathName)
 		m_pTerrain->SaveToFile(szTerrain);
 	}
 	
-	// sdt파일 저장(shape data text)
+	// Save sdt file (shape data text)
 	char szSceneText[_MAX_PATH];
 	_makepath(szSceneText, szDrive, szDir, szFName, "sdt");
 	SaveObjectPostData(szSceneText);
 	
-	// 강물 편집 정보 저장..
+	// river water compilation information save..
 	char szRiver[_MAX_PATH];
 	_makepath(szRiver, szDrive, szDir, szFName, "rvr");
 	m_RiverMng.SaveToFile(szRiver);
 
-	// 연못 편집 정보 저장..
+	// pond edit information save..
 	char szPond[_MAX_PATH];
 	_makepath(szPond, szDrive, szDir, szFName, "pvr");
 	m_PondMng.SaveToFile(szPond);
 
-	//벽 정보 저장..
+	//wall information save..
 	char szWall[_MAX_PATH];
 	_makepath(szWall, szDrive, szDir, szFName, "wal");
 	m_pWall->SaveToFile(szWall);
 
-	// warp 정보 load..
+	// warp information load..
 	char szWarp[_MAX_PATH];
 	_makepath(szWarp, szDrive, szDir, szFName, "wap");
 	m_pWarpMgr->SaveToFile(szWarp);
 
-	// sound 정보 Load..
+	// sound information Load..
 	char szSound[_MAX_PATH];
 	_makepath(szSound, szDrive, szDir, szFName, "tsd");
 	m_pSoundMgr->SaveToFile(szSound);
 
-	// light object 정보..
+	// light object information..
 	char szLightObj[_MAX_PATH];
 	_makepath(szLightObj, szDrive, szDir, szFName, "tld");
 	m_pLightObjMgr->SaveToFile(szLightObj);
 
-	//이벤트 정보 저장..
+	//event information save..
 	//char szEvent[_MAX_PATH];
 	//_makepath(szEvent, szDrive, szDir, szFName, "evt");
 	//m_pEventMgr->SaveToFile(szEvent);
@@ -503,11 +503,11 @@ void CMapMng::LoadFromFile(LPCTSTR lpszPathName)
 {
 	if (lstrlen(lpszPathName) == 0) return;
 
-	// 파일 이름
+	// file name
 	char szDrive[_MAX_DRIVE], szDir[_MAX_DIR], szFName[_MAX_PATH], szExt[_MAX_EXT];
 	_splitpath(lpszPathName, szDrive, szDir, szFName, szExt);
 
-	// 지형
+	// terrain
 	delete m_pTerrain;
 	m_pTerrain = new CLyTerrain;
 	m_pTerrain->Init();
@@ -531,27 +531,27 @@ void CMapMng::LoadFromFile(LPCTSTR lpszPathName)
 	_makepath(szPond, szDrive, szDir, szFName, "pvr");
 	m_PondMng.LoadFromFile(szPond);
 
-	//벽 정보 load..
+	//wall information load..
 	char szWall[_MAX_PATH];
 	_makepath(szWall, szDrive, szDir, szFName, "wal");
 	m_pWall->LoadFromFile(szWall);
 
-	// warp 정보 load..
+	// warp information load..
 	char szWarp[_MAX_PATH];
 	_makepath(szWarp, szDrive, szDir, szFName, "wap");
 	m_pWarpMgr->LoadFromFile(szWarp);
 
-	// sound 정보 Load..
+	// sound information Load..
 	char szSound[_MAX_PATH];
 	_makepath(szSound, szDrive, szDir, szFName, "tsd");
 	m_pSoundMgr->LoadFromFile(szSound);
 
-	// light object 정보..
+	// light object information..
 	char szLightObj[_MAX_PATH];
 	_makepath(szLightObj, szDrive, szDir, szFName, "tld");
 	m_pLightObjMgr->LoadFromFile(szLightObj);
 
-	//이벤트 정보..
+	//event information..
 	//char szEvent[_MAX_PATH];
 	//_makepath(szEvent, szDrive, szDir, szFName, "evt");
 	//m_pEventMgr->LoadFromFile(szEvent);
@@ -572,7 +572,7 @@ void CMapMng::Tick()
 
 void CMapMng::Render()
 {
-	if(false == m_bLoadingComplete) return; // 로딩이 아직 안 끝났다...
+	if(false == m_bLoadingComplete) return; // Loading still not finished...
 
 	CN3EngTool* pEng = m_pMainFrm->m_pEng;
 	if (pEng == NULL) return;
@@ -580,19 +580,19 @@ void CMapMng::Render()
 	pEng->s_lpD3DDev->SetRenderState(D3DRS_FILLMODE, m_FillMode);
 	pEng->s_lpD3DDev->SetRenderState(D3DRS_SHADEMODE, m_ShadeMode);
 
-	if (m_bRenderAxisAndGrid) // 축과 그리드 그리기...
+	if (m_bRenderAxisAndGrid) // Draw Axes and Grids...
 	{
 		pEng->RenderAxis();
 		__Matrix44 mtxWorld; mtxWorld.Scale(32.0f, 32.0f, 32.0f);
 		if(m_SelOutputObjArray.GetSize() > 0)
 		{
 			CN3Transform* pSelObj = m_SelOutputObjArray.GetAt(0);
-			if(pSelObj) // 선택된 객체가 있으면..
+			if(pSelObj) // If an object is selected...
 			{
-				mtxWorld.PosSet(0, pSelObj->Pos().y, 0); // 높이를 올린다.
+				mtxWorld.PosSet(0, pSelObj->Pos().y, 0); // raise the height
 			}
 		}
-		pEng->RenderGrid(mtxWorld); // 그리드 그리기...
+		pEng->RenderGrid(mtxWorld); // Draw the grid...
 	}
 
 	if (m_pTerrain) m_pTerrain->Render();
@@ -607,8 +607,8 @@ void CMapMng::Render()
 		if(pSelObj->Type() & OBJ_SHAPE)
 		{
 			((CN3Shape*)pSelObj)->RenderSelected(m_bViewWireFrame);
-			((CN3Shape*)pSelObj)->RenderCollisionMesh(); // 충돌 메시 그리기...
-			((CN3Shape*)pSelObj)->RenderClimbMesh(); // 올라가는 메시 그리기..
+			((CN3Shape*)pSelObj)->RenderCollisionMesh(); // Draw Collision Mesh...
+			((CN3Shape*)pSelObj)->RenderClimbMesh(); // Drawing a climb - rising mesh...
 		}
 	}
 
@@ -637,7 +637,7 @@ void CMapMng::Render()
 	if(m_pSoundMgr && m_pSoundMgr->m_bActive) m_pSoundMgr->Render();
 	if(m_pLightObjMgr && m_pLightObjMgr->m_bActive) m_pLightObjMgr->Render();
 	
-	// 풀심기 테스트 
+	// planting (grass?) test 
 	if( m_SowSeedMng.bActive == TRUE)
 		m_SowSeedMng.Render(s_lpD3DDev);
 
@@ -699,14 +699,14 @@ void CMapMng::FocusSelObj()
 	}
 
 	if (vMin.x != FLT_MAX && vMax.x != -FLT_MAX)
-	{	// 물체 크기에 맞춰 카메라 거리 조절
+	{	// Adjust camera distance according to object size
 		__Vector3 vDir = pCamera->Dir();
 		__Vector3 vAt = vMin + ((vMax-vMin)/2);
 		pCamera->AtPosSet(vAt);
 		pCamera->EyePosSet(vAt - vDir*(vMax-vMin).Magnitude());
 	}
 //	else {ASSERT(0);}
-//	{	// 물체 크기를 알 수 없으므로 지금 거리 유지
+//	{	// Keep distance now as object size is unknown
 //		CN3TransformCollision* pSelObj = m_SelOutputObjArray.GetAt(0);
 //		pCamera->m_vRot = pSelObj->m_vPos;
 //		__Vector3 vDiff = pSelObj->m_vPos - pCamera->m_vRot;
@@ -805,28 +805,28 @@ BOOL CMapMng::CameraMove(LPMSG pMsg)
 
 			}
 			break;
-		case '2':	// '1'과 같은 내용임 (함수로 만들지 않은 이유는 static변수 때문에..)
+		case '2':	// Same content as '1'(The reason I didn't make it a function is because of the static variable...)
 			{	static BOOL bSet = FALSE;
 				if (pCamera) { static __Vector3 vEye(0, 0, 0);	static __Vector3 vAt(0, 0, 1); static __Vector3 vUp(0, 1, 0); 
 					if (GetAsyncKeyState(VK_CONTROL) & 0xff00) { vEye = pCamera->EyePos();	vAt = pCamera->AtPos();	vUp = pCamera->UpVector(); pCamera->Apply(); bSet = TRUE; return FALSE; }
 					else if (bSet) { pCamera->EyePosSet(vEye); pCamera->AtPosSet(vAt);	pCamera->UpVectorSet(vUp); pCamera->Apply(); return TRUE;}
 					else return FALSE;}
 			} break;
-		case '3':	// '1'과 같은 내용임 (함수로 만들지 않은 이유는 static변수 때문에..)
+		case '3':	// Same content as '1'(The reason I didn't make it a function is because of the static variable...)
 			{	static BOOL bSet = FALSE;
 				if (pCamera) { static __Vector3 vEye(0, 0, 0);	static __Vector3 vAt(0, 0, 1); static __Vector3 vUp(0, 1, 0);
 					if (GetAsyncKeyState(VK_CONTROL) & 0xff00) { vEye = pCamera->EyePos();	vAt = pCamera->AtPos();	vUp = pCamera->UpVector(); pCamera->Apply(); bSet = TRUE; return FALSE; }
 					else if (bSet) { pCamera->EyePosSet(vEye); pCamera->AtPosSet(vAt);	pCamera->UpVectorSet(vUp); pCamera->Apply(); return TRUE;}
 					else return FALSE;}
 			} break;
-		case '4':	// '1'과 같은 내용임 (함수로 만들지 않은 이유는 static변수 때문에..)
+		case '4':	// Same content as '1'(The reason I didn't make it a function is because of the static variable...)
 			{	static BOOL bSet = FALSE;
 				if (pCamera) { static __Vector3 vEye(0, 0, 0);	static __Vector3 vAt(0, 0, 1); static __Vector3 vUp(0, 1, 0);
 					if (GetAsyncKeyState(VK_CONTROL) & 0xff00) { vEye = pCamera->EyePos();	vAt = pCamera->AtPos();	vUp = pCamera->UpVector(); pCamera->Apply(); bSet = TRUE; return FALSE; }
 					else if (bSet) { pCamera->EyePosSet(vEye); pCamera->AtPosSet(vAt);	pCamera->UpVectorSet(vUp); pCamera->Apply(); return TRUE;}
 					else return FALSE;}
 			} break;
-		case '5':	// '1'과 같은 내용임 (함수로 만들지 않은 이유는 static변수 때문에..)
+		case '5':	// Same content as '1'(The reason I didn't make it a function is because of the static variable...)
 			{	static BOOL bSet = FALSE;
 				if (pCamera) { static __Vector3 vEye(0, 0, 0);	static __Vector3 vAt(0, 0, 1); static __Vector3 vUp(0, 1, 0);
 					if (GetAsyncKeyState(VK_CONTROL) & 0xff00) { vEye = pCamera->EyePos();	vAt = pCamera->AtPos();	vUp = pCamera->UpVector(); pCamera->Apply(); bSet = TRUE; return FALSE; }
@@ -835,7 +835,7 @@ BOOL CMapMng::CameraMove(LPMSG pMsg)
 			} break;
 		}
 	}
-	else if (iButtonDownCount == 0 && !(GetAsyncKeyState(VK_MENU) & 0xff00) ) return FALSE;	// alt 키가 안눌렸을경우는 카메라 움직임이 아니다.
+	else if (iButtonDownCount == 0 && !(GetAsyncKeyState(VK_MENU) & 0xff00) ) return FALSE;	// If the alt key is not pressed, there is no camera movement.
 
 	static CPoint ptPrev;
 	switch(pMsg->message)
@@ -860,7 +860,7 @@ BOOL CMapMng::CameraMove(LPMSG pMsg)
 		break;
 	case WM_MOUSEMOVE:
 		break;
-	default:	// 마우스 메세지가 아닐경우 카메라 움직임이 아니다.
+	default:	// If it is not a mouse message, it is not a camera movement.
 		return FALSE;
 	}
 
@@ -957,11 +957,11 @@ BOOL CMapMng::MouseMsgFilter(LPMSG pMsg)
 	}
 
 	static BOOL bSelectDrag = FALSE;
-	if (bSelectDrag == FALSE &&							// Object drag select 모드가 아니고
-		RCM_SELECT != m_RiverMng.GetRCursorMode())		// 강편집의 drag select모드가 아닐때
+	if (bSelectDrag == FALSE &&							// Not in Object drag select mode
+		RCM_SELECT != m_RiverMng.GetRCursorMode())		// When not in drag select mode of hard editing
 	{
 		CN3Camera* pCamera = m_pSceneOutput->CameraGetActive();
-		if(pCamera && pCamera->MoveByWindowMessage(pMsg)) return TRUE; // 카메라 이동 메세지 거르기
+		if(pCamera && pCamera->MoveByWindowMessage(pMsg)) return TRUE; // Filter camera move messages
 	}
 	if(bSelectDrag == FALSE &&
 		PCM_SELECT != m_PondMng.GetPCursorMode())
@@ -970,10 +970,10 @@ BOOL CMapMng::MouseMsgFilter(LPMSG pMsg)
 		if(pCamera && pCamera->MoveByWindowMessage(pMsg)) return TRUE;
 	}
 
-	if (m_pTerrain && m_pTerrain->MouseMsgFilter(pMsg))	return TRUE;// 지형 편집 메세지 거르기
-	if (m_RiverMng.MouseMsgFilter(pMsg)) return TRUE;				// 강 편집 메세지 거르기
-	if (m_PondMng.MouseMsgFilter(pMsg)) return TRUE;				// 연못 편집 메시지 거르기 
-	if (m_pNPCPath && m_pNPCPath->MouseMsgFilter(pMsg)) return TRUE;// NPC 길만들기 메세지 거르기
+	if (m_pTerrain && m_pTerrain->MouseMsgFilter(pMsg))	return TRUE;// Filter terrain edit messages
+	if (m_RiverMng.MouseMsgFilter(pMsg)) return TRUE;				// strong edit message filter
+	if (m_PondMng.MouseMsgFilter(pMsg)) return TRUE;				// filter pond edit messages
+	if (m_pNPCPath && m_pNPCPath->MouseMsgFilter(pMsg)) return TRUE;// Filter NPC pathing messages
 	if (m_pWall && m_pWall->MouseMsgFilter(pMsg)) return TRUE;
 	if (m_pEventMgr && m_pEventMgr->MouseMsgFilter(pMsg)) return TRUE;
 	if (m_pRegenUser && m_pRegenUser->MouseMsgFilter(pMsg)) return TRUE;
@@ -981,7 +981,7 @@ BOOL CMapMng::MouseMsgFilter(LPMSG pMsg)
 	if (m_pLightObjMgr && m_pLightObjMgr->MouseMsgFilter(pMsg)) return TRUE;
 
 
-	// Dummy Cube움직이는 메세지 거르기
+	// Dummy Cube Filtering animated messages
 	if (m_pDummy && m_pDummy->MouseMsgFilter(pMsg)) return TRUE;
 
 	{
@@ -1002,7 +1002,7 @@ BOOL CMapMng::MouseMsgFilter(LPMSG pMsg)
 		}
 	}
 
-	// 나머지 객체 선택 및 배치
+	// Select and place the rest of the objects
 	switch(pMsg->message)
 	{
 	case WM_MOUSEMOVE:
@@ -1050,7 +1050,7 @@ BOOL CMapMng::MouseMsgFilter(LPMSG pMsg)
 			}
 		}
 		break;
-	case WM_LBUTTONDOWN:	// 객체 선택
+	case WM_LBUTTONDOWN:	// object selection
 		{
 			POINT point = {short(LOWORD(pMsg->lParam)), short(HIWORD(pMsg->lParam))};
 			if (m_CursorMode == CM_OBJECT_BRUSH && m_pSelSourceObj)
@@ -1076,7 +1076,7 @@ BOOL CMapMng::MouseMsgFilter(LPMSG pMsg)
 			}
 		}
 		break;
-	case WM_LBUTTONUP:	// 객체 선택
+	case WM_LBUTTONUP:	// object selection
 		{
 			if (bSelectDrag)
 			{
@@ -1093,7 +1093,7 @@ BOOL CMapMng::MouseMsgFilter(LPMSG pMsg)
 					}
 				}
 				else
-				{	// 드레그 한 것
+				{	// dragged
 					if (m_rcSelDrag.left > point.x)
 					{	m_rcSelDrag.right = m_rcSelDrag.left; m_rcSelDrag.left = point.x; }
 					else m_rcSelDrag.right = point.x;
@@ -1106,13 +1106,13 @@ BOOL CMapMng::MouseMsgFilter(LPMSG pMsg)
 				bSelectDrag = FALSE;
 				m_rcSelDrag.left = m_rcSelDrag.top = m_rcSelDrag.right = m_rcSelDrag.bottom = 0;
 
-				m_pMainFrm->UpdateTransformInfo(); // 위치, 회전값등을 업데이트한다.
+				m_pMainFrm->UpdateTransformInfo(); // Update position, rotation values, etc.
 				
 				return TRUE;
 			}
 		}
 		break;
-	case WM_RBUTTONUP:	// 객체 선택 해제
+	case WM_RBUTTONUP:	// Disable object selection
 		{
 			if (bSelectDrag)
 			{
@@ -1214,38 +1214,38 @@ CN3Base* CMapMng::Pick(POINT point, int* pnPart)	// Object Picking...
 void CMapMng::SelectObject(CN3Base* pObj, BOOL IsSourceObj, BOOL bAdd)
 {
 	if (IsSourceObj)
-	{	// source 선택
+	{	// select source
 		if (pObj && pObj->Type() & (OBJ_CHARACTER | OBJ_SHAPE))	m_pSelSourceObj = (CN3Transform*)pObj;
 		else m_pSelSourceObj = NULL;
 	}
 	else
-	{	// 이미 배치된 객체 선택
+	{	// already placed object selection
 		CN3Transform* pSelObj=NULL;
 		if (pObj && pObj->Type() & (OBJ_CHARACTER | OBJ_SHAPE))
 		{
 			pSelObj = (CN3Transform*)pObj;
-			if (bAdd)	// 추가
+			if (bAdd)	// add
 			{
 				BOOL bAleadySelected = FALSE;
 				int i, iSize = m_SelOutputObjArray.GetSize();
 				for (i=0; i<iSize; ++i) if (m_SelOutputObjArray.GetAt(i) == pSelObj) {bAleadySelected=TRUE;break;}
-				if (bAleadySelected) m_SelOutputObjArray.RemoveAt(i);	// 이미 있으므로 선택목록에서 제거
-				else m_SelOutputObjArray.InsertAt(0, pSelObj);			// 추가
+				if (bAleadySelected) m_SelOutputObjArray.RemoveAt(i);	// Since it already exists, remove it from the selection list
+				else m_SelOutputObjArray.InsertAt(0, pSelObj);			// add
 			}
-			else	// 새로 선택
+			else	// choose new
 			{
 				m_SelOutputObjArray.RemoveAll();
 				m_SelOutputObjArray.Add(pSelObj);
 			}
 		}
-		else	// 잘못 선택했거나 캐릭터나 shape를 선택하지 않았다.
+		else	// You made the wrong choice or you didn't select a character or shape.
 		{
 			if (bAdd==FALSE) m_SelOutputObjArray.RemoveAll();
 		}
 		OnSelChanged();
 	}
 
-	if(m_SelOutputObjArray.GetSize() == 1) // 한개를 선택했다면..
+	if(m_SelOutputObjArray.GetSize() == 1) // If you choose one...
 	{
 		m_pMainFrm->UpdateTransformInfo();
 	}
@@ -1308,8 +1308,8 @@ void CMapMng::SelectObjectByDragRect(RECT* pRect, BOOL bAdd)
 				BOOL bAleadySelected = FALSE;
 				int j, iSize = m_SelOutputObjArray.GetSize();
 				for (j=0; j<iSize;++j) if (m_SelOutputObjArray.GetAt(j) == pObj) {bAleadySelected=TRUE;break;}
-				if (bAleadySelected) m_SelOutputObjArray.RemoveAt(j);	// 이미 있으므로 선택목록에서 제거
-				else m_SelOutputObjArray.InsertAt(0, pObj);			// 추가
+				if (bAleadySelected) m_SelOutputObjArray.RemoveAt(j);	// Since it already exists, remove it from the selection list
+				else m_SelOutputObjArray.InsertAt(0, pObj);			// add
 			}
 		}
 		++i;
@@ -1335,20 +1335,20 @@ void CMapMng::MakeGameFiles(LPCTSTR lpszPathName, float fSize)
 	char szDrive[_MAX_DRIVE], szDir[_MAX_DIR], szFName[_MAX_FNAME], szExt[_MAX_EXT];
 	_splitpath(lpszPathName, szDrive, szDir, szFName, szExt);
 
-	// 파일 저장.
+	// 파일 save.
 	HANDLE hFile = CreateFile(lpszPathName, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 	if (INVALID_HANDLE_VALUE == hFile)
 	{
 		MessageBox(::GetActiveWindow(), lpszPathName, "Fail to open map game data file for save, Pleas retry.", MB_OK);
 		return;
 	}
-	char comment[80] = {"이파일 여는 사람 바보..^^"};
+	char comment[80] = {"Fool who opens this file..^^"};
 	DWORD dwRWC;
 	WriteFile(hFile, &m_iZoneID, sizeof(int), &dwRWC, NULL);
 	WriteFile(hFile, &comment, sizeof(char)*80, &dwRWC, NULL);
 	CloseHandle(hFile);
 
-	// 지형정보 저장
+	// terraininformation save
 	HANDLE hTerrainGameFile = NULL;
 	char szTerrain[_MAX_PATH] = "";
 	_makepath(szTerrain, szDrive, szDir, szFName, ".gtd");
@@ -1360,7 +1360,7 @@ void CMapMng::MakeGameFiles(LPCTSTR lpszPathName, float fSize)
 	}
 	else
 	{
-		m_pTerrain->m_szName = szFName; // 이름을 지정한다.. 이 이름대로 저장된다.
+		m_pTerrain->m_szName = szFName; // Designate a name. It is saved according to this name.
 		m_pTerrain->SaveGameData(hTerrainGameFile);
 		char szColorMapName[_MAX_PATH];
 		_makepath(szColorMapName, szDrive, szDir, szFName, ".tct");
@@ -1379,15 +1379,15 @@ void CMapMng::MakeGameFiles(LPCTSTR lpszPathName, float fSize)
 
 	
 
-	// Shape Manager 만들고 저장...
-//	if(true == m_pSceneOutput->CheckOverlappedShapesAndReport()) // 이름이나 위치 중복 확인..
+	// Create ShapeManager and save...
+//	if(true == m_pSceneOutput->CheckOverlappedShapesAndReport()) // Check for duplicate names or locations..
 //	{
-//		int idYesNo = ::MessageBox(::GetActiveWindow(), "중복된 오브젝트들을 삭제 하시겠습니까?", "중복된 오브젝트 처리", MB_YESNO);
+//		int idYesNo = ::MessageBox(::GetActiveWindow(), "Do you want to delete duplicate objects?", "Deal with duplicate objects", MB_YESNO);
 //		if(IDYES == idYesNo)
 //		{
 //			m_pSceneOutput->DeleteOverlappedShapes();
-//			m_pDlgOutputList->UpdateTree(m_pSceneOutput); // 아웃풋 리스트 체크..
-//			m_SelOutputObjArray.RemoveAll(); // 셀렉션 초기화..
+//			m_pDlgOutputList->UpdateTree(m_pSceneOutput); // Check the boot list.
+//			m_SelOutputObjArray.RemoveAll(); // selection reset..
 //		}
 //	}
 
@@ -1396,17 +1396,17 @@ void CMapMng::MakeGameFiles(LPCTSTR lpszPathName, float fSize)
 	int nSC = m_pSceneOutput->ShapeCount();
 	for(int i = 0; i < nSC; i++)
 	{
-		ShapeMgr.Add(m_pSceneOutput->ShapeGet(i)); // Shape 추가.
+		ShapeMgr.Add(m_pSceneOutput->ShapeGet(i)); // Shape add.
 	}
 
 	if(m_pWall) 
 		m_pWall->AddWall2Coll(&ShapeMgr);
-	ShapeMgr.GenerateCollisionData(); // 충돌 메시 데이터를 생성한다...
+	ShapeMgr.GenerateCollisionData(); // Generate collision mesh data...
 	char szObjPosting[_MAX_PATH] = "";
 	_makepath(szObjPosting, szDrive, szDir, szFName, ".opd");  // "Object Posting Data" - Shape Manager file 이름을 정하고..
 	ShapeMgr.SaveToFile(szObjPosting);
 
-	//이벤트 저장..
+	//event save..
 	char szEventName[_MAX_PATH] = "";
 	_makepath(szEventName, szDrive, szDir, szFName, ".gev");  //
 	if(!m_pEventMgr->MakeGameFile(szEventName, m_pTerrain->m_iHeightMapSize))
@@ -1424,8 +1424,8 @@ void CMapMng::MakeGameFiles(LPCTSTR lpszPathName, float fSize)
 
 void CMapMng::MakeTerrainMovableAttr(CN3ShapeMgr* pShapeMgr)
 {
-	m_pTerrain->MakeMoveTable(m_pEventMgr->m_ppEvent); //움직임 속성 셋팅...
-	pShapeMgr->MakeMoveTable(m_pEventMgr->m_ppEvent);	//움직임 속성 셋팅...
+	m_pTerrain->MakeMoveTable(m_pEventMgr->m_ppEvent); 	// Set movement properties...
+	pShapeMgr->MakeMoveTable(m_pEventMgr->m_ppEvent);	// Set movement properties...
 }
 
 void CMapMng::MakeServerDataFiles(LPCTSTR lpszPathName)
@@ -1443,19 +1443,19 @@ void CMapMng::MakeServerDataFiles(LPCTSTR lpszPathName)
 		return;		
 	}
 
-	//terrain 저장..
+	//terrain save..
 	m_pTerrain->SaveServerData(hFile);
 	//
 
-	// Shape Manager 만들고 저장...
-//	if(true == m_pSceneOutput->CheckOverlappedShapesAndReport()) // 이름이나 위치 중복 확인..
+	// Create ShapeManager and save...
+//	if(true == m_pSceneOutput->CheckOverlappedShapesAndReport()) // Check for duplicate names or locations..
 //	{
-//		int idYesNo = ::MessageBox(::GetActiveWindow(), "중복된 오브젝트들을 삭제 하시겠습니까?", "중복된 오브젝트 처리", MB_YESNO);
+//		int idYesNo = ::MessageBox(::GetActiveWindow(), "Do you want to delete duplicate objects?", "Deal with duplicate objects", MB_YESNO);
 //		if(IDYES == idYesNo)
 //		{
 //			m_pSceneOutput->DeleteOverlappedShapes();
-//			m_pDlgOutputList->UpdateTree(m_pSceneOutput); // 아웃풋 리스트 체크..
-//			m_SelOutputObjArray.RemoveAll(); // 셀렉션 초기화..
+//			m_pDlgOutputList->UpdateTree(m_pSceneOutput); // Check the boot list.
+//			m_SelOutputObjArray.RemoveAll(); // selection reset..
 //		}
 //	}
 
@@ -1464,21 +1464,21 @@ void CMapMng::MakeServerDataFiles(LPCTSTR lpszPathName)
 	int nSC = m_pSceneOutput->ShapeCount();
 	for(int i = 0; i < nSC; i++)
 	{
-		ShapeMgr.Add(m_pSceneOutput->ShapeGet(i)); // Shape 추가.
+		ShapeMgr.Add(m_pSceneOutput->ShapeGet(i)); // Shape add.
 	}
 	if(m_pWall) m_pWall->AddWall2Coll(&ShapeMgr);
-	ShapeMgr.GenerateCollisionData(); // 충돌 메시 데이터를 생성한다..
+	ShapeMgr.GenerateCollisionData(); // Generate collision mesh data.
 	MakeTerrainMovableAttr(&ShapeMgr);
-	ShapeMgr.SaveCollisionData(hFile); // 충돌 데이터만 저장...
+	ShapeMgr.SaveCollisionData(hFile); // save collision data only...
 
-	// Object Event 저장.
+	// Object Event save.
 	//
 	DWORD dwNum;
-	int iEventObjectCount = 0; // 먼저 갯수를 세고..
+	int iEventObjectCount = 0; // First count the number...
 	for(i = 0; i < nSC; i++)
 	{
 		CN3Shape* pShape = m_pSceneOutput->ShapeGet(i);
-		if(pShape->m_iEventID || pShape->m_iEventType || pShape->m_iNPC_ID || pShape->m_iNPC_Status ) // 이벤트가 있으면
+		if(pShape->m_iEventID || pShape->m_iEventType || pShape->m_iNPC_ID || pShape->m_iNPC_Status ) // if there is an event
 			iEventObjectCount++;
 	}
 
@@ -1487,7 +1487,7 @@ void CMapMng::MakeServerDataFiles(LPCTSTR lpszPathName)
 	{
 		CN3Shape* pShape = m_pSceneOutput->ShapeGet(i);
 		short sEvent = 0; __Vector3 vPos;
-		if(pShape->m_iEventID || pShape->m_iEventType || pShape->m_iNPC_ID || pShape->m_iNPC_Status ) // 이벤트가 있으면
+		if(pShape->m_iEventID || pShape->m_iEventType || pShape->m_iNPC_ID || pShape->m_iNPC_Status ) // if there is an event
 		{
 			WriteFile(hFile, &(pShape->m_iBelong), 4, &dwNum, NULL);
 			sEvent = (short)(pShape->m_iEventID); WriteFile(hFile, &sEvent, 2, &dwNum, NULL);
@@ -1502,7 +1502,7 @@ void CMapMng::MakeServerDataFiles(LPCTSTR lpszPathName)
 		}
 	}
 
-	//MapTile속성 저장...
+	//MapTile properties save...
 	//
 	m_pEventMgr->MakeEventArray();
 	/*
@@ -1520,19 +1520,19 @@ void CMapMng::MakeServerDataFiles(LPCTSTR lpszPathName)
 	m_pRegenUser->SaveServerData(hFile);
 	m_pWarpMgr->SaveServerData(hFile);
 
-	// 이벤트 정보..
-	// 파일 이름
+	// event information..
+	// file name
 	char szDrive[_MAX_DRIVE], szDir[_MAX_DIR], szFName[_MAX_PATH], szExt[_MAX_EXT];
 	_splitpath(lpszPathName, szDrive, szDir, szFName, szExt);
 
-	//이벤트 정보 저장..
+	//event information save..
 	char szEvent[_MAX_PATH];
 	char szEvtFName[_MAX_PATH];
 	sprintf(szEvtFName, "%s_Event", szFName);
 	_makepath(szEvent, szDrive, szDir, szEvtFName, "txt");
-	m_pEventMgr->SaveInfoTextFile(szEvent);	//서버에서 쓰는 이벤트 아이디 조건들이 들어 있는 텍스트 파일..
+	m_pEventMgr->SaveInfoTextFile(szEvent);	//A text file containing event ID conditions used by the server..
 
-	// 텍스트파일로 함 뽑아보자..
+	// Let's extract it as a text file.
 	FILE* stream = fopen("c:\\move.txt", "w");
 	for(int z=m_pTerrain->m_iHeightMapSize-1; z>=0; z--)
 	{
@@ -1544,16 +1544,16 @@ void CMapMng::MakeServerDataFiles(LPCTSTR lpszPathName)
 		fprintf(stream, "\n");
 	}
 	fclose(stream);
-	//뽑았다.
+	//pulled out
 
 /*	
 	char szCollisionFN[512];
 	char szDrive[_MAX_DRIVE], szDir[_MAX_DIR], szFName[_MAX_FNAME], szExt[_MAX_EXT];
 	_splitpath(lpszPathName, szDrive, szDir, szFName, szExt);
-	_makepath(szCollisionFN, szDrive,szDir, szFName, ".scd"); // 다른 이름으로 저장..
+	_makepath(szCollisionFN, szDrive,szDir, szFName, ".scd"); // save as...
 	CFile file;
 	file.Open(szCollisionFN, CFile::modeCreate | CFile::modeWrite);
-	ShapeMgr.SaveCollisionData((HANDLE)file.m_hFile); // 충돌 데이터만 저장...
+	ShapeMgr.SaveCollisionData((HANDLE)file.m_hFile); // save collision data only...
 	file.Close();
 */
 	CloseHandle(hFile);
@@ -1643,7 +1643,7 @@ void CMapMng::RenderObjectToWindow(CN3TransformCollision* pObj, HWND hWnd)
 	// begin
 	pD3DDev->BeginScene();
 
-	// Object의 위치 및 크기 파악
+	// Identifying the location and size of an object
 	__Vector3 vDir(-1,-1,3);	vDir.Normalize();
 	__Vector3 vMin = pObj->Min();
 	__Vector3 vMax = pObj->Max();
@@ -1652,7 +1652,7 @@ void CMapMng::RenderObjectToWindow(CN3TransformCollision* pObj, HWND hWnd)
 	vAt = vMin + (vMax-vMin)/2.0f;
 	vAt.y -= (vMax-vMin).Magnitude() / 8.0f;
 	vEye = vAt - vDir*((vMax-vMin).Magnitude() * 0.7f);
-//	pEng->s_CameraData.vEye = vEye;	// Shape의 LOD설정 때문에..
+//	pEng->s_CameraData.vEye = vEye;	// Because of the shape's LOD settings...
 
 	// back up
 	__Matrix44 mtxOldView, mtxOldProj;
@@ -1661,7 +1661,7 @@ void CMapMng::RenderObjectToWindow(CN3TransformCollision* pObj, HWND hWnd)
 	DWORD dwLighting;
 	pD3DDev->GetRenderState(D3DRS_LIGHTING, &dwLighting);
 
-	// camera frustum 세팅..(Apply함수 내부에서 transform을 바꾸기때문에 이 위치에 넣어야 한다.)
+	// Camera frustum setting.. (Because the transform is changed inside the Apply function, it must be put in this location.)
 //	pEng->s_CameraData.vAt = vAt;
 //	TempCamera.s_CameraData = pEng->s_CameraData;
 	CN3Camera TempCamera;
@@ -1669,7 +1669,7 @@ void CMapMng::RenderObjectToWindow(CN3TransformCollision* pObj, HWND hWnd)
 	TempCamera.AtPosSet(vAt);
 	TempCamera.UpVectorSet(vUp);
 	TempCamera.Tick();
-	TempCamera.Apply();	// 임시카메라에 데이터를 넣고 frustum 정보를 계산..
+	TempCamera.Apply();	// Put data into temporary camera and calculate frustum information.
 
 	// View Matrix 및 Projection Matrix Setting
 //	__Matrix44 viewmtx;
@@ -1696,11 +1696,11 @@ void CMapMng::RenderObjectToWindow(CN3TransformCollision* pObj, HWND hWnd)
 		pShape->Render();
 	}
 
-	CN3Base::s_AlphaMgr.Render(); // Alpha primitive 그리기...
+	CN3Base::s_AlphaMgr.Render(); // Drawing Alpha primitives...
 	pD3DDev->EndScene(); // end
 	pEng->Present(hWnd); // present
 
-	// restore (이전 상태로 되돌려주지 않으면 지형에서 picking이 제대로 되지 않는다)
+	// restore (If you don't return to the previous state, picking on the terrain won't work properly)
 	pD3DDev->SetTransform(D3DTS_VIEW, &mtxOldView);
 	pD3DDev->SetTransform(D3DTS_PROJECTION, &mtxOldProj);
 	CopyMemory(&CN3Base::s_CameraData, &CameraDataBackUp, sizeof(CameraDataBackUp));
@@ -1719,7 +1719,7 @@ void CMapMng::SetCursorMode(int iMode)
 
 	if (m_pDummy) m_pDummy->SetSelObj(NULL);
 	
-	m_pBrushDlg->SetTerrain(NULL);			// Brush 창을 보이지 않게한다.
+	m_pBrushDlg->SetTerrain(NULL);			// Make the Brush window invisible.
 	if(m_pTerrain) m_pTerrain->SetEditMode(TEM_NOT);
 	if(m_pNPCPath) m_pNPCPath->SetActive(false);
 	if(m_pWall) m_pWall->SetActive(false);
@@ -1730,7 +1730,7 @@ void CMapMng::SetCursorMode(int iMode)
 	
 	m_RiverMng.SetEditMode(FALSE);	
 	m_PondMng.SetEditMode(FALSE);
-	// 풀심기 
+	// planting grass 
 	m_SowSeedMng.SetActive(FALSE);
 
 	switch(iMode)
@@ -1743,14 +1743,14 @@ void CMapMng::SetCursorMode(int iMode)
 		break;
 	case CM_POS:
 		m_pDummy = &m_PosDummy;
-		m_pMainFrm->UpdateTransformInfo(); // 위치, 회전값등을 업데이트한다.
+		m_pMainFrm->UpdateTransformInfo(); // Update position, rotation values, etc.
 		break;
 	case CM_ROTATE:
 		m_pDummy = &m_RotDummy;
 		break;
 	case CM_SCALE:
 		m_pDummy = &m_ScaleDummy;
-		m_pMainFrm->UpdateTransformInfo(); // 위치, 회전값등을 업데이트한다.
+		m_pMainFrm->UpdateTransformInfo(); // Update position, rotation values, etc.
 		break;
 	case CM_EDIT_TERRAIN:
 		m_pBrushDlg->SetTerrain(m_pTerrain);
@@ -1789,10 +1789,10 @@ void CMapMng::SetCursorMode(int iMode)
 				int nSC = m_pSceneOutput->ShapeCount();
 				for(int i = 0; i < nSC; i++)
 				{
-					ShapeMgr.Add(m_pSceneOutput->ShapeGet(i)); // Shape 추가.
+					ShapeMgr.Add(m_pSceneOutput->ShapeGet(i)); // Shape add.
 				}
 				if(m_pWall) m_pWall->AddWall2Coll(&ShapeMgr);
-				ShapeMgr.GenerateCollisionData(); // 충돌 메시 데이터를 생성한다..
+				ShapeMgr.GenerateCollisionData(); // Generate collision mesh data.
 				
 				MakeTerrainMovableAttr(&ShapeMgr);
 				m_pNPCPath->m_pppRefEvent = m_pEventMgr->m_ppEvent;
@@ -1824,7 +1824,7 @@ void CMapMng::SetCursorMode(int iMode)
 			m_pSoundMgr->SetActive(true);
 		}
 		break;
-		// 풀심기 
+		// planting grass 
 	case CM_EDIT_SEED:
 		{
 			m_SowSeedMng.SetActive(TRUE);
@@ -1852,7 +1852,7 @@ void CMapMng::SetCursorMode(int iMode)
 		}
 		else m_pDummy->SetSelObj(NULL);
 
-		m_pDummy->m_pTerrainRef = m_pTerrain; // 더미에 지형 포인터를 넣어준다.
+		m_pDummy->m_pTerrainRef = m_pTerrain; // Place the terrain pointer in the pile.
 	}
 	m_pMainFrm->GetActiveView()->Invalidate(FALSE);
 }
@@ -1867,7 +1867,7 @@ void CMapMng::Invalidate()
 }
 
 void CMapMng::DropSelObjToTerrain()
-{// 선택한 객체를 지형에 붙인다.(Y값만 조정)
+{// Attach the selected object to the terrain. (Only adjust the Y value)
 	if (m_pTerrain == NULL) return;
 	int i, iSize = m_SelOutputObjArray.GetSize();
 	for (i=0; i<iSize; ++i)
@@ -1924,7 +1924,7 @@ void CMapMng::ImportTerrainHeight(const char* szMeshFN)
 	m_bLoadingComplete = true;
 }
 
-void CMapMng::RenderGrid(float fGridSize, float fMaxDistance)	// fGridSize크기로 fMaxDistance거리까지 격자를 그려준다
+void CMapMng::RenderGrid(float fGridSize, float fMaxDistance)	// Draws a grid with the size of fGridSize up to the distance of fMaxDistance.
 {
 	if (m_pMainFrm == NULL) return;
 	CN3Eng* pEng = m_pMainFrm->m_pEng;
@@ -1987,11 +1987,11 @@ void CMapMng::SaveObjectPostData(LPCTSTR lpszFileName)
 	FILE* stream = fopen(lpszFileName, "w");
 	if (stream == NULL)
 	{
-		m_pMainFrm->MessageBox("파일을 만들수 없습니다.");
+		m_pMainFrm->MessageBox("Could not create file.");
 		return;
 	}
 
-	// 폴더 이름을 분리하고..
+	// separate folder names..
 	char szDrive[_MAX_DRIVE], szDir[_MAX_DIR], szFName[_MAX_FNAME], szExt[_MAX_EXT];
 	_splitpath(lpszFileName, szDrive, szDir, szFName, szExt);
 
@@ -2006,9 +2006,9 @@ void CMapMng::SaveObjectPostData(LPCTSTR lpszFileName)
 
 		char szSFN[MAX_PATH];
 		_makepath(szSFN, szDrive, szDir, pShape->Name(), ".n3shape");
-		pShape->SaveToFile(szSFN); // Shape 정보 binary file로 저장..
+		pShape->SaveToFile(szSFN); // Shape information binary file로 save..
 
-		fprintf(stream, "%s\n", pShape->Name()); // 텍스트에 Shape 파일 이름을 쓴다..
+		fprintf(stream, "%s\n", pShape->Name()); // Write the shape file name in the text.
 	}
 	fclose(stream);
 	// OldData
@@ -2025,13 +2025,13 @@ void CMapMng::SaveObjectPostData(LPCTSTR lpszFileName)
 	FILE* stream = fopen(lpszFileName, "w");
 	if (stream == NULL)
 	{
-		m_pMainFrm->MessageBox("파일을 만들수 없습니다.");
+		m_pMainFrm->MessageBox("Could not create file.");
 		return;
 	}
 
-	// 폴더 이름을 분리하고..
+	// separate folder names..
 	char szDrive[_MAX_DRIVE], szDir[_MAX_DIR], szFName[_MAX_FNAME], szExt[_MAX_EXT];
-	_splitpath(lpszFileName, szDrive, szDir, szFName, szExt); // 파일 이름과 확장자만 갖고..
+	_splitpath(lpszFileName, szDrive, szDir, szFName, szExt); // Just the file name and extension.
 
 	int i, iSC = m_pSceneOutput->ShapeCount();
 	fprintf(stream, "Shape Post Count : %d\n", iSC);
@@ -2041,8 +2041,8 @@ void CMapMng::SaveObjectPostData(LPCTSTR lpszFileName)
 	{
 		CN3Shape* pShape = m_pSceneOutput->ShapeGet(i);
 
-		_splitpath(pShape->FileName().c_str(), NULL, NULL, szFName, szExt); // 파일 이름과 확장자만 갖고..
-		_makepath(szSFN, NULL, NULL, szFName, szExt); // 파일 이름을 다시 만든다.
+		_splitpath(pShape->FileName().c_str(), NULL, NULL, szFName, szExt); // Just the file name and extension.
+		_makepath(szSFN, NULL, NULL, szFName, szExt); // recreate the file name.
 		
 		__Vector3 vPos = pShape->Pos();
 		__Vector3 vScale = pShape->Scale();
@@ -2074,13 +2074,13 @@ void CMapMng::SaveObjectPostDataPartition(LPCTSTR lpszFileName, float psx, float
 	FILE* stream = fopen(lpszFileName, "w");
 	if (stream == NULL)
 	{
-		m_pMainFrm->MessageBox("파일을 만들수 없습니다.");
+		m_pMainFrm->MessageBox("Could not create file.");
 		return;
 	}
 
-	// 폴더 이름을 분리하고..
+	// separate folder names..
 	char szDrive[_MAX_DRIVE], szDir[_MAX_DIR], szFName[_MAX_FNAME], szExt[_MAX_EXT];
-	_splitpath(lpszFileName, szDrive, szDir, szFName, szExt); // 파일 이름과 확장자만 갖고..
+	_splitpath(lpszFileName, szDrive, szDir, szFName, szExt); // Just the file name and extension.
 
 	float sx = (int)(psx / TERRAIN_CELL_SIZE) * TERRAIN_CELL_SIZE;
 	float sz = (int)(psz / TERRAIN_CELL_SIZE) * TERRAIN_CELL_SIZE;
@@ -2122,8 +2122,8 @@ void CMapMng::SaveObjectPostDataPartition(LPCTSTR lpszFileName, float psx, float
 		int idx = (*it);
 		CN3Shape* pShape = m_pSceneOutput->ShapeGet(idx);
 		
-		_splitpath(pShape->FileName().c_str(), NULL, NULL, szFName, szExt); // 파일 이름과 확장자만 갖고..
-		_makepath(szSFN, NULL, NULL, szFName, szExt); // 파일 이름을 다시 만든다.
+		_splitpath(pShape->FileName().c_str(), NULL, NULL, szFName, szExt); // Just the file name and extension.
+		_makepath(szSFN, NULL, NULL, szFName, szExt); // recreate the file name.
 		
 		__Vector3 vPos = pShape->Pos();
 		vPos.x -= sx;
@@ -2155,27 +2155,27 @@ void CMapMng::LoadObjectPostData(LPCTSTR lpszFileName)
 {
 	if (m_pSceneOutput == NULL) return;
 	
-	// Scene 에 있는 오브젝트들 Release...
+	// Objects in the Scene Release...
 	m_pSceneOutput->ShapeRelease();
 	m_pSceneOutput->ChrRelease();
 
 	FILE* stream = fopen(lpszFileName, "r");
-	if (stream == NULL) {m_pMainFrm->MessageBox("지정한 텍스트 파일을 찾을 수 없습니다."); return;}
+	if (stream == NULL) {m_pMainFrm->MessageBox("The specified text file could not be found."); return;}
 
-	// 폴더 이름을 분리하고..
+	// separate folder names..
 	char szDrive[_MAX_DRIVE], szDir[_MAX_DIR], szFName[_MAX_FNAME], szExt[_MAX_EXT];
 	_splitpath(lpszFileName, szDrive, szDir, szFName, szExt);
 
 	char szFirstLine[256];
-	fgets(szFirstLine, 256, stream); // 첫째 줄을 읽고..
-	if(strstr(szFirstLine, "Shape Count : ")) // 문자열이 있으면 예전 데이터이다..
+	fgets(szFirstLine, 256, stream); // Read the first line...
+	if(strstr(szFirstLine, "Shape Count : ")) // If there is a string, it is the old data.
 	{
 		int iSC = 0, result = 0;
 		sscanf(szFirstLine, "Shape Count : %d\n", &iSC);
 		for(int i=0; i < iSC; ++i)
 		{
 			char szDestName[_MAX_PATH];
-			result = fscanf(stream, "%s\n", szDestName); // 파일 이름을 읽고..
+			result = fscanf(stream, "%s\n", szDestName); // Read the file name...
 			if (result == EOF) break;
 
 			char szSFN[MAX_PATH];
@@ -2185,18 +2185,18 @@ void CMapMng::LoadObjectPostData(LPCTSTR lpszFileName)
 			if(false == pShape->LoadFromFile(szSFN))
 			{
 				delete pShape; pShape = NULL;
-				continue; // Shape 정보 binary file로 읽기..
+				continue; // Reading as a shape information binary file.
 			}
 
-			szDestName[lstrlen(szDestName) - 5] = NULL; // _0000 문자열을 뺀다..
+			szDestName[lstrlen(szDestName) - 5] = NULL; // Subtract the _0000 string.
 			_makepath(szSFN, NULL, NULL, szDestName, ".n3shape");
 			pShape->m_szName = szDestName;
-			pShape->FileNameSet(std::string(szSFN)); // 다시 파일 이름 설정..
+			pShape->FileNameSet(std::string(szSFN)); // Set the file name again..
 
 			m_pSceneOutput->ShapeAdd(pShape);
 		}
 	}
-	else // 새로 만든 데이터이다..
+	else // This is newly created data.
 	{
 		int i = 0, iSC = 0;
 		sscanf(szFirstLine, "Shape Post Count : %d\n", &iSC);
@@ -2206,7 +2206,7 @@ void CMapMng::LoadObjectPostData(LPCTSTR lpszFileName)
 		for(i=0; i<iSC; ++i)
 		{
 			CN3Shape* pShape = new CN3Shape();
-			m_pSceneOutput->ShapeAdd(pShape); // 추가..
+			m_pSceneOutput->ShapeAdd(pShape); // add..
 
 			int iSPC = 0, iBelong = 0, iEventID = 0, iEventType = 0, iNPC_ID = 0, iNPC_Status = 0;
 			__Vector3 vPos(0,0,0);
@@ -2220,9 +2220,9 @@ void CMapMng::LoadObjectPostData(LPCTSTR lpszFileName)
 					&(qtRot.x), &(qtRot.y), &(qtRot.z), &(qtRot.w), 
 					&(vScale.x), &(vScale.y), &(vScale.z), 
 					&(iBelong), &(iEventID), &(iEventType), &(iNPC_ID), &(iNPC_Status) );
-			// 텍스트에 Shape 파일 이름을 쓴다..
+			// Write the shape file name in the text.
 			wsprintf(szSFN2, "Object\\%s", szSFN);
-			pShape->LoadFromFile(szSFN2); // 파일에서 읽고..
+			pShape->LoadFromFile(szSFN2); // read from file...
 			for(int j = 0; j < iSPC; j++)
 			{
 				fgets(szLine, 1024, stream);
@@ -2239,7 +2239,7 @@ void CMapMng::LoadObjectPostData(LPCTSTR lpszFileName)
 			pShape->PosSet(vPos);
 			pShape->RotSet(qtRot);
 			pShape->ScaleSet(vScale);
-			pShape->ReCalcMatrix(); // 행렬 다시 계산..
+			pShape->ReCalcMatrix(); // Matrix recalculation..
 
 			pShape->m_iBelong = iBelong;
 			pShape->m_iEventID = iEventID;
@@ -2279,14 +2279,14 @@ void CMapMng::ImportPostDataFromScene(const char *szFileName)
 	int nCameraActive; float fFrmCur, fFrmStart, fFrmEnd;
 	ReadFile(hFile, &nCameraActive, 4, &dwRWC, NULL);
 	ReadFile(hFile, &fFrmCur, 4, &dwRWC, NULL); // Animation Frame;
-	ReadFile(hFile, &fFrmStart, 4, &dwRWC, NULL); // 전체 프레임.
-	ReadFile(hFile, &fFrmEnd, 4, &dwRWC, NULL); // 전체 프레임.
+	ReadFile(hFile, &fFrmStart, 4, &dwRWC, NULL); // full frame.
+	ReadFile(hFile, &fFrmEnd, 4, &dwRWC, NULL); // full frame.
 
 	int i = 0, nL = 0;
 	char szName[512] = "";
 
 	int nCC = 0;
-	ReadFile(hFile, &nCC, 4, &dwRWC, NULL); // 카메라..
+	ReadFile(hFile, &nCC, 4, &dwRWC, NULL); // camera..
 	for(i = 0; i < nCC; i++)
 	{
 		ReadFile(hFile, &nL, 4, &dwRWC, NULL);
@@ -2297,7 +2297,7 @@ void CMapMng::ImportPostDataFromScene(const char *szFileName)
 	}
 
 	int nLC = 0;
-	ReadFile(hFile, &nLC, 4, &dwRWC, NULL); // 카메라..
+	ReadFile(hFile, &nLC, 4, &dwRWC, NULL); // camera..
 	for(i = 0; i < nLC; i++) 
 	{
 		ReadFile(hFile, &nL, 4, &dwRWC, NULL);
@@ -2322,7 +2322,7 @@ void CMapMng::ImportPostDataFromScene(const char *szFileName)
 	}
 
 	int nChrC = 0;
-	ReadFile(hFile, &nChrC, 4, &dwRWC, NULL); // 캐릭터
+	ReadFile(hFile, &nChrC, 4, &dwRWC, NULL); // character
 	for(i = 0; i < nChrC; i++)
 	{
 		ReadFile(hFile, &nL, 4, &dwRWC, NULL);
@@ -2332,7 +2332,7 @@ void CMapMng::ImportPostDataFromScene(const char *szFileName)
 		szName[nL] = NULL;
 	}
 
-	m_pDlgOutputList->UpdateTree(m_pSceneOutput); // 트리 업데이트...
+	m_pDlgOutputList->UpdateTree(m_pSceneOutput); // tree update...
 
 	CloseHandle(hFile);
 }
@@ -2353,7 +2353,7 @@ void CMapMng::DeleteUnusedFiles()
 	std::vector<std::string> unusedFNs;
 	std::string szFN;
 	
-	//  일단 몽땅 다 맵에 넣는다..
+	//  Once everything is put on the map.
 	mapBase mBases;
 	int iSC = m_pSceneOutput->ShapeCount();
 	
@@ -2390,7 +2390,7 @@ void CMapMng::DeleteUnusedFiles()
 			if(NULL == pPart)
 			{
 				CString szErr;
-				szErr.Format("NULL Part : %s - %d번째 Part", pShape->FileName().c_str(), j);
+				szErr.Format("NULL Part : %s - %d th Part", pShape->FileName().c_str(), j);
 				invalidFNs.push_back(szErr.operator LPCTSTR());
 				continue;
 			}
@@ -2405,7 +2405,7 @@ void CMapMng::DeleteUnusedFiles()
 			else
 			{
 				CString szErr;
-				szErr.Format("NULL PMesh : %s - %d번째 Part", pShape->FileName().c_str(), j);
+				szErr.Format("NULL PMesh : %s - %dth Part", pShape->FileName().c_str(), j);
 				invalidFNs.push_back(szErr.operator LPCTSTR());
 			}
 
@@ -2422,7 +2422,7 @@ void CMapMng::DeleteUnusedFiles()
 				else
 				{
 					CString szErr;
-					szErr.Format("NULL Texture : %s - %d번째 Part, %d번째 Texture", pShape->FileName().c_str(), j, k);
+					szErr.Format("NULL Texture : %s - %dth Part, %dth Texture", pShape->FileName().c_str(), j, k);
 					invalidFNs.push_back(szErr.operator LPCTSTR());
 					continue;
 				}
@@ -2430,7 +2430,7 @@ void CMapMng::DeleteUnusedFiles()
 		}
 	}
 
-	// 파일을 찾고..
+	// looking for a file...
 	std::string szPath = CN3Base::PathGet() + "object\\";
 	::SetCurrentDirectory(szPath.c_str());
 	CFileFind ff;
@@ -2450,7 +2450,7 @@ void CMapMng::DeleteUnusedFiles()
 		
 		szFN = szFNTmp;
 		it_Base it = mBases.find(szFN);
-		if(it != mBases.end()) continue; // 찾았으면 쓴거다..
+		if(it != mBases.end()) continue; // If you find it, write it.
 
 		unusedFNs.push_back(szFN);
 	}
@@ -2468,7 +2468,7 @@ void CMapMng::DeleteUnusedFiles()
 			unusedFNs.push_back(szFN);
 	}
 	
-	// 파일 지우기 대화상자 띄우기..
+	// Opens the Delete File dialog box.
 	CDlgUnusedFiles dlg;
 	int iUFC = unusedFNs.size();
 	for(i = 0; i < iUFC; i++)
@@ -2484,14 +2484,14 @@ void CMapMng::DeleteUnusedFiles()
 
 	dlg.DoModal();
 	
-	// 모두 업데이트..
-	m_pSelSourceObj = NULL; // 이렇게 해주어야 뻑이 안난다.
+	// update all..
+	m_pSelSourceObj = NULL; // If you do this, you won't get bored.
 	m_SelOutputObjArray.RemoveAll();
-	this->LoadSourceObjects(); // Source Object 를 다시 읽고..
-	this->UpdateAll(); // 몽땅 업데이트...
+	this->LoadSourceObjects(); // Read the Source Object again...
+	this->UpdateAll(); // 몽땅 update
 }
 
-void CMapMng::DeleteOverlappedObjects() // 위치가 겹친 젝트를 찾는다.
+void CMapMng::DeleteOverlappedObjects() // Find objects with overlapping positions.
 {
 	std::vector<CN3Shape*> OverlappedObjects;
 	int iSC = m_pSceneOutput->ShapeCount();
@@ -2523,13 +2523,13 @@ void CMapMng::DeleteOverlappedObjects() // 위치가 겹친 젝트를 찾는다.
 	iSC = OverlappedObjects.size();
 	for(i = 0; i < iSC; i++)
 	{
-		m_pSceneOutput->ShapeDelete(OverlappedObjects[i]); // 겹친거 지우기..
+		m_pSceneOutput->ShapeDelete(OverlappedObjects[i]); // Delete overlapping...
 	}
 
-	// 업데이트...
-	m_pSelSourceObj = NULL; // 이렇게 해주어야 뻑이 안난다.
+	// update
+	m_pSelSourceObj = NULL; // If you do this, you won't get bored.
 	m_SelOutputObjArray.RemoveAll();
-	if (m_pDlgOutputList) m_pDlgOutputList->UpdateTree(m_pSceneOutput); // 몽땅 업데이트...
+	if (m_pDlgOutputList) m_pDlgOutputList->UpdateTree(m_pSceneOutput); // update All
 }
 
 void CMapMng::DeleteSelectedSourceObjects()
@@ -2552,14 +2552,14 @@ void CMapMng::DeleteSelectedSourceObjects()
 	iSC = SameObjects.size();
 	for(i = 0; i < iSC; i++)
 	{
-		m_pSceneOutput->ShapeDelete(SameObjects[i]); // 겹친거 지우기..
+		m_pSceneOutput->ShapeDelete(SameObjects[i]); // Delete overlapping...
 	}
 
-	// 업데이트...
+	// update
 	m_pSceneSource->ShapeDelete((CN3Shape*)m_pSelSourceObj);
-	m_pSelSourceObj = NULL; // 이렇게 해주어야 뻑이 안난다.
+	m_pSelSourceObj = NULL; // If you do this, you won't get bored.
 	m_SelOutputObjArray.RemoveAll();
-	this->UpdateAll(); // 몽땅 업데이트...
+	this->UpdateAll(); // update All
 }
 
 CN3Camera* CMapMng::CameraGet()
@@ -2618,11 +2618,11 @@ void CMapMng::SetEditState(ENUM_EDIT_STATE eEditStat)
 
 	case eEDIT_COPY:
 		{
-			//	기존백업한거 지우고
+			//	Erase the existing backup
 			m_SelOutputObjBack.RemoveAll();
 			vOldPos.Zero();
 
-			//	선택한 것들을 백업하고
+			//	back up your selections
 			CN3Transform* pDestObj = NULL;
 			int j, iSize = m_SelOutputObjArray.GetSize();
 			for(j=0;j<iSize;++j)
@@ -2650,39 +2650,39 @@ void CMapMng::SetEditState(ENUM_EDIT_STATE eEditStat)
 				iSize = m_SelOutputObjBack.GetSize();
 				if(iSize==0) return;	
 
-				//	찍을 새로운위치를 입력
+				//	Enter a new location to take
 				ASSERT(m_pTerrain);
 				CPoint point = ((CN3MEView*)m_pMainFrm->GetActiveView())->m_CurrMousePos;
 				m_pTerrain->Pick(point.x, point.y, &vNewPos);
 
 				if(vOldPos.Magnitude() == 0.0f || vNewPos.Magnitude() == 0.0f) return;
 
-				vNewPos -= vOldPos;	//	새로 이사갈 백터를 구함 
+				vNewPos -= vOldPos;	//	Looking for a new moving vector
 
-				if (m_pDummy)	//	더미의 새로운 좌표 입력
+				if (m_pDummy)	//	Enter the new coordinates of the dummy
 				{
 					m_pDummy->PosSet(m_pDummy->Pos() + vNewPos);
 				}
 
-				m_SelOutputObjArray.RemoveAll();	//	기존 선택된 정보를 지우고
+				m_SelOutputObjArray.RemoveAll();	//	Clear the previously selected information
 				for(j=0;j<iSize;++j)
 				{
-					pDestObj = m_SelOutputObjBack.GetAt(j);	//	백업된 데이터를 찾는다
+					pDestObj = m_SelOutputObjBack.GetAt(j);	//	Find your backed up data
 					if(pDestObj==NULL) continue;
 
-					pNewObj = AddObjectToOutputScene(pDestObj);	//	주소의 정보로만 새로운 데이터를 만든다
+					pNewObj = AddObjectToOutputScene(pDestObj);	//	Create new data only with address information
 					if(pNewObj == NULL) continue;
 
-					m_SelOutputObjArray.InsertAt(0,pNewObj);	//	기존 정보에 새로 입력한다
+					m_SelOutputObjArray.InsertAt(0,pNewObj);	//	Enter new information in the existing information
 
-					pNewObj->ScaleSet(pDestObj->Scale());	//	크기 입력
-					pNewObj->RotSet(pDestObj->Rot());	//	회전각 입력
+					pNewObj->ScaleSet(pDestObj->Scale());	//	enter size
+					pNewObj->RotSet(pDestObj->Rot());	//	Enter rotation angle
 
 					vObjPos = pDestObj->Pos() + vNewPos;
 					vObjPos.y = m_pTerrain->GetHeight(vObjPos.x,vObjPos.z);
-					pNewObj->PosSet(vObjPos);		//	새로운 위치점 입력
+					pNewObj->PosSet(vObjPos);		//	Enter a new location point
 				}
-				OnSelChanged();	//	데이터입력등 새로운데이터로 갱신
+				OnSelChanged();	//	Update with new data such as data input
 			}
 		}
 		break;
