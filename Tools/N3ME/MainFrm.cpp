@@ -210,12 +210,12 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_wndToolBar.SetBarStyle(m_wndToolBar.GetBarStyle() |
 		CBRS_TOOLTIPS | CBRS_FLYBY);
 
-	// 경로 설정..
+	// path setup.
 	char szPathCur[256] = "";
 	GetCurrentDirectory(256, szPathCur);
 	CN3Base::PathSet(szPathCur);
 	
-	// 엔진 초기화
+	// engine reset
 	m_pEng = new CN3EngTool();
 	//m_pEng->InitEnv();
 	m_pEng->Init(TRUE, m_hWnd, 32, 32, 0, TRUE);
@@ -231,17 +231,17 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_pDTexMng = new CDTexMng;
 	m_pDTexMng->Init(this);
 
-	// 기본 리소스 읽기..
+	// Read basic resources...
 	m_pMapMng->LoadSourceObjects();
 	m_pDTexGroupMng->Init(this);
 	//m_pDTexGroupMng->LoadFromFile();
 	m_pDTexMng->Init(this);
 	//m_pDTexMng->LoadFromFile();
 
-	// 툴바 다이얼로그 정보..
+	// Toolbar Dialog Information...
 	m_wndDlgBar.SetDlgItemText(IDC_E_PATH, m_pEng->PathGet().c_str());
 
-	//씨앗 뿌리기 관련 클래스 초기화..
+	// Initializing classes related to sowing seeds..
 	m_pDlgSowSeed = new CDlgSowSeed;
 	m_pDlgSowSeed->Create(IDD_SOW_SEED,this);
 	m_pDlgSowSeed->ShowWindow(FALSE);
@@ -345,11 +345,11 @@ void CMainFrame::OnCursorDtex()
 	hr = pBackBuff->GetDesc(&desc);
 	if(desc.Format!=D3DFMT_X8R8G8B8)
 	{
-		MessageBox("화면색상 모드가 32bit모드이어야 합니다..","경고!!");
+		MessageBox("The screen color mode must be 32bit mode..","Warning!!");
 	}
 */	
 	m_pMapMng->SetCursorMode(CM_SET_DTEX);
-//	this->OnViewDtex(); // 화면에 타일 텍스처 그룹 다이얼로그를 열어준다..
+//	this->OnViewDtex(); // Opens the tile texture group dialog on the screen.
 }
 void CMainFrame::OnCursorEditRiver() 
 {	ASSERT(m_pMapMng);	m_pMapMng->SetCursorMode(CM_EDIT_RIVER);}
@@ -474,8 +474,8 @@ void CMainFrame::OnUpdateViewHideObj(CCmdUI* pCmdUI)
 {
 	ASSERT(m_pMapMng);
 
-	if(m_pMapMng->m_bHideObj) pCmdUI->SetText("오브젝트 보이기\tH");
-	if(!m_pMapMng->m_bHideObj) pCmdUI->SetText("오브젝트 감추기\tH");	
+	if(m_pMapMng->m_bHideObj) pCmdUI->SetText("Show Object\tH");
+	if(!m_pMapMng->m_bHideObj) pCmdUI->SetText("Hide Object\tH");	
 }
 
 void CMainFrame::OnTipFocusSelobj() 
@@ -579,10 +579,10 @@ void CMainFrame::OnResourcePathSet()
 	if(IDCANCEL == dlg.DoModal()) return;
 	
 	std::string szPath = dlg.GetPath();
-	CN3Base::PathSet(szPath); // 경로 설정..
+	CN3Base::PathSet(szPath); // path setup.
 	m_wndDlgBar.SetDlgItemText(IDC_E_PATH, szPath.c_str());
 	
-	// 기본 리소스 읽기..
+	// Read basic resources...
 	m_pMapMng->LoadSourceObjects();
 	
 }
@@ -622,7 +622,7 @@ void CMainFrame::UpdateTransformInfo()
 	m_wndDlgBar.UpdateInfo();
 }
 
-void CMainFrame::OnTipDefaultMaterial() // 기본재질로 만들기.
+void CMainFrame::OnTipDefaultMaterial() // made from basic materials.
 {
 	ASSERT(m_pMapMng);
 
@@ -633,12 +633,12 @@ void CMainFrame::OnTipDefaultMaterial() // 기본재질로 만들기.
 		if(pObj->Type() & OBJ_SHAPE)
 		{
 			CN3Shape* pShape = (CN3Shape*)pObj;
-			pShape->MakeDefaultMaterial(); // 기본재질로 만들기.
+			pShape->MakeDefaultMaterial(); // made from basic materials.
 		}
 	}
 }
 
-void CMainFrame::OnTipRemoveAlphaflag() // 알파 블렌딩 플래그 제거..
+void CMainFrame::OnTipRemoveAlphaflag() // Remove alpha blending flag..
 {
 	ASSERT(m_pMapMng);
 
@@ -649,7 +649,7 @@ void CMainFrame::OnTipRemoveAlphaflag() // 알파 블렌딩 플래그 제거..
 		if(pObj->Type() & OBJ_SHAPE)
 		{
 			CN3Shape* pShape = (CN3Shape*)pObj;
-			pShape->RemoveRenderFlags(RF_ALPHABLENDING); // 알파 블렌딩 플래그 제거..
+			pShape->RemoveRenderFlags(RF_ALPHABLENDING); // Remove alpha blending flag..
 		}
 	}
 }
@@ -694,7 +694,7 @@ void CMainFrame::OnTipSowSeed()
 	if(!m_pDlgSowSeed->m_hWnd) m_pDlgSowSeed->Create(IDD_SOW_SEED);
 	m_pDlgSowSeed->ShowWindow(TRUE);
 
-	// 풀심기 
+	// planting grass
 	if( m_pMapMng)
 	{
 		m_pMapMng->SetCursorMode(CM_EDIT_SEED);
