@@ -182,11 +182,11 @@ BOOL CAPISocket::ReceiveProcess()
 			short siCore = *((short*)(pData+2));
 			if ( siCore <= iCount )
 			{
-				if ( PACKET_TAIL == ntohs(*((WORD*)(pData+iCount-2))) ) // 패킷 꼬리 부분 검사..
+				if ( PACKET_TAIL == ntohs(*((WORD*)(pData+iCount-2))) ) // Packet tail part inspection..
 				{
 					DataPack *pDP = new DataPack(siCore, pData+4);
 					m_qRecvPkt.push(pDP);
-					m_CB.HeadIncrease(siCore + 6); // 환형 버퍼 인덱스 증가 시키기..
+					m_CB.HeadIncrease(siCore + 6); // Increasing the circular buffer index...
 
 					bFoundTail = TRUE;
 				}
@@ -203,8 +203,8 @@ void CAPISocket::Send(BYTE* pData, int nSize)
 {
 	if (m_hSocket == INVALID_SOCKET)	return;
 
-	// UZDream 패킷 형식에 맞춰주는 부분. STX, ETX, size만 붙여준다. 따라서 나머지 부분은 패킷만들때 붙여서 넣어줘야 함. 
-	// 불합리하지만 이전의 패킷 형식에 맞추기 위해선... 
+	// The part that conforms to the UZDream packet format. Attach only STX, ETX, and size. Therefore, the rest of the parts must be pasted and put in when making the packet.
+	// Unreasonable, but to fit the previous packet format...
 //	int nTotalSize = nSize+10;
 //	BYTE *pSndData = m_RecvBuf;
 //	*((WORD*)pSndData) = STX;			pSndData+=2;
