@@ -18,7 +18,7 @@ CDFont::CDFont(const std::string& szFontName, DWORD dwHeight, DWORD dwFlags)
 		const HFONT hFont			= CreateFont( 0, 0, 0, 0, 0, FALSE,
 					                               FALSE, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS,
 					                               CLIP_DEFAULT_PRECIS, ANTIALIASED_QUALITY,
-					                               VARIABLE_PITCH, "굴림");
+					                               VARIABLE_PITCH, "Arial");
 		if(hFont)
 		{
 			s_hFontOld = (HFONT)(SelectObject( s_hDC, hFont ));

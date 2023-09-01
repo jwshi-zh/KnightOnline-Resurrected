@@ -10,7 +10,7 @@ CN3UIList::CN3UIList()
 	m_iCurSel = 0;		// Current selection...
 	m_pScrollBarRef = nullptr;
 
-	m_szFontName = "굴림체";
+	m_szFontName = "Arial";
 	m_dwFontHeight = 10;
 	m_bFontBold = FALSE;
 	m_bFontItalic = FALSE;
@@ -35,7 +35,7 @@ void CN3UIList::Release()
 	m_iCurSel = 0;
 	m_pScrollBarRef = nullptr;
 
-	m_szFontName = "굴림체";
+	m_szFontName = "Arial";
 	m_dwFontHeight = 10;
 	m_bFontBold = FALSE;
 	m_bFontItalic = FALSE;

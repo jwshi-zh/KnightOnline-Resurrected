@@ -46,7 +46,7 @@ void CN3UIString::Init(CN3UIBase* pParent)
 	CN3UIBase::Init(pParent);
 
 	if(m_pDFont) delete m_pDFont; m_pDFont = nullptr;
-	m_pDFont = new CDFont("굴림", 16);	// Roll 16 by default
+	m_pDFont = new CDFont("Arial", 16);	// Roll 16 by default
 	m_pDFont->InitDeviceObjects( CN3Base::s_lpD3DDev );
 	m_pDFont->RestoreDeviceObjects();
 }
@@ -356,8 +356,8 @@ bool CN3UIString::Load(HANDLE hFile)
 #ifdef _N3TOOL
 	else
 	{
-		SetFont("굴림", 10, FALSE, FALSE);	// Temporarily set font
-		MessageBox(GetActiveWindow(), "폰트가 지정되지 않은 UIString이 있어서 굴림(10)으로 설정하였습니다.", "No font", MB_OK);
+		SetFont("Arial", 10, FALSE, FALSE);	// Temporarily set font
+		MessageBox(GetActiveWindow(), "폰트가 지정되지 않은 UIString이 있어서 Arial(10)으로 설정하였습니다.", "No font", MB_OK);
 	}
 #else
 	__ASSERT(iStrLen>0, "No font name");
