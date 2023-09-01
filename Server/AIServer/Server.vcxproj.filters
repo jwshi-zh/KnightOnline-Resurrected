@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{094fcffe-5f65-42c1-bc5c-468096dff7a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="N3Base">
+      <UniqueIdentifier>{7de07b53-5d77-44a2-b1f4-da394a795725}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\NoahEngine\Actor\N3ShapeMgr.cpp">
+      <Filter>N3Base</Filter>
+    </ClCompile>
+    <ClCompile Include="CircularBuffer.cpp" />
+    <ClCompile Include="Compress.cpp" />
+    <ClCompile Include="Extern.cpp" />
+    <ClCompile Include="GameSocket.cpp" />
+    <ClCompile Include="global.cpp" />
+    <ClCompile Include="Ini.cpp" />
+    <ClCompile Include="IOCPort.cpp" />
+    <ClCompile Include="IOCPSocket2.cpp" />
+    <ClCompile Include="MagicProcess.cpp" />
+    <ClCompile Include="MagicTableSet.cpp" />
+    <ClCompile Include="MagicType1Set.cpp" />
+    <ClCompile Include="MagicType2Set.cpp" />
+    <ClCompile Include="MagicType3Set.cpp" />
+    <ClCompile Include="MagicType4Set.cpp" />
+    <ClCompile Include="MakeDefensiveTableSet.cpp" />
+    <ClCompile Include="MakeGradeItemTableSet.cpp" />
+    <ClCompile Include="MakeLareItemTableSet.cpp" />
+    <ClCompile Include="MakeWeaponTableSet.cpp" />
+    <ClCompile Include="MAP.cpp" />
+    <ClCompile Include="MonTableSet.cpp" />
+    <ClCompile Include="Npc.cpp" />
+    <ClCompile Include="NpcItem.cpp" />
+    <ClCompile Include="NpcItemSet.cpp" />
+    <ClCompile Include="NpcMagicProcess.cpp" />
+    <ClCompile Include="NpcPosSet.cpp" />
+    <ClCompile Include="NpcTable.cpp" />
+    <ClCompile Include="NpcTableSet.cpp" />
+    <ClCompile Include="NpcThread.cpp" />
+    <ClCompile Include="Party.cpp" />
+    <ClCompile Include="PartyUser.cpp" />
+    <ClCompile Include="PathFind.cpp" />
+    <ClCompile Include="Region.cpp" />
+    <ClCompile Include="RNpcPosSet.cpp" />
+    <ClCompile Include="RoomEvent.cpp" />
+    <ClCompile Include="Server.cpp" />
+    <ClCompile Include="ServerDlg.cpp" />
+    <ClCompile Include="StdAfx.cpp" />
+    <ClCompile Include="User.cpp" />
+    <ClCompile Include="ZoneInfoSet.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Resource.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\NoahEngine\Actor\N3ShapeMgr.h">
+      <Filter>N3Base</Filter>
+    </ClInclude>
+    <ClInclude Include="ZoneInfoSet.h" />
+    <ClInclude Include="CircularBuffer.h" />
+    <ClInclude Include="Compress.h" />
+    <ClInclude Include="Define.h" />
+    <ClInclude Include="Extern.h" />
+    <ClInclude Include="GameSocket.h" />
+    <ClInclude Include="global.h" />
+    <ClInclude Include="IMPLODE.H" />
+    <ClInclude Include="Ini.h" />
+    <ClInclude Include="IOCPort.h" />
+    <ClInclude Include="IOCPSocket2.h" />
+    <ClInclude Include="MagicProcess.h" />
+    <ClInclude Include="MagicTableSet.h" />
+    <ClInclude Include="MagicType1Set.h" />
+    <ClInclude Include="MagicType2Set.h" />
+    <ClInclude Include="MagicType3Set.h" />
+    <ClInclude Include="MagicType4Set.h" />
+    <ClInclude Include="MakeDefensiveTableSet.h" />
+    <ClInclude Include="MakeGradeItemTableSet.h" />
+    <ClInclude Include="MakeLareItemTableSet.h" />
+    <ClInclude Include="MakeWeaponTableSet.h" />
+    <ClInclude Include="MAP.h" />
+    <ClInclude Include="MonTableSet.h" />
+    <ClInclude Include="Npc.h" />
+    <ClInclude Include="NpcItem.h" />
+    <ClInclude Include="NpcItemSet.h" />
+    <ClInclude Include="NpcMagicProcess.h" />
+    <ClInclude Include="NpcPosSet.h" />
+    <ClInclude Include="NpcTable.h" />
+    <ClInclude Include="NpcTableSet.h" />
+    <ClInclude Include="NpcThread.h" />
+    <ClInclude Include="Packet.h" />
+    <ClInclude Include="Party.h" />
+    <ClInclude Include="PartyUser.h" />
+    <ClInclude Include="PathFind.h" />
+    <ClInclude Include="Region.h" />
+    <ClInclude Include="RNpcPosSet.h" />
+    <ClInclude Include="RoomEvent.h" />
+    <ClInclude Include="Server.h" />
+    <ClInclude Include="ServerDlg.h" />
+    <ClInclude Include="StdAfx.h" />
+    <ClInclude Include="STLMap.h" />
+    <ClInclude Include="User.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\Server.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Server.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

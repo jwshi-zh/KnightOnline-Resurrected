@@ -49,7 +49,7 @@ public:
 	CIOCPSocket2 **m_SockArray;
 	CIOCPSocket2 **m_SockArrayInActive;
 
-	CIOCPSocket2 **m_ClientSockArray;		// Connect용 소켓
+	CIOCPSocket2 **m_ClientSockArray;
 
 protected:
 	DWORD m_dwNumberOfWorkers;

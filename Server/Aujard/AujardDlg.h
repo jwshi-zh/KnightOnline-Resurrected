@@ -70,9 +70,9 @@ public:
 
 	CFile					m_LogFile;
 
-	int m_iPacketCount;		// packet의 수를 체크
-	int m_iSendPacketCount;		// packet의 수를 체크
-	int m_iRecvPacketCount;		// packet의 수를 체크
+	int m_iPacketCount;
+	int m_iSendPacketCount;
+	int m_iRecvPacketCount;
 	int m_iLogFileDay;
 
 // Dialog Data

@@ -16,32 +16,32 @@ public:
 	virtual ~CMagicTable();
 
 public:
-	short	m_sNum;				// 매직 번호
-	char	m_strName[30];		// 매직 이름
-	BYTE	m_bMoral;			// 성향
-	BYTE	m_bClass;			// 사용 클래스
-	BYTE	m_bLevel;			// 레벨	제한
-	BYTE	m_bEffect;			// 효과(0:fire, 1:ice, 2:lightning, 3:magic, 4:disease, 5:poison, 6:light, 7:heal, 8:dagger, 9:sword, 10:mace, 11:spear, 12:polearm)
-	short	m_sMp;				// 소모량
-	short	m_sHp;				// 소모량
-	short	m_sSt;				// 소모량
-	int		m_iNItem;			// 필요 아이템(사용시)
-	short	m_sDistant;			// 가시거리
-	short	m_sContime;			// 지속시간(초)
-	short	m_sRepeat;			// 재사용 가능 시간(초)
-	BYTE	m_bExpect;			// 성공률
-	BYTE	m_bTarget;			// 타겟(0:타겟, 1:자신의 반경, 2:타겟과 반경, 3:지점과 반경, 4:오브젝트)
-	BYTE	m_bRange;			// 반경
-	BYTE	m_bType;			// 타입(0:공격, 1:능력치변화, 2:콘트롤이상, 3:그래픽변환, 4:캐릭터 컨트롤, 5:순간이동/소환, 6:보호막, 7:캔슬매직, 8:전투 스타일)
-	BYTE	m_bRate1;			// 적용률1(소숫점 1자리, 즉 계산시 10으로 나누어 계산해야 한다.)
-	BYTE	m_bVar1;			// 적용변수1
-	BYTE	m_bLimit1;			// 스킬 제한치1
-	BYTE	m_bRate2;			// 적용률2(소숫점 1자리, 즉 계산시 10으로 나누어 계산해야 한다.)
-	BYTE	m_bVar2;			// 적용변수2
-	BYTE	m_bLimit2;			// 스킬 제한치2
-	BYTE	m_bRate3;			// 적용률3(소숫점 1자리, 즉 계산시 10으로 나누어 계산해야 한다.)
-	BYTE	m_bVar3;			// 적용변수3
-	BYTE	m_bLimit3;			// 스킬 제한치3
+	short	m_sNum;
+	char	m_strName[30];
+	BYTE	m_bMoral;
+	BYTE	m_bClass;
+	BYTE	m_bLevel;
+	BYTE	m_bEffect;			// (0:fire, 1:ice, 2:lightning, 3:magic, 4:disease, 5:poison, 6:light, 7:heal, 8:dagger, 9:sword, 10:mace, 11:spear, 12:polearm)
+	short	m_sMp;
+	short	m_sHp;
+	short	m_sSt;
+	int		m_iNItem;			// Required item (when used)
+	short	m_sDistant;
+	short	m_sContime;			// duration (seconds)
+	short	m_sRepeat;			// Reusable time (seconds)
+	BYTE	m_bExpect;			// success rate
+	BYTE	m_bTarget;			// Target (0: target, 1: own radius, 2: target and radius, 3: point and radius, 4: object)
+	BYTE	m_bRange;
+	BYTE	m_bType;			// Type (0: Attack, 1: Stat Change, 2: Abnormal Control, 3: Graphic Transformation, 4: Character Control, 5: Teleport/Summon, 6: Shield, 7: Cancel Magic, 8: Combat Style)
+	BYTE	m_bRate1;			// Application rate 1 (one decimal place, that is, it must be calculated by dividing by 10 when calculating)
+	BYTE	m_bVar1;			// Applied variable 1
+	BYTE	m_bLimit1;			// skill limit 1
+	BYTE	m_bRate2;			// Application rate 2 (one decimal place, that is, it must be calculated by dividing by 10 when calculating)
+	BYTE	m_bVar2;			// Applied variable 2
+	BYTE	m_bLimit2;			// skill limit 2
+	BYTE	m_bRate3;			// Application rate 3 (one decimal place, that is, it must be calculated by dividing by 10 when calculating)
+	BYTE	m_bVar3;			// Applied variable 3
+	BYTE	m_bLimit3;			// skill limit 3
 
 };
 

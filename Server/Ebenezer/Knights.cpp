@@ -39,4 +39,29 @@ CKnights::~CKnights()
 void CKnights::InitializeValue()
 {
 	m_sIndex = 0;
-	m_byFlag = 0;			// 1 : Clan, 2 : 湲곗
+	m_byFlag = 0;
+	m_byNation = 0;
+	m_byGrade = 0;
+	m_byRanking = 0;
+	m_sMembers = 0;
+	memset( m_strName, 0x00, MAX_ID_SIZE+1 );
+	memset( m_strChief, 0x00, MAX_ID_SIZE+1 );
+	memset( m_strViceChief_1, 0x00, MAX_ID_SIZE+1 );
+	memset( m_strViceChief_2, 0x00, MAX_ID_SIZE+1 );
+	memset( m_strViceChief_3, 0x00, MAX_ID_SIZE+1 );
+	memset( m_Image, 0x00, MAX_KNIGHTS_MARK );
+	m_nMoney = 0;
+	m_sDomination = 0;
+	m_nPoints = 0;
+	
+	for( int i=0; i<MAX_CLAN; i++ )	{
+		m_arKnightsUser[i].byUsed = 0;
+		memset( m_arKnightsUser[i].strUserName, 0x00, MAX_ID_SIZE+1);
+	}
+
+	for(int i=0; i<MAX_KNIGHTS_BANK; i++ )	{
+		m_StashItem[i].nNum = 0;
+		m_StashItem[i].sCount = 0;
+		m_StashItem[i].sDuration = 0;
+	}
+}

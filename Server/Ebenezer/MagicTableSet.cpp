@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include "ebenezer.h"
 #include "MagicTableSet.h"
+#include <EbenezerDlg.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -44,14 +45,18 @@ CMagicTableSet::CMagicTableSet(CDatabase* pdb)
 	m_Range = 0;
 	m_Etc = 0;
 	m_nFields = 23;
-	//}}AFX_FIELD_INIT
 	m_nDefaultType = snapshot;
+	//}}AFX_FIELD_INIT
 }
-
 
 CString CMagicTableSet::GetDefaultConnect()
 {
-	return _T("ODBC;DSN=KN_Online;UID=knight;PWD=knight");
+	auto mainDlg = static_cast<CEbenezerDlg*>(AfxGetApp()->GetMainWnd());
+
+	char strconnection[256];
+	memset(strconnection, NULL, 256);
+	sprintf(strconnection, "Driver={SQL Server Native Client 11.0};Server=%s;Database=%s;Uid=%s;Pwd=%s;", mainDlg->m_ODBCServer, mainDlg->m_ODBCDatabase, mainDlg->m_ODBCLogin, mainDlg->m_ODBCPwd);
+	return strconnection;
 }
 
 CString CMagicTableSet::GetDefaultSQL()
@@ -69,8 +74,8 @@ void CMagicTableSet::DoFieldExchange(CFieldExchange* pFX)
 	RFX_Text(pFX, _T("[Description]"), m_Description);
 	RFX_Byte(pFX, _T("[BeforeAction]"), m_BeforeAction);
 	RFX_Byte(pFX, _T("[TargetAction]"), m_TargetAction);
-	RFX_Byte(pFX, _T("[SelfEffect]"), m_SelfEffect);
-	RFX_Byte(pFX, _T("[FlyingEffect]"), m_FlyingEffect);
+	RFX_Int(pFX, _T("[SelfEffect]"), m_SelfEffect);
+	RFX_Int(pFX, _T("[FlyingEffect]"), m_FlyingEffect);
 	RFX_Int(pFX, _T("[TargetEffect]"), m_TargetEffect);
 	RFX_Byte(pFX, _T("[Moral]"), m_Moral);
 	RFX_Int(pFX, _T("[SkillLevel]"), m_SkillLevel);

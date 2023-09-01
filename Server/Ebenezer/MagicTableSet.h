@@ -1,5 +1,5 @@
-#if !defined(AFX_MAGICTABLESET_H__E8A08990_A716_4AF2_8C03_7C0C9666F842__INCLUDED_)
-#define AFX_MAGICTABLESET_H__E8A08990_A716_4AF2_8C03_7C0C9666F842__INCLUDED_
+#if !defined(AFX_MAGICTABLESET_H__EEE22857_0064_4E58_AD5A_E33D8E9C90E9__INCLUDED_)
+#define AFX_MAGICTABLESET_H__EEE22857_0064_4E58_AD5A_E33D8E9C90E9__INCLUDED_
 
 #if _MSC_VER > 1000
 #pragma once
@@ -16,16 +16,16 @@ public:
 	CMagicTableSet(CDatabase* pDatabase = NULL);
 	DECLARE_DYNAMIC(CMagicTableSet)
 
-// Field/Param Data
-	//{{AFX_FIELD(CMagicTableSet, CRecordset)
+	// Field/Param Data
+		//{{AFX_FIELD(CMagicTableSet, CRecordset)
 	long	m_MagicNum;
 	CString	m_EnName;
 	CString	m_KrName;
 	CString	m_Description;
 	BYTE	m_BeforeAction;
 	BYTE	m_TargetAction;
-	BYTE	m_SelfEffect;
-	BYTE	m_FlyingEffect;
+	int		m_SelfEffect;
+	int		m_FlyingEffect;
 	int		m_TargetEffect;
 	BYTE	m_Moral;
 	int		m_SkillLevel;
@@ -47,7 +47,7 @@ public:
 // Overrides
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CMagicTableSet)
-	public:
+public:
 	virtual CString GetDefaultConnect();    // Default connection string
 	virtual CString GetDefaultSQL();    // Default SQL for Recordset
 	virtual void DoFieldExchange(CFieldExchange* pFX);  // RFX support
@@ -63,4 +63,4 @@ public:
 //{{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.
 
-#endif // !defined(AFX_MAGICTABLESET_H__E8A08990_A716_4AF2_8C03_7C0C9666F842__INCLUDED_)
+#endif // !defined(AFX_MAGICTABLESET_H__EEE22857_0064_4E58_AD5A_E33D8E9C90E9__INCLUDED_)

@@ -1,0 +1,694 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Korean resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_KOR)
+#ifdef _WIN32
+LANGUAGE LANG_KOREAN, SUBLANG_DEFAULT
+#pragma code_page(949)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_KOR)\r\n"
+    "#ifdef _WIN32\r\n"
+    "LANGUAGE 18, 1\r\n"
+    "#pragma code_page(949)\r\n"
+    "#endif //_WIN32\r\n"
+    "#include ""res\\N3CE.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""l.kor\\afxres.rc""          // Standard components\r\n"
+    "#include ""l.kor\\afxprint.rc""        // printing/print preview resources\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON    DISCARDABLE     "res\\N3CE.ico"
+IDR_N3CETYPE            ICON    DISCARDABLE     "res\\N3CEDoc.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDR_MAINFRAME           BITMAP  MOVEABLE PURE   "res\\Toolbar.bmp"
+IDB_N3BASE_NODES        BITMAP  DISCARDABLE     "res\\NodeIcons.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Toolbar
+//
+
+IDR_MAINFRAME TOOLBAR DISCARDABLE  16, 15
+BEGIN
+    BUTTON      ID_FILE_NEW
+    BUTTON      ID_FILE_OPEN
+    BUTTON      ID_FILE_SAVE
+    SEPARATOR
+    BUTTON      ID_EDIT_CUT
+    BUTTON      ID_EDIT_COPY
+    BUTTON      ID_EDIT_PASTE
+    SEPARATOR
+    BUTTON      ID_FILE_PRINT
+    SEPARATOR
+    BUTTON      ID_APP_ABOUT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MAINFRAME MENU PRELOAD DISCARDABLE 
+BEGIN
+    POPUP "File(&F)"
+    BEGIN
+        MENUITEM "New file(&N)\tCtrl+N",         ID_FILE_NEW
+        MENUITEM "Open(&O)...\tCtrl+O",         ID_FILE_OPEN
+        MENUITEM "Save(&S)\tCtrl+S",            ID_FILE_SAVE
+        MENUITEM "save As(&A)...",   ID_FILE_SAVE_AS
+        MENUITEM "Save all as one Folder(&F)", 
+                                                ID_FILE_SAVE_AS_ONE_FOLDER
+        MENUITEM "Save selected object",            ID_FILE_SAVE_SELECTED
+        MENUITEM SEPARATOR
+        MENUITEM "Print(&P)...\tCtrl+P",         ID_FILE_PRINT
+        MENUITEM "print preView±‚(&V)",          ID_FILE_PRINT_PREVIEW
+        MENUITEM "pRint Settings(&R)...",            ID_FILE_PRINT_SETUP
+        MENUITEM SEPARATOR
+        MENUITEM "Recent Files",                   ID_FILE_MRU_FILE1, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "eXit(&X)",                    ID_APP_EXIT
+    END
+    POPUP "Edit(&E)"
+    BEGIN
+        POPUP "character Joint edit\t(&J)"
+        BEGIN
+            MENUITEM "Joint assign\t(&S)",            ID_EDIT_CHR_JOINT_SET
+            MENUITEM "Save selected object",            ID_FILE_SAVE_SELECTED
+        END
+        POPUP "character Part edit\t(&P)"
+        BEGIN
+            MENUITEM "show/hide\t(&V)",         ID_EDIT_SET_VISIBLE
+            MENUITEM "part Add\t(&A)",             ID_EDIT_CHR_PART_ADD
+            MENUITEM "part aSsign\t(&S)",             ID_EDIT_CHR_PART_SET
+            MENUITEM "part Delete\t(&D)",             ID_EDIT_CHR_PART_DELETE
+            MENUITEM "Save selected object",            ID_FILE_SAVE_SELECTED
+        END
+        POPUP "character Plug edit\t(&L)"
+        BEGIN
+            MENUITEM "show/hide\t(&V)",         ID_EDIT_SET_VISIBLE
+            MENUITEM "Plug Add\t(&A)",             ID_EDIT_CHR_PLUG_ADD
+            MENUITEM "Plug aSsign\t(&S)",             ID_EDIT_CHR_PLUG_SET
+            MENUITEM "Plug delete\t(&D)",             ID_EDIT_CHR_PLUG_DELETE
+            MENUITEM "Import PMesh\t(&I)",          ID_EDIT_CHR_PLUG_IMPORT_PMESH
+
+            MENUITEM "Save selected object",            ID_FILE_SAVE_SELECTED
+            MENUITEM "Rotation value reset",               ID_EDIT_CHR_PLUG_ROTATION_RESET
+
+            MENUITEM "plug_Cloak add\t(&C)",       ID_EDIT_CHR_PLUG_ADDCLOAK
+
+        END
+        POPUP "animation data"
+        BEGIN
+            MENUITEM "copy\tCtrl+C",                ID_EDIT_ANIMATION_DATA_COPY
+
+            MENUITEM "paste\tCtrl+V",              ID_EDIT_ANIMATION_DATA_PASTE
+
+            MENUITEM "up",                       ID_EDIT_ANIMATION_DATA_MOVE_UP
+
+            MENUITEM "down",                      ID_EDIT_ANIMATION_DATA_MOVE_DOWN
+
+            MENUITEM "add",                        ID_EDIT_ANIMATION_DATA_ADD
+
+            MENUITEM "insert",                        ID_EDIT_ANIMATION_DATA_INSERT
+
+            MENUITEM "delete",                        ID_EDIT_ANIMATION_DATA_DELETE
+
+        END
+        POPUP "character FXPlug edit"
+        BEGIN
+            MENUITEM "FXPlug assign",                 ID_EDIT_FXPLUG_SET
+            MENUITEM "FXPlug delete",                 ID_EDIT_FXPLUG_DELETE
+            MENUITEM "FX Stop",                     ID_EDIT_FXPLUG_STOP
+            MENUITEM "FX Start",                    ID_EDIT_FXPLUG_START
+            MENUITEM SEPARATOR
+            MENUITEM "FXPlugPart add",             ID_EDIT_FXPLUG_PART_ADD
+            MENUITEM "FXPlugPart delete",             ID_EDIT_FXPLUG_PART_DELETE
+
+        END
+    END
+    POPUP "View(&V)"
+    BEGIN
+        MENUITEM "X-Ray mode(&X)",              ID_VIEW_XRAY
+        MENUITEM "Joint view(&J)",              ID_VIEW_JOINT
+        MENUITEM "Toolbar(&T)",               ID_VIEW_TOOLBAR
+        MENUITEM "Status bar(&S)",             ID_VIEW_STATUS_BAR
+    END
+    POPUP "Sound(&S)"
+    BEGIN
+        MENUITEM "Sound add - first timing",  ID_SOUND_FILE_ADD0
+        MENUITEM "Sound add - second timing",  ID_SOUND_FILE_ADD1
+        MENUITEM "Sound delete - first timing",  ID_SOUND_DELETE0
+        MENUITEM "Sound delete - second timing",  ID_SOUND_DELETE1
+    END
+    POPUP "Tool(&T)"
+    BEGIN
+        MENUITEM "Animation Data Optimize",       ID_TOOL_OPTIMIZE_ANIMATION_DATA
+
+    END
+    POPUP "Help(&H)"
+    BEGIN
+        MENUITEM "N3CE About(&A)...",            ID_APP_ABOUT
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDR_MAINFRAME ACCELERATORS PRELOAD MOVEABLE PURE 
+BEGIN
+    "C",            ID_EDIT_ANIMATION_DATA_COPY, VIRTKEY, CONTROL, NOINVERT
+    "N",            ID_FILE_NEW,            VIRTKEY, CONTROL, NOINVERT
+    "O",            ID_FILE_OPEN,           VIRTKEY, CONTROL, NOINVERT
+    "P",            ID_FILE_PRINT,          VIRTKEY, CONTROL, NOINVERT
+    "S",            ID_FILE_SAVE,           VIRTKEY, CONTROL, NOINVERT
+    "V",            ID_EDIT_ANIMATION_DATA_PASTE, VIRTKEY, CONTROL, NOINVERT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX DIALOG DISCARDABLE  0, 0, 235, 157
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "N3CE About"
+FONT 9, "Arial"
+BEGIN
+    ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
+    LTEXT           "N3 Character Editor Version 2.1",IDC_STATIC,40,10,119,8,
+                    SS_NOPREFIX
+    LTEXT           "Copyright (C) 2001 NoahSystem.co.ltd",IDC_STATIC,40,25,
+                    128,8
+    DEFPUSHBUTTON   "Confirm",IDOK,178,7,50,14,WS_GROUP
+    LTEXT           "Plug edit method\n\n1. edit Plug select.\n\n2. Position and scale can be modified by pressing the left button and waiting for a while..\n\n3. Mesh and Texture can be specified by double-clicking. (Mesh and Texture in advance copy let go.)\n\n4. Rotation value adjustment - Ctrl hold down left key,Pressing the middle or right buttons rotates according to the local axis of the joint to which it is attached..(To view the local axis of a joint, click in the right pane.)",
+                    IDC_STATIC,3,48,222,105
+END
+
+IDD_ANIMATION DIALOGEX 0, 0, 539, 182
+STYLE WS_CHILD
+FONT 9, "Arial", 0, 0, 0x1
+BEGIN
+    PUSHBUTTON      "Start",IDC_B_SET_FRAME_START,12,45,24,12,NOT WS_TABSTOP
+    EDITTEXT        IDC_E_FRAME_START,36,45,36,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "End",IDC_B_SET_FRAME_END,12,64,24,12,NOT WS_TABSTOP
+    EDITTEXT        IDC_E_FRAME_END,36,64,36,12,ES_AUTOHSCROLL
+    LTEXT           "Speed",IDC_STATIC,12,83,21,11,SS_CENTERIMAGE | NOT 
+                    WS_GROUP
+    EDITTEXT        IDC_E_FRAME_PER_SEC,36,83,36,12,ES_AUTOHSCROLL
+    RTEXT           "Blend",IDC_STATIC,12,101,21,11,SS_CENTERIMAGE | NOT 
+                    WS_GROUP
+    EDITTEXT        IDC_E_FRAME_BLEND0,36,102,36,12,ES_AUTOHSCROLL
+    CONTROL         "looping time delay",IDC_C_DELAYED_LOOPING,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,12,120,60,9
+    CONTROL         "Play",IDC_C_PLAY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
+                    81,43,31,8
+    CONTROL         "Slider2",IDC_SLIDER_FRM,"msctls_trackbar32",TBS_BOTH | 
+                    TBS_NOTICKS | WS_TABSTOP,81,54,192,18,WS_EX_CLIENTEDGE
+    PUSHBUTTON      "Start",IDC_B_SET_FRAME_PLUG_TRACE_START,82,100,21,12,
+                    NOT WS_TABSTOP
+    EDITTEXT        IDC_E_FRAME_PLUG_TRACE_START,102,100,36,12,
+                    ES_AUTOHSCROLL
+    PUSHBUTTON      "End",IDC_B_SET_FRAME_PLUG_TRACE_END,82,112,21,12,NOT 
+                    WS_TABSTOP
+    EDITTEXT        IDC_E_FRAME_PLUG_TRACE_END,102,112,36,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "Set",IDC_B_SET_FRAME_SOUND0,147,99,21,12,NOT WS_TABSTOP
+    EDITTEXT        IDC_E_FRAME_SOUND0,168,99,36,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "Set",IDC_B_SET_FRAME_SOUND1,147,111,21,12,NOT 
+                    WS_TABSTOP
+    EDITTEXT        IDC_E_FRAME_SOUND1,168,111,36,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "Set",IDC_B_SET_FRAME_STRIKE0,213,99,21,12,NOT 
+                    WS_TABSTOP
+    EDITTEXT        IDC_E_FRAME_STRIKE0,234,99,36,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "Set",IDC_B_SET_FRAME_STRIKE1,213,111,21,12,NOT 
+                    WS_TABSTOP
+    EDITTEXT        IDC_E_FRAME_STRIKE1,234,111,36,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "Add",IDC_B_ADD,285,33,45,12,NOT WS_TABSTOP
+    PUSHBUTTON      "Insert",IDC_B_INSERT,330,33,27,12,NOT WS_TABSTOP
+    PUSHBUTTON      "Delete",IDC_B_DELETE,360,33,30,12,NOT WS_TABSTOP
+    EDITTEXT        IDC_E_ANI_NAME,285,45,81,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_E_NUMBER,367,45,24,12,ES_AUTOHSCROLL | ES_READONLY | 
+                    NOT WS_TABSTOP
+    PUSHBUTTON      "°„",IDC_B_MOVE_UP,336,59,27,9
+    PUSHBUTTON      "°Â",IDC_B_MOVE_DOWN,363,59,27,9
+    LISTBOX         IDC_LIST_ANIMATION0,285,69,126,108,LBS_NOINTEGRALHEIGHT | 
+                    WS_VSCROLL | WS_TABSTOP
+    LISTBOX         IDC_LIST_ANIMATION1,411,69,123,108,LBS_NOINTEGRALHEIGHT | 
+                    WS_VSCROLL
+    EDITTEXT        IDC_E_SCENE_FRM_START,27,3,36,12,ES_AUTOHSCROLL | NOT 
+                    WS_TABSTOP
+    EDITTEXT        IDC_E_SCENE_FRM_END,27,15,36,12,ES_AUTOHSCROLL | NOT 
+                    WS_TABSTOP
+    CONTROL         "Slider2",IDC_SLD_SCENE_FRAME,"msctls_trackbar32",
+                    TBS_BOTH | TBS_NOTICKS,105,3,429,24,WS_EX_CLIENTEDGE
+    RTEXT           "Frame",IDC_STATIC,66,6,21,8,SS_CENTERIMAGE | NOT 
+                    WS_GROUP
+    EDITTEXT        IDC_E_FRAME_CUR,66,15,36,12,ES_AUTOHSCROLL | ES_READONLY | 
+                    NOT WS_TABSTOP
+    PUSHBUTTON      "call load",IDC_B_LOAD,186,150,30,12,NOT WS_TABSTOP
+    RTEXT           "Start",IDC_STATIC,3,6,21,8,NOT WS_GROUP
+    RTEXT           "End",IDC_STATIC,9,18,15,9,NOT WS_GROUP
+    GROUPBOX        "weapon trail 0",IDC_STATIC,78,88,63,42
+    GROUPBOX        "Sound",IDC_STATIC,144,87,63,42
+    PUSHBUTTON      "save",IDC_B_SAVE,216,150,27,12,NOT WS_TABSTOP
+    GROUPBOX        "Animation Control",IDC_STATIC,6,31,273,104
+    LTEXT           "lower body",IDC_STATIC,285,59,18,8,NOT WS_GROUP
+    RTEXT           "upper body",IDC_STATIC,513,60,21,8,NOT WS_GROUP
+    GROUPBOX        "hitting - blow frame",IDC_STATIC,210,87,63,42
+    LTEXT           "Weapon Trace - Blue | Sound-Green | hit - red",IDC_STATIC,
+                    90,75,171,8
+    PUSHBUTTON      "bird - new name",IDC_B_SAVE_AS,243,150,32,12,NOT WS_TABSTOP
+    PUSHBUTTON      "New",IDC_B_NEW,156,150,30,12,NOT WS_TABSTOP
+    EDITTEXT        IDC_E_ANI_FILE_NAME,156,162,120,12,ES_AUTOHSCROLL | 
+                    ES_READONLY | NOT WS_TABSTOP
+    LTEXT           "movement speed",IDC_STATIC,177,42,33,8
+    EDITTEXT        IDC_E_MOVE_SPEED,213,39,28,12,ES_AUTOHSCROLL | NOT 
+                    WS_TABSTOP
+    LTEXT           "meter/second",IDC_STATIC,243,42,30,8
+    GROUPBOX        "Loading and Saving Files",IDC_STATIC,144,138,135,39
+    LTEXT           "Total 00.00 seconds",IDC_STATIC_ANIMATION_TIME_SUM,117,42,51,9
+    PUSHBUTTON      "Align with the upper movement",
+                    IDC_B_CALCULATE_DELAY_TIME_WITH_UPPER_ANIMATION,57,150,
+                    78,12,NOT WS_TABSTOP
+    PUSHBUTTON      "Align with lower action",
+                    IDC_B_CALCULATE_DELAY_TIME_WITH_LOWER_ANIMATION,57,162,
+                    78,12,NOT WS_TABSTOP
+    GROUPBOX        "Calculate Latency",IDC_STATIC,6,138,135,39
+    CONTROL         "attack twice in a row",IDC_C_DOUBLE_ATTACK,"Button",
+                    BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,12,150,45,24
+END
+
+IDD_TOOL DIALOG DISCARDABLE  0, 0, 188, 215
+STYLE WS_CHILD
+FONT 9, "Arial"
+BEGIN
+    PUSHBUTTON      "Regenerate normal vector",IDC_B_MAKE_SMOOTH,108,9,66,21,
+                    BS_MULTILINE
+    COMBOBOX        IDC_CB_LOD,72,15,33,90,CBS_DROPDOWNLIST | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "Level Of Detail",IDC_STATIC,9,15,60,12,SS_CENTERIMAGE
+    PUSHBUTTON      "Add Test First Sound",IDC_B_ADD_TEST_SOUND0,9,51,105,15,
+                    NOT WS_TABSTOP
+    LISTBOX         IDC_LIST_SOUND0,9,66,165,42,LBS_NOINTEGRALHEIGHT | 
+                    WS_VSCROLL
+    PUSHBUTTON      "Delete Sound",IDC_B_DELETE_TEST_SOUND0,115,51,60,15,NOT 
+                    WS_TABSTOP
+    PUSHBUTTON      "Add Test Second Sound",IDC_B_ADD_TEST_SOUND1,9,108,105,
+                    15,NOT WS_TABSTOP
+    LISTBOX         IDC_LIST_SOUND1,9,123,165,42,LBS_NOINTEGRALHEIGHT | 
+                    WS_VSCROLL
+    PUSHBUTTON      "Delete Sound",IDC_B_DELETE_TEST_SOUND1,115,108,60,15,
+                    NOT WS_TABSTOP
+    GROUPBOX        "Animation Tool",IDC_STATIC,3,174,177,36
+    PUSHBUTTON      "Push Full Frame",IDC_B_APPLY_OFFSET_FRAME,41,189,70,15,
+                    NOT WS_TABSTOP
+    EDITTEXT        IDC_E_OFFSET,12,189,27,12,ES_AUTOHSCROLL | NOT 
+                    WS_TABSTOP
+    GROUPBOX        "Modeling",IDC_STATIC,3,0,177,36
+    GROUPBOX        "Sound",IDC_STATIC,3,39,177,129
+END
+
+IDD_CHR_PROPERTY DIALOG DISCARDABLE  0, 0, 111, 287
+STYLE WS_CHILD
+FONT 9, "Arial"
+BEGIN
+    LISTBOX         IDC_LP_MATERIAL,3,185,102,28,LBS_OWNERDRAWVARIABLE | 
+                    LBS_HASSTRINGS | LBS_NOINTEGRALHEIGHT | WS_HSCROLL | 
+                    WS_TABSTOP
+    CONTROL         "Tree1",IDC_TREE_CHR,"SysTreeView32",TVS_HASBUTTONS | 
+                    TVS_HASLINES | TVS_LINESATROOT | TVS_EDITLABELS | 
+                    TVS_SHOWSELALWAYS | TVS_INFOTIP | TVS_FULLROWSELECT | 
+                    WS_BORDER | WS_TABSTOP,3,3,102,147
+    LISTBOX         IDC_LP_PLUG,3,153,102,26,LBS_OWNERDRAWVARIABLE | 
+                    LBS_HASSTRINGS | LBS_NOINTEGRALHEIGHT | WS_HSCROLL | 
+                    WS_TABSTOP
+    LISTBOX         IDC_LP_FXPLUG_PART,3,217,102,28,LBS_OWNERDRAWVARIABLE | 
+                    LBS_HASSTRINGS | LBS_NOINTEGRALHEIGHT | WS_HSCROLL | 
+                    WS_TABSTOP
+END
+
+IDD_FOLDER_SELECT DIALOG DISCARDABLE  0, 0, 277, 309
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Folder select"
+FONT 9, "Arial"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,224,3,25,14
+    PUSHBUTTON      "CANCEL",IDCANCEL,249,3,23,14
+    CONTROL         "Tree1",IDC_BROWSE_TREE,"SysTreeView32",TVS_HASBUTTONS | 
+                    TVS_HASLINES | TVS_LINESATROOT | TVS_SHOWSELALWAYS | 
+                    WS_BORDER | WS_TABSTOP,3,24,269,282
+    COMBOBOX        IDC_FOLDER_LIST,3,3,203,90,CBS_DROPDOWN | 
+                    CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "!",IDC_TUNNEL_TREE,207,3,17,12
+END
+
+
+#ifndef _MAC
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 2,4,12,1140
+ PRODUCTVERSION 2,4,12,1140
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "041204b0"
+        BEGIN
+            VALUE "Comments", "Noah System Character Editor\0"
+            VALUE "CompanyName", "NoahSystem\0"
+            VALUE "FileDescription", "N3 Character Editor\0"
+            VALUE "FileVersion", "2, 4, 12, 1140\0"
+            VALUE "InternalName", "N3CE\0"
+            VALUE "LegalCopyright", "Copyright (C) 2001\0"
+            VALUE "LegalTrademarks", "\0"
+            VALUE "OriginalFilename", "N3CE.EXE\0"
+            VALUE "PrivateBuild", "\0"
+            VALUE "ProductName", "N3 Character Editor\0"
+            VALUE "ProductVersion", "2, 4, 12, 1140\0"
+            VALUE "SpecialBuild", "\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x412, 1200
+    END
+END
+
+#endif    // !_MAC
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 228
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 150
+    END
+
+    IDD_ANIMATION, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 532
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 175
+    END
+
+    IDD_TOOL, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 181
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 208
+    END
+
+    IDD_CHR_PROPERTY, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 104
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 280
+    END
+
+    IDD_FOLDER_SELECT, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 270
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 302
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_TOOL DLGINIT
+BEGIN
+    IDC_CB_LOD, 0x403, 5, 0
+0x6948, 0x6867, "\000" 
+    IDC_CB_LOD, 0x403, 7, 0
+0x694d, 0x6464, 0x656c, "\000" 
+    IDC_CB_LOD, 0x403, 4, 0
+0x6f4c, 0x0077, 
+    IDC_CB_LOD, 0x403, 7, 0
+0x6f4c, 0x6577, 0x7473, "\000" 
+    0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE PRELOAD DISCARDABLE 
+BEGIN
+    IDR_MAINFRAME           "N3CE\n\nN3CE\nCharacter Data File *.N3Chr)\n.N3Chr\nN3CE.Document\nN3Character Data File"
+END
+
+STRINGTABLE PRELOAD DISCARDABLE 
+BEGIN
+    AFX_IDS_APP_TITLE       "N3CE"
+    AFX_IDS_IDLEMESSAGE     "¡ÿ∫Ò"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_INDICATOR_EXT        "EXT"
+    ID_INDICATOR_CAPS       "CAP"
+    ID_INDICATOR_NUM        "NUM"
+    ID_INDICATOR_SCRL       "SCRL"
+    ID_INDICATOR_OVR        "OVR"
+    ID_INDICATOR_REC        "REC"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_FILE_NEW             "Create a new document\n new file""
+    ID_FILE_OPEN            "Open an existing document\n Open"
+    ID_FILE_CLOSE           "Close the currently open document\n Close"
+    ID_FILE_SAVE            "Save the currently open document\n Save"
+    ID_FILE_SAVE_AS         "Save the currently open document as\n Save As"
+    ID_FILE_PAGE_SETUP      "Change printing options\n page settings"
+    ID_FILE_PRINT_SETUP     "Change printers and printing options\n Print Settings"
+    ID_FILE_PRINT           "Print the currently open document\n Print"
+    ID_FILE_PRINT_PREVIEW   "Display entire page\n Print Preview View"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_APP_ABOUT            "Displays program information, version information, and copyright information\nAboutDisplays program information, version information, and copyright information\n About"
+    ID_APP_EXIT             "Ask if you want to save the document to exit the application\n Exit"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_FILE_MRU_FILE1       "open this document"
+    ID_FILE_MRU_FILE2       "open this document"
+    ID_FILE_MRU_FILE3       "open this document"
+    ID_FILE_MRU_FILE4       "open this document"
+    ID_FILE_MRU_FILE5       "open this document"
+    ID_FILE_MRU_FILE6       "open this document"
+    ID_FILE_MRU_FILE7       "open this document"
+    ID_FILE_MRU_FILE8       "open this document"
+    ID_FILE_MRU_FILE9       "open this document"
+    ID_FILE_MRU_FILE10      "open this document"
+    ID_FILE_MRU_FILE11      "open this document"
+    ID_FILE_MRU_FILE12      "open this document"
+    ID_FILE_MRU_FILE13      "open this document"
+    ID_FILE_MRU_FILE14      "open this document"
+    ID_FILE_MRU_FILE15      "open this document"
+    ID_FILE_MRU_FILE16      "open this document"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_NEXT_PANE            "Switch to the next window\n Next window"
+    ID_PREV_PANE            "Switch to previous window\n Previous window"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_WINDOW_SPLIT         "Split the currently open window\n Split"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_EDIT_CLEAR           "Clear selection\n Clear"
+    ID_EDIT_CLEAR_ALL       "clear everything\n clear everything"
+    ID_EDIT_COPY            "Copies the selection and puts it on the clipboard\n copy"
+    ID_EDIT_CUT             "Cut the selection and put it on the clipboard\n Cut"
+    ID_EDIT_FIND            "Finds the specified string\n Find"
+    ID_EDIT_PASTE           "Pastes the contents of the clipboard\n Paste"
+    ID_EDIT_REPEAT          "Repeat last action\n Repeat"
+    ID_EDIT_REPLACE         "Replaces the specified string with another string\n Replace"
+    ID_EDIT_SELECT_ALL      "Select all documents\n Select all"
+    ID_EDIT_UNDO            "Undo the last action\n Undo"
+    ID_EDIT_REDO            "Redo a previously undone action\n Redo"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_VIEW_TOOLBAR         "Show/hide toolbar\n Toggle toolbar"
+    ID_VIEW_STATUS_BAR      "Show or hide the status bar\n Toggle status bar"
+    ID_VIEW_AUTOARRANGE     "Arrange the icons to fit the grid."
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    AFX_IDS_SCSIZE          "Change the window size"
+    AFX_IDS_SCMOVE          "change the position of the window"
+    AFX_IDS_SCMINIMIZE      "Reduces the window to an icon Minimize"
+    AFX_IDS_SCMAXIMIZE      "Expand the window to its maximum size"
+    AFX_IDS_SCNEXTWINDOW    "Switch to the next document window"
+    AFX_IDS_SCPREVWINDOW    "Switch to the previous document window"
+    AFX_IDS_SCCLOSE         "Close the currently open window and ask if you want to save the document"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    AFX_IDS_SCRESTORE       "Restore the window to its original size"
+    AFX_IDS_SCTASKLIST      "Activate task listEnable task list"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    AFX_IDS_PREVIEW_CLOSE   "Close Print Preview Mode\n Cancel Preview"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_VIEW_SMALLICON       "Display items using small icons\n small icons"
+    ID_VIEW_LARGEICON       "Use large icons to display items\n large icons"
+    ID_VIEW_LIST            "Display items as a list\nList"
+    ID_VIEW_DETAILS         "Displays information about each item in the window\n Details"
+    ID_VIEW_LINEUP          "Aligns icons to fit the grid."
+    ID_VIEW_BYNAME          "Sorts icons alphabetically."
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_VIEW_XRAY            "Shows objects as translucent.\n Translucent View""
+    ID_VIEW_JOINT           "Show joints and joint axes.\\Joint View"
+    ID_EDIT_CHR_PROPERTY    "Edit character properties such as parts, plugs, and materials.\\character properties editv"
+    ID_EDIT_PART_ADD        "Add Part to character.\nPart add"
+    ID_EDIT_PART_DELETE     "Delete part of character.\nPart delete"
+    ID_EDIT_PLUG_ADD        "Add a Plug to a character.\nPlug add"
+    ID_EDIT_PLUG_DELETE     "Delete the character's Plug.\nPlug delete"
+    ID_EDIT_CHR_JOINT_SET   "Specifies the joint of the character.\nSpecifies the character joint"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_EDIT_CHR_PLUG_IMPORT_VMESH "Import climb VMesh"
+    ID_EDIT_CHR_PLUG_IMPORT_PMESH "Import PMesh for FX"
+END
+
+#endif    // Korean resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_KOR)
+#ifdef _WIN32
+LANGUAGE 18, 1
+#pragma code_page(949)
+#endif //_WIN32
+#include "res\N3CE.rc2"  // non-Microsoft Visual C++ edited resources
+#include "l.kor\afxres.rc"          // Standard components
+#include "l.kor\afxprint.rc"        // printing/print preview resources
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

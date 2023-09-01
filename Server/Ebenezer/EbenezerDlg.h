@@ -158,7 +158,7 @@ public:
 	Magictype4Array			m_Magictype4Array;
 	Magictype5Array         m_Magictype5Array;
 	Magictype8Array         m_Magictype8Array;
-	CoefficientArray		m_CoefficientArray;		// 공식 계산 계수데이타 테이블
+	CoefficientArray		m_CoefficientArray;
 	LevelUpArray			m_LevelUpArray;
 	PartyArray				m_PartyArray;
 	KnightsArray			m_KnightsArray;
@@ -167,17 +167,22 @@ public:
 
 	CKnightsManager			m_KnightsManager;
 
+	char	m_ODBCServer[32];
+	char	m_ODBCDatabase[32];
+	char	m_ODBCLogin[32];
+	char	m_ODBCPwd[32];
+
 	short	m_sPartyIndex;
-	short	m_sZoneCount;							// AI Server 재접속시 사용
-	short	m_sSocketCount;							// AI Server 재접속시 사용
+	short	m_sZoneCount;
+	short	m_sSocketCount;
 	// sungyong 2002.05.23
 	short   m_sSendSocket;			
-	BOOL	m_bFirstServerFlag;		// 서버가 처음시작한 후 게임서버가 붙은 경우에는 1, 붙지 않은 경우 0
+	BOOL	m_bFirstServerFlag;
 	BOOL	m_bServerCheckFlag;
-	BOOL	m_bPointCheckFlag;		// AI서버와 재접전에 NPC포인터 참조막기 (TRUE:포인터 참조, FALSE:포인터 참조 못함)
-	short   m_sReSocketCount;		// GameServer와 재접시 필요
-	float   m_fReConnectStart;	// 처음 소켓이 도착한 시간
-	short   m_sErrorSocketCount;  // 이상소켓 감시용
+	BOOL	m_bPointCheckFlag;
+	short   m_sReSocketCount;
+	float   m_fReConnectStart;
+	short   m_sErrorSocketCount;
 	// ~sungyong 2002.05.23
 
 	int m_iPacketCount;		// packet check
@@ -188,12 +193,12 @@ public:
 	int m_nCastleCapture;
 
 	// ~Yookozuna 2002.06.12
-	BYTE    m_byBattleOpen, m_byOldBattleOpen;					// 0:전쟁중이 아님, 1:전쟁중(국가간전쟁), 2:눈싸움전쟁
+	BYTE    m_byBattleOpen, m_byOldBattleOpen;
 	BYTE	m_bVictory, m_byOldVictory;
 	BYTE	m_bBanishDelayStart;
 	BYTE	m_bKarusFlag, m_bElmoradFlag;
 	BYTE    m_byKarusOpenFlag, m_byElmoradOpenFlag, m_byBanishFlag, m_byBattleSave;
-	short   m_sDiscount;	// 능력치와 포인트 초기화 할인 (0:할인없음, 1:할인(50%) )
+	short   m_sDiscount;	// Ability and point reset discount (0: no discount, 1: discount (50%) )
 	short	m_sKarusDead, m_sElmoradDead, m_sBanishDelay, m_sKarusCount, m_sElmoradCount;
 	int m_nBattleZoneOpenWeek, m_nBattleZoneOpenHourStart, m_nBattleZoneOpenHourEnd;
 	char m_strKarusCaptain[MAX_ID_SIZE+1];
@@ -215,24 +220,21 @@ public:
 	int   m_iSellPrice[MAX_BBS_POST];
 	float m_fSellStartTime[MAX_BBS_POST];
 
-	// ~Yookozuna 2002.11.26 - 비러머글 남는 공지 --;
 	BOOL	m_bPermanentChatMode;
 	BOOL	m_bPermanentChatFlag;
 	char	m_strPermanentChat[1024];
 
-	// ~Yookozuna 2002.12.11 - 갓댐 산타 클로스 --;
 	BOOL	m_bSanta;
 
-	// 패킷 압축에 필요 변수   -------------only from ai server
+	// Required variables for packet compression
  	CCompressMng		m_CompMng;
 	int					m_CompCount;
 	TCHAR				m_CompBuf[10240];
 	int					m_iCompIndex;
-	// ~패킷 압축에 필요 변수   -------------
 
 	// zone server info
 	int					m_nServerNo, m_nServerGroupNo;
-	int					m_nServerGroup;	// server의 번호(0:서버군이 없다, 1:서버1군, 2:서버2군)
+	int					m_nServerGroup;	// Server number (0: no server group, 1: server group 1, 2: server group 2)
 	ServerArray			m_ServerArray;
 	ServerArray			m_ServerGroupArray;
 	CUdpSocket*			m_pUdpSocket;

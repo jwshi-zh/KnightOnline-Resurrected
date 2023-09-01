@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{1e7c9eaa-66a2-4cf1-8415-03a738bdbbe7}</UniqueIdentifier>
+      <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+    <Filter Include="N3Base">
+      <UniqueIdentifier>{aedd6cd3-3035-428b-a249-f5c6325cf03a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ZoneInfoSet.cpp" />
+    <ClCompile Include="AISocket.cpp" />
+    <ClCompile Include="BattleSet.cpp" />
+    <ClCompile Include="CircularBuffer.cpp" />
+    <ClCompile Include="CoefficientSet.cpp" />
+    <ClCompile Include="Compress.cpp" />
+    <ClCompile Include="Ebenezer.cpp" />
+    <ClCompile Include="EbenezerDlg.cpp" />
+    <ClCompile Include="EVENT.cpp" />
+    <ClCompile Include="EVENT_DATA.cpp" />
+    <ClCompile Include="EventSet.cpp" />
+    <ClCompile Include="EXEC.cpp" />
+    <ClCompile Include="GameEvent.cpp" />
+    <ClCompile Include="HomeSet.cpp" />
+    <ClCompile Include="Ini.cpp" />
+    <ClCompile Include="IOCPort.cpp" />
+    <ClCompile Include="IOCPSocket2.cpp" />
+    <ClCompile Include="ItemTableSet.cpp" />
+    <ClCompile Include="Knights.cpp" />
+    <ClCompile Include="KnightsManager.cpp" />
+    <ClCompile Include="KnightsRankSet.cpp" />
+    <ClCompile Include="KnightsSet.cpp" />
+    <ClCompile Include="KnightsUserSet.cpp" />
+    <ClCompile Include="LevelUpTableSet.cpp" />
+    <ClCompile Include="LOGIC_ELSE.cpp" />
+    <ClCompile Include="MagicProcess.cpp" />
+    <ClCompile Include="MagicTableSet.cpp" />
+    <ClCompile Include="MagicType1Set.cpp" />
+    <ClCompile Include="MagicType2Set.cpp" />
+    <ClCompile Include="MagicType3Set.cpp" />
+    <ClCompile Include="MagicType4Set.cpp" />
+    <ClCompile Include="MagicType5Set.cpp" />
+    <ClCompile Include="MagicType8Set.cpp" />
+    <ClCompile Include="Map.cpp" />
+    <ClCompile Include="Npc.cpp" />
+    <ClCompile Include="Region.cpp" />
+    <ClCompile Include="SharedMem.cpp" />
+    <ClCompile Include="StdAfx.cpp" />
+    <ClCompile Include="UdpSocket.cpp" />
+    <ClCompile Include="User.cpp" />
+    <ClCompile Include="..\..\NoahEngine\Actor\N3ShapeMgr.cpp">
+      <Filter>N3Base</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Resource.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ZoneInfoSet.h" />
+    <ClInclude Include="AIPacket.h" />
+    <ClInclude Include="AISocket.h" />
+    <ClInclude Include="BattleSet.h" />
+    <ClInclude Include="CircularBuffer.h" />
+    <ClInclude Include="CoefficientSet.h" />
+    <ClInclude Include="Compress.h" />
+    <ClInclude Include="Define.h" />
+    <ClInclude Include="Ebenezer.h" />
+    <ClInclude Include="EbenezerDlg.h" />
+    <ClInclude Include="EVENT.h" />
+    <ClInclude Include="EVENT_DATA.h" />
+    <ClInclude Include="EventSet.h" />
+    <ClInclude Include="EXEC.h" />
+    <ClInclude Include="GameDefine.h" />
+    <ClInclude Include="GameEvent.h" />
+    <ClInclude Include="HomeSet.h" />
+    <ClInclude Include="IMPLODE.H" />
+    <ClInclude Include="Ini.h" />
+    <ClInclude Include="IOCPort.h" />
+    <ClInclude Include="IOCPSocket2.h" />
+    <ClInclude Include="ItemTableSet.h" />
+    <ClInclude Include="Knights.h" />
+    <ClInclude Include="KnightsManager.h" />
+    <ClInclude Include="KnightsRankSet.h" />
+    <ClInclude Include="KnightsSet.h" />
+    <ClInclude Include="KnightsUserSet.h" />
+    <ClInclude Include="LevelUpTableSet.h" />
+    <ClInclude Include="LOGIC_ELSE.h" />
+    <ClInclude Include="MagicProcess.h" />
+    <ClInclude Include="MagicTableSet.h" />
+    <ClInclude Include="MagicType1Set.h" />
+    <ClInclude Include="MagicType2Set.h" />
+    <ClInclude Include="MagicType3Set.h" />
+    <ClInclude Include="MagicType4Set.h" />
+    <ClInclude Include="MagicType5Set.h" />
+    <ClInclude Include="MagicType8Set.h" />
+    <ClInclude Include="Map.h" />
+    <ClInclude Include="Npc.h" />
+    <ClInclude Include="PacketDefine.h" />
+    <ClInclude Include="Region.h" />
+    <ClInclude Include="SharedMem.h" />
+    <ClInclude Include="StdAfx.h" />
+    <ClInclude Include="STLMap.h" />
+    <ClInclude Include="UdpSocket.h" />
+    <ClInclude Include="User.h" />
+    <ClInclude Include="..\..\NoahEngine\Actor\N3ShapeMgr.h">
+      <Filter>N3Base</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\Ebenezer.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Ebenezer.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="res\Ebenezer.rc2">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
+  </ItemGroup>
+</Project>

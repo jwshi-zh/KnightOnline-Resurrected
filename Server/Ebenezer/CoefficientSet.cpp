@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include "ebenezer.h"
 #include "CoefficientSet.h"
+#include <EbenezerDlg.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -43,7 +44,12 @@ CCoefficientSet::CCoefficientSet(CDatabase* pdb)
 
 CString CCoefficientSet::GetDefaultConnect()
 {
-	return _T("ODBC;DSN=KN_Online;UID=knight;PWD=knight");
+	auto mainDlg = static_cast<CEbenezerDlg*>(AfxGetApp()->GetMainWnd());
+
+	char strconnection[256];
+	memset(strconnection, NULL, 256);
+	sprintf(strconnection, "Driver={SQL Server Native Client 11.0};Server=%s;Database=%s;Uid=%s;Pwd=%s;", mainDlg->m_ODBCServer, mainDlg->m_ODBCDatabase, mainDlg->m_ODBCLogin, mainDlg->m_ODBCPwd);
+	return strconnection;
 }
 
 CString CCoefficientSet::GetDefaultSQL()

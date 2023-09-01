@@ -6,7 +6,6 @@
 #include "VersionManagerDlg.h"
 #include "IOCPSocket2.h"
 #include "VersionSet.h"
-#include "SettingDlg.h"
 #include "User.h"
 
 #ifdef _DEBUG
@@ -31,7 +30,8 @@ CVersionManagerDlg::CVersionManagerDlg(CWnd* pParent /*=NULL*/)
 	memset( m_strFilePath, NULL, 256 );
 	memset( m_strDefaultPath, NULL, _MAX_PATH );
 	m_nLastVersion = 0;
-	memset( m_ODBCName, NULL, 32 );
+	memset(m_ODBCServer, NULL, 32);
+	memset(m_ODBCDatabase, NULL, 32);
 	memset( m_ODBCLogin, NULL, 32 );
 	memset( m_ODBCPwd, NULL, 32 );
 	memset( m_TableName, NULL, 32 );
@@ -87,7 +87,8 @@ BOOL CVersionManagerDlg::OnInitDialog()
 	
 	char strconnection[256];
 	memset(strconnection, NULL, 256 );
-	sprintf( strconnection, "ODBC;DSN=%s;UID=%s;PWD=%s", m_ODBCName, m_ODBCLogin, m_ODBCPwd );
+	//sprintf( strconnection, "ODBC;DSN=%s;UID=%s;PWD=%s", m_ODBCName, m_ODBCLogin, m_ODBCPwd );
+	sprintf(strconnection, "Driver={SQL Server Native Client 11.0};Server=%s;Database=%s;Uid=%s;Pwd=%s;", m_ODBCServer, m_ODBCDatabase, m_ODBCLogin, m_ODBCPwd);
 	if( !m_DBProcess.InitDatabase( strconnection ) ) {
 		AfxMessageBox("Database Connection Fail!!");
 		AfxPostQuitMessage(0);
@@ -114,21 +115,22 @@ BOOL CVersionManagerDlg::GetInfoFromIni()
 	int errorcode = 0;
 	CString errorstr, inipath;
 
-	inipath.Format( "%s\\Version.ini", GetProgPath() );
+	inipath.Format( "%sVersion.ini", GetProgPath() );
 	GetPrivateProfileString( "DOWNLOAD", "URL", "", m_strFtpUrl, 256, inipath );
 	GetPrivateProfileString( "DOWNLOAD", "PATH", "", m_strFilePath, 256, inipath );
 
-	GetPrivateProfileString( "ODBC", "DSN", "", m_ODBCName, 32, inipath );
-	GetPrivateProfileString( "ODBC", "UID", "", m_ODBCLogin, 32, inipath );
-	GetPrivateProfileString( "ODBC", "PWD", "", m_ODBCPwd, 32, inipath );
-	GetPrivateProfileString( "ODBC", "TABLE", "", m_TableName, 32, inipath );
+	GetPrivateProfileString("ODBC", "SERVER", "(local)", m_ODBCServer, 32, inipath);
+	GetPrivateProfileString("ODBC", "DATABASE", "kn_online", m_ODBCDatabase, 32, inipath);
+	GetPrivateProfileString( "ODBC", "UID", "kn_online", m_ODBCLogin, 32, inipath );
+	GetPrivateProfileString( "ODBC", "PWD", "kn_online", m_ODBCPwd, 32, inipath );
+	GetPrivateProfileString( "ODBC", "TABLE", "VERSION", m_TableName, 32, inipath );
 	GetPrivateProfileString( "CONFIGURATION", "DEFAULT_PATH", "", m_strDefaultPath, 256, inipath );
 
 	m_nServerCount = GetPrivateProfileInt( "SERVER_LIST", "COUNT", 0, inipath );
 
-	if( !strlen(m_strFtpUrl) || !strlen(m_strFilePath) ) return FALSE;
-	if( !strlen(m_ODBCName) || !strlen(m_ODBCLogin) || !strlen(m_ODBCPwd) || !strlen(m_TableName) ) return FALSE;
-	if( m_nServerCount <= 0 ) return FALSE;
+	//if( !strlen(m_strFtpUrl) || !strlen(m_strFilePath) ) return FALSE;
+	//if( !strlen(m_ODBCName) || !strlen(m_TableName)) return FALSE; //  || !strlen(m_ODBCLogin) || !strlen(m_ODBCPwd)
+	//if( m_nServerCount <= 0 ) return FALSE;
 	
 	char ipkey[20]; memset( ipkey, 0x00, 20 );
 	char namekey[20]; memset( namekey, 0x00, 20 );
@@ -207,13 +209,5 @@ BOOL CVersionManagerDlg::DestroyWindow()
 
 void CVersionManagerDlg::OnVersionSetting() 
 {
-	CString errorstr, inipath;
-	inipath.Format( "%s\\Version.ini", GetProgPath() );
-	CSettingDlg	setdlg(m_nLastVersion, this);
 	
-	strcpy( setdlg.m_strDefaultPath, m_strDefaultPath );
-	if( setdlg.DoModal() == IDOK ) {
-		strcpy( m_strDefaultPath, setdlg.m_strDefaultPath );
-		WritePrivateProfileString("CONFIGURATION", "DEFAULT_PATH", m_strDefaultPath, inipath);
-	}
 }

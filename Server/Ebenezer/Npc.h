@@ -18,38 +18,38 @@ class CNpc
 public:
 	CEbenezerDlg* m_pMain;
 
-	short	m_sNid;				// NPC (서버상의)일련번호
-	short	m_sSid;				// NPC 테이블 참조번호
+	short	m_sNid;				// NPC (on server) serial number
+	short	m_sSid;				// NPC table reference number
 	short	m_sCurZone;			// Current Zone;
-	short	m_sZoneIndex;		// NPC 가 존재하고 있는 존의 인덱스
+	short	m_sZoneIndex;		// The index of the zone where the NPC exists
 	float	m_fCurX;			// Current X Pos;
 	float	m_fCurY;			// Current Y Pos;
 	float	m_fCurZ;			// Current Z Pos;
-	float	m_fDir;				// NPC가 보고 있는 방향
+	float	m_fDir;				// The direction the NPC is looking
 	short	m_sPid;				// MONSTER(NPC) Picture ID
 	short	m_sSize;			// MONSTER(NPC) Size
 	int		m_iWeapon_1;
 	int		m_iWeapon_2;
 	TCHAR	m_strName[MAX_ID_SIZE];		// MONSTER(NPC) Name
-	int		m_iMaxHP;			// 최대 HP
-	int		m_iHP;				// 현재 HP
-	BYTE	m_byState;			// 몬스터 (NPC) 상태
-	BYTE	m_byGroup;			// 소속 집단
-	BYTE	m_byLevel;			// 레벨
+	int		m_iMaxHP;
+	int		m_iHP;
+	BYTE	m_byState;
+	BYTE	m_byGroup;
+	BYTE	m_byLevel;
 	BYTE	m_tNpcType;			// NPC Type
 								// 0 : Normal Monster
 								// 1 : NPC
-								// 2 : 각 입구,출구 NPC
-								// 3 : 경비병
+								// 2 : Each entrance and exit NPC
+								// 3 : guard
 	int   m_iSellingGroup;		// ItemGroup
 //	DWORD	m_dwStepDelay;		
 
 	short m_sRegion_X;			// region x position
 	short m_sRegion_Z;			// region z position
-	BYTE	m_NpcState;			// NPC의 상태 - 살았다, 죽었다, 서있다 등등...
+	BYTE	m_NpcState;			// NPC's status - alive, dead, standing, etc...
 	BYTE	m_byGateOpen;		// Gate Npc Status -> 1 : open 0 : close
-	short   m_sHitRate;			// 공격 성공률
-	BYTE    m_byObjectType;     // 보통은 0, object타입(성문, 레버)은 1
+	short   m_sHitRate;			// attack success rate
+	BYTE    m_byObjectType;     // Usually 0, object type (gate, lever) is 1
 
 	short   m_byEvent;		    // This is for the quest. 
 

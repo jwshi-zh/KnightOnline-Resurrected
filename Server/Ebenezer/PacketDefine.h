@@ -87,7 +87,7 @@
 #define WIZ_MARKET_BBS			0x50	// For the market bulletin board service...
 #define WIZ_KICKOUT				0x51	// Account ID forbid duplicate connection
 #define WIZ_CLIENT_EVENT		0x52	// Client Event (for quest)
-#define I_DONT_KNOW				0x53	// 클라이언트에서 무슨 에코로 쓰고 있데요.
+#define I_DONT_KNOW				0x53	// What echo are you writing on the client?
 #define WIZ_WEIGHT_CHANGE		0x54	// Notify change of weight
 #define WIZ_SELECT_MSG			0x55	// Select Event Message...
 #define WIZ_NPC_SAY				0x56	// Select Event Message...
@@ -165,24 +165,24 @@
 ////////////////////////////////////////////////////////////////
 // Knights Packet sub define 
 ////////////////////////////////////////////////////////////////
-#define KNIGHTS_CREATE			0x01		// 생성
-#define KNIGHTS_JOIN			0x02		// 가입
-#define KNIGHTS_WITHDRAW		0x03		// 탈퇴
-#define KNIGHTS_REMOVE			0x04		// 멤버 삭제
-#define KNIGHTS_DESTROY			0x05		// 뽀개기
-#define KNIGHTS_ADMIT			0x06		// 멤버 가입 허가
-#define KNIGHTS_REJECT			0x07		// 멤버 가입 거절
-#define KNIGHTS_PUNISH			0x08		// 멤버 징계
-#define KNIGHTS_CHIEF			0x09		// 단장 임명
-#define KNIGHTS_VICECHIEF		0x0A		// 부단장 임명
-#define KNIGHTS_OFFICER			0x0B		// 장교임명
-#define KNIGHTS_ALLLIST_REQ		0x0C		// 리스트를 10개 단위로 Page 요청
-#define KNIGHTS_MEMBER_REQ		0x0D		// 모든 멤버 요청
-#define KNIGHTS_CURRENT_REQ		0x0E		// 현재 접속 리스트
-#define KNIGHTS_STASH			0x0F		// 기사단 창고
-#define KNIGHTS_MODIFY_FAME		0x10		// 멤버의 직위 변경.. 해당 멤버에게 간다
-#define KNIGHTS_JOIN_REQ		0x11		// 해당멤버에게 가입요청을 한다
-#define KNIGHTS_LIST_REQ		0x12		// 기사단 리스트를  요청 ( index 검색 )
+#define KNIGHTS_CREATE			0x01
+#define KNIGHTS_JOIN			0x02
+#define KNIGHTS_WITHDRAW		0x03
+#define KNIGHTS_REMOVE			0x04
+#define KNIGHTS_DESTROY			0x05
+#define KNIGHTS_ADMIT			0x06
+#define KNIGHTS_REJECT			0x07
+#define KNIGHTS_PUNISH			0x08
+#define KNIGHTS_CHIEF			0x09
+#define KNIGHTS_VICECHIEF		0x0A
+#define KNIGHTS_OFFICER			0x0B
+#define KNIGHTS_ALLLIST_REQ		0x0C		// Requesting a list in units of 10 Pages
+#define KNIGHTS_MEMBER_REQ		0x0D		// All member requests
+#define KNIGHTS_CURRENT_REQ		0x0E		// current access list
+#define KNIGHTS_STASH			0x0F		// Templar Warehouse
+#define KNIGHTS_MODIFY_FAME		0x10		// Change a member's position.. Go to that member
+#define KNIGHTS_JOIN_REQ		0x11		// Request the member to join
+#define KNIGHTS_LIST_REQ		0x12		// Request a list of guilds ( search index )
 
 ////////////////////////////////////////////////////////////////
 // Operator Autority Packet define
