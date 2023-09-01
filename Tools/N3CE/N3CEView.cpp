@@ -435,7 +435,7 @@ void CN3CEView::OnLButtonDown(UINT nFlags, CPoint point)
 			}
 
 			CN3Base* pBase = pFrm->GetPaneProperty()->GetSelectedObject(); // Enter the Joint Index into the Plug. - Insert Joint Index into Plug..
-			if(	eCM_PickJoint == this->m_eCursorMode && // 조인트 선택 모드..
+			if(	eCM_PickJoint == this->m_eCursorMode && // Joint selection mode..
 				pBase && (pBase->Type() & OBJ_CHARACTER_PLUG))
 			{
 				CN3CPlug* pPlug = (CN3CPlug*)pBase;
