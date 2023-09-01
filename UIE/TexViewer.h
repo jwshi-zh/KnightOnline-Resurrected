@@ -26,23 +26,23 @@ public:
 protected:
 	CN3Texture*		m_pTex;				// texture
 	CSize			m_TexSize;			// texture size
-	float			m_fScale;			// 화면 배율
-	CPoint			m_ptLeftTopInImage;	// 이 윈도우 좌측 상단에 보이는 texture의 좌측 상단 좌표
-	eEDITMODE		m_eEditMode;		// 현재 어떤 편집 상황인지.(예, 영역선택, zoom in/out...)
-	CRect			m_rcSelectedRect;	// 선택된 사각형(image좌표 기준)
-	BOOL			m_bDrag;			// 드래그 중인가?
-	CPen			m_WhiteDashPen;		// 흰색 점선
-	CPoint			m_ptMouseOld;		// 마우스의 이전 지점 기억
-	BOOL			m_bDeselect;		// deselect 할 것인가?
-	CPoint			m_ptClickOffset;	// 선택 영역을 움직이려고 할때 click했을경우의
-										// 선택창의 클릭지점 상대좌표(선택 영역lefttop 0,0 기준)(image pixel좌표계)
+	float			m_fScale;			// screen magnification
+	CPoint			m_ptLeftTopInImage;	// The coordinates of the upper left corner of the texture shown in the upper left corner of this window.
+	eEDITMODE		m_eEditMode;		// The current editing situation. (eg, area selection, zoom in/out...)
+	CRect			m_rcSelectedRect;	// Selected rectangle (based on image coordinates)
+	BOOL			m_bDrag;			// Are you dragging?
+	CPen			m_WhiteDashPen;		// white dotted line
+	CPoint			m_ptMouseOld;		// Remember the mouse's previous point
+	BOOL			m_bDeselect;		// to deselect?
+	CPoint			m_ptClickOffset;	// When you click to move the selection area
+										// Relative coordinates of the click point of the selection window (selection area lefttop 0,0 standard) (image pixel coordinate system)
 										
 	enum	eDRAGTYPE {DRAGTYPE_NONE=0, DRAGTYPE_MOVE, DRAGTYPE_LEFT, DRAGTYPE_RIGHT,
 					DRAGTYPE_TOP, DRAGTYPE_BOTTOM, DRAGTYPE_LEFTTOP, DRAGTYPE_RIGHTTOP,
 					DRAGTYPE_LEFTBOTTOM, DRAGTYPE_RIGHTBOTTOM, DRAGTYPE_SELECT};
-	eDRAGTYPE		m_eDragType;			// Drag 상태
+	eDRAGTYPE		m_eDragType;			// Drag state
 
-	// 커서
+	// Cursor
 	HCURSOR			m_hCursorSelect;
 	HCURSOR			m_hCursorZoomIn;
 	HCURSOR			m_hCursorZoomOut;
@@ -54,34 +54,34 @@ protected:
 	HCURSOR			m_hCursorSizeNWSE;
 	HCURSOR			m_hCursorSizeNESW;
 
-	// image type관련
-	int				m_iImageTypeCount;								// 선택되어야 할 이미지 종류의 수
-	CRect			m_ImageRects[MAX_IMAGETYPE];					// m_iImageTypeCount만큼의 ImageRect
-	int				m_iCurSelectedImage;							// 현재 선택된 ImageType
+	// image type related
+	int				m_iImageTypeCount;								// The number of image types to be selected
+	CRect			m_ImageRects[MAX_IMAGETYPE];					// ImageRect of m_iImageTypeCount
+	int				m_iCurSelectedImage;							// Currently selected ImageType
 // Operations
 public:
 	void			Release();
-	BOOL			Zoom(BOOL bZoomIn);		// in : 확대, out : 축소
-	BOOL			Zoom(float fScale);		// f배로 Zoom 하기 
-	void			Render();				// texture render하기
-	void			SetTexture(LPCTSTR pszFName);	// texture 지정
-	eEDITMODE		SetEditMode(eEDITMODE eMode);	// mode 바꾸기 (zoom, hand, select) 실패하면 이전 mode를 돌려준다.
-	void			SetLeftTopInImage(CPoint ptLeftTop);	// 이미지의 좌측 상단 좌표 바꾸기
-	BOOL			GetSelectedUVRect(struct __FLOAT_RECT* pFRect) const;	// 현재 선택된 UV좌표 얻기
-	void			SetSelectedUVRect(const struct __FLOAT_RECT* pFRect);	// 현재 선택된 UV좌표 넣기
+	BOOL			Zoom(BOOL bZoomIn);		// in: zoom in, out: zoom out
+	BOOL			Zoom(float fScale);		// Zoom to fx
+	void			Render();				// Rendering the texture
+	void			SetTexture(LPCTSTR pszFName);	// texture designation
+	eEDITMODE		SetEditMode(eEDITMODE eMode);	// Mode change (zoom, hand, select) returns the previous mode if it fails.
+	void			SetLeftTopInImage(CPoint ptLeftTop);	// Replace top left coordinates of image
+	BOOL			GetSelectedUVRect(struct __FLOAT_RECT* pFRect) const;	// Get the currently selected UV coordinates
+	void			SetSelectedUVRect(const struct __FLOAT_RECT* pFRect);	// Put the currently selected UV coordinates
 
-	// image type관련
-	void			SetImageTypeCount(int iCount) {m_iImageTypeCount = iCount;}	// image type 갯수 정하기
-	BOOL			SetImageTypeIndex(int iIndex);	// zero base 선택된 image type정하기
+	// image type related
+	void			SetImageTypeCount(int iCount) {m_iImageTypeCount = iCount;}	// Setting the number of image types
+	BOOL			SetImageTypeIndex(int iIndex);	// Set zero base selected image type
 	CRect			GetImageRect(int iIndex);
 	BOOL			AutoMultiRectSelect(BOOL bHorizon, CString& strErrMsg);
 protected:
-	BOOL			ScreenToImage(POINT	*pPoint);	// screen좌표를 image좌표로
-	BOOL			ScreenToImage(RECT* pRect);		// screen좌표를 image좌표로
-	BOOL			ImageToScreen(POINT	*pPoint);	// image좌표를 screen좌표로
-	BOOL			ImageToScreen(RECT* pRect);		// image좌표를 screen좌표로
+	BOOL			ScreenToImage(POINT	*pPoint);	// screen coordinates to image coordinates
+	BOOL			ScreenToImage(RECT* pRect);		// screen coordinates to image coordinates
+	BOOL			ImageToScreen(POINT	*pPoint);	// image coordinates to screen coordinates
+	BOOL			ImageToScreen(RECT* pRect);		// image coordinates to screen coordinates
 	eDRAGTYPE		CheckDragType(CRect rcSel, CPoint point);
-	void			ProcessDrag(CPoint point);		// 영역 변형일 경우 처리하는 루틴
+	void			ProcessDrag(CPoint point);		// Routine to process in case of region transformation
 public:
 // Overrides
 	// ClassWizard generated virtual function overrides

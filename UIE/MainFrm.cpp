@@ -100,7 +100,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_wndToolBar.SetBarStyle(m_wndToolBar.GetBarStyle() |
 		CBRS_TOOLTIPS | CBRS_FLYBY);
 
-	// Engine 생성
+	// Create engine
 	//m_Eng.InitEnv();
 	if(!m_Eng.Init(TRUE, GetRightPane()->m_hWnd, 64, 64, 0, TRUE)) return -1;
 	m_Eng.s_SndMgr.Init(m_hWnd);
@@ -289,7 +289,7 @@ void CMainFrame::OnDestroy()
 
 void CMainFrame::EnableAccelerator(BOOL bEnable)
 {
-	// 처음 호출되면 원래 Accel table 저장해놓기
+	// When called for the first time, save the original Accel table
 	if (NULL == m_hDefaultAccelTable) m_hDefaultAccelTable = m_hAccelTable;
 	ASSERT(m_hDefaultAccelTable);
 

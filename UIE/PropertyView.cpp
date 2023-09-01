@@ -117,18 +117,18 @@ void CPropertyView::OnInitialUpdate()
 		m_UIBase.AddPropItem("Tooltip text", "", PIT_EDIT, "");		// m_pszTooltipText
 		m_UIBase.AddPropItem("Open sound", "", PIT_FILE, "");		// sound
 		m_UIBase.AddPropItem("Close sound", "", PIT_FILE, "");		// sound
-		m_UIBase.AddPropItem("Delete sound", "", PIT_BUTTON, "");		// sound 설정 지우기
+		m_UIBase.AddPropItem("Delete sound", "", PIT_BUTTON, "");		// Clear sound settings
 		m_UIBase.AddPropItem("Visible", "", PIT_BUTTON, "");		// visible
 
 		// image
 		m_UIImage.AddPropItem("Texture", "", PIT_FILE, "");			// texture
-		m_UIImage.AddPropItem("UV left", "", PIT_BUTTON, "");			// m_frcUVRect (UV좌표)
+		m_UIImage.AddPropItem("UV left", "", PIT_BUTTON, "");			// m_frcUVRect (UV coordinates)
 		m_UIImage.AddPropItem("UV top", "", PIT_BUTTON, "");
 		m_UIImage.AddPropItem("UV right", "", PIT_BUTTON, "");
 		m_UIImage.AddPropItem("UV bottom", "", PIT_BUTTON, "");
 		m_UIImage.AddPropItem("Color", "", PIT_COLOR, "");			// m_Color
-		m_UIImage.AddPropItem("Animate Frame", "", PIT_EDIT, "");			// Animate frame 초당 몇 프레임으로 에니메이트 될 것인가?
-		m_UIImage.AddPropItem("Make Animation", "", PIT_BUTTON, "");			// Animation으로 만들기
+		m_UIImage.AddPropItem("Animate Frame", "", PIT_EDIT, "");			// Animate frame At how many frames per second will it be animated?
+		m_UIImage.AddPropItem("Make Animation", "", PIT_BUTTON, "");			// Create with Animation
 
 		// string
 		m_UIString.AddPropItem("Line", "", PIT_COMBO, "SINGLE LINE|MULTI LINE|");		// style(line)
@@ -154,24 +154,24 @@ void CPropertyView::OnInitialUpdate()
 		m_UIButton.AddPropItem("ClickRect bottom","", PIT_BUTTON, "");
 		m_UIButton.AddPropItem("On sound", "", PIT_FILE, "");		// sound
 		m_UIButton.AddPropItem("Click sound", "", PIT_FILE, "");		// sound
-		m_UIButton.AddPropItem("Delete sound", "", PIT_BUTTON, "");		// sound 설정 지우기
+		m_UIButton.AddPropItem("Delete sound", "", PIT_BUTTON, "");		// Clear sound settings
 
 		// static
 		m_UIStatic.AddPropItem("Click sound", "", PIT_FILE, "");		// sound
-		m_UIStatic.AddPropItem("Delete sound", "", PIT_BUTTON, "");		// sound 설정 지우기
+		m_UIStatic.AddPropItem("Delete sound", "", PIT_BUTTON, "");		// Clear sound settings
 		m_UIStatic.AddPropItem("Delete bkgnd image", "", PIT_BUTTON,"");
 
 		// edit
 		m_UIEdit.AddPropItem("Style", "", PIT_COMBO,"Normal Edit|Password Edit|Number Only Edit|");
 		m_UIEdit.AddPropItem("Typing sound", "", PIT_FILE, "");		// sound
-		m_UIEdit.AddPropItem("Delete sound", "", PIT_BUTTON, "");		// sound 설정 지우기
+		m_UIEdit.AddPropItem("Delete sound", "", PIT_BUTTON, "");		// Clear sound settings
 
 		// progress
 		m_UIProgress.AddPropItem("Style","", PIT_COMBO, "오른쪽 증가|왼쪽 증가|아래로 증가|위로 증가|");
 		m_UIProgress.AddPropItem("MaxValue", "", PIT_EDIT, "");
 		m_UIProgress.AddPropItem("MinValue", "", PIT_EDIT, "");
 		m_UIProgress.AddPropItem("CurValue", "", PIT_EDIT, "");
-		m_UIProgress.AddPropItem("Delete BkGnd", "click", PIT_BUTTON, "");	// 배경 이미지 지우는 버튼
+		m_UIProgress.AddPropItem("Delete BkGnd", "click", PIT_BUTTON, "");	// Button to clear background image
 
 		// trackbar
 		m_UITrackBar.AddPropItem("Style","", PIT_COMBO, "가로|세로|");
@@ -223,13 +223,13 @@ BOOL CPropertyView::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 		else if(pItem->m_propName == "Region left" || pItem->m_propName == "Region top" ||
 			pItem->m_propName == "Region right" || pItem->m_propName == "Region bottom")
 		{
-			// region 갱신하는 함수 만들어서 처리하기
+			// Creating and processing a function that updates a region
 			pFrm->GetRightPane()->SelectRectType(CUIEView::RT_REGION);
 		}
 		else if(pItem->m_propName == "MoveRect left" || pItem->m_propName == "MoveRect top" ||
 			pItem->m_propName == "MoveRect right" || pItem->m_propName == "MoveRect bottom")
 		{
-			// move rect 갱신하는 함수 만들어서 처리하기
+			// Create and process a function that updates move rect
 			pFrm->GetRightPane()->SelectRectType(CUIEView::RT_MOVE);
 		}
 		else if(pItem->m_propName == "Tooltip text") pUI->SetTooltipText(pItem->m_curValue);
@@ -256,7 +256,7 @@ BOOL CPropertyView::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 		}
 		else if(pItem->m_propName == "Visible")
 		{
-			pUI->SetVisible(!pUI->IsVisible());	// 보였다 안보였다하게 하기
+			pUI->SetVisible(!pUI->IsVisible());	// make visible invisible
 			GetDocument()->UpdateAllViews(NULL);
 		}
 	}
@@ -267,16 +267,16 @@ BOOL CPropertyView::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 		if (pItem->m_propName == "Texture")
 		{
 			CN3BaseFileAccess tmpBase;
-			tmpBase.FileNameSet((LPCTSTR)pItem->m_curValue);	// Base경로에 대해서 상대적 경로를 넘겨준다.
+			tmpBase.FileNameSet((LPCTSTR)pItem->m_curValue);	// Passes a relative path to the base path.
 
 			pImage->SetTex(tmpBase.FileName());
-			pItem->m_curValue = tmpBase.FileName().c_str();	//tex file name 다시 설정
+			pItem->m_curValue = tmpBase.FileName().c_str();	// tex file name reset
 			m_UIImage.Invalidate();
 		}
 		else if (pItem->m_propName == "UV left" || pItem->m_propName == "UV top" ||
 			pItem->m_propName == "UV right" || pItem->m_propName == "UV bottom")
 		{
-			// UV 설정하는 함수 만들어서 처리하기
+			// Create a function to set UV and handle it
 			CN3Texture* pTex = pImage->GetTex();
 			if (pTex && pTex->FileName().size() > 0)
 			{
@@ -293,7 +293,7 @@ BOOL CPropertyView::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 					}
 				}
 
-				// 예외상황 : 부모가 Progress일때는 아래 함수를 불러줘야 한다.
+				// Exception: When the parent is in Progress, the following function must be called.
 				CN3UIBase* pParent = pUI->GetParent();
 				if (pParent && UI_TYPE_PROGRESS == pParent->UIType()) ((CN3UIProgress*)pParent)->SetFrGndUVFromFrGndImage();
 			}
@@ -302,22 +302,22 @@ BOOL CPropertyView::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 		else if (pItem->m_propName == "Color") pImage->SetColor(pItem->D3DColorGet());
 		else if (pItem->m_propName == "Animate Frame") pImage->m_fAnimFrame = atof(pItem->m_curValue);
 		else if (pItem->m_propName == "Make Animation")
-		{	// Animation image로 만들기
+		{	// Create with Animation image
 			CN3UIBase* pParentUI = pImage->GetParent();
 			while(1)
 			{
 				if (NULL == pParentUI || (UI_TYPE_IMAGE == pParentUI->UIType()))
-				{	// 반드시 부모는 image가 아니어야 한다.
+				{	// The parent must not be an image.
 					pFrm->MessageBox("Animate image의 자식 image는 animate image로 만들 수 없습니다.");
 					break;	
 				}
 				CDlgAnimate dlgAnim;
-				if (IDCANCEL == dlgAnim.DoModal())	break;// animate되는 그림이 몇장인가?
-				pImage->SetAnimImage(dlgAnim.m_iCount);	// 장수 세팅
-				if (dlgAnim.m_iCount<=0)	break; // 1장 이상이면 texture와 uv좌표 세팅
+				if (IDCANCEL == dlgAnim.DoModal())	break;// How many pictures are animated?
+				pImage->SetAnimImage(dlgAnim.m_iCount);	// longevity setting
+				if (dlgAnim.m_iCount<=0)	break; // If there is more than one sheet, texture and uv coordinate setting
 				char szTexFName[_MAX_PATH];
-				if (FALSE == SelectTexture(szTexFName))	break;// texture이름 정하기
-				// 여러장의 이미지 세팅하게 하기
+				if (FALSE == SelectTexture(szTexFName))	break;// set texture name
+				// Setting multiple images
 				CDlgTexture	dlgTex;
 				dlgTex.SetTexture(szTexFName);
 				char szNames[1000][20];
@@ -329,7 +329,7 @@ BOOL CPropertyView::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 					szImageTypeNames[i] = szNames[i];
 				}
 				dlgTex.SetImageTypes(dlgAnim.m_iCount, szImageTypeNames);
-				if (IDCANCEL == dlgTex.DoModal()) break;	// 취소의 경우
+				if (IDCANCEL == dlgTex.DoModal()) break;	// In case of cancellation
 				CN3UIImage* pChildImage;
 				for (i=0; i<dlgAnim.m_iCount; ++i)
 				{
@@ -337,12 +337,12 @@ BOOL CPropertyView::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 					dlgTex.GetImageRect(i, &frcUV);
 					pChildImage = pImage->GetChildImage(i);
 					if (NULL == pChildImage) continue;
-					pChildImage->SetTex(szTexFName);	// texture설정
-					pChildImage->SetUVRect(frcUV.left, frcUV.top, frcUV.right, frcUV.bottom);		// uv 설정
+					pChildImage->SetTex(szTexFName);	// texture settings
+					pChildImage->SetUVRect(frcUV.left, frcUV.top, frcUV.right, frcUV.bottom);		// uv settings
 				}
-				// 위치 설정
+				// location settings
 				CRect rcRegion = dlgTex.GetImageRect(0);
-				if (-1 == rcRegion.left) break;			// 영역이 비정상적이면 그냥 넘어간다.
+				if (-1 == rcRegion.left) break;			// If the area is abnormal, it is skipped.
 				rcRegion.OffsetRect(-rcRegion.TopLeft());
 				pImage->SetRegion(rcRegion);
 				pFrm->GetRightPane()->SelectRectType(CUIEView::RT_REGION);
@@ -386,7 +386,7 @@ BOOL CPropertyView::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 		}
 		else if (pItem->m_propName == "Font" || pItem->m_propName == "Font size" || pItem->m_propName == "Font style")
 		{
-			// font 정하는 루틴
+			// font selection routine
 			LOGFONT logfont;	ZeroMemory(&logfont, sizeof(logfont));
 			CDFont* pDFont = pString->m_pDFont;
 			if (pDFont)
@@ -401,10 +401,10 @@ BOOL CPropertyView::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 			CFontDialog dlg(&logfont);
 			if (IDOK == dlg.DoModal())
 			{
-				__ASSERT(dlg.GetSize()>0, "font height가 0보다 작습니다.");
+				__ASSERT(dlg.GetSize()>0, "The font height is less than 0.");
 				const std::string strFontName(dlg.GetFaceName());
 				pString->SetFont( strFontName, dlg.GetSize()/10, dlg.IsBold(), dlg.IsItalic());
-				UpdateUIStringInfo();	// string 정보 다시 갱신하기
+				UpdateUIStringInfo();	// Update string information again
 			}
 		}
 		else if (pItem->m_propName == "Text Color") pString->SetColor(pItem->D3DColorGet());
@@ -416,7 +416,7 @@ BOOL CPropertyView::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 		CN3UIList* pUIList = (CN3UIList*)pUI;
 		if (pItem->m_propName == "Font" || pItem->m_propName == "Font size" || pItem->m_propName == "Font style")
 		{
-			// font 정하는 루틴
+			// font selection routine
 			LOGFONT logfont;	ZeroMemory(&logfont, sizeof(logfont));
 			logfont.lfHeight = 0; // pUIList->FontHeightInLogicalUnit();
 			lstrcpy(logfont.lfFaceName, pUIList->FontName().c_str());
@@ -426,10 +426,10 @@ BOOL CPropertyView::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 			CFontDialog dlg(&logfont);
 			if (IDOK == dlg.DoModal())
 			{
-				__ASSERT(dlg.GetSize()>0, "font height가 0보다 작습니다.");
+				__ASSERT(dlg.GetSize()>0, "The font height is less than 0.");
 				std::string szFontName = dlg.GetFaceName();
 				pUIList->SetFont( szFontName, dlg.GetSize()/10, dlg.IsBold(), dlg.IsItalic());
-				UpdateUIListInfo();	// List 정보 다시 갱신하기
+				UpdateUIListInfo();	// Updating list information again
 			}
 		}
 		else if (pItem->m_propName == "Text Color") pUIList->SetFontColor(pItem->D3DColorGet());
@@ -450,7 +450,7 @@ BOOL CPropertyView::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 		else if (pItem->m_propName == "ClickRect left" || pItem->m_propName == "ClickRect top" ||
 			pItem->m_propName == "ClickRect right" || pItem->m_propName == "ClickRect bottom")
 		{
-			// 클릭 영역 지정하는 코드 넣기
+			// Add code to designate click area
 			pFrm->GetRightPane()->SelectRectType(CUIEView::RT_CLICK);
 		}
 		else if (pItem->m_propName == "On sound")
@@ -665,7 +665,7 @@ void CPropertyView::UpdateInfo()
 	CMainFrame* pFrm = (CMainFrame*)AfxGetMainWnd();
 	CN3UIBase* pUIBase = GetDocument()->GetSelectedUI();
 
-	// 일단 모두 감추기
+	// hide all at once
 	m_UIBase.ShowWindow(SW_HIDE);
 	m_UIImage.ShowWindow(SW_HIDE);
 	m_UIString.ShowWindow(SW_HIDE);
@@ -678,35 +678,35 @@ void CPropertyView::UpdateInfo()
 	m_UIArea.ShowWindow(SW_HIDE);
 	m_UIIconSlot.ShowWindow(SW_HIDE);
 	m_UIList.ShowWindow(SW_HIDE);
-	if (NULL == pUIBase)	return;	// 선택된 UI가 없으므로 그냥 리턴
+	if (NULL == pUIBase)	return;	// No UI selected so just return
 
 	CPoint ptWndPos = -GetScrollPosition();
-	// base의 값 보이기(base는 일단 모두 가지고 있는 값이므로 표시해준다.)
+	// Show the value of the base (base is the value that everyone has, so it is displayed.)
 	
-	UpdateUIBaseInfo();					// 정보 갱신
+	UpdateUIBaseInfo();
 
 	// image
-	UpdateUIImageInfo();					// 정보 갱신
+	UpdateUIImageInfo();
 	// string
-	UpdateUIStringInfo();					// 정보 갱신
+	UpdateUIStringInfo();
 	// button
-	UpdateUIButtonInfo();					// 정보 갱신
+	UpdateUIButtonInfo();
 	// static
-	UpdateUIStaticInfo();					// 정보 갱신
+	UpdateUIStaticInfo();
 	// edit
-	UpdateUIEditInfo();						// 정보 갱신
+	UpdateUIEditInfo();
 	// progress
-	UpdateUIProgressInfo();					// 정보 갱신
+	UpdateUIProgressInfo();
 	// trackbar
-	UpdateUITrackBarInfo();					// 정보 갱신
+	UpdateUITrackBarInfo();
 	// scrollbar
-	UpdateUIScrollBarInfo();				// 정보 갱신
+	UpdateUIScrollBarInfo();
 	// area
-	UpdateUIAreaInfo();						// 정보 갱신
+	UpdateUIAreaInfo();
 	// icon slot
-	UpdateUIIconSlotInfo();					// 정보 갱신
+	UpdateUIIconSlotInfo();
 	// List
-	UpdateUIListInfo();						// 정보 갱신
+	UpdateUIListInfo();
 	
 	Resize();
 }
@@ -714,16 +714,16 @@ void CPropertyView::UpdateInfo()
 void CPropertyView::Resize()
 {
 	CPoint ptWndPos = -GetScrollPosition();
-	if (m_UIBase.IsWindowVisible()) SetPropertyListPos(&m_UIBase, ptWndPos);	// Property list window 위치조정
-	if (m_UIImage.IsWindowVisible()) SetPropertyListPos(&m_UIImage, ptWndPos);	// Property list window 위치조정
-	if (m_UIString.IsWindowVisible()) SetPropertyListPos(&m_UIString, ptWndPos);	// Property list window 위치조정
-	if (m_UIButton.IsWindowVisible()) SetPropertyListPos(&m_UIButton, ptWndPos);	// Property list window 위치조정
-	if (m_UIStatic.IsWindowVisible()) SetPropertyListPos(&m_UIStatic, ptWndPos);	// Property list window 위치조정
-	if (m_UIEdit.IsWindowVisible()) SetPropertyListPos(&m_UIEdit, ptWndPos);	// Property list window 위치조정
-	if (m_UIProgress.IsWindowVisible()) SetPropertyListPos(&m_UIProgress, ptWndPos);	// Property list window 위치조정
-	if (m_UITrackBar.IsWindowVisible()) SetPropertyListPos(&m_UITrackBar, ptWndPos);	// Property list window 위치조정
-	if (m_UIScrollBar.IsWindowVisible()) SetPropertyListPos(&m_UIScrollBar, ptWndPos);	// Property list window 위치조정
-	if (m_UIArea.IsWindowVisible()) SetPropertyListPos(&m_UIArea, ptWndPos);	// Property list window 위치조정
+	if (m_UIBase.IsWindowVisible()) SetPropertyListPos(&m_UIBase, ptWndPos);
+	if (m_UIImage.IsWindowVisible()) SetPropertyListPos(&m_UIImage, ptWndPos);
+	if (m_UIString.IsWindowVisible()) SetPropertyListPos(&m_UIString, ptWndPos);
+	if (m_UIButton.IsWindowVisible()) SetPropertyListPos(&m_UIButton, ptWndPos);
+	if (m_UIStatic.IsWindowVisible()) SetPropertyListPos(&m_UIStatic, ptWndPos);
+	if (m_UIEdit.IsWindowVisible()) SetPropertyListPos(&m_UIEdit, ptWndPos);
+	if (m_UIProgress.IsWindowVisible()) SetPropertyListPos(&m_UIProgress, ptWndPos);
+	if (m_UITrackBar.IsWindowVisible()) SetPropertyListPos(&m_UITrackBar, ptWndPos);
+	if (m_UIScrollBar.IsWindowVisible()) SetPropertyListPos(&m_UIScrollBar, ptWndPos);
+	if (m_UIArea.IsWindowVisible()) SetPropertyListPos(&m_UIArea, ptWndPos);
 	if (m_UIIconSlot.IsWindowVisible()) SetPropertyListPos(&m_UIIconSlot, ptWndPos);
 	if (m_UIList.IsWindowVisible()) SetPropertyListPos(&m_UIList, ptWndPos);
 }
@@ -731,7 +731,7 @@ void CPropertyView::Resize()
 void CPropertyView::SetPropertyListPos(CPropertyList* pList, CPoint& ptWndPos)
 {
 	if (NULL == pList) return;
-	// 위치 조정 및 보이게 하기
+	// Reposition and Make Visible
 	CRect rc;
 	GetClientRect(&rc);
 	int iHeight = pList->GetItemHeight(0) * pList->GetCount() + 4;
@@ -798,7 +798,7 @@ void CPropertyView::UpdateUIImageInfo()
 	m_UIImage.ShowWindow(SW_SHOW);
 	
 	CPropertyItem* pItem = NULL;
-	pItem = m_UIImage.GetPropItem("Texture");							// texture 이름
+	pItem = m_UIImage.GetPropItem("Texture");
 	if (pItem)
 	{
 		pItem->m_curValue = pUI->GetTexFN().c_str();
@@ -806,7 +806,7 @@ void CPropertyView::UpdateUIImageInfo()
 		if (pTex) pItem->m_curValue = pTex->FileName().c_str();
 		else pItem->m_curValue += " : Load fail.";
 	}
-	pItem = m_UIImage.GetPropItem("UV left");							// m_frcUVRect (UV좌표)
+	pItem = m_UIImage.GetPropItem("UV left");
 	if (pItem) pItem->m_curValue.Format("%f", pUI->m_frcUVRect.left);
 	pItem = m_UIImage.GetPropItem("UV top");
 	if (pItem) pItem->m_curValue.Format("%f", pUI->m_frcUVRect.top);
@@ -884,10 +884,10 @@ void CPropertyView::UpdateUIStringInfo()
 		if ( pUI->m_pDFont)
 		{
 			DWORD dwFlag = pUI->m_pDFont->GetFontFlags();
-			if (D3DFONT_BOLD & dwFlag)	pItem->m_curValue += "굵게 ";
-			if (D3DFONT_ITALIC & dwFlag)pItem->m_curValue += "기울임꼴";
+			if (D3DFONT_BOLD & dwFlag)	pItem->m_curValue += "Bold ";
+			if (D3DFONT_ITALIC & dwFlag)pItem->m_curValue += "Italic";
 		}
-		if (pItem->m_curValue.GetLength()==0) pItem->m_curValue = _T("보통");
+		if (pItem->m_curValue.GetLength()==0) pItem->m_curValue = _T("commonly");
 	}
 	pItem = m_UIString.GetPropItem("Text Color");					// string color
 	if (pItem) pItem->D3DColorSet(pUI->m_Color);
@@ -925,9 +925,9 @@ void CPropertyView::UpdateUIListInfo()
 	if (pItem)
 	{
 		pItem->m_curValue = _T("");
-		if (pUI->FontIsBold())	pItem->m_curValue += "굵게 ";
-		if (pUI->FontIsItalic()) pItem->m_curValue += "기울임꼴";
-		if (pItem->m_curValue.GetLength()==0) pItem->m_curValue = _T("보통");
+		if (pUI->FontIsBold())	pItem->m_curValue += "Bold ";
+		if (pUI->FontIsItalic()) pItem->m_curValue += "Italic";
+		if (pItem->m_curValue.GetLength()==0) pItem->m_curValue = _T("commonly");
 	}
 	pItem = m_UIList.GetPropItem("Text Color");					// string color
 	if (pItem) pItem->D3DColorSet(pUI->FontColor());
@@ -984,7 +984,7 @@ void CPropertyView::UpdateUIIconSlotInfo()
 }
 
 // Area
-void CPropertyView::UpdateUIAreaInfo()			// Area정보 갱신
+void CPropertyView::UpdateUIAreaInfo()
 {
 	CN3UIBase* pUIBase = GetDocument()->GetSelectedUI();
 	if (NULL == pUIBase) return;
@@ -1062,7 +1062,7 @@ void CPropertyView::UpdateUIStaticInfo()
 	if (NULL == pUIBase) return;
 	CN3UIStatic* pUI = NULL;
 	if (UI_TYPE_STATIC == pUIBase->UIType() ||
-		UI_TYPE_EDIT == pUIBase->UIType() ) pUI = (CN3UIStatic*)pUIBase;	// edit도 static에서 상속 받은 것이다.
+		UI_TYPE_EDIT == pUIBase->UIType() ) pUI = (CN3UIStatic*)pUIBase;	// edit is also inherited from static.
 	else return;
 	m_UIStatic.ShowWindow(SW_SHOW);
 

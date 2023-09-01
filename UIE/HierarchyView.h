@@ -24,9 +24,9 @@ public:
 // Operations
 public:
 protected:
-	void UpdateAllInfo();										// 모든 tree item 정보 갱신하기
-	void UpdateTreeItem(HTREEITEM hParent, CN3UIBase *pUIBase);	// tree item 정보 갱신하기
-	void SelectObject(HTREEITEM hItem,  CN3UIBase* pUIBase);	// UPBase 포인터로 tree item 선택하기
+	void UpdateAllInfo();										// Updating all tree item information
+	void UpdateTreeItem(HTREEITEM hParent, CN3UIBase *pUIBase);	// Updating tree item information
+	void SelectObject(HTREEITEM hItem,  CN3UIBase* pUIBase);	// Select tree item with UPBase pointer
 
 public:
 // Overrides
