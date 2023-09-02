@@ -44,27 +44,27 @@ CPortalVol::CPortalVol()
 
 	unsigned short*		pIdx = m_pIndex;
 
-	// 아랫면.
+	// bottom side.
 	*pIdx++ = 0;  *pIdx++ = 1;  *pIdx++ = 3;
 	*pIdx++ = 2;  *pIdx++ = 3;  *pIdx++ = 1;
 
-	// 앞면..
+	// obverse..
 	*pIdx++ = 7;  *pIdx++ = 3;  *pIdx++ = 6;
 	*pIdx++ = 2;  *pIdx++ = 6;  *pIdx++ = 3;
 
-	// 왼쪽..
+	// left..
 	*pIdx++ = 4;  *pIdx++ = 0;  *pIdx++ = 7;
 	*pIdx++ = 3;  *pIdx++ = 7;  *pIdx++ = 0;
 
-	// 오른쪽..
+	// right..
 	*pIdx++ = 6;  *pIdx++ = 2;  *pIdx++ = 5;
 	*pIdx++ = 1;  *pIdx++ = 5;  *pIdx++ = 2;
 
-	// 뒷면..
+	// The back..
 	*pIdx++ = 5;  *pIdx++ = 1;  *pIdx++ = 4;
 	*pIdx++ = 0;  *pIdx++ = 4;  *pIdx++ = 1;
 
-	// 윗면..	
+	// top view..	
 	*pIdx++ = 4;  *pIdx++ = 7;  *pIdx++ = 5;
 	*pIdx++ = 6;  *pIdx++ = 5;  *pIdx++ = 7;
 
@@ -335,7 +335,7 @@ void CPortalVol::RenderShape()
 	CN3Shape* pShape = ((CMainFrame*)AfxGetMainWnd())->m_pShapeBg;
 	if (!pShape)	return;
 
-	// PMesh에 전달할 Index Buffer를 만든다..
+	// Create Index Buffer to be passed to PMesh.
 	viter vit =	m_viIndex.begin();
 	__VPI vpi;
 	
@@ -382,7 +382,7 @@ void CPortalVol::RenderShape()
 
 void CPortalVol::RenderCollision()
 {
-	// 행렬 계산..
+	// matrix calculations..
 	__Matrix44 mtxWorld;
 	mtxWorld.Identity();
 
@@ -530,27 +530,27 @@ void CPortalVol::Load(FILE* stream)
 
 	unsigned short*		pIdx = m_pIndex;
 
-	// 아랫면.
+	// bottom side.
 	*pIdx++ = 0;  *pIdx++ = 1;  *pIdx++ = 3;
 	*pIdx++ = 2;  *pIdx++ = 3;  *pIdx++ = 1;
 
-	// 앞면..
+	// obverse..
 	*pIdx++ = 7;  *pIdx++ = 3;  *pIdx++ = 6;
 	*pIdx++ = 2;  *pIdx++ = 6;  *pIdx++ = 3;
 
-	// 왼쪽..
+	// left..
 	*pIdx++ = 4;  *pIdx++ = 0;  *pIdx++ = 7;
 	*pIdx++ = 3;  *pIdx++ = 7;  *pIdx++ = 0;
 
-	// 오른쪽..
+	// right..
 	*pIdx++ = 6;  *pIdx++ = 2;  *pIdx++ = 5;
 	*pIdx++ = 1;  *pIdx++ = 5;  *pIdx++ = 2;
 
-	// 뒷면..
+	// The back..
 	*pIdx++ = 5;  *pIdx++ = 1;  *pIdx++ = 4;
 	*pIdx++ = 0;  *pIdx++ = 4;  *pIdx++ = 1;
 
-	// 윗면..	
+	// top side..
 	*pIdx++ = 4;  *pIdx++ = 7;  *pIdx++ = 5;
 	*pIdx++ = 6;  *pIdx++ = 5;  *pIdx++ = 7;
 
@@ -560,7 +560,6 @@ void CPortalVol::Load(FILE* stream)
 	m_MtxShapeMove.Identity();	
 	m_MtxShapeScale.Identity();	
 
-	// ..
 	__VPI vpi;
 	viter vit =	m_viIndex.begin();
 	
@@ -576,11 +575,9 @@ void CPortalVol::Load(FILE* stream)
 
 	Translate();
 
-	// 링크된 갯수를 로드..
 	int iLinkedCount = 0;
 	fread(&iLinkedCount, sizeof(int), 1, stream);
 	
-	// 링크된 아이디 로드..
 	int iID;
 	for( int i = 0; i < iLinkedCount; i++ )
 	{
@@ -591,16 +588,12 @@ void CPortalVol::Load(FILE* stream)
 
 void CPortalVol::Save(FILE* stream)
 {
-	// 먼저 자신의 타입을 저장..
 	fwrite(&_iTypeVolumn, sizeof(int), 1, stream);	
 
-	// 자신의 아이디를 저장..
 	fwrite(&m_iID, sizeof(int), 1, stream);	
 
-	// 자신의 데이터 저장..
 	CPvsBase::Save(stream);
 
-	// 링크된 갯수를 저장..
 	int iCount = 0;
 	iter it = m_pPvsList.begin();
 	while (it != m_pPvsList.end())
@@ -609,7 +602,6 @@ void CPortalVol::Save(FILE* stream)
 	}
 	fwrite(&iCount, sizeof(int), 1, stream);	
 
-	//링크된 아이디 저장..
 	CPvsBase* pBase = NULL;
 	it = m_pPvsList.begin();
 	while (it != m_pPvsList.end())
@@ -653,8 +645,8 @@ void CPortalVol::SplitAndMakeShape(CN3Shape* pShape)
 	GAPP->Write("Part Count %d", iPartCount);
 
 	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	// 기존 Index Buffer 에서.. Vertex Buffer를 참조해서.. 버텍스를 얻어낸다음.. 
-	//  폴리곤 단위(3개의 버텍스가 전부)로 보이지 않는 다면.. 인덱스 버퍼에서 제거한다..
+	// In the existing Index Buffer, by referring to the Vertex Buffer, the vertex is obtained.
+	// If it is not visible in polygon units (all 3 vertices), remove it from the index buffer.
 
 	for ( int i = 0; i < iPartCount; i++ )
 	{
@@ -872,20 +864,16 @@ bool CPortalVol::IntersectTriangle(const __Vector3& vOrig, const __Vector3& vDir
     // Begin calculating determinant - also used to calculate U parameter
     __Vector3 pVec;	float fDet;
 	
-//	By : Ecli666 ( On 2001-09-12 오전 10:39:01 )
-
 	pVec.Cross(vEdge1, vEdge2);
 	fDet = pVec.Dot(vDir);
 	if ( fDet > -0.0001f )
 		return false;
 
-//	~(By Ecli666 On 2001-09-12 오전 10:39:01 )
-
     pVec.Cross(vDir, vEdge2);
 
     // If determinant is near zero, ray lies in plane of triangle
     fDet = vEdge1.Dot(pVec);
-    if( fDet < 0.0001f )		// 거의 0에 가까우면 삼각형 평면과 지나가는 선이 평행하다.
+    if( fDet < 0.0001f )		// When it is close to 0, the triangular plane and the line passing through it are parallel.
         return false;
 
     // Calculate distance from vert0 to ray origin
@@ -912,15 +900,15 @@ bool CPortalVol::IntersectTriangle(const __Vector3& vOrig, const __Vector3& vDir
     fU *= fInvDet;
     fV *= fInvDet;
 
-	// t가 클수록 멀리 직선과 평면과 만나는 점이 멀다.
-	// t*dir + orig 를 구하면 만나는 점을 구할 수 있다.
-	// u와 v의 의미는 무엇일까?
-	// 추측 : v0 (0,0), v1(1,0), v2(0,1) <괄호안은 (U, V)좌표> 이런식으로 어느 점에 가깝나 나타낸 것 같음
+	// The larger t is, the farther away the point where the straight line meets the plane.
+	// If you find t*dir + orig, you can find the intersection point.
+	// What does u and v mean?
+	// Guess: v0 (0,0), v1(1,0), v2(0,1) <(U, V) coordinates in parentheses> It seems to indicate which point it is close to in this way
 	//
 
-	if(pVCol) (*pVCol) = vOrig + (vDir * fT);	// 접점을 계산..
+	if(pVCol) (*pVCol) = vOrig + (vDir * fT);	// Calculate contact points..
 
-	// *t < 0 이면 뒤쪽...
+	// *If t < 0 then back...
 	if ( fT < 0.0f )
 		return false;
 

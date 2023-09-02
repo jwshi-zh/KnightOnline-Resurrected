@@ -111,38 +111,38 @@ LANGUAGE 18, 1
 
 IDR_MAINFRAME MENU PRELOAD DISCARDABLE 
 BEGIN
-	POPUP "∆ƒ¿œ(&F)"
+	POPUP "File(&F)"
 	BEGIN
-		MENUITEM "ªı ∆ƒ¿œ(&N)\tCtrl+N",                ID_FILE_NEW
-		MENUITEM "ø≠±‚(&O)...\tCtrl+O",            ID_FILE_OPEN
-		MENUITEM "¿˙¿Â(&S)\tCtrl+S",               ID_FILE_SAVE
-		MENUITEM "¥Ÿ∏• ¿Ã∏ß¿∏∑Œ ¿˙¿Â(&A)...",                 ID_FILE_SAVE_AS
+		MENUITEM "New File(&N)\tCtrl+N",                ID_FILE_NEW
+		MENUITEM "Open(&O)...\tCtrl+O",            ID_FILE_OPEN
+		MENUITEM "Save(&S)\tCtrl+S",               ID_FILE_SAVE
+		MENUITEM "Save File As(&A)...",                 ID_FILE_SAVE_AS
 		MENUITEM SEPARATOR
-		MENUITEM "¿Œº‚(&P)...\tCtrl+P",           ID_FILE_PRINT
-		MENUITEM "¿Œº‚ πÃ∏Æ ∫∏±‚(&V)",              ID_FILE_PRINT_PREVIEW
-		MENUITEM "¿Œº‚ º≥¡§(&R)...",             ID_FILE_PRINT_SETUP
+		MENUITEM "Print(&P)...\tCtrl+P",           ID_FILE_PRINT
+		MENUITEM "Print Preview(&V)",              ID_FILE_PRINT_PREVIEW
+		MENUITEM "Print Setup(&R)...",             ID_FILE_PRINT_SETUP
 		MENUITEM SEPARATOR
-		MENUITEM "√÷±Ÿ ∆ƒ¿œ",                 ID_FILE_MRU_FILE1,GRAYED
+		MENUITEM "Recent Files",                 ID_FILE_MRU_FILE1,GRAYED
 		MENUITEM SEPARATOR
-		MENUITEM "¡æ∑·(&X)",                       ID_APP_EXIT
+		MENUITEM "Exit(&X)",                       ID_APP_EXIT
 	END
-	POPUP "∆Ì¡˝(&E)"
+	POPUP "Edit(&E)"
 	BEGIN
-		MENUITEM "√Îº“(&U)\tCtrl+Z",               ID_EDIT_UNDO
+		MENUITEM "Undo(&U)\tCtrl+Z",               ID_EDIT_UNDO
 		MENUITEM SEPARATOR
-		MENUITEM "¿ﬂ∂Û≥ª±‚(&T)\tCtrl+X",                ID_EDIT_CUT
-		MENUITEM "∫πªÁ(&C)\tCtrl+C",               ID_EDIT_COPY
-		MENUITEM "∫Ÿø©≥÷±‚(&P)\tCtrl+V",              ID_EDIT_PASTE
+		MENUITEM "Cut(&T)\tCtrl+X",                ID_EDIT_CUT
+		MENUITEM "Copy(&C)\tCtrl+C",               ID_EDIT_COPY
+		MENUITEM "Paste(&P)\tCtrl+V",              ID_EDIT_PASTE
 	END
-	POPUP "∫∏±‚(&V)"
+	POPUP "View(&V)"
 	BEGIN
-		MENUITEM "µµ±∏ ∏¿Ω(&T)",                    ID_VIEW_TOOLBAR
-		MENUITEM "ªÛ≈¬ «•Ω√¡Ÿ(&S)",                 ID_VIEW_STATUS_BAR
-		MENUITEM "≥™¥©±‚(&P)",                      ID_WINDOW_SPLIT
+		MENUITEM "View Toolbar(&T)",                    ID_VIEW_TOOLBAR
+		MENUITEM "View Statusbar(&S)",                 ID_VIEW_STATUS_BAR
+		MENUITEM "Split Window(&P)",                      ID_WINDOW_SPLIT
 	END
-	POPUP "µµøÚ∏ª(&H)"
+	POPUP "Help(&H)"
 	BEGIN
-		MENUITEM "ServerInfoViewer ¡§∫∏(&A)...",          ID_APP_ABOUT
+		MENUITEM "About ServerInfoViewer(&A)...",          ID_APP_ABOUT
 	END
 END
 
@@ -180,15 +180,15 @@ END
 //
 
 IDD_ABOUTBOX DIALOG DISCARDABLE  0, 0, 235, 55
-CAPTION "ServerInfoViewer ¡§∫∏"
+CAPTION "About ServerInfoViewer"
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 9, "±º∏≤"
+FONT 9, "Arial"
 BEGIN
 	ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
-	LTEXT           "ServerInfoViewer πˆ¿¸ 1.0",IDC_STATIC,40,10,119,8,
+	LTEXT           "ServerInfoViewer App 1.0",IDC_STATIC,40,10,119,8,
                     SS_NOPREFIX
 	LTEXT           "Copyright (C) 2001",IDC_STATIC,40,25,119,8
-	DEFPUSHBUTTON   "»Æ¿Œ",IDOK,178,7,50,14,WS_GROUP
+	DEFPUSHBUTTON   "OK",IDOK,178,7,50,14,WS_GROUP
 END
 
 
@@ -216,13 +216,13 @@ BEGIN
         BLOCK "041204B0"
 		BEGIN 
 			VALUE "CompanyName",     "\0"
-			VALUE "FileDescription", "ServerInfoViewer MFC ¿¿øÎ «¡∑Œ±◊∑•\0"
+			VALUE "FileDescription", "ServerInfoViewer MFC Application\0"
 			VALUE "FileVersion",     "1, 0, 0, 1\0"
 			VALUE "InternalName",    "ServerInfoViewer\0"
 			VALUE "LegalCopyright",  "Copyright (C) 2001\0"
 			VALUE "LegalTrademarks", "\0"
 			VALUE "OriginalFilename","ServerInfoViewer.EXE\0"
-			VALUE "ProductName",     "ServerInfoViewer ¿¿øÎ «¡∑Œ±◊∑•\0"
+			VALUE "ProductName",     "ServerInfoViewer Application\0"
 			VALUE "ProductVersion",  "1, 0, 0, 1\0"
 		END
 	END
@@ -257,7 +257,7 @@ END
 
 STRINGTABLE DISCARDABLE 
 BEGIN
-	IDP_SOCKETS_INIT_FAILED	"Windows º“ƒœ √ ±‚»≠ø° Ω«∆–«œø¥Ω¿¥œ¥Ÿ."
+	IDP_SOCKETS_INIT_FAILED	"Windows ÏÜåÏºì Ï¥àÍ∏∞ÌôîÏóê Ïã§Ìå®ÌïòÏòÄÏäµÎãàÎã§."
 END
 STRINGTABLE PRELOAD DISCARDABLE 
 BEGIN
@@ -267,7 +267,7 @@ END
 STRINGTABLE PRELOAD DISCARDABLE 
 BEGIN
 	AFX_IDS_APP_TITLE       "ServerInfoViewer"
-	AFX_IDS_IDLEMESSAGE     "¡ÿ∫Ò"
+	AFX_IDS_IDLEMESSAGE     "Idle"
 END
 STRINGTABLE DISCARDABLE 
 BEGIN
@@ -280,63 +280,63 @@ BEGIN
 END
 STRINGTABLE DISCARDABLE 
 BEGIN
-	ID_FILE_NEW             "ªı πÆº≠∏¶ ¿€º∫«’¥œ¥Ÿ\nªı ∆ƒ¿œ"
-	ID_FILE_OPEN            "±‚¡∏ πÆº≠∏¶ ø±¥œ¥Ÿ\nø≠±‚"
-	ID_FILE_CLOSE           "«ˆ¿Á ø≠∏∞ πÆº≠∏¶ ¥›Ω¿¥œ¥Ÿ\n¥›±‚"
-	ID_FILE_SAVE            "«ˆ¿Á ø≠∏∞ πÆº≠∏¶ ¿˙¿Â«’¥œ¥Ÿ\n¿˙¿Â"
-	ID_FILE_SAVE_AS         "«ˆ¿Á ø≠∏∞ πÆº≠∏¶ ¥Ÿ∏• ¿Ã∏ß¿∏∑Œ ¿˙¿Â«’¥œ¥Ÿ\n¥Ÿ∏• ¿Ã∏ß¿∏∑Œ ¿˙¿Â"
-	ID_FILE_PAGE_SETUP      "¿Œº‚ ø…º«¿ª ∫Ø∞Ê«’¥œ¥Ÿ\n¬  º≥¡§"
-	ID_FILE_PRINT_SETUP     "«¡∏∞≈ÕøÕ ¿Œº‚ ø…º«¿ª ∫Ø∞Ê«’¥œ¥Ÿ\n¿Œº‚ º≥¡§"
-	ID_FILE_PRINT           "«ˆ¿Á ø≠∏∞ πÆº≠∏¶ ¿Œº‚«’¥œ¥Ÿ\n¿Œº‚"
-	ID_FILE_PRINT_PREVIEW   "¬  ¿¸√º∏¶ «•Ω√«’¥œ¥Ÿ\n¿Œº‚ πÃ∏Æ ∫∏±‚"
-	ID_APP_ABOUT            "«¡∑Œ±◊∑• ¡§∫∏øÕ πˆ¿¸ ¡§∫∏, ¿˙¿€±« ¡§∫∏∏¶ «•Ω√«’¥œ¥Ÿ\n¡§∫∏"
-	ID_APP_EXIT             "¿¿øÎ «¡∑Œ±◊∑•¿ª ¡æ∑·«œ±‚ ¿ß«ÿ πÆº≠∏¶ ¿˙¿Â«“ ∞Õ¿Œ¡ˆ πØΩ¿¥œ¥Ÿ\n¡æ∑·"
-	ID_FILE_MRU_FILE1       "¿Ã πÆº≠∏¶ ø±¥œ¥Ÿ"
-	ID_FILE_MRU_FILE2       "¿Ã πÆº≠∏¶ ø±¥œ¥Ÿ"
-	ID_FILE_MRU_FILE3       "¿Ã πÆº≠∏¶ ø±¥œ¥Ÿ"
-	ID_FILE_MRU_FILE4       "¿Ã πÆº≠∏¶ ø±¥œ¥Ÿ"
-	ID_FILE_MRU_FILE5       "¿Ã πÆº≠∏¶ ø±¥œ¥Ÿ"
-	ID_FILE_MRU_FILE6       "¿Ã πÆº≠∏¶ ø±¥œ¥Ÿ"
-	ID_FILE_MRU_FILE7       "¿Ã πÆº≠∏¶ ø±¥œ¥Ÿ"
-	ID_FILE_MRU_FILE8       "¿Ã πÆº≠∏¶ ø±¥œ¥Ÿ"
-	ID_FILE_MRU_FILE9       "¿Ã πÆº≠∏¶ ø±¥œ¥Ÿ"
-	ID_FILE_MRU_FILE10      "¿Ã πÆº≠∏¶ ø±¥œ¥Ÿ"
-	ID_FILE_MRU_FILE11      "¿Ã πÆº≠∏¶ ø±¥œ¥Ÿ"
-	ID_FILE_MRU_FILE12      "¿Ã πÆº≠∏¶ ø±¥œ¥Ÿ"
-	ID_FILE_MRU_FILE13      "¿Ã πÆº≠∏¶ ø±¥œ¥Ÿ"
-	ID_FILE_MRU_FILE14      "¿Ã πÆº≠∏¶ ø±¥œ¥Ÿ"
-	ID_FILE_MRU_FILE15      "¿Ã πÆº≠∏¶ ø±¥œ¥Ÿ"
-	ID_FILE_MRU_FILE16      "¿Ã πÆº≠∏¶ ø±¥œ¥Ÿ"
-	ID_NEXT_PANE            "¥Ÿ¿Ω √¢¿∏∑Œ ¿¸»Ø«’¥œ¥Ÿ\n¥Ÿ¿Ω √¢"
-	ID_PREV_PANE            "¿Ã¿¸ √¢¿∏∑Œ ¿¸»Ø«’¥œ¥Ÿ\n¿Ã¿¸ √¢"
-	ID_WINDOW_SPLIT         "«ˆ¿Á ø≠∏∞ √¢¿ª ≥™¥Ø¥œ¥Ÿ\n≥™¥©±‚"
-	ID_EDIT_CLEAR           "º±≈√ ∫Œ∫–¿ª ¡ˆøÛ¥œ¥Ÿ\n¡ˆøÏ±‚"
-	ID_EDIT_CLEAR_ALL       "∏µÁ ∞Õ¿ª ¡ˆøÛ¥œ¥Ÿ\n∏µŒ ¡ˆøÏ±‚"
-	ID_EDIT_COPY            "º±≈√ ∫Œ∫–¿ª ∫πªÁ«œø© ≈¨∏≥∫∏µÂø° ≥÷Ω¿¥œ¥Ÿ\n∫πªÁ"
-	ID_EDIT_CUT             "º±≈√ ∫Œ∫–¿ª ¿ﬂ∂Û≥ªæÓ ≈¨∏≥∫∏µÂø° ≥÷Ω¿¥œ¥Ÿ\n¿ﬂ∂Û≥ª±‚"
-	ID_EDIT_FIND            "¡ˆ¡§«— πÆ¿⁄ø≠¿ª √£Ω¿¥œ¥Ÿ\n√£±‚"
-	ID_EDIT_PASTE           "≈¨∏≥∫∏µÂ¿« ≥ªøÎ¿ª ∫Ÿø© ≥÷Ω¿¥œ¥Ÿ\n∫Ÿø©≥÷±‚"
-	ID_EDIT_REPEAT          "∏∂¡ˆ∏∑¿∏∑Œ Ω««‡«— µø¿€¿ª π›∫π«’¥œ¥Ÿ\nπ›∫π"
-	ID_EDIT_REPLACE         "¡ˆ¡§«— πÆ¿⁄ø≠¿ª ¥Ÿ∏• πÆ¿⁄ø≠∑Œ πŸ≤ﬂ¥œ¥Ÿ\nπŸ≤Ÿ±‚"
-	ID_EDIT_SELECT_ALL      "πÆº≠ ¿¸√º∏¶ º±≈√«’¥œ¥Ÿ\n¿¸√º º±≈√"
-	ID_EDIT_UNDO            "∏∂¡ˆ∏∑¿∏∑Œ «— µø¿€¿ª √Îº“«’¥œ¥Ÿ\nΩ««‡ √Îº“"
-	ID_EDIT_REDO            "¿Ã¿¸ø° √Îº“«— µø¿€¿ª ¥ŸΩ√ ºˆ«‡«’¥œ¥Ÿ\n¥ŸΩ√ Ω««‡"
-	ID_VIEW_TOOLBAR         "µµ±∏ ∏¿Ω¿ª ∫∏¿Ã∞≈≥™ ∞®√‰¥œ¥Ÿ\nµµ±∏ ∏¿Ω ¿¸»Ø"
-	ID_VIEW_STATUS_BAR      "ªÛ≈¬ «•Ω√¡Ÿ¿ª «•Ω√«œ∞≈≥™ ∞®√‰¥œ¥Ÿ\nªÛ≈¬ «•Ω√¡Ÿ ¿¸»Ø"
+	ID_FILE_NEW             "Create a new document\nNew file"
+	ID_FILE_OPEN            "Open an existing document\nOpen"
+	ID_FILE_CLOSE           "Close the currently open document\nClose"
+	ID_FILE_SAVE            "Save the currently open document\nSave"
+	ID_FILE_SAVE_AS         "Save the currently open document as\nSave As"
+	ID_FILE_PAGE_SETUP      "Change printing options\npage settings"
+	ID_FILE_PRINT_SETUP     "Change printers and printing options\nPrint Settings"
+	ID_FILE_PRINT           "Print the currently open document\nPrint"
+	ID_FILE_PRINT_PREVIEW   "Show full page\nPrint preview"
+	ID_APP_ABOUT            "Displays program information, version information, and copyright information\nAbout"
+	ID_APP_EXIT             "Ask if you want to save the document to exit the application\nExit"
+	ID_FILE_MRU_FILE1       "Open this document"
+	ID_FILE_MRU_FILE2       "Open this document"
+	ID_FILE_MRU_FILE3       "Open this document"
+	ID_FILE_MRU_FILE4       "Open this document"
+	ID_FILE_MRU_FILE5       "Open this document"
+	ID_FILE_MRU_FILE6       "Open this document"
+	ID_FILE_MRU_FILE7       "Open this document"
+	ID_FILE_MRU_FILE8       "Open this document"
+	ID_FILE_MRU_FILE9       "Open this document"
+	ID_FILE_MRU_FILE10      "Open this document"
+	ID_FILE_MRU_FILE11      "Open this document"
+	ID_FILE_MRU_FILE12      "Open this document"
+	ID_FILE_MRU_FILE13      "Open this document"
+	ID_FILE_MRU_FILE14      "Open this document"
+	ID_FILE_MRU_FILE15      "Open this document"
+	ID_FILE_MRU_FILE16      "Open this document"
+	ID_NEXT_PANE            "Switch to the next window\nNext window"
+	ID_PREV_PANE            "Switch to previous window\nPrevious window"
+	ID_WINDOW_SPLIT         "Split the currently open window\nSplit"
+	ID_EDIT_CLEAR           "Clear selection\nClear"
+	ID_EDIT_CLEAR_ALL       "clear everything\nclear everything"
+	ID_EDIT_COPY            "Copies the selection and puts it on the clipboard\nCopy"
+	ID_EDIT_CUT             "Cut the selection and put it on the clipboard\nCut"
+	ID_EDIT_FIND            "Finds the specified string\nFind"
+	ID_EDIT_PASTE           "Pastes the contents of the clipboard\nPaste"
+	ID_EDIT_REPEAT          "Repeat last action\nRepeat"
+	ID_EDIT_REPLACE         "Replaces the specified string with another string\nReplace"
+	ID_EDIT_SELECT_ALL      "Select all documents\nSelect all"
+	ID_EDIT_UNDO            "Undo the last action\nUndo"
+	ID_EDIT_REDO            "Redo a previously undone action\nRedo"
+	ID_VIEW_TOOLBAR         "Show/hide toolbar\nToggle toolbar"
+	ID_VIEW_STATUS_BAR      "Show or hide the status bar\nToggle status bar"
 END
 
 STRINGTABLE DISCARDABLE 
 BEGIN
-	AFX_IDS_SCSIZE          "√¢¿« ≈©±‚∏¶ ∫Ø∞Ê«’¥œ¥Ÿ"
-	AFX_IDS_SCMOVE          "√¢¿« ¿ßƒ°∏¶ ∫Ø∞Ê«’¥œ¥Ÿ"
-	AFX_IDS_SCMINIMIZE      "√¢¿ª æ∆¿Ãƒ‹¿∏∑Œ ¡Ÿø©º≠ «•Ω√«’¥œ¥Ÿ"
-	AFX_IDS_SCMAXIMIZE      "√¢¿ª √÷¥Î ≈©±‚∑Œ »Æ¿Â«’¥œ¥Ÿ"
-	AFX_IDS_SCNEXTWINDOW    "¥Ÿ¿Ω πÆº≠ √¢¿∏∑Œ ¿¸»Ø«’¥œ¥Ÿ"
-	AFX_IDS_SCPREVWINDOW    "¿Ã¿¸ πÆº≠ √¢¿∏∑Œ ¿¸»Ø«’¥œ¥Ÿ"
-	AFX_IDS_SCCLOSE         "«ˆ¿Á ø≠∏∞ √¢¿ª ¥›∞Ì πÆº≠∏¶ ¿˙¿Â«“ ∞Õ¿Œ¡ˆ∏¶ πØΩ¿¥œ¥Ÿ"
-	AFX_IDS_SCRESTORE       "√¢¿ª ø¯∑° ≈©±‚∑Œ ∫πø¯«’¥œ¥Ÿ"
-	AFX_IDS_SCTASKLIST      "¿€æ˜ ∏Ò∑œ¿ª »∞º∫»≠«’¥œ¥Ÿ"
-	AFX_IDS_PREVIEW_CLOSE   "¿Œº‚ πÃ∏Æ ∫∏±‚ ∏µÂ∏¶ ¥›Ω¿¥œ¥Ÿ\nπÃ∏Æ ∫∏±‚ √Îº“"
+	AFX_IDS_SCSIZE          "Change the window size"
+	AFX_IDS_SCMOVE          "change the position of the window"
+	AFX_IDS_SCMINIMIZE      "Reduces the window to an icon"
+	AFX_IDS_SCMAXIMIZE      "Expand the window to its maximum size"
+	AFX_IDS_SCNEXTWINDOW    "Switch to the next document window"
+	AFX_IDS_SCPREVWINDOW    "Switch to the previous document window"
+	AFX_IDS_SCCLOSE         "Close the currently open window and ask if you want to save the document"
+	AFX_IDS_SCRESTORE       "Restore the window to its original size"
+	AFX_IDS_SCTASKLIST      "Activate the task list"
+	AFX_IDS_PREVIEW_CLOSE   "Close print preview mode\nCancel preview"
 END
 
 

@@ -210,7 +210,7 @@ void CN3IndoorApp::Write(const char* lpszFormat, ...)
 
 	if(hFile)
 	{
-		::SetFilePointer(hFile, 0, NULL, FILE_END); // 추가 하기 위해서 파일의 끝으로 옮기고..
+		::SetFilePointer(hFile, 0, NULL, FILE_END); // Move it to the end of the file to append.
 
 		WriteFile(hFile, szFinal, iLength, &dwRWC, NULL);
 		CloseHandle(hFile);

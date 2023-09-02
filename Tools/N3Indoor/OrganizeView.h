@@ -63,7 +63,7 @@ public:
 	//..
 	void	OnCurserSelect(e_EditMode eED);
 	void	SelectVolumeByPick(CPortalVolume* pVol, bool bOne = true);
-	void	SelectObjectByDragRect(RECT* pRect, BOOL bAdd);	// 드래그 해서 객체 선택하기
+	void	SelectObjectByDragRect(RECT* pRect, BOOL bAdd);	// Select objects by dragging
 
 	void    TickRender();
 

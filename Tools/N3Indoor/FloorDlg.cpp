@@ -64,7 +64,7 @@ void CFloorDlg::OnOK()
 	int iCur = GetFloor();
 	if (iCur < 1)
 	{
-		AfxMessageBox("0보다 큰 수를 입력하십시오....");
+		AfxMessageBox("Please enter a number greater than 0....");
 		return;
 	}
 	

@@ -78,11 +78,11 @@ typedef struct tagShapeInfo	: public CN3Transform
 	int									m_iID;
 	std::string						m_strShapeFile;
 
-	int									m_iBelong;				// 소속 - 0:소속 없음 1:엘모라드 2:카루스 3:?? ....
+	int									m_iBelong;				// Affiliation - 0: No Affiliation 1: Elmorad 2: Carus 3:?? ....
 	int									m_iEventID;				 // Event ID
 	int									m_iEventType;		  // Event Type
-	int									m_iNPC_ID;			   // NPC 로 쓰는 오브젝트일 경우 NPC ID
-	int									m_iNPC_Status;	    // NPC 로 쓰는 오브젝트일 경우 Default Status
+	int									m_iNPC_ID;			   // NPC ID for objects used as NPCs
+	int									m_iNPC_Status;	    // Default Status for objects used as NPCs
 
 	CN3Shape*					m_pShape;
 
@@ -199,8 +199,8 @@ class CPortalVolume	: public CN3Transform
 
 	////////////////////////////////////////
 	std::list<WVOL>				m_VoltList;		
-	std::list<WVID>				m_piIDList;									// 로드에 필요한 중간 데이터..		
-	std::list<IDAndPriority>	m_piVisibleIDList;						// 로드에 필요한 중간 데이터..		
+	std::list<WVID>				m_piIDList;									// Intermediate data required for loading..
+	std::list<IDAndPriority>	m_piVisibleIDList;						// Intermediate data required for loading..
 	std::list<ShapeInfo* >		m_plShapeInfoList;
 	std::list<ShapePart* >		m_lpShapePartList;	
 	std::list<__ColIndex* >		m_lpShapeColPartList;
@@ -208,7 +208,7 @@ class CPortalVolume	: public CN3Transform
 	////////////////////////////////////////
 
 public:
-	int									m_iPriority;							//.. 컴파일 모드에서 Portal의 우선순위..	-1로 먼저 클리어 한다음.. 0 순위는 자기 자신..
+	int m_iPriority; 		//.. Portal's priority in compile mode.. Clear first with -1.. 0 priority is yourself..
 
 private:
 	 bool QueryHeight(float fx, float fz, float& fy);

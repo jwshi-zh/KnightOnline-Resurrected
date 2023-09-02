@@ -196,7 +196,7 @@ void COrganizeView::OnButtonResourcePath()
 	CMainFrame* pFrm =  (CMainFrame* )AfxGetMainWnd();
 	pFrm->m_strResourcePath = szPath+"\\N3Indoor";
 
-	// 경로 설정..
+	// set route...
 	CN3Base::PathSet(szPath+"\\N3Indoor");
 }
 
@@ -703,7 +703,7 @@ void COrganizeView::SelectVolumeByPick(CPortalVolume* pVol, bool bOne)
 		__ASSERT(pFrm->m_pDummy, "Oops!! -.-;");
 		pFrm->m_pDummy->SetSelObj(se, bOne);
 
-		//  만약 Dummy Size가 0보다 크고.. pVol이 없으면..
+		//  If Dummy Size is greater than 0 and there is no pVol...
 		if ( (pFrm->m_pDummy->m_SelObjArray.GetSize() > 0) && !pFrm->m_pDummy->IsExistTotalVolByPointer(pVol) )
 		{
 			pVol2 = pFrm->m_pDummy->GetFirstElementTotalVol();
@@ -717,7 +717,7 @@ void COrganizeView::SelectVolumeByPick(CPortalVolume* pVol, bool bOne)
 		m_SelectedListCtrl.SetHotItem(m_iSelectionIndex);
 		RefreshLinkedList();
 
-		// Compile Mode면..
+		// Compile Mode
 		if (pFrm->m_eState == STATE_COMPILE)
 			pFrm->GetOrganizeView()->m_PVSMgr.CheckcompileMode(pVol);
 
@@ -733,7 +733,7 @@ void COrganizeView::SelectVolumeByPick(CPortalVolume* pVol, bool bOne)
 	}
 	else
 	{
-		// Compile Mode면..
+		// Compile Mode
 		if (pFrm->m_eState == STATE_COMPILE)
 			pFrm->GetOrganizeView()->m_PVSMgr.CheckcompileMode(pVol);
 
@@ -743,14 +743,14 @@ void COrganizeView::SelectVolumeByPick(CPortalVolume* pVol, bool bOne)
 			pFrm->m_SelVolArray.RemoveAll();
 		else
 		{
-			// 이미 있으면 추가하지 않는다..
+			// If it already exists, don't add it.
 LOOP_1:
 			int iSize = pFrm->m_SelVolArray.GetSize();
 			for ( int i = 0; i < iSize; i++ )
 			{
 				if (pFrm->m_SelVolArray[i] == pVol)
 				{
-					// 이미 있으므로 선택목록에서 제거
+					// Already exists, remove from picklist
 					pFrm->m_SelVolArray.RemoveAt(i);
 					bFound = true;
 					goto LOOP_1;
@@ -803,7 +803,7 @@ LOOP_1:
 	}
 }
 
-void COrganizeView::SelectObjectByDragRect(RECT* pRect, BOOL bAdd)	// 드래그 해서 객체 선택하기
+void COrganizeView::SelectObjectByDragRect(RECT* pRect, BOOL bAdd)	// Select objects by dragging
 {
 	CMainFrame* pFrm = NULL;
 	pFrm = (CMainFrame*)AfxGetMainWnd();
@@ -815,11 +815,6 @@ void COrganizeView::SelectObjectByDragRect(RECT* pRect, BOOL bAdd)	// 드래그 해�
 	pD3DDev->GetTransform(D3DTS_VIEW, &matView);
 	pD3DDev->GetTransform(D3DTS_PROJECTION, &matProj);
 	D3DXMatrixMultiply(&matVP, &matView, &matProj);
-
-	// 나중에 ^^..
-
-
-
 }
 
 void COrganizeView::RefreshTotalShape()
@@ -1204,14 +1199,14 @@ bool COrganizeView::OnFileNew()
 	CMainFrame* pFrm = (CMainFrame*)AfxGetMainWnd();
 	if (!pFrm) return false;
 
-	// 기존 작업데이터가 있는자 살펴본다..
+	// Look for existing work data..
 	if ((m_PVSMgr.m_iTotalCount != 0) || (m_PVSMgr.m_plShapeInfoList.size() > 0))
 	{
-		// 지울것인지 물어본다..
-		if (AfxMessageBox("작업중인 데이터가 삭제됩니다. 계속하시겠습니까?", MB_OKCANCEL|MB_APPLMODAL) == IDCANCEL)
+		// ask if you want to delete..
+		if (AfxMessageBox("The data you are working on will be deleted. Do you want to continue?", MB_OKCANCEL|MB_APPLMODAL) == IDCANCEL)
 			return false;
 
-		// 지운다 -.-;
+		// erase -.-;
 		m_PVSMgr.DeleteAllPvsObj();
 		RefreshSelectedList();
 		RefreshLinkToList();
@@ -1234,7 +1229,7 @@ bool COrganizeView::OnFileNew()
 		m_ComboFloor.ResetContent();
 	}
 
-	// 카메라등등 초기화..	
+	// Reset camera, etc...	
 	if(pFrm->m_pDummy)
 		pFrm->m_pDummy->ClearObjs();
 	pFrm->m_SelVolArray.RemoveAll();
@@ -1405,13 +1400,13 @@ void COrganizeView::OnFileSaveWorkshop()
 	CMainFrame* pFrm = (CMainFrame* )AfxGetMainWnd();
 	if (pFrm->m_strFileName.size() <= 0)
 	{
-		AfxMessageBox("SourceList가  없습니다..Data는 저장되지 않을것 입니다..");
+		AfxMessageBox("open thNo SourceList..Data will not be savedis document..");
 		return;
 	}
 
 	if (!GetDlgItemInt(IDC_TOTAL_MOVE_X) || !GetDlgItemInt(IDC_TOTAL_MOVE_X) || !GetDlgItemInt(IDC_TOTAL_MOVE_Z))
 	{
-		AfxMessageBox("Map Offset이 0 입니다.Data는 저장되지 않을것 입니다..");
+		AfxMessageBox("Map Offset is 0. Data will not be saved..");
 		return;
 	}
 
@@ -1431,13 +1426,13 @@ void COrganizeView::OnFileSaveGamedata()
 	CMainFrame* pFrm = (CMainFrame* )AfxGetMainWnd();
 	if (pFrm->m_strFileName.size() <= 0)
 	{
-		AfxMessageBox("SourceList가  없습니다..Data는 저장되지 않을것 입니다..");
+		AfxMessageBox("open thNo SourceList..Data will not be savedis document..");
 		return;
 	}
 
 	if (!GetDlgItemInt(IDC_TOTAL_MOVE_X) || !GetDlgItemInt(IDC_TOTAL_MOVE_X) || !GetDlgItemInt(IDC_TOTAL_MOVE_Z))
 	{
-		AfxMessageBox("Map Offset이 0 입니다.Data는 저장되지 않을것 입니다..");
+		AfxMessageBox("Map Offset is 0. Data will not be saved..");
 		return;
 	}
 
@@ -1459,10 +1454,10 @@ void COrganizeView::OnFileSaveGamedata()
 ////////////////////////////////////////////////////////////////////////
 void COrganizeView::OnFileServerData()
 {
-	// 기존 작업데이터가 있는자 살펴본다..
+	// Look for existing work data..
 	if (!(m_PVSMgr.m_iTotalCount && m_PVSMgr.m_plShapeInfoList.size()))
 	{
-		AfxMessageBox("Data가  없습니다..Data는 저장되지 않을것 입니다..");
+		AfxMessageBox("There is no Data..Data will not be saved..");
 		return;
 	}
 
@@ -1520,18 +1515,18 @@ void COrganizeView::WriteCollisionData(HANDLE hFile, int iMax)
 	const int TERRAIN_CELL_SIZE = 4;
 	float fSize = (iMax-1) * TERRAIN_CELL_SIZE;
 
-	WriteFile(hFile, &fSize, 4, &dwNum, NULL); // 맵 실제 미터 단위 너비
-	WriteFile(hFile, &fSize, 4, &dwNum, NULL); // 맵 실제 미터 단위 길이
+	WriteFile(hFile, &fSize, 4, &dwNum, NULL); // map actual width in meters
+	WriteFile(hFile, &fSize, 4, &dwNum, NULL); // map actual length in meters
 
-	// 충돌 체크 폴리곤 데이터 쓰기..
+	// Write collision check polygon data..
 	int iColCount = 0;
 	WriteFile(hFile, &iColCount, 4, &dwNum, NULL);
 
-	const int CELL_MAIN_DEVIDE = 4; // 메인셀은 4 X 4 의 서브셀로 나뉜다..
-	const int CELL_SUB_SIZE = 4; // 4 Meter 가 서브셀의 사이즈이다..
-	const int CELL_MAIN_SIZE = CELL_MAIN_DEVIDE * CELL_SUB_SIZE; // 메인셀 크기는 서브셀갯수 X 서브셀 크기이다.
+	const int CELL_MAIN_DEVIDE = 4; // The main cell is divided into 4 X 4 sub cells...
+	const int CELL_SUB_SIZE = 4; // 4 Meter is the size of the subcell..
+	const int CELL_MAIN_SIZE = CELL_MAIN_DEVIDE * CELL_SUB_SIZE; // The main cell size is the number of sub cells X the size of the sub cell..
 
-	// Cell Data 쓰기.
+	// Cell Data
 	int z = 0;
 	for(float fZ = 0.0f; fZ < fSize; fZ += CELL_MAIN_SIZE, z++)
 	{
@@ -1539,7 +1534,7 @@ void COrganizeView::WriteCollisionData(HANDLE hFile, int iMax)
 		for(float fX = 0.0f; fX < fSize; fX += CELL_MAIN_SIZE, x++)
 		{
 			BOOL bExist = FALSE;
-			WriteFile(hFile, &bExist, 4, &dwNum, NULL); // 데이터가 있는 셀인지 쓰고..
+			WriteFile(hFile, &bExist, 4, &dwNum, NULL); // Write whether the cell contains data..
 		}
 	}
 }
@@ -1579,7 +1574,7 @@ void COrganizeView::WriteObjectEventData(HANDLE hFile, int iFloor)
 			while(siit != pVol->m_plShapeInfoList.end())
 			{
 				pSI = *siit++;
-				if (pSI->m_iEventID || pSI->m_iEventType || pSI->m_iNPC_ID || pSI->m_iNPC_Status ) // 이벤트가 있으면
+				if (pSI->m_iEventID || pSI->m_iEventType || pSI->m_iNPC_ID || pSI->m_iNPC_Status ) // if there is an event
 					iCount++;
 			}
 		}
@@ -1598,7 +1593,7 @@ void COrganizeView::WriteObjectEventData(HANDLE hFile, int iFloor)
 		while(siit != pVol->m_plShapeInfoList.end())
 		{
 			pSI = *siit++;
-			if (pSI->m_iEventID || pSI->m_iEventType || pSI->m_iNPC_ID || pSI->m_iNPC_Status ) // 이벤트가 있으면
+			if (pSI->m_iEventID || pSI->m_iEventType || pSI->m_iNPC_ID || pSI->m_iNPC_Status )
 			{
 				WriteFile(hFile, &(pSI->m_iBelong), 4, &dwNum, NULL);
 				sEvent = (short)(pSI->m_iEventID); WriteFile(hFile, &sEvent, 2, &dwNum, NULL);
@@ -1649,7 +1644,7 @@ void COrganizeView::WriteTerrainData(HANDLE hFile, int iMax, int iFloor)
 	iTempOffs += 4;
 	TRACE1("File Offset %d\n", iTempOffs);
 
-	//  그냥 하나씩 저장해도 차이 없지만 네트워크로 저장할때는 파일 엑세스 숫자를 줄이고 한꺼번에 저장해야  빠르다.. ...
+	//  There is no difference even if you just save them one by one, but when saving to a network, it is faster to reduce the number of file accesses and save them all at once.
 	DWORD dwAlloc = iMax * iMax * sizeof(float);
 	HGLOBAL hAlloc = ::GlobalAlloc(GMEM_FIXED, dwAlloc);
 	__ASSERT(hAlloc, "Global allocation failed.");
@@ -1659,7 +1654,7 @@ void COrganizeView::WriteTerrainData(HANDLE hFile, int iMax, int iFloor)
 		for(z=0;z<iMax;z++)
 			pfHeights[x*iMax+z] = GetFloorHeight(iFloor, x*TERRAIN_CELL_SIZE, z*TERRAIN_CELL_SIZE);
 
-	WriteFile(hFile, pfHeights, dwAlloc, &dwNum, NULL); // 파일에 쓴다..
+	WriteFile(hFile, pfHeights, dwAlloc, &dwNum, NULL);
 	iTempOffs += dwAlloc;
 	TRACE1("File Offset %d\n", iTempOffs);
 	pfHeights = NULL;
@@ -1880,7 +1875,7 @@ void COrganizeView::OnSetFloor()
 
 	if (iSize < 1)
 	{
-		AfxMessageBox("선택되어있는 Volume이 없습니다....");
+		AfxMessageBox("No volume is selected....");
 		return;
 	}
 
@@ -1891,7 +1886,7 @@ void COrganizeView::OnSetFloor()
 
 	int iCur = FDlg.GetFloor();
 
-	// 데이터 추가..
+	// Add data..
 	FloorInfo FInfo;
 	FInfo.m_iFloor = iCur;
 	for (int i = 0; i < iSize; i++)
@@ -1899,7 +1894,7 @@ void COrganizeView::OnSetFloor()
 
 	pFrm->m_FloorList.push_back(FInfo);
 
-	// ComboBox 추가..
+	// Add ComboBox..
 	CString str; str.Format("%d 층", iCur);
 	m_ComboFloor.AddString(str);
 	iSize = m_ComboFloor.GetCount();
@@ -1960,7 +1955,7 @@ void COrganizeView::RefreshFloorCombo()
 	{
 		FInfo = *vfit++;
 
-		CString str; str.Format("%d 층", FInfo.m_iFloor);
+		CString str; str.Format("%d floor", FInfo.m_iFloor);
 		m_ComboFloor.AddString(str);
 		iSize = m_ComboFloor.GetCount();
 		m_ComboFloor.SetCurSel(iSize-1);
@@ -1999,7 +1994,7 @@ void COrganizeView::RefreshFloorInfoAll(int iID)
 		for (i = 0; i < iCount; i++)
 			FInfo.m_vVolume.push_back(vecVol[i]);
 
-		if (iCount != 0)	// 한개라도 남아있으면.. 
+		if (iCount != 0)	// If there is even one left...
 		{
 			CString str; str.Format("%d 층", FInfo.m_iFloor);
 			m_ComboFloor.AddString(str);
@@ -2011,7 +2006,7 @@ void COrganizeView::RefreshFloorInfoAll(int iID)
 		m_FloorVector.push_back(FInfo);
 	}
 
-	// 전부 지운다..
+	// erase everything...
 	vfit = pFrm->m_FloorList.begin();
 	while (vfit != pFrm->m_FloorList.end())
 	{

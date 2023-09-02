@@ -32,13 +32,13 @@ void CPosDummy::SetSelObj(SelectElement Obj, bool bOne)
 		m_SelObjArray.RemoveAll();
 	else
 	{
-		// 이미 있으면 추가하지 않는다..
+		// If it already exists, don't add it.
 		int iSize = m_SelObjArray.GetSize();
 		for ( int i = 0; i < iSize; i++ )
 		{
 			if (m_SelObjArray[i].pSelectPointer == Obj.pSelectPointer)
 			{
-				// 이미 있으므로 선택목록에서 제거
+				// Already exists, remove from picklist
 				m_SelObjArray.RemoveAt(i);
 				if (m_SelObjArray.GetSize() > 0)
 				{
@@ -68,9 +68,9 @@ BOOL CPosDummy::MouseMsgFilter(LPMSG pMsg)
 			DWORD nFlags = pMsg->wParam;
 			if (m_pSelectedCube && (nFlags & MK_LBUTTON))
 			{
-				__Vector3 vRayDir, vRayOrig;	// 화면 중앙(시점)과 마우스 포인터를 이은 직선의 방향과 원점
-				__Vector3 vPN, vPV;	// 평면의 법선과 포함된 점
-				__Vector3 vPos;	// 위의 평면과 직선의 만나는 점(구할 점)
+				__Vector3 vRayDir, vRayOrig;	// The direction and origin of a straight line connecting the center of the screen (viewpoint) and the mouse pointer
+				__Vector3 vPN, vPV;	// Normals of the plane and included points
+				__Vector3 vPos;	// The intersection point of the above plane and the straight line (point to find)
 				__Vector3 vCameraDir = s_CameraData.vAt - s_CameraData.vEye;	vCameraDir.Normalize();
 				GetPickRay(point, vRayDir, vRayOrig);
 				vPV = m_vPrevPos;
@@ -84,7 +84,7 @@ BOOL CPosDummy::MouseMsgFilter(LPMSG pMsg)
 						float fT = D3DXVec3Dot(&vPN,&(vPV-vRayOrig)) / D3DXVec3Dot(&vPN, &vRayDir);
 						vPos = vRayOrig + vRayDir*fT;
 
-						// 평면상의 점에서 지형의 높이를 구한다.
+						// Find the height of the terrain at a point on the plane.
 						__Vector3 v1, v2, v3, v4;	float fSize = 1000.0f;
 						v1.Set(-fSize, 0.0f,  fSize);
 						v2.Set( fSize, 0.0f,  fSize);

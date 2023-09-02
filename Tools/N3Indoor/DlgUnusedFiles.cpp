@@ -51,7 +51,7 @@ void CDlgUnusedFiles::OnDelete()
 	int iSelFNC = m_ListFiles.GetSelCount();
 	if(iSelFNC <= 0) return;
 
-	int iYesNo = MessageBox("지우시겠습니까?", "확인", MB_YESNO);
+	int iYesNo = MessageBox("do you want to erase?", "check", MB_YESNO);
 
 	if(IDYES != iYesNo) return;
 

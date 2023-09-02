@@ -22,7 +22,7 @@ public:
 	CDlgShapeList(CWnd* pParent = NULL);   // standard constructor
 
 	CN3Scene* m_pSceneRef;
-	BOOL	m_IsSourceObj;		// Display용이냐? (툴에서 오브젝트 목록)
+	BOOL	m_IsSourceObj;		// Is it for display? (list of objects in the tool)
 //	CMapMng* m_pMapMng;
 
 // Dialog Data
@@ -31,10 +31,10 @@ public:
 	CListBox	m_ListShape;
 	//}}AFX_DATA
 
-	void UpdateTree(CN3Scene* pScene = NULL);		 // Source와.. Output 공용..
-	void SelectObject(void* pItemData);							 // Output용..
-	int	GetTotalShapeInfoCount();									// Output용..
-	CN3Shape* GetShapeByiOrder(int iOrder);				// Output용..
+	void UpdateTree(CN3Scene* pScene = NULL);		 // Source and.. Output common..
+	void SelectObject(void* pItemData);							 // For output...
+	int	GetTotalShapeInfoCount();									// For output...
+	CN3Shape* GetShapeByiOrder(int iOrder);				// For output...
 
 // Overrides
 	// ClassWizard generated virtual function overrides

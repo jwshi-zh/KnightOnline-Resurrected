@@ -23,7 +23,7 @@ public:
 
 protected:
 	void UpdateTreeItem(HTREEITEM hParent, CN3Base* pBase);
-	DWORD	m_dwFlag;	// 목록에 표시할 것들을 나타낸 플래그
+	DWORD	m_dwFlag;	// Flags indicating what to show in the list
 
 // Construction
 public:
