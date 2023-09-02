@@ -266,7 +266,7 @@ void CPvsMgr::RenderCompile()
 			TotalCollisionRender();	
 	}
 
-// Debug용 렌더링..
+// Rendering for Debug...
 /*	typedef std::list<__Collision>::iterator citer;
 	citer cit = m_ColList.begin();
 	while (cit != m_ColList.end())
@@ -360,7 +360,7 @@ void CPvsMgr::TotalShapeRender()
 		pSh->Tick(-1000);
 
 		pSh->Render();
-	    CN3Base::s_AlphaMgr.Render(); // Alpha primitive 그리기...
+	    CN3Base::s_AlphaMgr.Render();
 	}
 
 	CN3Base::s_lpD3DDev->SetRenderState(D3DRS_POINTSIZE, dwPointSize);
@@ -415,7 +415,7 @@ void CPvsMgr::TotalCollisionRender()
 		pSh->Tick(-1000);
 
 		pSh->CollisionMesh()->Render(0xffffffff);
-		CN3Base::s_AlphaMgr.Render(); // Alpha primitive 그리기...
+		CN3Base::s_AlphaMgr.Render();
 	}
 
 	CN3Base::s_lpD3DDev->SetRenderState(D3DRS_POINTSIZE, dwPointSize);
@@ -461,7 +461,7 @@ void CPvsMgr::Load(FILE* stream)
 		}
 	}
 
-	// 링크된 아이디들을 읽어서 연결시킴..
+	// Read the linked IDs and connect them..
 	iter it = m_pPvsList.begin();
 	while(it != m_pPvsList.end())
 	{
@@ -513,7 +513,7 @@ void CPvsMgr::Save(FILE* stream)
 
 	while(it != m_pPvsList.end())
 	{
-		// 자신의 데이터 저장..
+		// Save your data...
 		pBase = *it++;
 		pBase->Save(stream);
 	}
@@ -554,7 +554,7 @@ void CPvsMgr::ComputeVisibilty(CPortalVol * const pVolMy)
 
 	SetPriority(pVolMy);
 
-	// PortalVol로만 이루어진 리스트를 만듬..
+	// Create a list consisting only of PortalVols.
 	std::priority_queue< CPortalVol*, std::vector<CPortalVol*>, Myless<CPortalVol*> > pQueue; 
 
 	CPvsBase* pBase = NULL;
@@ -566,7 +566,7 @@ void CPvsMgr::ComputeVisibilty(CPortalVol * const pVolMy)
 			pQueue.push((CPortalVol* )pBase);
 	}
 
-	// 디버그용 트레이스..
+	// Trace for debug...
 	CPortalVol* pVol = NULL;
 	while (!pQueue.empty())
 	{
@@ -578,7 +578,7 @@ void CPvsMgr::ComputeVisibilty(CPortalVol * const pVolMy)
 	}
 	pVolMy->m_eRenderType = TYPE_TRUE;
 	
-	// 충돌체크 준비.. 
+	// Prepare for collision check...
 	PrepareCollisionDetect(pVolMy);
 	CollisionDetectMain(pVolMy);
 }
@@ -602,7 +602,7 @@ void CPvsMgr::SetPriority(CPortalVol * const pVolMy)
 	pVolMy->m_iPriority = 0;
 	int igPriority = 0;
 
-// 재귀적으로 우선순위 결정..	좀더 복잡하구 정확히 하려면.. 첫번째의 Wall과 같은 방향이 우선순위가 높다..
+// Priority determination recursively.. To be more complex and precise.. The same direction as the first Wall has a higher priority..
 	SetPriorityRecursive(pVolMy, igPriority+1);
 }
 
@@ -618,7 +618,7 @@ void CPvsMgr::SetPriorityRecursive(CPortalVol * const pVolMy, int iRecursive)
 		if (pBase->IsKindOf(RUNTIME_CLASS(CPortalVol)))
 		{
 			pVol = (CPortalVol* )pBase;
-			if ( (pVol->m_iPriority == -1) || (pVol->m_iPriority > iRecursive) )	// 우선순위가 정해지지 않았거나 현재 우선순위보다 크면..
+			if ( (pVol->m_iPriority == -1) || (pVol->m_iPriority > iRecursive) )	// If the priority is not set or is greater than the current priority...
 			{
 				pVol->m_iPriority = iRecursive;
 				SetPriorityRecursive(pVol, iRecursive+1);		
@@ -696,72 +696,72 @@ void CPvsMgr::PrepareCollisionDetectTwo(CPortalVol* pVol, CPortalWall* pWall, e_
 {
 	switch (Col.eWT)
 	{
-		case WALL_ZB:		// 뒤쪽..
+		case WALL_ZB:		// behind..
 			Col.Vvec[0] = pVol->m_pvVertex[7];
 			Col.Vvec[1] = pVol->m_pvVertex[3];
 			Col.Vvec[2] = pVol->m_pvVertex[6];
 			Col.Vvec[3] = pVol->m_pvVertex[2];
-							// 뒤쪽 투영된 값..
+							// The back projected value...
 			Col.Vvec[4] = pWall->m_pvVertex[0];	Col.Vvec[4].z = pVol->m_pvVertex[7].z;
 			Col.Vvec[5] = pWall->m_pvVertex[1];	Col.Vvec[5].z = pVol->m_pvVertex[3].z;
 			Col.Vvec[6] = pWall->m_pvVertex[2];	Col.Vvec[6].z = pVol->m_pvVertex[6].z;
 			Col.Vvec[7] = pWall->m_pvVertex[3];	Col.Vvec[7].z = pVol->m_pvVertex[2].z;
 			break;
 
-		case WALL_ZF:		// 앞쪽..
+		case WALL_ZF:		// front...
 			Col.Vvec[0] = pVol->m_pvVertex[5];
 			Col.Vvec[1] = pVol->m_pvVertex[1];
 			Col.Vvec[2] = pVol->m_pvVertex[4];
 			Col.Vvec[3] = pVol->m_pvVertex[0];
-							// 앞쪽 투영된 값..
+							// Forward projected value..
 			Col.Vvec[4] = pWall->m_pvVertex[0];	Col.Vvec[4].z = pVol->m_pvVertex[5].z;
 			Col.Vvec[5] = pWall->m_pvVertex[1];	Col.Vvec[5].z = pVol->m_pvVertex[1].z;
 			Col.Vvec[6] = pWall->m_pvVertex[2];	Col.Vvec[6].z = pVol->m_pvVertex[4].z;
 			Col.Vvec[7] = pWall->m_pvVertex[3];	Col.Vvec[7].z = pVol->m_pvVertex[0].z;
 			break;
 				
-		case WALL_XL:		// 왼쪽..
+		case WALL_XL:		// left..
 			Col.Vvec[0] = pVol->m_pvVertex[6];
 			Col.Vvec[1] = pVol->m_pvVertex[2];
 			Col.Vvec[2] = pVol->m_pvVertex[5];
 			Col.Vvec[3] = pVol->m_pvVertex[1];
-							// 왼쪽 투영된 값..
+							// left projected value..
 			Col.Vvec[4] = pWall->m_pvVertex[0];	Col.Vvec[4].x = pVol->m_pvVertex[6].x;
 			Col.Vvec[5] = pWall->m_pvVertex[1];	Col.Vvec[5].x = pVol->m_pvVertex[2].x;
 			Col.Vvec[6] = pWall->m_pvVertex[2];	Col.Vvec[6].x = pVol->m_pvVertex[5].x;
 			Col.Vvec[7] = pWall->m_pvVertex[3];	Col.Vvec[7].x = pVol->m_pvVertex[1].x;
 			break;
 
-		case WALL_XR:	// 오른쪽..
+		case WALL_XR:	// right..
 			Col.Vvec[0] = pVol->m_pvVertex[4];
 			Col.Vvec[1] = pVol->m_pvVertex[0];
 			Col.Vvec[2] = pVol->m_pvVertex[7];
 			Col.Vvec[3] = pVol->m_pvVertex[3];
-						// 오른쪽 투영된 값..
+						// Right projected value..
 			Col.Vvec[4] = pWall->m_pvVertex[0];	Col.Vvec[4].x = pVol->m_pvVertex[4].x;
 			Col.Vvec[5] = pWall->m_pvVertex[1];	Col.Vvec[5].x = pVol->m_pvVertex[0].x;
 			Col.Vvec[6] = pWall->m_pvVertex[2];	Col.Vvec[6].x = pVol->m_pvVertex[7].x;
 			Col.Vvec[7] = pWall->m_pvVertex[3];	Col.Vvec[7].x = pVol->m_pvVertex[3].x;
 			break;
 
-		case WALL_YT:	// 위쪽
+		case WALL_YT:	// topside
 			Col.Vvec[0] = pVol->m_pvVertex[0];
 			Col.Vvec[1] = pVol->m_pvVertex[1];
 			Col.Vvec[2] = pVol->m_pvVertex[3];
 			Col.Vvec[3] = pVol->m_pvVertex[2];
-						// 위쪽 투영된 값..
+						// Upward projected value..
 			Col.Vvec[4] = pWall->m_pvVertex[0];	Col.Vvec[4].y = pVol->m_pvVertex[0].y;
 			Col.Vvec[5] = pWall->m_pvVertex[1];	Col.Vvec[5].y = pVol->m_pvVertex[1].y;
 			Col.Vvec[6] = pWall->m_pvVertex[2];	Col.Vvec[6].y = pVol->m_pvVertex[3].y;
 			Col.Vvec[7] = pWall->m_pvVertex[3];	Col.Vvec[7].y = pVol->m_pvVertex[2].y;
 			break;
 
-		case WALL_YB:	// 아래쪽
+		case WALL_YB:	// down
 			Col.Vvec[0] = pVol->m_pvVertex[7];
 			Col.Vvec[1] = pVol->m_pvVertex[6];
 			Col.Vvec[2] = pVol->m_pvVertex[4];
 			Col.Vvec[3] = pVol->m_pvVertex[5];
-						// 아래쪽 투영된 값..
+						// The lower projected value...
 			Col.Vvec[4] = pWall->m_pvVertex[0];	Col.Vvec[4].y = pVol->m_pvVertex[7].y;
 			Col.Vvec[5] = pWall->m_pvVertex[1];	Col.Vvec[5].y = pVol->m_pvVertex[6].y;
 			Col.Vvec[6] = pWall->m_pvVertex[2];	Col.Vvec[6].y = pVol->m_pvVertex[4].y;
@@ -786,7 +786,7 @@ bool CPvsMgr::CollisionDetectMain(CPortalVol* const pVolMy)
 	{
 		Col = *icit++;
 
-		// Volumn에 있는 충돌 체크 점들..
+		// Collision check lights in Volume..
 		for( i = 0; i < 9; i++ )
 		{
 			for( j = 0; j < 5; j++ )
@@ -795,26 +795,26 @@ bool CPvsMgr::CollisionDetectMain(CPortalVol* const pVolMy)
 				{
 					int k = 98;
 				}
-				// 선분을 만든다..
+				// makes a line segment.
 				vDir = Col.Wvec[j] - Col.Vvec[i];	vDir.Normalize();
 
-				// 우선 순위대로 충돌 체크..
+				// Conflict checks in order of priority.
 				ivit = m_pVoltList.begin();
 				while(ivit != m_pVoltList.end())
 				{
 					pVol = *ivit++;
-					// 자기 자신은 검사하지 않는다..
+					// It doesn't check itself.
 					if (pVol == pVolMy)
 						continue;
 
-// Debug용..
+// For Debug...
 /*					if ( (i == 1) && (j == 1) && (pVol->m_iID == 0) )
 					{
 						m_dcol.Vvec[0] = Col.Wvec[j];
 						m_dcol.Vvec[1] = Col.Vvec[i];
 					}*/
 
-					// Portal Wall이 있는 면은 Portal Wall과 먼저 검사한후.. 충돌하지 않는 면만 인정.. !!
+					// The side with the Portal Wall is checked first with the Portal Wall.. Only the side that does not collide is recognized.. !!
 					switch (CollisionDetectSub(Col.Vvec[i], vDir, pVol))
 					{
 						case COLLISION_AND_CONTINUE:
@@ -824,7 +824,7 @@ bool CPvsMgr::CollisionDetectMain(CPortalVol* const pVolMy)
 								TRACE3("id %d, i %d, j %d \n", pVol->m_iID, i, j);
 							}
 							break;
-						case COLLISION_AND_STOP:	// 해당 선분에 대해서만 검사하지 않는다..
+						case COLLISION_AND_STOP:	// It does not check only that segment.
 							if (pVol->m_eRenderType == TYPE_UNKNOWN)
 							{
 								pVol->m_eRenderType = TYPE_TRUE;
@@ -844,7 +844,7 @@ again:;
 	return false;
 }
 
-// Debug용..
+// For Debug...
 /*
 void CPvsMgr::RenderCollision(__Collision& col)
 {
@@ -918,12 +918,12 @@ void CPvsMgr::RenderCollision(__Collision& col)
 
 e_ReturnCode CPvsMgr::CollisionDetectSub(const __Vector3& vOrig, const __Vector3& vDir, CPortalVol* pVolMy)
 {
-	// 고쳐야 될껏들..
-// 1. Wall단위로 검사해서..Wall과 충돌 체크 없이 Volumn의 면과 충돌한 면이 있으면.. 
+// Whatever needs to be fixed...
+// 1. Inspect by wall unit.. If there is a face that collides with the face of the volume without checking for collision with the wall
 // 2. Return COLLISION_AND_STOP;
-// 3. 둘다 충돌 했으면.. 일단 COLLISION_AND_CONTINUE를 셋팅하고 다른 Wall을 계속 검사..
-// 4. COLLISION_AND_CONTINUE가 셋팅되어 있으면.. COLLISION_AND_CONTINUE를 return..
-// 5. 아니면..NO_COLLISION를 리턴..
+// 3. If both collide.. First set COLLISION_AND_CONTINUE and continue checking other Walls..
+// 4. If COLLISION_AND_CONTINUE is set.. return COLLISION_AND_CONTINUE..
+// 5. Otherwise..return NO_COLLISION..
 
 #define TM_DEF_MAC(A)	\
 {						\
@@ -1062,7 +1062,7 @@ bool CPvsMgr::IntersectTriangle(const __Vector3& vOrig, const __Vector3& vDir,
 
     // If determinant is near zero, ray lies in plane of triangle
     fDet = vEdge1.Dot(pVec);
-    if( fDet < 0.0001f )		// 거의 0에 가까우면 삼각형 평면과 지나가는 선이 평행하다.
+    if( fDet < 0.0001f )		// When it is close to 0, the triangular plane and the line passing through it are parallel.
         return false;
 
     // Calculate distance from vert0 to ray origin
@@ -1089,15 +1089,15 @@ bool CPvsMgr::IntersectTriangle(const __Vector3& vOrig, const __Vector3& vDir,
     fU *= fInvDet;
     fV *= fInvDet;
 
-	// t가 클수록 멀리 직선과 평면과 만나는 점이 멀다.
-	// t*dir + orig 를 구하면 만나는 점을 구할 수 있다.
-	// u와 v의 의미는 무엇일까?
-	// 추측 : v0 (0,0), v1(1,0), v2(0,1) <괄호안은 (U, V)좌표> 이런식으로 어느 점에 가깝나 나타낸 것 같음
+	// The larger t is, the farther away the point where the straight line meets the plane.
+	// If you find t*dir + orig, you can find the intersection point.
+	// What does u and v mean?
+	// Guess: v0 (0,0), v1(1,0), v2(0,1) <(U, V) coordinates in parentheses> It seems to indicate which point it is close to in this way
 	//
 
-	if(pVCol) (*pVCol) = vOrig + (vDir * fT);	// 접점을 계산..
+	if(pVCol) (*pVCol) = vOrig + (vDir * fT);	// Calculate contact points..
 
-	// *t < 0 이면 뒤쪽...
+	// *If t < 0 then back...
 	if ( fT < 0.0f )
 		return false;
 
@@ -1143,7 +1143,7 @@ void CPvsMgr::CalcCompile()
 		pBase->SetState(STATE_NONE);
 	}
 
-	// Visibility를 결정한다.. !!!!!!!!
+	// Determine visibility.. !!!!!!!!!!
 	m_ColList.clear();
 	m_pVoltList.clear();
 
@@ -1191,11 +1191,11 @@ void CPvsMgr::SplitShapeToVolumn()
 	if (!pShape)	
 		return;
 
-	//  배경 Shape의 lod 레벨을 최고로 만든다..
+	//  Make the lod level of the background shape the highest.
 	pShape->Tick();
 	pShape->SetMaxLOD();
 
-	// 뽀갠다..
+	// kiss it..
 	CPvsBase* pBase = NULL;
 	CPortalVol* pVol = NULL;
 
@@ -1207,7 +1207,7 @@ void CPvsMgr::SplitShapeToVolumn()
 		{
 			pVol = (CPortalVol* )pBase;
 
-			// Shape의폴리곤 갯수만큼 돌면서.. 먼저 Transform 시키고.. 검사.. 								
+			// Rotating as much as the number of polygons in the Shape.. Transform first.. Inspection..								
 			pVol->SplitAndMakeShape(pShape);
 		}
 	}

@@ -71,7 +71,7 @@ void CShapeTypeDlg::OnOK()
 
 	if (!pBut->GetCheck() && !pBut2->GetCheck())
 	{
-		AfxMessageBox("먼저 Shape Type을 설정하세여..");
+		AfxMessageBox("First, set the Shape Type.");
 		return;
 	}
 

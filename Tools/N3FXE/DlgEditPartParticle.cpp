@@ -504,9 +504,7 @@ void CDlgEditPartParticle::OnPartParticleBtnLoadTex()
 		{
 			m_strTexName = _T("");
 			MessageBox("..-.-;;","ERR05",MB_OK);
-		}		
-
-		//���� ���� ���� ��� ������ ����..^^
+		}
 
 		UpdateData(FALSE);
 	}
