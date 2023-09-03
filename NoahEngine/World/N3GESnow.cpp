@@ -75,7 +75,7 @@ void CN3GESnow::Tick()
 
 		__SnowParticle* pParticle = m_pSnowParticle + i;
 		pParticle->vPos += vAdd;
-		// pV1-&gt;x += vAdd.x; pV1-&gt;y += vAdd.y; pV1-&gt;z += vAdd.z;
+		// pV1->x += vAdd.x; pV1->y += vAdd.y; pV1->z += vAdd.z;
 
 		float fDiff = pParticle->vPos.y - (fCurY-fHalfHeight);
 		if (fDiff < 0)	// If the height is out of range
@@ -244,15 +244,15 @@ void CN3GESnow::Create(float fDensity, float fWidth, float fHeight, float fSnowS
 		__VertexXyzT1* pV1 = pVertices + i*3,	*pV2 = pVertices + i*3+1,	*pV3 = pVertices + i*3+2;
 		// Arrange the UV coordinates so that the eye circle fills the triangle in the equilateral triangle (because the border color was not properly applied in the geforce2 card..)
 		// pV1->tu = 0.5f;	pV1->tv = 0.5f - sqrt3/2.f;
-		// pV2-&gt;tu = 0.5f + sqrt3/2.f; pV2-&gt;tv = 1.0f;
-		// pV3-&gt;tu = 0.5f - sqrt3/2.f; pV3-&gt;tv = 1.0f;
+		// pV2->tu = 0.5f + sqrt3/2.f; pV2->tv = 1.0f;
+		// pV3->tu = 0.5f - sqrt3/2.f; pV3->tv = 1.0f;
 
 		// Putting UV Coordinates in an Isosceles Triangle
 		pV1->tu = 0.5f;	pV1->tv = 0.0f;
 		pV2->tu = 1.0f;	pV2->tv = 1.0f;
 		pV3->tu = 0.0f;	pV3->tv = 1.0f;
 
-		// This method is to put a triangle in the eye texture square (so let&#39;s draw the eye texture to fit the triangle)
+		// This method is to put a triangle in the eye texture square (so let's draw the eye texture to fit the triangle)
 
 	}
 

@@ -14,9 +14,9 @@ CGrassMng::CGrassMng()
 
 CGrassMng::~CGrassMng()
 {
-	CLogWriter::Write("CGrassMng::~CGrassMng -> 소멸자"); // TmpLog1122
+	CLogWriter::Write("CGrassMng::~CGrassMng -> destructor"); // TmpLog1122
 	Release();
-	CLogWriter::Write("CGrassMng::~CGrassMng -> 소멸자 finish"); // TmpLog1122
+	CLogWriter::Write("CGrassMng::~CGrassMng -> destructor finish"); // TmpLog1122
 }
 
 
@@ -115,7 +115,7 @@ void CGrassMng::Tick(CGameProcedure* pProc)
 		}
 
 		// Terrain Information (Get the terrain information of the tile where the grass is located)
-		unsigned char cGroundInfo = s_pTerrain-&gt;GetGrassAttr(((WORD)m_pCount[i].x)/TILE_SIZE, ((WORD)m_pCount[i].z)/TILE_SIZE); // information of the current tile
+		unsigned char cGroundInfo = s_pTerrain->GetGrassAttr(((WORD)m_pCount[i].x)/TILE_SIZE, ((WORD)m_pCount[i].z)/TILE_SIZE); // information of the current tile
 		if (cGroundInfo==0) // Not a cell (area, region) where grass is sown
 		{
 			pGrass->m_bCamOut = TRUE;
@@ -124,7 +124,7 @@ void CGrassMng::Tick(CGameProcedure* pProc)
 
 		GrassIndex |= cGroundInfo;
 
-		m_pCount[i].y = s_pTerrain-&gt;GetHeight(m_pCount[i].x, m_pCount[i].z); // set height
+		m_pCount[i].y = s_pTerrain->GetHeight(m_pCount[i].x, m_pCount[i].z); // set height
 
     	pGrass->ScaleSet(1.5f, 1.5f, 1.5f);
 		vPivot.Set(m_pCount[i].x,m_pCount[i].y,m_pCount[i].z);
@@ -141,23 +141,23 @@ void CGrassMng::Tick(CGameProcedure* pProc)
 		// Calculate the distance to make it look smoother.
 		__Vector3 leng = vCamPos - m_pCount[i];
 		float lengs = leng.Magnitude();
-		IsCamOut = pGrass-&gt;SetBrightLevel(lengs); // Alpha between distances, automatically set to render
+		IsCamOut = pGrass->SetBrightLevel(lengs); // Alpha between distances, automatically set to render
 		if (IsCamOut == TRUE) // Do not render if the distance is large.
 		{
 			pGrass->m_bCamOut = TRUE;
 			continue;
 		}
 
-		pGrass-&gt;PosSet(vPivot); // input location
-		pGrass-&gt;Tick(-1); // Transform to fit the camera&#39;s position
-		if(pGrass-&gt;ThisTexIsHave(cGroundInfo) == false)
+		pGrass->PosSet(vPivot); // input location
+		pGrass->Tick(-1); // Transform to fit the camera's position
+		if(pGrass->ThisTexIsHave(cGroundInfo) == false)
 		{
 			int nGrassNum;
 			unsigned char uCGrassMngIndex;
 			FindGrassIndex(cGroundInfo,nGrassNum,uCGrassMngIndex);
 			pGrass->TexSelectNum(nGrassNum,uCGrassMngIndex);
 		}
-pGrass-&gt;m_bCamOut = FALSE; // Sprinkle on the screen (render)
+pGrass->m_bCamOut = FALSE; // Sprinkle on the screen (render)
 	}
 
 // If there is a change in the type of other pools, delete them all and refill them with pools

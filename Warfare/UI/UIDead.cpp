@@ -234,7 +234,7 @@ void CUIDead::MsgSend_Revival(BYTE byType)
 
 	CLogWriter::Write("Send Regeneration");
 	CGameProcedure::s_pPlayer->m_iSendRegeneration = 2; // Once sent, a flag that will not be seen until it dies again
-	TRACE("보냄 - 다시 살아나기\n");
+	TRACE("sent - come back to life\n");
 
 	m_bProcessing = true;
 }
@@ -253,10 +253,10 @@ void CUIDead::MsgRecv_Revival(DataPack *pDataPack, int &iOffset)
 
 	CGameProcedure::s_pPlayer->m_iSendRegeneration = 0; // Once sent, a flag that will not be seen until it dies again
 	CGameProcedure::s_pPlayer->m_fTimeAfterDeath = 0; // Once sent, a flag that will not be seen until it dies again
-	TRACE("받음 - 다시 살아나기(%.1f, %.1f)\n", vPosPlayer.x, vPosPlayer.z);
+	TRACE("received - come back to life(%.1f, %.1f)\n", vPosPlayer.x, vPosPlayer.z);
 
 	//
-	// Magic &amp; Effect Reset..
+	// Magic & Effect Reset..
 	if(CGameProcedure::s_pProcMain->m_pUIStateBarAndMiniMap) 
 		CGameProcedure::s_pProcMain->m_pUIStateBarAndMiniMap->ClearMagic();
 	if(CGameProcedure::s_pProcMain->m_pMagicSkillMng) 

@@ -515,7 +515,7 @@ void CUITradeSellBBS::OnButtonWhisper()
 		{
 			const __InfoTradeSellBBS ITSB = (*it);
 			if(0 != lstrcmpi(ITSB.szID.c_str(), CGameProcedure::s_pPlayer->m_InfoBase.szID.c_str()))
-			{// Don&#39;t let yourself whisper...
+			{// Don't let yourself whisper...
 				CGameProcedure::s_pProcMain->MsgSend_ChatSelectTarget(ITSB.szID);
 			}
 			break;
@@ -621,7 +621,7 @@ void CUITradeSellBBS::MsgSend_PerTrade()
 {
 	if(m_bProcessing) return; // If there is no response to the packet sent before
 	if(0 == lstrcmpi(m_ITSB.szID.c_str(), CGameProcedure::s_pPlayer->m_InfoBase.szID.c_str()))
-		return; // Don&#39;t do business with yourself
+		return; // Don't do business with yourself
 
 	BYTE byBuff[10];
 

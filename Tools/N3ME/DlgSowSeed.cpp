@@ -96,7 +96,7 @@ BOOL CDlgSowSeed::OnInitDialog()
 			Sow_Array[i][j] = rand() % 3;
 		}
 	}
-	// Seed List 읽어 오기..
+	// Read the Seed List...
 	//SetDlgItemText(IDC_STATIC_GRASSINFO, m_FileName);
 
 	

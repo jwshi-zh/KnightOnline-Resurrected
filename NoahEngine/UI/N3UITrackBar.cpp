@@ -270,7 +270,7 @@ void CN3UITrackBar::operator = (const CN3UITrackBar& other)
 
 void CN3UITrackBar::CreateImages()
 {
-	__ASSERT(NULL == m_pBkGndImageRef && NULL == m_pThumbImageRef, "이미지가 이미 할당되어 있어여");
+	__ASSERT(NULL == m_pBkGndImageRef && NULL == m_pThumbImageRef, "image is already assigned");
 	m_pBkGndImageRef = new CN3UIImage();
 	m_pBkGndImageRef->Init(this);
 	m_pBkGndImageRef->SetReserved(IMAGETYPE_BKGND);

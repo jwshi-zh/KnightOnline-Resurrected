@@ -61,18 +61,18 @@ and Mark Adler.</p>
 <h2>How to integrate with the project</h2>
 <p>Zip is a static library and statically links to compiled zlib.lib (version
 1.13 nowadays). The zlib library can be replaced with a newer version providing
-you also replace the files: &quot;zlib.h&quot; and &quot;zconf.h&quot; in the
+you also replace the files: "zlib.h" and "zconf.h" in the
 Zip project. The Zip library uses MFC in a shared library as a Release and Debug
 Configuration. Your project must use MFC in the same way in the appropriate
 project configuration. You may need to adapt this to your needs. To add Zip
 library functionality to your project you need to link the library to the
 project. You can do this in at least two ways (in both cases you need to include
-ZipArchive.h header in your sources like this: #include &quot;ZipArchive.h&quot;):</p>
+ZipArchive.h header in your sources like this: #include "ZipArchive.h"):</p>
 <h4>Method 1</h4>
-<p>Add &quot;..\Zip\debug(release)\Zip.lib&quot; to <em>Project
-Settings-&gt;Link-&gt;Input-&gt;Object/library modules</em> and add Zip
-directory to the preprocessor searches (<em>Project Settings -&gt; C++ -&gt;
-Preprocessor -&gt; Additional include directories</em>).</p>
+<p>Add "..\Zip\debug(release)\Zip.lib" to <em>Project
+Settings->Link->Input->Object/library modules</em> and add Zip
+directory to the preprocessor searches (<em>Project Settings -> C++ ->
+Preprocessor -> Additional include directories</em>).</p>
 <h4>Method 2 (simpler)</h4>
 <p>Insert Zip project into workspace and set project dependencies (your project
 dependent on Zip project).</p>
@@ -104,8 +104,8 @@ structure. It means that you can easily convert the volumes created in one mode
 to the other one by renaming the files (in TD mode each volume but last has a
 number as an extension). To convert the archive from TD to PKZIP compatible
 archive, copy each file to the removable media, giving them the extension
-&quot;.zip&quot;. You should also label each disk with the appropriate label
-starting from &quot;pkback# 001&quot;.</p>
+".zip". You should also label each disk with the appropriate label
+starting from "pkback# 001".</p>
 <p>There is a limited functions set available during work with multi-disk
 archives. Only adding is allowed when creating an archive and only extracting
 and testing when opening an existing one. Deleting files from these archives
@@ -165,7 +165,7 @@ int nCmdShow)
 	// add the code here to get the destination directory from the user 
 	// for example:
 	/* CBrowseForFolder bf;
-	   bf.strTitle = _T(&quot;Select directory to extract files&quot;);
+	   bf.strTitle = _T("Select directory to extract files");
 	   if (!bf.GetFolder(szDest))
 	       return -1;
 	*/
@@ -174,7 +174,7 @@ int nCmdShow)
 
 	zip.Open(szBuff, CZipArchive::openReadOnly); 
 	// openReadOnly mode is necessary for self extract archives
-	for (WORD i = 0; i &lt; zip.GetNoEntries(); i++)
+	for (WORD i = 0; i < zip.GetNoEntries(); i++)
 		zip.ExtractFile(i, szDest);
 
 	zip.Close();
@@ -208,12 +208,12 @@ try
 }
 catch (CException* e)
 {
-	if (e-&gt;IsKindOf( RUNTIME_CLASS( CZipException )))
+	if (e->IsKindOf( RUNTIME_CLASS( CZipException )))
 	{
 		CZipException* p = (CZipException*) e;
 		//... and so on 
 	}
-	else if (e-&gt;IsKindOf( RUNTIME_CLASS( CFileException )))
+	else if (e->IsKindOf( RUNTIME_CLASS( CFileException )))
 	{
 		CFileException* p = (CFileException*) e;
 		//... and so on 
@@ -223,7 +223,7 @@ catch (CException* e)
 		// the only possibility is a memory exception I suppose
 		//... and so on 
 	}
-	e-&gt;Delete();
+	e->Delete();
 }
 </pre>
 <h3>Handling the extra field</h3>
@@ -243,14 +243,14 @@ to ZipArchive.h in the file testzipdlgdlg.h.</p>
   <h3>Linking errors</h3>
   <p>When you experience linking errors (mostly <em>LNK2005)</em> you need to
   make sure that the library and your program are both using
-  single-threaded or both multithreaded library. The option <em>&quot;Project-&gt;Settings-&gt;
-  c/c++ -&gt;Code Generation-&gt;Use run-time library&quot; </em>should be set
+  single-threaded or both multithreaded library. The option <em>"Project->Settings->
+  c/c++ ->Code Generation->Use run-time library" </em>should be set
   to the same value in the ZipArchive library and the program project options.
   <p>If it doesn't help, try recompiling the zlib library ( <em>zlib.lib</em>
   provided with the project is compiled from a release configuration and using <font SIZE="2">Multithreaded</font> 
   DLL run-time library ). You can download the zlib library
   sources from <a href="http://software.artpol.com.pl/d_zip.html.">http://software.artpol.com.pl/d_zip.html.</a>
-  Use <em>zlibstat</em> project. Set <em>&quot;Use run-time library&quot;</em>
+  Use <em>zlibstat</em> project. Set <em>"Use run-time library"</em>
   option to the same value as you set it in ZipArchve library and your program
   configurations. Compile the Release configuration of the zlib library and
   replace with it the file <em>zlib.lib</em> in the ZipArchive folder. You may
@@ -260,13 +260,13 @@ to ZipArchive.h in the file testzipdlgdlg.h.</p>
     <li>compile Debug and Release configuraions of the zlib library
     <li>copy <em>zlib_d.lib</em> from Debug and <em>zlib.lib</em> from Release
       directories to the ZipArchive directory
-    <li>add these files to the ZipArchive project <em>(Project -&gt; Add To
-      Project -&gt; Files...)</em>
-    <li>go to the project setting dialog <em>(Project -&gt; Settings)</em>
-    <li>select debug configurations <em>(Setting For -&gt; Multiple
+    <li>add these files to the ZipArchive project <em>(Project -> Add To
+      Project -> Files...)</em>
+    <li>go to the project setting dialog <em>(Project -> Settings)</em>
+    <li>select debug configurations <em>(Setting For -> Multiple
       Configurations)</em> such as Debug and Unicode Debug
-    <li>select <em>zlib.lib</em> file, then the General tab, and check the box <em>&quot;Exclude
-      file from build&quot;</em>
+    <li>select <em>zlib.lib</em> file, then the General tab, and check the box <em>"Exclude
+      file from build"</em>
     <li>select release configurations
     <li>select <em>zlib_.lib</em> and exclude it from these builds</li>
   </ul>

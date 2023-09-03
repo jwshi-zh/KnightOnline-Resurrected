@@ -214,7 +214,7 @@ _MAGIC_TABLE* CNpcMagicProcess::IsAvailable(int magicid, int tid, BYTE type )
 	
 	if( type == MAGIC_EFFECTING )     // Make sure you subtract MPs (SPs) after you use spell (skill).
 	{
-		// MP만 달다록 처리한당.. Npc는 SP가 없음..
+		// Only MP is processed.. Npc has no SP..
 		//if( pTable->sMsp > m_pSrcNpc->m_sMP )
 		//	goto fail_return;
 		//m_pSrcNpc->MSpChange(2, -(pTable->sMsp) );
@@ -302,13 +302,13 @@ void CNpcMagicProcess::ExecuteType3(int magicid, int tid, int data1, int data2, 
 				else attack_type = magicid;
 
 				if(pNpc->SetDamage(attack_type, damage, m_pSrcUser->m_strUserID, m_pSrcUser->m_iUserId + USER_BAND, m_pSrcUser->m_pIocport) == FALSE)	{
-					// Npc가 죽은 경우,,
+					// If the NPC is dead,
 					pNpc->SendExpToUserList(); // Distribution of experience!
 					pNpc->SendDead(m_pSrcUser->m_pIocport);
 					m_pSrcUser->SendAttackSuccess(tid, MAGIC_ATTACK_TARGET_DEAD, damage, pNpc->m_iHP, MAGIC_ATTACK);
 				}
 				else	{
-					// 공격 결과 전송
+					// Transmission of attack results
 					m_pSrcUser->SendAttackSuccess(tid, ATTACK_SUCCESS, damage, pNpc->m_iHP, MAGIC_ATTACK);
 				}	*/
 			}

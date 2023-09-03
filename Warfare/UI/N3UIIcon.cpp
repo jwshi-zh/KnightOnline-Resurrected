@@ -86,9 +86,9 @@ DWORD CN3UIIcon::MouseProc(DWORD dwFlags, const POINT& ptCur, const POINT& ptOld
 /*
 	else
 	{
-		if(m_pParent &amp;&amp; m_pParent-&gt;GetState() == UI_STATE_ICON_MOVING) // If the previous state is the button Down state
+		if(m_pParent && m_pParent->GetState() == UI_STATE_ICON_MOVING) // If the previous state is the button Down state
 		{
-			m_pParent-&gt;ReceiveMessage(this, UIMSG_ICON_UP); // Notify parent when button is clicked..
+			m_pParent->ReceiveMessage(this, UIMSG_ICON_UP); // Notify parent when button is clicked..
 			dwRet |= UI_MOUSEPROC_DONESOMETHING;
 			return dwRet;
 		}

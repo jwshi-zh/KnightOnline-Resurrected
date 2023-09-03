@@ -142,7 +142,7 @@ bool CUIChat::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 	else if (dwMsg == UIMSG_EDIT_RETURN)
 	{
 		auto* pEdit = (CN3UIEdit*)pSender;
-		// Chat m_pEdit-&gt;SetString(&quot;&quot;); After doing that, the pointer obtained by m_pEdit-&gt;GetString();
+		// Chat m_pEdit->SetString(""); After doing that, the pointer obtained by m_pEdit->GetString();
 		// Be careful as this will result in an invalid pointer.
 
 		// Copied to buffer.
@@ -185,7 +185,7 @@ bool CUIChat::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 
 		// Erase the text displayed on the screen.
 		// this->SetString("");
-		// ::SetWindowText(s_hWndEdit, &quot;&quot;);
+		// ::SetWindowText(s_hWndEdit, "");
 
 		SetEnableKillFocus(true);
 	}
@@ -240,7 +240,7 @@ bool CUIChat::Load(HANDLE hFile)
 	m_rcChatOutRegion = m_pChatOut->GetRegion();
 	CreateLines();
 
-	__ASSERT(0<m_iChatLineCount,"채팅창이 너무 작아요");
+	__ASSERT(0<m_iChatLineCount,"Chat window is too small");
 
 	// son, chat_in
 	m_pEdit = (CN3UIEdit*)GetChildByID("edit0");				__ASSERT(m_pEdit, "NULL UI Component!!");
@@ -311,7 +311,7 @@ void CUIChat::AddChatMsg(e_ChatMode eCM, const std::string& szString, D3DCOLOR c
 	auto* pChatInfo = new __ChatInfo(szString, color);
 	// m_ChatBuffers[CHAT_BUFFER_NORMAL].push_back(pChatInfo);
 		m_ChatBuffer.push_back(pChatInfo);
-		// if (m_ChatBuffers[CHAT_BUFFER_NORMAL].size() &gt; 255) // If there are more than 255, clear from the front
+		// if (m_ChatBuffers[CHAT_BUFFER_NORMAL].size() > 255) // If there are more than 255, clear from the front
 		if (m_ChatBuffer.size() > 255)	// If more than 255, erase from the front
 		{
 			// __ChatInfo* pTemp = m_ChatBuffers[CHAT_BUFFER_NORMAL].front();
@@ -328,7 +328,7 @@ void CUIChat::AddChatMsg(e_ChatMode eCM, const std::string& szString, D3DCOLOR c
 	// Put into ChatBuffer
 	// __ChatInfo* pChatInfo = new __ChatInfo(szString, color);
 	// m_ChatBuffers[eCB].push_back(pChatInfo);
-	// if (m_ChatBuffers[eCB].size() &gt; 255) // If there are more than 255, clear from the front
+	// if (m_ChatBuffers[eCB].size() > 255) // If there are more than 255, clear from the front
 	// {
 		// __ChatInfo* pTemp = m_ChatBuffers[eCB].front();
 		// if (pTemp) delete pTemp;
@@ -346,7 +346,7 @@ void CUIChat::AdjustScroll()
 	int iCurLinePos = m_pScrollbar->GetCurrentPos();	// The line currently pointed by the scroll bar
 	const BOOL bAutoScroll = (m_pScrollbar->GetMaxPos() == iCurLinePos) ? TRUE : FALSE;
 
-	// while (m_LineBuffers[m_eChatBuffer].size() &gt; MAX_CHAT_LINES &amp;&amp; 0 &lt; iCurLinePos) // MAX_CHAT_LINES is the maximum number of lines.
+	// while (m_LineBuffers[m_eChatBuffer].size() > MAX_CHAT_LINES && 0 < iCurLinePos) // MAX_CHAT_LINES is the maximum number of lines.
 	while (m_LineBuffer.size() > MAX_CHAT_LINES && 0 < iCurLinePos)	// MAX_CHAT_LINES is the maximum number of lines (however, if the scroll bar is at 0, lines are not deleted, so 500 can be exceeded)
 	{
 		// delete one line
@@ -438,7 +438,7 @@ void CUIChat::AddLineBuffer(const std::string& szString, D3DCOLOR color)
 				}
 				else
 				{
-					__ASSERT(iRegionWidth>15, "너무 좁아서 한글자도 찍을 수가 없다");
+					__ASSERT(iRegionWidth>15, "It's so narrow that I can't even take a picture of Korean characters.");
 					break;
 				}
 				iLineStart = iCount;
@@ -530,7 +530,7 @@ void CUIChat::RecalcLineBuffers()	// If called when the size of the chat window 
 		}
 
 		// Adjusting the number of line buffers
-		// while (m_LineBuffers[i].size() &gt; MAX_CHAT_LINES) // MAX_CHAT_LINES is the maximum number of lines
+		// while (m_LineBuffers[i].size() > MAX_CHAT_LINES) // MAX_CHAT_LINES is the maximum number of lines
 		while (m_LineBuffer.size() > MAX_CHAT_LINES)	// MAX_CHAT_LINES is the maximum number of lines
 		{
 			// delete one line
@@ -574,7 +574,7 @@ void CUIChat::KillFocus()
 
 BOOL CUIChat::IsChatMode()
 {
-	return ((m_pEdit && GetFocusedEdit() == m_pEdit) ? TRUE : FALSE);			// TRUE --&gt; When not in chatting mode
+	return ((m_pEdit && GetFocusedEdit() == m_pEdit) ? TRUE : FALSE);			// TRUE --> When not in chatting mode
 }
 // son, chat_in
 
@@ -690,7 +690,7 @@ void CUIChat::ChangeChattingMode(e_ChatMode eCM)
 		else pBtns[i]->SetState(UI_STATE_BUTTON_NORMAL);
 	}
 
-	// if(eCBPrev != m_eChatBuffer) this-&gt;AdjustScroll(); // If the chat mode changes...
+	// if(eCBPrev != m_eChatBuffer) this->AdjustScroll(); // If the chat mode changes...
 }
 
 void CUIChat::ChatListenEnable()

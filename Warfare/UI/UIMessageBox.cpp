@@ -114,7 +114,7 @@ bool CUIMessageBox::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 							CGameProcedure::s_bNeedReportConnectionClosed = true; // Should I report that the connection to the server has been lost?
 
 							CGameProcedure::MsgSend_GameServerLogIn();
-							CGameProcedure::ProcActiveSet((CGameProcedure*)CGameProcedure::s_pProcCharacterSelect); // Let&#39;s choose a character again.
+							CGameProcedure::ProcActiveSet((CGameProcedure*)CGameProcedure::s_pProcCharacterSelect); // Let's choose a character again.
 						}
 					}
 					break;

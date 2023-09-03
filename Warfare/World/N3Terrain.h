@@ -28,7 +28,7 @@ public:
 	
 	// MapInfo..
 	MAPDATA*			m_pMapData;
-	int					m_ti_MapSize;				// How many cells go in... 4096Meter -&gt; 1024 + 1
+	int					m_ti_MapSize;				// How many cells go in... 4096Meter -> 1024 + 1
 	int					m_pat_MapSize;				// The number of patches.. depends on the size..
 	__Vector3*			m_pNormal;
 
@@ -85,9 +85,9 @@ protected:
 	void	MakeDistanceTable();
 
 	inline	int	Log2(int x);	// Multipliers of 2 only....
-	int Real2Tile(float x){ return ((int)x / TILE_SIZE); } // Real coordinates -&gt; Tile coordinates... (absolute coordinates)
-	int Tile2Patch(int x) { return (x / PATCH_TILE_SIZE); } // Tile coordinates -&gt; Patch coordinates... (absolute coordinate system)
-	int Real2Patch(float fX) { return ( ((int)fX / TILE_SIZE) / PATCH_TILE_SIZE ); } // Real coordinates -&gt; patch coordinates.. (absolute coordinate system)
+	int Real2Tile(float x){ return ((int)x / TILE_SIZE); } // Real coordinates -> Tile coordinates... (absolute coordinates)
+	int Tile2Patch(int x) { return (x / PATCH_TILE_SIZE); } // Tile coordinates -> Patch coordinates... (absolute coordinate system)
+	int Real2Patch(float fX) { return ( ((int)fX / TILE_SIZE) / PATCH_TILE_SIZE ); } // Real coordinates -> patch coordinates.. (absolute coordinate system)
 		
 	void	LoadTileInfo(HANDLE hFile);
 	bool	CheckRenderablePatch();

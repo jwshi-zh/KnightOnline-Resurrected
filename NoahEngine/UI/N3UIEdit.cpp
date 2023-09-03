@@ -235,7 +235,7 @@ bool CN3UIEdit::SetFocus()
 	s_pFocusedEdit = this;				// Set the edit that has focus to me
 
 	SIZE size;
-	if (m_pBuffOutRef && m_pBuffOutRef->GetTextExtent("가",2,&size))
+	if (m_pBuffOutRef && m_pBuffOutRef->GetTextExtent(" ",2,&size))
 	{
 		s_Caret.SetSize(size.cy);
 		s_Caret.SetColor(m_pBuffOutRef->GetFontColor());
@@ -301,7 +301,7 @@ void CN3UIEdit::SetCaretPos(UINT nPos)
 
 void CN3UIEdit::SetMaxString(int iMax)		// set the maximum number of characters
 {
-	if (iMax <= 0) {__ASSERT(0, "최대 글씨 수를 0보다 크게 정해주세요"); return;}
+	if (iMax <= 0) {__ASSERT(0, "Set the maximum number of characters to greater than 0"); return;}
 	m_iMaxStrLen = iMax;
 
 	if (nullptr == m_pBuffOutRef) return;
@@ -320,7 +320,7 @@ void CN3UIEdit::SetMaxString(int iMax)		// set the maximum number of characters
 // Since the start byte and end byte ranges are the same, it cannot be checked with this function.
 // Therefore, there is no other way than to do the inspection from the beginning.
 //
-// I haven&#39;t tested how it works in Unicode on NT, but
+// I haven't tested how it works in Unicode on NT, but
 // I think you can use it without any problems.
 //
 // 
@@ -365,7 +365,7 @@ void CN3UIEdit::SetString(const std::string& szString)
 				m_szPassword = szNewBuff;
 
 				szNewBuff.assign(m_iMaxStrLen-1, '*');
-				__ASSERT(NULL == szNewBuff[m_iMaxStrLen-1],"글자수가 다르다.");
+				__ASSERT(NULL == szNewBuff[m_iMaxStrLen-1],"different number of characters.");
 			}
 			m_pBuffOutRef->SetString(szNewBuff);
 		}
@@ -378,7 +378,7 @@ void CN3UIEdit::SetString(const std::string& szString)
 				m_szPassword = szNewBuff;
 
 				szNewBuff.assign(m_iMaxStrLen, '*');
-				__ASSERT(NULL == szNewBuff[m_iMaxStrLen],"글자수가 다르다.");
+				__ASSERT(NULL == szNewBuff[m_iMaxStrLen],"different number of characters.");
 			}
 			m_pBuffOutRef->SetString(szNewBuff);
 		}

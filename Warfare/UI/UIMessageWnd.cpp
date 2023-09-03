@@ -99,7 +99,7 @@ bool CUIMessageWnd::Load(HANDLE hFile)
 	m_rcChatOutRegion = m_pChatOut->GetRegion();
 	CreateLines();
 
-	__ASSERT(0<m_iChatLineCount,"채팅창이 너무 작아요");
+	__ASSERT(0<m_iChatLineCount,"Chat window is too small");
 	
 	return true;
 }
@@ -132,7 +132,7 @@ void CUIMessageWnd::CreateLines()
 		delete [] m_ppUILines; m_ppUILines = nullptr;
 	}
 	SIZE size;
-	if (m_pChatOut && m_pChatOut->GetTextExtent("가", lstrlen("가"), &size) && size.cy>0)
+	if (m_pChatOut && m_pChatOut->GetTextExtent(" ", lstrlen(" "), &size) && size.cy>0)
 	{
 		m_iChatLineCount = (m_rcChatOutRegion.bottom - m_rcChatOutRegion.top)/size.cy;
 	}
@@ -269,7 +269,7 @@ void CUIMessageWnd::AddLineBuffer(const std::string& szString, D3DCOLOR color)
 				}
 				else
 				{
-					__ASSERT(iRegionWidth>15, "너무 좁아서 한글자도 찍을 수가 없다");
+					__ASSERT(iRegionWidth>15, "It's so narrow that I can't even take a picture of Korean characters.");
 					break;
 				}
 				iLineStart = iCount;

@@ -26,7 +26,7 @@ public:
 	int					m_iSendRegeneration;	// If it is sent once, it will not be seen until it dies again. When the flag is 0, a message box is displayed.
 	bool				m_bTempMoveTurbo;		// Temporary code put in for development.. Makes it run really fast.. See Tick.
 
-	DWORD				m_dwMagicID;			// The magic you&#39;re using...
+	DWORD				m_dwMagicID;			// The magic you're using...
 	float				m_fCastingTime;			// Time to cast a spell...
 	
 	class CN3Shape*		m_pObjectTarget;		// target object pointer.
@@ -53,7 +53,7 @@ public:
 	float			DistanceExceptRadius(CPlayerBase* pTarget);
 	bool			IsAttackableTarget(CPlayerBase* pTarget, bool bMesureAngle = true); // Are you within attack range?
 	bool			IsRunning() const { return m_bRunning; }
-	bool			CheckCollision();		// It does motion processing and collision checking. If something collides with it, it doesn&#39;t move.
+	bool			CheckCollision();		// It does motion processing and collision checking. If something collides with it, it doesn't move.
 	// ..
 	bool			InitChr(__TABLE_PLAYER_LOOKS* pTblUPC);
 	CN3CPart*		PartSet(e_PartPosition ePos, const std::string& szFN, __TABLE_ITEM_BASIC* pItemBasic, __TABLE_ITEM_EXT* pItemExt);

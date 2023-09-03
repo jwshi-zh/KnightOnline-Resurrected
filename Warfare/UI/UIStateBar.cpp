@@ -156,15 +156,15 @@ void CUIStateBar::UpdateExp(int iExp, int iExpNext, bool bUpdateImmediately) con
 		const int iExp2 = iExp%iExpNext2;
 		const int iPercentage2 = 100 * iExp2 / iExpNext2;
 
-		if(bUpdateImmediately) m_pProgress_ExpC->SetCurValue(iPercentage2);	 // SetCurValue --&gt; if set
+		if(bUpdateImmediately) m_pProgress_ExpC->SetCurValue(iPercentage2);	 // SetCurValue --> if set
 		else m_pProgress_ExpC->SetCurValue(iPercentage2, 0.7f, 50.0f);
 	}
 	else
 	{
-		m_pProgress_ExpC->SetCurValue(0);	 // SetCurValue --&gt; if set
+		m_pProgress_ExpC->SetCurValue(0);	 // SetCurValue --> if set
 	}
 
-	if(bUpdateImmediately) m_pProgress_ExpP->SetCurValue(iPercentage);	 // SetCurValue --&gt; if set
+	if(bUpdateImmediately) m_pProgress_ExpP->SetCurValue(iPercentage);	 // SetCurValue --> if set
 	else m_pProgress_ExpP->SetCurValue(iPercentage, 0.3f, 100.0f);
 }
 
@@ -176,7 +176,7 @@ void CUIStateBar::UpdateMSP(int iMSP, int iMSPMax, bool bUpdateImmediately)
 
 	const int iPercentage = 100 * iMSP / iMSPMax;
 
-	if(bUpdateImmediately) m_pProgress_MSP->SetCurValue(iPercentage);	 // SetCurValue --&gt; if set
+	if(bUpdateImmediately) m_pProgress_MSP->SetCurValue(iPercentage);	 // SetCurValue --> if set
 	else m_pProgress_MSP->SetCurValue(iPercentage, 0.3f, 100.0f);
 }
 
@@ -187,7 +187,7 @@ void CUIStateBar::UpdateHP(int iHP, int iHPMax, bool bUpdateImmediately)
 
 	const int iPercentage = 100 * iHP / iHPMax;
 
-	if(bUpdateImmediately) m_pProgress_HP->SetCurValue(iPercentage);	 // SetCurValue --&gt; if set
+	if(bUpdateImmediately) m_pProgress_HP->SetCurValue(iPercentage);	 // SetCurValue --> if set
 	else m_pProgress_HP->SetCurValue(iPercentage, 0.3f, 100.0f);
 }
 
@@ -210,7 +210,7 @@ void CUIStateBar::Render()
 
 	CN3UIBase::Render();
 
-	if(nullptr == m_pGroup_MiniMap || false == m_pGroup_MiniMap->IsVisible()) return; // The minimap is not turned on, so I&#39;m going back.
+	if(nullptr == m_pGroup_MiniMap || false == m_pGroup_MiniMap->IsVisible()) return; // The minimap is not turned on, so I'm going back.
 	if(nullptr == m_pImage_Map) return;
 	if(m_fMapSizeX <= 0 || m_fMapSizeZ <= 0) return;
 
@@ -255,7 +255,7 @@ void CUIStateBar::Render()
 	CN3Base::s_lpD3DDev->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
 	CN3Base::s_lpD3DDev->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_DIFFUSE);
 
-	CN3Base::s_lpD3DDev->SetFVF(FVF_TRANSFORMEDCOLOR); // Displays the player&#39;s position and direction.
+	CN3Base::s_lpD3DDev->SetFVF(FVF_TRANSFORMEDCOLOR); // Displays the player's position and direction.
 
 	__Vector3 vPos;
 	auto it = m_Positions.begin(), itEnd = m_Positions.end();

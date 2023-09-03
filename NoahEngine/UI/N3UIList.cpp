@@ -31,7 +31,7 @@ void CN3UIList::Release()
 	// delete (*it);
 	// }
 
-	m_ListString.clear(); // Since you delete all the children anyway... You don&#39;t need to delete the pointers in the list...
+	m_ListString.clear(); // Since you delete all the children anyway... You don't need to delete the pointers in the list...
 	m_iCurSel = 0;
 	m_pScrollBarRef = nullptr;
 
@@ -283,7 +283,7 @@ bool CN3UIList::Load(HANDLE hFile)
 	// if(	pString->GetFontName != m_szFontName ||
 	// pString->GetFontHeight() != m_dwFontHeight ||
 	// m_bFontBold != (pString->GetFontFlags() & D3DFONT_BOLD) ||
-	// m_bFontItalic != (pString-&gt;GetFontFlags() &amp; D3DFONT_ITALIC) ) // If the font is different, apply..
+	// m_bFontItalic != (pString->GetFontFlags() & D3DFONT_ITALIC) ) // If the font is different, apply..
 	// {
 	// pString->SetFont(m_szFontName, m_dwFontHeight, m_bFontBold, m_bFontItalic);
 	// }

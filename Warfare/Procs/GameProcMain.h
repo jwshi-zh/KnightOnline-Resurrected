@@ -65,9 +65,9 @@ public:
 	
 	float		m_fMsgSendTimeMove;							// The time the last mobile message was sent.
 	float		m_fMsgSendTimeRot;							// Time of last sent message..
-	float		m_fPlayerYawSended; // Rotation on the player&#39;s y-axis since the last message was sent.
+	float		m_fPlayerYawSended; // Rotation on the player's y-axis since the last message was sent.
 	float		m_fRequestGameSave;	// Last request to save game data
-	__Vector3	m_vPlayerPosSended; // The player&#39;s position at the time the last message was sent.
+	__Vector3	m_vPlayerPosSended; // The player's position at the time the last message was sent.
 
 	__Vector3	m_vMouseLBClickedPos;
 	__Vector3	m_vMouseSkillPos;
@@ -148,7 +148,7 @@ protected:
 	void	MsgRecv_Knights(DataPack* pDataPack, int& iOffset);				// A packet related to the manipulation of the knights..
 	void	MsgRecv_KnightsListBasic(DataPack* pDataPack, int& iOffset);		// Knights basic information..
 	
-	void	MsgRecv_CompressedPacket(DataPack* pDataPack, int& iOffset);		// It&#39;s a compressed packet... It needs to be decompressed and parsed once again in a loop!!!
+	void	MsgRecv_CompressedPacket(DataPack* pDataPack, int& iOffset);		// It's a compressed packet... It needs to be decompressed and parsed once again in a loop!!!
 	void	MsgRecv_ContinousPacket(DataPack* pDataPack, int& iOffset);		// It is a packet that comes attached.. You need to parse it once more while looping!!!
 
 	void	MsgRecv_ItemRepair(DataPack* pDataPack, int& iOffset);			// Item Repair Result..
@@ -165,7 +165,7 @@ protected:
 
 	void	MsgRecv_NoahChange(DataPack* pDataPack, int& iOffset);			// Noah change..
 	void	MsgRecv_WarpList(DataPack* pDataPack, int& iOffset);				// warp list..
-// void MsgRecv_ServerCheckAndRequestConcurrentUserCount(DataPack* pDataPack, int&amp; iOffset); // Receive the server IP and port and check the concurrent users.
+// void MsgRecv_ServerCheckAndRequestConcurrentUserCount(DataPack* pDataPack, int& iOffset); // Receive the server IP and port and check the concurrent users.
 // void	MsgRecv_ConcurrentUserCountAndSendServerCheck(DataPack* pDataPack, int& iOffset);
 	
 	// knights...

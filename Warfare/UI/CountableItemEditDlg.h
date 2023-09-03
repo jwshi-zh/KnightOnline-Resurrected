@@ -35,8 +35,8 @@ public:
 	bool Load(HANDLE hFile);
 	void				SetVisibleWithNoSound(bool bVisible, bool bWork = false, bool bReFocus = false);
 	void				SetVisible(bool bVisible);
-	int					GetQuantity(); // Get integer value from &quot;edit_trade&quot; Edit Control.
-	void				SetQuantity(int iQuantity); // In the &quot;edit_trade&quot; Edit Control, set the integer value as a string.
+	int					GetQuantity(); // Get integer value from "edit_trade" Edit Control.
+	void				SetQuantity(int iQuantity); // In the "edit_trade" Edit Control, set the integer value as a string.
 
 	CCountableItemEditDlg();
 	virtual ~CCountableItemEditDlg();

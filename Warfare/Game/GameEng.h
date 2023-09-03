@@ -7,7 +7,7 @@ class CN3Camera;
 class CN3Light;
 
 // camera point of view
-enum e_ViewPoint		{	VP_BACKWARD = 0,			// View from behind the player&#39;s back 1.5 person
+enum e_ViewPoint		{	VP_BACKWARD = 0,			// View from behind the player's back 1.5 person
 							VP_FIRST_PERSON = 1,		// the first person
 							VP_FOWARD = 2,				// Look in front of the player.
 							VP_THIRD_PERSON = 3,		// Third person mode .. Mouse works too..

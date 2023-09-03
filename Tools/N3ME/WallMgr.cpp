@@ -24,24 +24,24 @@ static char THIS_FILE[]=__FILE__;
 
 CWallMgr::CWallMgr()
 {
-	m_BaseCube[0].Set(0, 1, 0);	// ¾ÕÂÊ LT
-	m_BaseCube[1].Set(1, 1, 0);	// ¾ÕÂÊ RT
-	m_BaseCube[2].Set(0, 0, 0); // ¾ÕÂÊ LB
-	m_BaseCube[3].Set(1, 0, 0); // ¾ÕÂÊ RB
-	m_BaseCube[4].Set(0, 1, 1); // µÚÂÊ LT
-	m_BaseCube[5].Set(1, 1, 1); // µÚÂÊ RT
-	m_BaseCube[6].Set(0, 0, 1); // µÚÂÊ LB
-	m_BaseCube[7].Set(1, 0, 1);	// µÚÂÊ RB
+	m_BaseCube[0].Set(0, 1, 0);	// front LT
+	m_BaseCube[1].Set(1, 1, 0);	// front RT
+	m_BaseCube[2].Set(0, 0, 0); // front LB
+	m_BaseCube[3].Set(1, 0, 0); // front RB
+	m_BaseCube[4].Set(0, 1, 1); // behind LT
+	m_BaseCube[5].Set(1, 1, 1); // behind RT
+	m_BaseCube[6].Set(0, 0, 1); // behind LB
+	m_BaseCube[7].Set(1, 0, 1);	// behind RB
 	
-	m_pRefMapMng = NULL;	// ÁöÇü ÂüÁ¶ Æ÷ÀÎÅÍ..
-	m_pWalls.clear();		// º®µé...
+	m_pRefMapMng = NULL;	// Terrain reference pointer..
+	m_pWalls.clear();		// walls...
 
 	m_pDlg = new CDlgMakeWall;
 	m_pDlg->Create(IDD_MAKE_WALL);
 	m_pDlg->ShowWindow(FALSE);
 	m_pDlg->m_pRefWallMgr = this;
 
-	m_bActive = false; // ÀÌ±â´ÉÀÌ È°¼ºÈ­ µÇ¾î ÀÖ´ÂÁö...1:È°¼ºÈ­, 0:ºñÈ°¼ºÈ­..
+	m_bActive = false; // Whether this function is activated... 1: Enabled, 0: Disabled...
 	m_pCurrWall = NULL;
 }
 
@@ -228,7 +228,7 @@ void CWallMgr::Render()
 	D3DXMATRIX mtx;
 	D3DXMatrixIdentity(&mtx);
 		
-	hr = s_lpD3DDev->SetTransform(D3DTS_WORLD, &mtx); // ¿ùµå Çà·Ä Àû¿ë..
+	hr = s_lpD3DDev->SetTransform(D3DTS_WORLD, &mtx); // Apply the world matrix..
 	
 	// set texture
 	hr = s_lpD3DDev->SetTexture(0, NULL);
@@ -249,7 +249,7 @@ void CWallMgr::Render()
 
 	hr = s_lpD3DDev->SetVertexShader(FVF_XYZCOLOR);
 
-	//ÀÌ¹Ì ¸¸µé¾îÁø ±æ ±×¸®±â...
+	// Draw a path that has already been created...
 	std::list<CWall*>::iterator itWall;
 	std::list<__Vector3>::iterator itVertex;
 
@@ -280,7 +280,7 @@ void CWallMgr::Render()
 		}
 	}
 
-	//´ÙÀÌ¾ó·Î±× Ã¢¿¡¼­ ¼±ÅÃµÈ ±æ ±×¸®±â..
+	// Draw the path selected in the dialog window..
 	CWall* pSelWall = m_pDlg->m_pSelWall;
 	if(pSelWall)
 	{
@@ -303,7 +303,7 @@ void CWallMgr::Render()
 		}
 	}
 
-	//¸¸µé°í ÀÖ´Â ±æ & ¿µ¿ª ±×¸®±â..
+	// Creating roads & drawing areas..
 	if(m_pCurrWall)
 	{
 		for(itVertex = m_pCurrWall->m_Wall.begin(); itVertex != m_pCurrWall->m_Wall.end(); itVertex++)
@@ -461,7 +461,7 @@ void CWallMgr::AddWall2Coll(CN3ShapeMgr* pShapeMgr)
 	__Vector3 PrevVertex(0,0,0), Vertex(0,0,0);
 	__Vector3 v1, v2, v3;
 
-	// ÅØ½ºÆ®ÆÄÀÏ·Î ÇÔ »Ì¾Æº¸ÀÚ..
+	// Let's extract it as a text file.
 	FILE* stream = fopen("c:\\Wall_info.txt", "w");
 
 	fprintf(stream, "Walls = %d\n", m_pWalls.size());
@@ -470,7 +470,7 @@ void CWallMgr::AddWall2Coll(CN3ShapeMgr* pShapeMgr)
 		pWall = (*itWall);
 		if(!pWall)
 		{
-			fprintf(stream, "¾Æ½Î..º®µµ ¾ø´Âµ¥ ½ÃµµÇÏ³×...¤Ñ.¤Ñ\n");
+			fprintf(stream, "Ah, there's no wall, so I'm trying...ã…¡.ã…¡\n");
 			continue;
 		}
 
@@ -493,15 +493,15 @@ void CWallMgr::AddWall2Coll(CN3ShapeMgr* pShapeMgr)
 			v2.Set( Vertex.x, 5000.0f, Vertex.z);
 			v3.Set( Vertex.x, -5000.0f, Vertex.z);
 
-			if(!pShapeMgr->AddCollisionTriangle(v1, v2, v3)) fprintf(stream, "º® ¸ø ³Ö¾ú¾î..¤Ñ.¤Ñ\n");
-			if(!pShapeMgr->AddCollisionTriangle(v1, v3, v2)) fprintf(stream, "º® ¸ø ³Ö¾ú¾î..¤Ñ.¤Ñ\n");
+			if(!pShapeMgr->AddCollisionTriangle(v1, v2, v3)) fprintf(stream, "I couldn't put the wall..ã…¡.ã…¡\n");
+			if(!pShapeMgr->AddCollisionTriangle(v1, v3, v2)) fprintf(stream, "I couldn't put the wall..ã…¡.ã…¡\n");
 			
 			v1.Set( PrevVertex.x, 5000.0f, PrevVertex.z);
 			v2.Set( Vertex.x, -5000.0f, Vertex.z);
 			v3.Set( PrevVertex.x, -5000.0f, PrevVertex.z);
 
-			if(!pShapeMgr->AddCollisionTriangle(v1, v2, v3)) fprintf(stream, "º® ¸ø ³Ö¾ú¾î..¤Ñ.¤Ñ\n");
-			if(!pShapeMgr->AddCollisionTriangle(v1, v3, v2)) fprintf(stream, "º® ¸ø ³Ö¾ú¾î..¤Ñ.¤Ñ\n");
+			if(!pShapeMgr->AddCollisionTriangle(v1, v2, v3)) fprintf(stream, "I couldn't put the wall..ã…¡.ã…¡\n");
+			if(!pShapeMgr->AddCollisionTriangle(v1, v3, v2)) fprintf(stream, "I couldn't put the wall..ã…¡.ã…¡\n");
 						
 			PrevVertex = Vertex;
 		}

@@ -65,7 +65,7 @@ protected:
 
 protected:
 	void			SetTopLine(int iTopLine) const;		// Specifies the top row.
-	// void AddLineBuffer(e_ChatBuffer eCB, const std::string&amp; szString, D3DCOLOR color); // Creates a line buffer. (If it is too long, it automatically makes it into two lines.)
+	// void AddLineBuffer(e_ChatBuffer eCB, const std::string& szString, D3DCOLOR color); // Creates a line buffer. (If it is too long, it automatically makes it into two lines.)
 	void			AddLineBuffer(const std::string& szString, D3DCOLOR color);	// Creates a line buffer. (If it is too long, it automatically creates two lines.)
 	void			RecalcLineBuffers();		// If called when the size of the chat window changes, the line buffer is recalculated and inserted.
 	void			CreateLines();

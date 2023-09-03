@@ -79,7 +79,7 @@ void CServerInfoViewerView::OnDraw(CDC* pDC)
 	mtx.Identity();
 	mtx.Scale(64, 64, 64);
 	mtx.PosSet(2048.0f, 0, 2048.0f);
-	pFrm->m_Eng.RenderGrid(mtx); // 4 미터에 한개씩 라인 표시..
+	pFrm->m_Eng.RenderGrid(mtx); // Marking one line every 4 meters..
 	pFrm->m_Eng.RenderAxis();
 	
 	__CharacterSymbol* pSymbol = NULL;
@@ -184,7 +184,7 @@ BOOL CServerInfoViewerView::OnEraseBkgnd(CDC* pDC)
 void CServerInfoViewerView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) 
 {
 	// TODO: Add your message handler code here and/or call default
-	if(nChar == 'F') // 선택된 오브젝트를 포커스..
+	if(nChar == 'F') // Focus the selected object..
 	{
 		this->FocusGround();
 	}
@@ -212,7 +212,7 @@ void CServerInfoViewerView::FocusGround()
 	
 	
 	
-	__Vector3 v0(0, 0, 4096), v1(4096,0,4096), v2(4096,0,0), v3(0,0,0); // 큰판에 찍히면..
+	__Vector3 v0(0, 0, 4096), v1(4096,0,4096), v2(4096,0,0), v3(0,0,0); // When it hits the big board...
 	__Vector3 vCol;
 	float t, u, v;
 	if(	::IntersectTriangle(vPos, vDir, v0, v1, v2, t, u, v, &vCol) ||
@@ -282,7 +282,7 @@ void CServerInfoViewerView::OnLButtonDblClk(UINT nFlags, CPoint point)
 	
 	
 	
-	__Vector3 v0(0, 0, 4096), v1(4096,0,4096), v2(4096,0,0), v3(0,0,0); // 큰판에 찍히면..
+	__Vector3 v0(0, 0, 4096), v1(4096,0,4096), v2(4096,0,0), v3(0,0,0); // When it hits the big board...
 	__Vector3 vCol;
 	float t, u, v;
 	if(	::IntersectTriangle(vPos, vDir, v0, v1, v2, t, u, v, &vCol) ||

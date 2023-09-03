@@ -98,10 +98,10 @@ void CN3MEView::Render()
 
 	pEng->s_lpD3DDev->BeginScene();
 
-	//	그리기...
+	//	drawing...
 	if (m_pMapMng) m_pMapMng->Render();
 
-	CN3Base::s_AlphaMgr.Render(); // Alpha Primitive Manager Rendering.. 안하면 언젠가 뻑난다.
+	CN3Base::s_AlphaMgr.Render(); // Alpha Primitive Manager Rendering.. If you don't do it, you'll get bored someday.
 	pEng->s_lpD3DDev->EndScene();
 	pEng->Present(m_hWnd);
 }

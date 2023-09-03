@@ -174,8 +174,8 @@ void CGameProcLogIn::Render()
 	float fNear = 0.1f;
 	float fFar = 100.0f;
 
-	::D3DXMatrixLookAtLH(&amp;mtxView, &amp;vEye, &amp;vAt, &amp;vUp);
-	::D3DXMatrixPerspectiveFovLH(&amp;mtxPrj, fLens, fAspect, fNear, fFar);
+	::D3DXMatrixLookAtLH(&mtxView, &vEye, &vAt, &vUp);
+	::D3DXMatrixPerspectiveFovLH(&mtxPrj, fLens, fAspect, fNear, fFar);
 	CN3Base::s_lpD3DDev->SetTransform(D3DTS_VIEW, &mtxView); 
 	CN3Base::s_lpD3DDev->SetTransform(D3DTS_PROJECTION, &mtxPrj); 
 	CN3Base::s_lpD3DDev->SetTransform(D3DTS_WORLD, &mtxWorld); 
@@ -320,7 +320,7 @@ void CGameProcLogIn::MsgRecv_AccountLogIn(int iCmd, DataPack* pDataPack, int& iO
 		this->MessageBoxClose(-1);
 		m_pUILogIn->OpenServerList(); // Read server list...
 	}
-	else if(2 == iResult) // If you fail because you don&#39;t have an ID...
+	else if(2 == iResult) // If you fail because you don't have an ID...
 	{
 		if(N3_ACCOUNT_LOGIN == iCmd)
 		{
@@ -357,7 +357,7 @@ void CGameProcLogIn::MsgRecv_AccountLogIn(int iCmd, DataPack* pDataPack, int& iO
 		::_LoadStringFromResource(IDS_CONNECT_FAIL, szTmp);
 		this->MessageBoxPost(szMsg, szTmp, MB_OK); // It asks if you want to connect with MGame ID.
 	}
-	else if(5 == iResult) // What numbers are connected. Let&#39;s tell the server to shut it down.
+	else if(5 == iResult) // What numbers are connected. Let's tell the server to shut it down.
 	{
 		int iLen = CAPISocket::Parse_GetShort( pDataPack->m_pData, iOffset );
 		if(iOffset > 0)
@@ -520,7 +520,7 @@ void CGameProcLogIn::PacketSend_MGameLogin()
 {
 	if(m_szID.size() >= 20 || m_szPW.size() >= 12)
 	{
-	// MessageBox(&quot;ID must be 20 characters, PassWord must be less than 12 characters.&quot;, &quot;LogIn Error&quot;);
+	// MessageBox("ID must be 20 characters, PassWord must be less than 12 characters.", "LogIn Error");
 		return;
 	}
 

@@ -329,7 +329,7 @@ void CDlgBase::UpdateInfo()
 		if(pItem) pItem->m_curValue.Format("%f", pC->m_Data.fNP);
 		pItem = m_LPCamera.GetPropItem("Far Plane");
 		if(pItem) pItem->m_curValue.Format("%f", pC->m_Data.fFP);
-		pItem = m_LPCamera.GetPropItem("안개 사용");
+		pItem = m_LPCamera.GetPropItem("fog use");
 		if(pItem)
 		{
 			if(pC->m_bFogUse) pItem->m_curValue = "On";

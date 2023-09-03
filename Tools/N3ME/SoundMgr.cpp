@@ -192,7 +192,7 @@ void CSoundMgr::Render()
 	D3DXMATRIX mtx;
 	D3DXMatrixIdentity(&mtx);
 		
-	hr = s_lpD3DDev->SetTransform(D3DTS_WORLD, &mtx); // ¿ùµå Çà·Ä Àû¿ë..
+	hr = s_lpD3DDev->SetTransform(D3DTS_WORLD, &mtx); // Apply the world matrix..
 	
 	// set texture
 	hr = s_lpD3DDev->SetTexture(0, NULL);
@@ -213,7 +213,7 @@ void CSoundMgr::Render()
 
 	hr = s_lpD3DDev->SetVertexShader(FVF_XYZCOLOR);
 
-	//ÀÌ¹Ì ¸¸µé¾îÁø ±æ ±×¸®±â...
+	//Draw a path that has already been created...
 	std::list<CSoundCell*>::iterator itSound;
 
 	CSoundCell* pSound;
@@ -225,10 +225,10 @@ void CSoundMgr::Render()
 		pSound->Render(0xff0000ff);
 	}
 
-	//´ëÈ­»óÀÚ¿¡¼­ ¼±ÅÃµÈ ±æ ±×¸®±â.
+	//Draw the path selected in the dialog box.
 	if(m_pDlgSound->m_pSelSound) m_pDlgSound->m_pSelSound->Render(0xff00ff00);
 
-	//¸¸µé°í ÀÖ´Â ±æ & ¿µ¿ª ±×¸®±â..
+	//Creating roads & drawing areas..
 	m_pCurrSound->Render(0xffff0000);
 
 	// restore
@@ -239,14 +239,14 @@ void CSoundMgr::Render()
 
 bool CSoundMgr::Load(HANDLE hFile)
 {
-	//dlg Å¬¸®¾î..
+	//dlg clear..
 	m_pDlgSound->Clear();
 
 	DWORD dwRWC;
 	ReadFile(hFile, &m_iVersion, sizeof(int), &dwRWC, NULL);
 	if(!m_pDlgSound->LoadSoundGroup(hFile)) return false;
 
-	//m_pSoundÅ¬¸®¾î...
+	//clear m_pSound...
 	std::list<CSoundCell*>::iterator it;
 	for(it = m_pSound.begin(); it != m_pSound.end(); it++)
 	{
@@ -264,7 +264,7 @@ bool CSoundMgr::Load(HANDLE hFile)
 		pSoundCell->Load(hFile);
 
 		m_pSound.push_back(pSoundCell);
-		//dlg¿¡ Ãß°¡...
+		//Add to dlg...
 		m_pDlgSound->AddSoundInfo(pSoundCell);		
 	}
 	m_pRefMapMng->Invalidate();
@@ -298,8 +298,8 @@ void CSoundMgr::SaveGameData(HANDLE hFile)
 	char* pSound = (char*)GlobalAlloc(GMEM_FIXED, sizeof(char)*m_MapSize*m_MapSize);
 	memset(pSound, -1, sizeof(char)*m_MapSize*m_MapSize);
 
-	//sound cellµéÀ» ¸éÀû¼øÀ¸·Î(Å«°Ô ¾ÕÀ¸·Î ¿À°Ô..)Á¤·ÄÇÏ°í...
-	//¸éÀû¼øÀ¸·Î Á¤¸®ÇÏ¸é¼­ ¾ÆÀÌµğÁ¤·Äµµ ÇÏ°í...
+	//Arrange the sound cells in order of area (largest comes to the front)...
+	//Sort by ID while sorting by area...
 	//
 	//
 	SCSort();
@@ -327,10 +327,10 @@ void CSoundMgr::SaveGameData(HANDLE hFile)
 		LPSOUNDINFO pSI = m_pDlgSound->GetSoundGroup(dwID);
 		if(!pSI)
 		{
-			AfxMessageBox("Sound GroupÀÌ À¯È¿ÇÏÁö ¾Ê½À´Ï´Ù.¤Ğ.¤Ğ");
+			AfxMessageBox("Sound Group is invalid.ã… .ã… ");
 			return;
 		}
-		//sound groupÀ» ¾îÄÉ ÀúÀåÇÑ´ã?
+		//How did you save the sound group?
 		for(int j=0;j<4;j++)
 		{
 			int str_size = 0;
@@ -350,7 +350,7 @@ void CSoundMgr::SaveGameData(HANDLE hFile)
 		}
 	}
 	
-	// Å¸ÀÏ¿¡ Sound Info ¼ÂÆÃÇÏ°í ÀúÀå...
+	// Set the Sound Info to the tile and save...
 	for(it = m_pSound.begin(); it != m_pSound.end(); it++)
 	{
 		CSoundCell* pSoundCell = (*it);
@@ -372,8 +372,8 @@ void CSoundMgr::SaveGameData(HANDLE hFile)
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // related sort list...
-// listÀÇ sortÇÔ¼ö º£²¼´ç..-.-
-// Á¦´ë·Î µ¿ÀÛ ¾ÈÇÏ´õ¶ó..¤Ğ.¤Ğ
+// I copied the sort function of list..-.-
+// It didn't work properly..ã… .ã… 
 //
 
 void CSoundMgr::SCSort()

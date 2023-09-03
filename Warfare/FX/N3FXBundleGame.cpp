@@ -246,7 +246,7 @@ bool CN3FXBundleGame::Tick()
 					m_vPos += m_vDir*CN3Base::s_fSecPerFrm*m_fVelocity;
 					
 					float fTerrainY = s_pTerrain->GetHeight(m_vPos.x, m_vPos.z);
-					if(m_vPos.y &lt;= fTerrainY) m_vPos.y = fTerrainY + 0.3f; // Ride the ground and fly..
+					if(m_vPos.y <= fTerrainY) m_vPos.y = fTerrainY + 0.3f; // Ride the ground and fly..
 					break;
 					*/
 				}
@@ -284,7 +284,7 @@ bool CN3FXBundleGame::Tick()
 				m_vPos += m_vDir*CN3Base::s_fSecPerFrm*m_fVelocity;
 
 				// float fTerrainY = s_pTerrain->GetHeight(m_vPos.x, m_vPos.z);
-				// if(m_vPos.y &lt;= fTerrainY) m_vPos.y = fTerrainY + 0.3f; // Ride the ground and fly..
+				// if(m_vPos.y <= fTerrainY) m_vPos.y = fTerrainY + 0.3f; // Ride the ground and fly..
 				break;
 			}
 

@@ -163,17 +163,17 @@ void CN3Board::LoadFromText(const std::string& szFName)
 	
 	int result, i, iCount;
 	char szBoardType[64]="";	__Vector3 vPos;	float fWidth, fHeight;
-	result = fscanf(stream, "Position = %f %f %f\n", &(vPos.x), &(vPos.y), &(vPos.z));	__ASSERT(result != EOF, "잘못된 Machine 세팅 파일");
-	result = fscanf(stream, "Size = %f %f\n", &fWidth, &fHeight);	__ASSERT(result != EOF, "잘못된 Machine 세팅 파일");
-	result = fscanf(stream, "Rotation Axis = %s\n", szBoardType);		__ASSERT(result != EOF, "잘못된 Machine 세팅 파일");
-	result = fscanf(stream, "Frame per Sec = %f\n", &m_fTexFPS);			__ASSERT(result != EOF, "잘못된 Machine 세팅 파일");
+	result = fscanf(stream, "Position = %f %f %f\n", &(vPos.x), &(vPos.y), &(vPos.z));	__ASSERT(result != EOF, "Invalid machine setting file");
+	result = fscanf(stream, "Size = %f %f\n", &fWidth, &fHeight);	__ASSERT(result != EOF, "Invalid machine setting file");
+	result = fscanf(stream, "Rotation Axis = %s\n", szBoardType);		__ASSERT(result != EOF, "Invalid machine setting file");
+	result = fscanf(stream, "Frame per Sec = %f\n", &m_fTexFPS);			__ASSERT(result != EOF, "Invalid machine setting file");
 
-	result = fscanf(stream, "Render Flag = %d\n", &m_Mtl.nRenderFlags);		__ASSERT(result != EOF, "잘못된 Machine 세팅 파일");
-	result = fscanf(stream, "Source Blend = %d\n", &m_Mtl.dwSrcBlend);		__ASSERT(result != EOF, "잘못된 Machine 세팅 파일");
-	result = fscanf(stream, "Dest Blend = %d\n", &m_Mtl.dwDestBlend);		__ASSERT(result != EOF, "잘못된 Machine 세팅 파일");
+	result = fscanf(stream, "Render Flag = %d\n", &m_Mtl.nRenderFlags);		__ASSERT(result != EOF, "Invalid machine setting file");
+	result = fscanf(stream, "Source Blend = %d\n", &m_Mtl.dwSrcBlend);		__ASSERT(result != EOF, "Invalid machine setting file");
+	result = fscanf(stream, "Dest Blend = %d\n", &m_Mtl.dwDestBlend);		__ASSERT(result != EOF, "Invalid machine setting file");
 	// Let's not set the fog and culling options first.
 
-	result = fscanf(stream, "Texture Count = %d\n", &iCount);		__ASSERT(result != EOF, "잘못된 Machine 세팅 파일");
+	result = fscanf(stream, "Texture Count = %d\n", &iCount);		__ASSERT(result != EOF, "Invalid machine setting file");
 
 	if (iCount>0)
 	{
@@ -181,7 +181,7 @@ void CN3Board::LoadFromText(const std::string& szFName)
 		TexAlloc(iCount);
 		for (i=0; i<iCount; ++i)
 		{
-			result = fscanf(stream, "Texture Name = %s\n", &szTexFName);		__ASSERT(result != EOF, "잘못된 Machine 세팅 파일");
+			result = fscanf(stream, "Texture Name = %s\n", &szTexFName);		__ASSERT(result != EOF, "Invalid machine setting file");
 			TexSet(i, szTexFName);
 		}
 	}

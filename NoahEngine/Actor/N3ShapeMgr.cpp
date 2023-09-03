@@ -322,7 +322,7 @@ void CN3ShapeMgr::GenerateCollisionData()
 		}
 	}
 
-	// 추가 충돌 데이터 넣기..
+	// Add additional crash data...
 	it_Vector3 it = m_CollisionExtras.begin(), itEnd = m_CollisionExtras.end();
 	for(; it != itEnd; it++)
 	{
@@ -331,7 +331,7 @@ void CN3ShapeMgr::GenerateCollisionData()
 
 	if(nCPC != (nFC * 3))
 	{
-		__ASSERT(0, "충돌 체크 폴리곤의 점갯수와 면 갯수가 다릅니다.");
+		__ASSERT(0, "The number of points and the number of faces in the collision check polygon are different.");
 		this->Release();
 		return;
 	}
@@ -472,7 +472,7 @@ void CN3ShapeMgr::GenerateCollisionData()
 						pSubCell->pdwCCVertIndices = new DWORD[768];
 						memset(pSubCell->pdwCCVertIndices, 0, 768 * 4);
 					}
-					//					else // 이미 있으면..
+					//					else // If you already have...
 					//					{
 					//						DWORD* pwBack = pSubCell->pdwCCVertIndices;
 					//						pSubCell->pdwCCVertIndices = new DWORD[(nCCPC+1)*3];
@@ -482,7 +482,7 @@ void CN3ShapeMgr::GenerateCollisionData()
 
 					if (nCCPC >= 256)
 					{
-						__ASSERT(0, "충돌 체크 폴리곤 수가 너무 많습니다");
+						__ASSERT(0, "Too many collision check polygons");
 						continue;
 					}
 
@@ -906,7 +906,7 @@ int CN3ShapeMgr::SortByCameraDistance(const void* pArg1, const void* pArg2)
 	const float fDist1 = (CN3Base::s_CameraData.vEye - pShape1->Pos()).Magnitude();
 	const float fDist2 = (CN3Base::s_CameraData.vEye - pShape2->Pos()).Magnitude();
 
-	if (fDist1 < fDist2) return -1; // 가까우면 true;
+	if (fDist1 < fDist2) return -1; // true if close;
 	else if (fDist1 > fDist2) return 1;
 	else return 0;
 }

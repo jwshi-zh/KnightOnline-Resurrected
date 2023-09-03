@@ -17,10 +17,10 @@ class CLyTerrain;
 class CQTNode  
 {
 protected:
-	int								m_CenterX;	//중심점의 높이필드배열상의 좌표.
-	int								m_CenterZ;	//중심점의 높이필드배열상의 좌표.
+	int								m_CenterX;	//The coordinates of the center point on the heightfield array.
+	int								m_CenterZ;	//The coordinates of the center point on the heightfield array.
 	
-	int								m_Level;	//쿼드트리상에서 깊이값..
+	int								m_Level;	//Depth value in quad tree..
 	eQTNODESTATE					m_State;	//
 		
 	CQTNode*						m_pFriend[DIR_NUM];
@@ -29,8 +29,8 @@ protected:
 	CLyTerrain*						m_pRefTerrain;
 
 public:
-	float			m_MinY;		//최저점
-	float			m_MaxY;		//최고점
+	float			m_MinY;
+	float			m_MaxY;
 	int				GetCenterX() { return m_CenterX; }
 	int				GetCenterZ() { return m_CenterZ; }
 

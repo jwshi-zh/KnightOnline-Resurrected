@@ -25,7 +25,7 @@ void CN3UIScrollBar::Release()
 bool CN3UIScrollBar::Load(HANDLE hFile)
 {
 	if (false == CN3UIBase::Load(hFile)) return false;
-	__ASSERT(NULL == m_pTrackBarRef, "scrollbar가 초기화되어 있지 않아여");
+	__ASSERT(NULL == m_pTrackBarRef, "scrollbar is not initialized");
 
 	// Setting m_pTrackBarRef, m_pBtnRef
 	for(auto itor = m_Children.begin(); m_Children.end() != itor; ++itor)
@@ -51,7 +51,7 @@ void CN3UIScrollBar::SetRegion(const RECT& Rect)
 	// First of all, temporarily arrange the same as the size of the scroll area.
 	// for(UIListItor itor = m_Children.begin(); m_Children.end() != itor; ++itor)
 	// {
-	// (*itor)-&gt;SetRegion(Rect);
+	// (*itor)->SetRegion(Rect);
 	// }
 }
 
@@ -112,7 +112,7 @@ void CN3UIScrollBar::operator = (const CN3UIScrollBar& other)
 
 void CN3UIScrollBar::CreateTrackBarAndBtns()
 {
-	__ASSERT(NULL == m_pTrackBarRef, "구성요소가 이미 할당되어 있어요");
+	__ASSERT(NULL == m_pTrackBarRef, "component is already assigned");
 	int i;
 	for (i=0; i<NUM_BTN_TYPE; ++i)
 	{

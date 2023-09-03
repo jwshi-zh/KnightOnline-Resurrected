@@ -425,7 +425,7 @@ void CGameProcMain::Tick()
 {
 	CGameProcedure::Tick();	// keys, mouse input, etc.
 
-	if ( FALSE == m_bLoadComplete ) return;				// If it doesn&#39;t load... go back.
+	if ( FALSE == m_bLoadComplete ) return;				// If it doesn't load... go back.
 	if(!s_pSocket->IsConnected()) return;
 
 #ifdef _DEBUG
@@ -465,7 +465,7 @@ void CGameProcMain::Tick()
 	s_pPlayer->Tick();									// Player Tick (Update)
 	s_pWorldMgr->Tick();
 	s_pOPMgr->Tick(s_pPlayer->Position());				// Tick another user manager (update)
-	// s_pFX-&gt;Tick(); //If the camera value is used internally, an error occurs in the position, so move it into the Render() function...
+	// s_pFX->Tick(); //If the camera value is used internally, an error occurs in the position, so move it into the Render() function...
 
 	const __Vector3 ListenerPos = s_pPlayer->Position();
 	const __Vector3 ListenerDir = s_pPlayer->Direction();
@@ -550,7 +550,7 @@ void CGameProcMain::Tick()
 	}
 	if(fInterval5 > 5.0f) // Show tips one by one as time passes.
 	{
-	// m_pUIChatDlg-&gt;ChangeChattingMode(N3_CHAT_CONTINUE); // Forcibly change chat mode...
+	// m_pUIChatDlg->ChangeChattingMode(N3_CHAT_CONTINUE); // Forcibly change chat mode...
 		m_pUIChatDlg->ShowContinueMsg();
 		fInterval5 = 0;
 	}
@@ -564,7 +564,7 @@ void CGameProcMain::Render()
 	if ( FALSE == m_bLoadComplete )	return; 		// Is loading finished??
 
 	const D3DCOLOR crSky = ACT_WORLD->GetSkyColorWithSky();
-	s_pEng->Clear(crSky); // Clear with fog color.. -&gt; Clear with sky color to see the sky properly..
+	s_pEng->Clear(crSky); // Clear with fog color.. -> Clear with sky color to see the sky properly..
 	s_pEng->s_lpD3DDev->BeginScene();			// Scene renders...
 	
 	ACT_WORLD->RenderSky();								// Sky render...
@@ -1043,13 +1043,13 @@ void CGameProcMain::ProcessLocalInput(DWORD dwMouseFlags)
 	if (!IsUIKeyOperated() && nullptr == CN3UIBase::GetFocusedEdit() )			// When not in chat mode
 	{
 #ifdef _DEBUG
-		if ( s_pLocalInput->IsKeyDown(DIK_Q) ) s_pPlayer->m_bTempMoveTurbo = true; // Makes it move super fast. // Temporary function.. Let&#39;s get rid of it later..
-		else s_pPlayer->m_bTempMoveTurbo = false; // Makes it move super fast. // Temporary function.. Let&#39;s get rid of it later..
+		if ( s_pLocalInput->IsKeyDown(DIK_Q) ) s_pPlayer->m_bTempMoveTurbo = true; // Makes it move super fast. // Temporary function.. Let's get rid of it later..
+		else s_pPlayer->m_bTempMoveTurbo = false; // Makes it move super fast. // Temporary function.. Let's get rid of it later..
 #endif
 		if(s_pPlayer->m_InfoBase.iAuthority == AUTHORITY_MANAGER) // Game operators can use this function.
 		{
-			if ( s_pLocalInput->IsKeyDown(DIK_Q) ) s_pPlayer->m_bTempMoveTurbo = true; // Makes it move super fast. // Temporary function.. Let&#39;s get rid of it later..
-			else s_pPlayer->m_bTempMoveTurbo = false; // Makes it move super fast. // Temporary function.. Let&#39;s get rid of it later..
+			if ( s_pLocalInput->IsKeyDown(DIK_Q) ) s_pPlayer->m_bTempMoveTurbo = true; // Makes it move super fast. // Temporary function.. Let's get rid of it later..
+			else s_pPlayer->m_bTempMoveTurbo = false; // Makes it move super fast. // Temporary function.. Let's get rid of it later..
 		}
 
 		if(s_pLocalInput->IsKeyPress(KM_TOGGLE_ATTACK))
@@ -1195,9 +1195,9 @@ void CGameProcMain::MsgSend_Continous()						// Sends messages to the server per
 // 
 // 
 
-void CGameProcMain::MsgSend_Attack(int iTargetID, float fInterval, float fDistance) // Sending attack packets - Prevents hacking by giving the table&#39;s attack cycle the same.
+void CGameProcMain::MsgSend_Attack(int iTargetID, float fInterval, float fDistance) // Sending attack packets - Prevents hacking by giving the table's attack cycle the same.
 {
-	if(s_pPlayer->m_fTimeAfterDeath > 0 || s_pPlayer->IsDead())	return; // It&#39;s dead..
+	if(s_pPlayer->m_fTimeAfterDeath > 0 || s_pPlayer->IsDead())	return; // It's dead..
 
 	BYTE byBuff[32];												// buffer..
 	int iOffset=0;													// Offset...
@@ -1226,7 +1226,7 @@ void CGameProcMain::MsgSend_Move(bool bMove, bool bContinous)
 
 	if(true == bMove) // When you start moving or when you move
 	{
-		if(s_pPlayer->m_fTimeAfterDeath > 0 || s_pPlayer->IsDead())	return; // It&#39;s dead..
+		if(s_pPlayer->m_fTimeAfterDeath > 0 || s_pPlayer->IsDead())	return; // It's dead..
 
 		vPos = s_pPlayer->NextPos(PACKET_INTERVAL_MOVE); // By calculating the position one second later.
 		byMoveFlag |= 0x01;
@@ -1325,7 +1325,7 @@ void CGameProcMain::MsgSend_Regen()
 	s_pSocket->Send(byBuff, iOffset); // send..
 
 	s_pPlayer->m_iSendRegeneration = 2; // Once sent, a flag that will not be seen until it dies again
-	TRACE("보냄 - 다시 살아나기\n");
+	TRACE("sent - come back to life\n");
 }
 
 bool CGameProcMain::MsgSend_RequestItemBundleOpen(CPlayerNPC* pCorpse)
@@ -1372,7 +1372,7 @@ bool CGameProcMain::MsgSend_PartyOrForceCreate(int iPartyOrForce, const std::str
 	int iMemberIndex = -1;
 	CPlayerBase* pTarget = nullptr;
 	this->PartyOrForceConditionGet(bIAmLeader, bIAmMember, iMemberIndex, pTarget);
-	if(true == bIAmMember && false == bIAmLeader) return false; // If I&#39;m in the party and I&#39;m not the leader, I&#39;ll fail...
+	if(true == bIAmMember && false == bIAmLeader) return false; // If I'm in the party and I'm not the leader, I'll fail...
 
 	BYTE byBuff[32];
 	int iOffset=0;
@@ -1404,7 +1404,7 @@ bool CGameProcMain::MsgSend_PartyOrForceCreate(int iPartyOrForce, const std::str
 			s_pPlayer->m_InfoBase.iHPMax);  // I put mine in advance.
 	}
 
-	TRACE ("Party or Force 생성 신청 - Target ID(%s)\n", szID.c_str());
+	TRACE ("Request to create a Party or Force - Target ID(%s)\n", szID.c_str());
 
 	return true;
 }
@@ -1423,9 +1423,9 @@ void CGameProcMain::MsgSend_PartyOrForceLeave(int iPartyOrForce)
 
 	CAPISocket::MP_AddByte(byBuff, iOffset, N3_PARTY_OR_FORCE);
 	// CAPISocket::MP_AddByte(byBuff, iOffset, iPartyOrForce);
-	if(bIAmLeader) // If I&#39;m a leader...
+	if(bIAmLeader) // If I'm a leader...
 	{
-		if(iMemberIndex > 0 && pTarget) // It&#39;s a party member.. Let&#39;s kick it out..
+		if(iMemberIndex > 0 && pTarget) // It's a party member.. Let's kick it out..
 		{
 			CAPISocket::MP_AddByte(byBuff, iOffset, N3_SP_PARTY_OR_FORCE_REMOVE);
 			CAPISocket::MP_AddShort(byBuff, iOffset, pTarget->IDNumber());
@@ -1463,9 +1463,9 @@ void CGameProcMain::MsgSend_Weather(int iWeather, int iPercent)
 	BYTE byBuff[8];
 	int iOffset=0;
 
-	CAPISocket::MP_AddByte(byBuff, iOffset, N3_WEATHER); // -&gt; byte - Climate.... 0x01 - Sunny.. 0x02 - Rain 0x03
-	CAPISocket::MP_AddByte(byBuff, iOffset, iWeather); // -&gt; byte - Climate.... 0x01 - Sunny.. 0x02 - Rain 0x03
-	CAPISocket::MP_AddShort(byBuff, iOffset, (short)iPercent); // short -&gt; sunny day amount of fog, rain and snow as a percentage
+	CAPISocket::MP_AddByte(byBuff, iOffset, N3_WEATHER); // -> byte - Climate.... 0x01 - Sunny.. 0x02 - Rain 0x03
+	CAPISocket::MP_AddByte(byBuff, iOffset, iWeather); // -> byte - Climate.... 0x01 - Sunny.. 0x02 - Rain 0x03
+	CAPISocket::MP_AddShort(byBuff, iOffset, (short)iPercent); // short -> sunny day amount of fog, rain and snow as a percentage
 
 	s_pSocket->Send(byBuff, iOffset);
 }
@@ -1567,7 +1567,7 @@ void CGameProcMain::MsgSend_KnightsAppointViceChief(std::string& szName)
 bool CGameProcMain::MsgRecv_MyInfo_All(DataPack* pDataPack, int& iOffset)
 {
 	const int iZone = s_pPlayer->m_InfoExt.iZoneCur;
-	s_pPlayer->Release(); // Once you&#39;ve unlocked it all...
+	s_pPlayer->Release(); // Once you've unlocked it all...
 	s_pPlayer->m_InfoExt.iZoneCur = iZone;
 
 	const int iID = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
@@ -1655,7 +1655,7 @@ bool CGameProcMain::MsgRecv_MyInfo_All(DataPack* pDataPack, int& iOffset)
 	m_pUIHotKeyDlg->ReleaseItem();
 	m_pUIHotKeyDlg->InitIconUpdate();			// Checks if the hotkey is valid, and if so, reads it from the registry.
 
-	// What you&#39;re wearing...
+	// What you're wearing...
 	int iItemIDInSlots[ITEM_SLOT_COUNT]; memset(iItemIDInSlots, -1, sizeof(iItemIDInSlots));
 	int iItemDurabilityInSlots[ITEM_SLOT_COUNT]; memset(iItemDurabilityInSlots, -1, sizeof(iItemDurabilityInSlots));
 	int iItemCountInSlots[ITEM_SLOT_COUNT]; memset(iItemCountInSlots, -1, sizeof(iItemCountInSlots));
@@ -1669,8 +1669,8 @@ bool CGameProcMain::MsgRecv_MyInfo_All(DataPack* pDataPack, int& iOffset)
 
 	m_fMsgSendTimeMove		= 0;						// Network ReQuest timer reset..
 	m_fMsgSendTimeRot		= 0;
-	m_fPlayerYawSended		= 0;						// Rotation on the player&#39;s y-axis since the last message was sent.
-	m_vPlayerPosSended		= s_pPlayer->Position();	// The player&#39;s position at the time the last message was sent.
+	m_fPlayerYawSended		= 0;						// Rotation on the player's y-axis since the last message was sent.
+	m_vPlayerPosSended		= s_pPlayer->Position();	// The player's position at the time the last message was sent.
 
 	// Apply all status window values
 	if(m_pUIVar->m_pPageState) m_pUIVar->m_pPageState->UpdateID(szID); // Apply name.
@@ -1743,7 +1743,7 @@ bool CGameProcMain::MsgRecv_MyInfo_All(DataPack* pDataPack, int& iOffset)
 		case ITEM_SLOT_LOWER: // Parts - lower body
 		case ITEM_SLOT_GLOVES: // Gloves
 		case ITEM_SLOT_SHOES: // shoes
-		case ITEM_SLOT_HEAD: // hair ?? -&gt; Helmet ??
+		case ITEM_SLOT_HEAD: // hair ?? -> Helmet ??
 			{
 				if(ITEM_TYPE_PART != eType)  CLogWriter::Write("MyInfo - slot - Invalid Item");
 				__ASSERT(ITEM_TYPE_PART == eType, "Invalid Item");
@@ -1847,7 +1847,7 @@ bool CGameProcMain::MsgRecv_MyInfo_All(DataPack* pDataPack, int& iOffset)
 	// 
 	// Read default...
 	int iRun = 1;
- 	// if(false == CGameProcedure::RegGetSetting(&quot;UserRun&quot;, &amp;iRun, 4)) iRun = 1; // Read the walking and running state from the registry. The default is the running state.
+ 	// if(false == CGameProcedure::RegGetSetting("UserRun", &iRun, 4)) iRun = 1; // Read the walking and running state from the registry. The default is the running state.
 	// if(1 == iRun)
 	this->CommandToggleWalkRun(); // makes me run...
 
@@ -1860,7 +1860,7 @@ bool CGameProcMain::MsgRecv_MyInfo_All(DataPack* pDataPack, int& iOffset)
 	this->InitPlayerPosition(__Vector3(fX, fY, fZ)); // Initialize the player position.. Raise him up and make him take the basic action.
 
 	// berserk temp
-	// s_pPlayer-&gt;PlugSet(PLUG_POS_BACK, &quot;item/babacloak.n3cplug_cloak&quot;, NULL); // set the part..
+	// s_pPlayer->PlugSet(PLUG_POS_BACK, "item/babacloak.n3cplug_cloak", NULL); // set the part..
 	// end berserk temp
 
 	// berserk
@@ -2011,7 +2011,7 @@ bool CGameProcMain::MsgRecv_UserMove(DataPack* pDataPack, int& iOffset)
 	if (nullptr == pUPC) return false;
 
 	// if(0.0f != fSpeed) TRACE("Move - %4.1f ( %d : Mode %d ) %.2f초\n", fSpeed, iID, byMoveFlag, CN3Base::TimeGet());
-	// else TRACE(&quot;Stop - %4.1f ( %d : Mode %d ) %.2f초\n&quot;, fSpeed, iID, byMoveFlag, CN3Base::TimeGet());
+	// else TRACE("Stop - %4.1f ( %d : Mode %d ) %.2f초\n", fSpeed, iID, byMoveFlag, CN3Base::TimeGet());
 
 	// Update with the information received from the server.
 	pUPC->MoveTo(fX, fY, fZ, fSpeed, byMoveFlag);	// Current location..
@@ -2043,11 +2043,11 @@ bool CGameProcMain::MsgRecv_Dead(DataPack* pDataPack, int& iOffset)
 
 	if ( iID == s_pPlayer->IDNumber() )
 	{
-		s_pPlayer-&gt;Action(PSA_PRE_DYING, true, NULL, true); // Kill the player.
+		s_pPlayer->Action(PSA_PRE_DYING, true, NULL, true); // Kill the player.
 	}
 	else
 	{
-		CPlayerOther* pReadyToDead = s_pOPMgr-&gt;PlayerGetByID(iID, true); // Search among the living..
+		CPlayerOther* pReadyToDead = s_pOPMgr->PlayerGetByID(iID, true); // Search among the living..
 		if(pReadyToDead) // If there is, make it about to die.
 		{
 			pReadyToDead->Acttion(PSA_PRE_DYING, true, NULL, true);
@@ -2074,7 +2074,7 @@ bool CGameProcMain::MsgRecv_Regen(DataPack* pDataPack, int& iOffset)
 	TRACE("받음 - 다시 살아나기(%.1f, %.1f)\n", vPosPlayer.x, vPosPlayer.z);
 
 	//
-	// Magic &amp; Effect Reset..
+	// Magic & Effect Reset..
 	if(m_pUIStateBarAndMiniMap) m_pUIStateBarAndMiniMap->ClearMagic();
 	if(m_pMagicSkillMng) m_pMagicSkillMng->ClearDurationalMagic();
 	if(CGameProcedure::s_pFX) s_pFX->StopMine();
@@ -2102,13 +2102,13 @@ bool CGameProcMain::MsgRecv_Time(DataPack* pDataPack, int& iOffset)
 
 bool CGameProcMain::MsgRecv_Weather(DataPack* pDataPack, int& iOffset)
 {
-	int iWeather = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // -&gt; byte - Climate.... 0x01 - Sunny.. 0x02 - Rain 0x03
-	int iPercent = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // short -&gt; sunny day amount of fog, rain and snow as a percentage
+	int iWeather = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // -> byte - Climate.... 0x01 - Sunny.. 0x02 - Rain 0x03
+	int iPercent = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // short -> sunny day amount of fog, rain and snow as a percentage
 
 	
 	// 
 	// Time for a speed hack check....
-	/* float fTimeFromServer = CAPISocket::Parse_GetFloat(pDataPack-&gt;m_pData, iOffset); // float -&gt; periodic time...
+	/* float fTimeFromServer = CAPISocket::Parse_GetFloat(pDataPack->m_pData, iOffset); // float -> periodic time...
 	float fTimeLocal = CN3Base::TimeGet();
 	
 	static float fTimeFromServerPrev = fTimeFromServer;
@@ -2117,10 +2117,10 @@ bool CGameProcMain::MsgRecv_Weather(DataPack* pDataPack, int& iOffset)
 	if(fTimeFromServer != 0.0f)
 	{
 		float fTDS = fTimeFromServer - fTimeFromServerPrev;
-		if (fTDS &gt; 355.0f &amp;&amp; fTDS &lt; 365.0f) // It is supposed to be given once every 6 minutes..
+		if (fTDS > 355.0f && fTDS < 365.0f) // It is supposed to be given once every 6 minutes..
 		{
 			float fTDL = fTimeLocal - fTimeLocalPrev;
-			if(fTDL &lt; (fTDS * 0.8f) || fTDL &gt; (fTDS * 1.2f)) // If the local time is more than 20% greater than the server time...
+			if(fTDL < (fTDS * 0.8f) || fTDL > (fTDS * 1.2f)) // If the local time is more than 20% greater than the server time...
 			{
 				iTSH++; // Try Speed Hacking ... ++
 			}
@@ -2129,7 +2129,7 @@ bool CGameProcMain::MsgRecv_Weather(DataPack* pDataPack, int& iOffset)
 				iTSH = 0;
 			}
 
-			if(iTSH &gt;= 3) CGameProcedure::s_bUseSpeedHack = true; // speed hack...
+			if(iTSH >= 3) CGameProcedure::s_bUseSpeedHack = true; // speed hack...
 		}
 
 		fTimeFromServerPrev = fTimeFromServer;
@@ -2150,13 +2150,13 @@ bool CGameProcMain::MsgRecv_Weather(DataPack* pDataPack, int& iOffset)
 	// GEW_SNOW1=11, // Cozy Snow
 	// GEW_SNOW2=12, // suitable snow
 	// GEW_HEAVY_SNOW=13 // heavy snow
-	TRACE("받음 - 날씨(%d - %d)\n", iWeather, iPercent);
+	TRACE("received - weather(%d - %d)\n", iWeather, iPercent);
 
 	ACT_WORLD->SetWeatherWithSky((CN3SkyMng::eSKY_WEATHER)iWeather,iPercent);	// changing sky
 	float fDelta = 1.0f;
 	if(0x1 == iWeather) fDelta = 0.5f + (1.0f-fPercent)*0.5f; // sunshine. Percent is fog...
 	else if(0x02 == iWeather) fDelta = 0.25f + (1.0f - fPercent)*0.75f; // rain .
-	else if(0x03 == iWeather) fDelta = 0.25f + (1.0f - fPercent)*0.75f; // It&#39;s snowing..
+	else if(0x03 == iWeather) fDelta = 0.25f + (1.0f - fPercent)*0.75f; // It's snowing..
 
 	s_pEng->FarPlaneDeltaSet(fDelta, false);
 
@@ -2166,7 +2166,7 @@ bool CGameProcMain::MsgRecv_Weather(DataPack* pDataPack, int& iOffset)
 bool CGameProcMain::MsgRecv_UserInOut(DataPack* pDataPack, int& iOffset)
 {
 	const int iType = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
-	if ( 0x01 == iType ) // When a user enters. (Updated while updating the user&#39;s area in the original game..)
+	if ( 0x01 == iType ) // When a user enters. (Updated while updating the user's area in the original game..)
 		this->MsgRecv_UserIn(pDataPack, iOffset, false);
 	else if ( 0x02 == iType ) // When User exits.
 		this->MsgRecv_UserOut(pDataPack, iOffset);
@@ -2227,7 +2227,7 @@ bool CGameProcMain::MsgRecv_UserIn(DataPack* pDataPack, int& iOffset, bool bWith
 	}
 
 	if ( iID == s_pPlayer->IDNumber()) 
-		return false; 									// If it&#39;s my packet .. // Ignore it..
+		return false; 									// If it's my packet .. // Ignore it..
 
 	CPlayerOther* pUPC = s_pOPMgr->UPCGetByID(iID, false);
 	if(pUPC) // If you already have a character with the same ID...
@@ -2256,7 +2256,7 @@ bool CGameProcMain::MsgRecv_UserIn(DataPack* pDataPack, int& iOffset, bool bWith
 	// __KnightsInfoBase* pKIB = m_pUIKnightsOp->KnightsInfoFind(iKightsID);
 	// if(pKIB) pUPC->KnightsNameSet(pKIB->szName, 0xffff0000);
 
-	pUPC->PositionSet(__Vector3(fXPos, fYPos, fZPos), true);			// Set another player&#39;s current location.
+	pUPC->PositionSet(__Vector3(fXPos, fYPos, fZPos), true);			// Set another player's current location.
 	pUPC->MoveTo(fXPos, fYPos, fZPos, 0, 0);					// Current location..
 	pUPC->RotateTo(D3DXToRadian(rand()%360), true);
 	s_pOPMgr->UPCAdd(pUPC);										// Add character...
@@ -2341,7 +2341,7 @@ bool CGameProcMain::MsgRecv_UserInAndRequest(DataPack* pDataPack, int& iOffset)
 	if(iUPCCountReceived < 0 || iUPCCountReceived >= 1000)
 	{
 		char szErr[256];
-		sprintf(szErr, "영역 요청 오류 - 플레이어 갯수 %d", iUPCCountReceived);
+		sprintf(szErr, "Realm Request Error - Number of Players %d", iUPCCountReceived);
 		CGameProcedure::ReportDebugStringAndSendToServer(szErr);
 		__ASSERT(0, szErr);
 		return false;
@@ -2355,12 +2355,12 @@ bool CGameProcMain::MsgRecv_UserInAndRequest(DataPack* pDataPack, int& iOffset)
 	{
 		iID = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
 		// TRACE("               ID : %d\n", iID);
-		if(iID == s_pPlayer->IDNumber()) continue; // It&#39;s my ID.. so don&#39;t put it there.
+		if(iID == s_pPlayer->IDNumber()) continue; // It's my ID.. so don't put it there.
 
 		m_SetUPCID.insert(iID);
 	}
 
-	if(m_SetUPCID.empty()) // If you don&#39;t get anything new, you lose them all.
+	if(m_SetUPCID.empty()) // If you don't get anything new, you lose them all.
 	{
 		s_pOPMgr->ReleaseUPCs();
 		return false;
@@ -2380,7 +2380,7 @@ bool CGameProcMain::MsgRecv_UserInAndRequest(DataPack* pDataPack, int& iOffset)
 			m_SetUPCID.erase(itID); // Take it off the request list.
 			itUPC++;
 		}
-		else  // If it doesn&#39;t exist in the new location, delete it.
+		else  // If it doesn't exist in the new location, delete it.
 		{
 			// TRACE("           delete : %d\n", iID);
 
@@ -2428,7 +2428,7 @@ bool CGameProcMain::MsgRecv_UserInRequested(DataPack* pDataPack, int& iOffset)
 	if(iPlayerCount < 0 || iPlayerCount >= 1000)
 	{
 		char szErr[256];
-		sprintf(szErr, "영역정보 받기 오류 - 플레이어 갯수 %d", iPlayerCount);
+		sprintf(szErr, "Error getting zone information - number of players %d", iPlayerCount);
 		CGameProcedure::ReportDebugStringAndSendToServer(szErr);
 		__ASSERT(0, szErr);
 		return false;
@@ -2711,7 +2711,7 @@ bool CGameProcMain::MsgRecv_NPCInAndRequest(DataPack* pDataPack, int& iOffset)
 		TRACE("               ID : %d\n", iID);
 	}
 
-	if(m_SetNPCID.empty()) // If you don&#39;t get anything new, you lose them all.
+	if(m_SetNPCID.empty()) // If you don't get anything new, you lose them all.
 	{
 		s_pOPMgr->ReleaseNPCs();
 		return false;
@@ -2731,7 +2731,7 @@ bool CGameProcMain::MsgRecv_NPCInAndRequest(DataPack* pDataPack, int& iOffset)
 			m_SetNPCID.erase(itID); // Take it off the request list.
 			itNPC++;
 		}
-		else  // If it doesn&#39;t exist in the new location, delete it.
+		else  // If it doesn't exist in the new location, delete it.
 		{
 			TRACE("           delete : %d\n", iID);
 
@@ -2779,7 +2779,7 @@ bool CGameProcMain::MsgRecv_NPCInRequested(DataPack* pDataPack, int& iOffset)
 	if(iNPCCount < 0 || iNPCCount >= 1000)
 	{
 		char szErr[256];
-		sprintf(szErr, "영역정보 받기오류 - NPC 갯수 %d", iNPCCount);
+		sprintf(szErr, "Error in receiving area information - number of NPCs %d", iNPCCount);
 		CGameProcedure::ReportDebugStringAndSendToServer(szErr);
 		__ASSERT(0, szErr);
 		return false;
@@ -2842,7 +2842,7 @@ bool CGameProcMain::MsgRecv_Attack(DataPack* pDataPack, int& iOffset)
 	CPlayerBase* pAttacker = nullptr;
 	if ( bIAmAttacker ) pAttacker = s_pPlayer;	// If the attacker is myself
 	else pAttacker = s_pOPMgr->CharacterGetByID(iIDAttacker, true);
-	if(nullptr == pAttacker) // Hey, there&#39;s no one attacking you??
+	if(nullptr == pAttacker) // Hey, there's no one attacking you??
 	{
 		if(iIDAttacker > 10000) // NPC is over 1000.
 			this->MsgSend_NPCInRequest(iIDAttacker); // If there is no NPC information, request it.
@@ -2870,12 +2870,12 @@ bool CGameProcMain::MsgRecv_Attack(DataPack* pDataPack, int& iOffset)
 	else // If the target is different...
 	{
 		pTarget = s_pOPMgr->CharacterGetByID(iIDTarget, true); // First of all, take it from among the living ones..
-		if(nullptr == pTarget) pTarget = s_pOPMgr->CharacterGetByID(iIDTarget, false); // If you don&#39;t have it, grab it as a target regardless of dying
+		if(nullptr == pTarget) pTarget = s_pOPMgr->CharacterGetByID(iIDTarget, false); // If you don't have it, grab it as a target regardless of dying
 	}
 
 	if(nullptr == pTarget) return false; // No target!!!!
 
-	// pTarget-&gt;m_iIDTargetMe = iIDAttacker; // who&#39;s attacking??
+	// pTarget->m_iIDTargetMe = iIDAttacker; // who's attacking??
 
 	if(pAttacker != s_pPlayer && pAttacker && pAttacker->IsAlive()) // When the attacking nim is not me but another living nim...
 	{
@@ -2883,7 +2883,7 @@ bool CGameProcMain::MsgRecv_Attack(DataPack* pDataPack, int& iOffset)
 		pAttacker->m_iIDTarget = iIDTarget; // Set Target ID...
 		if(0x01 == iType) pAttacker->Action(PSA_ATTACK, false, pTarget); // direct physical attack.
 		else if(0x02 == iType) pAttacker->Action(PSA_SPELLMAGIC, false, pTarget); // magic attack...
-		// else if(0x03 == iType) pAttacker-&gt;Action(PSA_SPELLMAGIC, false, pTarget); // Continuous magic attack...
+		// else if(0x03 == iType) pAttacker->Action(PSA_SPELLMAGIC, false, pTarget); // Continuous magic attack...
 	}
 
 	pTarget->m_bGuardSuccess = false; // A flag for whether the defense was successful.
@@ -3083,7 +3083,7 @@ bool CGameProcMain::MsgRecv_UserLookChange(DataPack* pDataPack, int& iOffset)
 			}
 			else
 			{
-				if(PART_POS_HAIR_HELMET == ePartPos) pUPC->InitHair(); // If you don&#39;t have a head...
+				if(PART_POS_HAIR_HELMET == ePartPos) pUPC->InitHair(); // If you don't have a head...
 				else pUPC->PartSet(ePartPos, pLooks->szPartFNs[ePartPos], nullptr, nullptr);
 			}
 		}
@@ -3347,7 +3347,7 @@ bool CGameProcMain::MsgRecv_MyInfo_LevelChange(DataPack* pDataPack, int& iOffset
 			else if(s_pPlayer->Nation()==NATION_ELMORAD) CGameProcedure::s_pFX->TriggerBundle(iID, -1, FXID_LEVELUP_ELMORAD, iID, -1);
 		}
 	}
-	else // it&#39;s different..
+	else // it's different..
 	{
 		CPlayerOther* pUPC = s_pOPMgr->UPCGetByID(iID, false);
 		if(pUPC)
@@ -3779,9 +3779,9 @@ void CGameProcMain::MsgRecv_TargetHP(DataPack* pDataPack, int& iOffset)
 		szBuff += ')';
 		CLogWriter::Write(szBuff.c_str());
 	}
-	__ASSERT(iTargetHPMax > 0, "최대 체력 수치는 0이상이어야 합니다.");
+	__ASSERT(iTargetHPMax > 0, "Your max health level must be at least 0.");
 
-	if(iID == s_pPlayer->m_iIDTarget) // If I&#39;m attacking...
+	if(iID == s_pPlayer->m_iIDTarget) // If I'm attacking...
 	{
 		bool bUI = false;
 		if(byUpdateImmediately) bUI = true;
@@ -3884,7 +3884,7 @@ void CGameProcMain::DoCommercialTransaction(int iTradeID)
 	if ( !m_pUITransactionDlg->IsVisible() )
 		m_pUITransactionDlg->SetVisible(true);
 
-	if (m_pUIInventory->IsVisible()) // If your inventory isn&#39;t open...
+	if (m_pUIInventory->IsVisible()) // If your inventory isn't open...
 		this->CommandToggleUIInventory();
 
 	if (m_pUISkillTreeDlg->IsVisible())
@@ -4106,7 +4106,7 @@ void CGameProcMain::CommandMove(e_MoveDirection eMD, bool bStartOrEnd)
 	{
 		s_pUIMgr->UserMoveHideUIs();
 		this->CommandSitDown(false, false, true); // stand up and...
-		if(s_pPlayer->m_bStun) return; // Passed out, can&#39;t move..
+		if(s_pPlayer->m_bStun) return; // Passed out, can't move..
 		if(MD_FOWARD == eMD)
 		{
 			if(s_pPlayer->IsRunning()) s_pPlayer->ActionMove(PSM_RUN); // run away...
@@ -4120,7 +4120,7 @@ void CGameProcMain::CommandMove(e_MoveDirection eMD, bool bStartOrEnd)
 		if( bStartOrEnd ) // When moving, first check for collision.
 		{
 			const float fSpeed = s_pPlayer->MoveSpeedCalculationAndCheckCollision(); // Get the speed and do a collision check with that speed. If the return value is 0, it is a collision.
-			if(0 == fSpeed) // If you can&#39;t move...
+			if(0 == fSpeed) // If you can't move...
 			{
 				s_pPlayer->ActionMove(PSM_STOP); // stoppage..
 			}
@@ -4160,7 +4160,7 @@ void CGameProcMain::CommandEnableAttackContinous(bool bEnable, CPlayerBase* pTar
 		this->CloseUIs(); // Various commerce, warp, etc... Closing the UI...
 		s_pUIMgr->UserMoveHideUIs();
 
-		if(s_pPlayer->m_bStun) return; // I&#39;m stunned, I can&#39;t attack.
+		if(s_pPlayer->m_bStun) return; // I'm stunned, I can't attack.
 		if(nullptr == pTarget) return;
 		s_pPlayer->RotateTo(pTarget); // turn
 		if(pTarget->m_InfoBase.eNation == s_pPlayer->m_InfoBase.eNation) return; // If the country is the same, skip it.
@@ -4221,8 +4221,8 @@ bool CGameProcMain::CommandToggleUIState()
 	// Command button update..
 	// if(m_pUICmd->m_pBtn_Character)
 	// {
-		// if(bNeedOpen) m_pUICmd-&gt;m_pBtn_Character-&gt;SetState(UI_STATE_BUTTON_DOWN); // Release button press..
-		// else m_pUICmd-&gt;m_pBtn_Character-&gt;SetState(UI_STATE_BUTTON_NORMAL); // 버튼 누름
+		// if(bNeedOpen) m_pUICmd->m_pBtn_Character->SetState(UI_STATE_BUTTON_DOWN); // Release button press..
+		// else m_pUICmd->m_pBtn_Character->SetState(UI_STATE_BUTTON_NORMAL); // button press
 	// }
 
 	return bNeedOpen;
@@ -4353,7 +4353,7 @@ bool CGameProcMain::MsgRecv_ItemDroppedGetResult(DataPack* pDataPack, int& iOffs
 		CAPISocket::Parse_GetString(pDataPack->m_pData, iOffset, szString, iStrLen);
 	}
 
-	TRACE("받음 - Item Get %d %d\n", bResult, iGoldID);
+	TRACE("received - Item Get %d %d\n", bResult, iGoldID);
 
 	if ( m_pUIDroppedItemDlg )
 		m_pUIDroppedItemDlg->GetItemByIDToInventory(bResult, iItemID, iGoldID, bPos, sItemCount, iStrLen, szString);
@@ -4381,9 +4381,9 @@ void CGameProcMain::MsgRecv_ZoneChange(DataPack* pDataPack, int& iOffset)
 
 	if(s_pPlayer->IsDead())
 	{
-		TRACE("ZoneChange - 다시 살아나기(%.1f, %.1f)\n", fX, fZ);
+		TRACE("ZoneChange - come back to life(%.1f, %.1f)\n", fX, fZ);
 
-		// Magic &amp; Effect Reset..
+		// Magic & Effect Reset..
 		if(m_pUIStateBarAndMiniMap) m_pUIStateBarAndMiniMap->ClearMagic();
 		if(m_pMagicSkillMng) m_pMagicSkillMng->ClearDurationalMagic();
 		if(CGameProcedure::s_pFX) s_pFX->StopMine();
@@ -4487,7 +4487,7 @@ void CGameProcMain::MsgRecv_Notice(DataPack* pDataPack, int& iOffset)
 
 void CGameProcMain::MsgRecv_PartyOrForce(DataPack* pDataPack, int& iOffset)
 {
-// int iPartyOrForce = CAPISocket::Parse_GetByte(pDataPack-&gt;m_pData, iOffset);
+// int iPartyOrForce = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
 	int iSubCmd	= CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
 	
 	switch(iSubCmd)
@@ -4526,13 +4526,13 @@ void CGameProcMain::MsgRecv_PartyOrForce(DataPack* pDataPack, int& iOffset)
 					this->MsgOutput(szID + szMsg, D3DCOLOR_ARGB(255,255,255,255));
 				}
 			}
-			else // I can&#39;t come to the party...
+			else // I can't come to the party...
 			{
 				std::string szMsg;
 
 				if(-1 == iID) ::_LoadStringFromResource(IDS_PARTY_INSERT_ERR_REJECTED, szMsg); // The other party refused to join the party.
 				else if(-2 == iID) ::_LoadStringFromResource(IDS_PARTY_INSERT_ERR_LEVEL_DIFFERENCE, szMsg); // The level difference is too big...
-				else if(-3 == iID) ::_LoadStringFromResource(IDS_PARTY_INSERT_ERR_INVALID_NATION, szMsg); // It&#39;s a country where you can&#39;t party.
+				else if(-3 == iID) ::_LoadStringFromResource(IDS_PARTY_INSERT_ERR_INVALID_NATION, szMsg); // It's a country where you can't party.
 				else ::_LoadStringFromResource(IDS_PARTY_INSERT_ERR, szMsg); // The other party refused to join the party.
 
 				this->MsgOutput(szMsg, D3DCOLOR_ARGB(255,255,255,255));
@@ -4551,7 +4551,7 @@ void CGameProcMain::MsgRecv_PartyOrForce(DataPack* pDataPack, int& iOffset)
 			{
 				std::string szMsg; ::_LoadStringFromResource(IDS_PARTY_DESTROY, szMsg); // left the party...
 				this->MsgOutput(szMsg, D3DCOLOR_ARGB(255,255,255,255));  // party release message
-				m_pUIPartyOrForce->MemberDestroy(); // If you&#39;re yourself... you&#39;ll have a party.
+				m_pUIPartyOrForce->MemberDestroy(); // If you're yourself... you'll have a party.
 			}
 			else
 			{
@@ -4571,7 +4571,7 @@ void CGameProcMain::MsgRecv_PartyOrForce(DataPack* pDataPack, int& iOffset)
 		
 		case N3_SP_PARTY_OR_FORCE_DESTROY:			// 0x04	// Send
 		{
-			m_pUIPartyOrForce->MemberDestroy(); // I&#39;m having a party..
+			m_pUIPartyOrForce->MemberDestroy(); // I'm having a party..
 			std::string szMsg; ::_LoadStringFromResource(IDS_PARTY_DESTROY, szMsg);
 			this->MsgOutput(szMsg, D3DCOLOR_ARGB(255,255,255,255));
 
@@ -4641,7 +4641,7 @@ void CGameProcMain::CommandSitDown(bool bLimitInterval, bool bSitDown, bool bImm
 		if(eSM != PSM_STOP) // If you are running, stop.
 			return;
 
-		if(this->m_pMagicSkillMng->IsCasting()) // You can&#39;t sit down while casting a skill.
+		if(this->m_pMagicSkillMng->IsCasting()) // You can't sit down while casting a skill.
 			return;
 
 		if(s_pPlayer->m_bAttackContinous) // If you keep attacking...
@@ -4727,7 +4727,7 @@ void CGameProcMain::MsgSend_PerTradeReq(int iDestID, bool bNear)
 
 	s_pSocket->Send(byBuff, iOffset);									// sent...
 
-	TRACE("아이디: %d, 아이템 거래 신청 패킷 보냄.. \n", iDestID);
+	TRACE("ID: %d, item transaction request packet sent.. \n", iDestID);
 }
 
 void CGameProcMain::MsgRecv_PerTrade(DataPack* pDataPack, int& iOffset)
@@ -4740,7 +4740,7 @@ void CGameProcMain::MsgRecv_PerTrade(DataPack* pDataPack, int& iOffset)
 	switch ( bSubCom )
 	{
 		case N3_SP_PER_TRADE_REQ:
-			TRACE("아이템 거래 신청 패킷 받음.. \n");
+			TRACE("Item trade request packet received.. \n");
 			sOtherID = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);	
 
 			if (m_pUITransactionDlg->IsVisible()) 	/* If you are trading with a merchant... */
@@ -5078,7 +5078,7 @@ void CGameProcMain::ParseChattingCommand(const std::string& szCmd)
 
 		case CMD_TOWN:
 		{
-			if(s_pPlayer->m_bStun) return; // I can&#39;t pass out..
+			if(s_pPlayer->m_bStun) return; // I can't pass out..
 			if(s_pPlayer->m_InfoBase.iHP * 2 >= s_pPlayer->m_InfoBase.iHPMax) // Must have more than half HP.
 			{
 				int iOffset = 0;
@@ -5272,7 +5272,7 @@ void CGameProcMain::ParseChattingCommand(const std::string& szCmd)
 		{
 			if(szCmd.size() >= 7)
 			{
-				std::string szChat = szCmd.substr(6); // Any string except &quot;/notice&quot;
+				std::string szChat = szCmd.substr(6); // Any string except "/notice"
 				this->MsgSend_Chat(N3_CHAT_PUBLIC, szChat);
 			}
 		}
@@ -5606,7 +5606,7 @@ void CGameProcMain::MsgRecv_Knights(DataPack* pDataPack, int& iOffset)
 			m_pUIVar->m_pPageKnights->UpdateKnightsChiefName("");
 			m_pUIVar->m_pPageKnights->UpdateKnightsDuty(KNIGHTS_DUTY_UNKNOWN);
 
-			m_pUIKnightsOp-&gt;MsgSend_KnightsList(0); // Request the list of knights again.
+			m_pUIKnightsOp->MsgSend_KnightsList(0); // Request the list of knights again.
 		}
 		break;
 
@@ -5634,11 +5634,11 @@ void CGameProcMain::MsgRecv_Knights(DataPack* pDataPack, int& iOffset)
 		{
 			if(false == m_pUIKnightsOp->IsVisible())
 			{
-				sm_pUIKnightsOp-&gt;Open(s_pPlayer-&gt;m_InfoExt.eKnightsDuty); // Open the UI and initialize the list, etc..
+				sm_pUIKnightsOp->Open(s_pPlayer->m_InfoExt.eKnightsDuty); // Open the UI and initialize the list, etc..
 			}
 			else 
 			{
-				m_pUIKnightsOp-&gt;ChangeUIByDuty(s_pPlayer-&gt;m_InfoExt.eKnightsDuty); // Open the UI and initialize the list, etc..
+				m_pUIKnightsOp->ChangeUIByDuty(s_pPlayer->m_InfoExt.eKnightsDuty); // Open the UI and initialize the list, etc..
 			}
 			m_pUIKnightsOp->MsgRecv_KnightsList(pDataPack, iOffset);
 		}
@@ -5662,7 +5662,7 @@ void CGameProcMain::MsgRecv_Knights(DataPack* pDataPack, int& iOffset)
 			int iID = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
 			e_KnightsDuty eDuty = (e_KnightsDuty)CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
 
-			if(iID == s_pPlayer-&gt;IDNumber()) // Change my position..
+			if(iID == s_pPlayer->IDNumber()) // Change my position..
 			{
 				m_pUIVar->m_pPageKnights->UpdateKnightsDuty(eDuty);
 			}
@@ -5756,7 +5756,7 @@ void CGameProcMain::MsgRecv_ContinousPacket(DataPack* pDataPack, int& iOffset) /
 		if(iSizeThisPacket <= 0 || iSizeThisPacket >= iWholeSize)
 		{
 			char szErr[256];
-			sprintf(szErr, "연속 패킷 받기 오류 - 순서(%d) 크기(%d/%d)", i, iSizeThisPacket, iWholeSize);
+			sprintf(szErr, "Error receiving consecutive packets - sequence (%d) size (%d/%d)", i, iSizeThisPacket, iWholeSize);
 			CGameProcedure::ReportDebugStringAndSendToServer(szErr);
 			__ASSERT(0, szErr);
 			break; // stop!!
@@ -5826,7 +5826,7 @@ void CGameProcMain::MsgRecv_WareHouseOpen(DataPack* pDataPack, int& iOffset)		//
 	if (!m_pUIWareHouseDlg->IsVisible())
 		m_pUIWareHouseDlg->SetVisible(true);
 
-	if (m_pUIInventory->IsVisible())		// If your inventory isn&#39;t open...
+	if (m_pUIInventory->IsVisible())		// If your inventory isn't open...
 		this->CommandToggleUIInventory();
 
 	if (m_pUISkillTreeDlg->IsVisible())
@@ -6074,7 +6074,7 @@ void CGameProcMain::MsgRecv_WarpList(DataPack* pDataPack, int& iOffset)		// Warp
 }
 
 /*
-void CGameProcMain::MsgRecv_ServerCheckAndRequestConcurrentUserCount(DataPack* pDataPack, int&amp; iOffset) // Receive the server IP and port and check concurrent users.
+void CGameProcMain::MsgRecv_ServerCheckAndRequestConcurrentUserCount(DataPack* pDataPack, int& iOffset) // Receive the server IP and port and check concurrent users.
 {
 	std::string szIP;
 	int iStrLen = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // IP..
@@ -6084,11 +6084,11 @@ void CGameProcMain::MsgRecv_ServerCheckAndRequestConcurrentUserCount(DataPack* p
 	__WarpInfo WI;
 	if(m_pUIWarp->InfoGetCur(WI) < 0) return;
 
-bool bNeedConnectSubSocket = (szIP != s_pSocket-&gt;GetCurrentIP() || dwPort != s_pSocket-&gt;GetCurrentPort()); // Check if the IP and port to connect are the same
+bool bNeedConnectSubSocket = (szIP != s_pSocket->GetCurrentIP() || dwPort != s_pSocket->GetCurrentPort()); // Check if the IP and port to connect are the same
 
 if(bNeedConnectSubSocket) // If you need to connect to a subsocket...
 	{
-int iErr = s_pSocketSub-&gt;Connect(s_hWndSubSocket, szIP.c_str(), dwPort); // Connect through the subsocket...
+int iErr = s_pSocketSub->Connect(s_hWndSubSocket, szIP.c_str(), dwPort); // Connect through the subsocket...
 		if(iErr)
 		{
 			this->ReportServerConnectionFailed(WI.szName, iErr, false);
@@ -6102,14 +6102,14 @@ int iErr = s_pSocketSub-&gt;Connect(s_hWndSubSocket, szIP.c_str(), dwPort); // C
 	
 	CAPISocket::MP_AddByte(byBuff, iOffsetSend, N3_SERVER_CONCURRENT_CONNECT);
 	CAPISocket::MP_AddShort(byBuff, iOffsetSend, WI.iZone);
-CAPISocket::MP_AddByte(byBuff, iOffsetSend, s_pPlayer-&gt;m_InfoBase.eNation); // Concurrent reception by country..
+CAPISocket::MP_AddByte(byBuff, iOffsetSend, s_pPlayer->m_InfoBase.eNation); // Concurrent reception by country..
 
-if(bNeedConnectSubSocket) s_pSocketSub-&gt;Send(byBuff, iOffsetSend); // Send to subsocket.
-else s_pSocket-&gt;Send(byBuff, iOffsetSend); // Send to this socket..
+if(bNeedConnectSubSocket) s_pSocketSub->Send(byBuff, iOffsetSend); // Send to subsocket.
+else s_pSocket->Send(byBuff, iOffsetSend); // Send to this socket..
 }
 
 
-void CGameProcMain::MsgRecv_ConcurrentUserCountAndSendServerCheck(DataPack* pDataPack, int&amp; iOffset) // Sends a packet to receive concurrent users and connect to the server.
+void CGameProcMain::MsgRecv_ConcurrentUserCountAndSendServerCheck(DataPack* pDataPack, int& iOffset) // Sends a packet to receive concurrent users and connect to the server.
 {
 	int iConcurrentUser = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // IP..
 	if(s_pSocketSub->IsConnected()) s_pSocketSub->Disconnect();
@@ -6117,7 +6117,7 @@ void CGameProcMain::MsgRecv_ConcurrentUserCountAndSendServerCheck(DataPack* pDat
 	__WarpInfo WI;
 	if(m_pUIWarp->InfoGetCur(WI) < 0) return;
 
-if (iConcurrentUser &lt; WI.iMaxUser) // If less than the concurrency limit...
+if (iConcurrentUser < WI.iMaxUser) // If less than the concurrency limit...
 	{
 		int iOffsetSend = 0;
 		BYTE byBuff[8];
@@ -6174,7 +6174,7 @@ void CGameProcMain::MsgRecv_Knights_Create(DataPack* pDataPack, int& iOffset)
 						m_pUIVar->m_pPageKnights->ChangeUIByDuty(s_pPlayer->m_InfoExt.eKnightsDuty);
 					}
 
-					// m_pUIKnightsOp-&gt;KnightsInfoInsert(iID, szID); // Add guild information..
+					// m_pUIKnightsOp->KnightsInfoInsert(iID, szID); // Add guild information..
 				}
 				else
 				{
@@ -6336,7 +6336,7 @@ void CGameProcMain::MsgRecv_Knights_Join(DataPack* pDataPack, int& iOffset)
 		::_LoadStringFromResource(IDS_CLAN_JOIN_FAIL_INVALIDRIGHT, szMsg);
 		this->MsgOutput(szMsg, 0xffffff00);
 		break;
-	case N3_SP_KNIGHTS_COMMON_FAIL_NONE_CLAN:	// Knights that don&#39;t exist...
+	case N3_SP_KNIGHTS_COMMON_FAIL_NONE_CLAN:	// Knights that don't exist...
 		::_LoadStringFromResource(IDS_CLAN_JOIN_FAIL_NONE_CLAN, szMsg);
 		this->MsgOutput(szMsg, 0xffffff00);
 		break;
@@ -6426,7 +6426,7 @@ void CGameProcMain::MsgRecv_Knights_Leave(DataPack* pDataPack, int& iOffset)
 		::_LoadStringFromResource(IDS_CLAN_JOIN_FAIL_INVALIDRIGHT, szMsg);
 		this->MsgOutput(szMsg, 0xffffff00);
 		break;
-	case N3_SP_KNIGHTS_COMMON_FAIL_NONE_CLAN:	// Knights that don&#39;t exist...
+	case N3_SP_KNIGHTS_COMMON_FAIL_NONE_CLAN:	// Knights that don't exist...
 		::_LoadStringFromResource(IDS_CLAN_JOIN_FAIL_NONE_CLAN, szMsg);
 		this->MsgOutput(szMsg, 0xffffff00);
 		break;
@@ -6497,7 +6497,7 @@ void CGameProcMain::MsgRecv_Knights_AppointViceChief(DataPack* pDataPack, int& i
 		::_LoadStringFromResource(IDS_CLAN_JOIN_FAIL_INVALIDRIGHT, szMsg);
 		this->MsgOutput(szMsg, 0xffffff00);
 		break;
-	case N3_SP_KNIGHTS_COMMON_FAIL_NONE_CLAN:	// Knights that don&#39;t exist...
+	case N3_SP_KNIGHTS_COMMON_FAIL_NONE_CLAN:	// Knights that don't exist...
 		::_LoadStringFromResource(IDS_CLAN_JOIN_FAIL_NONE_CLAN, szMsg);
 		this->MsgOutput(szMsg, 0xffffff00);
 		break;
@@ -6664,7 +6664,7 @@ bool CGameProcMain::MsgRecv_CharacterSelect(DataPack* pDataPack, int& iOffset) /
 		s_pPlayer->m_fTimeAfterDeath = 0; // Once sent, a flag that will not be seen until it dies again
 
 		//
-		// Magic &amp; Effect Reset..
+		// Magic & Effect Reset..
 		if(m_pUIStateBarAndMiniMap) m_pUIStateBarAndMiniMap->ClearMagic();
 		if(m_pMagicSkillMng) m_pMagicSkillMng->ClearDurationalMagic();
 		if(CGameProcedure::s_pFX) s_pFX->StopMine();
@@ -6741,14 +6741,14 @@ bool CGameProcMain::OnMouseMove(POINT ptCur, POINT ptPrev)
 			CPlayerNPC*	 pTarget = NULL;
 		
 			int iID = -1;
-pTarget = s_pOPMgr-&gt;Pick(ptCur.x, ptCur.y, iID, &amp;vPick); // Picking people everywhere..
-this-&gt;TargetSelect(iID, false); // catch the target...
+pTarget = s_pOPMgr->Pick(ptCur.x, ptCur.y, iID, &vPick); // Picking people everywhere..
+this->TargetSelect(iID, false); // catch the target...
 if (NULL == pTarget) // If there is no target...
 			{
-s_pPlayer-&gt;m_pObjectTarget = ACT_WORLD-&gt;PickWithShape(ptCur.x, ptCur.y, true, &amp;vPick); // Save the location where it was taken.
-if (NULL == s_pPlayer-&gt;m_pObjectTarget) // If there is no target...
+s_pPlayer->m_pObjectTarget = ACT_WORLD->PickWithShape(ptCur.x, ptCur.y, true, &vPick); // Save the location where it was taken.
+if (NULL == s_pPlayer->m_pObjectTarget) // If there is no target...
 				{
-ACT_WORLD-&gt;PickWideWithTerrain(ptCur.x, ptCur.y, vPick); // Take a picture of the terrain.
+ACT_WORLD->PickWideWithTerrain(ptCur.x, ptCur.y, vPick); // Take a picture of the terrain.
 				}
 			}
 			s_pFX->SetBundlePos(m_pMagicSkillMng->m_iMyRegionTargetFXID, m_pMagicSkillMng->m_iMyRegionTargetFXID, vPick);
@@ -6978,7 +6978,7 @@ bool CGameProcMain::OnMouseLbtnDown(POINT ptCur, POINT ptPrev)
 	vDir.Normalize();
 	const float fYaw = ::_Yaw2D(vDir.x, vDir.z);
 
-	if(!s_pPlayer->IsDead() && VP_THIRD_PERSON == s_pEng->ViewPoint() && !s_pLocalInput->IsKeyDown(KM_MOVE_FOWARD)) // If it&#39;s a third person point of view... if you don&#39;t touch the UI...
+	if(!s_pPlayer->IsDead() && VP_THIRD_PERSON == s_pEng->ViewPoint() && !s_pLocalInput->IsKeyDown(KM_MOVE_FOWARD)) // If it's a third person point of view... if you don't touch the UI...
 	{
 		__Vector3 vMovePoint;
 		float fDist;
@@ -7124,7 +7124,7 @@ bool CGameProcMain::OnMouseRbtnDown(POINT ptCur, POINT ptPrev)
 	if(fRotY && s_pPlayer->IsAlive())
 	{
 		if(VP_THIRD_PERSON == s_pEng->ViewPoint()) s_pEng->CameraYawAdd(fRotY);
-		else if(false == s_pPlayer->m_bStun) s_pPlayer->RotAdd(fRotY); // Only when I&#39;m not fainting...
+		else if(false == s_pPlayer->m_bStun) s_pPlayer->RotAdd(fRotY); // Only when I'm not fainting...
 	}
 	if(fRotX)
 	{

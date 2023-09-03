@@ -57,7 +57,7 @@ void CUIDroppedItemDlg::Init(CN3UIBase* pParent)
 
 void CUIDroppedItemDlg::Render()
 {
-	if (!m_bVisible) return;	// If not visible, don&#39;t render the children.
+	if (!m_bVisible) return;	// If not visible, don't render the children.
 	const POINT ptCur = CGameProcedure::s_pLocalInput->MouseGetPos();
 	m_pUITooltipDlg->DisplayTooltipsDisable();
 
@@ -226,7 +226,7 @@ void CUIDroppedItemDlg::AddToItemTable(int iItemID, int iItemCount, int iOrder)
 		pItemExt = CGameBase::s_pTbl_Items_Exts[pItem->byExtIndex]->Find(iItemID%1000);
 	if(nullptr == pItem || nullptr == pItemExt)
 	{
-		__ASSERT(0, "아이템 포인터 테이블에 없음!!");
+		__ASSERT(0, "not in item pointer table!!");
 		CLogWriter::Write("CUIDroppedItemDlg::AddToItemTable - Invalidate ItemID : %d", iItemID);
 		return;
 	}
@@ -261,7 +261,7 @@ void CUIDroppedItemDlg::AddToItemTableToInventory(int iItemID, int iItemCount, i
 		pItemExt = CGameBase::s_pTbl_Items_Exts[pItem->byExtIndex]->Find(iItemID%1000);
 	if(nullptr == pItem || nullptr == pItemExt)
 	{
-		__ASSERT(0, "아이템 포인터 테이블에 없음!!");
+		__ASSERT(0, "not in item pointer table!!");
 		CLogWriter::Write("CUIDroppedItemDlg::AddToItemTableToInventory - Invalidate ItemID : %d", iItemID);
 		return;
 	}
@@ -307,12 +307,12 @@ bool CUIDroppedItemDlg::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 	// It should check and notify the window with the selected icon the result.
 	switch ( CN3UIWndBase::m_sSelectedIconInfo.UIWndSelect.UIWnd )
 	{
-		// If it&#39;s from the inventory window...
+		// If it's from the inventory window...
 		case UIWND_INVENTORY:
 			CGameProcedure::s_pProcMain->m_pUIInventory->CancelIconDrop(spItem);
 			break;
 
-		// If it&#39;s from the commerce window...
+		// If it's from the commerce window...
 		case UIWND_TRANSACTION:
 			CGameProcedure::s_pProcMain->m_pUITransactionDlg->CancelIconDrop(spItem);
 			break;
@@ -429,7 +429,7 @@ const DWORD dwBitMask = 0x000f0000;
 			CAPISocket::MP_AddByte(byBuff, iOffset, N3_ITEM_DROPPED_GET);
 			CAPISocket::MP_AddDword(byBuff, iOffset, m_iItemBundleID);
 
-			// If it&#39;s not money, add it to the inventory list...
+			// If it's not money, add it to the inventory list...
 			if ( ITEM_TYPE_GOLD != eType ) 
 			{
 				CAPISocket::MP_AddDword(byBuff, iOffset, spItem->pItemBasic->dwID+spItem->pItemExt->dwID);
@@ -555,7 +555,7 @@ void CUIDroppedItemDlg::GetItemByIDToInventory(BYTE bResult, int iItemID, int iG
 			pItemExt = CGameBase::s_pTbl_Items_Exts[pItem->byExtIndex]->Find(iItemID%1000);
 		if(nullptr == pItem || nullptr == pItemExt)
 		{
-			__ASSERT(0, "아이템 포인터 테이블에 없음!!");
+			__ASSERT(0, "not in item pointer table!!");
 			CLogWriter::Write("CUIDroppedItemDlg::GetItemByIDToInventory - NULL Icon : %d", iItemID);
 			return;
 		}
@@ -681,7 +681,7 @@ void CUIDroppedItemDlg::GetItemByIDToInventory(BYTE bResult, int iItemID, int iG
 		pItem = CGameBase::s_pTbl_Items_Basic->Find(iItemID/1000*1000);	// Get column data...
 		if(nullptr == pItem)
 		{
-			__ASSERT(0, "아이템 포인터 테이블에 없음!!");
+			__ASSERT(0, "not in item pointer table!!");
 			CLogWriter::Write("CUIDroppedItemDlg::GetItemByIDToInventory - NULL Icon : %d", iItemID);
 			return;
 		}

@@ -157,13 +157,13 @@ BEGIN
         BLOCK "041204B0"
         BEGIN
             VALUE "CompanyName", "\0"
-            VALUE "FileDescription", "VersionManager MFC 응용 프로그램\0"
+            VALUE "FileDescription", "VersionManager MFC Application\0"
             VALUE "FileVersion", "1, 0, 0, 1\0"
             VALUE "InternalName", "VersionManager\0"
             VALUE "LegalCopyright", "Copyright (C) 2002\0"
             VALUE "LegalTrademarks", "\0"
             VALUE "OriginalFilename", "VersionManager.EXE\0"
-            VALUE "ProductName", "VersionManager 응용 프로그램\0"
+            VALUE "ProductName", "VersionManager Application\0"
             VALUE "ProductVersion", "1, 0, 0, 1\0"
         END
     END

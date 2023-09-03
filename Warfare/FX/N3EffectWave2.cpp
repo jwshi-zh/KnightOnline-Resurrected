@@ -407,7 +407,7 @@ void CN3EffectWave2::UpdateWaterPositions()
 		tempX = pPondMesh->m_fWaterScaleX*32.0f;
 		tempZ = pPondMesh->m_fWaterScaleZ*32.0f;
 
-		ptmpForceArray = pPondMesh->m_pfVelocityArray;	// I borrowed it because it&#39;s the same type
+		ptmpForceArray = pPondMesh->m_pfVelocityArray;	// I borrowed it because it's the same type
 		pForceArray = m_pfMaxVtx;
 		pVtx = pPondMesh->m_pVertices;
 		for (x=0; x<pPondMesh->m_iVC; x++)

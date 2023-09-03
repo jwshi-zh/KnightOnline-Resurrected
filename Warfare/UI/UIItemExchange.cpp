@@ -75,7 +75,7 @@ bool CUIItemExchange::Load(HANDLE hFile)
 
 void CUIItemExchange::Render()
 {
-	if (!m_bVisible) return;	// If not visible, don&#39;t render the children.
+	if (!m_bVisible) return;	// If not visible, don't render the children.
 	const POINT ptCur = CGameProcedure::s_pLocalInput->MouseGetPos();
 	m_pUITooltipDlg->DisplayTooltipsDisable();
 
@@ -209,13 +209,13 @@ bool CUIItemExchange::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 	CN3UIArea* pArea;
 	if (!m_bVisible) return false;
 
-	// If it&#39;s not the icon I had...
+	// If it's not the icon I had...
 	if ( CN3UIWndBase::m_sSelectedIconInfo.UIWndSelect.UIWnd != m_eUIWnd )
 		FAIL_RETURN
 	if ( CN3UIWndBase::m_sSelectedIconInfo.UIWndSelect.UIWndDistrict != UIWND_DISTRICT_EX_RE_INV )
 		FAIL_RETURN
 
-	// If it&#39;s an icon I had... it checks if it&#39;s an npc area.
+	// If it's an icon I had... it checks if it's an npc area.
 	int i; bool bFound = false;
 	for(i = 0; i < MAX_ITEM_EX_RE_NPC; i++ )
 	{

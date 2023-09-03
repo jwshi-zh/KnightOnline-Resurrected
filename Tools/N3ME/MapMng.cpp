@@ -1081,13 +1081,13 @@ BOOL CMapMng::MouseMsgFilter(LPMSG pMsg)
 			if (bSelectDrag)
 			{
 				POINT point = {short(LOWORD(pMsg->lParam)), short(HIWORD(pMsg->lParam))};
-				if (abs(m_rcSelDrag.left-point.x)<4 && abs(m_rcSelDrag.top-point.y) < 4) // 클릭한걸로 간주
+				if (abs(m_rcSelDrag.left-point.x)<4 && abs(m_rcSelDrag.top-point.y) < 4) // count as clicked
 				{
 					int nPart = -1;
 					CN3Base* pBaseSel = Pick(point, &nPart);
 										
 					SelectObject(pBaseSel, FALSE, (GetAsyncKeyState(VK_SHIFT) & 0xff00) ? TRUE : FALSE );
-					if(m_pDlgBase && pBaseSel && pBaseSel->Type() & OBJ_SHAPE) // 파트 선택..
+					if(m_pDlgBase && pBaseSel && pBaseSel->Type() & OBJ_SHAPE) // Part selection...
 					{
 						m_pDlgBase->m_CBShapePart.SetCurSel(nPart);
 					}
@@ -1335,7 +1335,7 @@ void CMapMng::MakeGameFiles(LPCTSTR lpszPathName, float fSize)
 	char szDrive[_MAX_DRIVE], szDir[_MAX_DIR], szFName[_MAX_FNAME], szExt[_MAX_EXT];
 	_splitpath(lpszPathName, szDrive, szDir, szFName, szExt);
 
-	// 파일 save.
+	// file save.
 	HANDLE hFile = CreateFile(lpszPathName, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 	if (INVALID_HANDLE_VALUE == hFile)
 	{
@@ -1403,7 +1403,7 @@ void CMapMng::MakeGameFiles(LPCTSTR lpszPathName, float fSize)
 		m_pWall->AddWall2Coll(&ShapeMgr);
 	ShapeMgr.GenerateCollisionData(); // Generate collision mesh data...
 	char szObjPosting[_MAX_PATH] = "";
-	_makepath(szObjPosting, szDrive, szDir, szFName, ".opd");  // "Object Posting Data" - Shape Manager file 이름을 정하고..
+	_makepath(szObjPosting, szDrive, szDir, szFName, ".opd");  // "Object Posting Data" - Name the Shape Manager file..
 	ShapeMgr.SaveToFile(szObjPosting);
 
 	//event save..
@@ -1671,7 +1671,7 @@ void CMapMng::RenderObjectToWindow(CN3TransformCollision* pObj, HWND hWnd)
 	TempCamera.Tick();
 	TempCamera.Apply();	// Put data into temporary camera and calculate frustum information.
 
-	// View Matrix 및 Projection Matrix Setting
+	// View Matrix and Projection Matrix Setting
 //	__Matrix44 viewmtx;
 //	::D3DXMatrixLookAtLH(&viewmtx, &vEye, &vAt, &vUp);
 //	pD3DDev->SetTransform(D3DTS_VIEW, &viewmtx);
@@ -1682,7 +1682,7 @@ void CMapMng::RenderObjectToWindow(CN3TransformCollision* pObj, HWND hWnd)
 	// Set Render State
 	pD3DDev->SetRenderState(D3DRS_LIGHTING, FALSE);
 
-	// 그리기
+	// drawing
 	if (dwType & OBJ_CHARACTER)
 	{
 		CN3Chr* pChr = (CN3Chr*)pObj;
@@ -2006,7 +2006,7 @@ void CMapMng::SaveObjectPostData(LPCTSTR lpszFileName)
 
 		char szSFN[MAX_PATH];
 		_makepath(szSFN, szDrive, szDir, pShape->Name(), ".n3shape");
-		pShape->SaveToFile(szSFN); // Shape information binary file로 save..
+		pShape->SaveToFile(szSFN); // Shape information binary file save..
 
 		fprintf(stream, "%s\n", pShape->Name()); // Write the shape file name in the text.
 	}
@@ -2488,7 +2488,7 @@ void CMapMng::DeleteUnusedFiles()
 	m_pSelSourceObj = NULL; // If you do this, you won't get bored.
 	m_SelOutputObjArray.RemoveAll();
 	this->LoadSourceObjects(); // Read the Source Object again...
-	this->UpdateAll(); // 몽땅 update
+	this->UpdateAll(); // update
 }
 
 void CMapMng::DeleteOverlappedObjects() // Find objects with overlapping positions.

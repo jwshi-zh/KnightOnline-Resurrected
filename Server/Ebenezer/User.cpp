@@ -1092,7 +1092,7 @@ void CUser::LogOut()
 	pUser = m_pMain->GetUserPtr( m_pUserData->m_Accountid, 0x01 );
 	if( pUser && (pUser->m_Sid != m_Sid) ) 
 	{
-		TRACE("%s : %s Logout: Sid 가 다른 경우...\n", m_pUserData->m_Accountid, m_pUserData->m_id);
+		TRACE("%s : %s Logout: if Sid is different...\n", m_pUserData->m_Accountid, m_pUserData->m_id);
 		return;
 	}
 	else 
@@ -1367,7 +1367,7 @@ void CUser::Attack(char *pBuf)
 	result = GetByte( pBuf, index );
 //	sid = GetShort( pBuf, index );
 	tid = GetShort( pBuf, index );
-// 비러머글 해킹툴 유저 --;
+// Non-Rummuggle Hacking Tool Users --;
 	delaytime = GetShort( pBuf, index );
 	distance = GetShort( pBuf,index );
 //
@@ -1387,7 +1387,7 @@ void CUser::Attack(char *pBuf)
 		TRACE("### Attack Fail : name=%s(%d), m_bResHpType=%d, hp=%d###\n", m_pUserData->m_id, m_Sid, m_bResHpType, m_pUserData->m_sHp);
 		return;
 	}
-// 비러머글 해킹툴 유저 --;
+// Non-Rummuggle Hacking Tool Users --;
 	pTable = m_pMain->m_ItemtableArray.GetData(m_pUserData->m_sItemArray[RIGHTHAND].nNum);	// This checks if such an item exists.
 	if(!pTable && m_pUserData->m_sItemArray[RIGHTHAND].nNum != 0) return;
 	
@@ -2326,12 +2326,12 @@ void CUser::RegisterRegion()
 		pMap->RegionUserAdd(m_RegionX, m_RegionZ, m_Sid);
 
 		if( m_State == STATE_GAMESTART ) {
-			RemoveRegion( old_region_x - m_RegionX, old_region_z - m_RegionZ );	// delete user 는 계산 방향이 진행방향의 반대...
-			InsertRegion( m_RegionX - old_region_x, m_RegionZ - old_region_z );	// add user 는 계산 방향이 진행방향...
+			RemoveRegion( old_region_x - m_RegionX, old_region_z - m_RegionZ );	// For delete user, the direction of calculation is opposite to the direction of progress...
+			InsertRegion( m_RegionX - old_region_x, m_RegionZ - old_region_z );	// For add user, the calculation direction is forward...
 			m_pMain->RegionNpcInfoForMe(this);
 			m_pMain->RegionUserInOutForMe(this);
 		}
-//		TRACE("User를 Region에 등록,, region_x=%d, y=%d\n", m_RegionX, m_RegionZ);
+//		TRACE("Register User to Region,, region_x=%d, y=%d\n", m_RegionX, m_RegionZ);
 	}
 }
 
@@ -7168,7 +7168,7 @@ void CUser::InitType4()
 	m_bMagicRAmount = 0;
 	m_bDiseaseRAmount = 0;
 	m_bPoisonRAmount = 0;		
-// 비러머글 수능
+// Non-Roomuggle SAT
 	m_bAbnormalType = 1;
 //
 	m_sDuration1 = 0 ;  m_fStartTime1 = 0.0f ;		// Used for Type 4 Durational Spells.
@@ -7440,7 +7440,7 @@ void CUser::AllSkillPointChange()
 	else if( m_pUserData->m_bLevel >= 30 && m_pUserData->m_bLevel < 60 ) temp_value = temp_value * 1;
 	else if( m_pUserData->m_bLevel >= 60 && m_pUserData->m_bLevel <= 90 ) temp_value = temp_value * 1.5;
 
-	// 스킬은 한번 더 
+	// skill once more
 	temp_value = temp_value * 1.5;
 
 	if( m_pMain->m_sDiscount == 1 && m_pMain->m_byOldVictory == m_pUserData->m_bNation )		{
@@ -9975,7 +9975,7 @@ void CUser::SelectMsg(EXEC *pExec)
 	chat = 2;
 
 //	for( i=0; i<4; i++ )	
-	for( i = 0 ; i < MAX_MESSAGE_EVENT ; i++ ) {	// 비러머글 퀘스트 >.<
+	for( i = 0 ; i < MAX_MESSAGE_EVENT ; i++ ) {	// Non-Rammuggle Quest >.<
 		SetDWORD( send_buf, pExec->m_ExecInt[chat], send_index );
 		chat += 2;
 	}
@@ -10196,7 +10196,7 @@ BOOL CUser::CheckEditBox()
 
 void CUser::OpenEditBox(int message, int event)
 {
-	//if( !CheckCouponUsed() ) return;	// 이것은 기술지원 필요함 ㅠ.ㅠ
+	//if( !CheckCouponUsed() ) return;	// This requires technical support.
 
 	int send_index = 0, retvalue = 0;
 	char send_buff[256];

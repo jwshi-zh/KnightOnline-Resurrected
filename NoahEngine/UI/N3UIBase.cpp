@@ -46,7 +46,7 @@ CN3UIBase::CN3UIBase()
 
 CN3UIBase::~CN3UIBase()
 {
-	if(m_pParent) m_pParent->RemoveChild(this);	// delete me from parent&#39;s child
+	if(m_pParent) m_pParent->RemoveChild(this);	// delete me from parent's child
 
 	CN3Base::s_SndMgr.ReleaseObj(&m_pSnd_OpenUI);
 	CN3Base::s_SndMgr.ReleaseObj(&m_pSnd_CloseUI);
@@ -54,7 +54,7 @@ CN3UIBase::~CN3UIBase()
 	while(!m_Children.empty())
 	{
 		const CN3UIBase* pChild = m_Children.front();
-		if (pChild) delete pChild;	// When a child is deleted, it is automatically removed from the parent&#39;s list.
+		if (pChild) delete pChild;	// When a child is deleted, it is automatically removed from the parent's list.
 									// Therefore, there is no need to delete a part from the list.
 	}
 }
@@ -79,7 +79,7 @@ void CN3UIBase::Release()
 	while(!m_Children.empty())
 	{
 		const CN3UIBase* pChild = m_Children.front();
-		if (pChild) delete pChild;	// When a child is deleted, it is automatically removed from the parent&#39;s list.
+		if (pChild) delete pChild;	// When a child is deleted, it is automatically removed from the parent's list.
 									// Therefore, there is no need to delete a part from the list.
 	}
 
@@ -314,7 +314,7 @@ void CN3UIBase::Tick()
 
 void CN3UIBase::Render()
 {
-	if (!m_bVisible) return;	// If not visible, don&#39;t render the children.
+	if (!m_bVisible) return;	// If not visible, don't render the children.
 
 	for(auto itor = m_Children.rbegin(); m_Children.rend() != itor; ++itor)
 	{
@@ -715,7 +715,7 @@ void CN3UIBase::ResizeAutomaticalyByChild()
 	if(rcCur.right < rcMax.right) rcCur.right = rcMax.right;
 	if(rcCur.bottom < rcMax.bottom) rcCur.bottom = rcMax.bottom;
 	// this->SetRegion(rcCur);
-	m_rcRegion = rcCur;	// If SetRegion is done, the child&#39;s area may be changed, so I put it directly to change only my area.
+	m_rcRegion = rcCur;	// If SetRegion is done, the child's area may be changed, so I put it directly to change only my area.
 }
 
 int CN3UIBase::IsMyChild(CN3UIBase* pUI)

@@ -48,7 +48,7 @@ struct __CameraData
 
 	float			fFOV; // Camera Lens Angle: Field Of View
 	//	float			fInverse_SineHalfOfFOV;
-	float			fAspect; // 종횡비
+	float			fAspect; // aspect ratio
 	float			fNP; // NearPlane
 	float			fFP; // FarPlane
 	D3DVIEWPORT9	vp; // ViewPort;

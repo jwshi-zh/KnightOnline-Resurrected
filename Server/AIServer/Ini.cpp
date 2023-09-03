@@ -25,7 +25,7 @@ int CIni::GetProfileInt(const char* lpAppName,
 {
 	if (m_szFileName[0] == '\0') {
 		m_nError = 0X01;
-		strcpy(m_strError, "File이 Set되지 않았습니다.");
+		strcpy(m_strError, "File is not set.");
 		return -1;
 	}
 

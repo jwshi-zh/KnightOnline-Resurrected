@@ -100,7 +100,7 @@ CN3Terrain::~CN3Terrain()
 
 //
 // MakeDistanceTable
-// Create a table ahead of time so that you don&#39;t calculate the distance, but get it from the table.
+// Create a table ahead of time so that you don't calculate the distance, but get it from the table.
 // distance in integer units..
 //
 void CN3Terrain::MakeDistanceTable()
@@ -505,7 +505,7 @@ bool CN3Terrain::Load(HANDLE hFile)
 	delete pTmpTex;
 
 	if(pUILoading) pUILoading->Render("Loading River Data...", 0);
-	m_pRiver->Load(hFile); // Let&#39;s block it for a while until the map data comes..2002.11.15
+	m_pRiver->Load(hFile); // Let's block it for a while until the map data comes..2002.11.15
 	m_pPond->Load(hFile); 
 
 	if(pUILoading) pUILoading->Render("", 100);
@@ -1186,7 +1186,7 @@ bool CN3Terrain::CheckBound()
 	rc.top = rc.bottom = Real2Patch(CN3Base::s_CameraData.vEye.z);
 
 	
-	// Calculate the tetrahedron&#39;s normal vector and Far four corner positions.
+	// Calculate the tetrahedron's normal vector and Far four corner positions.
 	const float fS = sinf(CN3Base::s_CameraData.fFOV / 2.0f);
 	const float fPL = CN3Base::s_CameraData.fFP;
 	const float fAspect = CN3Base::s_CameraData.fAspect; // aspect ratio
@@ -1366,7 +1366,7 @@ void CN3Terrain::Render()
 
 //
 // Log2(x) = l..
-// Works fine only for multipliers of 2...(x&gt;0)
+// Works fine only for multipliers of 2...(x>0)
 //
 inline int CN3Terrain::Log2(int x)
 {
@@ -2148,10 +2148,10 @@ bool CN3Terrain::GetTileTexInfo(float x, float z, TERRAINTILETEXINFO& TexInfo1, 
 		// u2[2] = m_pRefTerrain->m_fTileDirU[dir2][1];
 		// u2[3] = m_pRefTerrain->m_fTileDirU[dir2][3];
 
-		// v2[0] = m_pRefTerrain-&gt;m_fTileDirV[dir2][2];
-		// v2[1] = m_pRefTerrain-&gt;m_fTileDirV[dir2][0];
-		// v2[2] = m_pRefTerrain-&gt;m_fTileDirV[dir2][1];
-		// v2[3] = m_pRefTerrain-&gt;m_fTileDirV[dir2][3];
+		// v2[0] = m_pRefTerrain->m_fTileDirV[dir2][2];
+		// v2[1] = m_pRefTerrain->m_fTileDirV[dir2][0];
+		// v2[2] = m_pRefTerrain->m_fTileDirV[dir2][1];
+		// v2[3] = m_pRefTerrain->m_fTileDirV[dir2][3];
 
 	}
 
@@ -2179,10 +2179,10 @@ bool CN3Terrain::GetTileTexInfo(float x, float z, TERRAINTILETEXINFO& TexInfo1, 
 		// u2[2] = m_pRefTerrain->m_fTileDirU[dir2][1];
 		// u2[3] = m_pRefTerrain->m_fTileDirU[dir2][3];
 
-		// v2[0] = m_pRefTerrain-&gt;m_fTileDirV[dir2][2];
-		// v2[1] = m_pRefTerrain-&gt;m_fTileDirV[dir2][0];
-		// v2[2] = m_pRefTerrain-&gt;m_fTileDirV[dir2][1];
-		// v2[3] = m_pRefTerrain-&gt;m_fTileDirV[dir2][3];
+		// v2[0] = m_pRefTerrain->m_fTileDirV[dir2][2];
+		// v2[1] = m_pRefTerrain->m_fTileDirV[dir2][0];
+		// v2[2] = m_pRefTerrain->m_fTileDirV[dir2][1];
+		// v2[3] = m_pRefTerrain->m_fTileDirV[dir2][3];
 
 	}
 

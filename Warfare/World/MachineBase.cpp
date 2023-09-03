@@ -64,14 +64,14 @@ void CMachineBase::ReCalcMatrix()
 	__Vector3 vPos2 = m_vBalancePoint[1]*mtx1;
 	vPos1.y = pTerrain->GetHeight(vPos1.x, vPos1.z);
 	vPos2.y = pTerrain->GetHeight(vPos2.x, vPos2.z);
-	if (vPos1.y != -FLT_MAX &amp;&amp; vPos2.y != -FLT_MAX) fPitch = asinf((vPos2.y - vPos1.y)/(vPos1-vPos2).Magnitude()); // Calculate when not within terrain range
+	if (vPos1.y != -FLT_MAX && vPos2.y != -FLT_MAX) fPitch = asinf((vPos2.y - vPos1.y)/(vPos1-vPos2).Magnitude()); // Calculate when not within terrain range
 	vPos1 = m_vBalancePoint[2]*mtx1;
 	vPos2 = m_vBalancePoint[3]*mtx1;
 	vPos1.y = pTerrain->GetHeight(vPos1.x, vPos1.z);
 	vPos2.y = pTerrain->GetHeight(vPos2.x, vPos2.z);
-	if (vPos1.y != -FLT_MAX &amp;&amp; vPos2.y != -FLT_MAX) fRoll = asinf((vPos2.y - vPos1.y)/(vPos1-vPos2).Magnitude()); // Calculate only when within terrain range
+	if (vPos1.y != -FLT_MAX && vPos2.y != -FLT_MAX) fRoll = asinf((vPos2.y - vPos1.y)/(vPos1-vPos2).Magnitude()); // Calculate only when within terrain range
 
-	// Calculate the machine&#39;s scale, rotation, and position
+	// Calculate the machine's scale, rotation, and position
 	D3DXMatrixRotationYawPitchRoll(&mtx1, -m_fDirRadian, fPitch, fRoll);
 	// -m_fDirRadian: The reason for adding - is that the matrix operation defined in N3Base and the operation of d3d are reversed.
 
@@ -103,7 +103,7 @@ void CMachineBase::Tick(float fFrm)
 	if (m_bDontRender) return;
 
 	// calculate rotation
-	if (!((m_dwMachineState &amp; MS_TURNRIGHT) &amp;&amp; (m_dwMachineState &amp; MS_TURNLEFT))) // if left and right are not simultaneous
+	if (!((m_dwMachineState & MS_TURNRIGHT) && (m_dwMachineState & MS_TURNLEFT))) // if left and right are not simultaneous
 	{
 		float fAddRadian = 0.0f;
 		if (m_dwMachineState & MS_TURNRIGHT)
@@ -131,7 +131,7 @@ void CMachineBase::Tick(float fFrm)
 	__Vector3 vPosDiff;	vPosDiff.Set(0,0,0);
 
 	// Calculate forward and backward movement.
-	if (!((m_dwMachineState &amp; MS_FORWARD) &amp;&amp; (m_dwMachineState &amp; MS_BACKWARD))) // if not back and forth
+	if (!((m_dwMachineState & MS_FORWARD) && (m_dwMachineState & MS_BACKWARD))) // if not back and forth
 	{
 		float fDistance = 0.0f;
 		if (m_dwMachineState & MS_FORWARD) fDistance = (m_fSpeed*s_fSecPerFrm);
@@ -143,7 +143,7 @@ void CMachineBase::Tick(float fFrm)
 
 			// Calculate the y-coordinate according to the terrain
 			__Vector3 vPos = m_vPos + vPosDiff;
-			vPos.y = CN3GameBase::s_pArith-&gt;m_pTerrain-&gt;GetHeight(vPos.x, vPos.z);
+			vPos.y = CN3GameBase::s_pArith->m_pTerrain->GetHeight(vPos.x, vPos.z);
 			m_vPos = vPos;
 
 			// Calculate wheel rotation angle.
@@ -195,22 +195,22 @@ void CMachineBase::LoadMachine(FILE* stream)
 	char szWheel[NUM_WHEEL][_MAX_PATH];	// wheel pmeshname
 
 	int result;
-	result = fscanf(stream, "Speed = %f\n", &m_fSpeed);	__ASSERT(result != EOF, "잘못된 Machine 세팅 파일");
-	result = fscanf(stream, "RotateSpeed = %f\n", &m_fRotateSpeed);	__ASSERT(result != EOF, "잘못된 Machine 세팅 파일");
-	result = fscanf(stream, "Shape_Name = %s\n", szSrcName);					__ASSERT(result != EOF, "잘못된 Machine 세팅 파일");
-	result = fscanf(stream, "Wheel_FL = %s\n", szWheel[WHEEL_FL]);			__ASSERT(result != EOF, "잘못된 Machine 세팅 파일");
-	result = fscanf(stream, "Wheel_FR = %s\n", szWheel[WHEEL_FR]);			__ASSERT(result != EOF, "잘못된 Machine 세팅 파일");
-	result = fscanf(stream, "Wheel_BL = %s\n", szWheel[WHEEL_BL]);			__ASSERT(result != EOF, "잘못된 Machine 세팅 파일");
-	result = fscanf(stream, "Wheel_BR = %s\n", szWheel[WHEEL_BR]);			__ASSERT(result != EOF, "잘못된 Machine 세팅 파일");
-	// result = fscanf(stream, &quot;WheelRadius_FL = %f\n&quot;, &amp;(m_Wheel[WHEEL_FL].fRadius)); __ASSERT(result != EOF, &quot;Invalid Machine Settings File&quot;);
-	// result = fscanf(stream, &quot;WheelRadius_FR = %f\n&quot;, &amp;(m_Wheel[WHEEL_FR].fRadius)); __ASSERT(result != EOF, &quot;Invalid Machine Settings File&quot;);
-	// result = fscanf(stream, &quot;WheelRadius_BL = %f\n&quot;, &amp;(m_Wheel[WHEEL_BL].fRadius)); __ASSERT(result != EOF, &quot;Invalid Machine Settings File&quot;);
-	// result = fscanf(stream, &quot;WheelRadius_BR = %f\n&quot;, &amp;(m_Wheel[WHEEL_BR].fRadius)); __ASSERT(result != EOF, &quot;Invalid Machine Settings File&quot;);
+	result = fscanf(stream, "Speed = %f\n", &m_fSpeed);	__ASSERT(result != EOF, "Invalid machine setting file");
+	result = fscanf(stream, "RotateSpeed = %f\n", &m_fRotateSpeed);	__ASSERT(result != EOF, "Invalid machine setting file");
+	result = fscanf(stream, "Shape_Name = %s\n", szSrcName);					__ASSERT(result != EOF, "Invalid machine setting file");
+	result = fscanf(stream, "Wheel_FL = %s\n", szWheel[WHEEL_FL]);			__ASSERT(result != EOF, "Invalid machine setting file");
+	result = fscanf(stream, "Wheel_FR = %s\n", szWheel[WHEEL_FR]);			__ASSERT(result != EOF, "Invalid machine setting file");
+	result = fscanf(stream, "Wheel_BL = %s\n", szWheel[WHEEL_BL]);			__ASSERT(result != EOF, "Invalid machine setting file");
+	result = fscanf(stream, "Wheel_BR = %s\n", szWheel[WHEEL_BR]);			__ASSERT(result != EOF, "Invalid machine setting file");
+	// result = fscanf(stream, "WheelRadius_FL = %f\n", &(m_Wheel[WHEEL_FL].fRadius)); __ASSERT(result != EOF, "Invalid Machine Settings File");
+	// result = fscanf(stream, "WheelRadius_FR = %f\n", &(m_Wheel[WHEEL_FR].fRadius)); __ASSERT(result != EOF, "Invalid Machine Settings File");
+	// result = fscanf(stream, "WheelRadius_BL = %f\n", &(m_Wheel[WHEEL_BL].fRadius)); __ASSERT(result != EOF, "Invalid Machine Settings File");
+	// result = fscanf(stream, "WheelRadius_BR = %f\n", &(m_Wheel[WHEEL_BR].fRadius)); __ASSERT(result != EOF, "Invalid Machine Settings File");
 
 	// Loading shapes
 	this->Load(szSrcName);
 
-	__ASSERT(m_bSkipCalcPartMtx == NULL, "Machine에서 메모리 릭 가능성");
+	__ASSERT(m_bSkipCalcPartMtx == NULL, "Possible memory leak in the machine");
 	const int iPartCount = PartCount();
 	if (iPartCount>0) m_bSkipCalcPartMtx = new BOOL[iPartCount];
 	ZeroMemory(m_bSkipCalcPartMtx, sizeof(m_bSkipCalcPartMtx[0])*iPartCount);
@@ -220,10 +220,10 @@ void CMachineBase::LoadMachine(FILE* stream)
 	for (i=0; i<NUM_WHEEL; ++i)
 	{
 		m_Wheel[i].pPart = GetPartByPMeshName(szWheel[i]);
-		__ASSERT(m_Wheel[i].pPart, "Machine의 바퀴 파트가 NULL입니다.");
+		__ASSERT(m_Wheel[i].pPart, "Machine's wheel part is NULL.");
 		// Find Wheel Radius
 		CN3PMesh* pPMesh = m_Wheel[i].pPart->Mesh();
-		__ASSERT(pPMesh, "machine 바퀴의 PMesh가 없어요.");
+		__ASSERT(pPMesh, "No PMesh on machine wheels.");
 		m_Wheel[i].fRadius = (pPMesh->Max().y - pPMesh->Min().y)/2.0f;
 	}
 

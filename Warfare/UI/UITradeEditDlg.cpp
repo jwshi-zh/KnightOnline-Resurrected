@@ -33,7 +33,7 @@ void CUITradeEditDlg::Release()
 	CN3UIBase::Release();
 }
 
-int	CUITradeEditDlg::GetQuantity() // Get integer value from &quot;edit_trade&quot; Edit Control.
+int	CUITradeEditDlg::GetQuantity() // Get integer value from "edit_trade" Edit Control.
 {
 	CN3UIEdit* pEdit = (CN3UIEdit*)this->GetChildByID("edit_trade");
 	__ASSERT(pEdit, "NULL UI Component!!");
@@ -41,7 +41,7 @@ int	CUITradeEditDlg::GetQuantity() // Get integer value from &quot;edit_trade&qu
 	return atoi(pEdit->GetString().c_str());
 }
 
-void CUITradeEditDlg::SetQuantity(int iQuantity) // In the &quot;edit_trade&quot; Edit Control, set the integer value as a string.
+void CUITradeEditDlg::SetQuantity(int iQuantity) // In the "edit_trade" Edit Control, set the integer value as a string.
 {
 	CN3UIEdit* pEdit = (CN3UIEdit*)this->GetChildByID("edit_trade");
 	__ASSERT(pEdit, "NULL UI Component!!");

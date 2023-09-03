@@ -4,10 +4,10 @@
 
 struct __VertexSkinned
 {
-	__Vector3	vOrigin; // 원래 점 위치..
-	int			nAffect; // 관절 몇개가 영향을 주는지..
-	int*		pnJoints; // 관절 인덱스
-	float*		pfWeights; // 가중치
+	__Vector3	vOrigin; // original point location.
+	int			nAffect; // How many joints are affected?
+	int*		pnJoints; // joint index
+	float*		pfWeights; // weight
 
 	__VertexSkinned() { memset(this, 0, sizeof(__VertexSkinned)); }
 	~__VertexSkinned() { delete [] pnJoints; delete [] pfWeights; }
@@ -36,7 +36,7 @@ public:
 
 #ifdef _N3TOOL
 	bool				Save(HANDLE hFile);
-	void				RecalcWeight();		// 웨이트값 다시 계산하기
+	void				RecalcWeight();		// Recalculate weights
 #endif // end of _N3TOOL
 	
 	void Release();

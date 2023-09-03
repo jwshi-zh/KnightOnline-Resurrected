@@ -158,7 +158,7 @@ DWORD CGrassBoard::SetBrightLevel(float Level) const
 	fLevelbak = Level;
 
 	if(Level<0.0f) return 0x00ffffff;
-	if(Level>m_fBrightmin+m_fBrightmax)	return 0x00ffffff;	// Can&#39;t see beyond a certain distance
+	if(Level>m_fBrightmin+m_fBrightmax)	return 0x00ffffff;	// Can't see beyond a certain distance
 	
 	DWORD Color=0x00ffffff;
 	if(Level>m_fBrightmin)	// Visible within a certain distance

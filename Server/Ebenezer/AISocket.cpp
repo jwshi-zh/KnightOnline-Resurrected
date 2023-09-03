@@ -152,7 +152,7 @@ void CAISocket::LoginProcess( char* pBuf )
 			if(m_pMain->m_sSocketCount == MAX_AI_SOCKET)	{
 				m_pMain->m_bServerCheckFlag = TRUE;
 				m_pMain->m_sSocketCount = 0;
-				TRACE("*** 유저의 정보를 보낼 준비단계 ****\n");
+				TRACE("*** Preparing to send user information ****\n");
 				m_pMain->SendAllUserInfo();
 			}
 		}
@@ -163,7 +163,7 @@ void CAISocket::LoginProcess( char* pBuf )
 			TRACE("**** ReConnect - zone=%d,  socket = %d ****\n ", ver, m_pMain->m_sReSocketCount);
 			fReConnectEndTime = TimeGet();
 			if(fReConnectEndTime > m_pMain->m_fReConnectStart+120)	{
-				TRACE("**** ReConnect - 단순한 접속... socket = %d ****\n ", m_pMain->m_sReSocketCount);
+				TRACE("**** ReConnect - simple connection... socket = %d ****\n ", m_pMain->m_sReSocketCount);
 				m_pMain->m_sReSocketCount = 0;
 				m_pMain->m_fReConnectStart = 0.0f;
 			}
@@ -171,10 +171,10 @@ void CAISocket::LoginProcess( char* pBuf )
 			if(m_pMain->m_sReSocketCount == MAX_AI_SOCKET)	{
 				fReConnectEndTime = TimeGet();
 				if(fReConnectEndTime < m_pMain->m_fReConnectStart+60)	{
-					TRACE("**** ReConnect - 모든 소켓 초기화 완료 socket = %d ****\n ", m_pMain->m_sReSocketCount);
+					TRACE("**** ReConnect - All sockets initialized socket = %d ****\n ", m_pMain->m_sReSocketCount);
 					m_pMain->m_bServerCheckFlag = TRUE;
 					m_pMain->m_sReSocketCount = 0;
-					TRACE("*** 유저의 정보를 보낼 준비단계 ****\n");
+					TRACE("*** Preparing to send user information ****\n");
 					m_pMain->SendAllUserInfo();
 				}
 				else	{
@@ -195,7 +195,7 @@ void CAISocket::RecvServerInfo(char* pBuf)
 	int size = m_pMain->m_ZoneArray.size();
 
 	if(type == SERVER_INFO_START)	{	
-		TRACE("몬스터의 정보를 받기 시작합니다..%d\n", byZone);
+		TRACE("Start receiving monster information..%d\n", byZone);
 	}
 	else if(type == SERVER_INFO_END)	{
 		short sTotalMonster = 0;
@@ -205,17 +205,17 @@ void CAISocket::RecvServerInfo(char* pBuf)
 
 		m_pMain->m_sZoneCount++;
 
-		TRACE("몬스터의 정보를 다 받았음....%d, total=%d, socketcount=%d\n", byZone, sTotalMonster, m_pMain->m_sZoneCount);
+		TRACE("Received all monster information....%d, total=%d, socketcount=%d\n", byZone, sTotalMonster, m_pMain->m_sZoneCount);
 
 		if(m_pMain->m_sZoneCount == size)	{
 			if(m_pMain->m_bFirstServerFlag == FALSE)	{
 				m_pMain->UserAcceptThread();
-				TRACE("+++ 몬스터의 모든 정보를 다 받았음, User AcceptThread Start ....%d, socketcount=%d\n", byZone, m_pMain->m_sZoneCount);
+				TRACE("+++ Received all information about the monster, User AcceptThread Start ....%d, socketcount=%d\n", byZone, m_pMain->m_sZoneCount);
 			}
 			m_pMain->m_sZoneCount = 0;
 			m_pMain->m_bFirstServerFlag = TRUE;
 			m_pMain->m_bPointCheckFlag = TRUE;
-			TRACE("몬스터의 모든 정보를 다 받았음, User AcceptThread Start ....%d, socketcount=%d\n", byZone, m_pMain->m_sZoneCount);
+			TRACE("Received all information about the monster, User AcceptThread Start ....%d, socketcount=%d\n", byZone, m_pMain->m_sZoneCount);
 			// Let's pre-allocate the pointer of the Event Monster here.
 			//InitEventMonster( sTotalMonster );
 		}

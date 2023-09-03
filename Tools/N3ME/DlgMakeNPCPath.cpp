@@ -134,7 +134,7 @@ BOOL CDlgMakeNPCPath::OnInitDialog()
 	char szLine[512] = "", szID[80] = "", szBuff[4][80] = {"", "", "", ""};
 	char szName[512] = "";
 	
-	//NPC종류에 관한 정의...
+	//Definitions of NPC types...
 	char szNpcFileName[MAX_PATH];
 	wsprintf(szNpcFileName, "npclist\\npclist.txt");
 	FILE* stream = fopen(szNpcFileName, "r");
@@ -167,7 +167,7 @@ BOOL CDlgMakeNPCPath::OnInitDialog()
 		fclose(stream);
 	}
 
-	//NPC움직임에 관한 정의..
+	//Definition of NPC movement..
 	wsprintf(szNpcFileName, "npclist\\npcacttypelist.txt");
 	stream = fopen(szNpcFileName, "r");
 	if(stream)

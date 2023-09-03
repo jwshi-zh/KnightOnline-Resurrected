@@ -80,7 +80,7 @@ void CUIWareHouseDlg::Release()
 
 void CUIWareHouseDlg::Render()
 {
-	if (!m_bVisible) return;	// If not visible, don&#39;t render the children.
+	if (!m_bVisible) return;	// If not visible, don't render the children.
 
 	int i;
 
@@ -622,14 +622,14 @@ bool CUIWareHouseDlg::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 	e_UIWND_DISTRICT eUIWnd = UIWND_DISTRICT_UNKNOWN;
 	if (!m_bVisible) return false;
 
-	// If it&#39;s not the icon I had...
+	// If it's not the icon I had...
 	if ( CN3UIWndBase::m_sSelectedIconInfo.UIWndSelect.UIWnd != m_eUIWnd )
 		FAIL_RETURN
 	if ( (CN3UIWndBase::m_sSelectedIconInfo.UIWndSelect.UIWndDistrict != UIWND_DISTRICT_TRADE_NPC) &&
 			(CN3UIWndBase::m_sSelectedIconInfo.UIWndSelect.UIWndDistrict != UIWND_DISTRICT_TRADE_MY) )
 		FAIL_RETURN
 
-	// If it&#39;s an icon I had... it checks if it&#39;s an npc area.
+	// If it's an icon I had... it checks if it's an npc area.
 	int i, iDestiOrder = -1; bool bFound = false;
 	for(auto i = 0; i < MAX_ITEM_TRADE; i++ )
 	{
@@ -683,7 +683,7 @@ bool CUIWareHouseDlg::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 				if( (CN3UIWndBase::m_sRecoveryJobInfo.pItemSource->pItemBasic->byContable == UIITEM_TYPE_COUNTABLE) ||
 					(CN3UIWndBase::m_sRecoveryJobInfo.pItemSource->pItemBasic->byContable == UIITEM_TYPE_COUNTABLE_SMALL) )
 				{
-					// If it&#39;s an item like a bow or potion...
+					// If it's an item like a bow or potion...
 					// Find out if the icon is in your inventory.
 					bFound = false;
 
@@ -699,7 +699,7 @@ bool CUIWareHouseDlg::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 						}
 					}
 
-					// If you can&#39;t find it...
+					// If you can't find it...
 					if ( !bFound )
 					{
 						if ( m_pMyWareInv[iDestiOrder] )	// If there is an icon in that location...
@@ -715,7 +715,7 @@ bool CUIWareHouseDlg::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 								}
 							}
 
-							if ( !bFound )	// If you can&#39;t find an empty slot...
+							if ( !bFound )	// If you can't find an empty slot...
 							{
 								CN3UIWndBase::m_sRecoveryJobInfo.m_bWaitFromServer  = false;
 								CN3UIWndBase::m_sRecoveryJobInfo.pItemSource		= nullptr;
@@ -733,7 +733,7 @@ bool CUIWareHouseDlg::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 				}
 				else
 				{
-					// If it&#39;s a normal item...
+					// If it's a normal item...
 					if ( m_pMyWareInv[iDestiOrder] )	// If there is an icon in that location...
 					{
 						// Find an empty inventory slot.
@@ -748,7 +748,7 @@ bool CUIWareHouseDlg::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 							}
 						}
 
-						if ( !bFound )	// If you can&#39;t find an empty slot...
+						if ( !bFound )	// If you can't find an empty slot...
 						{
 							CN3UIWndBase::m_sRecoveryJobInfo.m_bWaitFromServer  = false;
 							CN3UIWndBase::m_sRecoveryJobInfo.pItemSource		= nullptr;
@@ -838,7 +838,7 @@ bool CUIWareHouseDlg::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 				if( (CN3UIWndBase::m_sRecoveryJobInfo.pItemSource->pItemBasic->byContable == UIITEM_TYPE_COUNTABLE) || 
 					(CN3UIWndBase::m_sRecoveryJobInfo.pItemSource->pItemBasic->byContable == UIITEM_TYPE_COUNTABLE_SMALL) )
 				{
-					// If it&#39;s an item like a bow or potion...
+					// If it's an item like a bow or potion...
 					// Find out if there is an icon in the Ware.
 					bFound = false;
 
@@ -862,7 +862,7 @@ bool CUIWareHouseDlg::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 						}
 					}
 
-					// If you can&#39;t find it...
+					// If you can't find it...
 					if ( !bFound )
 					{
 						if ( m_pMyWare[m_iCurPage][iDestiOrder] )	// If there is an icon in that location...
@@ -889,7 +889,7 @@ bool CUIWareHouseDlg::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 									}
 								}
 
-								if ( !bFound )	// If you can&#39;t find an empty slot...
+								if ( !bFound )	// If you can't find an empty slot...
 								{
 									CN3UIWndBase::m_sRecoveryJobInfo.m_bWaitFromServer  = false;
 									CN3UIWndBase::m_sRecoveryJobInfo.pItemSource		= nullptr;
@@ -911,7 +911,7 @@ bool CUIWareHouseDlg::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 				}
 				else
 				{
-					// If it&#39;s a normal item...
+					// If it's a normal item...
 					if ( m_pMyWare[m_iCurPage][iDestiOrder] )	// If there is an icon in that location...
 					{
 						// Find an empty inventory slot.
@@ -940,7 +940,7 @@ bool CUIWareHouseDlg::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 							}
 						}
 
-						if ( !bFound )	// If you can&#39;t find an empty slot...
+						if ( !bFound )	// If you can't find an empty slot...
 						{
 							CN3UIWndBase::m_sRecoveryJobInfo.m_bWaitFromServer  = false;
 							CN3UIWndBase::m_sRecoveryJobInfo.pItemSource		= nullptr;
@@ -1122,7 +1122,7 @@ void CUIWareHouseDlg::ReceiveResultToWareMsg(BYTE bResult)	// If you put...
 	{
 		if (m_bSendedItemGold) {	ReceiveResultGoldToWareFail();	return;		}
 		if( (CN3UIWndBase::m_sRecoveryJobInfo.pItemSource->pItemBasic->byContable == UIITEM_TYPE_COUNTABLE) ||
-			(CN3UIWndBase::m_sRecoveryJobInfo.pItemSource->pItemBasic->byContable == UIITEM_TYPE_COUNTABLE_SMALL) )			// If it&#39;s an item like a bow or potion...
+			(CN3UIWndBase::m_sRecoveryJobInfo.pItemSource->pItemBasic->byContable == UIITEM_TYPE_COUNTABLE_SMALL) )			// If it's an item like a bow or potion...
 		{
 			// Ware Side..	//////////////////////////////////////////////////////
 
@@ -1139,7 +1139,7 @@ void CUIWareHouseDlg::ReceiveResultToWareMsg(BYTE bResult)	// If you put...
 				// Also delete it from your inventory.
 				m_pMyWare[CN3UIWndBase::m_sRecoveryJobInfo.m_iPage][CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceEnd.iOrder] = nullptr;
 
-				// Delete my manager&#39;s item from the list with iOrder.
+				// Delete my manager's item from the list with iOrder.
 				RemoveChild(spItem->pUIIcon);
 
 				// Delete Icon Resource...
@@ -1162,7 +1162,7 @@ void CUIWareHouseDlg::ReceiveResultToWareMsg(BYTE bResult)	// If you put...
 				m_pMyWareInv[CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceStart.iOrder]->iCount += iGold;
 			}
 		}
-		else	// If it&#39;s a normal item...
+		else	// If it's a normal item...
 		{
 			m_pMyWareInv[CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceStart.iOrder] = 
 				m_pMyWare[m_iCurPage][CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceEnd.iOrder]; 
@@ -1188,14 +1188,14 @@ void CUIWareHouseDlg::ReceiveResultToWareMsg(BYTE bResult)	// If you put...
 		}
 		if( ( (CN3UIWndBase::m_sRecoveryJobInfo.pItemSource->pItemBasic->byContable == UIITEM_TYPE_COUNTABLE) || 
 			(CN3UIWndBase::m_sRecoveryJobInfo.pItemSource->pItemBasic->byContable == UIITEM_TYPE_COUNTABLE_SMALL) ) &&
-			!m_pMyWareInv[CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceStart.iOrder]->pUIIcon->IsVisible() )			// If it&#39;s an item like a bow or potion...
+			!m_pMyWareInv[CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceStart.iOrder]->pUIIcon->IsVisible() )			// If it's an item like a bow or potion...
 		{				
 			spItem = m_pMyWareInv[CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceStart.iOrder];
 
 			// Also delete it from your inventory.
 			m_pMyWareInv[CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceStart.iOrder] = nullptr;
 
-			// Delete my manager&#39;s item from the list with iOrder.
+			// Delete my manager's item from the list with iOrder.
 			RemoveChild(spItem->pUIIcon);
 
 			// Delete Icon Resource...
@@ -1236,7 +1236,7 @@ void CUIWareHouseDlg::ReceiveResultFromWareMsg(BYTE bResult)	// If you subtract.
 				// Also delete it from your inventory.
 				m_pMyWareInv[CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceEnd.iOrder] = nullptr;
 
-				// Delete my manager&#39;s item from the list with iOrder.
+				// Delete my manager's item from the list with iOrder.
 				RemoveChild(spItem->pUIIcon);
 
 				// Delete Icon Resource...
@@ -1289,14 +1289,14 @@ void CUIWareHouseDlg::ReceiveResultFromWareMsg(BYTE bResult)	// If you subtract.
 		}
 		if( ( (CN3UIWndBase::m_sRecoveryJobInfo.pItemSource->pItemBasic->byContable == UIITEM_TYPE_COUNTABLE) || 
 			(CN3UIWndBase::m_sRecoveryJobInfo.pItemSource->pItemBasic->byContable == UIITEM_TYPE_COUNTABLE_SMALL) ) &&
-			!m_pMyWare[m_iCurPage][CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceStart.iOrder]->pUIIcon->IsVisible() )			// If it&#39;s an item like a bow or potion...
+			!m_pMyWare[m_iCurPage][CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceStart.iOrder]->pUIIcon->IsVisible() )			// If it's an item like a bow or potion...
 		{				
 			spItem = m_pMyWare[m_iCurPage][CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceStart.iOrder];
 
 			// Also delete it from your inventory.
 			m_pMyWare[m_iCurPage][CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceStart.iOrder] = nullptr;
 
-			// Delete my manager&#39;s item from the list with iOrder.
+			// Delete my manager's item from the list with iOrder.
 			RemoveChild(spItem->pUIIcon);
 
 			// Delete Icon Resource...
@@ -1502,7 +1502,7 @@ void CUIWareHouseDlg::ItemCountOK()
 				// Number update...
 				m_pMyWareInv[CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceEnd.iOrder]->iCount += iGold;
 			}
-			else	// Create an icon if it doesn&#39;t exist...
+			else	// Create an icon if it doesn't exist...
 			{
 				__IconItemSkill* spItemNew;
 				spItemNew				= new __IconItemSkill;
@@ -1610,7 +1610,7 @@ void CUIWareHouseDlg::ItemCountOK()
 				// Number update...
 				m_pMyWare[CN3UIWndBase::m_sRecoveryJobInfo.m_iPage][CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceEnd.iOrder]->iCount += iGold;
 			}
-			else	// Create an icon if it doesn&#39;t exist.
+			else	// Create an icon if it doesn't exist.
 			{
 				__IconItemSkill* spItemNew;
 				spItemNew				= new __IconItemSkill;
@@ -1786,7 +1786,7 @@ void CUIWareHouseDlg::GoldCountToWareOK()	// If you put money in...
 	// Gold Offset Backup..
 	m_iGoldOffsetBackup = iGold;
 
-	// I&#39;m getting my money now...
+	// I'm getting my money now...
 	iMyMoney = CGameBase::s_pPlayer->m_InfoExt.iGold;
 
 	// Get the money from the storage box.
@@ -1840,7 +1840,7 @@ void CUIWareHouseDlg::GoldCountFromWareOK()		// If you are withdrawing money...
 	// Gold Offset Backup..
 	m_iGoldOffsetBackup = iGold;
 
-	// I&#39;m getting my money now...
+	// I'm getting my money now...
 	iMyMoney = CGameBase::s_pPlayer->m_InfoExt.iGold;
 
 	// Get the money from the storage box.
@@ -1924,7 +1924,7 @@ void CUIWareHouseDlg::ReceiveResultGoldToWareFail()
 	// Gold Offset Backup..
 	m_iGoldOffsetBackup = iGold;
 
-	// I&#39;m getting my money now...
+	// I'm getting my money now...
 	iMyMoney = CGameBase::s_pPlayer->m_InfoExt.iGold;
 
 	// Get the money from the storage box.
@@ -1966,7 +1966,7 @@ void CUIWareHouseDlg::ReceiveResultGoldFromWareFail()
 	// Gold Offset Backup..
 	m_iGoldOffsetBackup = iGold;
 
-	// I&#39;m getting my money now...
+	// I'm getting my money now...
 	iMyMoney = CGameBase::s_pPlayer->m_InfoExt.iGold;
 
 	// Get the money from the storage box.

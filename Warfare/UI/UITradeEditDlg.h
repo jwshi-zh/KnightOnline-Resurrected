@@ -21,7 +21,7 @@ public:
 	virtual ~CUITradeEditDlg();
 
 	int					GetQuantity();
-	void				SetQuantity(int iQuantity); // In the &quot;edit_trade&quot; Edit Control, set the integer value as a string.
+	void				SetQuantity(int iQuantity); // In the "edit_trade" Edit Control, set the integer value as a string.
 
 	virtual void		Release();
 	virtual bool		ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg);

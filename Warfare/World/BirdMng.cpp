@@ -42,13 +42,13 @@ void CBirdMng::LoadFromFile(const std::string& szFN)
 
 	int i;
 	char szRrcName[_MAX_PATH];
-	int result = fscanf(stream, "count = %d\n", &m_iBirdCount);			__ASSERT(result != EOF, "잘못된 Machine 세팅 파일");
+	int result = fscanf(stream, "count = %d\n", &m_iBirdCount);			__ASSERT(result != EOF, "Invalid machine setting file");
 
 	if(m_iBirdCount>0) m_pBird = new CBird[m_iBirdCount];
 
 	for (i=0; i<m_iBirdCount; i++)
 	{
-		result = fscanf(stream, "%s\n", szRrcName);	__ASSERT(result != EOF, "잘못된 bird list 세팅 파일");
+		result = fscanf(stream, "%s\n", szRrcName);	__ASSERT(result != EOF, "Invalid bird list settings file");
 		m_pBird[i].LoadBird(szRrcName);		
 	}
 	fclose(stream);

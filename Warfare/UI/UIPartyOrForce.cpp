@@ -49,7 +49,7 @@ bool CUIPartyOrForce::Load(HANDLE hFile)
 	if(CN3UIBase::Load(hFile)==false) return false;
 
 	char szID[128] = "";
-	for(int i = 0; i < MAX_PARTY_OR_FORCE; i++) // Let&#39;s find an empty place.
+	for(int i = 0; i < MAX_PARTY_OR_FORCE; i++) // Let's find an empty place.
 	{
 		sprintf(szID, "progress_hp_%d", i); // 
 		m_pProgress_HPs[i] = (CN3UIProgress*)(this->GetChildByID(szID)); __ASSERT(m_pProgress_HPs[i], "NULL UI Component!!!");
@@ -250,7 +250,7 @@ bool CUIPartyOrForce::MemberRemove(int iID)
 void CUIPartyOrForce::MemberDestroy()
 {
 	m_Members.clear();
-	for(int i = 0; i < MAX_PARTY_OR_FORCE; i++) // Let&#39;s find an empty place.
+	for(int i = 0; i < MAX_PARTY_OR_FORCE; i++) // Let's find an empty place.
 	{
 		if(m_pProgress_HPs[i])		m_pProgress_HPs[i]->SetVisible(false);
 		if(m_pProgress_HPReduce[i]) m_pProgress_HPReduce[i]->SetVisible(false);
@@ -279,17 +279,17 @@ void CUIPartyOrForce::MemberInfoReInit() // When the composition of party member
 		if(m_pProgress_HPs[i])
 		{
 			m_pProgress_HPs[i]->SetCurValue(pIP->iHP * 100 / pIP->iHPMax);
-			// m_pProgress_HPs[i]-&gt;SetVisible(true);
+			// m_pProgress_HPs[i]->SetVisible(true);
 		}
 		if(m_pProgress_HPReduce[i])
 		{
 			m_pProgress_HPReduce[i]->SetCurValue(pIP->iHP * 100 / pIP->iHPMax);
-			// m_pProgress_HPReduce[i]-&gt;SetVisible(false);
+			// m_pProgress_HPReduce[i]->SetVisible(false);
 		}
 		if(m_pProgress_ETC[i])
 		{
 			m_pProgress_ETC[i]->SetCurValue(pIP->iHP * 100 / pIP->iHPMax);
-			// m_pProgress_ETC[i]-&gt;SetVisible(false);
+			// m_pProgress_ETC[i]->SetVisible(false);
 		}
 		if(m_pStatic_IDs[i])
 		{

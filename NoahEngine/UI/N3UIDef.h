@@ -32,7 +32,7 @@ enum eUI_TYPE	{	UI_TYPE_BASE = 0,		// none
 				};
 
 // State
-enum eUI_STATE	{	UI_STATE_COMMON_NONE = 0,				// It&#39;s just a normal state that doesn&#39;t matter, or a state where a window with an icon doesn&#39;t select an icon
+enum eUI_STATE	{	UI_STATE_COMMON_NONE = 0,				// It's just a normal state that doesn't matter, or a state where a window with an icon doesn't select an icon
 					UI_STATE_COMMON_MOVE,					// have to move
 					UI_STATE_BUTTON_NORMAL,					// Nothing is wrong, just a normal state..
 					UI_STATE_BUTTON_DOWN,					// button is pressed
@@ -62,8 +62,8 @@ enum eUI_STATE	{	UI_STATE_COMMON_NONE = 0,				// It&#39;s just a normal state th
 
 // message
 const DWORD UIMSG_BUTTON_CLICK		= 0x00000001;		// click normal button
-const DWORD UIMSG_TRACKBAR_POS		= 0x00000010;		// trackbar&#39;s pos is changed
-const DWORD UIMSG_SCROLLBAR_POS		= 0x00000100;		// The scrollbar&#39;s pos is changed.
+const DWORD UIMSG_TRACKBAR_POS		= 0x00000010;		// trackbar's pos is changed
+const DWORD UIMSG_SCROLLBAR_POS		= 0x00000100;		// The scrollbar's pos is changed.
 const DWORD UIMSG_EDIT_RETURN		= 0x00001000;		// Enter in Edit
 const DWORD UIMSG_EDIT_TAB			= 0x00002000;		// Tab comes in from Edit
 const DWORD UIMSG_EDIT_ESCAPE		= 0x00004000;		// Esc comes in from Edit
@@ -102,11 +102,11 @@ const DWORD UI_MOUSE_MBDBLCLK	= 0x00000400;
 const DWORD UI_MOUSE_RBDBLCLK	= 0x00000800;
 
 // mouse procedure return value flag
-const DWORD UI_MOUSEPROC_NONE			= 0x00000000;	// It didn&#39;t do anything.
+const DWORD UI_MOUSEPROC_NONE			= 0x00000000;	// It didn't do anything.
 const DWORD UI_MOUSEPROC_DONESOMETHING	= 0x00000001;	// far worked
 const DWORD UI_MOUSEPROC_CHILDDONESOMETHING	= 0x00000002;	// The child did something remotely. (When this flag is set, UI_MOUSEPROC_DONESOMETHING is always also set.)
 const DWORD UI_MOUSEPROC_INREGION		= 0x00000004;	// The mouse pointer is inside the area.
-const DWORD UI_MOUSEPROC_PREVINREGION	= 0x00000008;	// The previous tick&#39;s mouse pointer was inside the area.
+const DWORD UI_MOUSEPROC_PREVINREGION	= 0x00000008;	// The previous tick's mouse pointer was inside the area.
 const DWORD UI_MOUSEPROC_DIALOGFOCUS	= 0x00000010;	// The dialog has focus.
 
 
@@ -119,7 +119,7 @@ const DWORD UI_STR_TYPE_VALIGN			= 0x00000002;	// vertical alignment of strings
 const DWORD UISTYLE_NONE				= 0x00000000;
 const DWORD UISTYLE_ALWAYSTOP			= 0x00000001;	// always on top
 const DWORD UISTYLE_MODAL				= 0x00000002;	// modal dialog
-const DWORD UISTYLE_FOCUS_UNABLE		= 0x00000004;	// Toddlers who can&#39;t get focus
+const DWORD UISTYLE_FOCUS_UNABLE		= 0x00000004;	// Toddlers who can't get focus
 const DWORD UISTYLE_SHOW_ME_ALONE		= 0x00000008;	// If only it can open itself, the other must be closed.
 const DWORD UISTYLE_HIDE_UNABLE			= 0x00000010;	// children who do not close
 const DWORD UISTYLE_USER_MOVE_HIDE		= 0x00000020;	// A child that closes when the user moves

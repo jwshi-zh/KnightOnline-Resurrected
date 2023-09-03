@@ -313,7 +313,7 @@ HRESULT CDFont::SetText(const std::string& szText, DWORD dwFlags)
 
 	if (nullptr == hbmBitmap)
 	{
-		__ASSERT(0, "CreateDIBSection 실패");
+		__ASSERT(0, "CreateDIBSection failed");
 		if (m_pTexture) {m_pTexture->Release(); m_pTexture = nullptr;}
 		return E_FAIL;
 	}
@@ -378,7 +378,7 @@ HRESULT CDFont::SetText(const std::string& szText, DWORD dwFlags)
 
 			if(lpSurfSrc && lpSurfDest)
 			{
-				::D3DXLoadSurfaceFromSurface(lpSurfDest, nullptr, nullptr, lpSurfSrc, nullptr, nullptr, D3DX_FILTER_TRIANGLE, 0); // 서피스 복사
+				::D3DXLoadSurfaceFromSurface(lpSurfDest, nullptr, nullptr, lpSurfSrc, nullptr, nullptr, D3DX_FILTER_TRIANGLE, 0); // copy surface
 			}
 
 			if(lpSurfSrc) lpSurfSrc->Release();
