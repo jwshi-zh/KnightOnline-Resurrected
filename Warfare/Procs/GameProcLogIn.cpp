@@ -14,6 +14,7 @@
 #include "N3SndObj.h"
 #include "N3SndObjStream.h"
 #include "N3SndMgr.h"
+#include <ctime>
 
 CGameProcLogIn::CGameProcLogIn()
 {
@@ -78,8 +79,10 @@ void CGameProcLogIn::Init()
 	m_pUILogIn = new CUILogIn();
 	m_pUILogIn->Init(s_pUIMgr);
 
-	const __TABLE_UI_RESRC* pTbl = s_pTbl_UI->GetIndexedData(0); // Because there are no national standards...
-	if(pTbl) m_pUILogIn->LoadFromFile(pTbl->szLogIn);
+	srand(time(0));    // Providing a seed value
+	int loginnation = 0 + (rand() % 2); // pick a random value between 1-2
+	const __TABLE_UI_RESRC* pTbl = s_pTbl_UI->GetIndexedData(loginnation); // Because there are no national standards...
+	if (pTbl) m_pUILogIn->LoadFromFile(pTbl->szLoginIntro);
 
 	RECT rc = m_pUILogIn->GetRegion();
 	const int iX = (CN3Base::s_CameraData.vp.Width - (rc.right - rc.left))/2;
@@ -308,7 +311,7 @@ void CGameProcLogIn::MsgRecv_GameServerGroupList(DataPack* pDataPack, int& iOffs
 		m_pUILogIn->ServerInfoAdd(GSI); // ServerList
 	}
 
-	m_pUILogIn->ServerInfoUpdate();
+	m_pUILogIn->ServerInfoUpdate(iServerCount);
 }
 
 void CGameProcLogIn::MsgRecv_AccountLogIn(int iCmd, DataPack* pDataPack, int& iOffset)
