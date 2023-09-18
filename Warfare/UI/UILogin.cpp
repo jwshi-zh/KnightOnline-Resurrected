@@ -22,13 +22,7 @@ CUILogIn::CUILogIn()
 	m_pGroup_ServerList = nullptr;
 	m_pGroup_LogIn = nullptr;
 	
-	
-	for (int i = 0; i < 20; ++i)
-	{
-		m_pList_Server[i] = nullptr;
-	}
-
-
+	m_pList_Server = nullptr;
 	
 	m_bOpenningNow = false; // Swipe from top to bottom...if you have to open it...
 	m_fMoveDelta = 0;
@@ -48,11 +42,6 @@ bool CUILogIn::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 	// s_CameraData. vp; //look at the calling process
 	// DWORD mm = s_CameraData.vp.Height;
 	// DWORD ss = s_CameraData.vp.Width;
-
-	if (dwMsg == UIMSG_STRING_LDCLICK && pSender == m_pBaseServerlists[0]) // testing double click on string it works
-	{
-			CGameProcedure::s_pProcLogIn->ConnectToGameServer(); // this however doesn't work since we don't use lists anymore, they are strings >.>
-	}
 
 	if (dwMsg == UIMSG_BUTTON_CLICK)
 	{
@@ -88,6 +77,7 @@ bool CUILogIn::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 				CGameProcedure::s_pProcLogIn->MsgSend_AccountLogIn(LIC_KNIGHTONLINE);
 		}
 	}
+
 	return true;
 }
 
@@ -95,54 +85,24 @@ bool CUILogIn::Load(HANDLE hFile)
 {
 	if(CN3UIBase::Load(hFile)==false) return false;
 
-	std::string Notice[3];
-	std::string Server[20];
-	std::string Serverlists[20];
-
-	for (int i = 0; i < 3; ++i) 
-	{
-		Notice[i] = "Group_Notice_"+std::to_string(i+1);
-		m_pGroup_Notice[i] = GetChildByID(Notice[i]);				__ASSERT(m_pGroup_Notice[i], "NULL UI Component!!");
-		if (m_pGroup_Notice[i])
-		{
-			RECT rc = m_pGroup_Notice[i]->GetRegion();
-			m_pGroup_Notice[i]->SetPos((CN3Base::s_CameraData.vp.Width - (rc.right - rc.left)) / 2, (CN3Base::s_CameraData.vp.Height - (rc.bottom - rc.top)) / 2);
-			m_pGroup_Notice[i]->SetVisible(false);
-		}
-	}
-	
 	m_pGroup_LogIn = GetChildByID("Group_LogIn");				__ASSERT(m_pGroup_LogIn, "NULL UI Component!!");
 	if(m_pGroup_LogIn)
 	{
-		m_pBtn_LogIn = (CN3UIButton*)m_pGroup_LogIn->GetChildByID("btn_ok");		__ASSERT(m_pBtn_LogIn, "NULL UI Component!!");
-		m_pBtn_Cancel = (CN3UIButton*)m_pGroup_LogIn->GetChildByID("btn_Cancel");	__ASSERT(m_pBtn_Cancel, "NULL UI Component!!");
-		m_pBtn_Option = (CN3UIButton*)m_pGroup_LogIn->GetChildByID("btn_Option");	__ASSERT(m_pBtn_Option, "NULL UI Component!!");
+		m_pBtn_LogIn = (CN3UIButton*)m_pGroup_LogIn->GetChildByID("Btn_Login");		__ASSERT(m_pBtn_LogIn, "NULL UI Component!!");
+		m_pBtn_Cancel = (CN3UIButton*)m_pGroup_LogIn->GetChildByID("Btn_Cancel");	__ASSERT(m_pBtn_Cancel, "NULL UI Component!!");
+		m_pBtn_Option = (CN3UIButton*)m_pGroup_LogIn->GetChildByID("Btn_Option");	__ASSERT(m_pBtn_Option, "NULL UI Component!!");
 
 		m_pEdit_id = (CN3UIEdit*)m_pGroup_LogIn->GetChildByID("Edit_ID");			__ASSERT(m_pEdit_id, "NULL UI Component!!");
 		m_pEdit_pw = (CN3UIEdit*)m_pGroup_LogIn->GetChildByID("Edit_PW");			__ASSERT(m_pEdit_pw, "NULL UI Component!!");
-		RECT rc = m_pGroup_LogIn->GetRegion();
-		m_pGroup_LogIn->SetPos((CN3Base::s_CameraData.vp.Width - (rc.right - rc.left)) / 2, (CN3Base::s_CameraData.vp.Height - (rc.bottom - rc.top)) / 2);
 	}
 
-	m_pGroup_ServerList = GetChildByID("Group_ServerList_01");		__ASSERT(m_pGroup_ServerList, "NULL UI Component!!");
+	m_pGroup_ServerList = GetChildByID("Group_ServerList");		__ASSERT(m_pGroup_ServerList, "NULL UI Component!!");
 	if(m_pGroup_ServerList)
 	{
-		m_pBtn_Connect = (CN3UIButton*)m_pGroup_ServerList->GetChildByID("Btn_Connect"); __ASSERT(m_pBtn_Connect, "NULL UI Component!!");
-		for (int i = 0; i < 20; ++i) // cn3uibase Server_%
-		{
-			Server[i] = "server_" + std::to_string(i + 1);
-			m_pBaseServer[i] = (CN3UIBase*)(m_pGroup_ServerList->GetChildByID(Server[i])); __ASSERT(m_pBaseServer[i], "NULL UI Component!!");
-		}
-
-		for (int i = 0; i < 20; ++i) // server # name string
-		{
-			m_pBaseServerlists[i] = (CN3UIString*)(m_pBaseServer[i]->GetChildByID("List_Server")); __ASSERT(m_pBaseServerlists[i], "NULL UI Component!!");
-			//m_pBaseServerlists[i] = (CN3UIBase*)(m_pGroup_ServerList->GetChildByID("List_Server")); __ASSERT(m_pBaseServerlists[i], "NULL UI Component!!");
-		}
+		m_pList_Server = (CN3UIList*)(m_pGroup_ServerList->GetChildByID("List_Server"));	__ASSERT(m_pList_Server, "NULL UI Component!!");
+		m_pBtn_Connect = (CN3UIButton*)m_pGroup_ServerList->GetChildByID("Btn_Connect");	__ASSERT(m_pBtn_Connect, "NULL UI Component!!");
 
 		m_pGroup_ServerList->SetVisible(false);
-		RECT rc2 = m_pGroup_ServerList->GetRegion();
-		m_pGroup_ServerList->SetPos((CN3Base::s_CameraData.vp.Width - (rc2.right - rc2.left)) / 2, (CN3Base::s_CameraData.vp.Height - (rc2.bottom - rc2.top)) / 2);
 	}
 
 	return true;
@@ -170,7 +130,7 @@ void CUILogIn::ConnectButtonSetEnable(bool bEnable)
 	const eUI_STATE eState2 = (bEnable ? UI_STATE_LIST_ENABLE : UI_STATE_LIST_DISABLE);
 	
 	if(m_pBtn_Connect) m_pBtn_Connect->SetState(eState1);
-	if(m_pBaseServerlists[0]) m_pBaseServerlists[0]->SetState(eState2);
+	if(m_pList_Server) m_pList_Server->SetState(eState2);
 }
 
 void CUILogIn::FocusToID()
@@ -222,101 +182,53 @@ bool CUILogIn::ServerInfoGetCur(__GameServerInfo& GSI)
 	GSI.Init();
 	if(nullptr == m_pList_Server) return false;
 
-	const int iIndex = m_pList_Server[0]->GetCurSel();
+	const int iIndex = m_pList_Server->GetCurSel();
 	return this->ServerInfoGet(iIndex, GSI);
 }
 
-void CUILogIn::ServerInfoUpdate(int servercount)
+void CUILogIn::ServerInfoUpdate()
 {
-	//if(nullptr == m_pList_Server) return;
+	if(nullptr == m_pList_Server) return;
 
-	if (nullptr == m_pBaseServerlists[servercount-1]) return;
-	
-	auto szString = (m_ListServerInfos[0].szName);
-	m_pBaseServerlists[servercount-1]->SetString(szString);
-
-
-	int iConcurrentUserCount = (m_ListServerInfos[0].iConcurrentUserCount);
-	int i = 0;
-	for (i = 0; i < 12; ++i) 
+	m_pList_Server->ResetContent();
+	if(!m_ListServerInfos.empty())
 	{
-		m_pBaseServerlistsArrows[i] = (CN3UIImage*)(m_pBaseServer[servercount-1]->GetChildByID(std::to_string(i+1))); __ASSERT(m_pBaseServerlistsArrows[i], "NULL UI Component!!");
-		// Calculate the threshold for showing/hiding each image
-		 int threshold = (i + 1) * (1000 / 12);
-		// Check if the current count is greater than the threshold to decide whether to show or hide the image
-		 if (iConcurrentUserCount > threshold) {
-			// Show the image (replace 'ShowImage' with the actual code to show the image)
-			ShowImage(i);
-		}
-		else {
-			 if(i!=0)
-			// Hide the image (replace 'HideImage' with the actual code to hide the image)
-			HideImage(i);
+		const int iSize = m_ListServerInfos.size();
+		for(int i = 0; i < iSize; i++)
+		{
+			m_pList_Server->AddString(m_ListServerInfos[i].szName);
 		}
 	}
-
-
-
-
-	//for (int i = 0; i < servercount; ++i)
-	//{
-	//	//m_pBaseServerlists[i]->SetCurSel(1);
-	//	//m_pBaseServerlists[i]->SetString(1,m_ListServerInfos[i].szName);
-
-
-	//}
-
-
-
-	//m_pList_Server[0]->ResetContent();
-	//if(!m_ListServerInfos.empty())
-	//{
-	//	const int iSize = m_ListServerInfos.size();
-	//	for(int i = 0; i < iSize; i++)
-	//	{
-	//		m_pBaseServerlists[i]->AddString(m_ListServerInfos[i].szName);
-	//	}
-	//}
-}
-
-void CUILogIn::ShowImage(int i)
-{
-	m_pBaseServerlistsArrows[i]->SetVisible(true);
-}
-
-void CUILogIn::HideImage(int i)
-{
-	m_pBaseServerlistsArrows[i]->SetVisible(false);
 }
 
 void CUILogIn::Tick()
 {
 	CN3UIBase::Tick();
 
-	//if(m_pGroup_ServerList)
-	//{
-	//	if(m_bOpenningNow) // Swipe from top to bottom...if you have to open it...
-	//	{
-	//		POINT ptCur = m_pGroup_ServerList->GetPos();
-	//		const RECT rc = m_pGroup_ServerList->GetRegion();
-	//		const auto fHeight = (float)(rc.bottom - rc.top);
+	if(m_pGroup_ServerList)
+	{
+		if(m_bOpenningNow) // Swipe from top to bottom...if you have to open it...
+		{
+			POINT ptCur = m_pGroup_ServerList->GetPos();
+			const RECT rc = m_pGroup_ServerList->GetRegion();
+			const auto fHeight = (float)(rc.bottom - rc.top);
 
-	//		float fDelta = 5000.0f * CN3Base::s_fSecPerFrm;
-	//		fDelta *= (fHeight - m_fMoveDelta) / fHeight;
-	//		if(fDelta < 2.0f) fDelta = 2.0f;
-	//		m_fMoveDelta += fDelta;
+			float fDelta = 5000.0f * CN3Base::s_fSecPerFrm;
+			fDelta *= (fHeight - m_fMoveDelta) / fHeight;
+			if(fDelta < 2.0f) fDelta = 2.0f;
+			m_fMoveDelta += fDelta;
 
-	//		const int iYLimit = 0;
-	//		ptCur.y = (int)(m_fMoveDelta - fHeight);
-	//		if(ptCur.y >= iYLimit) // It's all open!!
-	//		{
-	//			ptCur.y = iYLimit;
-	//			m_bOpenningNow = false;
-	//		}
+			const int iYLimit = 0;
+			ptCur.y = (int)(m_fMoveDelta - fHeight);
+			if(ptCur.y >= iYLimit) // It's all open!!
+			{
+				ptCur.y = iYLimit;
+				m_bOpenningNow = false;
+			}
 
-	//		m_pGroup_ServerList->SetPos(ptCur.x, ptCur.y);
-	//	}
-	//}
+			m_pGroup_ServerList->SetPos(ptCur.x, ptCur.y);
+		}
+	}
 }
 
 void CUILogIn::OpenServerList()
@@ -326,7 +238,7 @@ void CUILogIn::OpenServerList()
 	// It's open!!
 	m_pGroup_ServerList->SetVisible(true);
 	const RECT rc = m_pGroup_ServerList->GetRegion();
-	/*m_pGroup_ServerList->SetPos(0, -(rc.bottom - rc.top));*/
+	m_pGroup_ServerList->SetPos(0, -(rc.bottom - rc.top));
 	
 	m_fMoveDelta = 0;
 	m_bOpenningNow = true;
@@ -360,20 +272,20 @@ bool CUILogIn::OnKeyPress(int iKey)
 			{
 				if(nullptr == m_pList_Server) return false;
 
-				const int iIndex = m_pList_Server[0]->GetCurSel();
+				const int iIndex = m_pList_Server->GetCurSel();
 
-				if(iIndex > 0) m_pList_Server[0]->SetCurSel(iIndex - 1);
-				int iCnt = m_pList_Server[0]->GetCount();
+				if(iIndex > 0) m_pList_Server->SetCurSel(iIndex - 1);
+				int iCnt = m_pList_Server->GetCount();
 			}
 			return true;
 		case DIK_DOWN:
 			{
 				if(nullptr == m_pList_Server) return false;
 
-				const int iIndex = m_pList_Server[0]->GetCurSel();
-				const int iCnt = m_pList_Server[0] ->GetCount();
+				const int iIndex = m_pList_Server->GetCurSel();
+				const int iCnt = m_pList_Server->GetCount();
 
-				if(iCnt - iIndex > 1) m_pList_Server[0]->SetCurSel(iIndex + 1);
+				if(iCnt - iIndex > 1) m_pList_Server->SetCurSel(iIndex + 1);
 			}
 			return true;
 		case DIK_NUMPADENTER:
