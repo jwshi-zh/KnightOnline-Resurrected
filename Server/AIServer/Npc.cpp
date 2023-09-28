@@ -400,7 +400,7 @@ void CNpc::NpcTracing(CIOCPort* pIOCP)
 		m_fDelayTime = TimeGet();
 		return;
 	}
-	else if(nFlag == -1)		// 타겟이 없어짐...
+	else if(nFlag == -1)		// Target is missing...
 	{
 		InitTarget();
 		NpcMoveEnd(pIOCP);	// End of move...
@@ -446,7 +446,7 @@ void CNpc::NpcTracing(CIOCPort* pIOCP)
 			m_NpcState = NPC_STANDING;
 			m_Delay = m_sStandTime;
 			m_fDelayTime = TimeGet();
-			TRACE("### NpcTracing Fail : StepMove 실패, %s, %d ### \n", m_strName, m_sNid+NPC_BAND);
+			TRACE("### NpcTracing Fail : StepMove failure, %s, %d ### \n", m_strName, m_sNid+NPC_BAND);
 			return;
 		}	
 	}
@@ -458,7 +458,7 @@ void CNpc::NpcTracing(CIOCPort* pIOCP)
 			m_NpcState = NPC_STANDING;
 			m_Delay = m_sStandTime;
 			m_fDelayTime = TimeGet();
-			TRACE("### NpcTracing Fail : StepNoPathMove 실패, %s, %d ### \n", m_strName, m_sNid+NPC_BAND);
+			TRACE("### NpcTracing Fail : StepNoPathMove failure, %s, %d ### \n", m_strName, m_sNid+NPC_BAND);
 			return;
 		}	
 	}
@@ -978,7 +978,7 @@ BOOL CNpc::SetLive(CIOCPort* pIOCP)
 					m_nInitX = m_fPrevX = m_fCurX;
 					m_nInitY = m_fPrevY = m_fCurY;
 					m_nInitZ = m_fPrevZ = m_fCurZ;
-					//TRACE("### fail : sid = %d, nid = %d, zone=%d, loop = %d 나 설자리가 이상해... 고쳐줘... x = %d, y = %d\n", m_sSid, m_sNid+NPC_BAND, m_sCurZone, i, nX, nZ);
+					//TRACE("### fail : sid = %d, nid = %d, zone=%d, loop = %d I have a strange seat... fix it... x = %d, y = %d\n", m_sSid, m_sNid+NPC_BAND, m_sCurZone, i, nX, nZ);
 					return FALSE;
 			
 				}
@@ -1130,7 +1130,7 @@ BOOL CNpc::RandomMove()
 
 //		TRACE("&&& RandomMove ==> x=%.2f, z=%.2f,, dis=%.2f, patten = %d\n", fDestX, fDestZ, fDis, m_iPattenFrame); 
 	}
-	else if(m_byMoveType == 2)  {  // PathLine을 따라서 움직이는 NPC	
+	else if(m_byMoveType == 2)  {  // NPC moving along PathLine
 		if(m_sPathCount == m_sMaxPathCount)		m_sPathCount = 0;
 
 		// If my position is far from the path list, the position of the current m_sPathCount or the next m_sPathCount
@@ -1142,7 +1142,7 @@ BOOL CNpc::RandomMove()
 			// If the npc is moved too far away to be able to move,, kill the npc and bring it back to life..
 			// Either warp the npc to its initial location..
 			if(nPathCount  == -1)	{
-				TRACE("##### RandomMove Fail : [nid = %d, sid=%d], path = %d/%d, 이동할 수 있는 거리에서 너무 멀어졌당,, 어케해 #####\n", m_sNid+NPC_BAND, m_sSid, m_sPathCount, m_sMaxPathCount);
+				TRACE("##### RandomMove Fail : [nid = %d, sid=%d], path = %d/%d, It's too far from the distance I can move,, what can I do? #####\n", m_sNid+NPC_BAND, m_sSid, m_sPathCount, m_sMaxPathCount);
 				// It is processed to move 40m in the direction of position 0 unconditionally..
 				vStart.Set(m_fCurX, m_fCurY, m_fCurZ);
 				fDestX = (float)m_PathList.pPattenPos[0].x + m_fBattlePos_x;
@@ -1527,7 +1527,7 @@ int CNpc::PathFind(CPoint start, CPoint end, float fDistance)
 		m_iAniFrameIndex = 1;
 		m_pPoint[0].fXPos = m_fEndPoint_X;
 		m_pPoint[0].fZPos = m_fEndPoint_Y;
-		TRACE("같은 영역안에서 조금 움직임.... x=%.2f, z=%.2f\n", m_pPoint[0].fXPos, m_pPoint[0].fZPos);
+		TRACE("little movement in the same area.... x=%.2f, z=%.2f\n", m_pPoint[0].fXPos, m_pPoint[0].fZPos);
 		return 1;
 	}
 	
@@ -3687,7 +3687,7 @@ void CNpc::ChangeNTarget(CNpc *pNpc, CIOCPort* pIOCP)
 
 void CNpc::ToTargetMove(CIOCPort* pIOCP, CUser* pUser)
 {
-	TRACE("### ToTargetMove() 유저 길찾기 실패 ### \n");
+	TRACE("### ToTargetMove() user pathfinding failed ### \n");
 }
 
 //	Retrieves the NPC's defense.

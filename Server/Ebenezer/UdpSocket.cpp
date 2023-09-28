@@ -439,7 +439,7 @@ void CUdpSocket::RecvJoinKnights( char* pBuf, BYTE command )
 	else {
 		m_pMain->m_KnightsManager.RemoveKnightsUser( knightsindex, charid );
 		sprintf( finalstr, "#### %s has withdrawn. ####", charid );
-		TRACE("UDP - RecvJoinKnights - 탈퇴, name=%s, index=%d\n", charid, knightsindex );
+		TRACE("UDP - RecvJoinKnights - secession, name=%s, index=%d\n", charid, knightsindex );
 	}
 
 	//TRACE("UDP - RecvJoinKnights - command=%d, name=%s, index=%d\n", command, charid, knightsindex);

@@ -281,7 +281,7 @@ CPlayerNPC* CPlayerOtherMgr::PickNPC(int ixScreen, int iyScreen, int& iIDResult,
 		for(; it != itEnd; it++) NPCs.push_back(it->second);
 		qsort(&(NPCs[0]), NPCs.size(), 4, SortByCameraDistance);
 
-		// Let&#39;s take a picture of the NPC first...
+		// Let's take a picture of the NPC first...
 		for(int i = 0; i < NPCs.size(); i++)
 		{
 			CPlayerNPC* pNPC = NPCs[i];
@@ -381,7 +381,7 @@ void CPlayerOtherMgr::CorpseRemove(CPlayerNPC *pCorpse, bool bRemoveImmediately)
 	if(bRemoveImmediately)
 		pCorpse->m_fTimeAfterDeath = TIME_CORPSE_REMAIN; // Increases the dead time and removes it immediately.
 	else
-		pCorpse->m_fTimeAfterDeath = TIME_CORPSE_REMAIN - TIME_CORPSE_REMOVE; // Now it&#39;s time to disappear. The rest is done in Tick.
+		pCorpse->m_fTimeAfterDeath = TIME_CORPSE_REMAIN - TIME_CORPSE_REMOVE; // Now it's time to disappear. The rest is done in Tick.
 }
 
 void CPlayerOtherMgr::CorpseAdd(CPlayerNPC* pNPC)
@@ -438,7 +438,7 @@ void CPlayerOtherMgr::MoveToCorpsesForcely(CPlayerNPC* pNPC, bool bErase)
 		}
 
 		// CPlayerOther* pUPC = it->second;
-		// this-&gt;CorpseAdd(pUPC); // make it a corpse...
+		// this->CorpseAdd(pUPC); // make it a corpse...
 		// m_UPCs. erase(it); // clear from map
 	}
 	else
@@ -670,7 +670,7 @@ CPlayerNPC* CPlayerOtherMgr::PickNPCPrecisely(int ixScreen, int iyScreen, int &i
 		for(; it != itEnd; it++) NPCs.push_back(it->second);
 		qsort(&(NPCs[0]), NPCs.size(), 4, SortByCameraDistance);
 
-		// Let&#39;s take a picture of the NPC first...
+		// Let's take a picture of the NPC first...
 		for(int i = 0; i < NPCs.size(); i++)
 		{
 			CPlayerNPC* pNPC = NPCs[i];

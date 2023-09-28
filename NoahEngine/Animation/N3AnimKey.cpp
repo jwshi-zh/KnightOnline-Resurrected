@@ -30,7 +30,7 @@ void CN3AnimKey::Alloc(int nCount, float fSamplingRate, ANIMATION_KEY_TYPE eType
 	if(KEY_VECTOR3 != eType && KEY_QUATERNION != eType) return;
 	if(fSamplingRate <= 0.0f)
 	{
-		__ASSERT(0, "Animation Sampling Rate 는 반드시 0 보다 커야 합니다.");
+		__ASSERT(0, "Animation Sampling Rate must be greater than 0.");
 		return;
 	}
 

@@ -7,15 +7,15 @@ class CN3IMesh;
 class CN3VMesh : public CN3BaseFileAccess
 {
 protected:
-	__Vector3*	m_pVertices; // 점 버퍼
-	int			m_nVC; // 점 갯수
+	__Vector3*	m_pVertices;
+	int			m_nVC;
 
 	WORD*		m_pwIndices; // Index...
 	int			m_nIC; // Index Count
 
 	__Vector3	m_vMin;
 	__Vector3	m_vMax;
-	float		m_fRadius; // 반지름
+	float		m_fRadius;
 
 public:
 	__Vector3	Min() { return m_vMin; }
@@ -46,11 +46,11 @@ public:
 	CN3VMesh();
 	virtual ~CN3VMesh();
 
-//	By : Ecli666 ( On 2002-08-09 오후 2:47:59 )
+//	By : Ecli666
 //
 	int				GetColIndexByiOrder(int iOrder);
 __Vector3	  GetColVertexByIndex(int iIndex); 
 	void			PartialColRender(int iCount, int* piIndices);
 	void			PartialGetCollision(int iIndex, __Vector3& vec);
-//	~(By Ecli666 On 2002-08-09 오후 2:47:59 )
+//	~(By Ecli666
 };

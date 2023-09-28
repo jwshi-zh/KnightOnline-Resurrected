@@ -98,13 +98,13 @@ void CRotDummy::SetSelObj(SelectElement Obj, bool bOne)
 		m_SelObjArray.RemoveAll();
 	else
 	{
-		// 이미 있으면 추가하지 않는다..
+		// If it already exists, don't add it.
 		int iSize = m_SelObjArray.GetSize();
 		for ( int i = 0; i < iSize; i++ )
 		{
 			if (m_SelObjArray[i].pSelectPointer == Obj.pSelectPointer)
 			{
-				// 이미 있으므로 선택목록에서 제거
+				// Already exists, remove from picklist
 				m_SelObjArray.RemoveAt(i);
 				return;
 			}
@@ -115,5 +115,5 @@ void CRotDummy::SetSelObj(SelectElement Obj, bool bOne)
 	m_vPos = Obj.pSelectPointer->Pos();
 		
 	m_qRot = Obj.pSelectPointer->Rot();
-	m_qRot.Identity(); // Quaternion 회전이기 땜시... 초기화를 해준다..
+	m_qRot.Identity(); // Since it is a quaternion rotation... Initialize it...
 }

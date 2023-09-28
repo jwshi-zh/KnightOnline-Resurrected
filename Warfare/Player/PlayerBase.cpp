@@ -73,7 +73,7 @@ CPlayerBase::CPlayerBase()
 	m_pSnd_Blow = nullptr;
 	m_bSoundAllSet = false;
 
-	m_InfoBase.Init();				// I don&#39;t know the racial value.
+	m_InfoBase.Init();				// I don't know the racial value.
 
 	m_pShapeExtraRef = nullptr;					// If this NPC is in the form of an object such as a gate or a house, this pointer is set and used.
 
@@ -197,7 +197,7 @@ void CPlayerBase::Release()
 	m_fScaleToSet = 1.0f;			// Gradually change the scale value..
 	m_fScalePrev = 1.0f;
 
-	m_InfoBase.Init();				// I don&#39;t know the racial value.
+	m_InfoBase.Init();				// I don't know the racial value.
 
 	m_pShapeExtraRef = nullptr;					// If this NPC is in the form of an object such as a gate or a house, this pointer is set and used.
 
@@ -254,12 +254,12 @@ void CPlayerBase::SetSoundPlug(__TABLE_ITEM_BASIC* pItemBasic)
 	if (pItemBasic) // put the sound...
 	{
 		m_pSnd_Attack_0 = CN3Base::s_SndMgr.CreateObj(pItemBasic->dwSoundID0);
-		// m_pSnd_Attack_1 = CN3Base::s_SndMgr.CreateObj(pItemBasic-&gt;dwSoundID1); // correct sound..
+		// m_pSnd_Attack_1 = CN3Base::s_SndMgr.CreateObj(pItemBasic->dwSoundID1); // correct sound..
 	}
 	else
 	{
 		m_pSnd_Attack_0 = CN3Base::s_SndMgr.CreateObj(m_pLooksRef->iSndID_Attack0); // swinging sound.
-		// m_pSnd_Attack_1 = CN3Base::s_SndMgr.CreateObj(m_pLooksRef-&gt;iSndID_Attack1); // swinging sound.
+		// m_pSnd_Attack_1 = CN3Base::s_SndMgr.CreateObj(m_pLooksRef->iSndID_Attack1); // swinging sound.
 	}
 }
 
@@ -381,7 +381,7 @@ void CPlayerBase::RenderShadow()
 		pAP->bUseVB				= FALSE;
 		pAP->dwBlendDest		= D3DBLEND_INVSRCALPHA;
 		pAP->dwBlendSrc			= D3DBLEND_SRCALPHA;
-		pAP-&gt;dwFVF = FVF_XYZT1;
+		pAP->dwFVF = FVF_XYZT1;
 		pAP->nPrimitiveCount	= 2;
 		pAP->ePrimitiveType		= D3DPT_TRIANGLEFAN;
 		pAP->dwPrimitiveSize	= sizeof(__VertexXyzT1);
@@ -394,7 +394,7 @@ void CPlayerBase::RenderShadow()
 		pAP->pwIndices			= NULL;
 
 		pAP->MtxWorld.Identity();
-		pAP-&gt;MtxWorld.PosSet(m_Chr.m_Matrix.Pos());
+		pAP->MtxWorld.PosSet(m_Chr.m_Matrix.Pos());
 		pAP->MtxWorld._42 = 0.05f;
 	}
 
@@ -430,7 +430,7 @@ void CPlayerBase::RenderShadow()
 	mtx._42 = 0.05f;
 	mtx._43 -= 0.1f;
 	s_lpD3DDev->SetTransform(D3DTS_WORLD, &mtx);
-	s_lpD3DDev-&gt;SetFVF(FVF_XYZT1);
+	s_lpD3DDev->SetFVF(FVF_XYZT1);
 
 	for(int i = 0; i < 4; i++)
 		m_vShadows[i].y = s_pTerrain->GetHeight(mtx._41 + m_vShadows[i].x, mtx._43 + m_vShadows[i].z);
@@ -476,11 +476,11 @@ void CPlayerBase::RenderChrInRect(CN3Chr* pChr, const RECT& Rect)
 
 	// set matrix
 	__Matrix44 mtxProj, mtxView;
-	const float fChrHeight = pChr->Height() + 0.2f;	// Add about 20cm to the character&#39;s height
+	const float fChrHeight = pChr->Height() + 0.2f;	// Add about 20cm to the character's height
 	const float fVCenter = fChrHeight * 0.5f;
 	const int iWidth = Rect.right - Rect.left;
 	const int iHeight = Rect.bottom - Rect.top;
-	const float fViewVolumeHeight = fChrHeight * vp.Height / iHeight;	// The character&#39;s height (if it is clipped, narrow it down according to the clipping ratio)
+	const float fViewVolumeHeight = fChrHeight * vp.Height / iHeight;	// The character's height (if it is clipped, narrow it down according to the clipping ratio)
 	const float fViewVolumeWidth = fChrHeight * vp.Width / iHeight;	// The width is adjusted according to the aspect ratio of pRect (if it is clipped, it is narrowed according to the clipped ratio).
 	// Originally this: fChrHeight * iWidth / iHeight * vp.Width / iWidth;
 	D3DXMatrixOrthoLH(&mtxProj, fViewVolumeWidth, fViewVolumeHeight, 0, 20);
@@ -490,8 +490,8 @@ void CPlayerBase::RenderChrInRect(CN3Chr* pChr, const RECT& Rect)
 	if (rcViewport.left != Rect.left) fCameraMoveX = -fCameraMoveX;		// Move the camera to the right (because the camera faces the -Z axis, the right side of the camera is the -X side) since the left area needs to be cropped.
 	if (rcViewport.top != Rect.top) fCameraMoveY = -fCameraMoveY;			// We need to draw the top area clipped, so move the camera down
 
-	// D3DXMatrixLookAtLH( &amp;mtxView, &amp;D3DXVECTOR3( 0.0f + fCameraMoveX, fVCenter+2.0f + fCameraMoveY, 10.0f ), // where the view matrix is relative to the camera angle, distance has no effect on perspective.
-	// &amp;D3DXVECTOR3( 0.0f + fCameraMoveX, fVCenter + fCameraMoveY, 0.0f ), // fVCenter: looking at the middle of a character&#39;s key
+	// D3DXMatrixLookAtLH( &mtxView, &D3DXVECTOR3( 0.0f + fCameraMoveX, fVCenter+2.0f + fCameraMoveY, 10.0f ), // where the view matrix is relative to the camera angle, distance has no effect on perspective.
+	// &D3DXVECTOR3( 0.0f + fCameraMoveX, fVCenter + fCameraMoveY, 0.0f ), // fVCenter: looking at the middle of a character's key
 	// &D3DXVECTOR3( 0.0f, 1.0f, 0.0f ) );
 	const __Vector3& vChrPos = pChr->Pos();
 	const auto vEye = D3DXVECTOR3(vChrPos.x + fCameraMoveX, vChrPos.y + fVCenter + 2.0f + fCameraMoveY, vChrPos.z + 10.0f);
@@ -504,7 +504,7 @@ void CPlayerBase::RenderChrInRect(CN3Chr* pChr, const RECT& Rect)
 	// backup render state
 	DWORD dwFog, dwZEnable;// , dwLighting;
 	s_lpD3DDev->GetRenderState(D3DRS_ZENABLE, &dwZEnable);
-	// s_lpD3DDev-&gt;GetRenderState( D3DRS_LIGHTING, &amp;dwLighting ); // Let the lighting be controlled externally.
+	// s_lpD3DDev->GetRenderState( D3DRS_LIGHTING, &dwLighting ); // Let the lighting be controlled externally.
 	s_lpD3DDev->GetRenderState(D3DRS_FOGENABLE, &dwFog);
 
 	// set render state
@@ -691,13 +691,13 @@ void CPlayerBase::TickSound()
 	if (PSA_ATTACK == m_eState) // When attacking...
 	{
 		// if(m_pSnd_Attack_0 && m_Chr.NeedPlaySound0())
-		// m_pSnd_Attack_0-&gt;Play(&amp;vPos); // During attack 1...
+		// m_pSnd_Attack_0->Play(&vPos); // During attack 1...
 		// if(m_pSnd_Attack_1 && m_Chr.NeedPlaySound1())
-		// m_pSnd_Attack_1-&gt;Play(&amp;vPos); // During attack 2...
+		// m_pSnd_Attack_1->Play(&vPos); // During attack 2...
 		if (m_pSnd_Attack_0 && (m_Chr.NeedPlaySound0() || m_Chr.NeedPlaySound1()))
 			m_pSnd_Attack_0->Play(&vPos); // During attack 1...
 		// if(m_pSnd_Attack_1 && m_Chr.NeedPlaySound1())
-		// m_pSnd_Attack_1-&gt;Play(&amp;vPos); // During attack 2...
+		// m_pSnd_Attack_1->Play(&vPos); // During attack 2...
 	}
 
 	if (PSM_STOP == m_eStateMove)
@@ -711,7 +711,7 @@ void CPlayerBase::TickSound()
 		{
 			// CN3SndObj* pSndBreath = (rand()%2) ? m_pSnd_Breathe_0 : m_pSnd_Breathe_1;
 			// if(pSndBreath)
-			// pSndBreath-&gt;Play(&amp;vPos);
+			// pSndBreath->Play(&vPos);
 			if (m_pSnd_Breathe_0)
 				m_pSnd_Breathe_0->Play(&vPos);
 		}
@@ -810,7 +810,7 @@ void CPlayerBase::Tick()  // Rotation, handling specified animation ticks and co
 		if (m_fTimeBalloon < 0)
 		{
 			m_fTimeBalloon = 0;
-			this->BalloonStringSet("", 0); // Time ‰榮~!!
+			this->BalloonStringSet("", 0); // Time~!!
 		}
 	}
 }
@@ -820,7 +820,7 @@ void CPlayerBase::Render(float fSunAngle)
 	if (m_Chr.m_nLOD < 0 || m_Chr.m_nLOD >= MAX_CHR_LOD) return;
 
 #ifdef _DEBUG
-	if (m_pShapeExtraRef) // If it&#39;s an object type...
+	if (m_pShapeExtraRef) // If it's an object type...
 	{
 		m_pShapeExtraRef->RenderCollisionMesh();
 		return;
@@ -858,7 +858,7 @@ void CPlayerBase::Render(float fSunAngle)
 		s_lpD3DDev->GetRenderState(D3DRS_ALPHABLENDENABLE, &dwAlphaBlend);
 		s_lpD3DDev->GetRenderState(D3DRS_SRCBLEND, &dwSrcBlend);
 		s_lpD3DDev->GetRenderState(D3DRS_DESTBLEND, &dwDestBlend);
-		// s_lpD3DDev-&gt;GetRenderState(D3DRS_ZENABLE, &amp;dwZEnable);
+		// s_lpD3DDev->GetRenderState(D3DRS_ZENABLE, &dwZEnable);
 		s_lpD3DDev->GetRenderState(D3DRS_TEXTUREFACTOR, &dwTexFactor);	// alpha factor setting
 		s_lpD3DDev->GetTextureStageState(0, D3DTSS_ALPHAOP, &dwAlphaOP);
 		s_lpD3DDev->GetTextureStageState(0, D3DTSS_ALPHAARG1, &dwAlphaArg1);
@@ -947,7 +947,7 @@ void CPlayerBase::Render(float fSunAngle)
 			m_pIDFont->DrawText(pt.x - (size.cx / 2) + 1, pt.y + 1, 0xff000000, 0);
 			m_pIDFont->DrawText(pt.x - (size.cx / 2), pt.y, crFont, 0);
 
-			// Knight &amp; clan render..
+			// Knight & clan render..
 			if (m_pClanFont && m_pClanFont->IsSetText())
 			{
 				size = m_pClanFont->GetSize();
@@ -1055,7 +1055,7 @@ bool CPlayerBase::Action(e_StateAction eState, bool bLooping, CPlayerBase* pTarg
 			// ---------------------------------------------------------------------------------------------------------------------------
 			{		1,			0,			0,			0,			1,			1,			1,			0 }, // PSA_SPELL_MAGIC	-> ??
 			// ---------------------------------------------------------------------------------------------------------------------------
-			{		1,			0,			0,			0,			1,			0,			0,			0 } // PSA_SITDOWN -&gt; ??
+			{		1,			0,			0,			0,			1,			0,			0,			0 } // PSA_SITDOWN -> ??
 			// ---------------------------------------------------------------------------------------------------------------------------
 		};
 
@@ -1063,11 +1063,11 @@ bool CPlayerBase::Action(e_StateAction eState, bool bLooping, CPlayerBase* pTarg
 			return false;
 	}
 
-	// if(m_szName == &quot;Aladdin&quot;)
+	// if(m_szName == "Aladdin")
 	// {
 		// bool bBReak = true;
 		// std::string szSt1 = "??";
-		// if ( PSA_BASIC == m_eState ) szSt1 = &quot; FREE &quot; ;
+		// if ( PSA_BASIC == m_eState ) szSt1 = " FREE " ;
 		// else if(PSA_SPELLMAGIC == m_eState) szSt1 = "매직쇼~";
 		// TRACE("%s(%.1f) - %s\n", m_szName.c_str(), CN3Base::TimeGet(), szSt1.c_str());
 	// }
@@ -1095,7 +1095,7 @@ bool CPlayerBase::Action(e_StateAction eState, bool bLooping, CPlayerBase* pTarg
 			else eAni = this->JudgeAnimationBreath(); // If it is stopped, the basic posture.. Judgment.
 		}
 		else if (PSM_WALK == m_eStateMove) eAni = this->JudgeAnimationWalk(); // walking posture when walking
-		else if (PSM_RUN == m_eStateMove) eAni = this->JudgeAnimationRun(); // If you&#39;re running...
+		else if (PSM_RUN == m_eStateMove) eAni = this->JudgeAnimationRun(); // If you're running...
 		else if (PSM_WALK_BACKWARD == m_eStateMove) eAni = this->JudgeAnimationWalkBackward(); // If you walk backwards...
 		else eAni = this->JudgeAnimationBreath(); // etc ??
 		break;
@@ -1105,7 +1105,7 @@ bool CPlayerBase::Action(e_StateAction eState, bool bLooping, CPlayerBase* pTarg
 		{
 			if (pTarget->m_InfoBase.eNation == m_InfoBase.eNation) return false; // if same country
 
-			if (!bNPC && IsMovingNow())	// If you&#39;re a player... and you&#39;re on the move...
+			if (!bNPC && IsMovingNow())	// If you're a player... and you're on the move...
 			{
 				if (m_pItemPlugBasics[0]) eAni = ANI_ATTACK_WITH_WEAPON_WHEN_MOVE;		// If you hold a weapon in your right hand... set the animation...
 				else eAni = ANI_ATTACK_WITH_NAKED_WHEN_MOVE;						// Set the animation...
@@ -1116,7 +1116,7 @@ bool CPlayerBase::Action(e_StateAction eState, bool bLooping, CPlayerBase* pTarg
 				eAni = this->JudgeAnimationAttack();			// Set the animation...
 			}
 
-			if (!bLooping) // Unless it&#39;s looping...
+			if (!bLooping) // Unless it's looping...
 			{
 				m_eStateNext = PSA_BASIC;	// remember the state to return to
 			}
@@ -1128,7 +1128,7 @@ bool CPlayerBase::Action(e_StateAction eState, bool bLooping, CPlayerBase* pTarg
 		m_eStateNext = PSA_BASIC;
 		eAni = this->JudgeAnimationGuard();
 
-		if (!bNPC) bNeedUpperAnimationOnly = true; // Unless it&#39;s an NPC... upper body
+		if (!bNPC) bNeedUpperAnimationOnly = true; // Unless it's an NPC... upper body
 		fFreezeTime = 1.5f; // block a little longer
 	}
 	break;
@@ -1137,7 +1137,7 @@ bool CPlayerBase::Action(e_StateAction eState, bool bLooping, CPlayerBase* pTarg
 	{
 		m_eStateNext = PSA_BASIC;
 		eAni = this->JudgeAnimationStruck();
-		if (!bNPC) bNeedUpperAnimationOnly = true; // Unless it&#39;s an NPC... upper body
+		if (!bNPC) bNeedUpperAnimationOnly = true; // Unless it's an NPC... upper body
 	}
 	break;
 
@@ -1155,7 +1155,7 @@ bool CPlayerBase::Action(e_StateAction eState, bool bLooping, CPlayerBase* pTarg
 			eAni = this->JudgeAnimationDying(); // death action...
 			m_Chr.AniFixToLastFrame(eAni); // Freeze to last frame.
 		}
-		this->RegenerateCollisionMesh();  // Find the maximum and minimum values again and recreate the collision mesh. -&gt; This is to make dead number picking accurate.
+		this->RegenerateCollisionMesh();  // Find the maximum and minimum values again and recreate the collision mesh. -> This is to make dead number picking accurate.
 		return true; // go back!!!
 
 	case PSA_SITDOWN:
@@ -1178,7 +1178,7 @@ bool CPlayerBase::Action(e_StateAction eState, bool bLooping, CPlayerBase* pTarg
 	float fBlendTime = FLT_MIN;
 	if (bForceSet) // If forced...
 	{
-		bNeedUpperAnimationOnly = false; // Unless it&#39;s an NPC... upper body
+		bNeedUpperAnimationOnly = false; // Unless it's an NPC... upper body
 		fBlendTime = 0;
 		m_Chr.m_FrmCtrl.Init();
 	}
@@ -1249,7 +1249,7 @@ bool CPlayerBase::ActionMove(e_StateMove eMove)
 		return false;
 	}
 
-	this->Action(PSA_BASIC, true); // I bet you don&#39;t do anything else..
+	this->Action(PSA_BASIC, true); // I bet you don't do anything else..
 
 	// Animation settings...
 	this->AnimationClear(); // Clear the contents of the animation queue. Then the animation starts immediately.
@@ -1292,7 +1292,7 @@ void CPlayerBase::ActionDying(e_StateDying eSD, const __Vector3& vDir)
 
 bool CPlayerBase::ProcessAttack(CPlayerBase* pTarget)
 {
-	if (PSA_ATTACK != m_eState && m_iSkillStep == 0) return false; // If it&#39;s not in an attack state and it&#39;s not in the middle of using a skill... it will go back.
+	if (PSA_ATTACK != m_eState && m_iSkillStep == 0) return false; // If it's not in an attack state and it's not in the middle of using a skill... it will go back.
 	if (nullptr == pTarget)
 		return false;
 
@@ -1347,7 +1347,7 @@ bool CPlayerBase::ProcessAttack(CPlayerBase* pTarget)
 					v1 = v0 + (vDir * 256.0f);
 
 					CN3VMesh* pVMesh = pTarget->m_pShapeExtraRef->CollisionMesh();
-					if (nullptr == pVMesh || false == pVMesh->CheckCollision(pTarget->m_pShapeExtraRef->m_Matrix, v0, v1, &vCol)) // If it doesn&#39;t collide with the collision mesh...
+					if (nullptr == pVMesh || false == pVMesh->CheckCollision(pTarget->m_pShapeExtraRef->m_Matrix, v0, v1, &vCol)) // If it doesn't collide with the collision mesh...
 					{
 						v1 = pTarget->m_pShapeExtraRef->Pos(); v1.y += pTarget->Height() / 2.0f;
 						vDir = v1 - v0; vDir.Normalize();
@@ -1491,11 +1491,11 @@ bool CPlayerBase::ProcessAttack(CPlayerBase* pTarget)
 				if (pTarget->m_pSnd_Struck_0) pTarget->m_pSnd_Struck_0->Play(&vTarget);
 
 				if (0 == pTarget->m_iSkillStep) // The skill is not being used..
-					pTarget->Action(PSA_STRUCK, false); // If it&#39;s not dead, I&#39;ll get beaten and hit.
+					pTarget->Action(PSA_STRUCK, false); // If it's not dead, I'll get beaten and hit.
 			}
 			else // defense success.
 			{
-				// if (0 == pTarget-&gt;m_iSkillStep) // The skill is not in use..
+				// if (0 == pTarget->m_iSkillStep) // The skill is not in use..
 				// pTarget->Action(PSA_GUARD, false);
 			}
 		}
@@ -1705,11 +1705,11 @@ bool CPlayerBase::CheckCollisionToTargetByPlug(CPlayerBase* pTarget, int nPlug, 
 {
 	if (nullptr == pTarget) return false;
 	const CN3CPlug* pPlug = m_Chr.Plug(nPlug);
-	if (nullptr == pPlug) return false; // Doesn&#39;t work if you don&#39;t have a weapon equipped.
+	if (nullptr == pPlug) return false; // Doesn't work if you don't have a weapon equipped.
 	// berserk
 	// if(pPlug->m_ePlugType == PLUGTYPE_CLOAK)	return false;
 	// CN3CPlug *pPlugNormal = (CN3CPlug*)pPlug;
-	// if(pPlugNormal-&gt;m_fTrace0 &gt;= pPlugNormal-&gt;m_fTrace1) return false; // If there is no information on the length of the weapon or it is abnormal, collision check is not performed.
+	// if(pPlugNormal->m_fTrace0 >= pPlugNormal->m_fTrace1) return false; // If there is no information on the length of the weapon or it is abnormal, collision check is not performed.
 	if (pPlug->m_fTrace0 >= pPlug->m_fTrace1) return false; // If there is no information on the length of the weapon or it is abnormal, the collision check is not performed.
 	if (PSA_DYING == pTarget->State() || PSA_DEATH == pTarget->State()) return false; // Do not check for collisions with dead or fallen bodies.
 
@@ -1749,7 +1749,7 @@ bool CPlayerBase::CheckCollisionToTargetByPlug(CPlayerBase* pTarget, int nPlug, 
 		if(pChrDestination && pChrDestination->CollisionMesh())
 		{
 			CN3Base::s_lpD3DDev->SetTransform(D3DTS_WORLD, &(pChrDestination->m_Matrix));
-			pChrDestination-&gt;CollisionMesh()-&gt;Render((D3DCOLOR)0xffff0000); // Draw the collision box.
+			pChrDestination->CollisionMesh()->Render((D3DCOLOR)0xffff0000); // Draw the collision box.
 		}
 		CN3Base::s_lpD3DDev->EndScene();
 		CN3Base::s_lpD3DDev->Present(NULL, NULL, CN3Base::s_hWndBase, NULL);
@@ -1789,7 +1789,7 @@ CN3CPlugBase* CPlayerBase::PlugSet(e_PlugPosition ePos, const std::string& szFN,
 		m_pItemPlugExts[ePos] = pItemExt;
 		if (pItemBasic)
 		{
-			if (pItemBasic->byClass == ITEM_CLASS_SHIELD) iJoint = m_pLooksRef->iJointLH2; // if it&#39;s a shield
+			if (pItemBasic->byClass == ITEM_CLASS_SHIELD) iJoint = m_pLooksRef->iJointLH2; // if it's a shield
 			else iJoint = m_pLooksRef->iJointLH; // left end...
 		}
 	}
@@ -1821,7 +1821,7 @@ CN3CPlugBase* CPlayerBase::PlugSet(e_PlugPosition ePos, const std::string& szFN,
 	// pPlugCloak->GetCloak()->SetPlayerBase(this);
 	// }
 
-	if (pPlug && nullptr == pItemBasic && nullptr == pItemExt) pPlug->TexOverlapSet(""); // If it&#39;s basic...
+	if (pPlug && nullptr == pItemBasic && nullptr == pItemExt) pPlug->TexOverlapSet(""); // If it's basic...
 
 	// 
 	//
@@ -1902,14 +1902,14 @@ CN3CPart* CPlayerBase::PartSet(e_PartPosition ePos, const std::string& szFN, __T
 	{
 		if (pItemBasic) // if coated
 		{
-			if (pItemBasic->byIsRobeType && m_Chr.Part(PART_POS_LOWER)) // It&#39;s a robe-type full top, and if you&#39;re wearing something underneath...
+			if (pItemBasic->byIsRobeType && m_Chr.Part(PART_POS_LOWER)) // It's a robe-type full top, and if you're wearing something underneath...
 			{
 				this->PartSet(PART_POS_LOWER, "", m_pItemPartBasics[PART_POS_LOWER], m_pItemPartExts[PART_POS_LOWER]); // empty the bottom.
 			}
 		}
 		else // If you take off your upper body
 		{
-			if (m_pItemPartBasics[ePos] && m_pItemPartBasics[ePos]->byIsRobeType) // If you&#39;ve worn a robe before...
+			if (m_pItemPartBasics[ePos] && m_pItemPartBasics[ePos]->byIsRobeType) // If you've worn a robe before...
 			{
 				if (m_pItemPartBasics[PART_POS_LOWER]) // If an item is worn on the lower body...
 				{
@@ -1972,7 +1972,7 @@ CN3CPart* CPlayerBase::PartSet(e_PartPosition ePos, const std::string& szFN, __T
 	m_pItemPartBasics[ePos] = pItemBasic; // apply item
 	m_pItemPartExts[ePos] = pItemExt;
 
-	if (pPart && nullptr == pItemBasic && nullptr == pItemExt) pPart->TexOverlapSet(""); // If it&#39;s basic...
+	if (pPart && nullptr == pItemBasic && nullptr == pItemExt) pPart->TexOverlapSet(""); // If it's basic...
 
 	return pPart;
 }
@@ -1997,7 +1997,7 @@ void CPlayerBase::DurabilitySet(e_ItemSlot eSlot, int iDurability)
 		const int iDuMax = m_pItemPlugBasics[ePos]->siMaxDurability + m_pItemPlugExts[ePos]->siMaxDurability;
 		if (iDuMax <= 0)
 		{
-			__ASSERT(0, "최대 내구력 없음");
+			__ASSERT(0, "no max durability");
 			return;
 		}
 
@@ -2078,7 +2078,7 @@ void CPlayerBase::RegenerateCollisionMesh() // Find the maximum and minimum valu
 CPlayerBase* CPlayerBase::TargetPointerCheck(bool bMustAlive)
 {
 	CPlayerBase* pTarget = this->CharacterGetByID(m_iIDTarget, bMustAlive);
-	// if(pTarget &amp;&amp; (PSA_DEATH == pTarget-&gt;State())) pTarget = NULL; // Prevent the character selected by picking from being arbitrarily modified in the middle
+	// if(pTarget && (PSA_DEATH == pTarget->State())) pTarget = NULL; // Prevent the character selected by picking from being arbitrarily modified in the middle
 
 	// if(NULL == pTarget) { m_iIDTarget = -1; }
 	return pTarget;

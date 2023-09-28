@@ -13,7 +13,7 @@ class CN3IndoorView : public CView
 {
 	bool	m_bSwapped;
 	bool   m_bValid;
-	RECT m_rcSelDrag;					// 드래그 영역
+	RECT m_rcSelDrag;					// drag area
 
 	BOOL CustomCameraMove(MSG* pMsg);
 	BOOL ExecuteModeMsgFilter(MSG* pMsg);

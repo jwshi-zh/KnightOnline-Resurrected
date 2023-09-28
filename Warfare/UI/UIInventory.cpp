@@ -64,7 +64,7 @@ CUIInventory::CUIInventory()
 	CN3UIWndBase::m_sRecoveryJobInfo.m_bWaitFromServer = false;
 
 	m_bOpenningNow = false; // is opening...
-	m_bClosingNow = false;	// it&#39;s closing...
+	m_bClosingNow = false;	// it's closing...
 	m_fMoveDelta = 0; // Floating point is used to calculate the current position to make it open and close smoothly.
 
 	m_bDestoyDlgAlive	= false;
@@ -102,7 +102,7 @@ void CUIInventory::Release()
 	}
 
 	m_bOpenningNow = false; // is opening...
-	m_bClosingNow = false;	// it&#39;s closing...
+	m_bClosingNow = false;	// it's closing...
 	m_fMoveDelta = 0; // Floating point is used to calculate the current position to make it open and close smoothly.
 	m_pText_Weight = nullptr;
 }
@@ -168,7 +168,7 @@ void CUIInventory::Open(e_InvenState eIS)
 		pStatic->SetStringAsInt(CGameBase::s_pPlayer->m_InfoExt.iGold);
 	}
 	
-	// It&#39;s open!!
+	// It's open!!
 	SetVisible(true);
 	this->SetPos(CN3Base::s_CameraData.vp.Width, 10);
 	m_fMoveDelta = 0;
@@ -223,7 +223,7 @@ void CUIInventory::Close(bool bByKey)
 
 void CUIInventory::Tick()
 {
-	if (!m_bVisible) return;	// If not visible, don&#39;t tick children.
+	if (!m_bVisible) return;	// If not visible, don't tick children.
 
 	if(m_bOpenningNow) // Swipe from right to left...if you need to open...
 	{
@@ -238,7 +238,7 @@ void CUIInventory::Tick()
 
 		const int iXLimit = CN3Base::s_CameraData.vp.Width - (int)fWidth;
 		ptCur.x = CN3Base::s_CameraData.vp.Width - (int)m_fMoveDelta;
-		if(ptCur.x <= iXLimit) // It&#39;s all open!!
+		if(ptCur.x <= iXLimit) // It's all open!!
 		{
 			ptCur.x = iXLimit;
 			m_bOpenningNow = false;
@@ -266,7 +266,7 @@ void CUIInventory::Tick()
 			ptCur.x = iXLimit;
 			m_bClosingNow = false;
 
-			this->SetVisibleWithNoSound(false, false, true); // It&#39;s all closed so you can&#39;t see it.
+			this->SetVisibleWithNoSound(false, false, true); // It's all closed so you can't see it.
 		}
 
 		this->SetPos(ptCur.x, ptCur.y);
@@ -283,7 +283,7 @@ void CUIInventory::Tick()
 
 void CUIInventory::Render()
 {
-	if (!m_bVisible) return;	// If not visible, don&#39;t render the children.
+	if (!m_bVisible) return;	// If not visible, don't render the children.
 	const POINT ptCur = CGameProcedure::s_pLocalInput->MouseGetPos();
 	m_pUITooltipDlg->DisplayTooltipsDisable();
 	const RECT rUser = m_pArea_User->GetRegion();
@@ -612,7 +612,7 @@ int	CUIInventory::GetArmDestinationIndex(__IconItemSkill* spItem)
 			case ITEM_ATTACH_POS_DUAL:
 				if (m_pMySlot[ITEM_SLOT_POS_HAND_RIGHT] && m_pMySlot[ITEM_SLOT_POS_HAND_LEFT])	// If both sides...
 					return ITEM_SLOT_POS_HAND_RIGHT;				// Right if you have both.
-				if (!m_pMySlot[ITEM_SLOT_POS_HAND_RIGHT])	// If you&#39;re not on the right...
+				if (!m_pMySlot[ITEM_SLOT_POS_HAND_RIGHT])	// If you're not on the right...
 					return ITEM_SLOT_POS_HAND_RIGHT;
 				else
 				{
@@ -642,7 +642,7 @@ int	CUIInventory::GetArmDestinationIndex(__IconItemSkill* spItem)
 					return ITEM_SLOT_POS_HAND_LEFT;
 
 			case ITEM_ATTACH_POS_EAR:
-				if (!m_pMySlot[ITEM_SLOT_POS_EAR_RIGHT])	// If you&#39;re not on the right...
+				if (!m_pMySlot[ITEM_SLOT_POS_EAR_RIGHT])	// If you're not on the right...
 					return ITEM_SLOT_POS_EAR_RIGHT;
 				if (!m_pMySlot[ITEM_SLOT_POS_EAR_LEFT])		// If not on the left...
 					return ITEM_SLOT_POS_EAR_LEFT;
@@ -664,7 +664,7 @@ int	CUIInventory::GetArmDestinationIndex(__IconItemSkill* spItem)
 				return ITEM_SLOT_POS_BELT;
 
 			case ITEM_ATTACH_POS_FINGER:
-				if (!m_pMySlot[ITEM_SLOT_POS_RING_RIGHT])	// If you&#39;re not on the right...
+				if (!m_pMySlot[ITEM_SLOT_POS_RING_RIGHT])	// If you're not on the right...
 					return ITEM_SLOT_POS_RING_RIGHT;
 				if (!m_pMySlot[ITEM_SLOT_POS_RING_LEFT])		// If not on the left...
 					return ITEM_SLOT_POS_RING_LEFT;
@@ -723,7 +723,7 @@ bool CUIInventory::CheckIconDropIfSuccessSendToServer(__IconItemSkill* spItem)
 			}
 		}
 
-		if ( !bFound )		// If you can&#39;t find it, search the inventory character area.
+		if ( !bFound )		// If you can't find it, search the inventory character area.
 		{
 			if ( m_pArea_User->IsIn(ptCur.x, ptCur.y) )
 			{	
@@ -762,7 +762,7 @@ bool CUIInventory::CheckIconDropIfSuccessSendToServer(__IconItemSkill* spItem)
 		}
 	}
 
-	if ( !bFound )	return false;	// I couldn&#39;t find it, so I failed...
+	if ( !bFound )	return false;	// I couldn't find it, so I failed...
 
 	// Start using Recovery Info in earnest.
 	// First, set WaitFromServer to On.. Copy Select Info to Recovery Info..
@@ -775,7 +775,7 @@ bool CUIInventory::CheckIconDropIfSuccessSendToServer(__IconItemSkill* spItem)
 	CN3UIWndBase::m_sRecoveryJobInfo.pItemTarget					= nullptr;
 	// During inspection, create pItemTarget if necessary during Recovery Info, and return to original state when false is returned.
 
-	// arm -&gt; arm
+	// arm -> arm
 	if ( (CN3UIWndBase::m_sSelectedIconInfo.UIWndSelect.UIWndDistrict == UIWND_DISTRICT_INVENTORY_SLOT) && bArm )
 	{
 		// Check if there is an existing icon and if there is no existing item...
@@ -935,7 +935,7 @@ bool CUIInventory::CheckIconDropIfSuccessSendToServer(__IconItemSkill* spItem)
 				CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceEnd.UIWndDistrict	= UIWND_DISTRICT_INVENTORY_SLOT;				
 				CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceEnd.iOrder			= iDestiOrder;
 
-				// Unless it&#39;s mounted on a sword...
+				// Unless it's mounted on a sword...
 				if ( (iDestiOrder != ITEM_SLOT_POS_HAND_RIGHT) && (iDestiOrder != ITEM_SLOT_POS_HAND_LEFT) )
 				{
 					CN3UIWndBase::m_sRecoveryJobInfo.pItemTarget					= m_pMySlot[iDestiOrder];
@@ -1013,7 +1013,7 @@ inline	bool CUIInventory::InvOpsSomething(__IconItemSkill* spItem)
 	// Check. If successful, send to server..
 	if ( CheckIconDropIfSuccessSendToServer(spItem) )												
 	{																								
-		// Moving the icon.. Source.. If you move within the same icon.. You don&#39;t have to remove and add it, just move it..
+		// Moving the icon.. Source.. If you move within the same icon.. You don't have to remove and add it, just move it..
 		if ( CN3UIWndBase::m_sRecoveryJobInfo.pItemSource )											
 		{																							
 			// eliminate..
@@ -1043,7 +1043,7 @@ inline	bool CUIInventory::InvOpsSomething(__IconItemSkill* spItem)
 			}																						
 		}																							
 
-		// Moving the icon.. Source.. If you move within the same icon.. You don&#39;t have to remove and add it, just move it..
+		// Moving the icon.. Source.. If you move within the same icon.. You don't have to remove and add it, just move it..
 		if ( CN3UIWndBase::m_sRecoveryJobInfo.pItemSource )											
 		{																								
 			__IconItemSkill*	spItem = CN3UIWndBase::m_sRecoveryJobInfo.pItemSource;				
@@ -1109,11 +1109,11 @@ bool CUIInventory::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 	if (!m_bVisible) return false;
 	if (!spItem) return false;
 
-	// If it&#39;s not the icon I had...
+	// If it's not the icon I had...
 	if ( CN3UIWndBase::m_sSelectedIconInfo.UIWndSelect.UIWnd != m_eUIWnd )
 		return false;
 
-	// These are the icons I had and within the inventory i.e. Arm-&gt;Arm, Arm-&gt;Inv, Inv-&gt;Arm, Inv-&gt;Inv.
+	// These are the icons I had and within the inventory i.e. Arm->Arm, Arm->Inv, Inv->Arm, Inv->Inv.
 	// If it is the same as the selected icon...
 	switch ( CN3UIWndBase::m_sSelectedIconInfo.UIWndSelect.UIWndDistrict )
 	{
@@ -1140,7 +1140,7 @@ bool CUIInventory::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 	{
 		m_bDestoyDlgAlive = true;
 
-		// can&#39;t move...
+		// can't move...
 		const RECT rect = { 0, 0, 0, 0 };
 
 		switch ( CN3UIWndBase::m_sSelectedIconInfo.UIWndSelect.UIWndDistrict )
@@ -1493,7 +1493,7 @@ bool CUIInventory::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 			break;
 
 		case UIMSG_AREA_DOWN_FIRST:
-			// I&#39;m trading between individuals... If my ID is &quot;area_gold&quot;...
+			// I'm trading between individuals... If my ID is "area_gold"...
 			// Call a function in SubProcPerTrade.. (the function is called.. if you are not editing)
 			if ( (CGameProcedure::s_pProcMain->m_pSubProcPerTrade->m_ePerTradeState == PER_TRADE_STATE_NORMAL) &&
 				(pSender->m_szID.compare("area_gold") == 0)	)
@@ -1940,7 +1940,7 @@ bool CUIInventory::IsValidPosFromInvToArm(int iOrder)
 								return true;
 							}
 						}
-						else	// If you don&#39;t have a two-handed weapon in your left hand...
+						else	// If you don't have a two-handed weapon in your left hand...
 						{
 							// If there is a weapon in the right hand.. Item Exchange.. ^^
 							if (m_pMySlot[ITEM_SLOT_POS_HAND_RIGHT]) 
@@ -2026,7 +2026,7 @@ bool CUIInventory::IsValidPosFromInvToArm(int iOrder)
 								return true;
 							}
 						}
-						else	// If you don&#39;t have a two-handed weapon in your right hand...
+						else	// If you don't have a two-handed weapon in your right hand...
 						{
 							// If there is a weapon in the left hand.. Item Exchange.. ^^
 							if (m_pMySlot[ITEM_SLOT_POS_HAND_LEFT]) 
@@ -2065,7 +2065,7 @@ bool CUIInventory::IsValidPosFromInvToArm(int iOrder)
 								return true;
 							}
 						}
-						else	// If you don&#39;t have a two-handed weapon in your right hand...
+						else	// If you don't have a two-handed weapon in your right hand...
 						{
 							// If there is a weapon in the left hand.. Item Exchange.. ^^
 							if (m_pMySlot[ITEM_SLOT_POS_HAND_LEFT]) 
@@ -2377,7 +2377,7 @@ void CUIInventory::ItemCountChange(int iDistrict, int iIndex, int iCount, int iI
 				// Also delete it from your inventory.
 				m_pMySlot[iIndex] = nullptr;
 
-				// Delete my manager&#39;s item from the list with iOrder.
+				// Delete my manager's item from the list with iOrder.
 				RemoveChild(spItem->pUIIcon);
 
 				// Delete Icon Resource...
@@ -2429,7 +2429,7 @@ void CUIInventory::ItemCountChange(int iDistrict, int iIndex, int iCount, int iI
 					// Also delete it from your inventory.
 					m_pMySlot[iIndex] = nullptr;
 
-					// Delete my manager&#39;s item from the list with iOrder.
+					// Delete my manager's item from the list with iOrder.
 					RemoveChild(spItem->pUIIcon);
 
 					// Delete Icon Resource...
@@ -2483,7 +2483,7 @@ void CUIInventory::ItemCountChange(int iDistrict, int iIndex, int iCount, int iI
 				// Also delete it from your inventory.
 				m_pMyInvWnd[iIndex] = nullptr;
 
-				// Delete my manager&#39;s item from the list with iOrder.
+				// Delete my manager's item from the list with iOrder.
 				RemoveChild(spItem->pUIIcon);
 
 				// Delete Icon Resource...
@@ -2535,7 +2535,7 @@ void CUIInventory::ItemCountChange(int iDistrict, int iIndex, int iCount, int iI
 					// Also delete it from your inventory.
 					m_pMyInvWnd[iIndex] = nullptr;
 
-					// Delete my manager&#39;s item from the list with iOrder.
+					// Delete my manager's item from the list with iOrder.
 					RemoveChild(spItem->pUIIcon);
 
 					// Delete Icon Resource...
@@ -2682,7 +2682,7 @@ void CUIInventory::ReceiveResultItemRemoveFromServer(int iResult)
 					break;
 			}
 
-			// Delete my manager&#39;s item from the list with iOrder.
+			// Delete my manager's item from the list with iOrder.
 			if (!spItem) return;
 			RemoveChild(spItem->pUIIcon);
 

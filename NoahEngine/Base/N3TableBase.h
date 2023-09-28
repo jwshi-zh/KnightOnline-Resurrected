@@ -284,7 +284,7 @@ BOOL CN3TableBase<Type>::LoadFromFile(const std::string& szFN)
 		return FALSE;
 	}
 
-	// 원래 파일을 읽고..
+	// Read the original file...
 	BYTE* pDatas = new BYTE[dwSizeLow];
 	DWORD dwRWC = 0;
 	::ReadFile(hFile, pDatas, dwSizeLow, &dwRWC, nullptr);

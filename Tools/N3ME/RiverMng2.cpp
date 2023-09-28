@@ -93,7 +93,7 @@ void CRiverMng2::Render()
 
 	D3DXMATRIX mtx;	D3DXMatrixIdentity(&mtx);
 		
-	hr = s_lpD3DDev->SetTransform(D3DTS_WORLD, &mtx); // 월드 행렬 적용..
+	hr = s_lpD3DDev->SetTransform(D3DTS_WORLD, &mtx); // Apply the world matrix..
 
 	// backup state
 	DWORD dwAlphaEnable, dwSrcBlend, dwDestBlend;
@@ -395,7 +395,7 @@ void CRiverMng2::MakeTileVB(__VertexRiver *pVtx, int x, int z)
 	//DWORD color = 0xa0ffffff;
 	DWORD color = 0x80ffffff;
 
-	//if((x+z)%2==0)	// 슬래쉬 모양의 타일..
+	//if((x+z)%2==0)	// Slash-shaped tiles..
 	{
 		__Vector3 v;
 		v.x = x*TERRAIN_CELL_SIZE;
@@ -425,7 +425,7 @@ void CRiverMng2::MakeTileVB(__VertexRiver *pVtx, int x, int z)
 
 		return;
 	}
-//	if((x+z)%2==1)	//백슬레쉬 모양의 타일..
+//	if((x+z)%2==1)	//Backslash tile..
 //	{
 //		__Vector3 v;
 //		v.x = x*TERRAIN_CELL_SIZE;

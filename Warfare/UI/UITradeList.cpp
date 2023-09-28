@@ -77,7 +77,7 @@ void CUITradeList::Open(int iIDTarget)
 	iIDIndexFirst = CGameBase::s_pTbl_Exchange_Quest->IDToIndex(iIDFirst);
 
 	if ( iIDIndexFirst == -1 ) 
-		return;		// I don&#39;t have any lists...
+		return;		// I don't have any lists...
 
 	iTotalCount = CGameBase::s_pTbl_Exchange_Quest->GetSize();
 	iIDIndexLast = 0;
@@ -111,17 +111,17 @@ void CUITradeList::Open(int iIDTarget)
 			iDivide						= pQuest->dwID / 1000;
 			pPlayer						= CGameBase::s_pTbl_NPC_Looks->Find(iDivide);
 			m_sStr[i-iIDIndexFirst]		= pPlayer->szName;
-			m_sStr[i-iIDIndexFirst]		+= "에게 ";
+			m_sStr[i-iIDIndexFirst]		+= "to ";
 			
 			pItem						= CGameBase::s_pTbl_Items_Basic->Find(pQuest->iCondition0);
 			if(pItem) m_sStr[i-iIDIndexFirst] += pItem->szName;
 			else m_sStr[i-iIDIndexFirst] += "NULL Item";
-			m_sStr[i-iIDIndexFirst]		+= "과 ";	
+			m_sStr[i-iIDIndexFirst]		+= "class ";	
 			
 			pItem						= CGameBase::s_pTbl_Items_Basic->Find(pQuest->iCondition1);
 			if(pItem) m_sStr[i-iIDIndexFirst] += pItem->szName;
 			else m_sStr[i-iIDIndexFirst] += "NULL Item";
-			m_sStr[i-iIDIndexFirst]		+= "를 ";	
+			m_sStr[i-iIDIndexFirst]		+= "cast ";	
 			sprintf(pszID, "%d",i);
 			m_sStr[i-iIDIndexFirst]		+= pszID;
 			m_sStr[i-iIDIndexFirst]		+= "\n";

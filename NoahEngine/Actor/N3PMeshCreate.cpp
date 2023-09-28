@@ -533,7 +533,7 @@ bool CN3PMeshCreate::FindACollapse(float &val_so_far)
 	Collapse(be_index_a, be_index_b, val_so_far);
 
 #ifdef _SAME_VERTEXPOS
-	// 같은 점 찾기
+	// find the same
 	int i;
 	for (i=0; i<m_iNumVertices; ++i)
 	{
@@ -615,7 +615,7 @@ CN3PMesh *CN3PMeshCreate::CreateRendererMesh()
 		fTempValue = src.Value;
 	}
 
-	// mesh 정보
+	// mesh information
 	pPMesh->m_iMaxNumIndices  = m_iOriginalNumIndices ;
 	pPMesh->m_iMaxNumVertices = m_iOriginalNumVertices;
 	pPMesh->m_iMinNumIndices  = m_iNumIndices ;
@@ -658,8 +658,8 @@ int CN3PMeshCreate::ReGenerate(CN3PMesh *pPMesh)
 	if(nullptr == pPMesh) return -1;
 	
 	this->Release();
-	this->ConvertFromN3PMesh(pPMesh); // Mesh 로 부터 만들기..
-	this->CreateCollapseList(); // Progressive Mesh 처리..
+	this->ConvertFromN3PMesh(pPMesh); // Create from Mesh..
+	this->CreateCollapseList(); // Progressive mesh processing..
 
 	pPMesh->m_iTotalIndexChanges = m_iTotalIndexChanges;
 	if (m_iTotalIndexChanges>0)
@@ -700,7 +700,7 @@ int CN3PMeshCreate::ReGenerate(CN3PMesh *pPMesh)
 		fTempValue = src.Value;
 	}
 
-	// mesh 정보
+	// mesh information
 	pPMesh->m_iMinNumIndices  = m_iNumIndices ;
 	pPMesh->m_iMinNumVertices = m_iNumVertices;
 
@@ -732,9 +732,9 @@ int CN3PMeshCreate::ReGenerate(CN3PMesh *pPMesh)
 	return 0;
 }
 // swap "swapper" to the end of the material, updating all references to the vertices being swapped
-// swapper번째 버텍스를 버텍스버퍼의 m_iNumVertices-1 번째로 보내고
-// ( m_iNumVertices는 collapse 리스트를 만들때마다 하나씩 감소) m_iNumVertices-1번째는 swapper번째로 옮긴다.
-// 인덱스 버퍼, collapse리스트 안의 참조 인덱스, pt_to, pt_end도 새로운 인덱스에 맞게 swap 하는 함수
+// The swapper vertex is sent to the m_iNumVertices-1 vertex of the vertex buffer.
+// ( m_iNumVertices decreases by one each time the collapse list is created) The m_iNumVertices-1 is moved to the swapper th.
+// A function that swaps the index buffer, the reference index in the collapse list, pt_to, and pt_end to match the new index.
 void CN3PMeshCreate::SwapToEnd(WORD swapper, __PMCEdgeCollapse *collapses, __PMCEdgeCollapse *collapses_end, WORD &pt_to, WORD &pt_from)
 {
 	// NOTE: Here you may want to call back into your animation system (for example), so that it knows that
@@ -840,7 +840,7 @@ bool CN3PMeshCreate::ConvertFromN3PMesh(CN3PMesh* pN3PMesh)
 	if (pN3PMesh == nullptr) return false;
 	Release();
 
-	CN3PMesh* pPMeshTmp = CN3Base::s_MngPMesh.Get(pN3PMesh->FileName()); // 이래야 참조 카운트가 하나 늘어서 포인터가 안없어진다.
+	CN3PMesh* pPMeshTmp = CN3Base::s_MngPMesh.Get(pN3PMesh->FileName()); // This will increase the reference count by one so that the pointer does not disappear.
 	CN3PMeshInstance PMeshInst(pN3PMesh);
 	PMeshInst.SetLODByNumVertices(pN3PMesh->GetMaxNumVertices());
 
@@ -913,13 +913,13 @@ float CN3PMeshCreate::GetLossOfSamePosVertex(WORD pt_to, WORD pt_from)
 	int i;
 	for (i=0; i<m_iNumVertices; ++i)
 	{
-		// from 과 같은 위치의 Vertex찾기
+		// Find the vertex at the same position as from
 		if (i != pt_to && i != pt_from &&
 			m_pVertices[i].x == x &&
 			m_pVertices[i].y == y &&
 			m_pVertices[i].z == z )
 		{
-			// i는 같은 위치를 가진 버텍스의 인덱스
+			// i is the index of the vertex with the same position
 			WORD* tri;
 			for (tri = m_pIndices; tri<m_pIndices+m_iNumIndices; tri += 3)
 			{

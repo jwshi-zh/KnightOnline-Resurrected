@@ -124,7 +124,7 @@ bool CN3Skin::CheckCollisionPrecisely(const __Vector3 &vPos, const __Vector3 &vD
 	if(pVs == nullptr || pwIs == nullptr) return false;
 
 	nFC = FaceCount();
-	for(int j = 0; j < nFC; j++) // 각각의 Face 마다 충돌체크..
+	for(int j = 0; j < nFC; j++) // Collision check for each face..
 	{
 		nCI0 = pwIs[j*3+0];
 		nCI1 = pwIs[j*3+1];

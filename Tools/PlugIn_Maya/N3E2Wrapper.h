@@ -83,8 +83,8 @@ class CN3E2Wrapper
 {
 private:
 	// different extensions will get added to this:
-	char	m_szPath[1024];		// 경로 이름
-	char	m_szFileName[1024];	// 파일 이름
+	char	m_szPath[1024];		// path name
+	char	m_szFileName[1024];	// file name
 	
 	CN3Scene*		m_pScene;
 	static __EXPORT_OPTION m_Option;
@@ -96,7 +96,7 @@ protected:
 
 	MObject MeshGetShader(MFnMesh &pMMesh);
 
-	CN3Texture* ProcessTexture(MFnMesh &mMesh); // 텍스처 인덱스값이 리턴된다..
+	CN3Texture* ProcessTexture(MFnMesh &mMesh); // The texture index value is returned.
 	CN3Joint*	ProcessJoint(MFnIkJoint& mJoint);
 	bool		ProcessIMesh(MFnMesh& mMesh, CN3IMesh* pIMesh);
 	bool		ProcessVMesh(MFnMesh &mMesh, CN3VMesh* pVMesh);

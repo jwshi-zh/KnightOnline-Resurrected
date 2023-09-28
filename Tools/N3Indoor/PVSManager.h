@@ -23,7 +23,7 @@
 
 class COrganizeView;
 
-// 우선순위대로 정렬..
+// Sort by priority...
 template<class T> struct Myless : public std::less<T> {
 bool operator()(const T& x, const T& y) const
 {
@@ -117,7 +117,7 @@ private:
 	// Utility.. 
 	e_PvsWallType GetReverseWallType(e_PvsWallType ePWT);
 
-	// Visibility를 결정한다..
+	// Determine Visibility.
 	void	ComputeVisibilty(CPortalVolume * const pVol);
 	void	SetPriority(CPortalVolume * const pVol);
 	void	SetPriorityEx(CPortalVolume * const pVol, e_PvsWallType ePWT, int iRecursive);
@@ -127,10 +127,10 @@ private:
 	void	SetPriorityNoneRecursiveEx(CPortalVolume * const pVol, int iRecursive);
 	void	DebugFunc();
 
-	// Shape를 공간에 맞게 쪼갠다..
+	// Divide the shape into space.
 	void	SplitShapeToVolumn(CDialog* pDlg);
 
-	// Shape를 리스트에 등록한다..
+	// Register the shape in the list..
 	void	RegisterShape(std::string szStr, CN3Shape* pShape);
 	bool	IsValidPortalVolume(CPortalVolume* pVol);
 

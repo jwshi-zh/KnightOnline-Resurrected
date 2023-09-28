@@ -101,7 +101,7 @@ void CN3UIManager::RenderStateSet()
 	if(nullptr == s_lpD3DDev) return;
 
 #ifdef _DEBUG
-	__ASSERT(FALSE == s_sRSFU.bSet, "이전에 RenderStateSet()함수를 호출하고 RenderStateRestore()함수가 호출되지 않은 상태입니다.");
+	__ASSERT(FALSE == s_sRSFU.bSet, "This is the state in which the RenderStateSet() function was called before and the RenderStateRestore() function was not called..");
 	s_sRSFU.bSet = TRUE;
 #endif
 
@@ -129,7 +129,7 @@ void CN3UIManager::RenderStateSet()
 void CN3UIManager::RenderStateRestore()
 {
 #ifdef _DEBUG
-	__ASSERT(TRUE == s_sRSFU.bSet, "이전에 RenderStateSet()함수를 호출하지 않았습니다.");
+	__ASSERT(TRUE == s_sRSFU.bSet, "Didn't call RenderStateSet() function before.");
 	s_sRSFU.bSet = FALSE;
 #endif
 

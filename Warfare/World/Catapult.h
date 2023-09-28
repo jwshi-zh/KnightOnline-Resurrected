@@ -13,14 +13,14 @@ public:
 	struct __Thrower
 	{
 		// Information read from file
-		CN3SPart*	pThrowerPart;			// Thrower&#39;s part pointer
+		CN3SPart*	pThrowerPart;			// Thrower's part pointer
 		float	fLimitRadian;			// limit rotation angle
 		float	fRadianAccel;			// rotational acceleration
 		float	fRadianSpeed2Reload;	// reload rotation speed
 		float	fReloadDelayTime;		// Time delay between full fire and start of reload
 		float	fRecoilRadian;			// Angle of recoil after firing
 		class CN3Shape*	pStone;			// Rock shape pointer to fire
-		__Vector3		vStoneOffset;	// Boulder offset (distance from the thrower&#39;s pivot point)
+		__Vector3		vStoneOffset;	// Boulder offset (distance from the thrower's pivot point)
 
 		// Information created based on information read from a file
 		float	fReleaseTime;			// Time to reach limit rotation angle after launch [ sqrtf(fLimitRadian/fRadianAccel) ]

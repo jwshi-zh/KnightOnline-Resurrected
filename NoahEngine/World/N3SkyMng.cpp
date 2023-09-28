@@ -11,7 +11,7 @@
 #include "N3GERain.h"
 #include "N3GESnow.h"
 
-#ifdef _N3GAME // In non-game tools, you don&#39;t need it...
+#ifdef _N3GAME // In non-game tools, you don't need it...
 #include "N3SndObj.h"
 #include "N3SndMgr.h"
 #endif // #ifdef _N3GAME
@@ -41,7 +41,7 @@ CN3SkyMng::CN3SkyMng()
 
 	m_iHourFix = 0;
 
-#ifdef _N3GAME // In non-game tools, you don&#39;t need it...
+#ifdef _N3GAME // In non-game tools, you don't need it...
 	m_pSnd_Weather_Snow = nullptr;
 	m_pSnd_Weather_Rain = nullptr;
 #endif // #ifdef _N3GAME
@@ -65,13 +65,13 @@ CN3SkyMng::~CN3SkyMng()
 	if (m_pGERain) {delete m_pGERain; m_pGERain = nullptr;}
 	if (m_pGESnow) {delete m_pGESnow; m_pGESnow = nullptr;}
 
-#ifdef _N3GAME // In non-game tools, you don&#39;t need it...
+#ifdef _N3GAME // In non-game tools, you don't need it...
 	CN3Base::s_SndMgr.ReleaseObj(&m_pSnd_Weather_Snow);
 	CN3Base::s_SndMgr.ReleaseObj(&m_pSnd_Weather_Rain);
 #endif // #ifdef _N3GAME
 }
 
-#ifdef _N3GAME // In non-game tools, you don&#39;t need it...
+#ifdef _N3GAME // In non-game tools, you don't need it...
 void CN3SkyMng::ReleaseSound()
 {	
 	CN3Base::s_SndMgr.ReleaseObj(&m_pSnd_Weather_Snow);
@@ -104,7 +104,7 @@ void CN3SkyMng::Release()
 	if (m_pGERain) {delete m_pGERain; m_pGERain = nullptr;}
 	if (m_pGESnow) {delete m_pGESnow; m_pGESnow = nullptr;}
 
-#ifdef _N3GAME // In non-game tools, you don&#39;t need it...
+#ifdef _N3GAME // In non-game tools, you don't need it...
 	CN3Base::s_SndMgr.ReleaseObj(&m_pSnd_Weather_Snow);
 	CN3Base::s_SndMgr.ReleaseObj(&m_pSnd_Weather_Rain);
 #endif // #ifdef _N3GAME
@@ -175,7 +175,7 @@ void CN3SkyMng::RenderWeather()
 void CN3SkyMng::Tick()
 {
 	const DWORD dwCurTickCount = timeGetTime();
-	__ASSERT(dwCurTickCount >= m_dwCheckTick,"음수이다.");
+	__ASSERT(dwCurTickCount >= m_dwCheckTick,"negative.");
 	DWORD dwCurGameTime = m_dwCheckGameTime + (DWORD)((dwCurTickCount - m_dwCheckTick)*TIME_REAL_PER_GAME*0.001f);
 	if (!m_DayChanges.empty())
 	{
@@ -183,7 +183,7 @@ void CN3SkyMng::Tick()
 		if ( dwCurGameTime>86400)
 		{
 			m_iDayChangeCurPos = 0;
-			__ASSERT(m_dwCheckGameTime < 86400, "시간이 이상해요");
+			__ASSERT(m_dwCheckGameTime < 86400, "the time is strange");
 			m_dwCheckTick += (int)((86400 - m_dwCheckGameTime)*TIME_GAME_PER_REAL);	// Reset CheckTick to match game 0:00
 			dwCurGameTime -= 86400;
 			m_dwCheckGameTime = 0;	// Set the standard game time to 0:00.
@@ -221,7 +221,7 @@ void CN3SkyMng::Tick()
 			float fTakeTime = pSDC->fHowLong - dwDiffTime*TIME_GAME_PER_REAL;	// time taken
 			if (fTakeTime<0.0f)
 			{
-				TRACE("!!!!! 하늘이 즉시 변화됨 !!!!!\n");
+				TRACE("!!!!! The sky changes instantly !!!!!\n");
 				fTakeTime = 0.0f;	// If less than 0, let it change immediately
 			}
 
@@ -390,7 +390,7 @@ bool CN3SkyMng::LoadFromTextFile(const char* szIniFN)
 				{
 					char szErrLine[128];
 					sprintf(szErrLine, "From \"DayChage Count : \" -> Line : %d", i);
-					MessageBox(CN3Base::s_hWndBase, szErrLine, "하늘 환경설정 데이터 Parsing 실패", MB_OK);
+					MessageBox(CN3Base::s_hWndBase, szErrLine, "Sky configuration data parsing failure", MB_OK);
 					this->Release();
 					return false;
 				}
@@ -505,7 +505,7 @@ void CN3SkyMng::InitToDefaultHardCoding()
 	DWORD dwTime = 0;
 
 	// break up..
-	dwTime = CONVERT_SEC(5,0,0); // The sun rises at 5 o&#39;clock
+	dwTime = CONVERT_SEC(5,0,0); // The sun rises at 5 o'clock
 	
 	tmpDayChange.Init("SunRise - SkyColor", SDC_SKYCOLOR, dwTime, D3DCOLOR_ARGB(255, 165, 115, 85), 0, 180.0f);
 	m_DayChanges.push_back(tmpDayChange);
@@ -539,7 +539,7 @@ void CN3SkyMng::InitToDefaultHardCoding()
 
 
 	// Midday...
-	dwTime = CONVERT_SEC(6,0,0); // It&#39;s daytime from 6:00.
+	dwTime = CONVERT_SEC(6,0,0); // It's daytime from 6:00.
 
 	tmpDayChange.Init("Noon - StarCount", SDC_STARCOUNT, dwTime, 0, 0, 300.0f);
 	m_DayChanges.push_back(tmpDayChange);
@@ -579,7 +579,7 @@ void CN3SkyMng::InitToDefaultHardCoding()
 	m_DayChanges.push_back(tmpDayChange);
 
 
-	// when it&#39;s done...
+	// when it's done...
 	dwTime = CONVERT_SEC(20,0,0); // The sun starts to set at 8pm.
 
 	tmpDayChange.Init("SunSet - SkyColor", SDC_SKYCOLOR, dwTime, D3DCOLOR_ARGB(255, 98, 115, 125), 0, 180.0f);
@@ -687,7 +687,7 @@ void CN3SkyMng::SetCheckGameTime(DWORD dwCheckGameTime)
 		if (i == SDC_MOONPHASE) continue;
 
 		const int iPos = GetLatestChange((eSKY_DAYCHANGE)i, m_iDayChangeCurPos);
-		if (iPos<0) continue;	// I can&#39;t find the change value even though I&#39;ve done a full circle.
+		if (iPos<0) continue;	// I can't find the change value even though I've done a full circle.
 		__SKY_DAYCHANGE* pSDC = &(m_DayChanges[iPos]);
 		DWORD dwEnd = pSDC->dwWhen + (DWORD)(TIME_REAL_PER_GAME * pSDC->fHowLong);	// time of change
 		if (dwEnd>86400) dwEnd -= 86400;	// If it is more than 24 hours, subtract 24 hours.
@@ -698,7 +698,7 @@ void CN3SkyMng::SetCheckGameTime(DWORD dwCheckGameTime)
 		else
 		{	// If changes are currently in progress in gametime
 			const int iPrevPos = GetLatestChange((eSKY_DAYCHANGE)i, iPos);
-			__ASSERT(iPrevPos>=0, "여기에 올리가 없다");
+			__ASSERT(iPrevPos>=0, "no oli here");
 			__SKY_DAYCHANGE* pPrevSDC = &(m_DayChanges[iPrevPos]);
 			ChangeSky(pPrevSDC, 0.0f);	// make it previous
 
@@ -731,14 +731,14 @@ int CN3SkyMng::GetLatestChange(eSKY_DAYCHANGE eSDC, int iPos)
 		while(iFind>=0)
 		{
 			if (m_DayChanges[iFind].eSkyDayChange == eSDC) break;	// Find the most recent changes.
-			if (iPos > iFind) {iFind = -1; break;}	// I can&#39;t find the change value even though I&#39;ve done a full circle.
+			if (iPos > iFind) {iFind = -1; break;}	// I can't find the change value even though I've done a full circle.
 			--iFind;
 		}
 	}
 	return iFind;
 }
 
-// Change the state of the sky (compare pSDC-&gt;fHowLong value and fTakeTime value to calculate the exact rate of change)
+// Change the state of the sky (compare pSDC->fHowLong value and fTakeTime value to calculate the exact rate of change)
 void CN3SkyMng::ChangeSky(__SKY_DAYCHANGE* pSDC, float fTakeTime)
 {
 	if (nullptr == pSDC) return;
@@ -832,7 +832,7 @@ void CN3SkyMng::SetWeather(eSKY_WEATHER eWeather, int iPercentage)
 
 	// Get the current game time
 	DWORD dwCurTickCount = timeGetTime();
-	__ASSERT(dwCurTickCount >= m_dwCheckTick,"음수이다.");
+	__ASSERT(dwCurTickCount >= m_dwCheckTick,"negative.");
 	DWORD dwCurGameTime = m_dwCheckGameTime + (DWORD)((dwCurTickCount - m_dwCheckTick)*TIME_REAL_PER_GAME*0.001f);
 	BOOL	IsNight = (dwCurGameTime < CONVERT_SEC(6,0,0) || dwCurGameTime > CONVERT_SEC(19,0,0));
 
@@ -865,7 +865,7 @@ void CN3SkyMng::SetWeather(eSKY_WEATHER eWeather, int iPercentage)
 		tmpWeatherChange.Init("Flare", SDC_FLARECOLOR, dwWhen, dwParam1, dwParam2, fHowLong);
 		m_WeatherChanges.push_back(tmpWeatherChange);
 
-		// the sun&#39;s glow
+		// the sun's glow
 		iPos = GetLatestChange(SDC_GLOWCOLOR, iAfterNSecPos); // Find the location of the most recent change in the sky after N seconds
 		if (iPos>=0) { dwParam1 = m_DayChanges[iPos].dwParam1; dwParam2 = m_DayChanges[iPos].dwParam2; }
 		else { dwParam1 = D3DCOLOR_ARGB(255, 255, 255, 255); dwParam2 = 100; }
@@ -939,7 +939,7 @@ void CN3SkyMng::SetWeather(eSKY_WEATHER eWeather, int iPercentage)
 		// nice weather
 		if (m_pGESnow) m_pGESnow->FadeSet(3.0f, false);
 		if (m_pGERain) m_pGERain->FadeSet(3.0f, false);
-#ifdef _N3GAME // In non-game tools, you don&#39;t need it...
+#ifdef _N3GAME // In non-game tools, you don't need it...
 		if (m_pSnd_Weather_Rain) m_pSnd_Weather_Rain->Stop(5.0f);
 		if (m_pSnd_Weather_Snow) m_pSnd_Weather_Snow->Stop(5.0f);
 #endif // #ifdef _N3GAME
@@ -975,7 +975,7 @@ void CN3SkyMng::SetWeather(eSKY_WEATHER eWeather, int iPercentage)
 		tmpWeatherChange.Init("Flare", SDC_FLARECOLOR, dwWhen, 0xff000000, this->GetFlareRatio() * 1000, fHowLong);
 		m_WeatherChanges.push_back(tmpWeatherChange);
 
-		// the sun&#39;s glow
+		// the sun's glow
 		tmpWeatherChange.Init("Glow", SDC_GLOWCOLOR, dwWhen, 0xff000000, this->GetGlowRatio() * 1000, fHowLong);
 		m_WeatherChanges.push_back(tmpWeatherChange);
 
@@ -1048,7 +1048,7 @@ void CN3SkyMng::SetWeather(eSKY_WEATHER eWeather, int iPercentage)
 			m_pGERain->Create(fDensity, m_fCellSize, fHeight, fRainLength, vVelocity, 10.0f);	// rain
 			m_pGERain->SetActive(TRUE);
 
-#ifdef _N3GAME // In non-game tools, you don&#39;t need it...
+#ifdef _N3GAME // In non-game tools, you don't need it...
 			if(m_pSnd_Weather_Snow) m_pSnd_Weather_Snow->Stop(5.0f);
 			CN3Base::s_SndMgr.ReleaseObj(&m_pSnd_Weather_Rain);
 			m_pSnd_Weather_Rain = CN3Base::s_SndMgr.CreateObj(201);	// sound of rain...
@@ -1074,7 +1074,7 @@ void CN3SkyMng::SetWeather(eSKY_WEATHER eWeather, int iPercentage)
 			m_pGESnow->Create(fDensity, m_fCellSize, fHeight, fSnowSize, vVelocity, 10.0f);	// rain
 			m_pGESnow->SetActive(TRUE);
 
-#ifdef _N3GAME // In non-game tools, you don&#39;t need it...
+#ifdef _N3GAME // In non-game tools, you don't need it...
 			if(m_pSnd_Weather_Rain) m_pSnd_Weather_Rain->Stop(5.0f);
 			CN3Base::s_SndMgr.ReleaseObj(&m_pSnd_Weather_Snow);
 			m_pSnd_Weather_Snow = CN3Base::s_SndMgr.CreateObj(200);	// wind noise...
@@ -1098,7 +1098,7 @@ void CN3SkyMng::SunAndMoonDirectionFixByHour(int iHour) // Sun and moon angle ma
 void CN3SkyMng::GetGameTime(int* piYear, int* piMonth, int* piDay, int* piHour, int*piMin)
 {
 	const DWORD dwCurTickCount = timeGetTime();
-	__ASSERT(dwCurTickCount >= m_dwCheckTick,"음수이다.");
+	__ASSERT(dwCurTickCount >= m_dwCheckTick,"negative.");
 	const DWORD dwCurGameTime = m_dwCheckGameTime + (DWORD)((dwCurTickCount - m_dwCheckTick)*TIME_REAL_PER_GAME*0.001f);
 
 	// dwCurGameTime - seconds

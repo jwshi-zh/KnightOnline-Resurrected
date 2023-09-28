@@ -240,7 +240,7 @@ BOOL CDlgRiverProperty::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 			{
 				if ( m_pRiverMng->SetRiverID(pSelRiver, (int)atoi(pItem->m_curValue)) == FALSE )
 				{
-					MessageBox("존재하는 ID입니다.");
+					MessageBox("ID that exists.");
 					pItem->m_curValue.Format("%d", pSelRiver->GetRiverID());
 				}
 			}

@@ -76,7 +76,7 @@ public:
 	CN3Scene*		m_pScene;			// N3Scene
 
 protected:
-	static __EXPORT_OPTION m_Option;	// Export Option - Window Procedure 땜시 Static 으로 쓴다..
+	static __EXPORT_OPTION m_Option;	// Export Option - Use Static for Window Procedure.
 	BOOL			m_bCancelExport;	// TRUE?->Cancel
 	int				m_nNodeCur;			// Current Processing Node Count
 	int				m_nNodeCount;		// Total Node Count
@@ -99,7 +99,7 @@ public:
 	
 	bool IsBone(INode *pNode);
 	bool FindNodeRecursive(INode* pNode, Class_ID cID, std::list<INode*>& list);
-	bool CheckObjectClassID(INode* pNode, const Class_ID& cID) const;	// 주어진 노드의 오브젝트가 주어진 클래스 아이디인지 검사
+	bool CheckObjectClassID(INode* pNode, const Class_ID& cID) const;	// Checks if the object of the given node is of the given class id
 	Modifier* FindPhysiqueModifier(INode* pNode);
 //	bool FindNodeIndex(INode* pNodeCompare, INode* pNodeSrc, Class_ID& cID, int& nNodeIndex);
 	bool FindBoneIndex(INode* pNodeCompare, INode* pNodeSrc, int& nNodeIndex);

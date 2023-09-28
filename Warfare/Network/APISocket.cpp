@@ -46,7 +46,7 @@ DataPack::DataPack(int size, BYTE *pData, BOOL bSend)
 	if (TRUE == s_bCryptionFlag)
 	{
 		if (bSend)
-		{	// Send to server (normal -&gt; encrypted)
+		{	// Send to server (normal -> encrypted)
 			// inmate - cryption
 			if(TRUE == s_bCryptionFlag)
 			{
@@ -74,7 +74,7 @@ DataPack::DataPack(int size, BYTE *pData, BOOL bSend)
 			}
 		}
 		else
-		{	// Data received from server (encrypted -&gt; plain)
+		{	// Data received from server (encrypted -> plain)
 			s_JvCrypt.JvDecryptionFast( size, pData, pTBuf );
 			if(pTBuf[0] != 0xfc) // In case of uncompressed data error
 			{
@@ -163,7 +163,7 @@ void CAPISocket::Release()
 	char szBuff[64] = "";
 	char szCmd[32] = "";
 
-	strcpy(szBuff, &quot;Packet\tAmount\tNumber\r\n&quot;);
+	strcpy(szBuff, "Packet\tAmount\tNumber\r\n");
 	WriteFile(hFile1, szBuff, lstrlen(szBuff), &dwRWC, NULL);
 	WriteFile(hFile2, szBuff, lstrlen(szBuff), &dwRWC, NULL);
 

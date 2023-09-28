@@ -276,10 +276,10 @@ void CN3Scene::TickLights(float fFrm)
 	for(auto i = 0; i < m_nLightCount; i++)
 	{
 		m_pLights[i]->Tick(m_fFrmCur);
-		m_pLights[i]->Apply(); // 라이트 적용
+		m_pLights[i]->Apply(); // apply light
 	}
 
-	// 라이트가 항상 카메라를 따라오게 만든다..
+	// The light always follows the camera.
 	if(false == m_bDisableDefaultLight)
 	{
 		__Vector3 vDir = s_CameraData.vAt - s_CameraData.vEye;

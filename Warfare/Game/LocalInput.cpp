@@ -260,7 +260,7 @@ void CLocalInput::Tick(void)
 		if(err != DI_OK) AcquireKeyboard();
 		else
 		{
-			m_bNoKeyDown = TRUE; // I didn&#39;t press anything for the first time
+			m_bNoKeyDown = TRUE; // I didn't press anything for the first time
 			for(int i = 0; i < NUMDIKEYS; i++)
 			{
 				if(!m_byOldKeys[i] && m_byCurKeys[i]) m_bKeyPresses[i] = TRUE; // the moment it is pressed
@@ -280,7 +280,7 @@ void CLocalInput::Tick(void)
 	// if(m_bMouse)
 	// {
 		// DIMOUSESTATE DIMState;
-		// err = m_lpDIDMouse-&gt;GetDeviceState(sizeof(DIMState), &amp;DIMState); // Get the mouse status - It&#39;s strange.. I keep getting an error..
+		// err = m_lpDIDMouse->GetDeviceState(sizeof(DIMState), &DIMState); // Get the mouse status - It's strange.. I keep getting an error..
 		// if(err != DI_OK)
 		// {
 		// AcquireMouse();
@@ -313,7 +313,7 @@ void CLocalInput::Tick(void)
 
 		RECT rcClient;
 		::GetClientRect(m_hWnd, &rcClient);
-		::GetCursorPos(&m_ptCurMouse); // It&#39;s kind of weird... just get the system mouse cursor position
+		::GetCursorPos(&m_ptCurMouse); // It's kind of weird... just get the system mouse cursor position
 		::ScreenToClient(m_hWnd, &m_ptCurMouse); // Convert to client area
 
 		if(PtInRect(&rcClient, m_ptCurMouse) == FALSE) // || GetFocus() != m_hWnd) // If out of screen area or not in focus...
@@ -340,7 +340,7 @@ void CLocalInput::Tick(void)
 			if((m_nMouseFlagOld & MOUSE_MBDOWN) && (m_nMouseFlag & MOUSE_MBDOWN) == FALSE) m_nMouseFlag |= MOUSE_MBCLICKED;
 			if((m_nMouseFlagOld & MOUSE_RBDOWN) && (m_nMouseFlag & MOUSE_RBDOWN) == FALSE) m_nMouseFlag |= MOUSE_RBCLICKED;
 			
-			static DWORD dwDblClk = GetDoubleClickTime(); // Get the window&#39;s double-click time.
+			static DWORD dwDblClk = GetDoubleClickTime(); // Get the window's double-click time.
 			if(m_nMouseFlag & MOUSE_LBCLICKED) // Detect left double click
 			{
 				static DWORD dwCLicked = 0;

@@ -79,7 +79,7 @@ void CN3UITooltip::SetText(const std::string& szText)
 	if (m_pBuffOutRef->GetTextExtent(szText, iStrLen, &size))
 	{
 		if (std::string::npos != szText.find('\n'))
-		{	// Since \n is included in the &#39;\n&#39; string, it is considered multi-line.
+		{	// Since \n is included in the '\n' string, it is considered multi-line.
 			m_pBuffOutRef->SetStyle(UISTYLE_STRING_ALIGNLEFT | UISTYLE_STRING_ALIGNTOP);
 		}
 		else if (iStrLen < 25)

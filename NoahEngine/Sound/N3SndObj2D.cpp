@@ -77,7 +77,7 @@ void CN3SndObj2D::SetVolume(int Vol)
 
 		const float fVol = (float)(Vol) / 100.0f;
 
-		const long dwVol = (long)(log10(fVol) * 3000);	//데시벨 관련 소리조절식..
+		const long dwVol = (long)(log10(fVol) * 3000);	// Decibel-related sound control..
 		m_pDSBuff->SetVolume(dwVol);
 	}
 }

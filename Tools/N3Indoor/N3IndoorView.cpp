@@ -138,7 +138,7 @@ void CN3IndoorView::TickRender()
 	pFrm->m_Eng.s_lpD3DDev->EndScene();
 	pFrm->m_Eng.Present(m_hWnd);
 
-	// 프레임 표시
+	// display frame
 	DWORD dwTick = GetTickCount();
 	static DWORD dwTickPrev = dwTick;
 	static CString szFPS;
@@ -195,7 +195,7 @@ BOOL CN3IndoorView::ExecuteModeMsgFilter(MSG* pMsg)
 				float fRY = 0.01f;
 				switch(pMsg->wParam)
 				{
-					case 0x41:					// 왼쪽..
+					case 0x41:					// left..
 						if (m_bExecuteCameraTop) 
 						{
 							pView->RestoreExecuteCameraChange();
@@ -211,7 +211,7 @@ BOOL CN3IndoorView::ExecuteModeMsgFilter(MSG* pMsg)
 						}
 						break;
 
-					case 0x44:					// 오른쪽..
+					case 0x44:					// right..
 						if (m_bExecuteCameraTop) 
 						{
 							pView->RestoreExecuteCameraChange();
@@ -227,7 +227,7 @@ BOOL CN3IndoorView::ExecuteModeMsgFilter(MSG* pMsg)
 						}
 						break;
 
-					case 0x57:					// 전진..
+					case 0x57:					// Advance..
 						if (m_bExecuteCameraTop) 
 						{
 							pView->RestoreExecuteCameraChange();
@@ -249,7 +249,7 @@ BOOL CN3IndoorView::ExecuteModeMsgFilter(MSG* pMsg)
 						}
 						break;
 
-					case 0x53:					// 후진..
+					case 0x53:					// junior..
 						if (m_bExecuteCameraTop) 
 						{
 							pView->RestoreExecuteCameraChange();
@@ -271,7 +271,7 @@ BOOL CN3IndoorView::ExecuteModeMsgFilter(MSG* pMsg)
 						}
 						break;
 
-					case 0x58:					// 밑으로..
+					case 0x58:					// down..
 						if (m_bExecuteCameraTop) 
 						{
 							pView->RestoreExecuteCameraChange();
@@ -287,7 +287,7 @@ BOOL CN3IndoorView::ExecuteModeMsgFilter(MSG* pMsg)
 						}
 						break;
 
-					case 0x43:					// 위로..
+					case 0x43:					// consolation..
 						if (m_bExecuteCameraTop) 
 						{
 							pView->RestoreExecuteCameraChange();
@@ -351,7 +351,7 @@ BOOL CN3IndoorView::CustomCameraMove(MSG* pMsg)
 
 	if (pFrm->m_pDummy && pFrm->m_pDummy->MouseMsgFilter(pMsg))	return TRUE;
 
-	// 나머지 객체 선택 및 배치
+	// Select and place the rest of the objects
 	static BOOL bSelectDrag = FALSE;
 	switch(pMsg->message)
 	{
@@ -399,7 +399,7 @@ BOOL CN3IndoorView::CustomCameraMove(MSG* pMsg)
 			}
 			break;
 
-		case WM_LBUTTONDOWN:	// 객체 선택
+		case WM_LBUTTONDOWN:	// object selection
 			{
 				if (!::_IsKeyDown(VK_MENU))
 				{
@@ -423,11 +423,11 @@ BOOL CN3IndoorView::CustomCameraMove(MSG* pMsg)
 			}
 			break;
 
-		case WM_LBUTTONUP:	// 객체 선택
+		case WM_LBUTTONUP:	// object selection
 			{
 				if (bSelectDrag)
 				{
-					if (abs(m_rcSelDrag.left-point.x)<6 && abs(m_rcSelDrag.top-point.y) < 6) // 클릭한걸로 간주
+					if (abs(m_rcSelDrag.left-point.x)<6 && abs(m_rcSelDrag.top-point.y) < 6) // count as clicked
 					{
 						CPortalVolume* pVol = NULL;
 						pVol = pView->m_PVSMgr.PickCollision(point.x, point.y);
@@ -436,7 +436,7 @@ BOOL CN3IndoorView::CustomCameraMove(MSG* pMsg)
 					}
 					else
 					{	
-					   // 드레그 한 것
+					   // dragged
 						if (m_rcSelDrag.left > point.x)
 						{	m_rcSelDrag.right = m_rcSelDrag.left; m_rcSelDrag.left = point.x; }
 						else m_rcSelDrag.right = point.x;
@@ -449,7 +449,7 @@ BOOL CN3IndoorView::CustomCameraMove(MSG* pMsg)
 					bSelectDrag = FALSE;
 					m_rcSelDrag.left = m_rcSelDrag.top = m_rcSelDrag.right = m_rcSelDrag.bottom = 0;
 
-					// 위치, 회전값등을 업데이트한다.
+					// Update position, rotation values, etc.
 					
 					return TRUE;
 				}

@@ -96,12 +96,12 @@ void CPlayerMySelf::Tick()
 {
 	BOOL	bAnim = TRUE;
 
-	if(	PSA_DEATH == m_eState)  // It&#39;s in a dying state... When the dying animation is over... // A flag that doesn&#39;t show until it dies again once it&#39;s sent.
+	if(	PSA_DEATH == m_eState)  // It's in a dying state... When the dying animation is over... // A flag that doesn't show until it dies again once it's sent.
 	{
 		if(0 == m_iSendRegeneration) 
 		{
 			// std::string szMsg; ::_LoadStringFromResource(IDS_REGENERATION, szMsg);
-			// CGameProcedure::MessageBoxPost(szMsg, &quot;&quot;, MB_OK, BEHAVIOR_REGENERATION); // Send recreate message..
+			// CGameProcedure::MessageBoxPost(szMsg, "", MB_OK, BEHAVIOR_REGENERATION); // Send recreate message..
 			// CLogWriter::Write("Dead!!!");
 			m_iSendRegeneration = 1;
 		}
@@ -154,7 +154,7 @@ void CPlayerMySelf::Tick()
 	// 
 
 	CPlayerBase* pTarget = nullptr;
-	// if(true == m_bAttackContinuous || m_iSkillStep &gt; 0)
+	// if(true == m_bAttackContinuous || m_iSkillStep > 0)
 	if(true == m_bAttackContinous && m_iSkillStep <= 0)
 	{
 		pTarget = TargetPointerCheck(false);
@@ -189,7 +189,7 @@ void CPlayerMySelf::Tick()
 					}
 				}
 			}
-			else if( m_pItemPlugBasics[PLUG_POS_RIGHTHAND] && ITEM_CLASS_LAUNCHER == m_pItemPlugBasics[PLUG_POS_RIGHTHAND]->byClass ) // If it&#39;s a javelin item...
+			else if( m_pItemPlugBasics[PLUG_POS_RIGHTHAND] && ITEM_CLASS_LAUNCHER == m_pItemPlugBasics[PLUG_POS_RIGHTHAND]->byClass ) // If it's a javelin item...
 			{
 				__TABLE_UPC_SKILL* pSkill = s_pTbl_Skill->Find(102009); // Find the basic bow skill in the skill table
 				if(pSkill && fTime > m_fAttackTimeRecent + (pSkill->iCastTime / 10.f)) // If the attack interval is exceeded... attack!
@@ -202,7 +202,7 @@ void CPlayerMySelf::Tick()
 					}
 				}
 			}
-			else // If it&#39;s an attack...
+			else // If it's an attack...
 			{
 				float fIntervalTable = 1.0f;
 				if(m_pItemPlugBasics[PLUG_POS_RIGHTHAND] && m_pItemPlugExts[PLUG_POS_RIGHTHAND]) // Attack Interval Definition
@@ -225,7 +225,7 @@ void CPlayerMySelf::Tick()
 							const float fDistance = s_pPlayer->DistanceExceptRadius(pTarget); // attack distance
 							
 							CGameProcedure::s_pProcMain->MsgSend_Attack(pTarget->IDNumber(), fIntervalTable, fDistance);
-							if(m_iSkillStep == 0 && PSA_ATTACK != m_eState && m_fFlickeringFactor == 1.0f) // If you don&#39;t use skills and don&#39;t attack...
+							if(m_iSkillStep == 0 && PSA_ATTACK != m_eState && m_fFlickeringFactor == 1.0f) // If you don't use skills and don't attack...
 								this->Action(PSA_ATTACK, true, pTarget); // If you are not attacking, attack.
 							
 							m_fAttackTimeRecent = fTime;	// Last attack time.
@@ -245,7 +245,7 @@ void CPlayerMySelf::Tick()
 									s_pPlayer->SetMoveTargetID(pTarget->IDNumber());
 								}
 							}
-							if(m_iSkillStep == 0 && PSA_SITDOWN != m_eState) // I&#39;m not using skills, but unless I&#39;m sitting...
+							if(m_iSkillStep == 0 && PSA_SITDOWN != m_eState) // I'm not using skills, but unless I'm sitting...
 								this->Action(PSA_BASIC, true); // basic tax...
 						}
 					}
@@ -283,7 +283,7 @@ void CPlayerMySelf::Render(float fSunAngle)
 	m_Chr.m_nLOD--;
 	if(m_Chr.m_nLOD < 0) m_Chr.m_nLOD = 0;
 
-	const int iLODDeltaPrev = CN3Chr::LODDelta(); // Let&#39;s draw my character more elaborately..
+	const int iLODDeltaPrev = CN3Chr::LODDelta(); // Let's draw my character more elaborately..
 	CN3Chr::LODDeltaSet(0);
 	CPlayerBase::Render(fSunAngle);
 	CN3Chr::LODDeltaSet(iLODDeltaPrev);
@@ -299,7 +299,7 @@ bool CPlayerMySelf::ToggleAttackContinous()
 	if(false == m_bAttackContinous) // See if there is a target.
 	{
 		const CPlayerNPC* pTarget = s_pOPMgr->CharacterGetByID(m_iIDTarget, true);
-		if(pTarget) // &amp;&amp; !IsOutOfAttackRange(pTarget)) // Only when there is a target and is within range
+		if(pTarget) // && !IsOutOfAttackRange(pTarget)) // Only when there is a target and is within range
 		{
 			this->m_bAttackContinous = true;
 		}
@@ -354,7 +354,7 @@ void CPlayerMySelf::ToggleMoveMode()
 		}
 
 		const float fSpeed = this->MoveSpeedCalculationAndCheckCollision(); // Moving speed and collision check...
-		if(0 == fSpeed) // If you can&#39;t go...
+		if(0 == fSpeed) // If you can't go...
 		{
 			m_bMoveContinous = false;
 			m_eStateMove = PSM_STOP;
@@ -395,7 +395,7 @@ void CPlayerMySelf::InventoryChrRender(const RECT& Rect)
 {
 /*
 	DWORD dwUsefog = TRUE;
-	CN3Base::s_lpD3DDev-&gt;GetRenderState( D3DRS_FOGENABLE , &amp;dwUsefog );
+	CN3Base::s_lpD3DDev->GetRenderState( D3DRS_FOGENABLE , &dwUsefog );
 
 	DWORD dwUseLighting=TRUE;
 	CN3Base::s_lpD3DDev->GetRenderState( D3DRS_LIGHTING, &dwUseLighting );
@@ -427,7 +427,7 @@ void CPlayerMySelf::InventoryChrRender(const RECT& Rect)
 	CN3Base::s_lpD3DDev->GetTransform( D3DTS_VIEW, &mtxviewback );
 	CN3Base::s_lpD3DDev->GetTransform( D3DTS_WORLD, &mtxworldback );
 
-	D3DXMatrixOrthoLH(&amp;mtxproj, 12.0f, 9.0f, 0, 100);
+	D3DXMatrixOrthoLH(&mtxproj, 12.0f, 9.0f, 0, 100);
     CN3Base::s_lpD3DDev->SetTransform( D3DTS_PROJECTION, &mtxproj );
 
     D3DXMatrixLookAtLH( &mtxview, &D3DXVECTOR3( 0.0f, 2.0f,-10.0f ),
@@ -442,7 +442,7 @@ void CPlayerMySelf::InventoryChrRender(const RECT& Rect)
 	// 
 	// Get 2d coordinates..
 
-	// 2d -&gt; 3d..
+	// 2d -> 3d..
 	__Vector3 vPos;
 	vPos.x = (float)((Rect.right - Rect.left)/2.0f + Rect.left);
 	vPos.y = (float)(Rect.bottom) - (Rect.bottom - Rect.top)/16.0f;
@@ -475,7 +475,7 @@ void CPlayerMySelf::InventoryChrRender(const RECT& Rect)
 	CN3Base::s_lpD3DDev->SetTransform( D3DTS_VIEW, &mtxviewback );
 	CN3Base::s_lpD3DDev->SetTransform( D3DTS_WORLD, &mtxworldback );
 
-	CN3Base::s_lpD3DDev-&gt;SetRenderState(D3DRS_AMBIENT, 0x00000000);
+	CN3Base::s_lpD3DDev->SetRenderState(D3DRS_AMBIENT, 0x00000000);
 
 	CN3Base::s_lpD3DDev->SetRenderState( D3DRS_LIGHTING, dwUseLighting );
 	CN3Base::s_lpD3DDev->SetRenderState( D3DRS_FOGENABLE , dwUsefog );
@@ -553,7 +553,7 @@ CN3CPlugBase* CPlayerMySelf::PlugSet(e_PlugPosition ePos, const std::string& szF
 		m_pItemPlugExts[ePos] = pItemExt;
 		if(pItemBasic)
 		{
-			if(pItemBasic->byClass == ITEM_CLASS_SHIELD) iJoint = m_pLooksRef->iJointLH2; // if it&#39;s a shield
+			if(pItemBasic->byClass == ITEM_CLASS_SHIELD) iJoint = m_pLooksRef->iJointLH2; // if it's a shield
 			else iJoint = m_pLooksRef->iJointLH; // left end...
 		}
 	}
@@ -601,7 +601,7 @@ CN3CPart* CPlayerMySelf::PartSet(e_PartPosition ePos, const std::string& szFN, _
 	{
 		if(pItemBasic) // if coated
 		{
-			if(pItemBasic->byIsRobeType && m_Chr.Part(PART_POS_LOWER)) // It&#39;s a robe-type full top, and if you&#39;re wearing something underneath...
+			if(pItemBasic->byIsRobeType && m_Chr.Part(PART_POS_LOWER)) // It's a robe-type full top, and if you're wearing something underneath...
 			{
 				m_ChrInv.PartSet(PART_POS_LOWER, ""); // empty the bottom.
 				m_Chr.PartSet(PART_POS_LOWER, "");
@@ -609,7 +609,7 @@ CN3CPart* CPlayerMySelf::PartSet(e_PartPosition ePos, const std::string& szFN, _
 		}
 		else // If you take off your upper body
 		{
-			if(m_pItemPartBasics[ePos] && m_pItemPartBasics[ePos]->byIsRobeType) // If you&#39;ve worn a robe before...
+			if(m_pItemPartBasics[ePos] && m_pItemPartBasics[ePos]->byIsRobeType) // If you've worn a robe before...
 			{
 				if(m_pItemPartBasics[PART_POS_LOWER]) // If an item is worn on the lower body...
 				{
@@ -719,7 +719,7 @@ bool CPlayerMySelf::IsAttackableTarget(CPlayerBase* pTarget, bool bMesureAngle)
 {
 	if(m_fFlickeringFactor != 1.0f) return false;	// When revived and blinking, you cannot attack.
 	if(nullptr == pTarget || pTarget->IsDead()) return false;  // A character who is dead cannot attack - except for a character who is about to die.
-	if(pTarget->m_InfoBase.eNation == m_InfoBase.eNation) return false; // It&#39;s the same country.
+	if(pTarget->m_InfoBase.eNation == m_InfoBase.eNation) return false; // It's the same country.
 
 	const float fDist = (pTarget->Position() - m_Chr.Pos()).Magnitude(); // Find the attack distance.
 	const float fDistLimit = this->AttackableDistance(pTarget);
@@ -740,7 +740,7 @@ bool CPlayerMySelf::IsAttackableTarget(CPlayerBase* pTarget, bool bMesureAngle)
 bool CPlayerMySelf::CheckCollision()
 {
 	float fSpeed = m_fMoveSpeedPerSec * CN3Base::s_fSecPerFrm; // Current moving speed.. This is the speed calculated according to the frame.
-	if(0 == fSpeed) return false; // If it doesn&#39;t move, don&#39;t check for collision.
+	if(0 == fSpeed) return false; // If it doesn't move, don't check for collision.
 
 	const __Vector3 vPos = this->Position();
 
@@ -814,9 +814,9 @@ bool CPlayerMySelf::CheckCollision()
 	// Collision check with object.
 	__Vector3 vPos2 = vPos, vCol, vNormal;
 	if (!s_pWorldMgr->IsIndoor())
-		vPos2.y += 0.5f; // Collision checks 0.5 meters above the height of the character&#39;s feet.
+		vPos2.y += 0.5f; // Collision checks 0.5 meters above the height of the character's feet.
 	else
-		vPos2.y += 0.6f; // Collision checks 0.6 meters above the height of the character&#39;s feet. The 0.6 written inside this function is PvsMgr&#39;s m_fVolumeOffs.. ^^
+		vPos2.y += 0.6f; // Collision checks 0.6 meters above the height of the character's feet. The 0.6 written inside this function is PvsMgr's m_fVolumeOffs.. ^^
 	const bool bColShape = ACT_WORLD->CheckCollisionWithShape(vPos2, vDir, fSpeed, &vCol, &vNormal);
 	if( bColShape) return true; // If there is a collision value with the object
 
@@ -863,13 +863,13 @@ bool CPlayerMySelf::CheckCollision()
 	// else // If it is impossible to climb, check the slope with the terrain..
 	// {
 		// // Find the direction... and apply different speeds according to the slope
-		// s_pTerrain-&gt;GetNormal(vPos.x, vPos.z, vNormal);
+		// s_pTerrain->GetNormal(vPos.x, vPos.z, vNormal);
 		// vNormal.Normalize();
 		// vNormal.y = 0.0f;
 		// float fM = vNormal.Magnitude();
 		// float fD = vNormal.Dot(vDir);
 		// if(fSpeed < 0) fD *= -1.0f;
-		// if(fD &lt; 0) fSpeed *= 1.0f - (fM / 0.7071f); // Apply a factor according to the slope
+		// if(fD < 0) fSpeed *= 1.0f - (fM / 0.7071f); // Apply a factor according to the slope
 		//
 		// vPosNext = vPos + (vDir * fSpeed); // Calculate the next position...
 		// m_fYNext = s_pTerrain->GetHeight(vPosNext.x, vPosNext.z);
@@ -988,7 +988,7 @@ float CPlayerMySelf::MoveSpeedCalculationAndCheckCollision() // Get the speed an
 	// Find the direction.. Apply different speeds according to the slope
 	/*	__Vector3 vDir = this->Direction();
 	__Vector3 vPos = m_Chr.Pos(), vNormal(0,1,0);
-	s_pTerrain-&gt;GetNormal(vPos.x, vPos.z, vNormal);
+	s_pTerrain->GetNormal(vPos.x, vPos.z, vNormal);
 	vNormal.Normalize();
 	vNormal.y = 0.0f;
 	float fM = vNormal.Magnitude();
@@ -997,7 +997,7 @@ float CPlayerMySelf::MoveSpeedCalculationAndCheckCollision() // Get the speed an
 	// if (fM > MAX_INCLINE_CLIMB && fD <= 0.0f )
 	// {
 	// }
-	if(fD &lt; 0) fSpeed *= 1.0f - (fM / 0.7071f); // Apply a factor according to the slope
+	if(fD < 0) fSpeed *= 1.0f - (fM / 0.7071f); // Apply a factor according to the slope
 	*/	
 	return m_fMoveSpeedPerSec;
 

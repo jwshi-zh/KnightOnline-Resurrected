@@ -252,7 +252,7 @@ void CDlgSetDTex::OnSelchangeComboFilelist()
 	int index;
 	index = m_FileList.GetCurSel();
 	Invalidate(FALSE);
-	//µý°Å ³Ö¾î¾ß µÅ...
+	//I need to put something else...
 }
 
 
@@ -486,7 +486,7 @@ void CDlgSetDTex::OnBtnDelgroup()
 				{
 					int TargetID;
 					
-					//2¹ø...
+					//No.2...
 					TargetID = pRefTerrain->m_ppMapData[ix][iz].DTexInfo2.Attr.Group;
 					if(TargetID==DelGroupID)
 					{
@@ -496,7 +496,7 @@ void CDlgSetDTex::OnBtnDelgroup()
 						pRefTerrain->m_ppMapData[ix][iz].DTexInfo2.TexIdx.TexID = -1;
 					}
 
-					//1¹ø...
+					//No.1...
 					TargetID = pRefTerrain->m_ppMapData[ix][iz].DTexInfo1.Attr.Group;
 					if(TargetID==DelGroupID)
 					{

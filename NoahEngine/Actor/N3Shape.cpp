@@ -195,7 +195,7 @@ void CN3SPart::Render() const
 			pAP->pwIndices			= m_PMInst.GetIndices();
 		}
 
-		return; // 렌더링 안하지롱.
+		return; // No rendering.
 	}
 
 //	static DWORD dwAlpha, dwFog, dwCull;
@@ -291,7 +291,7 @@ void CN3SPart::RenderSelected(bool bWireFrame)
 #ifdef _N3TOOL
 void CN3SPart::RenderAxis()
 {
-	// 축그리기..
+	// axis drawing...
 	float fRadius = 1.0f;
 	if(m_PMInst.GetMesh()) fRadius = m_PMInst.GetMesh()->Radius();
 	static CN3Transform TTmp;
@@ -343,7 +343,7 @@ bool CN3SPart::Save(HANDLE hFile)
 	__ASSERT(pPMesh, "Progressive mesh pointer is NULL!");
 	int nL = 0;
 	if (pPMesh) nL = pPMesh->FileName().size();
-	else MessageBox(GetActiveWindow(), "Progressive mesh pointer is NULL! : object가 제대로 보이지 않을 수 있습니다.(리소스 파일이 Load되지 않았을 가능성이 큼)", "warning", MB_OK);
+	else MessageBox(GetActiveWindow(), "Progressive mesh pointer is NULL! : The object may not be displayed properly. (It is highly likely that the resource file is not loaded)", "warning", MB_OK);
 
 	WriteFile(hFile, &nL, 4, &dwRWC, NULL); // Mesh FileName
 	if(nL > 0)
@@ -382,7 +382,7 @@ bool CN3SPart::Save(HANDLE hFile)
 			
 //			if(-1 == m_TexRefs[j]->FileName().find("object\\"))
 //			{
-//				// 폴더 이름을 분리하고..
+//				// Separate the folder names...
 //				char szDrive[_MAX_DRIVE], szDir[_MAX_DIR], szFName[_MAX_FNAME], szExt[_MAX_EXT];
 //				_splitpath(m_TexRefs[j]->FileName(), szDrive, szDir, szFName, szExt);
 //
@@ -479,7 +479,7 @@ void CN3SPart::PartialRender(int iCount, LPDIRECT3DINDEXBUFFER9 pIB)
 		s_lpD3DDev->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_DIFFUSE);
 	}
 
-	// 로딩할때 미리 계산해 놓은 월드 행렬 적용..
+	// Apply pre-calculated world matrix when loading..
 	s_lpD3DDev->SetTransform(D3DTS_WORLD, &m_Matrix);
 
 	m_PMInst.PartialRender(iCount, pIB);
@@ -563,7 +563,7 @@ void CN3SPart::PartialRender(int iCount, WORD* pIndices)
 
 	m_PMInst.PartialRender(iCount, pIndices);
 
-	if((m_Mtl.nRenderFlags & RF_NOTUSEFOG) && TRUE == dwFog) 		s_lpD3DDev->SetRenderState(D3DRS_FOGENABLE, TRUE); // 안개 사용하지 않는다..
+	if((m_Mtl.nRenderFlags & RF_NOTUSEFOG) && TRUE == dwFog) 		s_lpD3DDev->SetRenderState(D3DRS_FOGENABLE, TRUE); // No fog...
 	if((m_Mtl.nRenderFlags & RF_DOUBLESIDED) && D3DCULL_NONE != dwCull) 		s_lpD3DDev->SetRenderState(D3DRS_CULLMODE, dwCull);
 }
 #endif
@@ -672,7 +672,7 @@ void CN3Shape::Render()
 #ifdef _N3TOOL
 void CN3Shape::RenderSelected(bool bWireFrame)
 {
-	// 축그리기..
+	// axis drawing...
 	CN3Transform::Render(NULL, m_fRadius * 3.0f);
 
 	CN3SPart* pPD = NULL;
@@ -818,7 +818,7 @@ void CN3Shape::FindMinMax()
 	__Vector3 vMinTmp(0,0,0);
 	__Vector3 vMaxTmp(0,0,0);
 
-	// 가장 큰 지점찾기..
+	// Find the largest branch...
 	static __Matrix44 mtxWI;
 	D3DXMatrixInverse(&mtxWI, nullptr, &m_Matrix);
 	for(int i = 0; i < iPC; i++)

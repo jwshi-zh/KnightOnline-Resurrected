@@ -76,16 +76,16 @@ bool CRiverMesh::Load(HANDLE hFile)
 	DWORD dwNum;
 	int iLen; char szTextueFName[_MAX_PATH];
 
-	ReadFile(hFile, &m_iRiverID, sizeof(m_iRiverID), &dwNum, NULL);		// 강 번호
-	ReadFile(hFile, &m_fSpeed1, sizeof(m_fSpeed1), &dwNum, NULL);			// 유속
-	ReadFile(hFile, &m_fSpeed2, sizeof(m_fSpeed2), &dwNum, NULL);			// 유속2
-	ReadFile(hFile, &m_fMeterPerV, sizeof(m_fMeterPerV), &dwNum, NULL);	// U좌표 1.0에 해당하는 강의 길이
-	ReadFile(hFile, &m_fMeterPerU, sizeof(m_fMeterPerU), &dwNum, NULL);	// V좌표 1.0에 해당하는 강의 길이
-	ReadFile(hFile, &m_fMeterPerV2, sizeof(m_fMeterPerV2), &dwNum, NULL);// U2좌표 1.0에 해당하는 강의 길이
-	ReadFile(hFile, &m_fMeterPerU2, sizeof(m_fMeterPerU2), &dwNum, NULL);// V2좌표 1.0에 해당하는 강의 길이
-	ReadFile(hFile, &m_dwAlphaFactor, sizeof(m_dwAlphaFactor), &dwNum, NULL);	// 강을 투명하게 하기 위한 알파값
+	ReadFile(hFile, &m_iRiverID, sizeof(m_iRiverID), &dwNum, NULL); // river number
+	ReadFile(hFile, &m_fSpeed1, sizeof(m_fSpeed1), &dwNum, NULL); // flow rate
+	ReadFile(hFile, &m_fSpeed2, sizeof(m_fSpeed2), &dwNum, NULL); // flow rate 2
+	ReadFile(hFile, &m_fMeterPerV, sizeof(m_fMeterPerV), &dwNum, NULL); // The length of the river corresponding to the U coordinate 1.0
+	ReadFile(hFile, &m_fMeterPerU, sizeof(m_fMeterPerU), &dwNum, NULL); // The length of the river corresponding to V-coordinate 1.0
+	ReadFile(hFile, &m_fMeterPerV2, sizeof(m_fMeterPerV2), &dwNum, NULL);// Length of the river corresponding to U2 coordinate 1.0
+	ReadFile(hFile, &m_fMeterPerU2, sizeof(m_fMeterPerU2), &dwNum, NULL);//Length of the river corresponding to V2 coordinate 1.0
+	ReadFile(hFile, &m_dwAlphaFactor, sizeof(m_dwAlphaFactor), &dwNum, NULL); // alpha value to make the river transparent
 
-	ReadFile(hFile, &m_iVC, sizeof(m_iVC), &dwNum, NULL);			// 점 갯수
+	ReadFile(hFile, &m_iVC, sizeof(m_iVC), &dwNum, NULL); // number of points
 	if (m_iVC>0) ReadFile(hFile, m_pVertices, m_iVC*sizeof(__VertexXyzT2), &dwNum, NULL);	// vertex buffer
 	ReadFile(hFile, &m_iIC, sizeof(m_iIC), &dwNum, NULL);			// IndexBufferCount.
 	ReadFile(hFile, &iLen, sizeof(iLen), &dwNum, NULL);				// texture name length
@@ -100,7 +100,7 @@ bool CRiverMesh::Load(HANDLE hFile)
 	ReadFile(hFile, &m_fAnimTexFPS, sizeof(m_fAnimTexFPS), &dwNum, NULL);	// Anim Tex frame/sec
 	ReadFile(hFile, &m_iAnimTextureCount, sizeof(m_iAnimTextureCount), &dwNum, NULL);	// AnimTexture Count
 
-	__ASSERT(m_pAnimTextures == NULL, "강물 텍스쳐 포인터가 NULL이야야 합니다.");
+	__ASSERT(m_pAnimTextures == NULL, "river texture pointer must be NULL.");
 
 	if (m_iAnimTextureCount>0) m_pAnimTextures = new CN3Texture*[m_iAnimTextureCount];
 
@@ -108,7 +108,7 @@ bool CRiverMesh::Load(HANDLE hFile)
 	for (i=0; i<m_iAnimTextureCount; ++i)
 	{
 		ReadFile(hFile, &iLen, sizeof(iLen), &dwNum, NULL);	// texture name length
-		if (iLen <=0) { m_pAnimTextures[i] = NULL; __ASSERT(0, "텍스쳐가 없다"); continue;}
+		if (iLen <=0) { m_pAnimTextures[i] = NULL; __ASSERT(0, "no texture"); continue;}
 		ReadFile(hFile, szTextueFName, iLen, &dwNum, NULL);	// texture name
 		szTextueFName[iLen] = NULL;
 		m_pAnimTextures[i] = s_MngTex.Get(szTextueFName, TRUE);				// load texture
@@ -120,16 +120,16 @@ bool CRiverMesh::Save(HANDLE hFile)
 {
 	DWORD dwNum;
 
-	WriteFile(hFile, &m_iRiverID, sizeof(m_iRiverID), &dwNum, NULL);		// 강 번호
-	WriteFile(hFile, &m_fSpeed1, sizeof(m_fSpeed1), &dwNum, NULL);			// 유속1
-	WriteFile(hFile, &m_fSpeed2, sizeof(m_fSpeed2), &dwNum, NULL);			// 유속2
-	WriteFile(hFile, &m_fMeterPerV, sizeof(m_fMeterPerV), &dwNum, NULL);	// U좌표 1.0에 해당하는 강의 길이
-	WriteFile(hFile, &m_fMeterPerU, sizeof(m_fMeterPerU), &dwNum, NULL);	// V좌표 1.0에 해당하는 강의 길이
-	WriteFile(hFile, &m_fMeterPerV2, sizeof(m_fMeterPerV2), &dwNum, NULL);	// U2좌표 1.0에 해당하는 강의 길이
-	WriteFile(hFile, &m_fMeterPerU2, sizeof(m_fMeterPerU2), &dwNum, NULL);	// V2좌표 1.0에 해당하는 강의 길이
-	WriteFile(hFile, &m_dwAlphaFactor, sizeof(m_dwAlphaFactor), &dwNum, NULL);	// 강을 투명하게 하기 위한 알파값
+	WriteFile(hFile, &m_iRiverID, sizeof(m_iRiverID), &dwNum, NULL); // river number
+	WriteFile(hFile, &m_fSpeed1, sizeof(m_fSpeed1), &dwNum, NULL); // flow rate 1
+	WriteFile(hFile, &m_fSpeed2, sizeof(m_fSpeed2), &dwNum, NULL); // flow rate 2
+	WriteFile(hFile, &m_fMeterPerV, sizeof(m_fMeterPerV), &dwNum, NULL); // The length of the river corresponding to the U coordinate 1.0
+	WriteFile(hFile, &m_fMeterPerU, sizeof(m_fMeterPerU), &dwNum, NULL); // The length of the river corresponding to V-coordinate 1.0
+	WriteFile(hFile, &m_fMeterPerV2, sizeof(m_fMeterPerV2), &dwNum, NULL); // The length of the river corresponding to the U2 coordinate 1.0
+	WriteFile(hFile, &m_fMeterPerU2, sizeof(m_fMeterPerU2), &dwNum, NULL); // The length of the river corresponding to V2 coordinate 1.0
+	WriteFile(hFile, &m_dwAlphaFactor, sizeof(m_dwAlphaFactor), &dwNum, NULL); // alpha value to make the river transparent
 
-	WriteFile(hFile, &m_iVC, sizeof(m_iVC), &dwNum, NULL);				// 점 갯수
+	WriteFile(hFile, &m_iVC, sizeof(m_iVC), &dwNum, NULL); // number of points
 	if (m_iVC>0) WriteFile(hFile, m_pVertices, m_iVC*sizeof(__VertexXyzT2), &dwNum, NULL);	// vertex buffer
 	WriteFile(hFile, &m_iIC, sizeof(m_iIC), &dwNum, NULL);				// IndexBuffer Count.
 
@@ -148,7 +148,7 @@ bool CRiverMesh::Save(HANDLE hFile)
 	int i;
 	for (i=0; i<m_iAnimTextureCount; ++i)
 	{
-		__ASSERT(m_pAnimTextures[i], "강물 텍스쳐 포인터가 NULL입니다.");
+		__ASSERT(m_pAnimTextures[i], "river texture pointer is NULL.");
 		int iLen = m_pAnimTextures[i]->FileName().size();
 		WriteFile(hFile, &iLen, sizeof(iLen), &dwNum, NULL);				// texture name length
 		if (iLen>0)
@@ -180,14 +180,14 @@ void CRiverMesh::Render()
 		s_lpD3DDev->GetTextureStageState(0, D3DTSS_ALPHAOP, &dwAlphaOP);
 		s_lpD3DDev->GetTextureStageState(0, D3DTSS_ALPHAARG1, &dwAlphaArg1);
 
-		if ((m_dwAlphaFactor & 0xff000000) != 0xff000000)	// alpha factor 설정하기
+		if ((m_dwAlphaFactor & 0xff000000) != 0xff000000)	// Setting the alpha factor
 		{
-			// render state 세팅
+			// Set render state
 			s_lpD3DDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 			s_lpD3DDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 			s_lpD3DDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-			s_lpD3DDev->SetRenderState(D3DRS_TEXTUREFACTOR, m_dwAlphaFactor);	// alpha factor 설정
-			// texture state 세팅(alpha)
+			s_lpD3DDev->SetRenderState(D3DRS_TEXTUREFACTOR, m_dwAlphaFactor);	// alpha factor setting
+			// Setting the texture state (alpha)
 			s_lpD3DDev->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
 			s_lpD3DDev->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TFACTOR);
 			s_lpD3DDev->SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
@@ -249,7 +249,7 @@ void CRiverMesh::Render()
 
 }
 
-void CRiverMesh::RenderVertexPoint()	// 잘보이게 점만 다시 그리기
+void CRiverMesh::RenderVertexPoint()	// Redraw only dots to make them visible
 {
 	if (m_iVC == 0 || m_pVertices == NULL) return;
 	HRESULT hr;
@@ -291,7 +291,7 @@ void CRiverMesh::RenderVertexPoint()	// 잘보이게 점만 다시 그리기
 		if (iScreenX >= (int)vp.X && iScreenX <= (int)vp.Width &&
 			iScreenY >= (int)vp.Y && iScreenY <= (int)vp.Height)
 		{
-			// set X (점을 찍으면 1픽셀밖에 안찍으므로 X표시를 그린다.
+			// set X (If you mark a dot, you only mark 1 pixel, so draw an X mark.
 			Vertices[0].Set(float(iScreenX-2), float(iScreenY-2), 0.5f, 0.5f, clr);
 			Vertices[1].Set(float(iScreenX+2), float(iScreenY+2), 0.5f, 0.5f, clr);
 			Vertices[2].Set(float(iScreenX+2), float(iScreenY-2), 0.5f, 0.5f, clr);
@@ -336,7 +336,7 @@ int CRiverMesh::AddVertex()
 		return m_iVC;
 	}
 
-	// 기존 마지막 두점과 직각인 방향 구하기(카메라와의 거리에 따라서 offset값이 달라짐.)
+	// Finding the direction orthogonal to the last two existing points (the offset value varies depending on the distance from the camera.)
 	__Vector3 v1, v2, v3, vDir, vDiff, v4, v5;
 	v1 = m_pVertices[m_iVC-4];	v2 = m_pVertices[m_iVC-3];
 	v3 = m_pVertices[m_iVC-2];	v4 = m_pVertices[m_iVC-1];
@@ -393,7 +393,7 @@ BOOL CRiverMesh::SetAnimTextureName(LPCTSTR pszFName, LPCTSTR pszExt, int iCount
 {
 	ReleaseAnimTextures();
 	if (lstrlen(pszFName)==0 || iCount <= 0) return FALSE;
-	__ASSERT(iCount<100, "강물 에니메이션 텍스쳐가 너무 많습니다.");
+	__ASSERT(iCount<100, "Too many river animation textures.");
 	m_iAnimTextureCount = iCount;
 	m_pAnimTextures = new CN3Texture*[m_iAnimTextureCount];
 
@@ -434,7 +434,7 @@ void CRiverMesh::ReCalcUV()
 	float fUPerMeter2 = 1.0f/m_fMeterPerU2;
 	float fVPerMeter2 = 1.0f/m_fMeterPerV2;
 
-	// 처음 두점 설정하기
+	// Set the first two points
 	__Vector3 vDiff; float fDiff;
 	vDiff = (__Vector3)m_pVertices[0].v - (__Vector3)m_pVertices[1].v;
 	fDiff = vDiff.Magnitude()*fUPerMeter/2;
@@ -444,7 +444,7 @@ void CRiverMesh::ReCalcUV()
 	m_pVertices[0].tu2 = 0.5f - fDiff;	m_pVertices[1].tu2 = 0.5f + fDiff;
 	m_pVertices[0].tv2 = 0.0f;			m_pVertices[1].tv2 = 0.0f;
 
-	// 나머지 점 계산하기
+	// Calculate Remaining Points
 	for (i=1; i<iCount; ++i)
 	{
 		// U

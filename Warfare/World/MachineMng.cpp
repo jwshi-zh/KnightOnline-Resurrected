@@ -112,7 +112,7 @@ void CMachineMng::AddMachine(ReplyMsg& RPMsg)
 	// if (lstrlen(RPMsg.s_cprscID) == 0) return;
 
 	char szFileName[_MAX_PATH] = "misc\\machines\\catapult.mcn";
-	FILE* stream = fopen(szFileName, &quot;r&quot;); // create a text file
+	FILE* stream = fopen(szFileName, "r"); // create a text file
 	#if _DEBUG
 	char szErr[512];
 	if(NULL == stream)
@@ -123,7 +123,7 @@ void CMachineMng::AddMachine(ReplyMsg& RPMsg)
 #endif
 
 char szMachineType[64]; // machine type
-int result = fscanf(stream, &quot;Machine_Type = %s\n&quot;, szMachineType); __ASSERT(result != EOF, &quot;Invalid Machine Settings File&quot;);
+int result = fscanf(stream, "Machine_Type = %s\n", szMachineType); __ASSERT(result != EOF, "Invalid Machine Settings File");
 	CMachineBase* pMachine = NULL;
 
 	if (lstrcmpi(szMachineType, "catapult") == 0)

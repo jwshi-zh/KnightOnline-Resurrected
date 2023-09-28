@@ -69,7 +69,7 @@ bool CUIQuestMenu::Load(HANDLE hFile)
 
 void CUIQuestMenu::Render()
 {
-	if (!m_bVisible) return;	// If not visible, don&#39;t render the children.
+	if (!m_bVisible) return;	// If not visible, don't render the children.
 
 	for(auto itor = m_ReSizeChildren.rbegin(); m_ReSizeChildren.rend() != itor; ++itor)
 	{
@@ -352,7 +352,7 @@ void CUIQuestMenu::Open(DataPack *pDataPack, int &iOffset)
 	m_pImageBCenter->SetRegion(rcTemp);
 
 
-	// This resets the default toddler&#39;s area...
+	// This resets the default toddler's area...
 	const int iWidth = CN3Base::s_CameraData.vp.Width;
 	const int iHeight = CN3Base::s_CameraData.vp.Height;
 	int iX = 0, iY = 0;

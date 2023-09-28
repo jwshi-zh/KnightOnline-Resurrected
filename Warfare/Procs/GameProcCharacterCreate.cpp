@@ -120,7 +120,7 @@ void CGameProcCharacterCreate::SetChr()
 
 void CGameProcCharacterCreate::Tick()
 {
-	// s_pLocalInput-&gt;Tick(); // Receive input from keyboard and mouse.
+	// s_pLocalInput->Tick(); // Receive input from keyboard and mouse.
 	// if(dwMouseFlags & MOUSE_LBDOWN) SetCursor(s_hCursorClick);
 	// else SetCursor(s_hCursorNormal);
 
@@ -159,7 +159,7 @@ bool CGameProcCharacterCreate::MsgSendCharacterCreate()
 	{
 		eErrCode = ERROR_CHARACTER_CREATE_INVALID_RACE;
 	}
-	// else if(RACE_KA_WRINKLETUAREK == s_pPlayer-&gt;m_InfoBase.eRace) // Wizard cannot be selected..
+	// else if(RACE_KA_WRINKLETUAREK == s_pPlayer->m_InfoBase.eRace) // Wizard cannot be selected..
 	// {
 	// eErrCode = ERROR_CHARACTER_CREATE_NOT_SUPPORTED_RACE;
 	// }
@@ -190,7 +190,7 @@ bool CGameProcCharacterCreate::MsgSendCharacterCreate()
 				'*' == szID[i] || 
 				'(' == szID[i] || 
 				')' == szID[i] || 
-				// &#39;_&#39; == szID[i] ||
+				// '_' == szID[i] ||
 				'-' == szID[i] || 
 				'+' == szID[i] || 
 				'=' == szID[i] || 

@@ -18,7 +18,7 @@ CDFont::CDFont(const std::string& szFontName, DWORD dwHeight, DWORD dwFlags)
 		const HFONT hFont			= CreateFont( 0, 0, 0, 0, 0, FALSE,
 					                               FALSE, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS,
 					                               CLIP_DEFAULT_PRECIS, ANTIALIASED_QUALITY,
-					                               VARIABLE_PITCH, "굴림");
+					                               VARIABLE_PITCH, "Arial");
 		if(hFont)
 		{
 			s_hFontOld = (HFONT)(SelectObject( s_hDC, hFont ));
@@ -313,7 +313,7 @@ HRESULT CDFont::SetText(const std::string& szText, DWORD dwFlags)
 
 	if (nullptr == hbmBitmap)
 	{
-		__ASSERT(0, "CreateDIBSection 실패");
+		__ASSERT(0, "CreateDIBSection failed");
 		if (m_pTexture) {m_pTexture->Release(); m_pTexture = nullptr;}
 		return E_FAIL;
 	}
@@ -378,7 +378,7 @@ HRESULT CDFont::SetText(const std::string& szText, DWORD dwFlags)
 
 			if(lpSurfSrc && lpSurfDest)
 			{
-				::D3DXLoadSurfaceFromSurface(lpSurfDest, nullptr, nullptr, lpSurfSrc, nullptr, nullptr, D3DX_FILTER_TRIANGLE, 0); // 서피스 복사
+				::D3DXLoadSurfaceFromSurface(lpSurfDest, nullptr, nullptr, lpSurfSrc, nullptr, nullptr, D3DX_FILTER_TRIANGLE, 0); // copy surface
 			}
 
 			if(lpSurfSrc) lpSurfSrc->Release();

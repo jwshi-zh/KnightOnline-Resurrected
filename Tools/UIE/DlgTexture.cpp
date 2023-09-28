@@ -120,7 +120,7 @@ void CDlgTexture::OnOK()
 {
 	ASSERT(m_pTexViewer);
 	if (m_iImageTypeCount>0)
-	{	// 모두 영역 선택이 되었나 체크
+	{	// Check if all areas are selected
 		int i;
 		for (i=0; i<m_iImageTypeCount; ++i)
 		{
@@ -128,7 +128,7 @@ void CDlgTexture::OnOK()
 			{
 				CString str, strLBText;
 				m_ImageType.GetLBText(i, strLBText);
-				str.Format("Area of %s is not selected.", strLBText);
+				str.Format("%s area is not selected.", strLBText);
 				MessageBox(str);
 				return;
 			}
@@ -138,7 +138,7 @@ void CDlgTexture::OnOK()
 	else
 	{
 		if (-1 != m_pTexViewer->GetSelectedRect().left)	CDialog::OnOK();
-		else MessageBox("No area selected.");
+		else MessageBox("Area not selected.");
 	}
 }
 
@@ -227,6 +227,7 @@ void CDlgTexture::Resize()
 		pWnd = GetDlgItem(IDC_STATIC_INFO);
 		pWnd->GetWindowRect(&rc);
 
+		// Placing the texture window
 		int iTexViewerWidth = rcClient.Width()-rc.Width()-iOffset;
 		int iTexViewerHeight = rcClient.Height();
 		if (iTexViewerWidth<0) iTexViewerWidth = 0;
@@ -235,6 +236,7 @@ void CDlgTexture::Resize()
 		else if (iTexViewerHeight > pFrm->m_Eng.s_DevParam.BackBufferHeight) iTexViewerHeight = pFrm->m_Eng.s_DevParam.BackBufferHeight;
 		m_pTexViewer->MoveWindow(0, 0, iTexViewerWidth, iTexViewerHeight);
 
+		// Place the buttons
 		pWnd = GetDlgItem(IDC_STATIC_INFO);
 		pWnd->GetWindowRect(&rc);
 		CPoint ptCtrl(rcClient.Width()-rc.Width(), 0);
@@ -279,7 +281,7 @@ BOOL CDlgTexture::GetSelectedUVRect(struct __FLOAT_RECT* pFRect) const
 	return m_pTexViewer->GetSelectedUVRect(pFRect);
 }
 
-void CDlgTexture::SetSelectedUVRect(const __FLOAT_RECT* pFRect)
+void CDlgTexture::SetSelectedUVRect(const __FLOAT_RECT* pFRect)	// Put the currently selected UV coordinates
 {
 	if (NULL == m_pTexViewer) return;
 	m_pTexViewer->SetSelectedUVRect(pFRect);

@@ -216,7 +216,7 @@ void CGameProcCharacterSelect::Tick()
 	// background..
 	m_pActiveBg->Tick();
 
-	if(s_pUIMgr->m_bDoneSomething == false && s_pUIMgr->EnableOperation()) // Don&#39;t do anything before receiving the packet.
+	if(s_pUIMgr->m_bDoneSomething == false && s_pUIMgr->EnableOperation()) // Don't do anything before receiving the packet.
 	{
 		s_pUIMgr->SetFocusedUI(m_pUICharacterSelect);
 		const int nMFlags = s_pLocalInput->MouseGetFlag();					// Mouse state flags..
@@ -331,7 +331,7 @@ void CGameProcCharacterSelect::AddChr(e_ChrPos eCP, __CharacterSelectInfo* pInfo
 		m_pChrs[iPosIndex]->Release();
 
 	__TABLE_PLAYER_LOOKS* pLooks = s_pTbl_UPC_Looks->Find(pInfo->eRace);	// User Player Character Skin structure pointer..
-	__ASSERT(pLooks, "Table 에서 기본 리소스 찾기 실패.");
+	__ASSERT(pLooks, "Failed to find default resource in Table.");
 
 	m_pChrs[iPosIndex]->PartAlloc(PART_POS_COUNT);
 	m_pChrs[iPosIndex]->PlugAlloc(PLUG_POS_COUNT);
@@ -694,7 +694,7 @@ void CGameProcCharacterSelect::ProcessOnReturn()
 		}
 
 		s_SndMgr.ReleaseStreamObj(&(CGameProcedure::s_pSnd_BGM));
-		CGameProcedure::ProcActiveSet((CGameProcedure*)s_pProcMain); // If you succeed in choosing a character... let&#39;s go to the main!!
+		CGameProcedure::ProcActiveSet((CGameProcedure*)s_pProcMain); // If you succeed in choosing a character... let's go to the main!!
 // CGameProcedure::s_pEng->RestoreLighting();
 		this->s_pUILoading->Render("Loading data...", 0);
 	}
@@ -1068,7 +1068,7 @@ void CGameProcCharacterSelect::DoSelectedChrProc()
 	else
 	{
 		s_SndMgr.ReleaseStreamObj(&(CGameProcedure::s_pSnd_BGM));
-		CGameProcedure::ProcActiveSet((CGameProcedure*)s_pProcMain); // After receiving the character.. and the animation is over, let&#39;s move on to the main..!!
+		CGameProcedure::ProcActiveSet((CGameProcedure*)s_pProcMain); // After receiving the character.. and the animation is over, let's move on to the main..!!
 // CGameProcedure::s_pEng->RestoreLighting();
 	}
 }

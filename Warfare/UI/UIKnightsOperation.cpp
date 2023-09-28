@@ -226,7 +226,7 @@ void CUIKnightsOperation::Close()
 {
 	this->KnightsListClear(); // Knight information clear
 	this->SetVisible(false);
-	if(m_pEdit_KnightsName) m_pEdit_KnightsName->KillFocus(); // This way there won&#39;t be any problems elsewhere.
+	if(m_pEdit_KnightsName) m_pEdit_KnightsName->KillFocus(); // This way there won't be any problems elsewhere.
 }
 
 bool CUIKnightsOperation::MsgRecv_KnightsList(DataPack* pDataPack, int& iOffset)

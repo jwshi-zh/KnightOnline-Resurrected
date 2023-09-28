@@ -88,7 +88,7 @@ DWORD CUIHotKeyDlg::MouseProc(DWORD dwFlags, const POINT& ptCur, const POINT& pt
 {
 	DWORD dwRet = UI_MOUSEPROC_NONE;
 	if ( !IsVisible() ) { dwRet |= CN3UIBase::MouseProc(dwFlags, ptCur, ptOld);  return dwRet; }
-	// don&#39;t actually use it...
+	// don't actually use it...
 	if (CN3UIWndBase::m_sRecoveryJobInfo.m_bWaitFromServer) { dwRet |= CN3UIBase::MouseProc(dwFlags, ptCur, ptOld);  return dwRet; }
 
 	// Renew dragged icon..
@@ -279,7 +279,7 @@ void CUIHotKeyDlg::Render()
 	bool bTooltipRender = false;
 	__IconItemSkill* pSkill = nullptr;
 
-	if (!m_bVisible) return;	// If not visible, don&#39;t render the children.
+	if (!m_bVisible) return;	// If not visible, don't render the children.
 	DisableTooltipDisplay();
 	DisableCountStrDisplay();
 
@@ -698,7 +698,7 @@ void CUIHotKeyDlg::DoOperate(__IconItemSkill*	pSkill)
 
 	// char szBuf[512];
 	// message box output.
-	// wsprintf(szBuf, &quot;Skill %s has been used.&quot;, pSkill-&gt;pSkill-&gt;szName.c_str() );
+	// wsprintf(szBuf, "Skill %s has been used.", pSkill->pSkill->szName.c_str() );
 	// CGameProcedure::s_pProcMain->MsgOutput(szBuf, 0xffffff00);
 
 	PlayRepairSound();
@@ -826,7 +826,7 @@ int CUIHotKeyDlg::GetCountCurPageIndex(__IconItemSkill* spSkill)
 bool CUIHotKeyDlg::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 {
 	bool bFound = false;
-	// If it&#39;s not the icon I had...
+	// If it's not the icon I had...
 	if ( CN3UIWndBase::m_sSelectedIconInfo.UIWndSelect.UIWnd != UIWND_INVENTORY )
 		return false;
 	else

@@ -35,7 +35,7 @@ const BYTE WAREHOUSE_MAX	= 196;
 #define SERVER_INFO_START			0X01
 #define SERVER_INFO_END				0X02
 
-//////////////  Quest 관련 Define ////////////////////////////
+//////////////  Quest related definitions ////////////////////////////
 #define MAX_EVENT					2000
 #define MAX_EVENT_SIZE				400
 #define MAX_EVENT_NUM				2000

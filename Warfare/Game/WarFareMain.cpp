@@ -83,7 +83,7 @@ LRESULT CALLBACK OYBLowLevelKeyboardProc (INT nCode, WPARAM wParam, LPARAM lPara
 					if (pkbhs->vkCode == VK_ESCAPE && pkbhs->flags & LLKHF_ALTDOWN)			    
 						return 1;			
 					// Disable WINDOWS keys
-					if (pkbhs-&gt;vkCode == VK_LWIN || pkbhs-&gt;vkCode == VK_RWIN)
+					if (pkbhs->vkCode == VK_LWIN || pkbhs->vkCode == VK_RWIN)
 						return 1;					
 						break;        
 				}        
@@ -523,14 +523,14 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 				{
 					fTimePrev = fTime;
 
-					sprintf(szDebugs[0], "지형 : 보통(%d) 타일(%d) || Object : 갯수(%d) 부분수(%d) 폴리곤(%d)",
+					sprintf(szDebugs[0], "Terrain: normal (%d) tile (%d) || Object: number (%d) number of parts (%d) polygon(%d)",
 						CN3Base::s_RenderInfo.nTerrain_Polygon,
 						CN3Base::s_RenderInfo.nTerrain_Tile_Polygon,
 						CN3Base::s_RenderInfo.nShape,
 						CN3Base::s_RenderInfo.nShape_Part,
 						CN3Base::s_RenderInfo.nShape_Polygon);
 					
-					sprintf(szDebugs[1], "캐릭터 : 갯수(%d), 파트수(%d), 폴리곤(%d), 무기(%d), 무기폴리곤(%d)", 
+					sprintf(szDebugs[1], "Character: number (%d), number of parts (%d), polygon (%d), weapon (%d), inorganic polygon(%d)", 
 						CN3Base::s_RenderInfo.nChr,
 						CN3Base::s_RenderInfo.nChr_Part,
 						CN3Base::s_RenderInfo.nChr_Polygon,
@@ -546,7 +546,7 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 					{
 						int iYear = 0, iMonth = 0, iDay = 0, iH = 0, iM = 0;
 						CGameBase::ACT_WORLD->GetSkyRef()->GetGameTime(&iYear, &iMonth, &iDay, &iH, &iM);
-						sprintf(szDebugs[3], "%.2f Frm/Sec, %d년%d월%d일 %d시%d분", CN3Base::s_fFrmPerSec, iYear, iMonth, iDay, iH, iM);
+						sprintf(szDebugs[3], "%.2f Frm/Sec, %d year %d month %d day %d hour %d minute", CN3Base::s_fFrmPerSec, iYear, iMonth, iDay, iH, iM);
 					}
 					else szDebugs[3][0] = NULL;
 				}

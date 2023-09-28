@@ -46,7 +46,7 @@ void CN3UIString::Init(CN3UIBase* pParent)
 	CN3UIBase::Init(pParent);
 
 	if(m_pDFont) delete m_pDFont; m_pDFont = nullptr;
-	m_pDFont = new CDFont("굴림", 16);	// Roll 16 by default
+	m_pDFont = new CDFont("Arial", 16);	// Roll 16 by default
 	m_pDFont->InitDeviceObjects( CN3Base::s_lpD3DDev );
 	m_pDFont->RestoreDeviceObjects();
 }
@@ -129,7 +129,7 @@ void CN3UIString::WordWrap()
 			{
 				// Measure the pixel length of a string
 				SIZE sizeTmp = {0, 0};
-				m_pDFont->GetTextExtent("가", 2, &sizeTmp);
+				m_pDFont->GetTextExtent(" ", 2, &sizeTmp);
 				m_ptDrawPos.y = m_rcRegion.top + ((m_rcRegion.bottom - m_rcRegion.top-sizeTmp.cy)/2);
 			}
 			else m_ptDrawPos.y = m_rcRegion.top;
@@ -164,7 +164,7 @@ void CN3UIString::WordWrap()
 		if (false && size.cy>iRegionHeight)	// If the text height is greater than the area
 		{	
 			m_ptDrawPos.y = m_rcRegion.top;
-			// m_pDFont-&gt;SetText(&quot;The text height is greater than the STRING control.&quot;);
+			// m_pDFont->SetText("The text height is greater than the STRING control.");
 			// return;
 		}
 		else if (size.cx <= iRegionWidth)	// If the width of the text is less than the length of the area
@@ -232,13 +232,13 @@ void CN3UIString::WordWrap()
 		int iCount = 0;
 
 		// First of all, check if the first line can fit
-		const BOOL bFlag = m_pDFont->GetTextExtent("최", 2, &size);
+		const BOOL bFlag = m_pDFont->GetTextExtent(" ", 2, &size);
 		__ASSERT(bFlag, "cannot get size of dfont");
 		// iCY += size.cy;
 		// if (iCY > iRegionHeight)
 		if (size.cy > iRegionHeight)
 		{
-			// m_pDFont-&gt;SetText(&quot;The text height is greater than the STRING control.&quot;);
+			// m_pDFont->SetText("The text height is greater than the STRING control.");
 			// return;
 		}
 
@@ -251,7 +251,7 @@ void CN3UIString::WordWrap()
 			{
 				// szNewBuff += '\n';
 				// iCY += size.cy;
-				// if (iCY &gt; iRegionHeight) break; // If the vertical range is exceeded, no more text is printed.
+				// if (iCY > iRegionHeight) break; // If the vertical range is exceeded, no more text is printed.
 				++iCount;
 				iCX = 0;
 				if (iCount<iStrLen-1)
@@ -270,10 +270,10 @@ void CN3UIString::WordWrap()
 				__ASSERT(bFlag, "cannot get size of dfont");
 				if ((iCX+size.cx) > iRegionWidth)	// If the width exceeds
 				{
-					// szNewBuff += &#39;\n&#39;; // down to the next line
+					// szNewBuff += '\n'; // down to the next line
 					iCX = 0;
 					// iCY += size.cy;
-					// if (iCY &gt; iRegionHeight) break; // If the vertical range is exceeded, no more text is printed.
+					// if (iCY > iRegionHeight) break; // If the vertical range is exceeded, no more text is printed.
 					if (iCount<iStrLen-1)
 					{
 						++m_iLineCount;	// Add one line if not the last character
@@ -298,7 +298,7 @@ void CN3UIString::SetStartLine(int iLine)
 	m_iStartLine = iLine;
 
 	SIZE size = {0,0};
-	const BOOL bFlag = m_pDFont->GetTextExtent("최", 2, &size);
+	const BOOL bFlag = m_pDFont->GetTextExtent(" ", 2, &size);
 	__ASSERT(bFlag, "cannot get size of dfont");
 	if (0 == size.cy) return;
 
@@ -356,8 +356,8 @@ bool CN3UIString::Load(HANDLE hFile)
 #ifdef _N3TOOL
 	else
 	{
-		SetFont("굴림", 10, FALSE, FALSE);	// Temporarily set font
-		MessageBox(GetActiveWindow(), "폰트가 지정되지 않은 UIString이 있어서 굴림(10)으로 설정하였습니다.", "No font", MB_OK);
+		SetFont("Arial", 10, FALSE, FALSE);	// Temporarily set font
+		MessageBox(GetActiveWindow(), "I set it to Arial(10) because there was a UIString with no font specified..", "No font", MB_OK);
 	}
 #else
 	__ASSERT(iStrLen>0, "No font name");
@@ -445,7 +445,7 @@ void CN3UIString::ChangeFont(const std::string& szFont)
 int CN3UIString::GetStringRealWidth(int iNum) const
 {
 	SIZE size;
-	const BOOL bFlag = m_pDFont->GetTextExtent("가", lstrlen("가"), &size);
+	const BOOL bFlag = m_pDFont->GetTextExtent(" ", lstrlen(" "), &size);
 	__ASSERT(bFlag, "cannot get size of dfont");
 	const int iLength = iNum/2;
 	if (iLength == 0) return 0;

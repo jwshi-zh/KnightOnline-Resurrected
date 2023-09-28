@@ -70,7 +70,7 @@ void CN3FXMgr::TriggerBundle(int SourceID, int SourceJoint, int FXID, int Target
 		m_ListBundle.push_back(pBundle);
 		pSrc->iNum++;
 	}
-	else	// doesn&#39;t have the same effect.
+	else	// doesn't have the same effect.
 	{
 		auto pSrc = new FXBUNDLEORIGIN;
 		pSrc->pBundle = new CN3FXBundleGame;
@@ -126,7 +126,7 @@ void CN3FXMgr::TriggerBundle(int SourceID, int SourceJoint, int FXID, __Vector3 
 		m_ListBundle.push_back(pBundle);
 		pSrc->iNum++;
 	}
-	else	// doesn&#39;t have the same effect.
+	else	// doesn't have the same effect.
 	{
 		auto pSrc = new FXBUNDLEORIGIN;
 		pSrc->pBundle = new CN3FXBundleGame;
@@ -262,7 +262,7 @@ void CN3FXMgr::Tick()
 		itOrigin++;
 	}
 	// TRACE("Origin Bundle Count : %d \n", m_OriginBundle.size());
-	// TRACE(&quot;Number of currently used effects: %d \n&quot;, m_ListBundle.size());
+	// TRACE("Number of currently used effects: %d \n", m_ListBundle.size());
 
 	auto it = m_ListBundle.begin();
 	// std::list<CN3FXBundleGame*>::iterator it = m_ListBundle.begin();
@@ -293,9 +293,9 @@ void CN3FXMgr::Tick()
 		}		
 		
 		// I shot...
-		// After checking if pBundle-&gt;m_iMoveType and alive
+		// After checking if pBundle->m_iMoveType and alive
 		// The field of view test is on hold...if so...not with the view frustum...
-		// Get the distance between the player and the obj, and if it&#39;s over a certain distance, get rid of it.
+		// Get the distance between the player and the obj, and if it's over a certain distance, get rid of it.
 		// collision check
 /*	
 		if(pBundle->m_iMoveType != FX_BUNDLE_MOVE_NONE &&

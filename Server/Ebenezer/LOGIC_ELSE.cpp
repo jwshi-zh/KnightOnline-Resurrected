@@ -101,9 +101,6 @@ void LOGIC_ELSE::Parse_and(char *pBuf)
 
 		index += ParseSpace( temp, pBuf+index );	m_LogicElseInt[i++] = atoi( temp );		// Chances of you hitting the jackpot		
 	}
-//
-	// ���� ��������� ���Դϴ�. �Ʒ��� ���߿� �°� �����ؼ� ������.
-
 
 /*
 	if( !strcmp( temp, "CHECK_NATION" ) )

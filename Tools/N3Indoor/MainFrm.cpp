@@ -82,13 +82,13 @@ static UINT indicators[] =
 CMainFrame::CMainFrame()
 {
 	// TODO: add member initialization code here
-	m_eState = STATE_EDIT;										// 상태 변수들..
+	m_eState = STATE_EDIT;										// state variables..
 	m_eSelectState = SELECT_STATE_PVOLUMN;
 	m_dwRenderingOption = dw_Render_None;	
 
-	m_pDlgSourceList = NULL;							// Object 목록을 보여줄 다이알로그
-	m_pDlgOutputList = NULL;							// 맵에 배치한 Object를 보여줄 다이알로그
-	m_pSceneSource = NULL;					// source object 목록에 보여줄 것들을 담은 Scene
+	m_pDlgSourceList = NULL;							// Dialog to show object list
+	m_pDlgOutputList = NULL;							// Dialog to show objects placed on the map
+	m_pSceneSource = NULL;					// A Scene containing the things to show in the source object list
 
 	m_pDummy = NULL;
 
@@ -115,7 +115,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	}
 
 	if(m_Eng.Init(TRUE, m_hWnd, 64, 64, 0, TRUE) == false) return 0;
-	m_Eng.GridCreate(300, 300); // 그리드 만들기..
+	m_Eng.GridCreate(300, 300); // Create grid..
 
 	m_Camera.EyePosSet(cvInitEyeOffset);
 
@@ -163,7 +163,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_dwRenderingOption = dw_Render_None;
 	m_eEditState = EDIT_SELECT;
 
-	// 경로 설정..
+	// set route...
 	std::string str;
 	char szPathCur[256] = "";
 	GetCurrentDirectory(256, szPathCur);
@@ -353,7 +353,7 @@ void CMainFrame::OnUpdateViewOutputobject(CCmdUI* pCmdUI)
 CN3Transform* CMainFrame::AddChr(CN3Scene* pDestScene, const std::string& szFN, BOOL bGenerateChainNumber)
 {
 	CN3Chr* pChr = new CN3Chr;
-	if(false == pChr->LoadFromFile(szFN)) // 부르기가 실패하면..
+	if(false == pChr->LoadFromFile(szFN)) // If the call fails...
 	{
 		delete pChr;
 		return NULL;
@@ -370,8 +370,8 @@ CN3Transform* CMainFrame::AddChr(CN3Scene* pDestScene, const std::string& szFN, 
 			int nL = lstrlen(szCompare);
 			if(nL < 5) continue;
 
-			szCompare[nL-5] = NULL; // 뒤에 붙는 언더바와 네자리 번호는 뺀다..
-			if(pChr->m_szName == szCompare) // 이름이 같으면..
+			szCompare[nL-5] = NULL; // Remove the trailing underscore and four-digit number.
+			if(pChr->m_szName == szCompare)
 			{
 				nChainNumber = atoi(&(szCompare[nL-4])) + 1;
 			}
@@ -379,7 +379,7 @@ CN3Transform* CMainFrame::AddChr(CN3Scene* pDestScene, const std::string& szFN, 
 
 		char szName[_MAX_PATH];
 		wsprintf(szName, "%s_%.4d", pChr->m_szName.c_str(), nChainNumber);
-		pChr->m_szName = szName; // .. 이름을 짓는다..
+		pChr->m_szName = szName;
 	}
 
 	pDestScene->ChrAdd(pChr);
@@ -389,13 +389,13 @@ CN3Transform* CMainFrame::AddChr(CN3Scene* pDestScene, const std::string& szFN, 
 CN3Transform* CMainFrame::AddShape(CN3Scene* pDestScene, const std::string& szFN, BOOL bGenerateChainNumber)	
 {
 	CN3Shape* pShape = new CN3Shape;
-	if(false == pShape->LoadFromFile(szFN)) // 부르기가 실패하면..
+	if(false == pShape->LoadFromFile(szFN)) //	If the call fails...
 	{
 		delete pShape;
 		return NULL;
 	}
 
-	pDestScene->ShapeAdd(pShape); // 추가 하고
+	pDestScene->ShapeAdd(pShape); // add
 	return pShape;
 }
 
@@ -407,10 +407,10 @@ void CMainFrame::LoadSourceObjects()
 
 	WIN32_FIND_DATA FindFileData;
 
-	// source\Chr 폴더의 모든 캐릭터 추가
+	// Add all characters from source\Chr folder
 	CString szChrPath;
 	szChrPath.Format("%sChr\\", CN3Base::s_szPath.c_str());
-	SetCurrentDirectory(szChrPath); // szFolder\Chr 폴더로 경로를 바꾸고..
+	SetCurrentDirectory(szChrPath); // Change the path to the szFolder\Chr folder.
 	HANDLE hFind = FindFirstFile("*.N3Chr", &FindFileData);
 
 	if (hFind != INVALID_HANDLE_VALUE)
@@ -423,11 +423,10 @@ void CMainFrame::LoadSourceObjects()
 		FindClose(hFind);
 	}
 
-	// source\Data 폴더의 모든 shape 추가
 	CString szShapePath;
 	szShapePath.Format("%sObject\\", CN3Base::s_szPath.c_str());
-	SetCurrentDirectory(szShapePath); // szFolder\Mesh 폴더로 경로를 바꾸고..
-	hFind = FindFirstFile("*.N3Shape", &FindFileData); // 파일 찾기.
+	SetCurrentDirectory(szShapePath);
+	hFind = FindFirstFile("*.N3Shape", &FindFileData);
 
 	if (hFind != INVALID_HANDLE_VALUE)
 	{
@@ -439,8 +438,8 @@ void CMainFrame::LoadSourceObjects()
 		FindClose(hFind);
 	}	
 
-	m_pSceneSource->Tick();	// Object 초기화
-	m_pDlgSourceList->UpdateTree(m_pSceneSource);	// 목록 갱신
+	m_pSceneSource->Tick();
+	m_pDlgSourceList->UpdateTree(m_pSceneSource); // update list
 }
 
 void CMainFrame::RefreshSourceObjects()
@@ -471,12 +470,12 @@ void CMainFrame::RefreshSourceObjects()
 	}
 }
 
-void CMainFrame::OutputDlgRefresh()	// 소스목록에서 선택한 Object를 넣으면 OutputScene으로 복사해서 넣어준다.
+void CMainFrame::OutputDlgRefresh()	// If you put the object selected in the source list, it is copied and put into the OutputScene.
 {
 	m_pDlgOutputList->UpdateTree();
 }
 
-void CMainFrame::RenderObjectToWindow(CN3TransformCollision* pObj, HWND hWnd)	// 특정 윈도우에 Object를 그려준다.
+void CMainFrame::RenderObjectToWindow(CN3TransformCollision* pObj, HWND hWnd)	// Draws an object in a specific window.
 {
 	if (pObj == NULL || hWnd == NULL) return;
 	DWORD dwType = pObj->Type();
@@ -497,7 +496,7 @@ void CMainFrame::RenderObjectToWindow(CN3TransformCollision* pObj, HWND hWnd)	//
 	// begin
 	pD3DDev->BeginScene();
 
-	// Object의 위치 및 크기 파악
+	// Identifying the location and size of an object
 	__Vector3 vDir(-1,-1,3);	vDir.Normalize();
 	__Vector3 vMin = pObj->Min();
 	__Vector3 vMax = pObj->Max();
@@ -514,18 +513,18 @@ void CMainFrame::RenderObjectToWindow(CN3TransformCollision* pObj, HWND hWnd)	//
 	DWORD dwLighting;
 	pD3DDev->GetRenderState(D3DRS_LIGHTING, &dwLighting);
 
-	// camera frustum 세팅..(Apply함수 내부에서 transform을 바꾸기때문에 이 위치에 넣어야 한다.)
+	// Camera frustum setting.. (Because the transform is changed inside the Apply function, it must be put in this location.)
 	CN3Camera TempCamera;
 	TempCamera.EyePosSet(vEye);
 	TempCamera.AtPosSet(vAt);
 	TempCamera.UpVectorSet(vUp);
 	TempCamera.Tick();
-	TempCamera.Apply();	// 임시카메라에 데이터를 넣고 frustum 정보를 계산..
+	TempCamera.Apply();	// Put the data into the temporary camera and calculate the frustum information.
 
 	// Set Render State
 	pD3DDev->SetRenderState(D3DRS_LIGHTING, FALSE);
 
-	// 그리기
+	// drawing
 	if (dwType & OBJ_CHARACTER)
 	{
 		CN3Chr* pChr = (CN3Chr*)pObj;
@@ -542,7 +541,7 @@ void CMainFrame::RenderObjectToWindow(CN3TransformCollision* pObj, HWND hWnd)	//
 	pD3DDev->EndScene(); // end
 	m_Eng.Present(hWnd); // present
 
-	// restore (이전 상태로 되돌려주지 않으면 지형에서 picking이 제대로 되지 않는다)
+	// restore (If you don't return to the previous state, picking from the terrain won't work properly)
 	pD3DDev->SetTransform(D3DTS_VIEW, &mtxOldView);
 	pD3DDev->SetTransform(D3DTS_PROJECTION, &mtxOldProj);
 	CopyMemory(&CN3Base::s_CameraData, &CameraDataBackUp, sizeof(CameraDataBackUp));
@@ -643,7 +642,7 @@ ShapeInfo* CMainFrame::GetShapeForDisplay()
 void CMainFrame::OnTipFocusSelobj() 
 {
 	// TODO: Add your command handler code here
-	// focus를 가질 Object  를 찾는다..
+	// Find the object that will have focus.
 	bool bFound = false;
 	CPortalVolume* pVol = NULL;
 	COrganizeView* pView = GetOrganizeView();
@@ -688,7 +687,7 @@ void CMainFrame::OnTipFocusSelobj()
 			}
 		
 			if (vMin.x != FLT_MAX && vMax.x != -FLT_MAX)
-			{	// 물체 크기에 맞춰 카메라 거리 조절
+			{	// Adjust camera distance according to object size
 				__Vector3 vDir = m_Camera.Dir();
 				__Vector3 vAt = vMin + ((vMax-vMin)/2);
 				m_Camera.AtPosSet(vAt);
@@ -717,7 +716,7 @@ void CMainFrame::OnTipFocusSelobj()
 			}
 		
 			if (vMin.x != FLT_MAX && vMax.x != -FLT_MAX)
-			{	// 물체 크기에 맞춰 카메라 거리 조절
+			{	// Adjust camera distance according to object size
 				__Vector3 vDir = m_Camera.Dir();
 				__Vector3 vAt = vMin + ((vMax-vMin)/2);
 				m_Camera.AtPosSet(vAt);
@@ -757,7 +756,7 @@ void CMainFrame::OnTipFocusSelobj()
 		}
 
 		if (vMin.x != FLT_MAX && vMax.x != -FLT_MAX)
-		{	// 물체 크기에 맞춰 카메라 거리 조절
+		{	// Adjust camera distance according to object size
 			__Vector3 vDir = m_Camera.Dir();
 			__Vector3 vAt = vMin + ((vMax-vMin)/2);
 			m_Camera.AtPosSet(vAt);
@@ -773,7 +772,7 @@ void CMainFrame::OnTipFocusAll()
 	FindMinMaxTotalShape(vMin, vMax);
 
 	if (vMin.x != FLT_MAX && vMax.x != -FLT_MAX)
-	{	// 물체 크기에 맞춰 카메라 거리 조절
+	{	// Adjust camera distance according to object size
 		__Vector3 vDir = m_Camera.Dir();
 		__Vector3 vAt = vMin + ((vMax-vMin)/2);
 		m_Camera.AtPosSet(vAt);
@@ -880,15 +879,13 @@ LOOP1:
 			bFound = false;
 
 			SelectElement se = m_pDummy->m_SelObjArray.GetAt(i);					
-			if (se.eST != TYPE_SHAPE_ONLY)	// Volume이다..
+			if (se.eST != TYPE_SHAPE_ONLY)
 			{
-				// 찾는다..
 				if (pView->m_PVSMgr.IsExistPortalVolumeByPointer((CPortalVolume *)se.pSelectPointer))
 					bFound = true;
 			}
-			else												// Shape다..
+			else
 			{
-				// 찾는다..
 				if (pView->m_PVSMgr.IsExistTotalShapeByPointer((ShapeInfo *)se.pSelectPointer))
 					bFound = true;
 				
@@ -896,7 +893,7 @@ LOOP1:
 					bFound = true;
 			}
 
-			// 못찾았으면..
+			// If you can't find it...
 			if (!bFound)
 			{
 				m_pDummy->m_SelObjArray.RemoveAt(i);
@@ -914,12 +911,12 @@ LOOP2:
 		{
 			bFound = false;
 
-			// 찾는다..
+			// looking for...
 			pVol = m_SelVolArray.GetAt(i);
 			if (pView->m_PVSMgr.IsExistPortalVolumeByPointer((CPortalVolume *)pVol))
 				bFound = true;
 
-			// 못찾았으면..
+			// If you can't find it...
 			if (!bFound)
 			{
 				m_SelVolArray.RemoveAt(i);
@@ -929,30 +926,30 @@ LOOP2:
 	}
 
 	// 3. m_LastSelectedElement Check..
-	if (m_LastSelectedElement.eST != TYPE_SHAPE_ONLY)	// Volume이다..
+	if (m_LastSelectedElement.eST != TYPE_SHAPE_ONLY)
 	{
 		bFound = false;
 
-		// 찾는다..
+		// looking for...
 		if (pView->m_PVSMgr.IsExistPortalVolumeByPointer((CPortalVolume *)m_LastSelectedElement.pSelectPointer))
 			bFound = true;
 
-		// 못찾았으면..
+		// If you can't find it...
 		if (!bFound)
 			m_LastSelectedElement.pSelectPointer = NULL;
 	}
-	else												// Shape다..
+	else
 	{
 		bFound = false;
 
-		// 찾는다..
+		// looking for...
 		if (pView->m_PVSMgr.IsExistTotalShapeByPointer((ShapeInfo *)m_LastSelectedElement.pSelectPointer))
 			bFound = true;
 		
 		if (pView->m_PVSMgr.IsExistLinkedShapeByPointer((ShapeInfo *)m_LastSelectedElement.pSelectPointer))
 			bFound = true;
 
-		// 못찾았으면..
+		// If you can't find it...
 		if (!bFound)
 			m_LastSelectedElement.pSelectPointer = NULL;
 	}
@@ -1061,7 +1058,7 @@ void CMainFrame::OnTipDeleteUnusedFiles()
 	std::vector<std::string> unusedFNs;
 	std::string szFN;
 	
-	//  일단 몽땅 다 맵에 넣는다..
+	//  Once everything is put on the map.
 	mapBase mBases;
 	int iSC = m_pDlgOutputList->GetTotalShapeInfoCount();
 	
@@ -1098,7 +1095,7 @@ void CMainFrame::OnTipDeleteUnusedFiles()
 			if(NULL == pPart)
 			{
 				CString szErr;
-				szErr.Format("NULL Part : %s - %d번째 Part", pShape->FileName().c_str(), j);
+				szErr.Format("NULL Part : %s - %d Part", pShape->FileName().c_str(), j);
 				invalidFNs.push_back(szErr.operator LPCTSTR());
 				continue;
 			}
@@ -1113,7 +1110,7 @@ void CMainFrame::OnTipDeleteUnusedFiles()
 			else
 			{
 				CString szErr;
-				szErr.Format("NULL PMesh : %s - %d번째 Part", pShape->FileName().c_str(), j);
+				szErr.Format("NULL PMesh : %s - %d Part", pShape->FileName().c_str(), j);
 				invalidFNs.push_back(szErr.operator LPCTSTR());
 			}
 
@@ -1130,7 +1127,7 @@ void CMainFrame::OnTipDeleteUnusedFiles()
 				else
 				{
 					CString szErr;
-					szErr.Format("NULL Texture : %s - %d번째 Part, %d번째 Texture", pShape->FileName().c_str(), j, k);
+					szErr.Format("NULL Texture : %s - %d Part, %d Texture", pShape->FileName().c_str(), j, k);
 					invalidFNs.push_back(szErr.operator LPCTSTR());
 					continue;
 				}
@@ -1138,7 +1135,7 @@ void CMainFrame::OnTipDeleteUnusedFiles()
 		}
 	}
 
-	// 파일을 찾고..
+	// looking for a file...
 	std::string szPath = CN3Base::PathGet() + "object\\";
 	::SetCurrentDirectory(szPath.c_str());
 	CFileFind ff;
@@ -1158,7 +1155,7 @@ void CMainFrame::OnTipDeleteUnusedFiles()
 		
 		szFN = szFNTmp;
 		it_Base it = mBases.find(szFN);
-		if(it != mBases.end()) continue; // 찾았으면 쓴거다..
+		if(it != mBases.end()) continue; // If you find it, write it.
 
 		unusedFNs.push_back(szFN);
 	}
@@ -1176,7 +1173,7 @@ void CMainFrame::OnTipDeleteUnusedFiles()
 			unusedFNs.push_back(szFN);
 	}
 	
-	// 파일 지우기 대화상자 띄우기..
+	// Opens the Delete File dialog box.
 	CDlgUnusedFiles dlg;
 	int iUFC = unusedFNs.size();
 	for(i = 0; i < iUFC; i++)
@@ -1192,13 +1189,13 @@ void CMainFrame::OnTipDeleteUnusedFiles()
 
 	dlg.DoModal();
 	
-	// 모두 업데이트..
+	// update all..
 	if(m_pDummy)
 		m_pDummy->ClearObjs();
 	m_SelVolArray.RemoveAll();
 	m_LastSelectedElement.pSelectPointer = NULL;
 
-	this->RefreshSourceObjects(); // Source Object 를 갱쉰하고..
+	this->RefreshSourceObjects(); // Update the Source Object...
 	if (m_pDlgSourceList) m_pDlgSourceList->UpdateTree(m_pSceneSource);
 	OutputDlgRefresh();
 }

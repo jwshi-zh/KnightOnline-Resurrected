@@ -447,7 +447,7 @@ void CUIPartyBBS::RequestWhisper()
 		{
 			const __InfoPartyBBS IPB = (*it);
 			if(0 != lstrcmpi(IPB.szID.c_str(), CGameProcedure::s_pPlayer->m_InfoBase.szID.c_str()))
-			{// Don&#39;t let yourself whisper...
+			{// Don't let yourself whisper...
 				CGameProcedure::s_pProcMain->MsgSend_ChatSelectTarget(IPB.szID);
 			}
 			break;

@@ -22,7 +22,7 @@
 CUISkillTreeDlg::CUISkillTreeDlg()
 {
 	m_bOpenningNow = false; // is opening...
-	m_bClosingNow = false;	// it&#39;s closing...
+	m_bClosingNow = false;	// it's closing...
 	m_fMoveDelta = 0.0f; // Floating point is used to calculate the current position to make it open and close smoothly.
 
 	m_iRBtnDownOffs = -1;
@@ -70,7 +70,7 @@ void CUISkillTreeDlg::Release()
 	CN3UIBase::Release();
 
 	m_bOpenningNow = false; // is opening...
-	m_bClosingNow = false;	// it&#39;s closing...
+	m_bClosingNow = false;	// it's closing...
 	m_fMoveDelta = 0.0f; // Floating point is used to calculate the current position to make it open and close smoothly.
 
 	int i, j, k;
@@ -145,7 +145,7 @@ void CUISkillTreeDlg::Tick()
 
 		const int iXLimit = CN3Base::s_CameraData.vp.Width - (int)fWidth;
 		ptCur.x = CN3Base::s_CameraData.vp.Width - (int)m_fMoveDelta;
-		if(ptCur.x <= iXLimit) // It&#39;s all open!!
+		if(ptCur.x <= iXLimit) // It's all open!!
 		{
 			ptCur.x = iXLimit;
 			m_bOpenningNow = false;
@@ -171,7 +171,7 @@ void CUISkillTreeDlg::Tick()
 			ptCur.x = iXLimit;
 			m_bClosingNow = false;
 
-			this->SetVisibleWithNoSound(false, false, true); // It&#39;s all closed so you can&#39;t see it.
+			this->SetVisibleWithNoSound(false, false, true); // It's all closed so you can't see it.
 		}
 
 		this->SetPos(ptCur.x, ptCur.y);
@@ -184,7 +184,7 @@ DWORD CUISkillTreeDlg::MouseProc(DWORD dwFlags, const POINT& ptCur, const POINT&
 {
 	DWORD dwRet = UI_MOUSEPROC_NONE;
 	if ( !IsVisible() ) { dwRet |= CN3UIBase::MouseProc(dwFlags, ptCur, ptOld);  return dwRet; }
-	// don&#39;t actually use it...
+	// don't actually use it...
 	if (CN3UIWndBase::m_sRecoveryJobInfo.m_bWaitFromServer) { dwRet |= CN3UIBase::MouseProc(dwFlags, ptCur, ptOld);  return dwRet; }
 
 	// Renew dragged icon..
@@ -294,7 +294,7 @@ bool CUISkillTreeDlg::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 				const int iRBtn = GetIndexInArea(ptCur);
 				if (iRBtn != -1 && m_iRBtnDownOffs != -1 && m_iRBtnDownOffs == iRBtn)
 				{
-					// Check to see if there&#39;s room.
+					// Check to see if there's room.
 					CUIHotKeyDlg* pDlg = CGameProcedure::s_pProcMain->m_pUIHotKeyDlg;
 					int iIndex;
 					if (pDlg->GetEmptySlotIndex(iIndex))
@@ -473,7 +473,7 @@ void CUISkillTreeDlg::PointPushUpButton(int iValue)
 		return;
 	}
 
-	// If you haven&#39;t changed jobs... you can&#39;t raise your professional skills...
+	// If you haven't changed jobs... you can't raise your professional skills...
 	switch (iValue)
 	{
 		case 5:	case 6:	case 7: case 8:
@@ -663,7 +663,7 @@ void CUISkillTreeDlg::PointPushUpButton(int iValue)
 	str = pStrName2->GetString();
 	iSkillPoint = atoi(str.c_str());
 
-	// You can&#39;t raise it higher than your own level.
+	// You can't raise it higher than your own level.
 	if ( iSkillPoint >= CGameBase::s_pPlayer->m_InfoBase.iLevel )
 	{
 		std::string szMsg;
@@ -731,7 +731,7 @@ void CUISkillTreeDlg::PointPushUpButton(int iValue)
 
 void CUISkillTreeDlg::Render()
 {
-	if (!m_bVisible) return;	// If not visible, don&#39;t render the children.
+	if (!m_bVisible) return;	// If not visible, don't render the children.
 	__IconItemSkill* spSkill = nullptr;
 
 	TooltipRenderDisable();
@@ -1065,7 +1065,7 @@ void CUISkillTreeDlg::InitIconUpdate()
 	if ( iSkillIndexFirst == -1 ) 
 	{
 		PageButtonInitialize();
-		return;		// If you don&#39;t have the first skill... you can&#39;t.
+		return;		// If you don't have the first skill... you can't.
 	}
 
 	if ( CGameBase::s_pPlayer->m_InfoBase.eClass != CLASS_EL_DRUID )
@@ -1093,7 +1093,7 @@ void CUISkillTreeDlg::InitIconUpdate()
 		switch ( iModulo )
 		{
 			case 0:																				// Base Skill.. Judging only by level jumbo..
-				if ( pUSkill->iNeedLevel <= CGameBase::s_pPlayer->m_InfoBase.iLevel )		// If it&#39;s equal to or lower than my level...
+				if ( pUSkill->iNeedLevel <= CGameBase::s_pPlayer->m_InfoBase.iLevel )		// If it's equal to or lower than my level...
 					AddSkillToPage(pUSkill);
 				break;
 
@@ -1344,7 +1344,7 @@ stop:
 
 void CUISkillTreeDlg::Open()
 {
-	// It&#39;s open!!
+	// It's open!!
 	SetVisible(true);
 	this->SetPos(CN3Base::s_CameraData.vp.Width, 10);
 	m_fMoveDelta = 0;

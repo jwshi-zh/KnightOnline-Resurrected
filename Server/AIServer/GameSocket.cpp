@@ -179,7 +179,7 @@ void CGameSocket::RecvServerConnect(char *pBuf)
 		TRACE("**** ReConnect - zone=%d,  socket = %d ****\n ", byZoneNumber, m_pMain->m_sReSocketCount);
 		fReConnectEndTime = TimeGet();
 		if(fReConnectEndTime > m_pMain->m_fReConnectStart+120)	{	// If all sockets were reconnected in 2 minutes...
-			TRACE("**** ReConnect - 단순한 접속... socket = %d ****\n ", m_pMain->m_sReSocketCount);
+			TRACE("**** ReConnect - simple connection... socket = %d ****\n ", m_pMain->m_sReSocketCount);
 			m_pMain->m_sReSocketCount = 0;
 			m_pMain->m_fReConnectStart = 0.0f;
 		}
@@ -187,7 +187,7 @@ void CGameSocket::RecvServerConnect(char *pBuf)
 		if(m_pMain->m_sReSocketCount == MAX_AI_SOCKET)	{
 			fReConnectEndTime = TimeGet();
 			if(fReConnectEndTime < m_pMain->m_fReConnectStart+60)	{	// If all sockets were reconnected in 1 minute...
-				TRACE("**** ReConnect - 모든 소켓 초기화 완료 socket = %d ****\n ", m_pMain->m_sReSocketCount);
+				TRACE("**** ReConnect - All sockets initialized socket = %d ****\n ", m_pMain->m_sReSocketCount);
 				m_pMain->m_bFirstServerFlag = TRUE;
 				m_pMain->m_sReSocketCount = 0;
 				m_pMain->AllNpcInfo();
@@ -203,7 +203,7 @@ void CGameSocket::RecvServerConnect(char *pBuf)
 		m_pMain->m_sSocketCount++;
 		TRACE("**** Connect - zone=%d,  socket = %d ****\n ", byZoneNumber, m_pMain->m_sSocketCount);
 		if(m_pMain->m_sSocketCount == MAX_AI_SOCKET)	{
-			TRACE("**** Connect - 모든 소켓 초기화 완료 socket = %d ****\n ", m_pMain->m_sSocketCount);
+			TRACE("**** Connect - All sockets initialized socket = %d ****\n ", m_pMain->m_sSocketCount);
 			m_pMain->m_bFirstServerFlag = TRUE;
 			m_pMain->m_sSocketCount = 0;
 			m_pMain->AllNpcInfo();
@@ -235,7 +235,7 @@ void CGameSocket::RecvUserInfo(char* pBuf)
 		char countstr[256];
 		memset( countstr, NULL, 256 );
 		CTime cur = CTime::GetCurrentTime();
-		sprintf( countstr, "RecvUserInfo() Fail : %d월 %d일 %d시 %d분 - uid=%d, name=%s\r\n", cur.GetMonth(), cur.GetDay(), cur.GetHour(), cur.GetMinute(), uid, strName);
+		sprintf( countstr, "RecvUserInfo() Fail : %d month %d day %d hour %d minute - uid=%d, name=%s\r\n", cur.GetMonth(), cur.GetDay(), cur.GetHour(), cur.GetMinute(), uid, strName);
 		LogFileWrite( countstr );
 		TRACE("###  RecvUserInfo() Fail ---> uid = %d, name=%s  ### \n", uid, strName);
 		return;
@@ -578,7 +578,7 @@ void CGameSocket::RecvAttackReq(char* pBuf)
 		if(pUser->m_sHP > 0)
 		{
 			pUser->m_bLive = USER_LIVE;
-			TRACE("##### CGameSocket-Attack Fail : User가 Heal된 경우.. [id=%d, %s, bLive=%d, hp=%d] ######\n", pUser->m_iUserId, pUser->m_strUserID, pUser->m_bLive, pUser->m_sHP);
+			TRACE("##### CGameSocket-Attack Fail : When the user is healed.. [id=%d, %s, bLive=%d, hp=%d] ######\n", pUser->m_iUserId, pUser->m_strUserID, pUser->m_bLive, pUser->m_sHP);
 		}		
 		else
 		{
@@ -668,7 +668,7 @@ void CGameSocket::RecvUserSetHP(char* pBuf)
 	uid = GetShort( pBuf, index );
 	nHP = GetDWORD( pBuf, index );
 
-	// User List에서 User정보,, 삭제...
+	// User information,, deletion from User List...
 	CUser* pUser = m_pMain->GetUserPtr(uid);
 	if(pUser == NULL)	return;
 
@@ -800,7 +800,7 @@ void CGameSocket::RecvMagicAttackReq(char* pBuf)
 		if(pUser->m_sHP > 0)
 		{
 			pUser->m_bLive = USER_LIVE;
-			TRACE("##### CGameSocket-Magic Attack Fail : User가 Heal된 경우.. [id=%s, bLive=%d, hp=%d] ######\n", pUser->m_strUserID, pUser->m_bLive, pUser->m_sHP);
+			TRACE("##### CGameSocket-Magic Attack Fail : When the user is healed.. [id=%s, bLive=%d, hp=%d] ######\n", pUser->m_strUserID, pUser->m_bLive, pUser->m_sHP);
 		}		
 		else
 		{
@@ -878,7 +878,7 @@ void CGameSocket::RecvUserInfoAllData(char* pBuf)
 	float fHitAgi, fAvoidAgi;
 	char strName[MAX_ID_SIZE+1];
 
-	TRACE(" ***** 유저의 모든 정보를 받기 시작합니다 ****** \n");
+	TRACE(" ***** Receive all user information ****** \n");
 
 	byCount = GetByte(pBuf, index);
 	for(int i=0; i<byCount; i++)
@@ -1037,7 +1037,7 @@ void CGameSocket::RecvHealMagic(char* pBuf)
 	if(pUser->m_bLive == USER_DEAD || pUser->m_sHP <= 0)	{
 		if(pUser->m_sHP > 0)	{
 			pUser->m_bLive = USER_LIVE;
-			TRACE("##### CGameSocket-RecvHealMagic Fail : User가 Heal된 경우.. [id=%d, %s, bLive=%d, hp=%d] ######\n", pUser->m_iUserId, pUser->m_strUserID, pUser->m_bLive, pUser->m_sHP);
+			TRACE("##### CGameSocket-RecvHealMagic Fail : When the user is healed.. [id=%d, %s, bLive=%d, hp=%d] ######\n", pUser->m_iUserId, pUser->m_strUserID, pUser->m_bLive, pUser->m_sHP);
 		}		
 		else
 		{

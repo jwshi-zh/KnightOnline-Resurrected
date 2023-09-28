@@ -119,7 +119,7 @@ bool CUICmd::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 		else if(pSender == m_pBtn_Exit) // Go to the character selection screen.
 		{
 			std::string szMsg; ::_LoadStringFromResource(IDS_EXIT, szMsg);
-			// CGameProcedure::MessageBoxPost(szMsg, &quot;&quot;, MB_YESNO, BEHAVIOR_RESTART_GAME); // Restart the game..??
+			// CGameProcedure::MessageBoxPost(szMsg, "", MB_YESNO, BEHAVIOR_RESTART_GAME); // Restart the game..??
 			CGameProcedure::MessageBoxPost(szMsg, "", MB_YESNO, BEHAVIOR_EXIT); // Restart the game..??
 		}
 
@@ -148,7 +148,7 @@ bool CUICmd::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 			pMain->PartyOrForceConditionGet(bIAmLeader, bIAmMemberOfParty, iMemberIndex, pTarget); // Look at the status of the party...
 			
 			std::string szMsg;
-			if(bIAmLeader) // If I&#39;m the leader...
+			if(bIAmLeader) // If I'm the leader...
 			{
 				if(iMemberIndex > 0)
 				{
@@ -217,7 +217,7 @@ void CUICmd::SetVisibleOptButtons(bool bVisible)
 void CUICmd::UpdatePartyButtons(bool bIAmLeader, bool bIAmMemberOfParty, int iMemberIndex, const CPlayerBase* pTarget) const
 {
 	bool bInvite = true;
-	if(bIAmLeader) // If I&#39;m the leader...
+	if(bIAmLeader) // If I'm the leader...
 	{
 		if(pTarget) // I have a target...
 		{
@@ -232,7 +232,7 @@ void CUICmd::UpdatePartyButtons(bool bIAmLeader, bool bIAmMemberOfParty, int iMe
 	else
 	{
 		if(bIAmMemberOfParty) bInvite = false; // If you are not a leader but are in a party... you can leave.
-		else bInvite = true; // If you&#39;re not in the party, you can invite...
+		else bInvite = true; // If you're not in the party, you can invite...
 	}
 
 	if(m_pBtn_Party_Invite) m_pBtn_Party_Invite->SetVisible(bInvite);

@@ -31,7 +31,7 @@ bool CBitMapFile::Load(HANDLE hFile)
 	// Check the "BM" marker indicating that it is a bmp file
 	if (m_bmfHeader.bfType != 0x4D42)
 	{
-		MessageBox(::GetActiveWindow(), "원본 파일이 bitmap파일이 아닙니다.", "error", MB_OK);
+		MessageBox(::GetActiveWindow(), "Source file is not a bitmap file.", "error", MB_OK);
 		return FALSE;
 	}
 
@@ -53,7 +53,7 @@ bool CBitMapFile::Load(HANDLE hFile)
 
 	if ((m_pPixels = ::GlobalAlloc(GMEM_FIXED | GMEM_ZEROINIT, iDIBSize )) == nullptr)
 	{
-		MessageBox(::GetActiveWindow(), "메모리를 할당하지 못했습니다.", "error", MB_OK);
+		MessageBox(::GetActiveWindow(), "Failed to allocate memory.", "error", MB_OK);
 		return FALSE;
 	}
 
@@ -109,7 +109,7 @@ bool CBitMapFile::SaveRectToFile(const std::string& szFN, RECT rc)
 
 	if (nWidth <=0 || nHeight <=0)
 	{
-		MessageBox(::GetActiveWindow(), "가로 세로가 0이하인 bitmap으로 저장할수 없습니다.", "error", MB_OK);
+		MessageBox(::GetActiveWindow(), "Cannot save as a bitmap whose width and height are less than 0.", "error", MB_OK);
 		return FALSE;
 	}
 
@@ -118,7 +118,7 @@ bool CBitMapFile::SaveRectToFile(const std::string& szFN, RECT rc)
 
 	if (INVALID_HANDLE_VALUE == hFile)
 	{
-		MessageBox(::GetActiveWindow(), "원본 bitmap을 열 수 없습니다.", "error", MB_OK);
+		MessageBox(::GetActiveWindow(), "Could not open original bitmap.", "error", MB_OK);
 		return false;
 	}
 
@@ -199,7 +199,7 @@ bool CBitMapFile::Create(int nWidth, int nHeight, int nBPP)
 
 	if ((m_pPixels = ::GlobalAlloc(GMEM_FIXED | GMEM_ZEROINIT, iDIBSize )) == nullptr)
 	{
-		MessageBox(::GetActiveWindow(), "메모리를 할당하지 못했습니다.", "error", MB_OK);
+		MessageBox(::GetActiveWindow(), "Failed to allocate memory.", "error", MB_OK);
 		return FALSE;
 	}
 

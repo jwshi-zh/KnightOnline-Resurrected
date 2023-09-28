@@ -88,7 +88,7 @@ void CN3UIButton::Render()
 	for(auto itor = m_Children.rbegin(); m_Children.rend() != itor; ++itor)
 	{
 		CN3UIBase* pChild = (*itor);
-		for(auto i = 0; i < NUM_BTN_STATE; i++) // See if it&#39;s not a component of a button..
+		for(auto i = 0; i < NUM_BTN_STATE; i++) // See if it's not a component of a button..
 			if(pChild == m_ImageRef[i]) break;
 		if(i >= NUM_BTN_STATE) pChild->Render(); // Render if not a button child..
 	}
@@ -322,7 +322,7 @@ void CN3UIButton::CreateImages()
 	int i;
 	for (i=0; i<NUM_BTN_STATE; ++i)
 	{
-		__ASSERT(NULL == m_ImageRef[i],"이미지가 이미 할당되어 있어여");
+		__ASSERT(NULL == m_ImageRef[i],"image is already assigned");
 		m_ImageRef[i] = new CN3UIImage();
 		m_ImageRef[i]->Init(this);
 		m_ImageRef[i]->SetRegion(m_rcRegion);

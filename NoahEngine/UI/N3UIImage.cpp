@@ -125,8 +125,8 @@ void CN3UIImage::Render()
 
 	if (UISTYLE_IMAGE_ANIMATE & m_dwStyle) // If the image is animated
 	{
-		__ASSERT(m_fCurAnimFrame>=0.0f && m_fCurAnimFrame < (float)m_iAnimCount, "animate image 가 이상작동");
-		__ASSERT(m_pAnimImagesRef, "초기화 이상");
+		__ASSERT(m_fCurAnimFrame>=0.0f && m_fCurAnimFrame < (float)m_iAnimCount, "Animate image works abnormally");
+		__ASSERT(m_pAnimImagesRef, "Initialization anomaly");
 		m_pAnimImagesRef[(int)m_fCurAnimFrame]->Render();
 	}
 	else
@@ -188,7 +188,7 @@ bool CN3UIImage::Load(HANDLE hFile)
 	if (false == CN3UIBase::Load(hFile)) return false;
 	DWORD dwNum;
 	// texture information
-	__ASSERT(NULL == m_pTexRef, "load 하기 전에 초기화가 되지 않았습니다.");
+	__ASSERT(NULL == m_pTexRef, "not initialized before load.");
 	int	iStrLen = 0;
 	ReadFile(hFile, &iStrLen, sizeof(iStrLen), &dwNum, nullptr);			// file name length
 	char szFName[MAX_PATH] = "";
@@ -248,7 +248,7 @@ void CN3UIImage::operator = (const CN3UIImage& other)
 		int i=0;
 		for(auto itor = m_Children.begin(); m_Children.end() != itor; ++itor)
 		{
-			__ASSERT(UI_TYPE_IMAGE == (*itor)->UIType(), "animate image child의 UI type이 image가 아니다.");
+			__ASSERT(UI_TYPE_IMAGE == (*itor)->UIType(), "UI type of animate image child is not image.");
 			m_pAnimImagesRef[i] = (CN3UIImage*)(*itor);
 			__ASSERT(m_pAnimImagesRef[i]->GetReserved() == (DWORD)i, "animate Image load fail");	// Fails if not properly aligned.
 			++i;
@@ -324,11 +324,11 @@ void CN3UIImage::ReorderChildImage()
 		for(UIListItor itor = m_Children.begin(); m_Children.end() != itor; ++itor)
 		{
 			CN3UIBase* pChild = (*itor);
-			__ASSERT(UI_TYPE_IMAGE == pChild->UIType(), "image가 아닌 child가 있습니다.");
+			__ASSERT(UI_TYPE_IMAGE == pChild->UIType(), "There is a child that is not an image.");
 			if (NULL == pSelChild) pSelChild = pChild;
 			else if (pSelChild->GetReserved() > pChild->GetReserved()) pSelChild = pChild;
 		}
-		__ASSERT(pSelChild,"제일 작은 m_dwReserved를 가진 child가 없다.");
+		__ASSERT(pSelChild,"There is no child with the smallest m_dwReserved.");
 		pNewList[i] = pSelChild;
 		RemoveChild(pSelChild);
 	}
@@ -430,7 +430,7 @@ bool CN3UIImage::ReplaceAllTextures(const std::string& strFind, const std::strin
 				else strNew += szReplaceExt;
 			}
 			else
-			{	// If the file name and extension to be searched are specified // abc.tga -&gt;
+			{	// If the file name and extension to be searched are specified // abc.tga ->
 				if (lstrcmpi(szFindExt, szTexExt) != 0 ) break;	// Since the extensions are not the same, just return
 
 				if (lstrcmpi(szReplaceFName, "*") == 0)	strNew += szFindFName;

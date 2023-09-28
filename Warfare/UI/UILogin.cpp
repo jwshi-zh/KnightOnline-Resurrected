@@ -220,7 +220,7 @@ void CUILogIn::Tick()
 
 			const int iYLimit = 0;
 			ptCur.y = (int)(m_fMoveDelta - fHeight);
-			if(ptCur.y >= iYLimit) // It&#39;s all open!!
+			if(ptCur.y >= iYLimit) // It's all open!!
 			{
 				ptCur.y = iYLimit;
 				m_bOpenningNow = false;
@@ -235,7 +235,7 @@ void CUILogIn::OpenServerList()
 {
 	if(m_bOpenningNow || nullptr == m_pGroup_ServerList) return;
 
-	// It&#39;s open!!
+	// It's open!!
 	m_pGroup_ServerList->SetVisible(true);
 	const RECT rc = m_pGroup_ServerList->GetRegion();
 	m_pGroup_ServerList->SetPos(0, -(rc.bottom - rc.top));

@@ -102,7 +102,7 @@ void CRiverMng::Render()
 	hr = s_lpD3DDev->GetRenderState(D3DRS_ZENABLE, &dwZEnable);
 	hr = s_lpD3DDev->GetRenderState(D3DRS_LIGHTING, &dwLighting);
 
-	// 기존에 있던 강 그리기
+	// Draw an existing river
 	it_RiverMesh it = m_RiverMeshes.begin();
 	int iSize = m_RiverMeshes.size();
 	for(int i = 0; i < iSize; i++, it++)
@@ -114,7 +114,7 @@ void CRiverMng::Render()
 	if (m_bEditMode)
 	{
 
-		// 강 새로 만드는 중이면 드래그 선 그리기
+		// Draw a drag line if you are creating a new river
 		if (m_RCursorMode == RCM_CREATE)
 		{
 			// set state
@@ -134,18 +134,18 @@ void CRiverMng::Render()
 			s_lpD3DDev->DrawPrimitiveUP(D3DPT_LINELIST, 1, m_CreateLine, sizeof(__VertexXyzColor));
 		}
 
-		// dummy 상자 그리기
+		// Draw a dummy box
 		m_VtxPosDummy.Render();
 
 		if (m_pSelRiver)
 		{
-			// 선택된 강의 점그리기 (빨강)
+			// Plot the selected river points (red)
 			m_pSelRiver->RenderVertexPoint();
 			
 			int iVC = m_pSelRiver->VertexCount();
 			if (iVC>4)
 			{
-				// 선택된 강의 Extrude될 변 표시하기
+				// Display the side to be extruded for the selected steel
 				// backup state
 				__Material BackupMtrl;
 				s_lpD3DDev->GetMaterial(&BackupMtrl);
@@ -178,7 +178,7 @@ void CRiverMng::Render()
 			}
 		}
 
-		// 선택된 점 그리기 (초록)
+		// Draw Selected Points (Green)
 		int iSize = m_SelVtxArray.GetSize();
 		if (iSize>0)
 		{
@@ -208,7 +208,7 @@ void CRiverMng::Render()
 				if (iScreenX >= (int)vp.X && iScreenX <= (int)vp.Width &&
 					iScreenY >= (int)vp.Y && iScreenY <= (int)vp.Height)
 				{
-					// set X (점을 찍으면 1픽셀밖에 안찍으므로 X표시를 그린다.
+					// set X (If you mark a dot, you only mark 1 pixel, so draw an X mark.
 					Vertices[0].Set(float(iScreenX-2), float(iScreenY-2), 0.5f, 0.5f, clr);
 					Vertices[1].Set(float(iScreenX+2), float(iScreenY+2), 0.5f, 0.5f, clr);
 					Vertices[2].Set(float(iScreenX+2), float(iScreenY-2), 0.5f, 0.5f, clr);
@@ -219,7 +219,7 @@ void CRiverMng::Render()
 			}
 		}
 
-		// 드래그 영역 그리기
+		// Draw drag area
 		if (RCM_SELECT == m_RCursorMode) m_pMainFrm->GetMapMng()->RenderDragRect(&m_rcSelDrag);
 	}
 
@@ -284,13 +284,13 @@ BOOL CRiverMng::MouseMsgFilter(LPMSG pMsg)
 			DWORD nFlags = pMsg->wParam;
 			POINT point = {short(LOWORD(pMsg->lParam)), short(HIWORD(pMsg->lParam))};
 			if (RCM_CREATE == m_RCursorMode)
-			{	// 새로운 강 추가할때 드래그 하는 선 설정
-				__Vector3 vRayDir, vRayOrig;	// 화면 중앙(시점)과 마우스 포인터를 이은 직선의 방향과 원점
-				__Vector3 vPN, vPV;	// 평면의 법선과 포함된 점
-				__Vector3 vPos;	// 위의 평면과 직선의 만나는 점(구할 점)
+			{	// Setting the line to drag when adding a new river
+				__Vector3 vRayDir, vRayOrig;	// The direction and origin of a straight line connecting the center of the screen (viewpoint) and the mouse pointer
+				__Vector3 vPN, vPV;	// Normals of the plane and included points
+				__Vector3 vPos;	// The intersection point of the above plane and the straight line (point to find)
 
 				vPN.Set(0,1,0); vPV = m_CreateLine[0];
-				m_VtxPosDummy.GetPickRay(point, vRayDir, vRayOrig);	// 이함수 잠시 빌려씀.
+				m_VtxPosDummy.GetPickRay(point, vRayDir, vRayOrig);	// I'm borrowing this function for a while.
 
 				float fT = D3DXVec3Dot(&vPN,&(vPV-vRayOrig)) / D3DXVec3Dot(&vPN, &vRayDir);
 				vPos = vRayOrig + vRayDir*fT;
@@ -308,7 +308,7 @@ BOOL CRiverMng::MouseMsgFilter(LPMSG pMsg)
 		{
 			POINT point = {short(LOWORD(pMsg->lParam)), short(HIWORD(pMsg->lParam))};
 			if (RCM_CREATE == m_RCursorMode)
-			{	// 새로운 강 추가 취소
+			{	// Cancel adding new river
 				m_RCursorMode = RCM_NONE;
 				ReleaseCapture();
 				return TRUE;
@@ -338,7 +338,7 @@ BOOL CRiverMng::MouseMsgFilter(LPMSG pMsg)
 				{	m_rcSelDrag.bottom = m_rcSelDrag.top; m_rcSelDrag.top = point.y; }
 				else m_rcSelDrag.bottom = point.y;
 
-				// 드레그가 아니고 그냥 클릭일경우 드래그 영역을 3x3정도로 잡아준다.
+				// If it is not a drag but just a click, the drag area is set to about 3x3.
 				if (m_rcSelDrag.right-m_rcSelDrag.left < 3 && m_rcSelDrag.bottom-m_rcSelDrag.top < 3)
 				{
 					m_rcSelDrag.left = point.x-1;	m_rcSelDrag.right = point.x+1;
@@ -354,13 +354,13 @@ BOOL CRiverMng::MouseMsgFilter(LPMSG pMsg)
 		{
 			POINT point = {short(LOWORD(pMsg->lParam)), short(HIWORD(pMsg->lParam))};
 			if (RCM_SELECT == m_RCursorMode)
-			{	// Select 취소
+			{	// Cancel Select
 				m_RCursorMode = RCM_NONE;
 				ReleaseCapture();
 				return TRUE;
 			}
 			else if (RCM_NONE == m_RCursorMode)
-			{	// 새로운 강 추가
+			{	// Added new river
 				CLyTerrain* pTerrain = m_pMainFrm->GetMapMng()->GetTerrain();
 
 				__Vector3 vPos;
@@ -382,16 +382,16 @@ BOOL CRiverMng::MouseMsgFilter(LPMSG pMsg)
 		{
 			POINT point = {short(LOWORD(pMsg->lParam)), short(HIWORD(pMsg->lParam))};
 			if (RCM_CREATE == m_RCursorMode)
-			{	// 새로운 강 추가
+			{	// Added new river
 				m_RCursorMode = RCM_NONE;
 				ReleaseCapture();
 
-				__Vector3 vRayDir, vRayOrig;	// 화면 중앙(시점)과 마우스 포인터를 이은 직선의 방향과 원점
-				__Vector3 vPN, vPV;	// 평면의 법선과 포함된 점
-				__Vector3 vPos;	// 위의 평면과 직선의 만나는 점(구할 점)
+				__Vector3 vRayDir, vRayOrig;	// The direction and origin of a straight line connecting the center of the screen (viewpoint) and the mouse pointer
+				__Vector3 vPN, vPV;	// Normals of the plane and included points
+				__Vector3 vPos;	// The intersection point of the above plane and the straight line (point to find)
 
 				vPN.Set(0,1,0); vPV = m_CreateLine[0];
-				m_VtxPosDummy.GetPickRay(point, vRayDir, vRayOrig);	// 이함수 잠시 빌려씀.
+				m_VtxPosDummy.GetPickRay(point, vRayDir, vRayOrig);	// I'm borrowing this function for a while.
 
 				float fT = D3DXVec3Dot(&vPN,&(vPV-vRayOrig)) / D3DXVec3Dot(&vPN, &vRayDir);
 				vPos = vRayOrig + vRayDir*fT;
@@ -465,7 +465,7 @@ void CRiverMng::SelectVtxByDragRect(RECT* pRect, BOOL bAdd)
 	if (bAdd == FALSE)
 	{
 		m_SelVtxArray.RemoveAll();
-		SetSelRiver(NULL);	// 선택한강 해제..
+		SetSelRiver(NULL);	// Undo the selected river..
 	}
 
 	CN3EngTool* pEng = m_pMainFrm->m_pEng;
@@ -479,12 +479,12 @@ void CRiverMng::SelectVtxByDragRect(RECT* pRect, BOOL bAdd)
 	D3DVIEWPORT8 vp = pEng->s_CameraData.vp;
 
 	int i;
-	if (m_pSelRiver)	// 이미 선택된 강이 있다면..
+	if (m_pSelRiver)	// If there is already a selected river...
 	{
-		int iVC = m_pSelRiver->VertexCount();	// 그강의 점 숫자를 구하기
+		int iVC = m_pSelRiver->VertexCount();	// Find the number of points in the river
 		for (i=0; i<iVC;++i)
 		{
-			__VertexXyzT2* pVtx = m_pSelRiver->GetVertex(i);	// 점 하나 구하기
+			__VertexXyzT2* pVtx = m_pSelRiver->GetVertex(i);	// find a dot
 			if (pVtx == NULL) continue;
 
 			D3DXVECTOR4 v;
@@ -500,16 +500,16 @@ void CRiverMng::SelectVtxByDragRect(RECT* pRect, BOOL bAdd)
 				BOOL bAleadySelected = FALSE;
 				int j, iSize = m_SelVtxArray.GetSize();
 				for (j=0; j<iSize;++j) if (m_SelVtxArray.GetAt(j) == pVtx) {bAleadySelected=TRUE;break;}
-				if (bAleadySelected) m_SelVtxArray.RemoveAt(j);	// 이미 있으므로 선택목록에서 제거
-				else m_SelVtxArray.InsertAt(0, pVtx);			// 추가
+				if (bAleadySelected) m_SelVtxArray.RemoveAt(j);	// Already exists, remove from picklist
+				else m_SelVtxArray.InsertAt(0, pVtx);			// addition
 			}
 		}
 	}
-	else	// 선택된 강이 아무것도 없다면 (모든강 검색해서 맨처음 골라지는 강 선택후 그 강 점들만 선택..)
+	else	// If there is no selected river (Search all rivers and select the first river to be selected, then select only those rivers..)
 	{
 		ASSERT(m_SelVtxArray.GetSize() == 0);
 
-		CRiverMesh* pSelRiver = NULL;	// 선택된 강
+		CRiverMesh* pSelRiver = NULL;	// selected river
 		it_RiverMesh it = m_RiverMeshes.begin();
 		int iSize = m_RiverMeshes.size();
 		for(int i = 0; i < iSize; i++, it++)
@@ -517,10 +517,10 @@ void CRiverMng::SelectVtxByDragRect(RECT* pRect, BOOL bAdd)
 			CRiverMesh* pRM = *it;
 			if (pRM == NULL) continue;
 
-			int j, iVC = pRM->VertexCount();				// 이강의 점 갯수
+			int j, iVC = pRM->VertexCount();				// number of points in this river
 			for (j=0; j<iVC; ++j)
 			{
-				__VertexXyzT2* pVtx = pRM->GetVertex(j);	// 점 하나 구하기
+				__VertexXyzT2* pVtx = pRM->GetVertex(j);	// find a dot
 				if (pVtx == NULL) continue;
 
 				D3DXVECTOR4 v;
@@ -533,7 +533,7 @@ void CRiverMng::SelectVtxByDragRect(RECT* pRect, BOOL bAdd)
 				if (fScreenX >= pRect->left && fScreenX <= pRect->right &&
 					fScreenY >= pRect->top && fScreenY <= pRect->bottom)
 				{
-					m_SelVtxArray.Add(pVtx);			// 추가
+					m_SelVtxArray.Add(pVtx);			// addition
 					pSelRiver = pRM;
 					SetSelRiver(pSelRiver);
 				}
@@ -563,7 +563,7 @@ void CRiverMng::ExtrudeRiverEdge()
 	if (m_pSelRiver == NULL) return;
 	int iVC = m_pSelRiver->AddVertex();
 
-	m_SelVtxArray.RemoveAll();	// 기존에 선택한 점 해제
+	m_SelVtxArray.RemoveAll();	// Clear previously selected points
 
 	if (iVC>=4)
 	{
@@ -583,7 +583,7 @@ void CRiverMng::ExtrudeRiverEdge()
 	m_pMainFrm->Invalidate(FALSE);
 }
 
-void CRiverMng::DeleteSelectedVertex()									// 선택된 점들 지우기
+void CRiverMng::DeleteSelectedVertex()									// Clear selected points
 {
 	if (m_pSelRiver == NULL) return;
 
@@ -604,7 +604,7 @@ void CRiverMng::DeleteSelectedVertex()									// 선택된 점들 지우기
 		iVC = m_pSelRiver->DeleteVertex(iIndex);
 	}
 
-	m_SelVtxArray.RemoveAll();	// 기존에 선택한 점 해제
+	m_SelVtxArray.RemoveAll();	// Clear previously selected points
 	m_VtxPosDummy.SetSelVtx(NULL);
 	m_pMainFrm->Invalidate(FALSE);
 }
@@ -631,7 +631,7 @@ void CRiverMng::MakeGameFiles(HANDLE hFile, float fSize)
 		int iVC = pRM->VertexCount();
 		__VertexXyzT2* pVtx0 = pRM->GetVertex(0), *pSrcVtx=NULL;
 		ASSERT(pVtx0);
-		WriteFile(hFile, &iVC, sizeof(iVC), &dwNum, NULL);				// 점 갯수
+		WriteFile(hFile, &iVC, sizeof(iVC), &dwNum, NULL);				// number of points
 
 		// XyxT2 -> XyzColorT2 Converting.
 		__VertexRiver	*pTemp = new __VertexRiver[iVC];
@@ -681,7 +681,7 @@ void CRiverMng::MakeGameFiles(HANDLE hFile, float fSize)
 	}	
 
 /*
-	// 모든 강 정보 저장 (*.grm) game river main
+	// Save all river information (*.grm) game river main
 	int i, j, k, iRiverCount = m_RiverMeshes.size();
 
 	CLyTerrain* pTerrain = m_pMainFrm->GetMapMng()->GetTerrain();
@@ -718,9 +718,9 @@ void CRiverMng::MakeGameFiles(HANDLE hFile, float fSize)
 
 	if (iRiverCount <=0) return;
 
-	// 각각의 패치 정보 저장 (*.grp) game river patch
+	// Save each patch information (*.grp) game river patch
 	int iPatchCount = size.cx * size.cy;
-	// 각 패치별로 정보 분류하기
+	// Categorize information for each patch
 	__TempPatch* TempPatches = new __TempPatch[iPatchCount];
 
 	it = m_RiverMeshes.begin();
@@ -746,7 +746,7 @@ void CRiverMng::MakeGameFiles(HANDLE hFile, float fSize)
 		}
 	}
 
-	// CN3RiverPatch구조에 알맞게 넣기.
+	// Put them properly in the CN3RiverPatch structure.
 	CN3RiverPatch* RiverPatches = new CN3RiverPatch[iPatchCount];
 	for (i=0; i<iPatchCount; ++i)
 	{
@@ -772,10 +772,10 @@ void CRiverMng::MakeGameFiles(HANDLE hFile, float fSize)
 		}
 	}
 
-	// 메모리 할당한거 지우기
+	// Clear allocated memory
 	delete [] TempPatches;
 
-	// RiverPatches 저장하기
+	// Saving RiverPatches
 	for (i=0; i<size.cx; ++i)
 	{
 		for (j=0; j<size.cy; ++j)
@@ -789,7 +789,7 @@ void CRiverMng::MakeGameFiles(HANDLE hFile, float fSize)
 /*
 void CRiverMng::MakeGameFiles(LPCTSTR lpszFName, float fSize)
 {
-	// 모든 강 정보 저장 (*.grm) game river main
+	// Save all river information (*.grm) game river main
 	int i, j, k, iRiverCount = m_RiverMeshes.size();
 
 	CLyTerrain* pTerrain = m_pMainFrm->GetMapMng()->GetTerrain();
@@ -826,9 +826,9 @@ void CRiverMng::MakeGameFiles(LPCTSTR lpszFName, float fSize)
 
 	if (iRiverCount <=0) return;
 
-	// 각각의 패치 정보 저장 (*.grp) game river patch
+	// Save each patch information (*.grp) game river patch
 	int iPatchCount = size.cx * size.cy;
-	// 각 패치별로 정보 분류하기
+	// Categorize information for each patch
 	__TempPatch* TempPatches = new __TempPatch[iPatchCount];
 
 	for (i=0; i<iRiverCount; ++i)
@@ -853,7 +853,7 @@ void CRiverMng::MakeGameFiles(LPCTSTR lpszFName, float fSize)
 		}
 	}
 
-	// CN3RiverPatch구조에 알맞게 넣기.
+	// Put them properly in the CN3RiverPatch structure.
 	CN3RiverPatch* RiverPatches = new CN3RiverPatch[iPatchCount];
 	for (i=0; i<iPatchCount; ++i)
 	{
@@ -879,10 +879,10 @@ void CRiverMng::MakeGameFiles(LPCTSTR lpszFName, float fSize)
 		}
 	}
 
-	// 메모리 할당한거 지우기
+	// Clear allocated memory
 	delete [] TempPatches;
 
-	// RiverPatches 저장하기
+	// Saving RiverPatches
 	for (i=0; i<size.cx; ++i)
 	{
 		for (j=0; j<size.cy; ++j)

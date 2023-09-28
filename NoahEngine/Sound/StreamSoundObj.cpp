@@ -268,7 +268,7 @@ void CStreamSoundObj::Tick()
 		}
 		else
 		{
-			//볼륨 점점 작게....
+			// The volume gets smaller...
 			int vol = 0;
 			if(m_fFadeOutTime>0.0f)  vol = (((m_fFadeOutTime - m_fTmpSecPerFrm)/m_fFadeOutTime)*(float)m_iMaxVolume);
 			SetVolume(vol);

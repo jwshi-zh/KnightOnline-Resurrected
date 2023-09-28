@@ -11,20 +11,20 @@
 
 struct __CharacterSymbol
 {
-	__Vector3		vBoxes[5]; // 상자를 LineStrip 으로 그린다. 5
+	__Vector3		vBoxes[5]; // Draw the box as a LineStrip. 5
 	__Vector3		vDirections[3];
 	__Matrix44		mtxWorld;
-	D3DCOLOR		color; // 색..
+	D3DCOLOR		color; // color..
 	char			szID[64]; // ID
-	char			szRemark[128]; // 주석???
+	char			szRemark[128]; // annotation???
 	
 	__CharacterSymbol()
 	{
 		__Matrix44 mtxTmp;
 		mtxWorld.Identity();
-		color = 0xffffffff; // 기본은 흰색..
+		color = 0xffffffff; // The default is white...
 		szID[0] = NULL; // ID
-		szRemark[0] = NULL; // 주석???
+		szRemark[0] = NULL; // annotation???
 
 		float fRadius = 2.0f;
 		vBoxes[0].Set(-fRadius, 0, fRadius);

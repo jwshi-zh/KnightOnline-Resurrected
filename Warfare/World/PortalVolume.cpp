@@ -326,7 +326,7 @@ bool CPortalVolume::Load(HANDLE hFile)
 	{
 		ReadFile(hFile, &IDAP.m_iID, sizeof(int), &dwNum, nullptr);
 		ReadFile(hFile, &IDAP.m_iPriority, sizeof(int), &dwNum, nullptr);
-		__ASSERT(IDAP.m_iPriority != -1, "잘못된 파일");
+		__ASSERT(IDAP.m_iPriority != -1, "wrong file");
 		m_piVisibleIDList.push_back(IDAP);
 	}
 

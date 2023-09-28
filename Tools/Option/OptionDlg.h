@@ -15,15 +15,15 @@ struct __GameOption
 	int		iTexLOD_Chr;		// Texture LOD
 	int		iTexLOD_Shape;		// Texture LOD
 	int		iTexLOD_Terrain;	// Texture LOD
-	int		iUseShadow;			// 그림자 사용 0 사용안함 1 사용
-	int		iViewDist;			// 가시거리..
-	int		iViewWidth;			// 화면 길이
-	int		iViewHeight;		// 화면 너비
-	int		iViewColorDepth;	// 색상수..
-	int		iEffectSndDist;		// 이펙트 사운드 거리
-	bool	bSndDuplicated;		// 중복된 음원 사용
-	bool	bSoundEnable;		// 사운드 사용
-	bool	bWindowCursor;		// 윈도우 커서 사용
+	int		iUseShadow;			// Shadow Enable 0 Disable 1 Enable
+	int		iViewDist;			// Visibility..
+	int		iViewWidth;			// screen length
+	int		iViewHeight;		// screen width
+	int		iViewColorDepth;	// number of colors...
+	int		iEffectSndDist;		// effect sound distance
+	bool	bSndDuplicated;		// Use of duplicate sound sources
+	bool	bSoundEnable;		// use sound
+	bool	bWindowCursor;		// Use window cursor
 
 	void InitDefault()
 	{

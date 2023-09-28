@@ -19,8 +19,8 @@ CN3Sky::~CN3Sky()
 void CN3Sky::Release()
 {
 	CN3Base::Release();
-	// m_SkyColor.ChangeColor(0xFF5284DE);	//낮
-	// m_FogColor.ChangeColor(0xFFB5C6DE);	//낮
+	// m_SkyColor.ChangeColor(0xFF5284DE);
+	// m_FogColor.ChangeColor(0xFFB5C6DE);
 	m_SkyColor.ChangeColor(0xff081021);	// night
 	m_FogColor.ChangeColor(0xff102942);	// night
 	// if (m_pTex) {s_MngTex.Delete(m_pTex);	m_pTex = NULL;}

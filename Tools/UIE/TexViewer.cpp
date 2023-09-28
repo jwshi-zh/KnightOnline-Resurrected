@@ -82,9 +82,10 @@ void CTexViewer::OnPaint()
 	CPaintDC dc(this); // device context for painting
 
 	dc.SetViewportOrg(-m_ptLeftTopInImage.x * m_fScale, -m_ptLeftTopInImage.y * m_fScale);
-	
+	// Draw the currently selected area
 	if (m_rcSelectedRect.top != -1)
 	{
+		// After rearranging the left, right, top and bottom of the selected area according to the size, convert to screen coordinates
 		CRect rcSelected;
 		if (m_rcSelectedRect.left<m_rcSelectedRect.right)
 		{
@@ -114,16 +115,16 @@ void CTexViewer::OnPaint()
 		dc.SetBkColor(RGB(0,0,0));
 		dc.SelectStockObject(NULL_BRUSH);
 		CPen* pOldPen = dc.SelectObject(&m_WhiteDashPen);
-		dc.Rectangle(&rcSelected);
+		dc.Rectangle(&rcSelected);	// paint with a white dotted pen
 		dc.SelectObject(pOldPen);
 	}
-	
+	// Draw if there is an area by ImageType
 	int i;
 	int iOldMode = dc.SetROP2(R2_NOTXORPEN);
 	dc.SelectStockObject(NULL_BRUSH);
 	for (i=0; i<m_iImageTypeCount; ++i)
 	{
-		if (m_iCurSelectedImage == i) continue;
+		if (m_iCurSelectedImage == i) continue;	// Skip currently selected
 		CRect rcTmp = m_ImageRects[i];
 		rcTmp.left *= m_fScale;		rcTmp.right *= m_fScale;
 		rcTmp.top *= m_fScale;		rcTmp.bottom *= m_fScale;
@@ -142,6 +143,7 @@ void CTexViewer::OnLButtonDown(UINT nFlags, CPoint point)
 
 	if (EDITMODE_SELECT == m_eEditMode)
 	{
+		// If there is a specified rectangle, check whether the rectangle is transformed.
 		if (-1 != m_rcSelectedRect.left)
 		{
 			CRect rcReal = m_rcSelectedRect;
@@ -153,7 +155,7 @@ void CTexViewer::OnLButtonDown(UINT nFlags, CPoint point)
 		if (DRAGTYPE_NONE == m_eDragType)
 		{
 			CPoint pt = point;
-			ScreenToImage(&pt);
+			ScreenToImage(&pt);				// Convert to image coordinates
 			m_rcSelectedRect.SetRect(pt, pt);
 			m_eDragType = DRAGTYPE_SELECT;
 			m_bDeselect = TRUE;
@@ -185,8 +187,9 @@ void CTexViewer::OnLButtonUp(UINT nFlags, CPoint point)
 				else
 				{
 					CPoint pt = point;
-					ScreenToImage(&pt);
+					ScreenToImage(&pt);				// Convert to image coordinates
 					
+					// Organize the left and top of the rectangle with small coordinates, right and bottom with large coordinates
 					if (m_rcSelectedRect.left > pt.x)
 					{
 						m_rcSelectedRect.right = m_rcSelectedRect.left;
@@ -206,7 +209,7 @@ void CTexViewer::OnLButtonUp(UINT nFlags, CPoint point)
 				ProcessDrag(point);
 			}
 			m_eDragType = DRAGTYPE_NONE;
-			if (m_iCurSelectedImage>=0) m_ImageRects[m_iCurSelectedImage] = m_rcSelectedRect;
+			if (m_iCurSelectedImage>=0) m_ImageRects[m_iCurSelectedImage] = m_rcSelectedRect;	// If saving by ImageType, copy the selected rectangle
 			Invalidate();
 		}
 		else if (EDITMODE_ZOOM == m_eEditMode)
@@ -216,13 +219,13 @@ void CTexViewer::OnLButtonUp(UINT nFlags, CPoint point)
 				CRect rc;
 				GetClientRect(&rc);
 				CPoint ptPrev = point;
-				ScreenToImage(&ptPrev);
+				ScreenToImage(&ptPrev);	// Save image coordinates before zooming
 				Zoom((GetAsyncKeyState(VK_MENU) & 0xff00) ? FALSE : TRUE);
 				CPoint ptNext = ptPrev;
-				ImageToScreen(&ptNext);
-				ptNext.x = int((ptNext.x-rc.CenterPoint().x)/m_fScale);
+				ImageToScreen(&ptNext);	// Convert image coordinates to screen coordinates after zooming
+				ptNext.x = int((ptNext.x-rc.CenterPoint().x)/m_fScale);		// set it to the center of the screen
 				ptNext.y = int((ptNext.y-rc.CenterPoint().y)/m_fScale);
-				SetLeftTopInImage( m_ptLeftTopInImage + ptNext);
+				SetLeftTopInImage( m_ptLeftTopInImage + ptNext);	// shift by difference
 			}
 			else
 			{
@@ -248,20 +251,21 @@ void CTexViewer::OnMouseMove(UINT nFlags, CPoint point)
 	{
 		if (EDITMODE_SELECT == m_eEditMode)
 		{
+			// screen scroll check
 			CRect rcClient;
 			GetClientRect(&rcClient);
 			CPoint ptOffset(0,0);
-			int iBorder = 20;
+			int iBorder = 20;	// Increase by 1 if within 20 of the edge of the screen
 			if (point.x < rcClient.left+iBorder) ptOffset.x = -1;
 			else if (point.x > rcClient.right-iBorder) ptOffset.x = 1;
 			if (point.y < rcClient.top+iBorder) ptOffset.y = -1;
 			else if (point.y > rcClient.bottom-iBorder) ptOffset.y = 1;
-			iBorder = 10;
+			iBorder = 10;		// If within 10, increase by 5
 			if (point.x < rcClient.left+iBorder) ptOffset.x = -5;
 			else if (point.x > rcClient.right-iBorder) ptOffset.x = 5;
 			if (point.y < rcClient.top+iBorder) ptOffset.y = -5;
 			else if (point.y > rcClient.bottom-iBorder) ptOffset.y = 5;
-			iBorder = 5;
+			iBorder = 5;		// If within 5, increase by 20
 			if (point.x < rcClient.left+iBorder) ptOffset.x = -20;
 			else if (point.x > rcClient.right-iBorder) ptOffset.x = 20;
 			if (point.y < rcClient.top+iBorder) ptOffset.y = -20;
@@ -270,14 +274,15 @@ void CTexViewer::OnMouseMove(UINT nFlags, CPoint point)
 
 			if (DRAGTYPE_SELECT == m_eDragType)
 			{
+				// Update selection
 				CPoint pt = point;
-				ScreenToImage(&pt);
+				ScreenToImage(&pt);				// Convert to image coordinates
 				m_rcSelectedRect.right = pt.x;
 				m_rcSelectedRect.bottom = pt.y;
-				m_bDeselect = FALSE;
+				m_bDeselect = FALSE;		// deselect off
 			}
 			else
-			{
+			{	// In the case of area deformation, it is processed as follows
 				ProcessDrag(point);
 			}
 			Invalidate();
@@ -298,7 +303,7 @@ void CTexViewer::OnMouseMove(UINT nFlags, CPoint point)
 void CTexViewer::OnSize(UINT nType, int cx, int cy) 
 {
 	CWnd::OnSize(nType, cx, cy);
-	SetLeftTopInImage(m_ptLeftTopInImage);
+	SetLeftTopInImage(m_ptLeftTopInImage);	// Since the size has changed, set it again so that the top left corner is recalculated
 	
 }
 
@@ -310,7 +315,7 @@ BOOL CTexViewer::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 		{
 			HCURSOR hCur = m_hCursorSelect;
 			eDRAGTYPE		eDT = m_eDragType;
-			if (DRAGTYPE_NONE == m_eDragType)
+			if (DRAGTYPE_NONE == m_eDragType)	// If the drag type is NONE, get the position of the cursor and test it
 			{
 				CPoint pt;
 				if (GetCursorPos(&pt))
@@ -413,6 +418,7 @@ void CTexViewer::Render()
 	lpD3DDev->SetTextureStageState(0, D3DTSS_COLORARG1,  D3DTA_TEXTURE);
 	lpD3DDev->SetTextureStageState(1, D3DTSS_COLOROP,  D3DTOP_DISABLE);
 
+	//  Calculated considering the picture position and magnification
 	CRect rcRender(0,0, m_TexSize.cx*m_fScale, m_TexSize.cy*m_fScale);
 	rcRender.OffsetRect(-m_ptLeftTopInImage.x*m_fScale, -m_ptLeftTopInImage.y*m_fScale);
 	static __VertexTransformed		Vertices[4];
@@ -425,6 +431,7 @@ void CTexViewer::Render()
 	lpD3DDev->SetVertexShader(FVF_TRANSFORMED);
 	HRESULT hr = lpD3DDev->DrawPrimitiveUP(D3DPT_TRIANGLEFAN, 2, Vertices, sizeof(Vertices[0]));
 
+	// restore
 	if (D3DZB_FALSE != dwZEnable) lpD3DDev->SetRenderState(D3DRS_ZENABLE, dwZEnable);
 	if (FALSE != dwAlphaBlend) lpD3DDev->SetRenderState(D3DRS_ALPHABLENDENABLE, dwAlphaBlend);
 	if (FALSE != dwFog) lpD3DDev->SetRenderState(D3DRS_FOGENABLE   , dwFog);
@@ -500,20 +507,23 @@ BOOL CTexViewer::ImageToScreen(RECT* pRect)
 CTexViewer::eEDITMODE CTexViewer::SetEditMode(eEDITMODE eMode)
 {
 	if (m_eEditMode == eMode) return m_eEditMode;
-	if (m_bDrag) return m_eEditMode;
+	if (m_bDrag) return m_eEditMode;		// If you are dragging, do not change it. There is a high possibility of abnormal operation.
 	m_eEditMode = eMode;
 	return m_eEditMode;
 }
 
 void CTexViewer::SetLeftTopInImage(CPoint ptLeftTop)
 {
-	CRect rcClient;
+	// Calculate the limiting area
+	//  Calculated considering the picture position and magnification
+	CRect rcClient;				// Client area
 	GetClientRect(&rcClient);
 	CPoint ptLimit;
 	ptLimit.x = int(m_TexSize.cx - rcClient.Width()/m_fScale);
 	ptLimit.y = int(m_TexSize.cy - rcClient.Height()/m_fScale);
 	if (ptLimit.x < 0) ptLimit.x = 0;	if (ptLimit.y < 0) ptLimit.y = 0;
 
+	// Calculation by limiting area
 	if (ptLeftTop.x < 0) ptLeftTop.x = 0;	if (ptLeftTop.y < 0) ptLeftTop.y = 0;
 	if (ptLeftTop.x > ptLimit.x) ptLeftTop.x = ptLimit.x;
 	if (ptLeftTop.y > ptLimit.y) ptLeftTop.y = ptLimit.y;
@@ -549,7 +559,7 @@ void CTexViewer::SetSelectedUVRect(const __FLOAT_RECT* pFRect)
 	if (NULL == pFRect) return;
 	ASSERT(m_TexSize.cx > 2 && m_TexSize.cy > 2);
 
-	m_rcSelectedRect.left = int(pFRect->left*m_TexSize.cx + 0.5f);
+	m_rcSelectedRect.left = int(pFRect->left*m_TexSize.cx + 0.5f);		// The reason for adding 0.5f is rounding..
 	m_rcSelectedRect.right = int(pFRect->right*m_TexSize.cx + 0.5f);
 	m_rcSelectedRect.top = int(pFRect->top*m_TexSize.cy + 0.5f);
 	m_rcSelectedRect.bottom = int(pFRect->bottom*m_TexSize.cy + 0.5f);
@@ -586,6 +596,7 @@ CTexViewer::eDRAGTYPE CTexViewer::CheckDragType(CRect rcSel, CPoint point)
 	return DRAGTYPE_NONE;
 }
 
+// Routine to process in case of region transformation
 void CTexViewer::ProcessDrag(CPoint point)
 {
 	ScreenToImage(&point);
@@ -673,16 +684,16 @@ CRect CTexViewer::GetImageRect(int iIndex)
 	return m_ImageRects[iIndex];
 }
 
-BOOL CTexViewer::AutoMultiRectSelect(BOOL bHorizon, CString& strErrMsg)
+BOOL CTexViewer::AutoMultiRectSelect(BOOL bHorizon, CString& strErrMsg)	// Image Rects connected horizontally or vertically are automatically selected in the same size.
 {
 	if (-1 == m_rcSelectedRect.left)
 	{
-		strErrMsg = "errr 1111.";
+		strErrMsg = "No area currently selected.";
 		return FALSE;
 	}
 	else if (0 == m_rcSelectedRect.Width() || 0 == m_rcSelectedRect.Height())
 	{
-		strErrMsg = "errr 1112.";
+		strErrMsg = "The horizontal or vertical size of the selected area is 0니다.";
 		return FALSE;
 	}
 
@@ -692,13 +703,13 @@ BOOL CTexViewer::AutoMultiRectSelect(BOOL bHorizon, CString& strErrMsg)
 	int iCol = 0;
 	CPoint ptLeftTop = m_rcSelectedRect.TopLeft();
 	if (bHorizon)
-	{
+	{	// Divide by moving horizontally
 		for(i=0; i<m_iImageTypeCount; ++i)
 		{
 			if ( (ptLeftTop.x + m_rcSelectedRect.Width()*(iRow+1)) > m_TexSize.cx) {++iCol; iRow = 0;}
 			if ( (ptLeftTop.y + m_rcSelectedRect.Height()*(iCol+1)) > m_TexSize.cy)
 			{
-				strErrMsg.Format("errr 1113)", i+1);
+				strErrMsg.Format("Not all rectangular areas can be selected. (%d sets)", i+1);
 				return FALSE;
 			}
 			m_ImageRects[i].SetRect(ptLeftTop.x+m_rcSelectedRect.Width()*iRow,
@@ -709,13 +720,13 @@ BOOL CTexViewer::AutoMultiRectSelect(BOOL bHorizon, CString& strErrMsg)
 		}
 	}
 	else
-	{
+	{	// Divide by moving vertically
 		for(i=0; i<m_iImageTypeCount; ++i)
 		{
 			if ( (ptLeftTop.y + m_rcSelectedRect.Height()*(iCol+1)) > m_TexSize.cy) {++iRow; iCol = 0;}
 			if ( (ptLeftTop.x + m_rcSelectedRect.Width()*(iRow+1)) > m_TexSize.cx)
 			{
-				strErrMsg.Format("errr 1114)", i+1);
+				strErrMsg.Format("Not all rectangular areas can be selected. (%d sets)", i+1);
 				return FALSE;
 			}
 			m_ImageRects[i].SetRect(ptLeftTop.x+m_rcSelectedRect.Width()*iRow,

@@ -25,7 +25,7 @@ public:
 	struct __Wheel
 	{
 		// wheel information
-		// __Vector3			m_vPivot;	// Local 축
+		// __Vector3			m_vPivot;	// Local
 		CN3SPart*				pPart;	// Shape wheel part pointer
 
 		// Values calculated after inputting wheel information.

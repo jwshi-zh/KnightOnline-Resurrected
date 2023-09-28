@@ -95,7 +95,7 @@ void CTransDummy::Tick()
 {
 	if (m_ceDType != DUMMY_SWAP && m_SelObjArray.GetSize()==0)
 		return;
-	// Scale 조정
+	// Scale adjustment
 	__Vector3 vL = s_CameraData.vEye - m_vPos;
 	float fL = vL.Magnitude()*0.01f;
 	m_vScale.Set(fL, fL, fL);
@@ -103,7 +103,7 @@ void CTransDummy::Tick()
 	CN3Transform::Tick(-1000.0f);
 	ReCalcMatrix();
 
-	// 거리에 따라 정렬
+	// sort by distance
 	int i;
 	for (i=0; i<NUM_DUMMY; ++i)
 	{
@@ -131,28 +131,22 @@ void CTransDummy::Render()
 
 	HRESULT hr;
 
-	// set transform
-	hr = s_lpD3DDev->SetTransform(D3DTS_WORLD, &m_Matrix); // 월드 행렬 적용..
+	hr = s_lpD3DDev->SetTransform(D3DTS_WORLD, &m_Matrix);
 
-	// set texture
 	hr = s_lpD3DDev->SetTexture(0, NULL);
 	hr = s_lpD3DDev->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
 	hr = s_lpD3DDev->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_DIFFUSE);
 
-	// backup state
 	DWORD dwZEnable, dwLighting;
 	hr = s_lpD3DDev->GetRenderState(D3DRS_ZENABLE, &dwZEnable);
 	hr = s_lpD3DDev->GetRenderState(D3DRS_LIGHTING, &dwLighting);
 
-	// set state
 	hr = s_lpD3DDev->SetRenderState(D3DRS_ZENABLE, D3DZB_FALSE);
 	hr = s_lpD3DDev->SetRenderState(D3DRS_LIGHTING, FALSE);
 
-	// 이어지 선 그리기
 	hr = s_lpD3DDev->SetVertexShader(FVF_XYZCOLOR);
 	hr = s_lpD3DDev->DrawPrimitiveUP(D3DPT_LINELIST, 3, m_LineVertices, sizeof(__VertexXyzColor));
 
-	// Cube 그리기
 	hr = s_lpD3DDev->SetVertexShader(FVF_XYZNORMALCOLOR);
 	int i;
 	for (i=0; i<NUM_DUMMY; ++i)
@@ -161,7 +155,6 @@ void CTransDummy::Render()
 		hr = s_lpD3DDev->DrawPrimitiveUP(D3DPT_TRIANGLELIST, 12, m_pSortedCubes[i]->Vertices, sizeof(__VertexXyzNormalColor));
 	}
 
-	// restore
 	hr = s_lpD3DDev->SetRenderState(D3DRS_ZENABLE, dwZEnable);
 	hr = s_lpD3DDev->SetRenderState(D3DRS_LIGHTING, dwLighting);
 }
@@ -172,13 +165,13 @@ void CTransDummy::SetSelObj(SelectElement Obj, bool bOne)
 		m_SelObjArray.RemoveAll();
 	else
 	{
-		// 이미 있으면 추가하지 않는다..
+		// If it already exists, don't add it.
 		int iSize = m_SelObjArray.GetSize();
 		for ( int i = 0; i < iSize; i++ )
 		{
 			if (m_SelObjArray[i].pSelectPointer == Obj.pSelectPointer)
 			{
-				// 이미 있으므로 선택목록에서 제거
+				// Already exists, remove from picklist
 				m_SelObjArray.RemoveAt(i);
 				return;
 			}
@@ -244,7 +237,7 @@ BOOL CTransDummy::MouseMsgFilter(LPMSG pMsg)
 				m_vPrevPos = m_vPos;
 				m_qPrevRot = m_qRot;
 
-				for (int i=0; i<iSize; ++i)	// 모든 선택된 객체의 스케일 저장
+				for (int i=0; i<iSize; ++i)	// Save scale of all selected objects
 				{
 					Tv tv;
 					se = m_SelObjArray.GetAt(i);
@@ -300,7 +293,7 @@ BOOL CTransDummy::MouseMsgFilter(LPMSG pMsg)
 			}
 		}
 		break;
-	case WM_RBUTTONUP:	// 큐브 선택 취소
+	case WM_RBUTTONUP:	// Cube deselect
 		{
 			if (m_pSelectedCube)
 			{
@@ -392,7 +385,7 @@ void CTransDummy::TransDiff(__Vector3* pvDiffPos, __Quaternion* pqDiffRot, __Vec
 					{
 						CPortalVolume* pVol = (CPortalVolume* )se.pSelectPointer;
 
-						// Volume과 그럿에 Link된 Shape들..
+						// Shapes linked to volume and grut..
 						pVol->PosSet( pVol->Pos() + (*pvDiffPos) );
 
 						ShapeInfo*	pSI = NULL;
@@ -419,7 +412,7 @@ void CTransDummy::TransDiff(__Vector3* pvDiffPos, __Quaternion* pqDiffRot, __Vec
 			se = m_SelObjArray.GetAt(i);
 			switch (se.eST)
 			{
-				case TYPE_VOLUME_TOTAL:						// Volume과 그럿에 Link된 Shape들은 회전이 안된다..
+				case TYPE_VOLUME_TOTAL:						// Shapes linked to volume and grut cannot be rotated.
 					break;
 		
 					case TYPE_VOLUME_ONLY:

@@ -79,7 +79,7 @@ enum e_SubPacket_State {
 
 #define N3_VERSION_CHECK		0x2B	// Check version... s1 - Version
 // #define N3_CRYPTION_PUBLIC_KEY 0x2C // Encryption 64-bit public key Recv 64i
-#define N3_USER_LOOK_CHANGE		0x2D	// The player&#39;s attire or weapon changes.
+#define N3_USER_LOOK_CHANGE		0x2D	// The player's attire or weapon changes.
 #define N3_NOTICE				0x2E	// announcement..
 
 #define N3_PARTY_OR_FORCE		0x2F	// Party Or Force Packet... Send - b1(Party:1, Force:2)
@@ -182,7 +182,7 @@ enum e_SubPacket_Knights {
 	N3_SP_KNIGHTS_MEMBER_INFO_ALL = 0x0D, // All member requests Send - s1(page) | s1(Member Count) Loop { s1(Name Length) str1 (Name) }
 	N3_SP_KNIGHTS_MEMBER_INFO_ONLINE = 0x0E, // List of current connections Send - s1(page) | s1(Member Count) Loop { s1(Name Length) str1 (Name) }
 	N3_SP_KNIGHTS_STASH = 0x0F, // Templar Warehouse
-	N3_SP_KNIGHTS_DUTY_CHANGE = 0x10, // Change a member&#39;s position.. Go to that member. Recv - s1(Knights ID) b1(Position);
+	N3_SP_KNIGHTS_DUTY_CHANGE = 0x10, // Change a member's position.. Go to that member. Recv - s1(Knights ID) b1(Position);
 	N3_SP_KNIGHTS_JOIN_REQ = 0x11, // templar index
 	N3_SP_KNIGHTS_UNKNOWN
 };
@@ -207,7 +207,7 @@ enum e_SubPacket_KNights_Common {
 	N3_SP_KNIGHTS_COMMON_FAIL_ENEMY_USER = 0x04,	// The country of the other user is different..
 	N3_SP_KNIGHTS_COMMON_FAIL_OTHER_CLAN_USER = 0x05,	// The opposing user is already a member of another clan or guild.
 	N3_SP_KNIGHTS_COMMON_FAIL_INVALIDRIGHT = 0x06,	// No permission..
-	N3_SP_KNIGHTS_COMMON_FAIL_NONE_CLAN = 0x07,	// Knights that don&#39;t exist...
+	N3_SP_KNIGHTS_COMMON_FAIL_NONE_CLAN = 0x07,	// Knights that don't exist...
 	N3_SP_KNIGHTS_COMMON_FAIL_FULL = 0x08,	// Full staff..
 	N3_SP_KNIGHTS_COMMON_FAIL_ME = 0x09,	// If you choose yourself...
 	N3_SP_KNIGHTS_COMMON_FAIL_NOT_JOINED = 0x0A,	// Not affiliated with a Templar or Clan...

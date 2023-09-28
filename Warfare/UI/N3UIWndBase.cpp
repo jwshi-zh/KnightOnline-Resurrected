@@ -160,7 +160,7 @@ DWORD CN3UIWndBase::MouseProc(DWORD dwFlags, const POINT& ptCur, const POINT& pt
 	if (UI_STATE_COMMON_MOVE != m_eState && 
 			PtInRect(&m_rcMovable, ptCur) && (dwFlags&UI_MOUSE_LBCLICK) )
 	{
-		// If it&#39;s the inventory window and you&#39;re doing commerce...
+		// If it's the inventory window and you're doing commerce...
 		if ( (UIType() == UI_TYPE_ICON_MANAGER) && (m_eUIWnd == UIWND_INVENTORY) 
 			&& (CGameProcedure::s_pProcMain->m_pUITransactionDlg->IsVisible()) )
 			return dwRet;

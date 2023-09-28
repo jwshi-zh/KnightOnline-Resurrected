@@ -333,14 +333,14 @@ void CPortalWall::Load(FILE* stream)
 
 void CPortalWall::Save(FILE* stream)
 {
-	// 먼저 자신의 타입을 저장..
+	// First save your type..
 	fwrite(&_iTypeWall, sizeof(int), 1, stream);
 	fwrite(&m_eWallType, sizeof(int), 1, stream);
 
-	// 자신의 아이디를 저장..
+	// Save your id.
 	fwrite(&m_iID, sizeof(int), 1, stream);	
 
-	// 자신의 데이터 저장..
+	// Save your data...
 	CPvsBase::Save(stream);
 }
 

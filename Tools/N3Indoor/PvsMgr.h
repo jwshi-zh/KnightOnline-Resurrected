@@ -31,7 +31,7 @@ typedef struct tagDEBUGCOLLISION {
 } __DCollision;
 
 
-// 우선순위대로 정렬..
+// Sort by priority...
 template<class T> struct Myless : public std::less<T> {
 bool operator()(const T& x, const T& y) const
 {
@@ -51,8 +51,8 @@ class CPvsMgr
 	bool					m_bShapePerVolumn;
 
 	std::list<CPvsBase*>	m_pPvsList;
-	std::list<__Collision>	m_ColList;		//	충돌체크 Structure 리스트..
-	std::list<CPortalVol*>  m_pVoltList;	// 정렬된 충돌체크 Volumn 리스트..
+	std::list<__Collision>	m_ColList;		//	Collision check structure list..
+	std::list<CPortalVol*>  m_pVoltList;	// Sorted list of collision-checked Volumes.
 	__DCollision			m_dcol;
 
 	//.. Main Shape.. ^^
@@ -90,26 +90,20 @@ private:
 	void	Load(FILE* stream);
 	void	Save(FILE* stream);
 
-	// Edit 모드..
 	void	TickEdit();
 	void	RenderEdit();
 
-	// Compile 모드..
 	void	TickCompile();
 	void	RenderCompile();
 
-	// Execute 모드..
 	void	TickExecute();
 	void	RenderExecute();
 
-	//  Compiling..
 	void	CalcCompile();
 
-	//.. 
 	void	TotalShapeRender();
 	void	TotalCollisionRender();
 
-	// Visibility를 결정한다..
 	void	ComputeVisibilty(CPortalVol * const pVol);
 	void	SetPriority(CPortalVol * const pVol);
 	void	SetPriorityRecursive(CPortalVol* const pVol, int iRecursive);
@@ -124,10 +118,10 @@ private:
 	bool			CheckPvsWall(const __Vector3& vOrig, const __Vector3& vDir, CPortalVol* pVolMy, e_WallType eWT);
 	bool			CheckPvsVolumnWall(const __Vector3& vOrig, const __Vector3& vDir, CPortalVol* pVolMy, e_WallType eWT);
 
-	// Shape를 공간에 맞게 쪼갠다..
+	// Divide the shape into space.
 	void	SplitShapeToVolumn();
 
-	// Debug 용 렌더링..
+	// Rendering for Debug..
 //	void	RenderCollision(__Collision& col);
 
 public:

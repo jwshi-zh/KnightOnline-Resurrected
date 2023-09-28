@@ -63,7 +63,7 @@ void CRoomEvent::Initialize()
 
 void CRoomEvent::MainRoom( float fcurtime )
 {
-	// 조건 검색먼저 해야 겠지..
+	// I'll have to search for conditions first.
 	BOOL bCheck = FALSE, bRunCheck = FALSE;
 	char notify[50];	memset(notify, 0x00, 50);
 
@@ -157,7 +157,7 @@ BOOL  CRoomEvent::RunEvent( int event_num )
 			pNpc->SetLive( &m_pMain->m_Iocport );
 		}
 		else	{
-			TRACE("### RunEvent Error : 몬스터 출현 할 수 없당 = %d, logic=%d ###\n", nOption_1, m_byLogicNumber);
+			TRACE("### RunEvent Error : Monsters can't appear = %d, logic=%d ###\n", nOption_1, m_byLogicNumber);
 		}
 		if( m_byCheck == m_byLogicNumber )	{	// the room is clear
 			return TRUE;
@@ -172,7 +172,7 @@ BOOL  CRoomEvent::RunEvent( int event_num )
 			
 		}
 		else	{
-			TRACE("### RunEvent Error : 문 담당 몬스터 출현 할 수 없당 = %d, logic=%d ###\n", nOption_1, m_byLogicNumber);
+			TRACE("### RunEvent Error : The monster in charge of the door cannot appear = %d, logic=%d ###\n", nOption_1, m_byLogicNumber);
 		}
 
 		//wsprintf(notify, "** Notice: Door [%d] opens **", m_sRoomNumber);

@@ -200,10 +200,10 @@ BOOL CServerDlg::OnInitDialog()
 	//----------------------------------------------------------------------
 	GetServerInfoIni();
 
-	if(m_byZone == UNIFY_ZONE)	m_strStatus.Format("UNIFY_ZONE 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙占쏙옙");
-	else if(m_byZone == KARUS_ZONE)	m_strStatus.Format("KARUS 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙占쏙옙");
-	else if(m_byZone == ELMORAD_ZONE) m_strStatus.Format("ELMORAD 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙占쏙옙");
-	else if(m_byZone == BATTLE_ZONE) m_strStatus.Format("BATTLE 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙占쏙옙");
+	if(m_byZone == UNIFY_ZONE)	m_strStatus.Format("UNIFY_ZONE");
+	else if(m_byZone == KARUS_ZONE)	m_strStatus.Format("KARUS");
+	else if(m_byZone == ELMORAD_ZONE) m_strStatus.Format("ELMORAD");
+	else if(m_byZone == BATTLE_ZONE) m_strStatus.Format("BATTLE");
 
 	//----------------------------------------------------------------------
 	//	DB part initialize

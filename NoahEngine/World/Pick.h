@@ -23,7 +23,7 @@ public:
 
 	// [in] Coordinates of the three points v0, v1, v2
 	// [out] The larger t is, the farther the line meets the plane. If you find t*dir + orig, you can find the intersection point.
-	// [out] uv coordinates v0 (0,0), v1 (1,0), v2 (0,1) < (U, V) coordinates in parentheses&gt; Indicates which point is closest to this way
+	// [out] uv coordinates v0 (0,0), v1 (1,0), v2 (0,1) < (U, V) coordinates in parentheses> Indicates which point is closest to this way
 	// The intersection point can be obtained by calculating v0 + (v1-v0)*u + (v2-v0)*v.
 	// [out] 3D coordinates of the location taken with the vPos mouse
 	// If the return value is FALSE, it means that the three points do not meet within the triangle, and tuv vPos are all invalid values and should not be used.

@@ -13,7 +13,7 @@ enum		eSKY_DAYCHANGE {	SDC_SKYCOLOR=0,		// Sky blue
 								SDC_STARCOUNT,		// number of stars
 								SDC_MOONPHASE,		// moon shape
 								SDC_SUNCOLOR,		// Sea Color, Size - 1000 How full this viewport is.
-								SDC_GLOWCOLOR,		// The year&#39;s glow color, size - 1000 How big this viewport fills.
+								SDC_GLOWCOLOR,		// The year's glow color, size - 1000 How big this viewport fills.
 								SDC_FLARECOLOR,		// The flare color of the sun, size - 1000 How much this viewport fills up.
 								SDC_CLOUD1COLOR,	// Color of cloud layer 1
 								SDC_CLOUD2COLOR,	// Color of cloud layer 2
@@ -119,10 +119,10 @@ protected:
 	class CN3ColorChange*	m_pLightColorDiffuses[MAX_GAME_LIGHT];
 	class CN3ColorChange*	m_pLightColorAmbients[MAX_GAME_LIGHT];
 
-	std::vector<__SKY_DAYCHANGE> m_DayChanges;		// Let&#39;s qsort after entering information
+	std::vector<__SKY_DAYCHANGE> m_DayChanges;		// Let's qsort after entering information
 	int					m_iDayChangeCurPos;
 
-	std::vector<__SKY_DAYCHANGE> m_WeatherChanges;		// Let&#39;s qsort after entering information
+	std::vector<__SKY_DAYCHANGE> m_WeatherChanges;		// Let's qsort after entering information
 	int					m_iWeatherChangeCurPos;
 
 	DWORD		m_dwCheckTick;	// Window TickCount (real time) when receiving time from server
@@ -143,7 +143,7 @@ protected:
 	// effects...
 	class CN3GERain*		m_pGERain;		// rain
 	class CN3GESnow*		m_pGESnow;		// eye
-#ifdef _N3GAME // In non-game tools, you don&#39;t need it...
+#ifdef _N3GAME // In non-game tools, you don't need it...
 	class CN3SndObj*		m_pSnd_Weather_Rain;
 	class CN3SndObj*		m_pSnd_Weather_Snow;
 #endif // #ifdef _N3GAME
@@ -175,7 +175,7 @@ public:
 
 	bool Load(HANDLE hFile);
 
-#ifdef _N3GAME // In non-game tools, you don&#39;t need it...
+#ifdef _N3GAME // In non-game tools, you don't need it...
 	void ReleaseSound();
 #endif // #ifdef _N3GAME
 

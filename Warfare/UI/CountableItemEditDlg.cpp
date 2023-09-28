@@ -192,14 +192,14 @@ void CCountableItemEditDlg::Open(e_UIWND eUW, e_UIWND_DISTRICT eUD, bool bCountG
 void CCountableItemEditDlg::Close()
 {
 	m_bLocked = false;
-	// SetVisible(false); //Don&#39;t use this, use SetVisibleWithNoSound function...
+	// SetVisible(false); //Don't use this, use SetVisibleWithNoSound function...
 	SetVisibleWithNoSound(false);
 
 	const CN3UIEdit* pEdit = GetFocusedEdit();
 	if (pEdit) pEdit->KillFocus();
 }
 
-int	CCountableItemEditDlg::GetQuantity() // Get integer value from &quot;edit_trade&quot; Edit Control.
+int	CCountableItemEditDlg::GetQuantity() // Get integer value from "edit_trade" Edit Control.
 {
 	CN3UIEdit* pEdit = (CN3UIEdit*)this->GetChildByID("edit_trade");
 	__ASSERT(pEdit, "NULL UI Component!!");
@@ -207,7 +207,7 @@ int	CCountableItemEditDlg::GetQuantity() // Get integer value from &quot;edit_tr
 	return atoi(pEdit->GetString().c_str());
 }
 
-void CCountableItemEditDlg::SetQuantity(int iQuantity) // In the &quot;edit_trade&quot; Edit Control, set the integer value as a string.
+void CCountableItemEditDlg::SetQuantity(int iQuantity) // In the "edit_trade" Edit Control, set the integer value as a string.
 {
 	CN3UIEdit* pEdit = (CN3UIEdit*)this->GetChildByID("edit_trade");
 	__ASSERT(pEdit, "NULL UI Component!!");

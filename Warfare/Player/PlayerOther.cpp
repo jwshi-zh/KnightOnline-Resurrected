@@ -55,7 +55,7 @@ bool CPlayerOther::Init(e_Race eRace, int iFace, int iHair, DWORD* pdwItemIDs, i
 		{
 			if(0 == i) { ePart = PART_POS_UPPER;			szFN = pLooks->szPartFNs[0]; }
 			else if(1 == i) { ePart = PART_POS_LOWER;		szFN = pLooks->szPartFNs[1]; }
-			// else if(2 == i) { ePart = PART_POS_HAIR_HELMET; szFN = pLooks-&gt;szPartFNs[5]; }
+			// else if(2 == i) { ePart = PART_POS_HAIR_HELMET; szFN = pLooks->szPartFNs[5]; }
 			else if(3 == i) { ePart = PART_POS_HANDS;		szFN = pLooks->szPartFNs[3]; }
 			else if(4 == i) { ePart = PART_POS_FEET;		szFN = pLooks->szPartFNs[4]; }
 			else if(5 == i) { } // Cloak
@@ -90,7 +90,7 @@ bool CPlayerOther::Init(e_Race eRace, int iFace, int iHair, DWORD* pdwItemIDs, i
 		{
 			this->PartSet(ePart, szFN, pItem, pItemExt);
 		}
-		else if(PART_POS_HAIR_HELMET == ePart) // If it&#39;s hair or a helmet...
+		else if(PART_POS_HAIR_HELMET == ePart) // If it's hair or a helmet...
 		{
 			this->PartSet(ePart, szFN, pItem, pItemExt);
 		}
@@ -106,7 +106,7 @@ bool CPlayerOther::Init(e_Race eRace, int iFace, int iHair, DWORD* pdwItemIDs, i
 			this->DurabilitySet(eSlot, piItenDurabilities[i]);
 	}
 
-	// Let&#39;s separate the face.
+	// Let's separate the face.
 	this->InitFace();
 	const CN3CPart* pPartHairHelmet = this->Part(PART_POS_HAIR_HELMET);
 	if(pPartHairHelmet->FileName().empty()) // If there is nothing applicable to the helmet... sticking hair...

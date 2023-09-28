@@ -176,8 +176,8 @@ void CSubProcPerTrade::EnterWaitMyDecisionToPerTrade(int iOtherID)			// The stat
 
 void CSubProcPerTrade::SecureCodeBegin() const
 {
-	// 1. If you are in a commercial transaction, you cannot apply for a personal transaction. -&gt; The relevant part.. ok
-	// 2. If you receive an individual transaction request during commercial transactions, reject it.. -&gt; That part.. ok
+	// 1. If you are in a commercial transaction, you cannot apply for a personal transaction. -> The relevant part.. ok
+	// 2. If you receive an individual transaction request during commercial transactions, reject it.. -> That part.. ok
 
 	// 3. If the user is moving, it stops.
 	if ( s_pPlayer->IsMovingNow() )	s_pPlayer->ToggleMoveMode();				// Auto advance toggle..
@@ -191,7 +191,7 @@ void CSubProcPerTrade::SecureCodeBegin() const
 	if ( CGameProcedure::s_pProcMain->m_pUIDroppedItemDlg->IsVisible() )
 		CGameProcedure::s_pProcMain->m_pUIDroppedItemDlg->LeaveDroppedState();
 
-	// 5. Block input.. -&gt; That part.. ok (key input and message..)
+	// 5. Block input.. -> That part.. ok (key input and message..)
 
 	// 6. Clear the value of edit control in the trading window..
 	CN3UIString* pStrMy = (CN3UIString* )m_pUIPerTradeDlg->GetChildByID("string_money_my");			__ASSERT(pStrMy, "NULL UI Component!!");
@@ -285,7 +285,7 @@ void CSubProcPerTrade::PerTradeCompleteCancel()							// Cancellation of persona
 		str = pStrMy->GetString();
 		iGold = atoi(str.c_str());
 
-		// I&#39;m getting my money now...
+		// I'm getting my money now...
 		iMyMoney = s_pPlayer->m_InfoExt.iGold;
 		// recover money...
 		iMyMoney += iGold;
@@ -300,7 +300,7 @@ void CSubProcPerTrade::PerTradeCompleteCancel()							// Cancellation of persona
 				if( (m_pUIPerTradeDlg->m_pPerTradeMy[i]->pItemBasic->byContable == UIITEM_TYPE_COUNTABLE) ||  
 					(m_pUIPerTradeDlg->m_pPerTradeMy[i]->pItemBasic->byContable == UIITEM_TYPE_COUNTABLE_SMALL) )
 				{
-					// If it&#39;s an item like a bow or potion...
+					// If it's an item like a bow or potion...
 					__IconItemSkill* spItem;
 					spItem = m_pUIPerTradeDlg->m_pPerTradeMy[i];
 					
@@ -414,7 +414,7 @@ void CSubProcPerTrade::LeavePerTradeState(e_PerTradeResultCode ePTRC)	// Defines
 			// back finish...
 			PerTradeCompleteCancel();
 			FinalizePerTrade();
-			TRACE("내가 거래를 취소 상대방과 내가 취소됨.. 서버에게 보냄..\n");
+			TRACE("I cancel the transaction. The other party and I are cancelled.. Sent to the server..\n");
 			break;
 
 		case PER_TRADE_RESULT_MY_DISAGREE:								// I, who received the transaction request, canceled the transaction request..
@@ -427,11 +427,11 @@ void CSubProcPerTrade::LeavePerTradeState(e_PerTradeResultCode ePTRC)	// Defines
 
 			// back finish...
 			FinalizePerTrade();
-			TRACE("내가 거래를 거절.. 상대방과 내가 취소됨 서버에게 보냄..\n");
+			TRACE("I declined the transaction.. Canceled by the other party and I Send to the server..\n");
 			break;
 
 		case PER_TRADE_RESULT_OTHER_DISAGREE:							// The counterparty who received the transaction request cancels the transaction request.
-			TRACE("상대방이 거래를 거절.. \n");
+			TRACE("The other party declines the transaction.. \n");
 			// this_ui
 			// Show message box text..
 			::_LoadStringFromResource(IDS_OTHER_PER_TRADE_ID_NO, szMsg);
@@ -533,7 +533,7 @@ void CSubProcPerTrade::ItemCountEditOK()
 	// Gold Offset Backup..
 	m_iGoldOffsetBackup = iGoldOffset;
 
-	// I&#39;m getting my money now...
+	// I'm getting my money now...
 	iMyMoney = s_pPlayer->m_InfoExt.iGold;
 
 	if ( iGoldOffset <= 0 ) return;
@@ -681,7 +681,7 @@ void CSubProcPerTrade::ReceiveMsgPerTradeAdd(BYTE bResult)
 						str = pStrMy->GetString();
 						iGold = atoi(str.c_str());
 
-						// I&#39;m getting my money now...
+						// I'm getting my money now...
 						iMyMoney = s_pPlayer->m_InfoExt.iGold;
 						// increase money.
 						iMyMoney += m_iGoldOffsetBackup;
@@ -709,7 +709,7 @@ void CSubProcPerTrade::ReceiveMsgPerTradeAdd(BYTE bResult)
 							(m_pUIPerTradeDlg->m_pPerTradeMy[CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceEnd.iOrder]->
 							pItemBasic->byContable == UIITEM_TYPE_COUNTABLE_SMALL) )
 						{
-							// If it&#39;s an item like a bow or potion...
+							// If it's an item like a bow or potion...
 							bool bFound = false;
 
 							// If the item is missing in the inventory.. create it..
@@ -830,7 +830,7 @@ void CSubProcPerTrade::ReceiveMsgPerTradeOtherAdd(int iItemID, int iCount, int i
 
 	if ( iItemID == dwGold )
 	{
-		// Get another person&#39;s current money from the transaction window.
+		// Get another person's current money from the transaction window.
 		CN3UIString* pStrOther = (CN3UIString* )m_pUIPerTradeDlg->GetChildByID("string_money_other");	 __ASSERT(pStrOther, "NULL UI Component!!");
 		str = pStrOther->GetString();
 		iGold = atoi(str.c_str());
@@ -855,7 +855,7 @@ void CSubProcPerTrade::ReceiveMsgPerTradeOtherAdd(int iItemID, int iCount, int i
 			pItemExt = CGameBase::s_pTbl_Items_Exts[pItem->byExtIndex]->Find(iItemID%1000);
 		if(nullptr == pItem || nullptr == pItemExt)
 		{
-			__ASSERT(0, "아이템 포인터 테이블에 없음!!");
+			__ASSERT(0, "not in item pointer table!!");
 			return;
 		}
 
@@ -873,7 +873,7 @@ void CSubProcPerTrade::ReceiveMsgPerTradeOtherAdd(int iItemID, int iCount, int i
 				}
 			}
 
-			// If you can&#39;t find it...
+			// If you can't find it...
 			if ( !bFound )
 			{
 				// Find an empty inventory slot.
@@ -887,7 +887,7 @@ void CSubProcPerTrade::ReceiveMsgPerTradeOtherAdd(int iItemID, int iCount, int i
 					}
 				}
 
-				if ( !bFound )	// If you can&#39;t find an empty slot...
+				if ( !bFound )	// If you can't find an empty slot...
 					return;
 			}
 
@@ -924,7 +924,7 @@ void CSubProcPerTrade::ReceiveMsgPerTradeOtherAdd(int iItemID, int iCount, int i
 				if ( pArea )
 				{
 					spItem->pUIIcon->SetRegion(pArea->GetRegion());
-					// can&#39;t move...
+					// can't move...
 					const RECT rect = { 0, 0, 0, 0 };
 					spItem->pUIIcon->SetMoveRect(rect);
 				}
@@ -945,7 +945,7 @@ void CSubProcPerTrade::ReceiveMsgPerTradeOtherAdd(int iItemID, int iCount, int i
 				}
 			}
 
-			if ( !bFound )	return;	// I couldn&#39;t find it, so I failed...
+			if ( !bFound )	return;	// I couldn't find it, so I failed...
 
 			std::string szIconFN;
 			e_PartPosition ePart;
@@ -974,7 +974,7 @@ void CSubProcPerTrade::ReceiveMsgPerTradeOtherAdd(int iItemID, int iCount, int i
 			if ( pArea )
 			{
 				spItem->pUIIcon->SetRegion(pArea->GetRegion());
-				// can&#39;t move...
+				// can't move...
 				const RECT rect = { 0, 0, 0, 0 };
 				spItem->pUIIcon->SetMoveRect(rect);
 			}
@@ -1061,7 +1061,7 @@ Make_Icon:
 		pItemExt = CGameBase::s_pTbl_Items_Exts[pItem->byExtIndex]->Find(iItemID%1000);
 	if(nullptr == pItem || nullptr == pItemExt)
 	{
-		__ASSERT(0, "아이템 포인터 테이블에 없음!!");
+		__ASSERT(0, "not in item pointer table!!");
 		return;
 	}
 

@@ -84,7 +84,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	m_Eng.InitEnv();
 	m_Eng.Init(TRUE, m_hWnd, 0, 0, 0, TRUE);
-	m_Eng.GridCreate(64, 64); // 64 미터씩 4096 미터 표현..
+	m_Eng.GridCreate(64, 64); // Representing 4096 meters by 64 meters.
 
 	return 0;
 }

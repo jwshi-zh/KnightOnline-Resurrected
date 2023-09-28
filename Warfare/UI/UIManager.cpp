@@ -128,7 +128,7 @@ DWORD CUIManager::MouseProc(DWORD dwFlags, const POINT& ptCur, const POINT& ptOl
 		m_dwMouseFlagsCur |= dwChildRet;
 	}
 
-	// if(UI_MOUSE_LBCLICK &amp; dwFlags) m_pUIFocused = NULL; // Record the focused UI.. If nothing is done.. null..
+	// if(UI_MOUSE_LBCLICK & dwFlags) m_pUIFocused = NULL; // Record the focused UI.. If nothing is done.. null..
 
 	return m_dwMouseFlagsCur;
 }
@@ -179,7 +179,7 @@ void CUIManager::RenderStateSet()
 	if(nullptr == s_lpD3DDev) return;
 
 #ifdef _DEBUG
-	__ASSERT(FALSE == s_sRSFU.bSet, "이전에 RenderStateSet()함수를 호출하고 RenderStateRestore()함수가 호출되지 않은 상태입니다.");
+	__ASSERT(FALSE == s_sRSFU.bSet, "This is the state in which the RenderStateSet() function was called before and the RenderStateRestore() function was not called..");
 	s_sRSFU.bSet = TRUE;
 #endif
 
@@ -207,7 +207,7 @@ void CUIManager::RenderStateSet()
 void CUIManager::RenderStateRestore()
 {
 #ifdef _DEBUG
-	__ASSERT(TRUE == s_sRSFU.bSet, "이전에 RenderStateSet()함수를 호출하지 않았습니다.");
+	__ASSERT(TRUE == s_sRSFU.bSet, "Didn't call RenderStateSet() function before.");
 	s_sRSFU.bSet = FALSE;
 #endif
 
@@ -244,7 +244,7 @@ bool CUIManager::BroadcastIconDropMsg(__IconItemSkill* spItem)
 		}
 	}
 
-	// If it does not belong to anyone&#39;s area, a Cancel message is sent to the window with the corresponding icon.
+	// If it does not belong to anyone's area, a Cancel message is sent to the window with the corresponding icon.
 	if ( !bFound )
 	{
 		switch ( CN3UIWndBase::m_sSelectedIconInfo.UIWndSelect.UIWnd )

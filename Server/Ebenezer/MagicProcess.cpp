@@ -1114,7 +1114,7 @@ void CMagicProcess::ExecuteType3(int magicid, int sid, int tid, int data1, int d
 					if (!bFlag) {	// Killed by another player.
 						// If you are in a snow fight in the snow fight war zone, you can only attack by throwing snow,,,
 						if( m_pSrcUser->m_pUserData->m_bZone == ZONE_SNOW_BATTLE && m_pMain->m_byBattleOpen == SNOW_BATTLE )	{
-							m_pSrcUser->GoldGain( SNOW_EVENT_MONEY );	// 10000노아를 주는 부분,,,,,
+							m_pSrcUser->GoldGain( SNOW_EVENT_MONEY );	// Part of giving 10000 Noah,,,,,
 
 							wsprintf( strLogData, "%s -> %s userdead", m_pSrcUser->m_pUserData->m_id, pTUser->m_pUserData->m_id);
 							m_pMain->WriteEventLog( strLogData );

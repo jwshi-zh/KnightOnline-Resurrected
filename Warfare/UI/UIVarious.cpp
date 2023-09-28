@@ -732,14 +732,14 @@ bool CUIKnights::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 					KNIGHTS_DUTY_VICECHIEF == pInfoExt->eKnightsDuty || 
 					KNIGHTS_DUTY_OFFICER == pInfoExt->eKnightsDuty )
 				{
-					this-&gt;MsgSend_MemberInfoAll(m_iPageCur); // If there is a position.. See the full list..
+					this->MsgSend_MemberInfoAll(m_iPageCur); // If there is a position.. See the full list..
 				}
 				else if(KNIGHTS_DUTY_UNKNOWN)
 				{
 				}
 				else
 				{
-					this-&gt;MsgSend_MemberInfoOnline(m_iPageCur); // If it is a general article without a position.. View only those who have logged on...
+					this->MsgSend_MemberInfoOnline(m_iPageCur); // If it is a general article without a position.. View only those who have logged on...
 				}
 			}
 		}
@@ -755,22 +755,22 @@ bool CUIKnights::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 			this->MsgSend_MemberRemove();
 		else if(pSender == m_pBtn_MemberAppoint) // appoint to member position
 		{
-			this-&gt;VisibleAppointButtons(true); // Make a group of appointed buttons visible...
+			this->VisibleAppointButtons(true); // Make a group of appointed buttons visible...
 		}
 		else if(pSender == m_pBtn_AppointChief)
 		{
 			this->MsgSend_DutyAppoint(KNIGHTS_DUTY_CHIEF);
-			this-&gt;VisibleAppointButtons(false); // Make the appoint button group invisible..
+			this->VisibleAppointButtons(false); // Make the appoint button group invisible..
 		}
 		else if(pSender == m_pBtn_AppointViceChief)
 		{
 			this->MsgSend_DutyAppoint(KNIGHTS_DUTY_VICECHIEF);
-			this-&gt;VisibleAppointButtons(false); // Make the appoint button group invisible..
+			this->VisibleAppointButtons(false); // Make the appoint button group invisible..
 		}
 		else if(pSender == m_pBtn_AppointOfficer)
 		{
 			this->MsgSend_DutyAppoint(KNIGHTS_DUTY_OFFICER);
-			this-&gt;VisibleAppointButtons(false); // Make the appoint button group invisible..
+			this->VisibleAppointButtons(false); // Make the appoint button group invisible..
 		}
 		else if (pSender == m_pBtn_Online) // Make only accessor visible..
 		{
@@ -822,11 +822,11 @@ void CUIKnights::UpdateKnightsGrade(int iVal)
 /*
 	if(NULL == m_pText_Grade) return;
 	
-	std::string szVal(&quot;등급 : &quot;);
-	if(iVal &lt;= 0) szVal += &quot;none&quot;;
-	else szVal += (char)(&#39;0&#39;+iVal);
+	std::string szVal("등급 : ");
+	if(iVal <= 0) szVal += "none";
+	else szVal += (char)('0'+iVal);
 		
-	m_pText_Grade-&gt;SetString(wordVal);
+	m_pText_Grade->SetString(wordVal);
 */
 }
 
@@ -835,11 +835,11 @@ void CUIKnights::UpdateKnightsRank(int iVal)
 /*
 	if(NULL == m_pText_Rank) return;
 
-	std::string szVal(&quot;순위 : &quot;);
-	if(iVal &lt;= 0) szVal += &quot;none&quot;;
-	else szVal += (char)(&#39;0&#39;+iVal);
+	std::string szVal("순위 : ");
+	if(iVal <= 0) szVal += "none";
+	else szVal += (char)('0'+iVal);
 		
-	m_pText_Rank-&gt;SetString(wordVal);
+	m_pText_Rank->SetString(wordVal);
 */
 }
 
@@ -1053,7 +1053,7 @@ void CUIKnights::ChangeUIByDuty(e_KnightsDuty eDuty) // UI change according to p
 	{
 	}
 
-	this-&gt;VisibleAppointButtons(false); // hide the appoint button...
+	this->VisibleAppointButtons(false); // hide the appoint button...
 	if(m_pGroup_BossCmd) m_pGroup_BossCmd->SetVisible(bVisibles[0]);
 	if(m_pBtn_Online) m_pBtn_Online->SetVisible(bVisibles[1]);
 	*/
@@ -1540,7 +1540,7 @@ CUIVarious::CUIVarious()
 	m_pPageFriends = nullptr;
 
 	m_bOpenningNow = false; // is opening...
-	m_bClosingNow = false;	// it&#39;s closing...
+	m_bClosingNow = false;	// it's closing...
 	m_fMoveDelta = 0; // Floating point is used to calculate the current position to make it open and close smoothly.
 }
 
@@ -1564,7 +1564,7 @@ void CUIVarious::Release()
 	m_pPageFriends = nullptr;
 
 	m_bOpenningNow = false; // is opening...
-	m_bClosingNow = false;	// it&#39;s closing...
+	m_bClosingNow = false;	// it's closing...
 	m_fMoveDelta = 0; // Floating point is used to calculate the current position to make it open and close smoothly.
 }
 
@@ -1578,7 +1578,7 @@ bool CUIVarious::Load(HANDLE hFile)
 	m_pBtn_Friends = (CN3UIButton*)(this->GetChildByID("Btn_Friends"));		__ASSERT(m_pBtn_Friends, "NULL UI Component!!");
 	m_pBtn_Close =	(CN3UIButton*)(this->GetChildByID("Btn_Close"));		__ASSERT(m_pBtn_Close, "NULL UI Component!!");
 
-	// We don&#39;t have a UI yet, so let&#39;s block it.
+	// We don't have a UI yet, so let's block it.
 	if(m_pBtn_Quest) m_pBtn_Quest->SetState(UI_STATE_BUTTON_DISABLE);
 	if(m_pBtn_Friends) m_pBtn_Friends->SetState(UI_STATE_BUTTON_DISABLE);
 
@@ -1611,8 +1611,8 @@ bool CUIVarious::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 	{
 		if(pSender == m_pBtn_Close)			this->Close(); // close...
 		else if(pSender == m_pBtn_State)	this->UpdatePageButtons(m_pBtn_State);
-		// else if(pSender == m_pBtn_Quest)	this->UpdatePageButtons(m_pBtn_Quest);		// 퀘스트...
-		else if(pSender == m_pBtn_Knights)	this->UpdatePageButtons(m_pBtn_Knights);	// Knights... let&#39;s stop for a moment...
+		// else if(pSender == m_pBtn_Quest)	this->UpdatePageButtons(m_pBtn_Quest);		// quest...
+		else if(pSender == m_pBtn_Knights)	this->UpdatePageButtons(m_pBtn_Knights);	// Knights... let's stop for a moment...
 		else if(pSender == m_pBtn_Friends)	this->UpdatePageButtons(m_pBtn_Friends);
 	}
 
@@ -1650,7 +1650,7 @@ void CUIVarious::UpdatePageButtons(CN3UIButton* pButtonToActive)
 
 void CUIVarious::Open()
 {
-	// It&#39;s open!!
+	// It's open!!
 	this->SetVisible(true);
 	const RECT rc = this->GetRegion();
 	this->SetPos(-(rc.right - rc.left), 80);
@@ -1658,14 +1658,14 @@ void CUIVarious::Open()
 	m_bOpenningNow = true;
 	m_bClosingNow = false;
 
-	// If you don&#39;t have a list of guilds, ask for one.
+	// If you don't have a list of guilds, ask for one.
 	// __InfoPlayerMySelf*	pInfoExt = &(CGameBase::s_pPlayer->m_InfoExt);
 	// if(m_pPageKnights->NeedMemberListRequest() && pInfoExt->iKnightsID > 0)
 	// {
 	// m_pPageKnights->MsgSend_MemberInfoOnline(0);
 	// }
 	// // If you are a guild leader or an executive level...the UI should be different..
-	// m_pPageKnights-&gt;ChangeUIByDuty(pInfoExt-&gt;eKnightsDuty); // Change UI according to permission..
+	// m_pPageKnights->ChangeUIByDuty(pInfoExt->eKnightsDuty); // Change UI according to permission..
 }
 
 void CUIVarious::Close()
@@ -1703,7 +1703,7 @@ void CUIVarious::Tick()
 
 		const int iXLimit = 0;
 		ptCur.x = (int)(m_fMoveDelta - fWidth);
-		if(ptCur.x >= iXLimit) // It&#39;s all open!!
+		if(ptCur.x >= iXLimit) // It's all open!!
 		{
 			ptCur.x = iXLimit;
 			m_bOpenningNow = false;
@@ -1729,7 +1729,7 @@ void CUIVarious::Tick()
 			ptCur.x = iXLimit;
 			m_bClosingNow = false;
 
-			this->SetVisibleWithNoSound(false, false, true); // It&#39;s all closed so you can&#39;t see it.
+			this->SetVisibleWithNoSound(false, false, true); // It's all closed so you can't see it.
 			CGameProcedure::s_pUIMgr->ReFocusUI();// this_ui
 		}
 
@@ -1765,7 +1765,7 @@ void CUIVarious::UpdateAllStates(const __InfoPlayerBase* pInfoBase, const __Info
 		m_pPageState->m_pText_Nation->SetString(szVal);
 	}
 
-	// sprintf(wordVal, &quot;%d&quot;, pInfoExt-&gt;iRank); m_pText_Rank-&gt;SetString(wordVal);
+	// sprintf(wordVal, "%d", pInfoExt->iRank); m_pText_Rank->SetString(wordVal);
 
 	m_pPageState->UpdateLevel(pInfoBase->iLevel);
 	m_pPageState->UpdateExp(pInfoExt->iExp, pInfoExt->iExpNext);

@@ -52,7 +52,7 @@ CN3EngTool*		g_pEng;
 // CN3E2Wrapper class methods:
 CN3E2Wrapper::CN3E2Wrapper()
 {
-	// ¡¯«‡ ªÛ»≤ ¥Î»≠ªÛ¿⁄
+	// progress dialog
 	HWND hWnd = M3dView::applicationShell();
 	HINSTANCE hInst = MhInstPlugin;
 	m_hDlgProgress = CreateDialog(hInst, MAKEINTRESOURCE(IDD_PROGRESS), hWnd, CN3E2Wrapper::DlgProcProgress);
@@ -68,7 +68,7 @@ CN3E2Wrapper::CN3E2Wrapper()
 
 CN3E2Wrapper::~CN3E2Wrapper()
 {
-	::DestroyWindow(m_hDlgProgress); // ¡¯«‡ ªÛ¿⁄ æ¯æ÷±‚..
+	::DestroyWindow(m_hDlgProgress); // Remove the progress box...
 	this->Release();
 }
 
@@ -91,8 +91,8 @@ void CN3E2Wrapper::Release()
 	m_Option.bGenerateCompressedTexture = TRUE;
 	m_Option.fSamplingRate = 30.0f;
 
-	lstrcpy(m_szPath, "");		// ∞Ê∑Œ ¿Ã∏ß
-	lstrcpy(m_szFileName, "");	// ∆ƒ¿œ ¿Ã∏ß
+	lstrcpy(m_szPath, "");		// path name
+	lstrcpy(m_szFileName, "");	// file name
 
 	delete m_pScene; m_pScene = NULL;
 	delete g_pEng; g_pEng = NULL;
@@ -100,15 +100,15 @@ void CN3E2Wrapper::Release()
 
 void CN3E2Wrapper::SetFileName(const char *szFileName)
 {
-	lstrcpy(m_szFileName, szFileName);	// ∆ƒ¿œ ¿Ã∏ß
+	lstrcpy(m_szFileName, szFileName);	// file name
 }
 
 void CN3E2Wrapper::SetPath(const char *szPath)
 {
-	lstrcpy(m_szPath, szPath);	// ∆ƒ¿œ ¿Ã∏ß
+	lstrcpy(m_szPath, szPath);	// file name
 }
 
-// ∂Û¿Ã∆Æ ¡æ∑˘∏¶ ∏Æ≈œ.
+// Returns the light type.
 CN3Light* CN3E2Wrapper::ProcessLight(MFnLight &mLight)
 {
 	CN3Light* pLight = new CN3Light();
@@ -116,9 +116,9 @@ CN3Light* CN3E2Wrapper::ProcessLight(MFnLight &mLight)
 	this->ProcessTransform(mT, pLight); // Transform Node
 
 	pLight->m_szName = mT.name().asChar();
-	pLight->FileNameSet("Data\\" + pLight->m_szName + ".N3Light"); // ∆ƒ¿œ ¿Ã∏ß ∞·¡§..
+	pLight->FileNameSet("Data\\" + pLight->m_szName + ".N3Light"); // Determine the file name...
 
-	// ∂Û¿Ã∆Æ ¡æ∑˘
+	// light type
 	D3DCOLORVALUE dcv = {1,1,1,1};
 	pLight->m_Data.InitPoint(m_pScene->LightCount(), __Vector3(0,0,0), dcv);
 	MFn::Type Type = mLight.type();
@@ -131,22 +131,22 @@ CN3Light* CN3E2Wrapper::ProcessLight(MFnLight &mLight)
 		pLight->m_Data.Type = D3DLIGHT_SPOT;
 		
 		MFnSpotLight Spot(mLight.object());
-		pLight->m_Data.Theta = (float)Spot.coneAngle(); // ≥ª∫Œ ø¯ª‘∞¢
-		pLight->m_Data.Phi = (float)Spot.penumbraAngle(); // ø‹∫Œ ø¯ª‘∞¢
+		pLight->m_Data.Theta = (float)Spot.coneAngle(); // inner cone angle
+		pLight->m_Data.Phi = (float)Spot.penumbraAngle(); // external cone angle
 	}
-	else // ±‚∫ª¿˚¿∏∑Œ point light
+	else // By default point light
 	{
 		pLight->m_Data.Type = D3DLIGHT_POINT;
 	}
 
 	pLight->m_Data.Position = pLight->Pos();
 
-	MFloatVector dir = mLight.lightDirection(); // πÊ«‚
+	MFloatVector dir = mLight.lightDirection();
 	pLight->m_Data.Direction.x = dir.x;
 	pLight->m_Data.Direction.y = dir.y;
 	pLight->m_Data.Direction.z = -dir.z;
 
-	MColor color = mLight.color(); // ∂Û¿Ã∆Æ ƒ√∑Ø.
+	MColor color = mLight.color(); // light color.
 
 	pLight->m_Data.Ambient.a = 1.0f;
 	pLight->m_Data.Ambient.r = color.r * 0.3f;
@@ -160,7 +160,7 @@ CN3Light* CN3E2Wrapper::ProcessLight(MFnLight &mLight)
 
 /*	MFnDependencyNode lightDG(mLight);
     MObject lightAttr = lightDG.attribute(MString("intensity"));
-	MPlug plug(mLight, lightAttr); // ∞≠µµ
+	MPlug plug(mLight, lightAttr); // robbery
 	double intensity;
 	plug.getValue(intensity);
 	
@@ -169,7 +169,7 @@ CN3Light* CN3E2Wrapper::ProcessLight(MFnLight &mLight)
 	plug.getValue(
 */
 
-	// ≥™∏”¡ˆ ±‚∫ª∞™.
+	// the rest defaults.
 	pLight->m_Data.nNumber = m_pScene->LightCount();
 	pLight->m_Data.bOn = TRUE;
 
@@ -180,15 +180,15 @@ CN3Camera* CN3E2Wrapper::ProcessCamera(MFnCamera &mCamera)
 {
 	CN3Camera* pCamera = new CN3Camera();
 	MFnTransform mT(mCamera.parent(0));
-	this->ProcessTransform(mT, pCamera); // Transform √≥∏Æ..
+	this->ProcessTransform(mT, pCamera); // Transform processing...
 	std::string szFN = "Data\\" + pCamera->m_szName + ".N3Camera";
 	pCamera->FileNameSet(szFN);
 
 //	double dHFOV, dVFOV;
 //	mCamera.getPortFieldOfView(800, 600, dHFOV, dVFOV);
-//	pCamera->s_CameraData.fNP = (float)(mCamera.nearClippingPlane() * 0.01); // meter ¥‹¿ß ¿Ã±‚∂ßπÆø° 100 ¿∏∑Œ ≥™¥©æÓ ¡ÿ¥Ÿ.
+//	pCamera->s_CameraData.fNP = (float)(mCamera.nearClippingPlane() * 0.01); // Divide by 100 because it is in meters.
 //	pCamera->s_CameraData.fFP = (float)(mCamera.farClippingPlane() * 0.01);
-//	pCamera->s_CameraData.fFOV = (float)dHFOV; // 90 µµ ∑ª¡Ó∑Œ ∞≠¡¶ ºº∆√..
+//	pCamera->s_CameraData.fFOV = (float)dHFOV; // Forced setting with 90 degree lens..
 
 	return pCamera;
 }
@@ -223,7 +223,7 @@ void CN3E2Wrapper::SceneExport()
 	// Option Dialog 
 	HINSTANCE hInst = MhInstPlugin;
 	HWND hWnd = M3dView::applicationShell();
-	int rval = DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_EXPORT_OPTION), hWnd, DlgProcPane, NULL); // ƒ¡∆Æ∑— ∆–≥Œ ¥Î»≠ªÛ¿⁄..
+	int rval = DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_EXPORT_OPTION), hWnd, DlgProcPane, NULL); // Control panel dialog..
 	if(rval != 1) return;
 	
 	g_pEng = new CN3EngTool();
@@ -232,7 +232,7 @@ void CN3E2Wrapper::SceneExport()
 	
 	char szPath[256];
 	::GetCurrentDirectory(256, szPath);
-	g_pEng->PathSet(szPath); // ∞Ê∑Œ º≥¡§...
+	g_pEng->PathSet(szPath); // Set route...
 
 	m_pScene = new CN3Scene();
 
@@ -241,11 +241,11 @@ void CN3E2Wrapper::SceneExport()
 		delete m_pScene; m_pScene = NULL;
 		delete g_pEng; g_pEng = NULL;
 
-		MessageBox(::GetActiveWindow(), "VideoMemory ∞° ∫Œ¡∑«’¥œ¥Ÿ. VideoMemory »Æ∫∏ »ƒ ¥ŸΩ√ Ω√µµ«œººø‰.", "Data Export Error", MB_OK);
+		MessageBox(::GetActiveWindow(), "Video Memory is insufficient. Secure video memory and try again.", "Data Export Error", MB_OK);
 		return;
 	}
 
-	MTime mOldTime = MAnimControl::currentTime(); // «ˆ¿Á «¡∑π¿”¿Ã ∏Ó «¡∑π¿”¬∞¿Œ¡ˆ ¿˙¿Â..
+	MTime mOldTime = MAnimControl::currentTime(); // Stores the current frame number.
 	MTime ZeroFrm; 
 	ZeroFrm.setValue(0); // ZeroFrm.setUnit(MTime::kNTSCFrame);
 	MAnimControl::setCurrentTime(ZeroFrm);
@@ -255,7 +255,7 @@ void CN3E2Wrapper::SceneExport()
 	DWORD dwRWC = 0;
 	char szInfo[1024] = "";
 
-	m_pScene->Release(); // ∏µŒ «ÿ¡¶«œ∞Ì..
+	m_pScene->Release(); // unlock all...
 
 //	m_pScene->m_fFrmCur = (float)MAnimControl::currentTime().value();
 	m_pScene->m_fFrmStart = (float)m_Option.nFrmStart; // (float)MAnimControl::minTime().value();
@@ -265,10 +265,10 @@ void CN3E2Wrapper::SceneExport()
 
 	int i = 0;
 
-	MItDependencyNodes IterNodes1(MFn::kCamera); // scene ¿« ≥ÎµÂµÈ¿ª √º≈©..
-	MItDependencyNodes IterNodes2(MFn::kLight); // scene ¿« ≥ÎµÂµÈ¿ª √º≈©..
-	MItDependencyNodes IterNodes3(MFn::kMesh); // scene ¿« ≥ÎµÂµÈ¿ª √º≈©..
-	MItDependencyNodes IterNodes4(MFn::kSkinClusterFilter); // scene ¿« ≥ÎµÂµÈ¿ª √º≈©..
+	MItDependencyNodes IterNodes1(MFn::kCamera); // Check the nodes of the scene..
+	MItDependencyNodes IterNodes2(MFn::kLight); // Check the nodes of the scene..
+	MItDependencyNodes IterNodes3(MFn::kMesh); // Check the nodes of the scene..
+	MItDependencyNodes IterNodes4(MFn::kSkinClusterFilter); // Check the nodes of the scene..
 
 	for(i = 0; !IterNodes1.isDone(); IterNodes1.next(), i++) mObjects.append(IterNodes1.item());
 	for(i = 0; !IterNodes2.isDone(); IterNodes2.next(), i++) mObjects.append(IterNodes2.item());
@@ -284,17 +284,17 @@ void CN3E2Wrapper::SceneExport()
 	// Object Count... 
 	int nObjectCount = mObjects.length();
 
-	// ¡¯«‡ ªÛ»≤ ¥Î»≠ªÛ¿⁄ ƒ¡∆Æ∑— «⁄µÈ
+	// Progress dialog control handle
 	::SendMessage(m_hWndPB, PBM_SETRANGE, 0, MAKELPARAM(0, nObjectCount));
 	::SendMessage(m_hWndLB, LB_RESETCONTENT, 0, 0);
-	::ShowWindow(m_hDlgProgress, SW_SHOW); // ¡¯«‡ ¥Î»≠ªÛ¿⁄∏¶ ∫∏¿Ã∞Ì..
+	::ShowWindow(m_hDlgProgress, SW_SHOW); // Show progress dialog..
 	::ShowWindow(m_hDlgProgress, SW_RESTORE);
 
 	m_bCancelExport = FALSE;
 
 	for (i = 0; i < nObjectCount && FALSE == m_bCancelExport; i++)
 	{
-		// Dialog Message √≥∏Æ...
+		// Dialog message processing...
 		MSG msg;
 		if( PeekMessage( &msg, NULL, 0U, 0U, PM_REMOVE ) )
         {
@@ -302,15 +302,15 @@ void CN3E2Wrapper::SceneExport()
             DispatchMessage( &msg );
         }
 
-		if(TRUE == m_bCancelExport) break; // Export Cancel πˆ∆∞¿ª ¥©∏£∏È √Îº“..
+		if(TRUE == m_bCancelExport) break; // Cancel by pressing the Export Cancel button..
 
 		MObject mObj = mObjects[i];
 		MFn::Type mType = mObj.apiType();
 
-		if(m_Option.bExportSelectedOnly && IsSelected(mSelList, mObj) == false) continue; // º±≈√µ» ∞Õ∏∏ Export «ÿæﬂ «œ∏È..
+		if(m_Option.bExportSelectedOnly && IsSelected(mSelList, mObj) == false) continue; // If you need to export only the selected..
 
 		bool bExport = true;
-		if(MFn::kCamera == mType && TRUE == m_Option.bExportCamera) // ƒ´∏ﬁ∂Û..
+		if(MFn::kCamera == mType && TRUE == m_Option.bExportCamera) // camera..
 		{
 			MFnCamera mCamera(mObj);
 			const char* szCamera = mCamera.name().asChar();
@@ -326,11 +326,11 @@ void CN3E2Wrapper::SceneExport()
 					MFn::kDirectionalLight == mType ||
 					MFn::kAmbientLight == mType ||
 					MFn::kSpotLight == mType) && 
-					TRUE == m_Option.bExportLight )// ∂Û¿Ã∆Æ
+					TRUE == m_Option.bExportLight )// light
 		{
 			CN3Light* pLight = this->ProcessLight(MFnLight(mObj));
-			pLight->m_Data.nNumber = m_pScene->LightCount(); // ∂Û¿Ã∆Æ π¯»£ ∫Ÿ¿Ã±‚..
-			m_pScene->LightAdd(pLight); // Scene ø° ∂Û¿Ã∆Æ √ﬂ∞°..
+			pLight->m_Data.nNumber = m_pScene->LightCount(); // ÎùºÏù¥Ìä∏ Î≤àÌò∏ Î∂ôÏù¥Í∏∞..
+			m_pScene->LightAdd(pLight); // Adding lights to the scene..
 		}
 		else if(mType == MFn::kMesh && TRUE == m_Option.bExportGeometry)
 		{
@@ -338,11 +338,11 @@ void CN3E2Wrapper::SceneExport()
 
 			const char* szMeshName = mMesh.name().asChar();
 
-			bool bHaveJoint = false; // ∏∏æ‡ ª¿¥Î∏¶ √≥∏Æ«ÿæﬂ «œ∏È..
+			bool bHaveJoint = false; // If you have to deal with the skeleton..
 			if(TRUE == m_Option.bExportCharacter) bHaveJoint = this->HaveJoint(mMesh);
-			if(true == bHaveJoint) // ∞¸¿˝ø° ø¨∞·µ» ∏ﬁΩ√∏È ¡ˆ≥™∞£¥Ÿ..
+			if(true == bHaveJoint) // The mesh connected to the joint passes through..
 			{
-//				wsprintf(szInfo, "Skinning ¿Ã µ» ∏ﬁΩ√(%s)∏¶ π´Ω√«’¥œ¥Ÿ.", mMesh.name().asChar());
+//				wsprintf(szInfo, "Ignore the skinned mesh (%s).", mMesh.name().asChar());
 //				nLI = ::SendMessage(m_hWndLB, LB_ADDSTRING, 0, (LPARAM)szInfo); // Progress dialog
 //				::SendMessage(m_hWndLB, LB_SETCURSEL, (WPARAM)nLI,0); // Progress dialog
 				continue; 
@@ -353,20 +353,20 @@ void CN3E2Wrapper::SceneExport()
 				if(mMesh.parentCount() > 0 && mMesh.parent(0).apiType() == MFn::kTransform)
 				{
 					MFnTransform mTM(mMesh.parent(0));
-					if(mTM.childCount() == 1)  bProcessShape = true; // √ππ¯¬∞ ¿⁄Ωƒ¿œ ∞ÊøÏ∏∏ √≥∏Æ..
-					else if(mTM.childCount() > 1 && mTM.child(0) == mMesh.object()) bProcessShape = true; // √ππ¯¬∞ ¿⁄Ωƒ¿œ ∞ÊøÏ∏∏ √≥∏Æ..
+					if(mTM.childCount() == 1)  bProcessShape = true; // Only handles first child..
+					else if(mTM.childCount() > 1 && mTM.child(0) == mMesh.object()) bProcessShape = true; // Only handles first child..
 				}
 				if(bProcessShape) ProcessShape(mMesh);
 			}
 		}
-		else if(mType == MFn::kSkinClusterFilter && m_Option.bExportCharacter) // Ω∫≈∞¥◊ µ•¿Ã≈Õ π◊ ƒ≥∏Ø≈Õ....
+		else if(mType == MFn::kSkinClusterFilter && m_Option.bExportCharacter) // skinning data and character....
 		{
 			MFnSkinCluster mSkin(mObj);
 			this->ProcessChr(mSkin);
 		}
 		else
 		{
-			wsprintf(szInfo, "≥ÎµÂ(%s) π´Ω√«’¥œ¥Ÿ.", mObj.apiTypeStr());
+			wsprintf(szInfo, "Ignoring node (%s).", mObj.apiTypeStr());
 			nLI = ::SendMessage(m_hWndLB, LB_ADDSTRING, 0, (LPARAM)szInfo); // Progress dialog
 			::SendMessage(m_hWndLB, LB_SETCURSEL, (WPARAM)nLI,0); // Progress dialog
 
@@ -390,26 +390,26 @@ void CN3E2Wrapper::SceneExport()
 		}
 	}
 
-	// Scene ¿˙¿Â.
+	// Save scene.
 	bool bSaveOK = true;
 	if(m_bCancelExport == TRUE)
 	{
 		bSaveOK = false;
-		int nYesNo = MessageBox(hWnd, "File ¿˙¿Â", "Export∏¶ √Îº“«œºÃΩ¿¥œ¥Ÿ. ¿˙¿Â«œΩ√∞⁄Ω¿¥œ±Ó?", MB_YESNO);
+		int nYesNo = MessageBox(hWnd, "Save File", "You canceled the export. do you want to save?", MB_YESNO);
 		if(nYesNo == IDYES) bSaveOK = true;
 	}
 	
 	if(bSaveOK)
 	{
 		m_pScene->Tick(0);
-		if(m_pScene->CameraCount() <= 0) m_pScene->DefaultCameraAdd(); // ±‚∫ª ƒ´∏ﬁ∂Û
-		if(m_pScene->LightCount() <= 0) m_pScene->DefaultLightAdd(); // ±‚∫ª ∂Û¿Ã∆Æ √ﬂ∞°..
+		if(m_pScene->CameraCount() <= 0) m_pScene->DefaultCameraAdd(); // primary camera
+		if(m_pScene->LightCount() <= 0) m_pScene->DefaultLightAdd(); // Add basic light...
 
-		m_pScene->SaveDataAndResourcesToFile(m_szFileName); // Scene , Resource ¿˙¿Â..
+		m_pScene->SaveDataAndResourcesToFile(m_szFileName); // Save Scene , Resource..
 		m_pScene->Release();
 	}
 
-	MAnimControl::setCurrentTime(mOldTime); // ø¯∑° ¥Î∑Œ..
+	MAnimControl::setCurrentTime(mOldTime); // Originally..
 	MGlobal::viewFrame(mOldTime);
 
 	delete m_pScene; m_pScene = NULL;
@@ -421,11 +421,11 @@ bool CN3E2Wrapper::ProcessIMesh(MFnMesh &mMesh, CN3IMesh* pIMesh)
 	if(NULL == pIMesh) return false;
 	pIMesh->Release();
 
-	// ¿Ã∏ß ¡˛±‚..
+	// make a name...
 	MFnTransform mTM(mMesh.parent(0));
 	pIMesh->m_szName = mTM.name().asChar();
 
-	// Polygon ¿ª ∏µŒ ªÔ∞¢«¸ ∏ﬁΩ√∑Œ ∏∏µÈ∞Ì ∞πºˆ∏¶ ººæÓ¡ÿ¥Ÿ..
+	// Counts the number of polygons to make all triangle meshes.
 	int nPC = mMesh.numPolygons();
 	if(nPC <= 0) return false;
 
@@ -435,7 +435,7 @@ bool CN3E2Wrapper::ProcessIMesh(MFnMesh &mMesh, CN3IMesh* pIMesh)
 	MFloatArray mFAU, mFAV;
 	MPointArray mVArray;
 	mMesh.getUVs(mFAU, mFAV);
-	int nUVC = mFAU.length(); // UV ¡¬«• Count
+	int nUVC = mFAU.length(); // UV Coordinate Count
 	mMesh.getPoints(mVArray);
 	int nVC = mVArray.length(); // Vertex Count
 	
@@ -446,72 +446,72 @@ bool CN3E2Wrapper::ProcessIMesh(MFnMesh &mMesh, CN3IMesh* pIMesh)
 	{
 		MVector vNTmp;
 		mMesh.getPolygonNormal(i, vNTmp); // normal
-		mMesh.getPolygonVertices(i, mVITmp); // polygon ø° ¿÷¥¬ ¡° Index
+		mMesh.getPolygonVertices(i, mVITmp); // Point Index in polygon
 
 		mMesh.getPolygonUVid(i, 0, nUVI);
 		nVI = mVITmp[0];
-		Normals[nVI] += vNTmp; iNormalCounts[nVI]++; // ∏È¿« Normal ∞™ √ﬂ∞°.
+		Normals[nVI] += vNTmp; iNormalCounts[nVI]++; // Add the normal value of the face.
 		mVIArray.append(nVI); // Vertex Index
-		mUVIArray.append(nUVI); // VertexIndex, UV Index ±‚∑œ..
+		mUVIArray.append(nUVI); // Record VertexIndex, UV Index..
 
 		mMesh.getPolygonUVid(i, 1, nUVI);
 		nVI = mVITmp[1];
-		Normals[nVI] += vNTmp; iNormalCounts[nVI]++; // ∏È¿« Normal ∞™ √ﬂ∞°.
+		Normals[nVI] += vNTmp; iNormalCounts[nVI]++; // Add the normal value of the face.
 		mVIArray.append(nVI); // Vertex Index
-		mUVIArray.append(nUVI); // VertexIndex, UV Index ±‚∑œ..
+		mUVIArray.append(nUVI); // Record VertexIndex, UV Index..
 
 		mMesh.getPolygonUVid(i, 2, nUVI);
 		nVI = mVITmp[2];
-		Normals[nVI] += vNTmp; iNormalCounts[nVI]++; // ∏È¿« Normal ∞™ √ﬂ∞°.
+		Normals[nVI] += vNTmp; iNormalCounts[nVI]++; // Add the normal value of the face.
 		mVIArray.append(nVI); // Vertex Index
-		mUVIArray.append(nUVI); // VertexIndex, UV Index ±‚∑œ..
+		mUVIArray.append(nUVI); // Record VertexIndex, UV Index..
 
 		nFC++;
 
 		int nVITmp = mVITmp.length();
-		for(int j = 3; j < nVITmp; j++) // «—∏Èø° ¡°¿Ã ≥◊∞≥ ¿ÃªÛ ¿÷¥¬ ∞≈∏È..
+		for(int j = 3; j < nVITmp; j++) // If there are more than four dots on one side...
 		{
 			mMesh.getPolygonUVid(i, 0, nUVI);
 			nVI = mVITmp[0];
-			Normals[nVI] += vNTmp; iNormalCounts[nVI]++; // ∏È¿« Normal ∞™ √ﬂ∞°.
+			Normals[nVI] += vNTmp; iNormalCounts[nVI]++; // Add the normal value of the face.
 			mVIArray.append(nVI); // Vertex Index
-			mUVIArray.append(nUVI); // VertexIndex, UV Index ±‚∑œ..
+			mUVIArray.append(nUVI); // Record VertexIndex, UV Index..
 
 			mMesh.getPolygonUVid(i, nVITmp - j + 1, nUVI);
 			nVI = mVITmp[nVITmp - j + 1];
-			Normals[nVI] += vNTmp; iNormalCounts[nVI]++; // ∏È¿« Normal ∞™ √ﬂ∞°.
+			Normals[nVI] += vNTmp; iNormalCounts[nVI]++; // Add the normal value of the face.
 			mVIArray.append(nVI); // Vertex Index
-			mUVIArray.append(nUVI); // VertexIndex, UV Index ±‚∑œ..
+			mUVIArray.append(nUVI); // Record VertexIndex, UV Index..
 
 			mMesh.getPolygonUVid(i, nVITmp - j + 2, nUVI);
 			nVI = mVITmp[nVITmp - j + 2];
-			Normals[nVI] += vNTmp; iNormalCounts[nVI]++; // ∏È¿« Normal ∞™ √ﬂ∞°.
+			Normals[nVI] += vNTmp; iNormalCounts[nVI]++; // Add the normal value of the face.
 			mVIArray.append(nVI); // Vertex Index
-			mUVIArray.append(nUVI); // VertexIndex, UV Index ±‚∑œ..
+			mUVIArray.append(nUVI); // Record VertexIndex, UV Index..
 
 			nFC++;
 		}
 	}
 
-	pIMesh->Create(nFC, nVC, nUVC); // ∏ﬁΩ√ ª˝º∫..
+	pIMesh->Create(nFC, nVC, nUVC); // Create a mesh...
 
 	MFnTransform mTransform(mMesh.parent(0));
 	MMatrix mMtxWorld; mMtxWorld.setToIdentity();
 	this->GetWorldTransform(mTransform, mMtxWorld);
-	MMatrix mMtxWorldRot = mMtxWorld; // »∏¿¸«‡∑ƒ∏∏ ∂º∞Ì..
+	MMatrix mMtxWorldRot = mMtxWorld; // Just remove the rotation matrix.
 	mMtxWorldRot.matrix[3][0] = mMtxWorldRot.matrix[3][1] = mMtxWorldRot.matrix[3][2] = 0;
 	mMtxWorldRot.matrix[3][3] = 1.0;
 	
 	__VertexXyzNormal* pVDest = pIMesh->Vertices();
 	for(i = 0; i < nVC; i++) 
 	{
-		MPoint mVTmp = mVArray[i]; // World Matrix ∞ˆ«œ∞Ì..
+		MPoint mVTmp = mVArray[i]; // Multiply the World Matrix...
 		mVTmp *= mMtxWorld;
-		pVDest[i].x = (float)(mVTmp.x * 0.01); // Vertex Data ºº∆√ - meter ¥‹¿ß ¿Ã±‚ ∂ßπÆø° 100¿∏∑Œ ≥™¥©æÓ ¡ÿ¥Ÿ.
+		pVDest[i].x = (float)(mVTmp.x * 0.01); // Vertex Data Setting - Divide by 100 because it is in meters.
 		pVDest[i].y = (float)(mVTmp.y * 0.01);
-		pVDest[i].z = -(float)(mVTmp.z * 0.01); // Z √‡¿∫ π›¥Î∑Œ «—¥Ÿ.
+		pVDest[i].z = -(float)(mVTmp.z * 0.01); // The Z axis does the reverse.
 
-		// Normal ∞™ √≥∏Æ...
+		// Handling Normal values...
 //		if(iNormalCounts[i] > 0)
 //		{
 //			mNTmp.x = mNTmp.x / iNormalCounts[i];
@@ -523,21 +523,21 @@ bool CN3E2Wrapper::ProcessIMesh(MFnMesh &mMesh, CN3IMesh* pIMesh)
 		mNTmp.normalize();
 		pVDest[i].n.x = (float)mNTmp.x;
 		pVDest[i].n.y = (float)mNTmp.y;
-		pVDest[i].n.z = -(float)mNTmp.z; // Z √‡¿∫ π›¥Î∑Œ «—¥Ÿ.
+		pVDest[i].n.z = -(float)mNTmp.z; // The Z axis does the reverse.
 
 	}
 
-	for(i = 0; i < nUVC; i++) pIMesh->UVSet(i, mFAU[i], 1.0f - mFAV[i]); // UV µ•¿Ã≈Õ ºº∆√..
-//	for(i = 0; i < nUVC; i++) pIMesh->UVSet(i, mFAU[i], mFAV[i]); // UV µ•¿Ã≈Õ ºº∆√..
+	for(i = 0; i < nUVC; i++) pIMesh->UVSet(i, mFAU[i], 1.0f - mFAV[i]); // UV data setting..
+//	for(i = 0; i < nUVC; i++) pIMesh->UVSet(i, mFAU[i], mFAV[i]); // UV data setting..
 	for(i = 0; i < nFC; i++) // 
 	{
-		pIMesh->VertexIndexSet(i*3+0, mVIArray[i*3+0]); // Vertex Index ºº∆√
+		pIMesh->VertexIndexSet(i*3+0, mVIArray[i*3+0]); // Vertex Index Settings
 		pIMesh->VertexIndexSet(i*3+1, mVIArray[i*3+2]);
 		pIMesh->VertexIndexSet(i*3+2, mVIArray[i*3+1]);
 
-		if(nUVC > 0) // UV Index ∞° ¿÷æÓæﬂ «—¥Ÿ..
+		if(nUVC > 0) // Must have UV Index.
 		{
-			pIMesh->UVIndexSet(i*3+0, mUVIArray[i*3+0]); // UV Index ºº∆√..
+			pIMesh->UVIndexSet(i*3+0, mUVIArray[i*3+0]); // UV Index setting..
 			pIMesh->UVIndexSet(i*3+1, mUVIArray[i*3+2]);
 			pIMesh->UVIndexSet(i*3+2, mUVIArray[i*3+1]);
 		}
@@ -556,7 +556,7 @@ bool CN3E2Wrapper::ProcessVMesh(MFnMesh &mMesh, CN3VMesh* pVMesh)
 	if(NULL == pVMesh) return false;
 	pVMesh->Release();
 
-	// Polygon ¿ª ∏µŒ ªÔ∞¢«¸ ∏ﬁΩ√∑Œ ∏∏µÈ∞Ì ∞πºˆ∏¶ ººæÓ¡ÿ¥Ÿ..
+	// Counts the number of polygons to make all triangle meshes.
 	int nPC = mMesh.numPolygons();
 	if(nPC <= 0) return false;
 
@@ -564,20 +564,20 @@ bool CN3E2Wrapper::ProcessVMesh(MFnMesh &mMesh, CN3VMesh* pVMesh)
 	__Vector3* pvDests = pVMesh->Vertices();
 
 	MIntArray mVIs;
-	MPointArray mVs; mMesh.getPoints(mVs); // ¿ßƒ°µÈ..
+	MPointArray mVs; mMesh.getPoints(mVs); // locations...
 	MPoint mPosTmp;
 
-	MFnTransform mTransform(mMesh.parent(0)); // ø˘µÂ «‡∑ƒ
+	MFnTransform mTransform(mMesh.parent(0)); // world matrix
 	MMatrix mMtxWorld; mMtxWorld.setToIdentity();
 	this->GetWorldTransform(mTransform, mMtxWorld);
 	
 	for(int i = 0; i < nPC; i++)
 	{
-		mMesh.getPolygonVertices(i, mVIs); // polygon ø° ¿÷¥¬ ¡° Index
+		mMesh.getPolygonVertices(i, mVIs); // Point Index in polygon
 		if(mVIs.length() != 3)
 		{
 			char szErr[256];
-			wsprintf(szErr, "%s ¥¬ ªÔ∞¢ ∆˙∏Æ∞Ô¿Ã æ∆¥’¥œ¥Ÿ.", mMesh.name().asChar());
+			wsprintf(szErr, "%s is not a triangular polygon.", mMesh.name().asChar());
 			break;
 		}
 
@@ -592,7 +592,7 @@ bool CN3E2Wrapper::ProcessVMesh(MFnMesh &mMesh, CN3VMesh* pVMesh)
 		}
 	}
 
-	// ¿Ã∏ß √≥∏Æ..
+	// Name processing...
 	pVMesh->m_szName = "";
 	this->ProcessName(mTransform.object(), pVMesh->m_szName);
 	std::string szFN = pVMesh->m_szName + ".N3VMesh";
@@ -643,14 +643,14 @@ bool CN3E2Wrapper::ProcessSkin(MFnSkinCluster &mSkin, CN3Skin* pSkin)
 
 
 
-	if(false == this->ProcessIMesh(mMeshOutput, pSkin)) return false; // Indexed Mesh √≥∏Æ.
+	if(false == this->ProcessIMesh(mMeshOutput, pSkin)) return false; // Indexed mesh processing.
 
-	// Joint ∞° ±◊∑Ï µ«æÓ ¿÷¥Ÿ∏È Parent Transform √≥∏Æ..
+	// If Joint is grouped, Parent Transform processing..
 /*	if(mJointRoot.parentCount() > 0 && mJointRoot.parent(0).hasFn(MFn::kTransform))
 	{
 		MFnTransform mTJP(mJointRoot.parent(0));
 
-		// Normal ∞™ ¥ŸΩ√ ¡§∏Æ..
+		// Reset normal values..
 		MMatrix mMtx; mMtx.setToIdentity();
 		this->GetWorldTransform(mTJP, mMtx);
 		MTransformationMatrix mTMtx(mMtx);
@@ -676,26 +676,26 @@ bool CN3E2Wrapper::ProcessSkin(MFnSkinCluster &mSkin, CN3Skin* pSkin)
 
 
 	__VertexSkinned* pVBone = pSkin->SkinVertices();
-	MFnTransform mTM(mMeshOutput.parent(0)); // Mesh, Joint ø° ¿˚øÎµ» Transform
+	MFnTransform mTM(mMeshOutput.parent(0)); // Transform applied to Mesh and Joint
 	MMatrix mMtxM; mMtxM.setToIdentity();
 	this->GetWorldTransform(mTM, mMtxM);
 
 	int iFind = pSkin->m_szName.find('_');
-	if(iFind > 0) pSkin->m_szName = pSkin->m_szName.substr(iFind + 1); // æ¥ıπŸ∞° ¿÷¿∏∏È ¿ﬂ∂Û¡ÿ¥Ÿ..
-	pSkin->FileNameSet("Item\\" + pSkin->m_szName + ".N3Skin"); // ∆ƒ¿œ ¿Ã∏ß ∞·¡§..
+	if(iFind > 0) pSkin->m_szName = pSkin->m_szName.substr(iFind + 1); // If there is an underbar, cut it off.
+	pSkin->FileNameSet("Item\\" + pSkin->m_szName + ".N3Skin"); // Determine the file name...
 
-	for(int i = 0; !mGIt.isDone(); mGIt.next(), i++) // ∑Á«¡∏¶ µπ∏Èº≠ ƒƒ∆˜≥Õ∆Æ(Geometry ¿« «—¡°...)¿ª √≥∏Æ«—¥Ÿ.
+	for(int i = 0; !mGIt.isDone(); mGIt.next(), i++) // Process the component (a point of Geometry...) while looping.
 	{
 		MObject mComp = mGIt.component();
 		MFn::Type mType = mComp.apiType();
 
-		// Weight ∞™¿ª ±∏«—¥Ÿ.
+		// Get the weight value.
 		MFloatArray mWTs;
 		unsigned int nWTs;
 		mSkin.getWeights(mSkinPath, mComp, mWTs, nWTs);
 		if (nWTs == 0)
 		{
-			lstrcpy(szInfo, "Skin √≥∏Æ ø¿∑˘ : Weight ∞™¿Ã æ¯Ω¿¥œ¥Ÿ.");
+			lstrcpy(szInfo, "Skin processing error: no weight value.");
 			nLI = ::SendMessage(m_hWndLB, LB_ADDSTRING, 0, (LPARAM)szInfo); // Progress dialog
 			::SendMessage(m_hWndLB, LB_SETCURSEL, (WPARAM)nLI,0); // Progress dialog
 
@@ -704,15 +704,15 @@ bool CN3E2Wrapper::ProcessSkin(MFnSkinCluster &mSkin, CN3Skin* pSkin)
 
 		MPoint mPt;
 		mPt = mGIt.position();
-//		mPt = mVArray[j]; // ø¯∑° ¿Ã∞‘ ¡§ªÛ¿Ã¡ˆ∏∏.. πŸ¿Œµ˘ ∆˜¡Ó∑Œ µπæ∆∞°æﬂ «—¥Ÿ..
+//		mPt = mVArray[j]; // Originally, this is normal.. but I have to go back to the binding pose..
 
-		mPt *= mMtxM; // «‡∑ƒ¿ª ∞ˆ«ÿ¡÷∞Ì..
-		mPt.x *= 0.01; mPt.y *= 0.01; mPt.z *= -0.01; // Z √‡¿∫ ¿Ωºˆ∑Œ..
+		mPt *= mMtxM; // Multiply the matrix to address..
+		mPt.x *= 0.01; mPt.y *= 0.01; mPt.z *= -0.01; // Z axis is negative..
 		
 		pVBone[i].vOrigin.Set((float)mPt.x, (float)mPt.y, (float)mPt.z);
 
 		
-		// Weight ∞™¿Ã 0¿ÃªÛ¿Œ ∞Õ∏∏ ∞Ì∏•¥Ÿ..
+		// Only those whose weight value is greater than 0 are selected.
 		int nAffect = 0;
 		static int s_nJoints[128];
 		static float s_fWeights[128];
@@ -745,7 +745,7 @@ bool CN3E2Wrapper::ProcessSkin(MFnSkinCluster &mSkin, CN3Skin* pSkin)
 
 bool CN3E2Wrapper::ProcessShape(MFnMesh& mMesh)
 {
-	if(mMesh.numPolygons() > 10000) // ∏È¿« ∞πºˆ∞° ∏∏∞≥ ≥—æÓ∞°∏È... CN3IMesh ∑Œ √≥∏Æ ∫“∞°¥…...
+	if(mMesh.numPolygons() > 10000) // If the number of faces exceeds 10,000... Cannot be processed with CN3IMesh...
 	{
 		CN3VMesh VMesh;
 		this->ProcessVMesh(mMesh, &VMesh);
@@ -792,15 +792,15 @@ bool CN3E2Wrapper::ProcessShape(MFnMesh& mMesh)
 	{
 		pShape = new CN3Shape();
 		this->ProcessTransform(mTG, pShape);
-		pShape->m_szName = ""; this->ProcessName(mTG.object(), pShape->m_szName); // ¿Ã∏ß¿ª ¥ŸΩ√¡§«œ±‚.
-		pShape->FileNameSet("Object\\" + pShape->m_szName + ".N3Shape"); // ∆ƒ¿œ ¿Ã∏ß ¡§«œ±‚..
+		pShape->m_szName = ""; this->ProcessName(mTG.object(), pShape->m_szName); // Rename.
+		pShape->FileNameSet("Object\\" + pShape->m_szName + ".N3Shape"); // Naming the file...
 		
 		m_pScene->ShapeAdd(pShape);
 
 		MMatrix mMtxJWorld; mMtxJWorld.setToIdentity();
 		this->GetWorldTransform(mTG, mMtxJWorld);
 
-		// ««π˛¡° ∞ËªÍ
+		// Pivot Point Calculation
 		MPoint mvPivot;
 		mvPivot = mTG.rotatePivot(MSpace::kTransform);
 		pShape->PosSet((float)(mvPivot.x*0.01), (float)(mvPivot.y*0.01), -(float)(mvPivot.z*0.01));
@@ -810,19 +810,19 @@ bool CN3E2Wrapper::ProcessShape(MFnMesh& mMesh)
 	this->ProcessIMesh(mMesh, &IMesh);
 	if(IMesh.FaceCount() <= 0) return false;
 
-	// ¿Ã∏ßø° "collision" ¿Ã∂Û¥¬ πÆ¿⁄ø≠¿Ã µÈæÓ∞°∏È.. √Êµπ ∏ﬁΩ√¥Ÿ..
+	// If the name contains the string "collision", it is a collision mesh..
 	std::string szTmp = IMesh.m_szName;
 	if(szTmp.size()) CharLower(&(szTmp[0]));
 	if(szTmp.find("coll") != -1 || szTmp.find("climb") != -1)
 	{
-		// ∏ﬁΩ√¿« ¡°¿ßƒ°∏¶ ««π˛¡°ø° ¥Î«ÿ ¥ŸΩ√ ∞ËªÍ.. Shape ¿« ∑Œƒ√ ¡¬«•∑Œ ∏¬√ﬂæÓ ¡ÿ¥Ÿ..
+		// Recalculate the point position of the mesh with respect to the pivot point. Align it with the local coordinates of the Shape.
 		IMesh.ApplyOffset(pShape->Pos() * -1.0f);
 		int nFC = IMesh.FaceCount();
 
 		CN3VMesh* pVMesh = new CN3VMesh();
 		szNodeFullName = ""; this->ProcessName(mTM.object(), szNodeFullName);
-		pVMesh->m_szName = mTM.name().asChar(); // ¿Ã∏ß ¥ŸΩ√ ¡§«œ∞Ì..
-		pVMesh->FileNameSet("Object\\" + szNodeFullName + ".N3VMesh"); // ∆ƒ¿œ ¿Ã∏ß ∞·¡§..
+		pVMesh->m_szName = mTM.name().asChar(); // Renamed...
+		pVMesh->FileNameSet("Object\\" + szNodeFullName + ".N3VMesh"); // Determine the file name...
 
 		pVMesh->CreateVertices(nFC*3);
 
@@ -830,31 +830,31 @@ bool CN3E2Wrapper::ProcessShape(MFnMesh& mMesh)
 		__Vector3* pVDest = pVMesh->Vertices();
 		for(i = 0; i < nFC * 3; i++)
 		{
-			pVDest[i].x = pVSrc[i].x; // ¿ßƒ°∏∏ ºº∆√«ÿ ¡ÿ¥Ÿ...
-			pVDest[i].y = pVSrc[i].y; // ¿ßƒ°∏∏ ºº∆√«ÿ ¡ÿ¥Ÿ...
-			pVDest[i].z = pVSrc[i].z; // ¿ßƒ°∏∏ ºº∆√«ÿ ¡ÿ¥Ÿ...
+			pVDest[i].x = pVSrc[i].x; // Just set the location...
+			pVDest[i].y = pVSrc[i].y; // Just set the location...
+			pVDest[i].z = pVSrc[i].z; // Just set the location...
 		}
 		pShape->s_MngVMesh.Add(pVMesh);
 		if(szTmp.find("coll") != -1) pShape->CollisionMeshSet(pVMesh->FileName());
 		else if(szTmp.find("climb") != -1) pShape->ClimbMeshSet(pVMesh->FileName());
 	}
-	else // √Êµπ ∏ﬁΩ√∞° æ∆¥œ∏È..
+	else // Unless it's a collision mesh...
 	{
-		CN3SPart* pPD = pShape->PartAdd(); // Part √ﬂ∞° «ÿ¡÷∞Ì..
+		CN3SPart* pPD = pShape->PartAdd(); // Add a part...
 		szNodeFullName = ""; this->ProcessName(mTM.object(), szNodeFullName);
-		pPD->m_szName = mTM.name().asChar(); // Part ¿Ã∏ß ¡˛±‚..
+		pPD->m_szName = mTM.name().asChar(); // Naming the Part...
 		pPD->FileNameSet("Object\\" + szNodeFullName + "N3CPart");
 
-		// ««π˛¡° ∞ËªÍ
+		// Pivot Point Calculation
 		MPoint mvPivot = mTM.rotatePivot(MSpace::kTransform);
 		pPD->m_vPivot.Set((float)(mvPivot.x*0.01), (float)(mvPivot.y*0.01), -(float)(mvPivot.z*0.01));
 		pPD->m_vPivot -= pShape->Pos();
 
-		// ∏ﬁΩ√¿« ¡°¿ßƒ°∏¶ Shape ∆ƒ∆Æ¿« ««π˛¡°ø° ¥Î«ÿ ¥ŸΩ√ ∞ËªÍ.. Shape¿« part ∑Œƒ√ ¡¬«•∑Œ ∏¬√ﬂæÓ ¡ÿ¥Ÿ..
+		// Recalculate the point position of the mesh with respect to the pivot point of the shape part. Align it with the local coordinates of the part of the shape.
 		__Vector3 vOffset((float)(mvPivot.x * 0.01), (float)(mvPivot.y * 0.01), -(float)(mvPivot.z * 0.01));
 		IMesh.ApplyOffset(vOffset * -1.0f);
 
-		// CN3Mesh ∑Œ Convert
+		// Convert to CN3Mesh
 		CN3Mesh N3Mesh;
 		N3Mesh.Import(&IMesh);
 		N3Mesh.MakeIndexed();
@@ -863,45 +863,45 @@ bool CN3E2Wrapper::ProcessShape(MFnMesh& mMesh)
 			N3Mesh.ReGenerateSmoothNormal();
 		}
 
-		// Progressive Mesh ª˝º∫..
+		// Create Progressive Mesh..
 		CN3PMeshCreate PMeshCreate;
 		if (PMeshCreate.ConvertFromN3Mesh(&N3Mesh)==false)
 		{
-			MessageBox(::GetActiveWindow(), "∫Ø»Ø«“ ºˆ æ¯∞≈≥™ ≥ªøÎ¿Ã æ¯¥¬ N3Mesh¿‘¥œ¥Ÿ.", "PMesh Convert error", MB_OK);
+			MessageBox(::GetActiveWindow(), "N3Mesh that cannot be converted or has no content.", "PMesh Convert error", MB_OK);
 			//return;
 		}
 
-		// ¿⁄µø PMesh ª˝º∫ ø…º«
-		PMeshCreate.m_PMCOption.bUseSumOfLoss = true;	// Loss¿« «’¿ª ªÁøÎ
-		PMeshCreate.m_PMCOption.bTriangleWeight = true;	// ªÁ∂Û¡ˆ¥¬ ªÔ∞¢«¸ ∞°¡ﬂƒ° ªÁøÎ
-		PMeshCreate.m_PMCOption.bArea = true;	// false : ºº∫Ø¿∫ ±Ê¿Ã¿« «’¿∏∑Œ «—¥Ÿ.
-		PMeshCreate.m_PMCOption.fWeight = 1.0f;	// ªÁ∂Û¡ˆ¥¬ ªÔ∞¢«¸ ∞°¡ﬂƒ° (¡ﬂø‰µµ)
+		// Automatic PMesh generation option
+		PMeshCreate.m_PMCOption.bUseSumOfLoss = true;	// Use the sum of losses
+		PMeshCreate.m_PMCOption.bTriangleWeight = true;	// Using vanishing triangle weights
+		PMeshCreate.m_PMCOption.bArea = true;	// false: The three sides are the sum of the lengths.
+		PMeshCreate.m_PMCOption.fWeight = 1.0f;	// Disappearing triangle weights (importance)
 
-		CN3PMesh *pPMesh = PMeshCreate.CreateRendererMesh(); // Progressive Mesh ª˝º∫
-		pPMesh->m_szName = mTM.name().asChar(); // ∞¡ ¿Ã∏ß..
+		CN3PMesh *pPMesh = PMeshCreate.CreateRendererMesh(); // Create Progressive Mesh
+		pPMesh->m_szName = mTM.name().asChar(); // Just a name..
 		std::string szFN; this->ProcessName(mTM.object(), szFN);
 
 		int iLen = szFN.size();
 		if(m_Option.bGenerateFileName && iLen >= 11) // Item Code ::: 0_2345_78_0
 			szFN = szFN.substr(iLen - 11);
-		pPMesh->FileNameSet("Object\\" + szFN + ".N3PMesh"); // ∆ƒ¿œ ¿Ã∏ß ∞·¡§..
+		pPMesh->FileNameSet("Object\\" + szFN + ".N3PMesh"); // Determine the file name...
 
-		pShape->s_MngPMesh.Add(pPMesh); // Progressive Mesh Manager ø° √ﬂ∞°..
-		pPD->MeshSet(pPMesh->FileName()); // Mesh ºº∆√..
+		pShape->s_MngPMesh.Add(pPMesh); // Added to Progressive Mesh Manager..
+		pPD->MeshSet(pPMesh->FileName()); // Mesh settings...
 		
 		////////////////////////////////////////////////
-		// ¿Á¡˙ π◊ ≈ÿΩ∫√≥ √≥∏Æ..
+		// Material and texture handling..
 		pPD->m_Mtl.dwColorArg1 = D3DTA_DIFFUSE;
 		pPD->m_Mtl.dwColorArg2 = D3DTA_TEXTURE;
 
 		CN3Texture* pTex = this->ProcessTexture(mMesh);
-		if(pTex) // ≈ÿΩ∫√≥∞° æ≤¿Œ ¿Á¡˙¿Ã∏È ¿Á¡˙¿∫ ±‚∫ª¿˚¿Œ »Úªˆ.. ƒ√∑Ø ø¿∆€∑π¿Ãº«¿∫ Modulate
+		if(pTex) // If the material has a texture, the material is basically white. The color operation is Modulate.
 		{
-			std::string szTFN = pTex->FileName(); // ∆ƒ¿œ ¿Ã∏ß¿ª ∞ÀªÁ«ÿº≠..
+			std::string szTFN = pTex->FileName(); // Checking the file name...
 			if(szTFN.size() > 0) CharLower(&(szTFN[0]));
-			if(-1 == szTFN.find("object\\")) // "Item\" ¿Ã∂Û¥¬ πÆ¿⁄ø≠¿Ã æ¯¿∏∏È
+			if(-1 == szTFN.find("object\\")) // If there is no string called "Item\"
 			{
-				szTFN = "Object\\" + pTex->FileName(); // Item ¿Ã∂Û¥¬ ∞Ê∑Œ∏¶ ∫Ÿ¿Œ¥Ÿ..
+				szTFN = "Object\\" + pTex->FileName(); // Attach the path named Item.
 				pTex->FileNameSet(szTFN);
 			}
 
@@ -921,7 +921,7 @@ bool CN3E2Wrapper::ProcessShape(MFnMesh& mMesh)
 //			this->ProcessMaterial(this->MeshGetShader(mMesh), &(pPD->m_Mtl));
 			pPD->m_Mtl.dwColorOp = D3DTOP_SELECTARG1;
 		}
-		// ¿Á¡˙ π◊ ≈ÿΩ∫√≥ √≥∏Æ..
+		// Material and texture handling..
 		////////////////////////////////////////////////
 	}
 
@@ -932,7 +932,7 @@ CN3Joint* CN3E2Wrapper::ProcessJoint(MFnIkJoint &mJoint)
 {
 	CN3Joint* pJoint = new CN3Joint();
 	//////////////////////////////////////////////////////////////////////////////////////////
-	// Joint ¿« Transform¿ª √≥∏Æ..
+	// Transform of Joint is processed..
 	this->ProcessTransform(mJoint, pJoint);
 	
 	// Rotation Order
@@ -948,24 +948,24 @@ CN3Joint* CN3E2Wrapper::ProcessJoint(MFnIkJoint &mJoint)
 	if(mJoint.parent(0).apiType() == MFn::kTransform)
 	{
 		MFnTransform mTJ(mJoint.parent(0));
-		wsprintf(szName, "Chr\\%s.N3Joint", mTJ.name().asChar()); // ∆ƒ¿œ ¿Ã∏ß ¡§«œ±‚..
+		wsprintf(szName, "Chr\\%s.N3Joint", mTJ.name().asChar()); // Naming the file...
 	}
 	else
 	{
-		wsprintf(szName, "Chr\\%s.N3Joint", mJoint.name().asChar()); // ∆ƒ¿œ ¿Ã∏ß ¡§«œ±‚..
+		wsprintf(szName, "Chr\\%s.N3Joint", mJoint.name().asChar()); // Naming the file...
 	}
 	
-	pJoint->m_szName = mJoint.name().asChar(); // ¿Ã∏ß¡˛±‚.. FullName ¿∏∑Œ ¡˛¡ˆ¥¬ æ ¥¬¥Ÿ..
+	pJoint->m_szName = mJoint.name().asChar(); // Naming.. Do not build with FullName..
 
-	// »∏¿¸ √‡ ∞™¿ª ±∏«—¥Ÿ..
-	if(pJoint->m_KeyOrient.Count() <= 0) // Joint Orient Key ∞™¿Ã æ¯¿∏∏È.. Rotation Key ∞™¿ª Orient ∏∏≈≠ ∫Ò∆∞¥Ÿ..
+	// Get the rotation axis value.
+	if(pJoint->m_KeyOrient.Count() <= 0) // If there is no Joint Orient Key value... Twist the Rotation Key value as much as Orient.
 	{
 		double dAxis[3];
 		MStatus stat = MStatus::kSuccess;
 		stat = mJoint.getOrientation(dAxis, rotOrder); // local axis...
 
-		// Origin Rotation ∞™¿Ã ¿÷¿∏∏È..
-		if(dAxis[0] || dAxis[1] || dAxis[2]) // Origin Rotation ¿Ã ¿÷¿∏∏È..
+		// If there is an Origin Rotation value...
+		if(dAxis[0] || dAxis[1] || dAxis[2]) // If you have Origin Rotation...
 		{
 			__Matrix44 mtxRot;
 			mtxRot.Rotation((float)-dAxis[0], (float)-dAxis[1], (float)dAxis[2]);
@@ -974,18 +974,18 @@ CN3Joint* CN3E2Wrapper::ProcessJoint(MFnIkJoint &mJoint)
 		}
 	}
 	
-	// ¬˜¿œµÂ ¡∂¿Œ∆Æ √≥∏Æ..
+	// Child joint treatment..
 	int nCC = mJoint.childCount();
 	for(int i = 0; i < nCC; i++)
 	{
 		MObject mObj = mJoint.child(i);
-		if(mObj.hasFn(MFn::kJoint)) // Joint ¿œ ∞ÊøÏ..
+		if(mObj.hasFn(MFn::kJoint)) // In case of joint...
 		{
 			MFnIkJoint mJointChild(mObj);
 			CN3Joint* pJointChild = this->ProcessJoint(mJointChild);
 			pJoint->ChildAdd(pJointChild);
 		}
-		else if(mObj.hasFn(MFn::kTransform)) // ∫∏≈Î Transform ¿œ ∞ÊøÏ ¬˜¿œµÂ∞° ∏ﬁΩ√ ¿Œ¡ˆ ∫ª¥Ÿ..
+		else if(mObj.hasFn(MFn::kTransform)) // In the case of a normal Transform, see if the child is a mesh.
 		{
 			int ttt = 0;
 		}
@@ -1003,8 +1003,8 @@ void CN3E2Wrapper::ProcessJointTransform(CN3Joint *pJoint, __Vector3* pvTrans, _
 
 	if(pvScale)
 	{
-		pJoint->PosSet(pJoint->Pos() * (*pvScale)); // trans ≈∞∏¶ Ω∫ƒ…¿œø° µ˚∂Û ∏¬√ﬂ∞Ì..
-		int nK = pJoint->m_KeyPos.Count(); // ø°¥œ∏ﬁ¿Ãº« ≈∞µµ ∫Ø∞Ê«ÿ¡ÿ¥Ÿ..
+		pJoint->PosSet(pJoint->Pos() * (*pvScale)); // Adjust the trans key according to the scale.
+		int nK = pJoint->m_KeyPos.Count(); // It also changes the animation key.
 		for(int i = 0; i < nK; i++)
 		{
 			__Vector3* pvKey = (__Vector3*)(pJoint->m_KeyPos.DataGet(i));
@@ -1012,10 +1012,10 @@ void CN3E2Wrapper::ProcessJointTransform(CN3Joint *pJoint, __Vector3* pvTrans, _
 		}
 	}
 
-	if(pvTrans) // ¿Ãµø∞™ ¿˚øÎ
+	if(pvTrans) // Apply movement value
 	{
 		pJoint->PosSet(pJoint->Pos() + (*pvTrans));
-		int nK = pJoint->m_KeyPos.Count(); // ø°¥œ∏ﬁ¿Ãº« ≈∞µµ ∫Ø∞Ê«ÿ¡ÿ¥Ÿ..
+		int nK = pJoint->m_KeyPos.Count(); // It also changes the animation key.
 		for(int i = 0; i < nK; i++)
 		{
 			__Vector3* pvKey = (__Vector3*)(pJoint->m_KeyPos.DataGet(i));
@@ -1023,12 +1023,12 @@ void CN3E2Wrapper::ProcessJointTransform(CN3Joint *pJoint, __Vector3* pvTrans, _
 		}
 	}
 	
-	if(pqRot) // »∏¿¸∞™¿ª ∫Ø∞Ê«ÿ¡ÿ¥Ÿ..
+	if(pqRot) // Change the rotation value.
 	{
 		__Quaternion qRot2 = pJoint->Rot() * (*pqRot);
 		pJoint->RotSet(qRot2);
 
-		int nK = pJoint->m_KeyRot.Count(); // »∏¿¸∞™ ≈∞µµ ∫Ø∞Ê«ÿ¡ÿ¥Ÿ..
+		int nK = pJoint->m_KeyRot.Count(); // It also changes the rotation value key.
 		for(int i = 0; i < nK; i++)
 		{
 			__Quaternion* pqRot2 = (__Quaternion*)pJoint->m_KeyRot.DataGet(i);
@@ -1036,32 +1036,32 @@ void CN3E2Wrapper::ProcessJointTransform(CN3Joint *pJoint, __Vector3* pvTrans, _
 		}
 	}
 	
-	if(bProcessChild && pvScale) // «œ¿ß ≥ÎµÂ √≥∏Æ ?? 
+	if(bProcessChild && pvScale) // subnode processing ?? 
 	{
 		int nCC = pJoint->ChildCount();
 		for(int i = 0; i < nCC; i++) 
-			this->ProcessJointTransform((CN3Joint*)pJoint->Child(i), NULL, NULL, pvScale, true); // «œ¿ß ≥ÎµÂµÈ¿∫ Ω∫ƒ…¿œ∏∏ √≥∏Æ«ÿ ¡ÿ¥Ÿ..
+			this->ProcessJointTransform((CN3Joint*)pJoint->Child(i), NULL, NULL, pvScale, true); // Sub-nodes handle scale only..
 	}
 }
 
 void CN3E2Wrapper::ProcessMatrix(MFnTransform &mTransform, __Matrix44& mtx, __Vector3& vPos, __Quaternion& qtRot, __Vector3& vScale)
 {
-	// «‡∑ƒ ∫Ø»Ø..
+	// matrix transformation..
 	static double dRs[4], dSs[3];
 //	MTransformationMatrix::RotationOrder RotOrder = MTransformationMatrix::kXYZ;
-//	mTransform.getRotation(dRs, RotOrder, MSpace::kTransform); // »∏¿¸
+//	mTransform.getRotation(dRs, RotOrder, MSpace::kTransform); // rotation
 	MVector mVecPos;
 	mVecPos = mTransform.translation(MSpace::kTransform);
-	mVecPos *= 0.01; // 100 ∫–¿« 1∑Œ.. πÃ≈Õ ¡¬«•∑Œ ∏¬√·¥Ÿ..
+	mVecPos *= 0.01; // 1 in 100. Set in metric coordinates...
 	mVecPos.z = -mVecPos.z;
 
-	mTransform.getScale(dSs); // »Æ¥Î
+	mTransform.getScale(dSs); // enlargement
 
 	vPos.Set((float)mVecPos.x, (float)mVecPos.y, (float)mVecPos.z);
 //	vRot.Set((float)-dRs[0], (float)-dRs[1], (float)dRs[2]);
 	vScale.Set((float)dSs[0], (float)dSs[1], (float)dSs[2]);
 
-	mTransform.getRotationQuaternion(dRs[0], dRs[1], dRs[2], dRs[3]); // »∏¿¸ ƒı≈Õ¥œæ
+	mTransform.getRotationQuaternion(dRs[0], dRs[1], dRs[2], dRs[3]); // rotation quaternion
 	qtRot.x = (float)dRs[0];
 	qtRot.y = (float)dRs[1];
 	qtRot.z = (float)dRs[2];
@@ -1069,18 +1069,18 @@ void CN3E2Wrapper::ProcessMatrix(MFnTransform &mTransform, __Matrix44& mtx, __Ve
 
 	__Vector3 vAxis; float fAngle;
 	qtRot.AxisAngle(vAxis, fAngle);
-	vAxis.x *= -1; // x √‡ »∏¿¸¿Ã π›¥Î..
-	vAxis.y *= -1; // y √‡ »∏¿¸¿Ã π›¥Î..
+	vAxis.x *= -1; // x-axis rotation is reversed..
+	vAxis.y *= -1; // y-axis rotation is reversed..
 	vAxis.Normalize();
 	qtRot.RotationAxis(vAxis, fAngle);
 
-	// √÷¡æ «‡∑ƒ ∞ËªÍ..
+	// final matrix calculation..
 	mtx.Identity();
 	static __Matrix44 mtxTmp;
 //	mtxTmp.Rotation((float)-dRs[0], (float)-dRs[1], (float)dRs[2]);	mtx *= mtxTmp;
 	mtxTmp = qtRot; mtx *= mtxTmp;
 	mtxTmp.Scale((float)dSs[0], (float)dSs[1], (float)dSs[2]);		mtx *= mtxTmp;
-	mtx.PosSet((float)mVecPos.x, (float)mVecPos.y, (float)mVecPos.z); // ¿ßƒ°..
+	mtx.PosSet((float)mVecPos.x, (float)mVecPos.y, (float)mVecPos.z); // location..
 }
 
 bool CN3E2Wrapper::FindAnimCurve(MObject &mObj, MObjectArray &mAnimCurveArray)
@@ -1115,7 +1115,7 @@ bool CN3E2Wrapper::HaveJoint(MFnMesh &mMesh)
 		if(mTransform.child(i).apiType() == MFn::kMesh) nMC++;
 	}
 
-	if(nMC >= 2) // return true; // µŒ∞≥∫∏¥Ÿ ≈©∏È.. 
+	if(nMC >= 2) // return true; // greater than two.. 
 	{
 		MItDependencyGraph::Direction Direction = MItDependencyGraph::kUpstream;
 		MItDependencyGraph::Traversal TraversalType = MItDependencyGraph::kBreadthFirst;
@@ -1128,13 +1128,13 @@ bool CN3E2Wrapper::HaveJoint(MFnMesh &mMesh)
 		{
 			MObject mObjTmp = dgIter.thisNode();
 			if(mObjTmp.apiType() == MFn::kJoint)
-				return true; // ¡∂¿Œ∆Æ∞° ¿÷¿∏∏È..
+				return true; // if there is a joint..
 		}
 	}
 	return false;
 }
 
-// ≈ÿΩ∫√≥ ¿Œµ¶Ω∫ ∞ËªÍ..
+// Texture index calculation..
 CN3Texture* CN3E2Wrapper::ProcessTexture(MFnMesh &mMesh)
 {
 	int nLI = 0;
@@ -1151,29 +1151,29 @@ CN3Texture* CN3E2Wrapper::ProcessTexture(MFnMesh &mMesh)
 
 	if(szTexture.length() <= 0) return NULL;
 
-	// ªÁ¿Ã¡Ó∏¶ ∞°¡Æø¬¥Ÿ..
+	// Get your size...
 	MString szCommand = MString( "getAttr " ) + szTexture + MString( ".outSize" );
 	MIntArray nWH;
 	if(MGlobal::executeCommand(szCommand, nWH) != MS::kSuccess)
 	{
-		wsprintf(szInfo, "≈ÿΩ∫√≥ ∆ƒ¿œ √≥∏Æ ø¿∑˘ : Surface - %s, Texture - %s", szSurface.asChar(), szTexture.asChar());
+		wsprintf(szInfo, "Texture file processing error : Surface - %s, Texture - %s", szSurface.asChar(), szTexture.asChar());
 		nLI = ::SendMessage(m_hWndLB, LB_ADDSTRING, 0, (LPARAM)szInfo); // Progress dialog
 		::SendMessage(m_hWndLB, LB_SETCURSEL, (WPARAM)nLI,0); // Progress dialog
 
 		return NULL;
 	}
 
-//	int nW = nWH[1], nH = nWH[0]; // ªÁ¿Ã¡Ó∏¶ æÀæ∆≥ª∞Ì..
+//	int nW = nWH[1], nH = nWH[0]; // Find out your size...
 //	if(nW < 4 || nH < 4)
 //	{
-//		wsprintf(szInfo, "≈ÿΩ∫√≥ ∆ƒ¿œ √≥∏Æ ø¿∑˘ : ≥ ∫Ò, ≥Ù¿Ã∞° ≥ π´ ¿€Ω¿¥œ¥Ÿ. Surface - %s, Texture - %s", szSurface.asChar(), szTexture.asChar());
+//		wsprintf(szInfo, "Texture file processing error: width, height too small. Surface - %s, Texture - %s", szSurface.asChar(), szTexture.asChar());
 //		nLI = ::SendMessage(m_hWndLB, LB_ADDSTRING, 0, (LPARAM)szInfo); // Progress dialog
 //		::SendMessage(m_hWndLB, LB_SETCURSEL, (WPARAM)nLI,0); // Progress dialog
 //
 //		return NULL;
 //	}
 
-	// ≈ÿΩ∫√≥∏¶ ∫Ø»Ø«—¥Ÿ..
+	// Convert texture..
 	MString szFile;
 	MStringArray szResult2;
 	szCommand = MString("getAttr ") + szTexture + MString(".fileTextureName");
@@ -1181,14 +1181,14 @@ CN3Texture* CN3E2Wrapper::ProcessTexture(MFnMesh &mMesh)
 	szFile = szResult2[0];
 
 	////////////////////////////////////////////
-	// Texture List ø° µÓ∑œµ«æÓ ¿÷¥¬¡ˆ ∫ª¥Ÿ..
-	char szFNSrc[1024]; // ∆ƒ¿œ ¿Ã∏ß¿ª ¡§«œ∞Ì..
+	// See if it is registered in the Texture List.
+	char szFNSrc[1024]; // Name the file and...
 	lstrcpy(szFNSrc, szFile.asChar());
 	int nFN = lstrlen(szFNSrc);
 	for(int i = 0; i < nFN; i++) 
 		if(szFNSrc[i] == '/') szFNSrc[i] = '\\';
 
-	// πÆ¿⁄ø≠ø°  ":" ¿Ã æ¯¿∏∏È æ’¿« µŒ±€¿⁄∞° '\\' »§¿∫ '//' ¿Ã æ∆¥œ∏È «Æ≥◊¿”¿ª ∏∏µÈæÓæﬂ «—¥Ÿ.
+	// If there is no ":" in the string, the full name must be created unless the first two characters are '\\' or '//'.
 	if(!strstr(szFNSrc, ":") && !(szFNSrc[0] == '\\' && szFNSrc[1] == '\\'))
 	{
 		MString szWorkSpace;
@@ -1196,12 +1196,12 @@ CN3Texture* CN3E2Wrapper::ProcessTexture(MFnMesh &mMesh)
 		lstrcpy(szFNSrc, szWorkSpace.asChar());
 		lstrcat(szFNSrc, szFile.asChar());
 	}
-	// WorkSpace ¿Ã∏ß¿ª ∞°¡Æø¿∞Ì..
+	// Get the WorkSpace name...
 
-	char szFNDest[1024]; // ¿˙¿Â«“ ¿Ã∏ß
+	char szFNDest[1024]; // name to save
 	lstrcpy(szFNDest, szFNSrc);
 	nFN = lstrlen(szFNDest);
-	for(i = nFN - 1; i >= 0; i--) // ¿˙¿Â«“ ¿Ã∏ß¿ª ∏∏µÁ¥Ÿ..
+	for(i = nFN - 1; i >= 0; i--) // Create a name to save.
 	{
 		if(szFNDest[i] == '.') { szFNDest[i+1] = 'D'; szFNDest[i+2] = 'X'; szFNDest[i+3] = 'T'; szFNDest[i+4] = NULL; }
 		if(szFNDest[i] == '\\' || szFNDest[i] == '/') 
@@ -1213,7 +1213,7 @@ CN3Texture* CN3E2Wrapper::ProcessTexture(MFnMesh &mMesh)
 	
 	CN3Texture* pTex = NULL;
 
-	static char szFNs[1024][256]; // ∆ƒ¿œ ¿Ã∏ß¿Ã ¡ﬂ∫πµ«¥¬¡ˆ √º≈©...
+	static char szFNs[1024][256]; // Check for duplicate file names...
 	if(m_pScene->s_MngTex.Count() <= 0) memset(szFNs, 0, sizeof(szFNs));
 	for(i = 0; i < 1024; i++)
 	{
@@ -1227,15 +1227,15 @@ CN3Texture* CN3E2Wrapper::ProcessTexture(MFnMesh &mMesh)
 
 	lstrcpy(szFNs[i], szFNDest);
 	pTex = new CN3Texture();
-	if(pTex->LoadFromFile(szFNSrc)) // ∆ƒ¿œ¿ª ¿–∞Ì...
+	if(pTex->LoadFromFile(szFNSrc)) // Read the file...
 	{
-		pTex->m_szName = szFNDest; // ¿Ã∏ß ¡§«œ±‚.. - ∆ƒ¿œ ¿Ã∏ß¿∏∑Œ ¡§«—¥Ÿ.
-		pTex->FileNameSet(szFNDest); // ∆ƒ¿œ ¿Ã∏ß ¡§«œ±‚.
-		CN3Base::s_MngTex.Add(pTex); // Manager ø° µÓ∑œ
+		pTex->m_szName = szFNDest; // Set the name... - Set the file name.
+		pTex->FileNameSet(szFNDest); // Name the file.
+		CN3Base::s_MngTex.Add(pTex); // Register to Manager
 	}
 	else
 	{
-		wsprintf(szInfo, "≈ÿΩ∫√≥ ∆ƒ¿œ √≥∏Æ ø¿∑˘ : ∆ƒ¿œ¿ª ¿–¿ªºˆ æ¯Ω¿¥œ¥Ÿ. - %s", szFNSrc);
+		wsprintf(szInfo, "Texture file processing error: cannot read file. - %s", szFNSrc);
 		nLI = ::SendMessage(m_hWndLB, LB_ADDSTRING, 0, (LPARAM)szInfo); // Progress dialog
 		::SendMessage(m_hWndLB, LB_SETCURSEL, (WPARAM)nLI,0); // Progress dialog
 
@@ -1243,7 +1243,7 @@ CN3Texture* CN3E2Wrapper::ProcessTexture(MFnMesh &mMesh)
 		return NULL;
 	}
 
-	if(m_Option.bGenerateHalfSizeTexture) // Texture Size ∏¶ ¿˝π›¿∏∑Œ ¡Ÿø© √‚∑¬..
+	if(m_Option.bGenerateHalfSizeTexture) // Output by reducing the Texture Size by half..
 	{
 		D3DFORMAT fmt = pTex->PixelFormat();
 		int nW2 = pTex->Width() / 2;
@@ -1251,7 +1251,7 @@ CN3Texture* CN3E2Wrapper::ProcessTexture(MFnMesh &mMesh)
 		pTex->Convert(fmt, nW2, nH2);
 	}
 
-	if(m_Option.bGenerateCompressedTexture) // Texture æ–√‡ ªÁøÎ
+	if(m_Option.bGenerateCompressedTexture) // Use texture compression
 	{
 		D3DFORMAT fmt = pTex->PixelFormat(), NewFormat = D3DFMT_UNKNOWN;
 		if(D3DFMT_X8R8G8B8 == fmt) NewFormat = D3DFMT_DXT1;
@@ -1265,7 +1265,7 @@ CN3Texture* CN3E2Wrapper::ProcessTexture(MFnMesh &mMesh)
 
 	return pTex;
 /*
-	// ¿Ã∫Œ∫–¿∫ Maya Image ∏¶ ¡˜¡¢ ¿–¥¬ ∫Œ∫–¿Ã¥Ÿ..
+	// This part reads the Maya Image directly...
 	IFFimageReader Reader;
 	if(Reader.open(szFile) == MS::kSuccess)
 	{
@@ -1273,7 +1273,7 @@ CN3Texture* CN3E2Wrapper::ProcessTexture(MFnMesh &mMesh)
 		Reader.getSize(nW2, nH2);
 		if(nW != nW2 || nH != nH2)
 		{
-			wsprintf(szInfo, "≈ÿΩ∫√≥ ∆ƒ¿œ √≥∏Æ ø¿∑˘ : ∆ƒ¿œ¿ª ¿–¿ªºˆ æ¯Ω¿¥œ¥Ÿ. - %s", szFile.asChar());
+			wsprintf(szInfo, "Texture file processing error: cannot read file. - %s", szFile.asChar());
 			nLI = ::SendMessage(m_hWndLB, LB_ADDSTRING, 0, (LPARAM)szInfo); // Progress dialog
 			::SendMessage(m_hWndLB, LB_SETCURSEL, (WPARAM)nLI,0); // Progress dialog
 
@@ -1285,28 +1285,28 @@ CN3Texture* CN3E2Wrapper::ProcessTexture(MFnMesh &mMesh)
 	//	else
 	//	{
 	//		Reader.close();
-	//		DeleteFile(szFile.asChar()); // ∆ƒ¿œ ¡ˆøÏ±‚..
-	//		wsprintf(szInfo, "≈ÿΩ∫√≥ ∆ƒ¿œ √≥∏Æ ø¿∑˘ : GrayScale Texture ¥¬ ¬˜»ƒø° ¡ˆø¯ µÀ¥œ¥Ÿ. Surface - %s, Texture - %s", szSurface.asChar(), szTexture.asChar());
+	//		DeleteFile(szFile.asChar()); // clear file..
+	//		wsprintf(szInfo, "Texture file handling error: GrayScale Textures will be supported in the future. Surface - %s, Texture - %s", szSurface.asChar(), szTexture.asChar());
 	//		::SendMessage(m_hWndLB, LB_ADDSTRING, 0, (LPARAM)szInfo); // Progress dialog
 	//		::SendMessage(m_hWndLB, LB_SETCURSEL, (WPARAM)nLI,0); // Progress dialog
 	//		return false;
 	//	}
 		
-		// Surface ª˝º∫ π◊ √§øÏ±‚.
+		// Create and fill surfaces.
 		LPDIRECT3DSURFACE8 lpSurf;
 		g_pEng->s_lpD3DDev->CreateImageSurface(nW, nH, D3DFMT_A8R8G8B8, &lpSurf);
 
 		if(NULL == lpSurf)
 		{
 			Reader.close();
-			wsprintf(szInfo, "≈ÿΩ∫√≥ ∆ƒ¿œ √≥∏Æ ø¿∑˘ : Direct3D Texture ª˝º∫ Ω«∆–(%d, %d)", nW, nH);
+			wsprintf(szInfo, "Texture file processing error: Failed to create Direct3D Texture(%d, %d)", nW, nH);
 			nLI = ::SendMessage(m_hWndLB, LB_ADDSTRING, 0, (LPARAM)szInfo); // Progress dialog
 			::SendMessage(m_hWndLB, LB_SETCURSEL, (WPARAM)nLI,0); // Progress dialog
 
 			return NULL;
 		}
 
-		Reader.readImage(); // ¿ÃπÃ¡ˆ ¿–±‚..
+		Reader.readImage(); // read image..
 		int nBPP = 0;
 		nBPP = Reader.getBytesPerChannel() * 4;
 		BOOL bAlpha = Reader.hasAlpha();
@@ -1317,7 +1317,7 @@ CN3Texture* CN3E2Wrapper::ProcessTexture(MFnMesh &mMesh)
 		unsigned char *pDest = NULL, *pSrc = NULL;
 		for(int y = 0; y < nH; y++)
 		{
-			pSrc = (unsigned char*)pBuffer + (nH - y - 1) * nW * nBPP; // ∞≈≤Ÿ∑Œ ¿˙¿Âµ«æÓ ¿÷¥Ÿ..
+			pSrc = (unsigned char*)pBuffer + (nH - y - 1) * nW * nBPP; // stored upside down..
 			pDest = (unsigned char*)LR.pBits + y * LR.Pitch;
 			for(int x = 0; x < nW; x++, pDest += 4, pSrc += nBPP)
 			{
@@ -1338,7 +1338,7 @@ CN3Texture* CN3E2Wrapper::ProcessTexture(MFnMesh &mMesh)
 
 		if(pTex->Get() == NULL)
 		{
-			wsprintf(szInfo, "### !!! Texture Export Ω«∆–(%.3d) : w,h,w2,h2(%.4d, %.4d, %.4d, %.4d) FileName : \"%s\" TextureName \"%s\" MeshName - \"%s\"", 
+			wsprintf(szInfo, "### !!! Texture Export failure(%.3d) : w,h,w2,h2(%.4d, %.4d, %.4d, %.4d) FileName : \"%s\" TextureName \"%s\" MeshName - \"%s\"", 
 				m_pScene->s_MngTex.Count(), pTex->Width(), pTex->Height(), nW, nH, szFile.asChar(), pTex->m_szName.c_str(), mMesh.name().asChar());
 			nLI = ::SendMessage(m_hWndLB, LB_ADDSTRING, 0, (LPARAM)szInfo); // Progress dialog
 			::SendMessage(m_hWndLB, LB_SETCURSEL, (WPARAM)nLI,0); // Progress dialog
@@ -1349,7 +1349,7 @@ CN3Texture* CN3E2Wrapper::ProcessTexture(MFnMesh &mMesh)
 	}
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// Output Window ø° ≈ÿΩ∫√≥ √‚∑¬..
+	// Output the texture to the Output Window..
 	wsprintf(szInfo, "### Texture Export (%.3d) : w,h,w2,h2(%.4d, %.4d, %.4d, %.4d) FileName : \"%s\" TextureName \"%s\" MeshName - \"%s\"", 
 		m_pScene->s_MngTex.Count(), pTex->Width(), pTex->Height(), nW, nH, szFile.asChar(), pTex->m_szName.c_str(), mMesh.name().asChar());
 	nLI = ::SendMessage(m_hWndLB, LB_ADDSTRING, 0, (LPARAM)szInfo); // Progress dialog
@@ -1410,7 +1410,7 @@ int CN3E2Wrapper::ProcessMaterial(MObject mShaderObj, __Material *pMtl)
 	pMtl->Diffuse.r = DC.r;
 	pMtl->Diffuse.g = DC.g;
 	pMtl->Diffuse.b = DC.b;
-	pMtl->Diffuse.a = ((1.0f - TC.r) + (1.0f - TC.g) + (1.0f - TC.b))/3.0f; // ≈ı∏Ì∞™..
+	pMtl->Diffuse.a = ((1.0f - TC.r) + (1.0f - TC.g) + (1.0f - TC.b))/3.0f; // transparency value..
 
 	pMtl->Ambient.r = DC.r * 0.7f;
 	pMtl->Ambient.g = DC.g * 0.7f;
@@ -1438,19 +1438,19 @@ int CN3E2Wrapper::ProcessTransform(MFnTransform &mTransform, CN3Transform *pTran
 	char szInfo[1024] = "";
 
 	if(NULL == pTransform) return -1;
-	pTransform->m_szName = mTransform.name().asChar();  // ¿Ã∏ß ¡˛±‚....
+	pTransform->m_szName = mTransform.name().asChar();  // Naming...
 
 	__Vector3 vPos, vScale;
 	__Quaternion qtRot;
-	this->ProcessMatrix(mTransform, pTransform->m_Matrix, vPos, qtRot, vScale); // «‡∑ƒ √≥∏Æ..
+	this->ProcessMatrix(mTransform, pTransform->m_Matrix, vPos, qtRot, vScale); // matrix processing...
 
-	if(pTransform->Type() & OBJ_CAMERA) // ƒ´∏ﬁ∂Û ¿œ∞ÊøÏ
+	if(pTransform->Type() & OBJ_CAMERA) // In case of camera
 	{
 		CN3Camera* pCamera = (CN3Camera*)pTransform;
 		
 		pCamera->EyePosSet(vPos);
 		__Matrix44 mtxR = qtRot;
-		__Vector3 vAt(0,0,50); // ∂≥æÓ¡¯ ∞≈∏Æ∏∏≈≠...
+		__Vector3 vAt(0,0,50); // As far as distance...
 		vAt *= mtxR; 
 		pCamera->AtPosSet(vAt);
 		pCamera->UpVectorSet(0,1,0);
@@ -1458,14 +1458,14 @@ int CN3E2Wrapper::ProcessTransform(MFnTransform &mTransform, CN3Transform *pTran
 	else
 	{
 		pTransform->PosSet(vPos);
-		pTransform->RotSet(qtRot); // »∏¿¸¿∫ ƒı≈Õ¥œæ¿∏∑Œ µÈæÓ∞£¥Ÿ..
+		pTransform->RotSet(qtRot); // Rotation goes into quaternions.
 		pTransform->ScaleSet(vScale);
 	}
 
-	if(FALSE == m_Option.bAnimationKey) return -1; // Animation Key √≥∏Æ ø…º«¿Ã ƒ—¡˙ ∞ÊøÏ∏∏ «—¥Ÿ..
+	if(FALSE == m_Option.bAnimationKey) return -1; // Only when the Animation Key processing option is turned on.
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// ø°¥œ∏ﬁ¿Ãº«..
+	// animated movie..
 	MObjectArray mAKs;
 	this->FindAnimCurve(mTransform.object(), mAKs);
 //	MStatus stat2 = mTransform.setRotationOrder(MTransformationMatrix::kXYZ, true);
@@ -1482,10 +1482,10 @@ int CN3E2Wrapper::ProcessTransform(MFnTransform &mTransform, CN3Transform *pTran
 	{
 		MFnAnimCurve mAC(mAKs[i]);
 
-		lstrcpy(szTmp, mAC.name().asChar()); // ¿œ¥‹ ¿Ã∏ß¿∏∑Œ ∫Ò±≥«ÿ∫∏∞Ì.....
+		lstrcpy(szTmp, mAC.name().asChar()); // Just compare them by name...
 		CharLower(szTmp);
 
-		if(NULL != strstr(szTmp, "translatex")) // ƒ´∏ﬁ∂Û¿« ∞ÊøÏø°¥¬ translate ∞™¿Ã µŒ∞≥∞° µÈæÓø¬¥Ÿ..
+		if(NULL != strstr(szTmp, "translatex")) // In the case of a camera, two translate values are entered.
 		{
 			 nTranslateCount++; 
 		}
@@ -1504,7 +1504,7 @@ int CN3E2Wrapper::ProcessTransform(MFnTransform &mTransform, CN3Transform *pTran
 		else if(NULL != strstr(szTmp, "jointorienty")) nKType = 10;
 		else if(NULL != strstr(szTmp, "jointorientz")) nKType = 11;
 		else if(NULL != strstr(szTmp, "visibility")) nKType = -1;
-		else // ¿Ã∏ß¿∏∑Œ ∆«¥‹«“ºˆ æ¯¥Ÿ∏È.. ID ∑Œ ∆«¥‹«—¥Ÿ...??
+		else // If you can't judge by name.. judge by ID...??
 		{
 //			MTypeId id = mAC.typeId();
 //			DWORD dwID = id.id();
@@ -1531,7 +1531,7 @@ int CN3E2Wrapper::ProcessTransform(MFnTransform &mTransform, CN3Transform *pTran
 		else if(nKType == 7) { mACs[2][1].setObject(mAC.object()); }
 		else if(nKType == 8) { mACs[2][2].setObject(mAC.object()); }
 
-		// Joint Orient Key ∞™..
+		// Joint Orient Key value..
 		else if(nKType == 9) { mACJointOrients[0].setObject(mAC.object()); }
 		else if(nKType == 10) { mACJointOrients[1].setObject(mAC.object()); }
 		else if(nKType == 11) { mACJointOrients[2].setObject(mAC.object()); }
@@ -1554,22 +1554,22 @@ int CN3E2Wrapper::ProcessTransform(MFnTransform &mTransform, CN3Transform *pTran
 			}
 			else
 			{
-//				if(i == 0) this->ProcessAnimKey(mACs[i], &pTransform->m_KeyPos, true, 0.01f, false); // Translation Animation Key ∏¶ √≥∏Æ«—¥Ÿ..
-				if(i == 0) this->ProcessAnimKey(mACs[i], &pTransform->m_KeyPos, true, 0.01f, false); // Translation Animation Key ∏¶ √≥∏Æ«—¥Ÿ..
+//				if(i == 0) this->ProcessAnimKey(mACs[i], &pTransform->m_KeyPos, true, 0.01f, false); // Process Translation Animation Key..
+				if(i == 0) this->ProcessAnimKey(mACs[i], &pTransform->m_KeyPos, true, 0.01f, false); // Process Translation Animation Key..
 				else if(i == 1)
 				{
-					if(nTranslateCount == 2) // View Translate ... ø‰∞« ƒ´∏ﬁ∂Û¿œ¥Î ≈∏∞Ÿ√≥∑≥ √≥∏Æ«—¥Ÿ.
+					if(nTranslateCount == 2) // View Translate ... ÏöîÍ±¥ Ïπ¥Î©îÎùºÏùºÎåÄ ÌÉÄÍ≤üÏ≤òÎüº Ï≤òÎ¶¨ÌïúÎã§.
 					{
-						this->ProcessAnimKey(mACs[i], &pTransform->m_KeyRot, true, 0.01f, false); // ViewTarget Position Key ∏¶ √≥∏Æ«—¥Ÿ..
+						this->ProcessAnimKey(mACs[i], &pTransform->m_KeyRot, true, 0.01f, false); // Process ViewTarget Position Key.
 					}
 					else
 					{
-						MTransformationMatrix::RotationOrder rotOrder = mTransform.rotationOrder(); // »∏¿¸ º¯º≠ø° µ˚∂Û √≥∏Æ∞° ¥ﬁ∂Û¡Ææﬂ «—¥Ÿ..
-						this->ProcessAnimKey(mACs[i], &pTransform->m_KeyRot, true, 1.0f, true, rotOrder); // Rotation Animation Key ∏¶ ƒı≈Õ¥œæ¿∏∑Œ √≥∏Æ«—¥Ÿ.. 
+						MTransformationMatrix::RotationOrder rotOrder = mTransform.rotationOrder(); // Depending on the rotation order, the processing should be different.
+						this->ProcessAnimKey(mACs[i], &pTransform->m_KeyRot, true, 1.0f, true, rotOrder); // Rotation Animation Key Î•º ÏøºÌÑ∞ÎãàÏñ∏ÏúºÎ°ú Ï≤òÎ¶¨ÌïúÎã§.. 
 
-//						if(pTransform->Type() & OBJ_JOINT) // ¡∂¿Œ∆Æ¿Œ ∞ÊøÏ...
+//						if(pTransform->Type() & OBJ_JOINT) // If joint...
 //						{
-						// -180 µµø°º≠ 180 µµ ªÁ¿Ãø° ¿÷∞‘ ∏∏µÁ¥Ÿ..
+						// Make it between -180 degrees and 180 degrees..
 //						int nKC = pTransform->m_KeyRot.Count();
 //						for(int i = 0; i < nKC; i++)
 //						{
@@ -1587,18 +1587,18 @@ int CN3E2Wrapper::ProcessTransform(MFnTransform &mTransform, CN3Transform *pTran
 				}
 				else if(i == 2)
 				{
-					this->ProcessAnimKey(mACs[i], &pTransform->m_KeyScale, false, 1.0f, false, MTransformationMatrix::kXYZ); // Scale Animation Key ∏¶ √≥∏Æ«—¥Ÿ..
+					this->ProcessAnimKey(mACs[i], &pTransform->m_KeyScale, false, 1.0f, false, MTransformationMatrix::kXYZ); // Process Scale Animation Key..
 				} // end of if(i == 0)
 			} // end of if(nKs[0] <= 0 || nKs[1] <= 0 || nKs[2] <= 0)
 		} // end of if(nKs[0] > 0 || nKs[1] > 0 || nKs[2] > 0)
 	} // end of for(i = 0; i < 3; i++)
 
-	if(pTransform->Type() & OBJ_JOINT) // Joint ¿Ã∏È... Orient ≈∞ ∞™µµ ∫ª¥Ÿ..
+	if(pTransform->Type() & OBJ_JOINT) // If it is a Joint... Also look at the Orient key value.
 	{
 		CN3Joint* pJoint = (CN3Joint*)pTransform;
 		this->ProcessAnimKey(mACJointOrients, &(pJoint->m_KeyOrient), true, 1.0f, true, MTransformationMatrix::kXYZ);
 	}
-	// ø°¥œ∏ﬁ¿Ãº«..
+	// animated movie..
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	return 0;
 }
@@ -1610,7 +1610,7 @@ void CN3E2Wrapper::ProcessAnimKey(	MFnAnimCurve* pmACs,
 									bool bQuaternion,
 									MTransformationMatrix::RotationOrder mRotOrder)
 {
-	// ∞°¿Â ±‰∞Õ¿ª √£¥¬¥Ÿ..
+	// Find the longest one.
 	double dfFrmMax = 0.0f, dfFrmTmp = 0.0f;
 	int nKC = 0;
 	for(int i = 0; i < 3; i++)
@@ -1621,12 +1621,12 @@ void CN3E2Wrapper::ProcessAnimKey(	MFnAnimCurve* pmACs,
 	}
 
 	if(dfFrmMax <= 1) return;
-	dfFrmMax = m_pScene->m_fFrmEnd - m_pScene->m_fFrmStart; // ¿¸√º Scene ¿ª ¥ÎªÛ¿∏∑Œ «—¥Ÿ.
+	dfFrmMax = m_pScene->m_fFrmEnd - m_pScene->m_fFrmStart; // Targets the entire scene.
 
-	int nFrmMax = (int)(dfFrmMax * m_Option.fSamplingRate / 30.0f); // 30 Frame Per Sec ∑Œ Sampling
+	int nFrmMax = (int)(dfFrmMax * m_Option.fSamplingRate / 30.0f); // 30 Frame Per Sec Sampling
 	
-	if(bQuaternion) pKey->Alloc(nFrmMax, m_Option.fSamplingRate, KEY_QUATERNION); // ∑Œ≈◊¿Ãº«¿Ã∏È ƒı≈Õ¥œæ¿∏∑Œ «“¥Á.
-	else pKey->Alloc(nFrmMax, m_Option.fSamplingRate, KEY_VECTOR3); // ∫§≈Õ∑Œ «“¥Á..
+	if(bQuaternion) pKey->Alloc(nFrmMax, m_Option.fSamplingRate, KEY_QUATERNION); // If it's a rotation, assign it as a quaternion.
+	else pKey->Alloc(nFrmMax, m_Option.fSamplingRate, KEY_VECTOR3); // Assign to vector..
 
 	MTime mTime; mTime.setUnit(MTime::kNTSCFrame);
 	if(bQuaternion)
@@ -1636,9 +1636,9 @@ void CN3E2Wrapper::ProcessAnimKey(	MFnAnimCurve* pmACs,
 //		MMatrix mMtx;
 //		MTransformationMatrix mTMtx;
 		__Matrix44 mtxRotFinal, mtxRots[3];
-		int nRotSeqs[3] = {1,0,2}; // ±‚∫ª YXZ »∏¿¸..
+		int nRotSeqs[3] = {1,0,2}; // Basic YXZ turns..
 
-		// »∏¿¸º¯º≠
+		// rotation order
 		if(MTransformationMatrix::kXYZ == mRotOrder) { nRotSeqs[0] = 0; nRotSeqs[1] = 1; nRotSeqs[2] = 2; }
 		else if(MTransformationMatrix::kYZX == mRotOrder) { nRotSeqs[0] = 1; nRotSeqs[1] = 2; nRotSeqs[2] = 0; }
 		else if(MTransformationMatrix::kZXY == mRotOrder) { nRotSeqs[0] = 2; nRotSeqs[1] = 0; nRotSeqs[2] = 1; }
@@ -1651,7 +1651,7 @@ void CN3E2Wrapper::ProcessAnimKey(	MFnAnimCurve* pmACs,
 		{
 			pQt = (__Quaternion*)(pKey->DataGet(i));
 
-			double dfFrm = i * 30.0f / m_Option.fSamplingRate; // 60 Frame Per Sec ∑Œ Sampling
+			double dfFrm = i * 30.0f / m_Option.fSamplingRate; // Sampling at 60 Frames Per Sec
 			mTime.setValue(dfFrm);
 
 			memset(dRs, 0, sizeof(double) * 4);
@@ -1660,7 +1660,7 @@ void CN3E2Wrapper::ProcessAnimKey(	MFnAnimCurve* pmACs,
 			pmACs[1].evaluate(mTime, dRs[1]);
 			pmACs[2].evaluate(mTime, dRs[2]);
 
-			// -180 ~ 180 µµ ªÁ¿Ã∑Œ ∏¬√·¥Ÿ..
+			// Adjust between -180 and 180 degrees.
 			if(dRs[0] < -D3DX_PI)
 				dRs[0] -= __PI2 * (int)(dRs[0]/__PI2 - 1);
 			if(dRs[0] > D3DX_PI)
@@ -1712,8 +1712,8 @@ void CN3E2Wrapper::ProcessAnimKey(	MFnAnimCurve* pmACs,
 			pmACs[1].evaluate(mTime, dfValue); pV->y = (float)dfValue;
 			pmACs[2].evaluate(mTime, dfValue); pV->z = (float)dfValue;
 
-			if(1.0f != fScale) *pV *= fScale; // ¥‹¿ß∞° meter ∂Ûº≠ ±◊∑∏¥Ÿ..
-			if(TRUE == bReverseZ) pV->z = -(pV->z);// Z √‡¿ª ¿Ωºˆ∑Œ «—¥Ÿ..
+			if(1.0f != fScale) *pV *= fScale; // That's because the units are meters.
+			if(TRUE == bReverseZ) pV->z = -(pV->z);// Z-axis is negative.
 		}
 	}
 }
@@ -1721,32 +1721,32 @@ void CN3E2Wrapper::ProcessAnimKey(	MFnAnimCurve* pmACs,
 bool CN3E2Wrapper::ProcessChr(MFnSkinCluster &mSkin)
 {
 	/////////////////////////////////////////////////////////////////////////////////////
-	// øµ«‚¿ª ¡÷¥¬ ∞¸¿˝¿ª √£æ∆º≠ √≥∏Æ«—¥Ÿ..
+	// Find and treat affected joints.
 	MStatus stat;
 	MDagPathArray PathArray;
 	mSkin.influenceObjects(PathArray, &stat);
-	int nJC = PathArray.length(); // ∞¸¿˝ ∞πºˆ∏¶ ±‚æÔ«ÿ µ–¥Ÿ.
+	int nJC = PathArray.length(); // Note the number of joints.
 	MFnIkJoint mJointRoot;
 	for(int i = 0; i < nJC; i++)
 	{
 		mJointRoot.setObject(PathArray[i].node());
-		if(mJointRoot.parent(0).apiType() != MFn::kJoint) // ∑Á∆Æ ∞¸¿˝¿œ ∞ÊøÏø° √≥∏Æ..
+		if(mJointRoot.parent(0).apiType() != MFn::kJoint) // Treatment in case of root joint..
 			break;
 	}
-	if(i == nJC) return false; // Root Joint ∞° æ¯¿ª ∞ÊøÏ..
+	if(i == nJC) return false; // If there is no root joint...
 
-	// ¡ﬂ∫πµ«¥¬¡ˆ √£æ∆∫ª¥Ÿ..
+	// Look for duplicates.
 	std::string szJointFN;
 	if(mJointRoot.parentCount() > 0 && mJointRoot.parent(0).hasFn(MFn::kTransform))
 	{
 		MFnTransform mP1(mJointRoot.parent(0));
-		szJointFN = ""; this->ProcessName(mP1.parent(0), szJointFN); // ª¿¿« ¿Ã∏ß¿ª æÀæ∆∫∏∞Ì..
+		szJointFN = ""; this->ProcessName(mP1.parent(0), szJointFN); // Find out the name of the bone.
 		szJointFN = "Chr\\" + szJointFN + ".N3Joint";
 	}
 	else
-		szJointFN = mJointRoot.name().asChar(); // ª¿¿« ¿Ã∏ß¿ª æÀæ∆∫∏∞Ì..
+		szJointFN = mJointRoot.name().asChar(); // Find out the name of the bone.
 
-	static std::string szJointFNs[512]; // ¡ﬂ∫πµ«¥¬¡ˆ √º≈©...
+	static std::string szJointFNs[512]; // Check for duplicates...
 	if(m_pScene->s_MngJoint.Count() <= 0) 
 	{
 		for(i = 0; i < 512; i++) szJointFNs[i] = "";
@@ -1766,49 +1766,49 @@ bool CN3E2Wrapper::ProcessChr(MFnSkinCluster &mSkin)
 	CN3Chr* pChr = NULL;
 	CN3Joint* pJoint = NULL;
 
-	if(false == bOverlapped) // ¡ﬂ∫πµ«¡ˆ æ ¥¬¥Ÿ∏È..ªı∑Œ ∏∏µÁ¥Ÿ..
+	if(false == bOverlapped) // If it doesn't overlap, create a new one.
 	{
-		szJointFNs[i] = szJointFN; // ¡∂¿Œ∆Æ ¿Ã∏ß¿ª ±‚∑œ«œ∞Ì..
+		szJointFNs[i] = szJointFN; // Write down the joint name.
 
 		pChr = new CN3Chr();
-		m_pScene->ChrAdd(pChr); // Scene ø° ƒ≥∏Ø≈Õ √ﬂ∞°..
-		pChr->PartAlloc(64); // √Ê∫–«œ∞‘ Part Data «“¥Á..
+		m_pScene->ChrAdd(pChr); // Add a character to the scene..
+		pChr->PartAlloc(64); // Sufficient Part Data allocation..
 
 		if(mJointRoot.parentCount() > 0)
 		{
 			if(mJointRoot.parent(0).hasFn(MFn::kTransform))
 			{
 				MFnTransform mP1(mJointRoot.parent(0));
-				if(mP1.parentCount() > 0) this->ProcessName(mP1.parent(0), pChr->m_szName); // ¿Ã∏ß ¡˛±‚....
-				else this->ProcessName(mP1.parent(0), pChr->m_szName); // ¿Ã∏ß ¡˛±‚....
-				pChr->FileNameSet("Chr\\" + pChr->m_szName + ".N3Chr"); // ∆ƒ¿œ ¿Ã∏ß ∞·¡§..
+				if(mP1.parentCount() > 0) this->ProcessName(mP1.parent(0), pChr->m_szName); // Naming...
+				else this->ProcessName(mP1.parent(0), pChr->m_szName); // Naming...
+				pChr->FileNameSet("Chr\\" + pChr->m_szName + ".N3Chr"); // Determine the file name...
 			}
 			else
 			{
-				this->ProcessName(mJointRoot.parent(0), pChr->m_szName); // ¿Ã∏ß ¡˛±‚....
-				pChr->FileNameSet("Chr\\" + pChr->m_szName + ".N3Chr"); // ∆ƒ¿œ ¿Ã∏ß ∞·¡§..);
+				this->ProcessName(mJointRoot.parent(0), pChr->m_szName); // Naming...
+				pChr->FileNameSet("Chr\\" + pChr->m_szName + ".N3Chr"); // Determine the file name..);
 			}
 		}
 		else 
 		{
 			pChr->m_szName = mJointRoot.name().asChar();
-			std::string szFN = "Chr\\"; szFN += mJointRoot.name().asChar(); szFN += ".N3Chr"; // ∆ƒ¿œ ¿Ã∏ß ∞·¡§..
+			std::string szFN = "Chr\\"; szFN += mJointRoot.name().asChar(); szFN += ".N3Chr"; // Determine the file name...
 			pChr->FileNameSet(szFN);
 		}
 
-		pJoint = this->ProcessJoint(mJointRoot); // Joint √≥∏Æ
+		pJoint = this->ProcessJoint(mJointRoot); // Joint processing
 		if(NULL == pJoint) 
 		{
 			delete pChr;
 			return NULL;
 		}
-		pJoint->FileNameSet(szJointFN); // ∆ƒ¿œ ¿Ã∏ß º≥¡§..
+		pJoint->FileNameSet(szJointFN); // Set file name..
 		
 		pChr->s_MngJoint.Add(pJoint);
 		pChr->JointSet(pJoint->FileName()); // Joint Setting;
 		
 		///////////////////////////////////////////////////////////////////////
-		// Joint ∞° ±◊∑Ï µ«æÓ ¿÷¥Ÿ∏È Parent Transform √≥∏Æ..
+		// If Joint is grouped, Parent Transform processing..
 		if(mJointRoot.parentCount() > 0 && mJointRoot.parent(0).hasFn(MFn::kTransform))
 		{
 			MFnTransform mTJ(mJointRoot.parent(0)); // Joint Transform Node
@@ -1843,8 +1843,8 @@ bool CN3E2Wrapper::ProcessChr(MFnSkinCluster &mSkin)
 			vTrans *= mtxRotG;
 			this->ProcessJointTransform(pJoint, &vTrans, &qRot, &vScale, true);
 
-			pJoint->PosSet(pJoint->Pos() * mtxRotG); // ¿ßƒ° ∞™µµ πÊ«‚∞˙ Ω∫ƒ…¿œø° ∏¬∞‘ 
-			int nK = pJoint->m_KeyPos.Count(); // ø°¥œ∏ﬁ¿Ãº« ≈∞µµ ∫Ø∞Ê«ÿ¡ÿ¥Ÿ..
+			pJoint->PosSet(pJoint->Pos() * mtxRotG); // The position value is also adjusted according to the direction and scale
+			int nK = pJoint->m_KeyPos.Count(); // It also changes the animation key.
 			for(i = 0; i < nK; i++)
 			{
 				__Vector3* pvKey = (__Vector3*)(pJoint->m_KeyPos.DataGet(i));
@@ -1856,7 +1856,7 @@ bool CN3E2Wrapper::ProcessChr(MFnSkinCluster &mSkin)
 	{
 		pJoint = m_pScene->s_MngJoint.Get(szJointFN);
 
-		int nChrCount = m_pScene->ChrCount(); // ∞∞¿∫ ¡∂¿Œ∆Æ ∆˜¿Œ≈Õ∏¶ ∞Æ¥¬ ƒ≥∏Ø≈Õ ∆˜¿Œ≈Õ∏¶ √£¥¬¥Ÿ..
+		int nChrCount = m_pScene->ChrCount(); // Find a character pointer with the same joint pointer.
 		for(int i = 0; i < nChrCount; i++)
 		{
 			CN3Chr* pChrTmp = m_pScene->ChrGet(i);
@@ -1871,7 +1871,7 @@ bool CN3E2Wrapper::ProcessChr(MFnSkinCluster &mSkin)
 	if(NULL == pChr) return false;
 
 	/////////////////////////////////////////////////// ............ // Mesh
-	// ø¯∑° Mesh
+	// Original Mesh
 	MObjectArray mMeshArray;
 	mSkin.getInputGeometry(mMeshArray);
 	__ASSERT(1 == mMeshArray.length(), "binding mesh count is not 1");
@@ -1890,14 +1890,14 @@ bool CN3E2Wrapper::ProcessChr(MFnSkinCluster &mSkin)
 	else
 		mGT.setObject(mMT.object());
 
-	// √Êµπ √º≈©øÎ¿∏∑Œ æ≤¿œ ∏ﬁΩ√¿Œ¡ˆ ªÏ∆Ï∫ª¥Ÿ..
+	// See if it is a mesh that will be used for collision checking.
 	std::string szFNM = mMT.name().asChar();
 	if(szFNM.size() > 0) CharLower(&(szFNM[0]));
 	if(szFNM.find("coll") != -1) bCollisionMesh = true;
 
-	if(true == bCollisionMesh) // √Êµπ √º≈© ∏ﬁΩ√∏È.... 
+	if(true == bCollisionMesh) // Ï∂©Îèå Ï≤¥ÌÅ¨ Î©îÏãúÎ©¥.... 
 	{
-/*		CN3IMesh* pN3Mesh = this->ProcessIMesh(mMeshOrg); // Indexed Mesh √≥∏Æ.
+/*		CN3IMesh* pN3Mesh = this->ProcessIMesh(mMeshOrg); // Indexed mesh processing.
 		int nVC = pN3Mesh->VertexCount();
 		int nFC = pN3Mesh->FaceCount();
 		__VertexXyzNormal* pVSrc = pN3Mesh->Vertices();
@@ -1917,21 +1917,21 @@ bool CN3E2Wrapper::ProcessChr(MFnSkinCluster &mSkin)
 
 		pVMesh->m_szName = "";
 		this->ProcessName(mMeshOrg.object(), pVMesh);
-		std::string szFN = "Chr\\" + pVMesh->m_szName + ".N3VMesh"; // ∆ƒ¿œ ¿Ã∏ß ∞·¡§..
+		std::string szFN = "Chr\\" + pVMesh->m_szName + ".N3VMesh"; // Determine the file name...
 		pVMesh->FileNameSet(szFN);
 
 		pChr->s_MngVMesh.Add(pVMesh);
 		pChr->CollisionMeshSet(pVMesh->m_szName);
 
-		this->ProcessSkin(mSkin, pChr->CollisionSkin()); // Skin √≥∏Æ.
+		this->ProcessSkin(mSkin, pChr->CollisionSkin()); // Skin treatment.
 */
 	}
-	else if(false == bCollisionMesh) // √Êµπ √º≈© ∏ﬁΩ√ æ∆¥œ∏È....¡§ªÛ¿˚¿∏∑Œ ¡¯«‡..
+	else if(false == bCollisionMesh) // Collision check mesh or not....Proceed normally..
 	{
 		int nLOD = 0;
 		int nPart = 0;
 
-		if(mGT.parentCount() > 0 && mGT.parent(0).hasFn(MFn::kTransform)) // ±◊∑Ï ∆Æ∑£Ω∫∆˚¿« ªÛ¿ß ≥ÎµÂ∞° ¿÷¿ª ∞ÊøÏ..
+		if(mGT.parentCount() > 0 && mGT.parent(0).hasFn(MFn::kTransform)) // If there is a parent node of the group transform...
 		{
 			MFnTransform mCT(mGT.parent(0)); // Character Transform
 			int nC = mCT.childCount();
@@ -1940,8 +1940,8 @@ bool CN3E2Wrapper::ProcessChr(MFnSkinCluster &mSkin)
 				if(!mCT.child(i).hasFn(MFn::kTransform)) continue;
 
 				MFnTransform mTTmp(mCT.child(i));
-				if(mTTmp.object() == mGT.object()) break; // ƒ≥∏Ø≈Õ ∆Æ∑£Ω∫∆˚ πÿ¿« ¬˜¿œµÂ¿« ¿Ã∏ß∞˙ ±◊∑Ï¿« ¿Ã∏ß¿Ã ∞∞¿ª ∞ÊøÏ..
-				nPart++; // ∞∞¡ˆ æ ¿∏∏È Part ¡ı∞°..
+				if(mTTmp.object() == mGT.object()) break; // If the name of the child under the character transform and the name of the group are the same...
+				nPart++; // If not equal, increase Part.
 			}
 
 			int nGTC = mGT.childCount();
@@ -1950,11 +1950,11 @@ bool CN3E2Wrapper::ProcessChr(MFnSkinCluster &mSkin)
 				if(!mGT.child(i).hasFn(MFn::kTransform)) continue; 
 
 				MFnTransform mTTmp(mGT.child(i));
-				if(mTTmp.name() == mMT.name()) break; // Mesh Transform ∞˙ Mesh ±◊∑Ï¿« ¬˜¿œµÂ ∏ﬁΩ√∞° ¿Ã∏ß¿Ã ∞∞¿∏∏È..
+				if(mTTmp.name() == mMT.name()) break; // If the Mesh Transform and the child mesh in the Mesh group have the same name...
 				nLOD++;
 			}
 		}
-		else // pair of if(mGT.parentCount() > 0 && mGT.parent(0).apiType() == MFn::kTransform) // ±◊∑Ï ∆Æ∑£Ω∫∆˚¿« ªÛ¿ß ≥ÎµÂ∞° ¿÷¿ª ∞ÊøÏ..
+		else // pair of if(mGT.parentCount() > 0 && mGT.parent(0).apiType() == MFn::kTransform) // If there is a parent node of the group transform...
 		{
 			int nC = mGT.childCount();
 			for(i = 0; i < nC; i++)
@@ -1962,8 +1962,8 @@ bool CN3E2Wrapper::ProcessChr(MFnSkinCluster &mSkin)
 				if(mGT.child(i).apiType() != MFn::kTransform) continue;
 
 				MFnTransform mTTmp(mGT.child(i));
-				if(mTTmp.name() == mMT.name()) break; // ƒ≥∏Ø≈Õ ∆Æ∑£Ω∫∆˚ πÿ¿« ¬˜¿œµÂ¿« ¿Ã∏ß∞˙ ±◊∑Ï¿« ¿Ã∏ß¿Ã ∞∞¿ª ∞ÊøÏ..
-				nPart++; // ∞∞¡ˆ æ ¿∏∏È Part ¡ı∞°..
+				if(mTTmp.name() == mMT.name()) break; // If the name of the child under the character transform and the name of the group are the same...
+				nPart++; // If not equal, increase Part.
 			}
 		}
 		
@@ -1973,7 +1973,7 @@ bool CN3E2Wrapper::ProcessChr(MFnSkinCluster &mSkin)
 		CN3CPart* pPart = pChr->Part(nPart);
 		CN3Skin* pSkin = pPart->Skin(nLOD);
 
-		if(pPart->m_szName.empty()) // ∆ƒ∆Æ¿« ¿Ã∏ß¿Ã æ¯¿∏∏È..
+		if(pPart->m_szName.empty()) // If there is no part name...
 		{
 			pPart->m_szName = mGT.name().asChar();
 			std::string szFN; this->ProcessName(mGT.object(), szFN);
@@ -1985,10 +1985,10 @@ bool CN3E2Wrapper::ProcessChr(MFnSkinCluster &mSkin)
 			pPart->FileNameSet("item\\" + szFN + ".N3CPart");
 		}
 		
-		if(NULL == pSkin) // Skin ¿Ã æ¯¿∏∏È ≥÷¥¬¥Ÿ..
+		if(NULL == pSkin) // If there is no skin, enter it.
 		{
 			CN3CPartSkins* pSkinsAdd = new CN3CPartSkins();
-			pSkinsAdd->m_szName = mGT.name().asChar(); // ¿Ã∏ß∞˙ ∆ƒ¿œ ¿Ã∏ß¿ª ¡§«œ∞Ì..
+			pSkinsAdd->m_szName = mGT.name().asChar(); // Set the name and file name.
 			std::string szFN; this->ProcessName(mGT.object(), szFN);
 
 			int iLen = szFN.size();
@@ -1999,16 +1999,16 @@ bool CN3E2Wrapper::ProcessChr(MFnSkinCluster &mSkin)
 
 			CN3Base::s_MngSkins.Add(pSkinsAdd);
 			pPart->SkinsSet(pSkinsAdd->FileName());
-			pSkin = pPart->Skin(nLOD); // ¥ŸΩ√ ∆˜¿Œ≈Õ ±∏«œ±‚.
+			pSkin = pPart->Skin(nLOD); // Get the pointer again.
 		} 
 
-		if(false == this->ProcessSkin(mSkin, pSkin)) // Skin √≥∏Æ..
+		if(false == this->ProcessSkin(mSkin, pSkin)) // Skin treatment..
 		{
 			MessageBox(::GetActiveWindow(), mSkin.name().asChar(), "Skin processing failed", MB_OK);
 			return false;
 		}
 
-		// ≈ÿΩ∫√≥ √≥∏Æ..
+		// texture processing...
 		pPart->m_Mtl.Init();
 		pPart->m_Mtl.dwColorArg1 = D3DTA_DIFFUSE;
 		pPart->m_Mtl.dwColorArg2 = D3DTA_TEXTURE;
@@ -2016,13 +2016,13 @@ bool CN3E2Wrapper::ProcessChr(MFnSkinCluster &mSkin)
 		CN3Texture* pTex = ProcessTexture(mMeshOutput);
 		if(pTex)
 		{
-			pTex->m_szName = mGT.name().asChar(); // ¿Ã∏ß∞˙ ∆ƒ¿œ ¿Ã∏ß¿ª ¡§«œ∞Ì..
+			pTex->m_szName = mGT.name().asChar(); // Set the name and file name.
 			std::string szFN; this->ProcessName(mGT.object(), szFN);
 			int iLen = szFN.size();
 			int iLen2 = pTex->m_szName.size();
 			if(m_Option.bGenerateFileName && iLen >= 11 && iLen2 >= 11) // Item Code ::: 0_2345_78_0
 				szFN = szFN.substr(iLen - 11);
-			pTex->FileNameSet("Item\\" + szFN + ".DXT"); // Part ¿Ã∏ß∞˙ Texture ¿Ã∏ß¿ª ∞∞∞‘ «—¥Ÿ.
+			pTex->FileNameSet("Item\\" + szFN + ".DXT"); // Make the Part name and Texture name the same.
 			
 			pPart->m_Mtl.dwColorOp = D3DTOP_MODULATE;
 			pPart->TexSet(pTex);
@@ -2033,19 +2033,19 @@ bool CN3E2Wrapper::ProcessChr(MFnSkinCluster &mSkin)
 //				fmtTex == D3DFMT_DXT4 || 
 //				fmtTex == D3DFMT_DXT5 ) pPart->m_Mtl.nRenderFlags = RF_ALPHABLENDING;
 		}
-		else // ≈ÿΩ∫√≥∞° æ¯¥¬ ∞ÊøÏø°∏∏ ¿Á¡˙
+		else // Material only if there is no texture
 		{
 //			this->ProcessMaterial(this->MeshGetShader(mMeshOutput), &(pPart->m_Mtl)); 
 			pPart->m_Mtl.dwColorOp = D3DTOP_SELECTARG1;
 		}
-	} // if(false == bCollisionMesh) // √Êµπ √º≈© ∏ﬁΩ√ æ∆¥œ∏È....¡§ªÛ¿˚¿∏∑Œ ¡¯«‡..
+	} // if(false == bCollisionMesh) // Collision check mesh or not....Proceed normally..
 
 	return true;
 }
 
 void CN3E2Wrapper::ProcessName(MObject mObj, std::string& szName)
 {
-	if(mObj.hasFn(MFn::kWorld) == FALSE && mObj.hasFn(MFn::kDependencyNode)) // √÷ªÛ¿ß ≥ÎµÂ∞° æ∆¥œ∏È..
+	if(mObj.hasFn(MFn::kWorld) == FALSE && mObj.hasFn(MFn::kDependencyNode)) // If it's not the top node...
 	{
 		MFnDependencyNode mNode(mObj);
 
@@ -2178,7 +2178,6 @@ BOOL CALLBACK CN3E2Wrapper::DlgProcPane(HWND hDlg, UINT uMsg, WPARAM wParam, LPA
 	{
 	case WM_INITDIALOG:
 		{
-			// Registry ø° ø…º«∞™¿ª ≥÷æÓµŒæ˙¥Ÿ..
 			HKEY hKey = g_pEng->RegistryOpen("N3Export Option");
 			if(hKey) 
 			{
@@ -2212,8 +2211,8 @@ BOOL CALLBACK CN3E2Wrapper::DlgProcPane(HWND hDlg, UINT uMsg, WPARAM wParam, LPA
 			CheckDlgButton(hDlg, IDC_C_GENERATE_HALF_SIZE_TEXTURE, m_Option.bGenerateHalfSizeTexture);
 			CheckDlgButton(hDlg, IDC_C_GENERATE_COMPRESSED_TEXTURE, m_Option.bGenerateCompressedTexture);
 
-			m_Option.nFrmStart = (int)(MAnimControl::minTime().value()); // Ω√¿€ «¡∑π¿”.
-			m_Option.nFrmEnd = (int)(MAnimControl::maxTime().value() +0.5); // ≥° «¡∑π¿”
+			m_Option.nFrmStart = (int)(MAnimControl::minTime().value());
+			m_Option.nFrmEnd = (int)(MAnimControl::maxTime().value() +0.5);
 
 			SetDlgItemInt(hDlg, IDC_E_FRAME_START, m_Option.nFrmStart, FALSE);
 			SetDlgItemInt(hDlg, IDC_E_FRAME_END, m_Option.nFrmEnd, FALSE);
@@ -2234,8 +2233,8 @@ BOOL CALLBACK CN3E2Wrapper::DlgProcPane(HWND hDlg, UINT uMsg, WPARAM wParam, LPA
 				m_Option.bExportCharacter = IsDlgButtonChecked(hDlg, IDC_C_OBJ_CHARACTER);
 
 				m_Option.bAnimationKey = IsDlgButtonChecked(hDlg, IDC_C_ANIMATION_KEY);
-				m_Option.nFrmStart = GetDlgItemInt(hDlg, IDC_E_FRAME_START, NULL, FALSE); // Ω√¿€ «¡∑π¿”
-				m_Option.nFrmEnd = GetDlgItemInt(hDlg, IDC_E_FRAME_END, NULL, FALSE); // ≥° «¡∑π¿”
+				m_Option.nFrmStart = GetDlgItemInt(hDlg, IDC_E_FRAME_START, NULL, FALSE);
+				m_Option.nFrmEnd = GetDlgItemInt(hDlg, IDC_E_FRAME_END, NULL, FALSE);
 				m_Option.fSamplingRate = (float)GetDlgItemInt(hDlg, IDC_E_SAMPLING_RATE, NULL, FALSE); // Sampling Rate
 
 				m_Option.bGenerateFileName = IsDlgButtonChecked(hDlg, IDC_C_GENERATE_FILE_NAME);
@@ -2246,7 +2245,7 @@ BOOL CALLBACK CN3E2Wrapper::DlgProcPane(HWND hDlg, UINT uMsg, WPARAM wParam, LPA
 
 				EndDialog(hDlg, 1);
 
-				// Registry ø° ø…º«∞™¿ª ≥÷æÓµŒæ˙¥Ÿ..
+				// I put the option value in Registry..
 				HKEY hKey = g_pEng->RegistryOpen("N3Export Option");
 				if(NULL == hKey) RegCreateKey(HKEY_CURRENT_USER, "N3Export Option", &hKey);
 				if(hKey) 

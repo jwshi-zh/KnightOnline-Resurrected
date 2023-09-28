@@ -6,7 +6,7 @@ CN3VMesh::CN3VMesh()
 {
 	m_dwType |= OBJ_MESH_VECTOR3;
 	
-	m_pVertices = nullptr; // 점 버퍼
+	m_pVertices = nullptr; // dot buffer
 	m_pwIndices = nullptr; // Index...
 
 	m_nVC = 0;
@@ -14,7 +14,7 @@ CN3VMesh::CN3VMesh()
 
 	m_vMin.Zero();
 	m_vMax.Zero();
-	m_fRadius = 0.0f; // 반지름
+	m_fRadius = 0.0f; // radius
 }
 
 CN3VMesh::~CN3VMesh()
@@ -36,7 +36,7 @@ void CN3VMesh::Release()
 
 	m_vMin.Zero();
 	m_vMax.Zero();
-	m_fRadius = 0.0f; // 반지름
+	m_fRadius = 0.0f; // radius
 }
 
 bool CN3VMesh::Load(HANDLE hFile)
@@ -46,10 +46,10 @@ bool CN3VMesh::Load(HANDLE hFile)
 	DWORD dwRWC = 0;
 
 	int nVC;
-	ReadFile(hFile, &nVC, 4, &dwRWC, nullptr); // 점갯수 읽기..
+	ReadFile(hFile, &nVC, 4, &dwRWC, nullptr); // Read the number of dots.
 	if(nVC > 0)
 	{
-		this->CreateVertices(nVC); // Vertex Buffer 생성 및 데이터 채우기
+		this->CreateVertices(nVC); // Create vertex buffer and fill data
 		ReadFile(hFile, m_pVertices, nVC * sizeof(__Vector3), &dwRWC, nullptr);
 	}
 
@@ -57,11 +57,11 @@ bool CN3VMesh::Load(HANDLE hFile)
 	ReadFile(hFile, &nIC, 4, &dwRWC, nullptr); // Index Count..
 	if(nIC > 0)
 	{
-		this->CreateIndex(nIC); // Vertex Buffer 생성 및 데이터 채우기
+		this->CreateIndex(nIC); // Create vertex buffer and fill data
 		ReadFile(hFile, m_pwIndices, nIC * 2, &dwRWC, nullptr);
 	}
 
-	this->FindMinMax(); // 최대 최소점과 중심점과 반지름을 계산해 준다..
+	this->FindMinMax(); // Calculate the maximum and minimum points, the center point, and the radius.
 
 	return true;
 }
@@ -73,7 +73,7 @@ bool CN3VMesh::Save(HANDLE hFile)
 
 	DWORD dwRWC = 0;
 
-	WriteFile(hFile, &m_nVC, 4, &dwRWC, NULL); // 점갯수 읽기..
+	WriteFile(hFile, &m_nVC, 4, &dwRWC, NULL); // Read the number of dots.
 	if(m_nVC > 0) 
 	{
 		WriteFile(hFile, m_pVertices, m_nVC * sizeof(__Vector3), &dwRWC, NULL);
@@ -82,7 +82,7 @@ bool CN3VMesh::Save(HANDLE hFile)
 	WriteFile(hFile, &m_nIC, 4, &dwRWC, NULL); // Index Count..
 	if(m_nIC > 0)
 	{
-		WriteFile(hFile, m_pwIndices, m_nIC * 2, &dwRWC, NULL); // Index Buffer 데이터 쓰기..
+		WriteFile(hFile, m_pwIndices, m_nIC * 2, &dwRWC, NULL); // Write Index Buffer data..
 	}
 
 	return true;
@@ -107,7 +107,7 @@ void CN3VMesh::CreateVertices(int nVC)
 		m_pVertices = new __Vector3[nVC];
 	}
 
-	memset(m_pVertices, 0, nVC * sizeof(__Vector3)); // Vertex Buffer 생성
+	memset(m_pVertices, 0, nVC * sizeof(__Vector3)); // Create Vertex Buffer
 	m_nVC = nVC;
 }
 
@@ -122,7 +122,7 @@ void CN3VMesh::CreateIndex(int nIC)
 
 	delete [] m_pwIndices;
 	m_pwIndices = new WORD[nIC];
-	memset(m_pwIndices, 0, nIC * 2); // Index Buffer 생성
+	memset(m_pwIndices, 0, nIC * 2); // Create Index Buffer
 	m_nIC = nIC;
 }
 
@@ -154,7 +154,7 @@ void CN3VMesh::CreateCube(const __Vector3 &vMin, const __Vector3 &vMax)
 	m_pwIndices[30] = 3; m_pwIndices[31] = 2; m_pwIndices[32] = 7;
 	m_pwIndices[33] = 3; m_pwIndices[34] = 7; m_pwIndices[35] = 6;
 
-	this->FindMinMax(); // 중심점과 반지름을 계산해 준다..
+	this->FindMinMax(); // Calculate the center point and radius.
 }
 
 
@@ -225,7 +225,7 @@ void CN3VMesh::FindMinMax()
 		if(m_pVertices[i].z > m_vMax.z) m_vMax.z = m_pVertices[i].z;
 	}
 
-	// 최대 최소값을 갖고 반지름 계산한다..
+	// Calculate the radius with the maximum and minimum values.
 	m_fRadius  = (m_vMax - m_vMin).Magnitude() * 0.5f;
 }
 
@@ -258,17 +258,17 @@ bool CN3VMesh::CheckCollision(const __Matrix44& MtxWorld, const __Vector3& v0, c
 		if(m_nIC > 0) { nCI0 = m_pwIndices[i*3+0]; nCI1 = m_pwIndices[i*3+1]; nCI2 = m_pwIndices[i*3+2]; }
 		else { nCI0 = i*3; nCI1 = i*3+1; nCI2 = i*3+2; }
 
-		if(false == ::_IntersectTriangle(vPos0, vDir, m_pVertices[nCI0], m_pVertices[nCI1], m_pVertices[nCI2], fT, fU, fV, &vColTmp)) continue; // 첫째 벡터가 걸치면..
-		if(false == ::_IntersectTriangle(vPos1, vDir, m_pVertices[nCI0], m_pVertices[nCI1], m_pVertices[nCI2])) // 둘째는 안 걸치면..
+		if(false == ::_IntersectTriangle(vPos0, vDir, m_pVertices[nCI0], m_pVertices[nCI1], m_pVertices[nCI2], fT, fU, fV, &vColTmp)) continue; // If the first vector crosses...
+		if(false == ::_IntersectTriangle(vPos1, vDir, m_pVertices[nCI0], m_pVertices[nCI1], m_pVertices[nCI2])) // If you don't wear the second...
 		{
-			fDistTmp = (vPos0 - vColTmp).Magnitude(); // 거리를 재보고..
+			fDistTmp = (vPos0 - vColTmp).Magnitude(); // look at the distance...
 			if(fDistTmp < fDistClosest) 
 			{
 				fDistClosest = fDistTmp;
 				
 				if(pVCol) *pVCol = vColTmp * MtxWorld;
 
-				// 법선 벡터 구하기..
+				// Find the normal vector...
 				if(pVNormal)
 				{
 					(*pVNormal).Cross(m_pVertices[nCI1] - m_pVertices[nCI0], m_pVertices[nCI2] - m_pVertices[nCI1]);
@@ -280,7 +280,7 @@ bool CN3VMesh::CheckCollision(const __Matrix44& MtxWorld, const __Vector3& v0, c
 	}
 	if(fDistClosest != FLT_MAX) return true;
 
-	//두점이 충돌메시 안에 있는 경우..by lynus..
+	// If two points are inside the collision mesh..by lynus..
 	__Vector3 tmpNormal;
 	float d;
 	for(auto i = 0; i < nFC; i++)
@@ -322,7 +322,7 @@ bool CN3VMesh::Pick(const __Matrix44& MtxWorld, const __Vector3& vPos, const __V
 
 		if(false == ::_IntersectTriangle(vPos2, vDir2, m_pVertices[nCI0], m_pVertices[nCI1], m_pVertices[nCI2])) continue;
 
-		// 충돌이다..
+		// it's a collision...
 		if(pVCol)
 		{
 			float fT, fU, fV;
@@ -330,7 +330,7 @@ bool CN3VMesh::Pick(const __Matrix44& MtxWorld, const __Vector3& vPos, const __V
 			(*pVCol) *= MtxWorld;
 		}
 
-		// 법선 벡터 구하기..
+		// Find the normal vector...
 		if(pVNormal)
 		{
 			(*pVNormal).Cross(m_pVertices[nCI1] - m_pVertices[nCI0], m_pVertices[nCI2] - m_pVertices[nCI1]);
@@ -355,14 +355,14 @@ bool CN3VMesh::Import(CN3IMesh *pIMesh)
 	this->Release();
 	this->CreateVertices(nFC * 3);
 
-	for(int i = 0; i < nFC; i++) // Normal 값 다시 세팅..
+	for(int i = 0; i < nFC; i++) // Reset normal values..
 	{
 		m_pVertices[i*3+0] = pvSrc[i*3+0];
 		m_pVertices[i*3+1] = pvSrc[i*3+1];
 		m_pVertices[i*3+2] = pvSrc[i*3+2];
 	}
 
-	m_szName = pIMesh->m_szName; // 이름..
+	m_szName = pIMesh->m_szName;
 	return true;
 }
 #endif // end of _N3TOOL

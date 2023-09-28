@@ -75,9 +75,9 @@ public:
 		}
 	}
 	BOOL IsNoKeyDown() const { return m_bNoKeyDown; }
-	BOOL IsKeyDown(int iIndex) { if(iIndex < 0 || iIndex >= NUMDIKEYS) return FALSE; return m_byCurKeys[iIndex]; } // Whether the keyboard is pressed... DIK_???? defined in &quot;DInput.h&quot; See scancode..
-	BOOL IsKeyPress(int iIndex) { if(iIndex < 0 || iIndex >= NUMDIKEYS) return FALSE; return m_bKeyPresses[iIndex]; } // The moment you press the keyboard... DIK_???? defined in &quot;DInput.h&quot; See scancode..
-	BOOL IsKeyPressed(int iIndex) { if(iIndex < 0 || iIndex >= NUMDIKEYS) return FALSE; return m_bKeyPresseds[iIndex]; } // The moment you press and release the keyboard... DIK_???? defined in &quot;DInput.h&quot; See scancode..
+	BOOL IsKeyDown(int iIndex) { if(iIndex < 0 || iIndex >= NUMDIKEYS) return FALSE; return m_byCurKeys[iIndex]; } // Whether the keyboard is pressed... DIK_???? defined in "DInput.h" See scancode..
+	BOOL IsKeyPress(int iIndex) { if(iIndex < 0 || iIndex >= NUMDIKEYS) return FALSE; return m_bKeyPresses[iIndex]; } // The moment you press the keyboard... DIK_???? defined in "DInput.h" See scancode..
+	BOOL IsKeyPressed(int iIndex) { if(iIndex < 0 || iIndex >= NUMDIKEYS) return FALSE; return m_bKeyPresseds[iIndex]; } // The moment you press and release the keyboard... DIK_???? defined in "DInput.h" See scancode..
 	
 	BOOL Init(HINSTANCE hInst, HWND hWnd, BOOL bActivateKeyboard= TRUE, BOOL bActivateMouse = TRUE, BOOL ExclusiveMouseAccess = TRUE );
 

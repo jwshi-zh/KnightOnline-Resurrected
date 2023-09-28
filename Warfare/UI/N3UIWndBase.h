@@ -120,7 +120,7 @@ class CUIImageTooltipDlg;
 class CCountableItemEditDlg;
 
 // Class ^^
-class CN3UIWndBase  : public CN3UIBase		// Shouldn&#39;t there be a function that can figure out the number of Areas of children with a virtual function???
+class CN3UIWndBase  : public CN3UIBase		// Shouldn't there be a function that can figure out the number of Areas of children with a virtual function???
 											// int GetChildCountByAreaType(eAreatype .. ) ^^
 {
 	void				PlayItemEtcSound();

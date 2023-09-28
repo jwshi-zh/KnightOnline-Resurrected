@@ -68,9 +68,9 @@ struct	_ExpUserList
 struct _Target
 {
 	int	id;							// Target user uid
-	float x;						// User의 x pos
-	float y;						// User의 y pos
-	float z;						// User의 z pos
+	float x;						// User x pos
+	float y;						// User y pos
+	float z;						// User z pos
 	int failCount;
 };
 

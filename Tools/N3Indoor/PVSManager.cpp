@@ -205,7 +205,7 @@ void CPVSManager::DeleteTotalShapeLinkByiOrder(int iOrder)
 
 	pSI = *siit;
 
-	// 먼저 지워질 Shape를 가지고 있는 Volume들을 찾아서..	처리한다..
+	// First, find and process Volumes that have Shapes to be erased.
 	ShapePart* pSP = NULL;
 
 	CPortalVolume* pVol = NULL;
@@ -234,7 +234,7 @@ void CPVSManager::DeleteTotalShapeLinkByiOrder(int iOrder)
 	m_plShapeInfoList.erase(siit);
 }
 
-// Edit 모드..
+// Edit mode..
 void CPVSManager::TickEdit()
 {
 	CPortalVolume* pVol = NULL;
@@ -358,7 +358,7 @@ void CPVSManager::RenderEdit()
 	}
 }
 
-// Compile 모드..
+// Compile mode..
 void CPVSManager::TickCompile()
 {
 	CPortalVolume* pVol = NULL;
@@ -415,13 +415,13 @@ bool CPVSManager::StartExecuteMode()
 
 	if (iSize < 1)
 	{
-		AfxMessageBox("선택되어있는 Volume이 없습니다....");
+		AfxMessageBox("No volume is selected....");
 		return false;
 	}
 
 	m_pCurVol = pFrm->m_SelVolArray.GetAt(0);
 
-	// Camera를 셋팅한다..
+	// set the camera..
 	m_vBackupEye = pFrm->m_Camera.EyePos();
 	m_vBackupAt  = pFrm->m_Camera.AtPos();
 
@@ -436,7 +436,7 @@ bool CPVSManager::StartExecuteMode()
 
 void CPVSManager::EndExecuteMode()
 {
-	// Camera 셋팅을 복구한다..
+	// Restore camera settings..
 	CMainFrame* pFrm = (CMainFrame* )AfxGetMainWnd();
 	pFrm->m_Camera.EyePosSet(m_vBackupEye);
 	pFrm->m_Camera.UpVectorSet(__Vector3(0.0f, 1.0f, 0.0f));
@@ -448,13 +448,13 @@ void CPVSManager::ExecuteCameraChange()
 {
 	if (m_pPvsList.size() < 1)
 	{
-		AfxMessageBox("선택 가능한 리스트가 없습니다....");
+		AfxMessageBox("No list to choose from....");
 		return;
 	}
 	
 	if (!m_pCurVol)
 	{
-		AfxMessageBox("선택되어있는 Volume이 없습니다....");
+		AfxMessageBox("No volume is selected....");
 		return;
 	}
 
@@ -478,7 +478,7 @@ void CPVSManager::RestoreExecuteCameraChange()
 	pFrm->m_Camera.Apply();
 }
 
-// Execute 모드..
+// Execute mode..
 void CPVSManager::TickExecute()
 {
 	CPortalVolume* pVol = NULL;
@@ -633,7 +633,7 @@ void CPVSManager::TotalCollisionRenderEdit()
 		{
 			pSI->m_pShape->Tick(-1000);
 
-			// 로딩할때 미리 계산해 놓은 월드 행렬 적용..
+			// Apply pre-calculated world matrix when loading..
 			__Matrix44 mtxBackup;
 			CN3Base::s_lpD3DDev->GetTransform(D3DTS_WORLD, &mtxBackup);
 			CN3Base::s_lpD3DDev->SetTransform(D3DTS_WORLD, &pSI->m_Matrix);
@@ -652,7 +652,7 @@ void CPVSManager::TotalCollisionRenderEdit()
 			pSI = *siit++;
 			pSI->m_pShape->Tick(-1000);
 
-			// 로딩할때 미리 계산해 놓은 월드 행렬 적용..
+			// Apply pre-calculated world matrix when loading..
 			__Matrix44 mtxBackup;
 			CN3Base::s_lpD3DDev->GetTransform(D3DTS_WORLD, &mtxBackup);
 			CN3Base::s_lpD3DDev->SetTransform(D3DTS_WORLD, &pSI->m_Matrix);
@@ -686,7 +686,7 @@ void CPVSManager::SplitShapeToVolumn(CDialog* pDlg)
 		pSI->m_pShape->Tick();
 		pSI->m_pShape->SetMaxLOD();
 		
-		// 뽀갠다..
+		// cross..
 		CPortalVolume* pVol = NULL;
 
 		iter it = m_pPvsList.begin();
@@ -698,7 +698,7 @@ void CPVSManager::SplitShapeToVolumn(CDialog* pDlg)
 
 			pVol = *it++;	
 
-			// Shape의폴리곤 갯수만큼 돌면서.. 먼저 Transform 시키고.. 검사.. 								
+			// Rotating as much as the number of polygons in the Shape.. Transform first.. Inspection..							
 			pVol->SplitAndMakeShape(pSI);
 			pVol->SplitAndMakeCollision(pSI);
 		}
@@ -723,7 +723,7 @@ void CPVSManager::DoAllCompile()
 {
 	if (m_pPvsList.size() < 1)
 	{
-		AfxMessageBox("선택 가능한 리스트가 없습니다....");
+		AfxMessageBox("No list to choose from....");
 		return;
 	}
 
@@ -816,7 +816,7 @@ void CPVSManager::ComputeVisibilty(CPortalVolume * const pVol)
 {
 	SetPriority(pVol);
 
-	// 렌더링 속도를 빠르게 하기 위해서.. 우선순위대로 정렬한 후.. 순서대로 렌더링한다..
+	// In order to speed up the rendering speed.. After sorting in priority order.. Render in order..
 	std::priority_queue< CPortalVolume*, std::vector<CPortalVolume*>, Myless<CPortalVolume*> > pQueue; 
 
 	CPortalVolume* pVolTo = NULL;
@@ -838,7 +838,7 @@ void CPVSManager::ComputeVisibilty(CPortalVolume * const pVol)
 		pQueue.pop();
 	}
 
-	// 디버그용 함수.. ^^
+	// Debug function.. ^^
 	DebugFunc();
 }
 
@@ -1005,7 +1005,6 @@ bool CPVSManager::Save(HANDLE hFile)
 	iT = pView->GetDlgItemInt(IDC_TOTAL_MOVE_Z);
 	WriteFile(hFile, &iT, sizeof(int), &dwNum, NULL);	
 
-	// 전체 Shape.. 
 	int iCount  = m_plShapeInfoList.size();
 	WriteFile(hFile, &iCount, sizeof(int), &dwNum, NULL);	
 
@@ -1017,7 +1016,6 @@ bool CPVSManager::Save(HANDLE hFile)
 		WriteFile(hFile, &pSI->m_iID, sizeof(int), &dwNum, NULL);
 		WriteCryptographString(hFile, pSI->m_strShapeFile);
 
-		// Shape의 데이터 저장..
 		WriteFile(hFile, &pSI->m_iBelong, sizeof(int), &dwNum, NULL);	
 		WriteFile(hFile, &pSI->m_iEventID, sizeof(int), &dwNum, NULL);	
 		WriteFile(hFile, &pSI->m_iEventType, sizeof(int), &dwNum, NULL);	
@@ -1026,19 +1024,16 @@ bool CPVSManager::Save(HANDLE hFile)
 		pSI->Save(hFile);
 	}	
 
-	// Total Count..
 	WriteFile(hFile, &m_iTotalCount, sizeof(int), &dwNum, NULL);	
 	CPortalVolume* pVol = NULL;
 	iter it = m_pPvsList.begin();
 
 	while(it != m_pPvsList.end())
 	{
-		// 자신의 데이터 저장..
 		pVol = *it++;
 		pVol->Save(hFile, m_bGameData);
 	}
 
-	// Floor..
 	FloorInfo FInfo;
 	iCount = pFrm->m_FloorList.size();
 	WriteFile(hFile, &iCount, sizeof(int), &dwNum, NULL);	
@@ -1098,7 +1093,7 @@ bool CPVSManager::Load(HANDLE hFile)
 
 	if (!pFrm->m_pSceneSource)
 	{
-		AfxMessageBox("SourceList를 Load하지 못했습니다..Data는 로드되지 않을것 입니다..");
+		AfxMessageBox("Failed to Load SourceList..Data will not be loaded..");
 		return false;
 	}
 
@@ -1117,7 +1112,6 @@ bool CPVSManager::Load(HANDLE hFile)
 	m_iTotalCount = 0;
 	m_iCurIndex = -1;
 
-	// 전체 Shape 갯수 로드..
 	int iCount, iCount2;
 	ReadFile(hFile, &iCount, sizeof(int), &dwNum, NULL);
 
@@ -1126,11 +1120,9 @@ bool CPVSManager::Load(HANDLE hFile)
 		ShapeInfo*	pSI = new ShapeInfo;
 		ReadFile(hFile, &pSI->m_iID, sizeof(int), &dwNum, NULL);
 		
-		// 문자열 길이..
 		strSrc = ReadDecryptString(hFile);
 		pSI->m_strShapeFile = strSrc;
-
-		// SourceList에서.. Shape의 Pointer를 연결한다..
+		
 		pSI->m_pShape = pFrm->m_pSceneSource->ShapeGetByFileName(strSrc);
 		ASSERT(pSI->m_pShape);
 
@@ -1143,7 +1135,6 @@ bool CPVSManager::Load(HANDLE hFile)
 		m_plShapeInfoList.push_back(pSI);
 	}
 
-	// Total Count.. 
 	ReadFile(hFile, &m_iTotalCount, sizeof(int), &dwNum, NULL);
 
 	CPortalVolume* pVol = NULL, *pVolTo = NULL;
@@ -1159,7 +1150,7 @@ bool CPVSManager::Load(HANDLE hFile)
 		m_pPvsList.push_back(pVol);
 	}
 
-	// 링크된 아이디들을 읽어서 연결시킴..
+	// Read the linked IDs and connect them..
 	WVID wvid;
 	WVOL wvol;
 	IDAndPriority IDAP;
@@ -1269,7 +1260,7 @@ CPortalVolume* CPVSManager::GetPortalVolPointerByID(int iID)
 
 	while(it != m_pPvsList.end())
 	{
-		// 자신의 데이터 저장..
+		// Save your data...
 		pVol = *it++;
 		if (pVol->m_iID == iID)
 			return pVol;
@@ -1303,7 +1294,7 @@ std::string CPVSManager::ReadDecryptString(HANDLE hFile)
 	ReadFile(hFile, &iCount, sizeof(int), &dwNum, NULL);
 	std::vector<char> buffer(iCount);
 
-	ReadFile(hFile, &(buffer[0]), iCount, &dwNum, NULL);				// string
+	ReadFile(hFile, &(buffer[0]), iCount, &dwNum, NULL);
 	for( int i = 0; i < iCount; i++)
 		buffer[i] ^= CRY_KEY;
 	buffer.push_back((char)0x00);
@@ -1406,7 +1397,7 @@ CPortalVolume* CPVSManager::PickCollision(float fx, float fy)
 	while(it != m_pPvsList.end())
 	{
 		pVol = *it++;	
-		if(pVol->PickWithVolume(vPos, vDir, &vPick))		// 양면 체크 할까하다가.. 
+		if(pVol->PickWithVolume(vPos, vDir, &vPick))		// I was thinking of checking both sides...
 		{
 			fDT = (vPick - CN3Base::s_CameraData.vEye).Magnitude();
 			if (fDT <= fDistMax)
@@ -1419,7 +1410,7 @@ CPortalVolume* CPVSManager::PickCollision(float fx, float fy)
 
 	return pVolNe;
 
-	// 먼저 Volume 갯수만큼 돌면서.. Volume에 링큳된 Shape들을 먼저 검사한다..	나중에 구현..
+	// First, it rotates as much as the number of Volumes.. The Shapes linked to the Volumes are inspected first.. Implemented later..
 }
 
 void CPVSManager::UpdatePosAll(float fx, float fy, float fz)

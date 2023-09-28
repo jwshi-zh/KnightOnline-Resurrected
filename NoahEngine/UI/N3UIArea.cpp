@@ -55,7 +55,7 @@ DWORD CN3UIArea::MouseProc(DWORD dwFlags, const POINT& ptCur, const POINT& ptOld
 		// Send messages for specific events..
 		if(IsIn(ptCur.x, ptCur.y) && (dwFlags & UI_MOUSE_LBCLICK) )	
 		{
-			m_pParent-&gt;ReceiveMessage(this, UIMSG_AREA_DOWN_FIRST); // Notify parent when button is clicked..
+			m_pParent->ReceiveMessage(this, UIMSG_AREA_DOWN_FIRST); // Notify parent when button is clicked..
 			dwRet |= UI_MOUSEPROC_DONESOMETHING;
 			return dwRet;
 		}

@@ -69,7 +69,7 @@ void CDlgShapeList::UpdateTree(CN3Scene* pScene)
 {
 	m_ListShape.ResetContent();
 	
-	if (pScene && m_IsSourceObj)	// Source용 버전..
+	if (pScene && m_IsSourceObj)
 	{
 		m_pSceneRef = pScene;
 
@@ -86,7 +86,7 @@ void CDlgShapeList::UpdateTree(CN3Scene* pScene)
 			}
 		}
 	}
-	else if (!pScene && !m_IsSourceObj)				// Output용 버전..
+	else if (!pScene && !m_IsSourceObj)
 	{
 		CMainFrame* pFrm =  (CMainFrame* )AfxGetMainWnd();
 		COrganizeView* pView = pFrm->GetOrganizeView();
@@ -124,7 +124,7 @@ void CDlgShapeList::UpdateTree(CN3Scene* pScene)
 	}
 }
 
-int	CDlgShapeList::GetTotalShapeInfoCount()									// Output용..
+int	CDlgShapeList::GetTotalShapeInfoCount()
 {
 	if (m_IsSourceObj)
 	{
@@ -161,7 +161,7 @@ int	CDlgShapeList::GetTotalShapeInfoCount()									// Output용..
 	return i;
 }
 
-CN3Shape* CDlgShapeList::GetShapeByiOrder(int iOrder)				// Output용..
+CN3Shape* CDlgShapeList::GetShapeByiOrder(int iOrder)
 {
 	if (m_IsSourceObj)
 	{
@@ -202,7 +202,7 @@ CN3Shape* CDlgShapeList::GetShapeByiOrder(int iOrder)				// Output용..
 	return NULL;
 }
 
-void CDlgShapeList::SelectObject(void* pItemData)	// Output용 버전..
+void CDlgShapeList::SelectObject(void* pItemData)
 {
 	if (m_IsSourceObj)	return;
 
@@ -234,7 +234,6 @@ void CDlgShapeList::OnSelchangeListObj()
 	CMainFrame* pFrm = NULL;
 	pFrm = (CMainFrame*)AfxGetMainWnd();
 
-	// Source와 Output 공용..
 	int idx = m_ListShape.GetCurSel();
 	if(idx<0) return;
 	
@@ -253,7 +252,6 @@ void CDlgShapeList::OnSelchangeListObj()
 		}
 		else
 		{
-			// Output..
 			ShapeInfo* pSI = (ShapeInfo*)m_ListShape.GetItemDataPtr(idx);
 			if(pSI)
 			{
@@ -316,7 +314,6 @@ BOOL CDlgShapeList::PreTranslateMessage(MSG* pMsg)
 void CDlgShapeList::OnBtnSort() 
 {
 	// TODO: Add your control notification handler code here
-	// Source 버전..
 	if (m_IsSourceObj)
 	{
 		ShapeMap Map;
@@ -349,7 +346,6 @@ void CDlgShapeList::OnBtnSort()
 			it++;
 		}	
 	}
-	// Output 버전..
 	else
 	{
 		ShapeInfoMap Map;
@@ -386,8 +382,6 @@ void CDlgShapeList::OnBtnSort()
 
 void CDlgShapeList::OnOk() 
 {
-	// TODO: Add your control notification handler code here
-	// 당연히 Source 버전..
 	CMainFrame* pFrm = (CMainFrame*)AfxGetMainWnd();
 	CN3Shape* pShape = NULL;
 	int SelCount = m_ListShape.GetSelCount();

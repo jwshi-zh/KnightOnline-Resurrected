@@ -94,7 +94,7 @@ void CTransDummy::InitDummyCube(int iType, __DUMMYCUBE* pDummyCube, __Vector3& v
 void CTransDummy::Tick()
 {
 	if (m_SelObjArray.GetSize()==0) return;
-	// Scale 조정
+	// Scale adjustment
 	__Vector3 vL = s_CameraData.vEye - m_vPos;
 	float fL = vL.Magnitude()*0.01f;
 	m_vScale.Set(fL, fL, fL);
@@ -102,7 +102,7 @@ void CTransDummy::Tick()
 	CN3Transform::Tick(-1000.0f);
 	ReCalcMatrix();
 
-	// 거리에 따라 정렬
+	// sort by distance
 	int i;
 	for (i=0; i<NUM_DUMMY; ++i)
 	{
@@ -130,7 +130,7 @@ void CTransDummy::Render()
 	HRESULT hr;
 
 	// set transform
-	hr = s_lpD3DDev->SetTransform(D3DTS_WORLD, &m_Matrix); // 월드 행렬 적용..
+	hr = s_lpD3DDev->SetTransform(D3DTS_WORLD, &m_Matrix); // Apply the world matrix..
 
 	// set texture
 	hr = s_lpD3DDev->SetTexture(0, NULL);
@@ -146,11 +146,11 @@ void CTransDummy::Render()
 	hr = s_lpD3DDev->SetRenderState(D3DRS_ZENABLE, D3DZB_FALSE);
 	hr = s_lpD3DDev->SetRenderState(D3DRS_LIGHTING, FALSE);
 
-	// 이어지 선 그리기
+	// draw a continuous line
 	hr = s_lpD3DDev->SetVertexShader(FVF_XYZCOLOR);
 	hr = s_lpD3DDev->DrawPrimitiveUP(D3DPT_LINELIST, 3, m_LineVertices, sizeof(__VertexXyzColor));
 
-	// Cube 그리기
+	// Draw Cube
 	hr = s_lpD3DDev->SetVertexShader(FVF_XYZNORMALCOLOR);
 	int i;
 	for (i=0; i<NUM_DUMMY; ++i)
@@ -231,7 +231,7 @@ BOOL CTransDummy::MouseMsgFilter(LPMSG pMsg)
 				m_qPrevRot = pSelObj0->Rot();
 				if (m_vPrevScaleArray) {delete [] m_vPrevScaleArray; m_vPrevScaleArray = NULL;}
 				m_vPrevScaleArray = new __Vector3[iSize];
-				for (int i=0; i<iSize; ++i)	// 모든 선택된 객체의 스케일 저장
+				for (int i=0; i<iSize; ++i)	// Save scale of all selected objects
 				{
 					CN3Transform* pSelObj = m_SelObjArray.GetAt(i);
 					_ASSERT(pSelObj);
@@ -253,7 +253,7 @@ BOOL CTransDummy::MouseMsgFilter(LPMSG pMsg)
 			}
 		}
 		break;
-	case WM_RBUTTONUP:	// 큐브 선택 취소 및 이번 드래그로 움직인것 되돌려 놓기
+	case WM_RBUTTONUP:	// Unselect the cube and put back what you moved with this drag
 		{
 			if (m_pSelectedCube)
 			{
@@ -339,7 +339,7 @@ void CTransDummy::TransDiff(__Vector3* pvDiffPos, __Quaternion* pqDiffRot, __Vec
 			qtRot *= (*pqDiffRot);
 			pSelObj->RotSet(qtRot);
 
-			vPos = pSelObj->Pos();	//	맵상에서의 위치
+			vPos = pSelObj->Pos();	//	location on the map
 			vPos -= vCenter;
 			vPos *= mtx44Rotate;
 			vPos += vCenter;

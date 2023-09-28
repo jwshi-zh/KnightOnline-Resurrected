@@ -1,5 +1,5 @@
 // LyTerrain.cpp: implementation of the CLyTerrain class.
-//	- 2001. 9.24.~ Map Editor¿ëÀ¸·Î º¯È¯...
+//	- 2001. 9.24.~ Map Editorìš©ìœ¼ë¡œ ë³€í™˜...
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -1089,7 +1089,7 @@ bool CLyTerrain::LoadFromFile(const char* lpszPath)
 
 				if(m_pColorTexture[x][z].LoadFromFile(szNewFName)==false)
 				{
-					MessageBox(::GetActiveWindow(), "Only 32bit dxt files can be used for colormaps.", "¤Ð.¤Ð", MB_OK);
+					MessageBox(::GetActiveWindow(), "Only 32bit dxt files can be used for colormaps.", "ã… .ã… ", MB_OK);
 				}
 			}
 		}
@@ -1643,7 +1643,7 @@ void CLyTerrain::SaveGameData(HANDLE hFile)
 			fprintf(stream, "%d,%d\t",v.Obj_Id,v.Seed_Count );
 
 			if( v.SeedGroup_Sub !=NULL)
-				fprintf(stream, "¼­ºê %d,%d\t",v.SeedGroup_Sub->Obj_Id,v.SeedGroup_Sub->Seed_Count );
+				fprintf(stream, "serve %d,%d\t",v.SeedGroup_Sub->Obj_Id,v.SeedGroup_Sub->Seed_Count );
 
 
 			fprintf(stream, "\n");
@@ -2288,7 +2288,7 @@ void CLyTerrain::Render()
 	hr = s_lpD3DDev->GetTextureStageState( 1, D3DTSS_ADDRESSU, &AddressU2 );
 	hr = s_lpD3DDev->GetTextureStageState( 1, D3DTSS_ADDRESSV, &AddressV2 );
 
-	// °¢°¢ÀÇ ÅØ½ºÃÄµéÀ» ¿¬°áÇßÀ»¶§ °æ°è¼±À» ¾ø¾Ù ¼ö ÀÖ´Ù..^^
+	// When connecting each texture, the border can be removed..^^
 	hr = s_lpD3DDev->SetTextureStageState( 0, D3DTSS_ADDRESSU,  D3DTADDRESS_MIRROR );
 	hr = s_lpD3DDev->SetTextureStageState( 0, D3DTSS_ADDRESSV,  D3DTADDRESS_MIRROR );
 	hr = s_lpD3DDev->SetTextureStageState( 1, D3DTSS_ADDRESSU,  D3DTADDRESS_MIRROR );
@@ -4084,7 +4084,7 @@ void CLyTerrain::SetColorMap(int x, int y)
 	hr = pBackBuff->GetDesc(&desc);
 	if(desc.Format!=D3DFMT_X8R8G8B8)
 	{
-		MessageBox(::GetActiveWindow(),"Change the screen color mode to 32bit mode.\nOtherwise, the color map cannot be created..¤Ð.¤Ð","Warning!!",MB_OK);
+		MessageBox(::GetActiveWindow(),"Change the screen color mode to 32bit mode.\nOtherwise, the color map cannot be created..ã… .ã… ","Warning!!",MB_OK);
 		return;
 	}
 
@@ -4270,7 +4270,7 @@ void CLyTerrain::SetColorMap(int x, int y)
 	
 	hr = s_lpD3DDev->DrawPrimitive( D3DPT_TRIANGLEFAN, 0, 2);
 
-	//light map Âï±â...
+	//Take a light map...
 	//
 	//if(m_ppIsLightMap[x][y])
 	//{
@@ -4320,7 +4320,7 @@ void CLyTerrain::SetColorMap(int x, int y)
 	hr = pBackBuff->GetDesc(&desc);
 	if(desc.Format!=D3DFMT_X8R8G8B8)
 	{
-		MessageBox(::GetActiveWindow(),"Please change the screen color mode to 32bit mode.\nOtherwise, the color map cannot be created..¤Ð.¤Ð","Warning!!",MB_OK);
+		MessageBox(::GetActiveWindow(),"Please change the screen color mode to 32bit mode.\nOtherwise, the color map cannot be created..ã… .ã… ","Warning!!",MB_OK);
 		return;
 	}
 
@@ -4870,7 +4870,7 @@ void CLyTerrain::Import(LPCTSTR pFileName, float fSize)
 	Init(HeightMapSize);
 
 	CN3VMesh* pVMesh = new CN3VMesh;
-	__ASSERT(pVMesh, "VMesh is not reading..¤Ì.¤Ì");
+	__ASSERT(pVMesh, "VMesh is not reading..ã…œ.ã…œ");
 
 	pVMesh->LoadFromFile(pFileName);
 
@@ -5072,7 +5072,7 @@ void CLyTerrain::Import(LPCTSTR pFileName, float fSize)
 void CLyTerrain::ImportHeight(LPCTSTR pFileName)
 {
 	CN3VMesh* pVMesh = new CN3VMesh;
-	__ASSERT(pVMesh, "VMesh not reading..¤Ì.¤Ì");
+	__ASSERT(pVMesh, "VMesh not reading..ã…œ.ã…œ");
 
 	pVMesh->LoadFromFile(pFileName);
 
@@ -5189,7 +5189,7 @@ void CLyTerrain::ImportHeight(LPCTSTR pFileName)
 void CLyTerrain::ImportHeight(LPCTSTR pFileName)
 {
 	CN3VMesh* pVMesh = new CN3VMesh;
-	__ASSERT(pVMesh, "VMesh is not reading..¤Ì.¤Ì");
+	__ASSERT(pVMesh, "VMesh is not reading..ã…œ.ã…œ");
 
 	pVMesh->LoadFromFile(pFileName);
 

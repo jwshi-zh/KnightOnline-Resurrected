@@ -10,7 +10,7 @@ CN3Transform::CN3Transform()
 	m_qRot.Identity();
 	m_Matrix.Identity();
 
-	// 에니메이션 키
+	// anime key
 	m_fFrmCur = 0;
 	m_fFrmWhole = 0;
 }
@@ -27,7 +27,7 @@ void CN3Transform::Release()
 
 	m_Matrix.Identity();
 
-	// 에니메이션 키
+	// anime key
 	m_fFrmCur = 0;
 	m_fFrmWhole = 0;
 
@@ -47,7 +47,7 @@ bool CN3Transform::Load(HANDLE hFile)
 	ReadFile(hFile, &m_qRot, sizeof(__Quaternion), &dwRWC, nullptr);
 	ReadFile(hFile, &m_vScale, sizeof(__Vector3), &dwRWC, nullptr);
 
-	// 에니메이션 키
+	// anime key
 	m_KeyPos.Load(hFile);
 	m_KeyRot.Load(hFile);
 	m_KeyScale.Load(hFile);
@@ -77,7 +77,7 @@ bool CN3Transform::Save(HANDLE hFile)
 	WriteFile(hFile, &m_qRot, sizeof(__Quaternion), &dwRWC, NULL);
 	WriteFile(hFile, &m_vScale, sizeof(__Vector3), &dwRWC, NULL);
 
-	// 에니메이션 키
+	// anime key
 	m_KeyPos.Save(hFile);
 	m_KeyRot.Save(hFile);
 	m_KeyScale.Save(hFile);

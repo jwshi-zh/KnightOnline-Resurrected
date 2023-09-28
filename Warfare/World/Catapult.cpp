@@ -44,7 +44,7 @@ void CCatapult::Render()
 {
 	CMachineBase::Render();
 
-	__ASSERT(m_Thrower.pStone, "투석기에 돌맹이 없음");
+	__ASSERT(m_Thrower.pStone, "No rocks in catapult");
 	if (m_Thrower.bDontRenderStone == FALSE ) m_Thrower.pStone->Render();
 }
 
@@ -61,7 +61,7 @@ void CCatapult::Tick(float fFrm)
 	{
 		m_Thrower.fTime += s_fSecPerFrm;
 		float fReloadTime = m_Thrower.fTime - (m_Thrower.fReleaseTime + m_Thrower.fReloadDelayTime);
-		if (fReloadTime&lt;0) // firing or delaying...
+		if (fReloadTime<0) // firing or delaying...
 		{
 			float fVibrationTime = m_Thrower.fTime - m_Thrower.fReleaseTime;
 			if (fVibrationTime<0)
@@ -72,7 +72,7 @@ void CCatapult::Tick(float fFrm)
 			{
 				if (m_Thrower.bDontRenderStone == FALSE)
 				{
-					m_Thrower.bDontRenderStone = TRUE; // don&#39;t draw boulders
+					m_Thrower.bDontRenderStone = TRUE; // don't draw boulders
 
 					// The stone throwing message should occur (once only)
 					IsStoneThrown = TRUE;
@@ -86,7 +86,7 @@ void CCatapult::Tick(float fFrm)
 		}
 		else
 		{
-			m_Thrower.bDontRenderStone = TRUE; // don&#39;t draw boulders
+			m_Thrower.bDontRenderStone = TRUE; // don't draw boulders
 
 			m_Thrower.fCurRadian = -(m_Thrower.fLimitRadian - fReloadTime*m_Thrower.fRadianSpeed2Reload);
 			if (m_Thrower.fCurRadian > 0)
@@ -153,16 +153,16 @@ void CCatapult::LoadMachine(FILE* stream)
 
 	int result;
 	float x, y, z;
-	result = fscanf(stream, "Thrower_Name = %s\n", &szThrowerName);						__ASSERT(result != EOF, "잘못된 Machine 세팅 파일");
-	result = fscanf(stream, "Thrower_LimitRadian = %f\n", &(m_Thrower.fLimitRadian));	__ASSERT(result != EOF, "잘못된 Machine 세팅 파일");
-	result = fscanf(stream, "Thrower_RadianAccel = %f\n", &(m_Thrower.fRadianAccel));	__ASSERT(result != EOF, "잘못된 Machine 세팅 파일");
-	result = fscanf(stream, "Thrower_RadianSpeed2Reload = %f\n", &(m_Thrower.fRadianSpeed2Reload));	__ASSERT(result != EOF, "잘못된 Machine 세팅 파일");
-	result = fscanf(stream, "Thrower_ReloadDelayTime = %f\n", &(m_Thrower.fReloadDelayTime));		__ASSERT(result != EOF, "잘못된 Machine 세팅 파일");
-	result = fscanf(stream, "Thrower_RecoilRadian = %f\n", &(m_Thrower.fRecoilRadian));				__ASSERT(result != EOF, "잘못된 Machine 세팅 파일");
-	result = fscanf(stream, "Thrower_StoneShapeName = %s\n", szStoneShapeName);						__ASSERT(result != EOF, "잘못된 Machine 세팅 파일");
-	result = fscanf(stream, "Thrower_StoneOffset = %f %f %f\n", &x, &y, &z);						__ASSERT(result != EOF, "잘못된 Machine 세팅 파일");
+	result = fscanf(stream, "Thrower_Name = %s\n", &szThrowerName);						__ASSERT(result != EOF, "Invalid machine setting file");
+	result = fscanf(stream, "Thrower_LimitRadian = %f\n", &(m_Thrower.fLimitRadian));	__ASSERT(result != EOF, "Invalid machine setting file");
+	result = fscanf(stream, "Thrower_RadianAccel = %f\n", &(m_Thrower.fRadianAccel));	__ASSERT(result != EOF, "Invalid machine setting file");
+	result = fscanf(stream, "Thrower_RadianSpeed2Reload = %f\n", &(m_Thrower.fRadianSpeed2Reload));	__ASSERT(result != EOF, "Invalid machine setting file");
+	result = fscanf(stream, "Thrower_ReloadDelayTime = %f\n", &(m_Thrower.fReloadDelayTime));		__ASSERT(result != EOF, "Invalid machine setting file");
+	result = fscanf(stream, "Thrower_RecoilRadian = %f\n", &(m_Thrower.fRecoilRadian));				__ASSERT(result != EOF, "Invalid machine setting file");
+	result = fscanf(stream, "Thrower_StoneShapeName = %s\n", szStoneShapeName);						__ASSERT(result != EOF, "Invalid machine setting file");
+	result = fscanf(stream, "Thrower_StoneOffset = %f %f %f\n", &x, &y, &z);						__ASSERT(result != EOF, "Invalid machine setting file");
 
-	__ASSERT(m_Thrower.pStone == NULL, "catapult memory leak 가능성 존재");
+	__ASSERT(m_Thrower.pStone == NULL, "Possibility of catapult memory leak");
 	m_Thrower.pStone = new CN3Shape;
 	m_Thrower.pStone->Load(szStoneShapeName);
 	m_Thrower.vStoneOffset.Set(x, y, z);

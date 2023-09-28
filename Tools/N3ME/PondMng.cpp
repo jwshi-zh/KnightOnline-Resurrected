@@ -17,7 +17,7 @@
 
 #ifdef _DEBUG
 #undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
+static char THIS_FILE[] = __FILE__;
 #define new DEBUG_NEW
 #endif
 
@@ -25,7 +25,7 @@ static char THIS_FILE[]=__FILE__;
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-CPondMng::CPondMng(CMainFrame* pMainFrm)
+CPondMng::CPondMng(CMainFrame *pMainFrm)
 {
 	m_pMainFrm = pMainFrm;
 	Release();
@@ -36,7 +36,12 @@ CPondMng::CPondMng(CMainFrame* pMainFrm)
 CPondMng::~CPondMng()
 {
 	Release();
-	if (m_pDlgProperty) {	m_pDlgProperty->DestroyWindow(); delete m_pDlgProperty; m_pDlgProperty = NULL;}
+	if (m_pDlgProperty)
+	{
+		m_pDlgProperty->DestroyWindow();
+		delete m_pDlgProperty;
+		m_pDlgProperty = NULL;
+	}
 }
 
 void CPondMng::Release()
@@ -46,10 +51,11 @@ void CPondMng::Release()
 
 	it_PondMesh it = m_PondMeshes.begin();
 	int iSize = m_PondMeshes.size();
-	for(int i = 0; i < iSize; i++, it++)
+	for (int i = 0; i < iSize; i++, it++)
 	{
-		CPondMesh* pRM = *it;
-		if (pRM) delete pRM;
+		CPondMesh *pRM = *it;
+		if (pRM)
+			delete pRM;
 	}
 	m_PondMeshes.clear();
 
@@ -67,20 +73,20 @@ void CPondMng::MainInvalidate()
 	m_pMainFrm->Invalidate(FALSE);
 }
 
-void CPondMng::SelPondDelete(CPondMesh* pPondMesh)
+void CPondMng::SelPondDelete(CPondMesh *pPondMesh)
 {
 	it_PondMesh it = m_pSelPonds.begin();
 	int iSize = m_pSelPonds.size();
-	for(int i = 0; i < iSize; i++, it++)
+	for (int i = 0; i < iSize; i++, it++)
 	{
-		CPondMesh* pRM = *it;
-		if(pRM == pPondMesh)
+		CPondMesh *pRM = *it;
+		if (pRM == pPondMesh)
 		{
 			break;
 		}
 	}
 
-	if(i!=iSize) 
+	if (i != iSize)
 	{
 		it = m_pSelPonds.erase(it);
 	}
@@ -90,25 +96,26 @@ void CPondMng::SelPondRelease()
 {
 	it_PondMesh it = m_pSelPonds.begin();
 	int iSize = m_pSelPonds.size();
-	for(int i = 0; i < iSize; i++, it++)
+	for (int i = 0; i < iSize; i++, it++)
 	{
-		CPondMesh* pRM = *it;
-		if(pRM)
+		CPondMesh *pRM = *it;
+		if (pRM)
 		{
-			pRM=NULL;
+			pRM = NULL;
 		}
 	}
 	m_pSelPonds.clear();
 }
 
-void CPondMng::SetSelPonds(CPondMesh* pPondMesh)
+void CPondMng::SetSelPonds(CPondMesh *pPondMesh)
 {
 	it_PondMesh it = m_pSelPonds.begin();
 	int iSize = m_pSelPonds.size();
-	for(int i = 0; i < iSize; i++, it++)
+	for (int i = 0; i < iSize; i++, it++)
 	{
-		CPondMesh* pRM = *it;
-		if (pRM == pPondMesh) return;
+		CPondMesh *pRM = *it;
+		if (pRM == pPondMesh)
+			return;
 	}
 
 	m_pSelPonds.push_back(pPondMesh);
@@ -121,25 +128,25 @@ bool CPondMng::Load(HANDLE hFile)
 	DWORD dwNum;
 
 	int iVersion;
-	ReadFile(hFile, &iVersion, sizeof(iVersion), &dwNum,NULL);	//	GetVersion
+	ReadFile(hFile, &iVersion, sizeof(iVersion), &dwNum, NULL); //	GetVersion
 
 	int i, iPondMeshCount;
-	if(iVersion==1001)
+	if (iVersion == 1001)
 	{
 		ReadFile(hFile, &iPondMeshCount, sizeof(iPondMeshCount), &dwNum, NULL);
-		for (i=0; i<iPondMeshCount; ++i)
+		for (i = 0; i < iPondMeshCount; ++i)
 		{
-			CPondMesh* pPondMesh = new CPondMesh;
+			CPondMesh *pPondMesh = new CPondMesh;
 			pPondMesh->Load1001(hFile);
 			m_PondMeshes.push_back(pPondMesh);
 		}
 	}
-	else if(iVersion==1000)
+	else if (iVersion == 1000)
 	{
 		ReadFile(hFile, &iPondMeshCount, sizeof(iPondMeshCount), &dwNum, NULL);
-		for (i=0; i<iPondMeshCount; ++i)
+		for (i = 0; i < iPondMeshCount; ++i)
 		{
-			CPondMesh* pPondMesh = new CPondMesh;
+			CPondMesh *pPondMesh = new CPondMesh;
 			pPondMesh->Load1000(hFile);
 			m_PondMeshes.push_back(pPondMesh);
 		}
@@ -147,9 +154,9 @@ bool CPondMng::Load(HANDLE hFile)
 	else
 	{
 		iPondMeshCount = iVersion;
-		for (i=0; i<iPondMeshCount; ++i)
+		for (i = 0; i < iPondMeshCount; ++i)
 		{
-			CPondMesh* pPondMesh = new CPondMesh;
+			CPondMesh *pPondMesh = new CPondMesh;
 			pPondMesh->Load(hFile);
 			m_PondMeshes.push_back(pPondMesh);
 		}
@@ -165,15 +172,15 @@ bool CPondMng::Save(HANDLE hFile)
 
 	//	version 1000 - alpha input
 	int nFileVersion = 1001;
-	WriteFile(hFile, &nFileVersion, sizeof(nFileVersion), &dwNum, NULL);		// ¿¬¸ø ¹øÈ£
+	WriteFile(hFile, &nFileVersion, sizeof(nFileVersion), &dwNum, NULL); // pond number
 
 	int iSize = m_PondMeshes.size();
 	WriteFile(hFile, &iSize, 4, &dwNum, NULL);
-	
+
 	it_PondMesh it = m_PondMeshes.begin();
-	for(int i = 0; i < iSize; i++, it++)
+	for (int i = 0; i < iSize; i++, it++)
 	{
-		CPondMesh* pRM = *it;
+		CPondMesh *pRM = *it;
 		pRM->Save(hFile);
 	}
 	return 0;
@@ -188,31 +195,35 @@ void CPondMng::Render()
 {
 	HRESULT hr;
 	// backup state
-	DWORD dwZEnable, dwLighting,dwFog;
+	DWORD dwZEnable, dwLighting, dwFog;
 	hr = s_lpD3DDev->GetRenderState(D3DRS_ZENABLE, &dwZEnable);
 	hr = s_lpD3DDev->GetRenderState(D3DRS_LIGHTING, &dwLighting);
 	hr = s_lpD3DDev->GetRenderState(D3DRS_FOGENABLE, &dwFog);
 
 	// set state
-	if(dwZEnable != D3DZB_TRUE)	hr = s_lpD3DDev->SetRenderState(D3DRS_ZENABLE, D3DZB_TRUE);
-	if(dwLighting != FALSE)			hr = s_lpD3DDev->SetRenderState(D3DRS_LIGHTING, FALSE);
-	if(dwFog != FALSE)				hr = s_lpD3DDev->SetRenderState(D3DRS_FOGENABLE, FALSE);
+	if (dwZEnable != D3DZB_TRUE)
+		hr = s_lpD3DDev->SetRenderState(D3DRS_ZENABLE, D3DZB_TRUE);
+	if (dwLighting != FALSE)
+		hr = s_lpD3DDev->SetRenderState(D3DRS_LIGHTING, FALSE);
+	if (dwFog != FALSE)
+		hr = s_lpD3DDev->SetRenderState(D3DRS_FOGENABLE, FALSE);
 
-	// ±âÁ¸¿¡ ÀÖ´ø ¿¬¸ø ±×¸®±â
+	// Draw an existing pond
 	it_PondMesh it = m_PondMeshes.begin();
 	int iSize = m_PondMeshes.size();
-	for(int i = 0; i < iSize; i++, it++)
+	for (int i = 0; i < iSize; i++, it++)
 	{
-		CPondMesh* pRM = *it;
+		CPondMesh *pRM = *it;
 		pRM->Render();
 	}
 
 	if (m_bEditMode)
 	{
-		// ¿¬¸ø »õ·Î ¸¸µå´Â ÁßÀÌ¸é µå·¡±× ¼± ±×¸®±â
+		// Draw a drag line if you are creating a new pond
 		if (m_PCursorMode == PCM_CREATE)
 		{
-			__Matrix44 matWorld;	matWorld.Identity();
+			__Matrix44 matWorld;
+			matWorld.Identity();
 			s_lpD3DDev->SetTransform(D3DTS_WORLD, &matWorld);
 
 			// set texture
@@ -225,27 +236,27 @@ void CPondMng::Render()
 			s_lpD3DDev->DrawPrimitiveUP(D3DPT_LINESTRIP, 4, m_CreateLine, sizeof(__VertexXyzColor));
 		}
 
-		// dummy »óÀÚ ±×¸®±â
+		// Draw a dummy box
 		m_VtxPosDummy.Render();
 
-		BOOL bisFix=FALSE;
+		BOOL bisFix = FALSE;
 
-		CPondMesh* pSelPond;
+		CPondMesh *pSelPond;
 		it_PondMesh it = m_pSelPonds.begin();
 		int iSize = m_pSelPonds.size();
-		for(int i = 0; i < iSize; i++, it++)
+		for (int i = 0; i < iSize; i++, it++)
 		{
-			pSelPond= *it;
-			if(pSelPond)
+			pSelPond = *it;
+			if (pSelPond)
 			{
-				// ¼±ÅÃµÈ ¿¬¸øÀÇ Á¡±×¸®±â (»â±ë)
+				// Dotting of the selected pond (pinning)
 				pSelPond->RenderVertexPoint();
 			}
 		}
 
-		// ¼±ÅÃµÈ Á¡ ±×¸®±â (ÃÊ·Ï)
+		// Draw Selected Points (Green)
 		iSize = m_SelVtxArray.GetSize();
-		if (iSize>0)
+		if (iSize > 0)
 		{
 			// transform
 			__Matrix44 matView, matProj, matVP;
@@ -255,93 +266,102 @@ void CPondMng::Render()
 			D3DVIEWPORT8 vp = s_CameraData.vp;
 
 			__VertexTransformedColor Vertices[4];
-			D3DCOLOR clr ;
-			if(bisFix==TRUE) clr = D3DCOLOR_ARGB(0xff, 0xff, 0xff, 0x00);
-			else clr = D3DCOLOR_ARGB(0xff, 0x00, 0xff, 0x00);
+			D3DCOLOR clr;
+			if (bisFix == TRUE)
+				clr = D3DCOLOR_ARGB(0xff, 0xff, 0xff, 0x00);
+			else
+				clr = D3DCOLOR_ARGB(0xff, 0x00, 0xff, 0x00);
 			s_lpD3DDev->SetVertexShader(FVF_TRANSFORMEDCOLOR);
 
-			for (int i=0; i<iSize; ++i)
+			for (int i = 0; i < iSize; ++i)
 			{
-				__VertexXyzT2* pVtx = m_SelVtxArray.GetAt(i);
-				if (pVtx == NULL) continue;
+				__VertexXyzT2 *pVtx = m_SelVtxArray.GetAt(i);
+				if (pVtx == NULL)
+					continue;
 				D3DXVECTOR4 v;
-				D3DXVec3Transform(&v, (D3DXVECTOR3*)(pVtx), &matVP);
+				D3DXVec3Transform(&v, (D3DXVECTOR3 *)(pVtx), &matVP);
 
-				float fScreenZ = (v.z/v.w);
-				if (fScreenZ>1.0 || fScreenZ<0.0) continue;
+				float fScreenZ = (v.z / v.w);
+				if (fScreenZ > 1.0 || fScreenZ < 0.0)
+					continue;
 
-				int iScreenX = int(((v.x/v.w)+1.0f)*(vp.Width)/2.0f);
-				int iScreenY = int((1.0f-(v.y/v.w))*(vp.Height)/2.0f);
+				int iScreenX = int(((v.x / v.w) + 1.0f) * (vp.Width) / 2.0f);
+				int iScreenY = int((1.0f - (v.y / v.w)) * (vp.Height) / 2.0f);
 				if (iScreenX >= (int)vp.X && iScreenX <= (int)vp.Width &&
 					iScreenY >= (int)vp.Y && iScreenY <= (int)vp.Height)
 				{
-					// set X (Á¡À» ÂïÀ¸¸é 1ÇÈ¼¿¹Û¿¡ ¾ÈÂïÀ¸¹Ç·Î XÇ¥½Ã¸¦ ±×¸°´Ù.
-					Vertices[0].Set(float(iScreenX-2), float(iScreenY-2), 0.5f, 0.5f, clr);
-					Vertices[1].Set(float(iScreenX+2), float(iScreenY+2), 0.5f, 0.5f, clr);
-					Vertices[2].Set(float(iScreenX+2), float(iScreenY-2), 0.5f, 0.5f, clr);
-					Vertices[3].Set(float(iScreenX-2), float(iScreenY+2), 0.5f, 0.5f, clr);
+					// set X (If you mark a dot, you only mark 1 pixel, so draw an X mark.
+					Vertices[0].Set(float(iScreenX - 2), float(iScreenY - 2), 0.5f, 0.5f, clr);
+					Vertices[1].Set(float(iScreenX + 2), float(iScreenY + 2), 0.5f, 0.5f, clr);
+					Vertices[2].Set(float(iScreenX + 2), float(iScreenY - 2), 0.5f, 0.5f, clr);
+					Vertices[3].Set(float(iScreenX - 2), float(iScreenY + 2), 0.5f, 0.5f, clr);
 					// render
 					s_lpD3DDev->DrawPrimitiveUP(D3DPT_LINELIST, 2, Vertices, sizeof(__VertexTransformedColor));
 				}
 			}
 		}
 
-		// µå·¡±× ¿µ¿ª ±×¸®±â
-		if (PCM_SELECTING == m_PCursorMode) m_pMainFrm->GetMapMng()->RenderDragRect(&m_rcSelDrag);
+		// Draw drag area
+		if (PCM_SELECTING == m_PCursorMode)
+			m_pMainFrm->GetMapMng()->RenderDragRect(&m_rcSelDrag);
 	}
 
 	// restore
-	if(dwZEnable != D3DZB_TRUE)	hr = s_lpD3DDev->SetRenderState(D3DRS_ZENABLE, dwZEnable);
-	if(dwLighting != FALSE)			hr = s_lpD3DDev->SetRenderState(D3DRS_LIGHTING, dwLighting);
-	if(dwFog != FALSE)				hr = s_lpD3DDev->SetRenderState(D3DRS_FOGENABLE, dwFog);
+	if (dwZEnable != D3DZB_TRUE)
+		hr = s_lpD3DDev->SetRenderState(D3DRS_ZENABLE, dwZEnable);
+	if (dwLighting != FALSE)
+		hr = s_lpD3DDev->SetRenderState(D3DRS_LIGHTING, dwLighting);
+	if (dwFog != FALSE)
+		hr = s_lpD3DDev->SetRenderState(D3DRS_FOGENABLE, dwFog);
 }
 
-CPondMesh*	CPondMng::CreateNewPondMesh()
+CPondMesh *CPondMng::CreateNewPondMesh()
 {
-	CPondMesh* pRM = new CPondMesh;
+	CPondMesh *pRM = new CPondMesh;
 	__Vector3 vPos[4];
 
-	vPos[0].Set(m_CreateLine[0].x,m_CreateLine[0].y,m_CreateLine[0].z);	//	¿ÞÂÊÀ§
-	vPos[1].Set(m_CreateLine[1].x,m_CreateLine[1].y,m_CreateLine[1].z);	//	¿À¸¥ÂÊÀ§
-	vPos[2].Set(m_CreateLine[2].x,m_CreateLine[2].y,m_CreateLine[2].z);	//	¿À¸¥ÂÊ ¾Æ·¡
-	vPos[3].Set(m_CreateLine[3].x,m_CreateLine[3].y,m_CreateLine[3].z);	//	¿ÞÂÊ¾Æ·¡
+	vPos[0].Set(m_CreateLine[0].x, m_CreateLine[0].y, m_CreateLine[0].z); //	top left
+	vPos[1].Set(m_CreateLine[1].x, m_CreateLine[1].y, m_CreateLine[1].z); //	top right
+	vPos[2].Set(m_CreateLine[2].x, m_CreateLine[2].y, m_CreateLine[2].z); //	right below
+	vPos[3].Set(m_CreateLine[3].x, m_CreateLine[3].y, m_CreateLine[3].z); //	bottom left
 
-	CLyTerrain* pTerrain = m_pMainFrm->GetMapMng()->GetTerrain();				
-	pRM->SetTerrain(pTerrain);	//	ÁöÇüÆ÷ÀÎÅÍ ÀÔ·Â
-	pRM->MakeDrawRect(vPos);	//	¿µ¿ªÀÔ·Â
+	CLyTerrain *pTerrain = m_pMainFrm->GetMapMng()->GetTerrain();
+	pRM->SetTerrain(pTerrain); // input terrain pointer
+	pRM->MakeDrawRect(vPos);   // area input
 	pRM->MakePondPos();
 
-	SelPondRelease();	//	Áö±Ý±îÁ¤ ¼±ÅÃÇÑ°Å ÀÏ´Ü Áö¿ì±â
+	SelPondRelease(); // Clear the selection so far
 
 	int iID = 0;
-	m_pSelPonds.push_back(pRM);	//	ÀÏ´Ü ³Ö±â(¾ÆµÚ°Ë»çÀ§ÇØ)
-	while( SetPondID(pRM, iID) == FALSE) iID++;	//	»õ·Î¿î ¾ÆµÚÃ£À½
+	m_pSelPonds.push_back(pRM); // Put it once (for later inspection)
+	while (SetPondID(pRM, iID) == FALSE)
+		iID++; // find new child
 
 	CDlgPondProperty dlg(this);
 	dlg.m_IsModalDialog = TRUE;
 
-	if (dlg.DoModal() == IDCANCEL)	//	Áö±Ý ¸¸µç¿¬¸øÁö¿ì±â
+	if (dlg.DoModal() == IDCANCEL) // Clear the pond we just created
 	{
 		SelPondDelete(pRM);
 		pRM = NULL;
 	}
-	if (pRM)	//	¸¸µé·Á´Â ¿¬¸ø
+	if (pRM) // pond to create
 	{
 		m_PondMeshes.push_back(pRM);
 		SelPondRelease();
-		//	¿Ü°ûÁ¡µéÀ» ¹ÙÅÁÀ¸·Î °¡¿îµ¥ Á¡À» ÇâÇÏ¿© ÀÏÁ¤°Å¸®¸¶´Ù Á¡µéÀ» ¹èÄ¡ÇÑ´Ù////
+		// Based on the outer points, points are placed at regular distances toward the center point. ////
 	}
 
 	return pRM;
 }
 
-void CPondMng::RemovePondMesh(int iPondID)	//	¿¬¸øÀ» ¸¸µé°Å³ª ¼±ÅÃÇÏ¿© Áö¿ì°íÀÚ ¹öÆ° ´­·¶À»½Ã
+void CPondMng::RemovePondMesh(int iPondID) //	When you press the button to create or select and delete a pond
 {
 	it_PondMesh it = m_PondMeshes.begin();
 	int iSize = m_PondMeshes.size();
-	for(int i = 0; i < iSize; i++, it++)
+	for (int i = 0; i < iSize; i++, it++)
 	{
-		CPondMesh* pRM = *it;
+		CPondMesh *pRM = *it;
 		if (pRM && pRM->GetPondID() == iPondID)
 		{
 			delete pRM;
@@ -357,12 +377,13 @@ void CPondMng::RemovePondMesh(int iPondID)	//	¿¬¸øÀ» ¸¸µé°Å³ª ¼±ÅÃÇÏ¿© Áö¿ì°íÀÚ 
 
 void CPondMng::GoPond(int iPondID)
 {
-	CPondMesh* pPond = GetPondMesh(iPondID);
-	if(pPond == NULL) return;
+	CPondMesh *pPond = GetPondMesh(iPondID);
+	if (pPond == NULL)
+		return;
 
 	__Vector3 vPondPos = pPond->GetCenter();
-	CN3Camera* pCamera = m_pMainFrm->GetMapMng()->CameraGet();
-	if(pCamera)
+	CN3Camera *pCamera = m_pMainFrm->GetMapMng()->CameraGet();
+	if (pCamera)
 	{
 		__Vector3 vCamVector = pCamera->m_vPos - pCamera->m_vAt;
 		pCamera->m_vAt = vPondPos;
@@ -377,17 +398,19 @@ void CPondMng::GoPond(int iPondID)
 
 BOOL CPondMng::MouseMsgFilter(LPMSG pMsg)
 {
-	if (FALSE == m_bEditMode) return FALSE;
-	if (GetAsyncKeyState(VK_MENU) & 0xff00) return FALSE;
+	if (FALSE == m_bEditMode)
+		return FALSE;
+	if (GetAsyncKeyState(VK_MENU) & 0xff00)
+		return FALSE;
 	static __Vector3 vMouseStrPos;
 
 	if (m_VtxPosDummy.MouseMsgFilter(pMsg))
 	{
 		__Vector3 vMov = m_VtxPosDummy.m_vPos - vMouseStrPos;
 
-		if(m_bShift)
+		if (m_bShift)
 		{
-			vMov.x /= 10.0f, vMov.y /= 10.0f , vMov.z /= 10.0f;
+			vMov.x /= 10.0f, vMov.y /= 10.0f, vMov.z /= 10.0f;
 			m_VtxPosDummy.PosSet(vMouseStrPos + vMov);
 		}
 
@@ -397,256 +420,287 @@ BOOL CPondMng::MouseMsgFilter(LPMSG pMsg)
 	}
 
 	static POINT ptDownBuff;
-	static int bCtrlKeyState = 0;//, bShiftState=0;
+	static int bCtrlKeyState = 0; //, bShiftState=0;
 
-	switch(pMsg->message)
+	switch (pMsg->message)
 	{
 	case WM_MOUSEMOVE:
+	{
+		POINT point = {short(LOWORD(pMsg->lParam)), short(HIWORD(pMsg->lParam))};
+		if (bCtrlKeyState == 2) // rotating the pond
 		{
-			POINT point = {short(LOWORD(pMsg->lParam)), short(HIWORD(pMsg->lParam))};
-			if(bCtrlKeyState==2)	//	¿¬¸øÀ» È¸ÀüÇÏ´Â Áß
-			{
-				SetRotatePonds(ptDownBuff.x - point.x);
-				ptDownBuff = point;
-				return TRUE;
-			}
-
-			if (PCM_CREATE == m_PCursorMode)
-			{	// »õ·Î¿î ¿¬¸ø Ãß°¡ÇÒ¶§ µå·¡±× ÇÏ´Â ¼± ¼³Á¤
-				__Vector3 vRayDir, vRayOrig;	// È­¸é Áß¾Ó(½ÃÁ¡)°ú ¸¶¿ì½º Æ÷ÀÎÅÍ¸¦ ÀÌÀº Á÷¼±ÀÇ ¹æÇâ°ú ¿øÁ¡
-				__Vector3 vPN, vPV;	// Æò¸éÀÇ ¹ý¼±°ú Æ÷ÇÔµÈ Á¡
-				__Vector3 vPos;	// À§ÀÇ Æò¸é°ú Á÷¼±ÀÇ ¸¸³ª´Â Á¡(±¸ÇÒ Á¡)
-
-				vPN.Set(0,1,0); vPV = vMouseStrPos;
-				m_VtxPosDummy.GetPickRay(point, vRayDir, vRayOrig);	// ÀÌÇÔ¼ö Àá½Ã ºô·Á¾¸.
-				float fT = D3DXVec3Dot(&vPN,&(vPV-vRayOrig)) / D3DXVec3Dot(&vPN, &vRayDir);
-				vPos = vRayOrig + vRayDir*fT;	//	½ÃÀÛÁ¡°ú ¸¶¿ì½ºÁ¡À» ±¸ÇßÀ½
-
-				ReSetDrawRect(vMouseStrPos,vPos);	//	¹ÞÀº µÎÁ¡À» ¸Ê»óÀÇ »ç°¢ÇüÅÂ·Î º¯È¯
-				return TRUE;
-			}
-			else if (PCM_SELECTING == m_PCursorMode)
-			{
-				m_rcSelDrag.right = point.x; m_rcSelDrag.bottom = point.y;
-				return TRUE;
-			}
-			else if(m_bMovePond == TRUE)
-			{
-				vMouseStrPos = m_VtxPosDummy.m_vPos;
-			}
-		}
-		break;
-	case WM_LBUTTONDOWN:
-		{
-			POINT point = {short(LOWORD(pMsg->lParam)), short(HIWORD(pMsg->lParam))};
-			if(m_bMovePond==TRUE) m_bMovePond = FALSE;
-
+			SetRotatePonds(ptDownBuff.x - point.x);
 			ptDownBuff = point;
-			if(bCtrlKeyState>0)	//	¿¬¸øÀ» È¸ÀüÇÏ´Â Áß
-			{				
-				if(bCtrlKeyState<2) bCtrlKeyState++;
-				SetVtxCenter();
-				return TRUE;
-			}
-
-			if (PCM_CREATE == m_PCursorMode)
-			{	// »õ·Î¿î ¿¬¸ø Ãß°¡ Ãë¼Ò
-				m_PCursorMode = PCM_NONE;
-				ReleaseCapture();
-				return TRUE;
-			}
-			else if (PCM_NONE == m_PCursorMode || PCM_SELECT == m_PCursorMode)
-			{
-				m_PCursorMode = PCM_SELECTING;
-				SetCapture(pMsg->hwnd);
-				m_rcSelDrag.right = m_rcSelDrag.left = point.x; m_rcSelDrag.bottom = m_rcSelDrag.top = point.y;
-				return TRUE;
-			}
+			return TRUE;
 		}
-		break;
+
+		if (PCM_CREATE == m_PCursorMode)
+		{								 // Set the line to be dragged when adding a new pond
+			__Vector3 vRayDir, vRayOrig; // Direction and origin of a straight line connecting the center of the screen (viewpoint) and the mouse pointer
+			__Vector3 vPN, vPV;			 // Normals of the plane and included points
+			__Vector3 vPos;				 // Point where the above plane meets the straight line (point to find)
+
+			vPN.Set(0, 1, 0);
+			vPV = vMouseStrPos;
+			m_VtxPosDummy.GetPickRay(point, vRayDir, vRayOrig); // Borrow this function for a while.
+			float fT = D3DXVec3Dot(&vPN, &(vPV - vRayOrig)) / D3DXVec3Dot(&vPN, &vRayDir);
+			vPos = vRayOrig + vRayDir * fT; // get the starting point and mouse point
+
+			ReSetDrawRect(vMouseStrPos, vPos); // Convert the received two points into squares on the map
+			return TRUE;
+		}
+		else if (PCM_SELECTING == m_PCursorMode)
+		{
+			m_rcSelDrag.right = point.x;
+			m_rcSelDrag.bottom = point.y;
+			return TRUE;
+		}
+		else if (m_bMovePond == TRUE)
+		{
+			vMouseStrPos = m_VtxPosDummy.m_vPos;
+		}
+	}
+	break;
+	case WM_LBUTTONDOWN:
+	{
+		POINT point = {short(LOWORD(pMsg->lParam)), short(HIWORD(pMsg->lParam))};
+		if (m_bMovePond == TRUE)
+			m_bMovePond = FALSE;
+		ptDownBuff = point;
+		if (bCtrlKeyState > 0) // rotating the pond
+		{
+			if (bCtrlKeyState < 2)
+				bCtrlKeyState++;
+			SetVtxCenter();
+			return TRUE;
+		}
+
+		if (PCM_CREATE == m_PCursorMode)
+		{ // ìƒˆë¡œìš´ ì—°ëª» ì¶”ê°€ ì·¨ì†Œ
+			m_PCursorMode = PCM_NONE;
+			ReleaseCapture();
+			return TRUE;
+		}
+		else if (PCM_NONE == m_PCursorMode || PCM_SELECT == m_PCursorMode)
+		{
+			m_PCursorMode = PCM_SELECTING;
+			SetCapture(pMsg->hwnd);
+			m_rcSelDrag.right = m_rcSelDrag.left = point.x;
+			m_rcSelDrag.bottom = m_rcSelDrag.top = point.y;
+			return TRUE;
+		}
+	}
+	break;
 	case WM_LBUTTONUP:
+	{
+		if (bCtrlKeyState > 0) // rotating the pond
 		{
-			if(bCtrlKeyState>0)	//	¿¬¸øÀ» È¸ÀüÇÏ´Â Áß
+			bCtrlKeyState--;
+			return TRUE;
+		}
+
+		POINT point = {short(LOWORD(pMsg->lParam)), short(HIWORD(pMsg->lParam))};
+		if (PCM_SELECTING == m_PCursorMode)
+		{
+			m_PCursorMode = PCM_SELECT;
+			ReleaseCapture();
+
+			if (m_rcSelDrag.left > point.x)
 			{
-				bCtrlKeyState--;
-				return TRUE;
+				m_rcSelDrag.right = m_rcSelDrag.left;
+				m_rcSelDrag.left = point.x;
 			}
-
-			POINT point = {short(LOWORD(pMsg->lParam)), short(HIWORD(pMsg->lParam))};
-			if (PCM_SELECTING == m_PCursorMode)
-			{		
-				m_PCursorMode = PCM_SELECT;
-				ReleaseCapture();
-
-				if (m_rcSelDrag.left > point.x)
-				{	m_rcSelDrag.right = m_rcSelDrag.left; m_rcSelDrag.left = point.x; }
-				else m_rcSelDrag.right = point.x;
-				if (m_rcSelDrag.top > point.y)
-				{	m_rcSelDrag.bottom = m_rcSelDrag.top; m_rcSelDrag.top = point.y; }
-				else m_rcSelDrag.bottom = point.y;
-
-				// µå·¹±×°¡ ¾Æ´Ï°í ±×³É Å¬¸¯ÀÏ°æ¿ì µå·¡±× ¿µ¿ªÀ» 3x3Á¤µµ·Î Àâ¾ÆÁØ´Ù.
-				if (m_rcSelDrag.right-m_rcSelDrag.left < 3 && m_rcSelDrag.bottom-m_rcSelDrag.top < 3)
-				{
-					m_rcSelDrag.left = point.x-1;	m_rcSelDrag.right = point.x+1;
-					m_rcSelDrag.top = point.y-1;	m_rcSelDrag.bottom = point.y+1;
-				}
-				//	shiftÅ°´Â ¿©·¯°³ÀÇ ºÐ»êµÈ Á¡(µé)À» ¼±ÅÃ½Ã
-				if(SelectVtxByDragRect(&m_rcSelDrag, (pMsg->wParam & MK_SHIFT) ? TRUE : FALSE))
-					vMouseStrPos = m_VtxPosDummy.m_vPos;	//	´õ¹ÌÀÇ À§Ä¡ ÀÔ·Â
-				else m_PCursorMode = PCM_NONE;	//	¼±ÅÃµÈ Á¡ÀÌ ¾øÀ¸¹Ç·Î 
-
-				return TRUE;
+			else
+				m_rcSelDrag.right = point.x;
+			if (m_rcSelDrag.top > point.y)
+			{
+				m_rcSelDrag.bottom = m_rcSelDrag.top;
+				m_rcSelDrag.top = point.y;
 			}
+			else
+				m_rcSelDrag.bottom = point.y; // If it is not a drag but just a click, the drag area is set to 3x3.
+			if (m_rcSelDrag.right - m_rcSelDrag.left < 3 && m_rcSelDrag.bottom - m_rcSelDrag.top < 3)
+			{
+				m_rcSelDrag.left = point.x - 1;
+				m_rcSelDrag.right = point.x + 1;
+				m_rcSelDrag.top = point.y - 1;
+				m_rcSelDrag.bottom = point.y + 1;
+			}
+			// shift key when selecting multiple distributed point(s)
+			if (SelectVtxByDragRect(&m_rcSelDrag, (pMsg->wParam & MK_SHIFT) ? TRUE : FALSE))
+				vMouseStrPos = m_VtxPosDummy.m_vPos; // input the location of the dummy
+			else
+				m_PCursorMode = PCM_NONE; // since no point is selected
+
+			return TRUE;
 		}
-		break;
+	}
+	break;
 	case WM_RBUTTONDOWN:
-		{
-			if(bCtrlKeyState)	//	¿¬¸øÀÇ ¼±ÅÃµÈ Á¡¿¡¼­ È¸ÀüÀ» ÇÔ
-				return TRUE;
-			if(m_bMovePond==TRUE) m_bMovePond = FALSE;
-			
-			if (PCM_SELECT == m_PCursorMode)
-			{	// Select Ãë¼Ò
-				m_PCursorMode = PCM_NONE;
-				ReleaseCapture();
-				return TRUE;
-			}
-			else if (PCM_NONE == m_PCursorMode)
-			{	// »õ·Î¿î ¿¬¸ø Ãß°¡
-				POINT point = {short(LOWORD(pMsg->lParam)), short(HIWORD(pMsg->lParam))};
-				CLyTerrain* pTerrain = m_pMainFrm->GetMapMng()->GetTerrain();				
+	{
+		if (bCtrlKeyState) // Rotate the pond at the selected point
+			return TRUE;
+		if (m_bMovePond == TRUE)
+			m_bMovePond = FALSE;
 
-				__Vector3 vPos;
-				if (pTerrain && pTerrain->Pick(point.x, point.y, &vPos))
-				{
-					m_PCursorMode = PCM_CREATE;
-
-					vMouseStrPos = vPos;	//	Ã³À½ÁöÁ¡ ÀÔ·Â
-
-					DWORD color = 0xffffff00;	//	±×·ÁÁú ¼±»ö
-					for(int i=0;i<5;++i) m_CreateLine[i].Set(vPos,color);	//	ÃÊ±âÈ­
-
-					return TRUE;
-				}
-			}
+		if (PCM_SELECT == m_PCursorMode)
+		{ // Cancel Select
+			m_PCursorMode = PCM_NONE;
+			ReleaseCapture();
+			return TRUE;
 		}
-		break;
-	case WM_RBUTTONUP:
-		{
-			if(bCtrlKeyState)	//	¿¬¸øÀÇ ¼±ÅÃµÈ Á¡¿¡¼­ È¸ÀüÀ» ÇÔ
-				return TRUE;
-
+		else if (PCM_NONE == m_PCursorMode)
+		{ // Add a new pond
 			POINT point = {short(LOWORD(pMsg->lParam)), short(HIWORD(pMsg->lParam))};
-			if (PCM_CREATE == m_PCursorMode)
-			{	// »õ·Î¿î ¿¬¸ø Ãß°¡
-				m_PCursorMode = PCM_NONE;
-				ReleaseCapture();
+			CLyTerrain *pTerrain = m_pMainFrm->GetMapMng()->GetTerrain();
 
-				__Vector3 vRayDir, vRayOrig;	// È­¸é Áß¾Ó(½ÃÁ¡)°ú ¸¶¿ì½º Æ÷ÀÎÅÍ¸¦ ÀÌÀº Á÷¼±ÀÇ ¹æÇâ°ú ¿øÁ¡
-				__Vector3 vPN, vPV;	// Æò¸éÀÇ ¹ý¼±°ú Æ÷ÇÔµÈ Á¡
-				__Vector3 vPos;	// À§ÀÇ Æò¸é°ú Á÷¼±ÀÇ ¸¸³ª´Â Á¡(±¸ÇÒ Á¡)
+			__Vector3 vPos;
+			if (pTerrain && pTerrain->Pick(point.x, point.y, &vPos))
+			{
+				m_PCursorMode = PCM_CREATE;
 
-				vPN.Set(0,1,0); vPV = vMouseStrPos;
-				m_VtxPosDummy.GetPickRay(point, vRayDir, vRayOrig);	// ÀÌÇÔ¼ö Àá½Ã ºô·Á¾¸.
-				float fT = D3DXVec3Dot(&vPN,&(vPV-vRayOrig)) / D3DXVec3Dot(&vPN, &vRayDir);
-				vPos = vRayOrig + vRayDir*fT;
+				vMouseStrPos = vPos; // input the first point
 
-				ReSetDrawRect(vMouseStrPos,vPos);
+				DWORD color = 0xffffff00; // line color to be drawn
+				for (int i = 0; i < 5; ++i)
+					m_CreateLine[i].Set(vPos, color); //	reset
 
-				CPondMesh* pRM = CreateNewPondMesh();	//	»õ·Î¿î ¿¬¸ø
-				SetSelPond(pRM);
 				return TRUE;
 			}
 		}
-		break;
+	}
+	break;
+	case WM_RBUTTONUP:
+	{
+		if (bCtrlKeyState) // Rotate the pond at the selected point
+			return TRUE;
+
+		POINT point = {short(LOWORD(pMsg->lParam)), short(HIWORD(pMsg->lParam))};
+		if (PCM_CREATE == m_PCursorMode)
+		{ // Add a new pond
+			m_PCursorMode = PCM_NONE;
+			ReleaseCapture();
+
+			__Vector3 vRayDir, vRayOrig; // Direction and origin of a straight line connecting the center of the screen (viewpoint) and the mouse pointer
+			__Vector3 vPN, vPV;			 // Normals of the plane and included points
+			__Vector3 vPos;				 // Point where the above plane meets the straight line (point to find)
+
+			vPN.Set(0, 1, 0);
+			vPV = vMouseStrPos;
+			m_VtxPosDummy.GetPickRay(point, vRayDir, vRayOrig); // Borrow this function for a while.
+			float fT = D3DXVec3Dot(&vPN, &(vPV - vRayOrig)) / D3DXVec3Dot(&vPN, &vRayDir);
+			vPos = vRayOrig + vRayDir * fT;
+
+			ReSetDrawRect(vMouseStrPos, vPos);
+
+			CPondMesh *pRM = CreateNewPondMesh(); // new pond
+			SetSelPond(pRM);
+			return TRUE;
+		}
+	}
+	break;
 
 	case WM_KEYDOWN:
-		switch(pMsg->wParam)
+		switch (pMsg->wParam)
 		{
 		case VK_CONTROL:
-			if(bCtrlKeyState!=0) break;
+			if (bCtrlKeyState != 0)
+				break;
 			bCtrlKeyState++;
 			SetVtxBackup();
 			break;
-		}		
+		}
 		break;
 	case WM_KEYUP:
-		switch(pMsg->wParam)
+		switch (pMsg->wParam)
 		{
 		case VK_CONTROL:
-			if(bCtrlKeyState>0) bCtrlKeyState--;
+			if (bCtrlKeyState > 0)
+				bCtrlKeyState--;
 			SetVtxBackup();
 			break;
 		}
 		break;
 
 	default:
+	{
+		if (bCtrlKeyState > 0)
 		{
-			if(bCtrlKeyState>0)
+			if (!(GetAsyncKeyState(VK_CONTROL) & 0xff00)) // If checked and disconnected, return to original state
 			{
-				if(!(GetAsyncKeyState(VK_CONTROL) & 0xff00))	//	Ã¼Å©ÇÏ¿© ¶¼¾îÁø »óÅÂ¸é ¿ø»óº¹±Í
-				{
-					if(bCtrlKeyState!=0) bCtrlKeyState=0;
-					return FALSE;
-				}
-
-				if(GetAsyncKeyState('A') & 0xff00)	//	ÇöÀç ¼±ÅÃµÈ ¿¬¸ø(µé)ÀÇ ¸ðµçÁ¡À» ´ë»óÀ¸·Î ÇÑ´Ù
-					MovePond();
-				return TRUE;
+				if (bCtrlKeyState != 0)
+					bCtrlKeyState = 0;
+				return FALSE;
 			}
 
-			if(!(GetAsyncKeyState(VK_SHIFT) & 0xff00)) m_bShift = TRUE;
-			else if(m_bShift == TRUE) m_bShift = FALSE;
+			if (GetAsyncKeyState('A') & 0xff00) // target all points of currently selected pond(s)
+				MovePond();
+			return TRUE;
 		}
-		break;
+
+		if (!(GetAsyncKeyState(VK_SHIFT) & 0xff00))
+			m_bShift = TRUE;
+		else if (m_bShift == TRUE)
+			m_bShift = FALSE;
+	}
+	break;
 	}
 	return FALSE;
 }
 
-void CPondMng::ReSetDrawRect(__Vector3 vStrPos,__Vector3 vEndPos)	//	¹ÞÀº µÎ Á¡À¸·Î ¸Ê»óÀÇ »ç°¢ÇüÅÂÀÇ Á¡ ¸¸µë
+void CPondMng::ReSetDrawRect(__Vector3 vStrPos, __Vector3 vEndPos) // Create a rectangular point on the map with the received two points
 {
-	if(vStrPos.x > vEndPos.x)
+	if (vStrPos.x > vEndPos.x)
 	{
-		m_CreateLine[0].x = vStrPos.x; m_CreateLine[1].x = vEndPos.x;
-		m_CreateLine[3].x = vStrPos.x; m_CreateLine[2].x = vEndPos.x;
+		m_CreateLine[0].x = vStrPos.x;
+		m_CreateLine[1].x = vEndPos.x;
+		m_CreateLine[3].x = vStrPos.x;
+		m_CreateLine[2].x = vEndPos.x;
 	}
 	else
 	{
-		m_CreateLine[0].x = vEndPos.x; m_CreateLine[1].x = vStrPos.x;
-		m_CreateLine[3].x = vEndPos.x; m_CreateLine[2].x = vStrPos.x;
+		m_CreateLine[0].x = vEndPos.x;
+		m_CreateLine[1].x = vStrPos.x;
+		m_CreateLine[3].x = vEndPos.x;
+		m_CreateLine[2].x = vStrPos.x;
 	}
 
-	if(vStrPos.z < vEndPos.z)
+	if (vStrPos.z < vEndPos.z)
 	{
-		m_CreateLine[0].z = vStrPos.z; m_CreateLine[1].z = vStrPos.z;
-		m_CreateLine[3].z = vEndPos.z; m_CreateLine[2].z = vEndPos.z;
+		m_CreateLine[0].z = vStrPos.z;
+		m_CreateLine[1].z = vStrPos.z;
+		m_CreateLine[3].z = vEndPos.z;
+		m_CreateLine[2].z = vEndPos.z;
 	}
 	else
 	{
-		m_CreateLine[0].z = vEndPos.z; m_CreateLine[1].z = vEndPos.z;
-		m_CreateLine[3].z = vStrPos.z; m_CreateLine[2].z = vStrPos.z;
+		m_CreateLine[0].z = vEndPos.z;
+		m_CreateLine[1].z = vEndPos.z;
+		m_CreateLine[3].z = vStrPos.z;
+		m_CreateLine[2].z = vStrPos.z;
 	}
 
 	m_CreateLine[4] = m_CreateLine[0];
 }
 
-CPondMesh* CPondMng::GetPondMesh(int iPondID)
+CPondMesh *CPondMng::GetPondMesh(int iPondID)
 {
 	it_PondMesh it = m_PondMeshes.begin();
 	int iSize = m_PondMeshes.size();
-	for(int i = 0; i < iSize; i++, it++)
+	for (int i = 0; i < iSize; i++, it++)
 	{
-		CPondMesh* pRM = *it;
-		if (pRM->GetPondID() == iPondID) return pRM;
+		CPondMesh *pRM = *it;
+		if (pRM->GetPondID() == iPondID)
+			return pRM;
 	}
 	return NULL;
 }
 
-CPondMesh* CPondMng::GetSelPond()
+CPondMesh *CPondMng::GetSelPond()
 {
 	int iSize = m_pSelPonds.size();
-	if(iSize==0) return NULL;
+	if (iSize == 0)
+		return NULL;
 
 	return *(m_pSelPonds.begin());
 }
@@ -654,36 +708,40 @@ CPondMesh* CPondMng::GetSelPond()
 it_PondMesh CPondMng::GetDrawPond()
 {
 	int iSize = m_PondMeshes.size();
-	if(iSize==0) return NULL;
+	if (iSize == 0)
+		return NULL;
 
 	it_PondMesh it = m_PondMeshes.begin();
 	return it;
 }
 
-void CPondMng::SetSelPond(CPondMesh* pPondMesh,BOOL bChooseGroup)
+void CPondMng::SetSelPond(CPondMesh *pPondMesh, BOOL bChooseGroup)
 {
 	int iSize = m_pSelPonds.size();
-	if(iSize==0&&pPondMesh!=NULL)
+	if (iSize == 0 && pPondMesh != NULL)
 	{
-		m_VtxPosDummy.SetSelVtx(NULL);	
+		m_VtxPosDummy.SetSelVtx(NULL);
 		m_pSelPonds.push_back(pPondMesh);
 	}
-	else if(pPondMesh==NULL && bChooseGroup==FALSE && m_bChooseEditPond == FALSE)
+	else if (pPondMesh == NULL && bChooseGroup == FALSE && m_bChooseEditPond == FALSE)
 	{
 		SelPondRelease();
 	}
 
-	if(bChooseGroup==TRUE && pPondMesh!=NULL && m_bChooseEditPond == FALSE)
+	if (bChooseGroup == TRUE && pPondMesh != NULL && m_bChooseEditPond == FALSE)
 	{
 		SetSelPonds(pPondMesh);
 	}
-	if (m_pDlgProperty) m_pDlgProperty->UpdateInfo();
+	if (m_pDlgProperty)
+		m_pDlgProperty->UpdateInfo();
 }
 
-BOOL CPondMng::SetPondID(CPondMesh* pPondMesh, int iPondID)
+BOOL CPondMng::SetPondID(CPondMesh *pPondMesh, int iPondID)
 {
-	if (pPondMesh == NULL) return FALSE;
-	if (pPondMesh->GetPondID() == iPondID) return TRUE;
+	if (pPondMesh == NULL)
+		return FALSE;
+	if (pPondMesh->GetPondID() == iPondID)
+		return TRUE;
 	if (GetPondMesh(iPondID) == NULL)
 	{
 		pPondMesh->SetPondID(iPondID);
@@ -697,43 +755,48 @@ void CPondMng::SetEditMode(BOOL bEditMode)
 	m_bEditMode = bEditMode;
 	if (m_bEditMode)
 	{
-		if (m_pDlgProperty) m_pDlgProperty->ShowWindow(TRUE);
+		if (m_pDlgProperty)
+			m_pDlgProperty->ShowWindow(TRUE);
 	}
 	else
 	{
 		SetSelPond(NULL);
-		if (m_pDlgProperty) m_pDlgProperty->ShowWindow(FALSE);
+		if (m_pDlgProperty)
+			m_pDlgProperty->ShowWindow(FALSE);
 		m_PCursorMode = PCM_NONE;
 	}
 }
 
 void CPondMng::ClearSelectRcAllPond()
 {
-	CPondMesh* pRM = NULL;
+	CPondMesh *pRM = NULL;
 	it_PondMesh it = m_PondMeshes.begin();
 	int iSize = m_PondMeshes.size();
-	for(int i = 0; i < iSize; i++, it++)
+	for (int i = 0; i < iSize; i++, it++)
 	{
 		pRM = *it;
-		if(pRM) pRM->ClearSelectPos();
+		if (pRM)
+			pRM->ClearSelectPos();
 	}
 }
 
-BOOL CPondMng::SelectVtxByDragRect(RECT* pRect, BOOL bAdd,BOOL bSelectPond)
+BOOL CPondMng::SelectVtxByDragRect(RECT *pRect, BOOL bAdd, BOOL bSelectPond)
 {
 	ClearSelectRcAllPond();
-	if(bSelectPond == TRUE) m_SelVtxArray.RemoveAll();
+	if (bSelectPond == TRUE)
+		m_SelVtxArray.RemoveAll();
 	else
 	{
-		if (pRect == NULL) return FALSE;
+		if (pRect == NULL)
+			return FALSE;
 		if (bAdd == FALSE)
 		{
 			m_SelVtxArray.RemoveAll();
-			SetSelPond(NULL);	// ¼±ÅÃÇÑ¿¬¸ø ÇØÁ¦..
+			SetSelPond(NULL); // Release the selected pond..
 		}
 	}
 
-	CN3EngTool* pEng = m_pMainFrm->m_pEng;
+	CN3EngTool *pEng = m_pMainFrm->m_pEng;
 	LPDIRECT3DDEVICE8 pD3DDev = pEng->s_lpD3DDev;
 
 	__Matrix44 matView, matProj, matVP;
@@ -743,101 +806,120 @@ BOOL CPondMng::SelectVtxByDragRect(RECT* pRect, BOOL bAdd,BOOL bSelectPond)
 
 	D3DVIEWPORT8 vp = pEng->s_CameraData.vp;
 
-	CPondMesh* pSelPond=NULL;
+	CPondMesh *pSelPond = NULL;
 	int iSize = m_pSelPonds.size();
 	it_PondMesh it = m_pSelPonds.begin();
-	int i,k;
-	for(i = 0; i < iSize; ++i, ++it) 	// ÀÌ¹Ì ¼±ÅÃµÈ ¿¬¸øÀÌ ÀÖ´Ù¸é..
+	int i, k;
+	for (i = 0; i < iSize; ++i, ++it) // If there is already a pond selected...
 	{
-		pSelPond= *it;
-		if(pSelPond==NULL) continue;
+		pSelPond = *it;
+		if (pSelPond == NULL)
+			continue;
 
-		int iVC = pSelPond->VertexCount();	// ±×¿¬¸øÀÇ Á¡ ¼ýÀÚ¸¦ ±¸ÇÏ±â
-		for (k=0; k<iVC;++k)
+		int iVC = pSelPond->VertexCount(); // get the number of points in the pond
+		for (k = 0; k < iVC; ++k)
 		{
-			__VertexXyzT2* pVtx = pSelPond->GetVertex(k);	// Á¡ ÇÏ³ª ±¸ÇÏ±â
-			if (pVtx == NULL) continue;
-
-			if(bSelectPond == FALSE)
+			__VertexXyzT2 *pVtx = pSelPond->GetVertex(k); // get one point
+			if (pVtx == NULL)
+				continue;
+			if (bSelectPond == FALSE)
 			{
 				D3DXVECTOR4 v;
-				D3DXVec3Transform(&v, (D3DXVECTOR3*)(pVtx), &matVP);
-				float fScreenZ = (v.z/v.w);
-				if (fScreenZ>1.0 || fScreenZ<0.0) continue;
+				D3DXVec3Transform(&v, (D3DXVECTOR3 *)(pVtx), &matVP);
+				float fScreenZ = (v.z / v.w);
+				if (fScreenZ > 1.0 || fScreenZ < 0.0)
+					continue;
 
-				float fScreenX = ((v.x/v.w)+1.0f)*(vp.Width)/2.0f;
-				float fScreenY = (1.0f-(v.y/v.w))*(vp.Height)/2.0f;
+				float fScreenX = ((v.x / v.w) + 1.0f) * (vp.Width) / 2.0f;
+				float fScreenY = (1.0f - (v.y / v.w)) * (vp.Height) / 2.0f;
 				if (fScreenX >= pRect->left && fScreenX <= pRect->right &&
 					fScreenY >= pRect->top && fScreenY <= pRect->bottom)
 				{
 					BOOL bAleadySelected = FALSE;
 					int j, ivtxSize = m_SelVtxArray.GetSize();
-					for (j=0; j<ivtxSize;++j) if (m_SelVtxArray.GetAt(j) == pVtx) {bAleadySelected=TRUE;break;}
-					if (bAleadySelected) m_SelVtxArray.RemoveAt(j);	// ÀÌ¹Ì ÀÖÀ¸¹Ç·Î ¼±ÅÃ¸ñ·Ï¿¡¼­ Á¦°Å
-					else m_SelVtxArray.InsertAt(0, pVtx);			// Ãß°¡
+					for (j = 0; j < ivtxSize; ++j)
+						if (m_SelVtxArray.GetAt(j) == pVtx)
+						{
+							bAleadySelected = TRUE;
+							break;
+						}
+					if (bAleadySelected)
+						m_SelVtxArray.RemoveAt(j); // Since it already exists, remove it from the selection list
+					else
+						m_SelVtxArray.InsertAt(0, pVtx); // addition
 
-					pSelPond->InputSelectPos(pVtx->x,pVtx->y,pVtx->z,k);	//	ÁÂÇ¥ÀÔ·ÂÇÏ¿© °¡»óÀÇ ¿µ¿ªÀâÀ½
+					pSelPond->InputSelectPos(pVtx->x, pVtx->y, pVtx->z, k); // Input coordinates to create virtual area noise
 				}
 			}
 			else
 			{
 				BOOL bAleadySelected = FALSE;
 				int j, ivtxSize = m_SelVtxArray.GetSize();
-				for (j=0; j<ivtxSize;++j) if (m_SelVtxArray.GetAt(j) == pVtx) {bAleadySelected=TRUE;break;}
-				if (bAleadySelected) m_SelVtxArray.RemoveAt(j);	// ÀÌ¹Ì ÀÖÀ¸¹Ç·Î ¼±ÅÃ¸ñ·Ï¿¡¼­ Á¦°Å
-				else m_SelVtxArray.InsertAt(0, pVtx);			// Ãß°¡
-			
-				pSelPond->InputSelectPos(pVtx->x,pVtx->y,pVtx->z);	//	ÁÂÇ¥ÀÔ·ÂÇÏ¿© °¡»óÀÇ ¿µ¿ªÀâÀ½
+				for (j = 0; j < ivtxSize; ++j)
+					if (m_SelVtxArray.GetAt(j) == pVtx)
+					{
+						bAleadySelected = TRUE;
+						break;
+					}
+				if (bAleadySelected)
+					m_SelVtxArray.RemoveAt(j); // Since it already exists, remove it from the selection list
+				else
+					m_SelVtxArray.InsertAt(0, pVtx); // addition
+
+				pSelPond->InputSelectPos(pVtx->x, pVtx->y, pVtx->z); // Input coordinates to create virtual area noise
 			}
 		}
 	}
-	
-	if(iSize==0)	// ¼±ÅÃµÈ ¿¬¸øÀÌ ¾Æ¹«°Íµµ ¾ø´Ù¸é (¸ðµç¿¬¸ø °Ë»öÇØ¼­ ¿¬¸ø ¼±ÅÃÈÄ ±× ¿¬¸ø Á¡µé¸¸ ¼±ÅÃ..)
+
+	if (iSize == 0) // If no pond is selected (Search all ponds and select ponds, then select only those pond points..)
 	{
 		ASSERT(m_SelVtxArray.GetSize() == 0);
 
 		it = m_PondMeshes.begin();
 		iSize = m_PondMeshes.size();
 		BOOL bChkSamePond;
-		for(i = 0; i < iSize; ++i, ++it)
+		for (i = 0; i < iSize; ++i, ++it)
 		{
-			CPondMesh* pRM = *it;
-			if (pRM == NULL) continue;
-
-			int j, iVC = pRM->VertexCount();				// ÀÌ¿¬¸øÀÇ Á¡ °¹¼ö
+			CPondMesh *pRM = *it;
+			if (pRM == NULL)
+				continue;
+			int j, iVC = pRM->VertexCount(); // number of points in this pond
 			pSelPond = NULL;
-			bChkSamePond=TRUE;
-			for (j=0; j<iVC; ++j)
+			bChkSamePond = TRUE;
+			for (j = 0; j < iVC; ++j)
 			{
-				__VertexXyzT2* pVtx = pRM->GetVertex(j);	// Á¡ ÇÏ³ª ±¸ÇÏ±â
-				if (pVtx == NULL) continue;
+				__VertexXyzT2 *pVtx = pRM->GetVertex(j); // get one point
+				if (pVtx == NULL)
+					continue;
 
 				D3DXVECTOR4 v;
-				D3DXVec3Transform(&v, (D3DXVECTOR3*)(pVtx), &matVP);
-				float fScreenZ = (v.z/v.w);
-				if (fScreenZ>1.0 || fScreenZ<0.0) continue;
+				D3DXVec3Transform(&v, (D3DXVECTOR3 *)(pVtx), &matVP);
+				float fScreenZ = (v.z / v.w);
+				if (fScreenZ > 1.0 || fScreenZ < 0.0)
+					continue;
 
-				float fScreenX = ((v.x/v.w)+1.0f)*(vp.Width)/2.0f;
-				float fScreenY = (1.0f-(v.y/v.w))*(vp.Height)/2.0f;
+				float fScreenX = ((v.x / v.w) + 1.0f) * (vp.Width) / 2.0f;
+				float fScreenY = (1.0f - (v.y / v.w)) * (vp.Height) / 2.0f;
 				if (fScreenX >= pRect->left && fScreenX <= pRect->right &&
 					fScreenY >= pRect->top && fScreenY <= pRect->bottom)
 				{
-					m_SelVtxArray.Add(pVtx);			// Ãß°¡
-					pRM->InputSelectPos(pVtx->x,pVtx->y,pVtx->z,j);	//	ÁÂÇ¥ÀÔ·ÂÇÏ¿© °¡»óÀÇ ¿µ¿ªÀâÀ½
-					if(bChkSamePond==TRUE)
+					m_SelVtxArray.Add(pVtx);						   // addition
+					pRM->InputSelectPos(pVtx->x, pVtx->y, pVtx->z, j); // Input coordinates to create virtual area noise
+					if (bChkSamePond == TRUE)
 					{
 						pSelPond = pRM;
-						SetSelPond(pSelPond,m_bChooseGroup);
-						bChkSamePond= FALSE;
+						SetSelPond(pSelPond, m_bChooseGroup);
+						bChkSamePond = FALSE;
 					}
 				}
 			}
-			if (pSelPond && m_bChooseGroup==FALSE) break;
+			if (pSelPond && m_bChooseGroup == FALSE)
+				break;
 		}
 	}
 
 	iSize = m_SelVtxArray.GetSize();
-	if ( iSize == 0)
+	if (iSize == 0)
 	{
 		SetSelPond(NULL);
 		m_VtxPosDummy.SetSelVtx(NULL);
@@ -845,13 +927,13 @@ BOOL CPondMng::SelectVtxByDragRect(RECT* pRect, BOOL bAdd,BOOL bSelectPond)
 	else
 	{
 		m_VtxPosDummy.SetSelVtx(m_SelVtxArray.GetAt(0));
-		for (i=1; i<iSize; ++i)
+		for (i = 1; i < iSize; ++i)
 		{
 			m_VtxPosDummy.AddSelVtx(m_SelVtxArray.GetAt(i));
 		}
 		SetVtxBackup();
 		return TRUE;
-	}	
+	}
 
 	return FALSE;
 }
@@ -859,11 +941,12 @@ BOOL CPondMng::SelectVtxByDragRect(RECT* pRect, BOOL bAdd,BOOL bSelectPond)
 void CPondMng::ReCalcUV()
 {
 	int iSize = m_pSelPonds.size();
-	if(iSize==0) return;
+	if (iSize == 0)
+		return;
 	it_PondMesh it = m_pSelPonds.begin();
-	for(int i = 0; i < iSize; i++, it++)
+	for (int i = 0; i < iSize; i++, it++)
 	{
-		CPondMesh* pSelPond= *it;
+		CPondMesh *pSelPond = *it;
 		pSelPond->ReCalcUV();
 	}
 	m_pMainFrm->Invalidate(FALSE);
@@ -876,182 +959,190 @@ void CPondMng::MakeGameFiles(HANDLE hFile, float fSize)
 
 	it_PondMesh it = m_PondMeshes.begin();
 	WriteFile(hFile, &iPondCount, sizeof(int), &dwNum, NULL);
-	for (int i=0;i<iPondCount;i++, it++)
+	for (int i = 0; i < iPondCount; i++, it++)
 	{
-		CPondMesh *pRM =  *it;
+		CPondMesh *pRM = *it;
 		ASSERT(pRM);
 
 		int iVC = pRM->VertexCount();
-		__VertexXyzT2* pVtx0 = pRM->GetVertex(0), *pSrcVtx=NULL;
+		__VertexXyzT2 *pVtx0 = pRM->GetVertex(0), *pSrcVtx = NULL;
 		ASSERT(pVtx0);
-		WriteFile(hFile, &iVC, sizeof(iVC), &dwNum, NULL);				// Á¡ °¹¼ö
+		WriteFile(hFile, &iVC, sizeof(iVC), &dwNum, NULL); // number of points
 
-		if(iVC<=0) continue;
+		if (iVC <= 0)
+			continue;
 
 		int iWidthVtxNum = pRM->GetWaterScaleWidht();
-		WriteFile(hFile, &iWidthVtxNum, sizeof(int), &dwNum, NULL);				// Á¡ °¹¼ö
+		WriteFile(hFile, &iWidthVtxNum, sizeof(int), &dwNum, NULL); // number of points
 
-		CN3Texture* pPondTex = pRM->TexGet();
+		CN3Texture *pPondTex = pRM->TexGet();
 		int iLen = 0;
-
-		if(pPondTex)
-		{			
+		if (pPondTex)
+		{
 			char szFileName[MAX_PATH], szFindName[50];
-			sprintf(szFileName,"%s",pPondTex->FileName().c_str());
+			sprintf(szFileName, "%s", pPondTex->FileName().c_str());
 			iLen = pPondTex->FileName().size();
-			for(int i=iLen;i>0;--i)
+			for (int i = iLen; i > 0; --i)
 			{
-				if(szFileName[i] == '\\')
+				if (szFileName[i] == '\\')
 				{
-					sprintf(szFindName,"%s",&szFileName[i+1]);
+					sprintf(szFindName, "%s", &szFileName[i + 1]);
 					iLen -= i;
 					i = 0;
 				}
 			}
-			WriteFile(hFile, &iLen, sizeof(iLen), &dwNum, NULL);				// texture file name length
-			if (iLen>0)
+			WriteFile(hFile, &iLen, sizeof(iLen), &dwNum, NULL); // texture file name length
+			if (iLen > 0)
 			{
-				WriteFile(hFile, szFindName, iLen, &dwNum, NULL);			// texture file name
+				WriteFile(hFile, szFindName, iLen, &dwNum, NULL); // texture file name
 			}
 		}
 		else
 		{
-			WriteFile(hFile, &iLen, sizeof(iLen), &dwNum, NULL);				// texture file name length
+			WriteFile(hFile, &iLen, sizeof(iLen), &dwNum, NULL); // texture file name length
 		}
 
 		// XyxT2 -> XyzColorT2 Converting.
 		DWORD dwAplha = pRM->GetAlphaFactor();
 		__VertexPond __vTemp;
-		for (int k=0;k<iVC;++k)
+		for (int k = 0; k < iVC; ++k)
 		{
-			pSrcVtx = pVtx0+k;
-			__vTemp.Set(*pSrcVtx,0.0f, 1.0f, 0.0f,dwAplha);
-			WriteFile(hFile, &__vTemp, sizeof(__VertexPond), &dwNum, NULL);	// vertex buffer
+			pSrcVtx = pVtx0 + k;
+			__vTemp.Set(*pSrcVtx, 0.0f, 1.0f, 0.0f, dwAplha);
+			WriteFile(hFile, &__vTemp, sizeof(__VertexPond), &dwNum, NULL); // vertex buffer
 		}
-		
-		int iIC = pRM->IndexCount();
-		WriteFile(hFile, &iIC, sizeof(iIC), &dwNum, NULL);				// IndexBuffer Count.
-	}	
 
+		int iIC = pRM->IndexCount();
+		WriteFile(hFile, &iIC, sizeof(iIC), &dwNum, NULL); // IndexBuffer Count.
+	}
 }
 
 void CPondMng::ReCalcSelectedVertex()
 {
 	int iSize = m_pSelPonds.size();
-	if(iSize==0) return;
+	if (iSize == 0)
+		return;
 
 	it_PondMesh it = m_pSelPonds.begin();
-	for(int i = 0; i < iSize; i++, it++)
+	for (int i = 0; i < iSize; i++, it++)
 	{
-		CPondMesh* pSelPond= *it;
+		CPondMesh *pSelPond = *it;
 		__VertexXyzT2 *pVtx0 = pSelPond->GetVertex(0);
 		__VertexXyzT2 *pVtxSel = m_SelVtxArray.GetAt(0);
 		int nIndex = pVtxSel - pVtx0;
 		int iLastVtxNum = pSelPond->LastVertexCount();
-		
-		nIndex = (nIndex/iLastVtxNum)*iLastVtxNum;
+
+		nIndex = (nIndex / iLastVtxNum) * iLastVtxNum;
 		pVtxSel = pSelPond->GetVertex(nIndex);
-		ASSERT(pSelPond->VertexCount()-iLastVtxNum >= nIndex);
+		ASSERT(pSelPond->VertexCount() - iLastVtxNum >= nIndex);
 		ASSERT(pVtxSel);
 
 		__Vector3 vPos1, vPos2, vDif;
 		vPos1 = *(pVtxSel);
-		vPos2 = *(pVtxSel+iLastVtxNum-1);
+		vPos2 = *(pVtxSel + iLastVtxNum - 1);
 
-		vDif = vPos2-vPos1;
+		vDif = vPos2 - vPos1;
 		float Length = vDif.Magnitude();
 		vDif.Normalize();
-		vDif *= Length/(float)iLastVtxNum;
+		vDif *= Length / (float)iLastVtxNum;
 
-		for(int i=1;i<iLastVtxNum;i++)
+		for (int i = 1; i < iLastVtxNum; i++)
 		{
-			vPos2 = vPos1 + vDif*(float)i;
-			(pVtxSel+i)->Set(vPos2,0,0,0,0);
+			vPos2 = vPos1 + vDif * (float)i;
+			(pVtxSel + i)->Set(vPos2, 0, 0, 0, 0);
 		}
 		pSelPond->ReCalcUV();
 	}
 
 	m_pMainFrm->Invalidate(FALSE);
 }
-
-void CPondMng::SetVtxCenter()	//	¿¬¸ø(µé)ÀÇ Áß°£Á¡À» Ã£¾Æ ¼¼ÆÃ,¿¹Àü ½ºÄÉÀÏµµ ¹é¾÷
+void CPondMng::SetVtxCenter() // Find and set the midpoint of the pond(s), back up old scale
 {
 	int iSize = m_pSelPonds.size();
 	m_vPondsCenter.Zero();
 
-	if(iSize==0) return;
+	if (iSize == 0)
+		return;
 
 	__Vector3 vtotCenter;
-	__Vector3* pvCenter;
-	int nCenterCnt=0;
+	__Vector3 *pvCenter;
+	int nCenterCnt = 0;
 
-	pvCenter = new __Vector3 [iSize];
+	pvCenter = new __Vector3[iSize];
 
 	it_PondMesh it = m_pSelPonds.begin();
-	for(int i = 0; i < iSize; i++, it++)
+	for (int i = 0; i < iSize; i++, it++)
 	{
-		CPondMesh* pRM = *it;
-		if(pRM) 
+		CPondMesh *pRM = *it;
+		if (pRM)
 		{
-			pvCenter[i] = pRM->GetCenter();	//	¿¬¸ø(µé)ÀÇ Áß°£Á¡À» ¹ÞÀ½, ÇöÀçÀÇ ½ºÄÉÀÏµµ ¹é¾÷
+			pvCenter[i] = pRM->GetCenter(); // get the midpoint of the pond(s), back up the current scale as well
 			nCenterCnt++;
 		}
 	}
-
-	if(iSize==1)
+	if (iSize == 1)
 		m_vPondsCenter = pvCenter[0];
 	else
 	{
-		float Stx,Enx,Stz,Enz;
-		Stx=Enx=pvCenter[0].x, Stz=Enz= pvCenter[0].z;
-		for(i=0;i<nCenterCnt;i++)
+		float Stx, Enx, Stz, Enz;
+		Stx = Enx = pvCenter[0].x, Stz = Enz = pvCenter[0].z;
+		for (i = 0; i < nCenterCnt; i++)
 		{
-			if(Stx>pvCenter[i].x) Stx  = pvCenter[i].x;
-			if(Enx<pvCenter[i].x) Enx  = pvCenter[i].x;
-			if(Stz>pvCenter[i].z) Stz  = pvCenter[i].z;
-			if(Enz<pvCenter[i].z) Enz  = pvCenter[i].z;
+			if (Stx > pvCenter[i].x)
+				Stx = pvCenter[i].x;
+			if (Enx < pvCenter[i].x)
+				Enx = pvCenter[i].x;
+			if (Stz > pvCenter[i].z)
+				Stz = pvCenter[i].z;
+			if (Enz < pvCenter[i].z)
+				Enz = pvCenter[i].z;
 		}
 
-		m_vPondsCenter.Set(Stx + (Enx-Stx)/2 , 0.0f,Stz + (Enz-Stz)/2);
+		m_vPondsCenter.Set(Stx + (Enx - Stx) / 2, 0.0f, Stz + (Enz - Stz) / 2);
 	}
 
-	delete []pvCenter;
-	pvCenter=NULL;
+	delete[] pvCenter;
+	pvCenter = NULL;
 }
 
 void CPondMng::SetRotatePonds(float fMove)
 {
 	int iSize = m_pSelPonds.size();
-	if(iSize==0) return;
-	if(m_vPondsCenter.x == 0.0f && 	m_vPondsCenter.z == 0.0f) return;
+	if (iSize == 0)
+		return;
+	if (m_vPondsCenter.x == 0.0f && m_vPondsCenter.z == 0.0f)
+		return;
 
-	if(m_bShift) fMove/=5.0f;
+	if (m_bShift)
+		fMove /= 5.0f;
 
 	__Matrix44 matRotate;
-	matRotate.RotationY(D3DXToRadian(fMove/10.0f));
+	matRotate.RotationY(D3DXToRadian(fMove / 10.0f));
 
-	m_VtxPosDummy.PosRotate(matRotate,m_vPondsCenter);
+	m_VtxPosDummy.PosRotate(matRotate, m_vPondsCenter);
 
 	it_PondMesh it = m_pSelPonds.begin();
-	for(int i = 0; i < iSize; i++, it++)
+	for (int i = 0; i < iSize; i++, it++)
 	{
-		CPondMesh* pRM = *it;
-		if(pRM) pRM->Rotation(matRotate,m_vPondsCenter);
+		CPondMesh *pRM = *it;
+		if (pRM)
+			pRM->Rotation(matRotate, m_vPondsCenter);
 	}
 }
 
 void CPondMng::SetVtxBackup()
 {
 	int iSelSize = m_SelVtxArray.GetSize();
-	if(iSelSize==0) return;
+	if (iSelSize == 0)
+		return;
 
 	VtxBackupRelease();
 
-	for(int i=0;i<iSelSize;i++)
+	for (int i = 0; i < iSelSize; i++)
 	{
-		__VertexXyzT2* pVtx = m_SelVtxArray.GetAt(i);
+		__VertexXyzT2 *pVtx = m_SelVtxArray.GetAt(i);
 
-		__Vector3* pvVtx = new __Vector3;
+		__Vector3 *pvVtx = new __Vector3;
 		pvVtx->x = pVtx->x;
 		pvVtx->y = pVtx->y;
 		pvVtx->z = pVtx->z;
@@ -1063,14 +1154,15 @@ void CPondMng::ReSetVtxBackup()
 {
 	int iSize = m_SelVtxBakArray.size();
 	int iVtxSize = m_SelVtxArray.GetSize();
-	if(iSize==0||iVtxSize==0) return;
+	if (iSize == 0 || iVtxSize == 0)
+		return;
 
 	it_SelVtxBak SetVtx = m_SelVtxBakArray.begin();
-	for(int i=0;i<iSize;i++,SetVtx++)
+	for (int i = 0; i < iSize; i++, SetVtx++)
 	{
-		__Vector3* pBacVtx = *SetVtx;
-		__VertexXyzT2* pVtx = m_SelVtxArray.GetAt(i);
-		if(pBacVtx)
+		__Vector3 *pBacVtx = *SetVtx;
+		__VertexXyzT2 *pVtx = m_SelVtxArray.GetAt(i);
+		if (pBacVtx)
 		{
 			pVtx->x = pBacVtx->x;
 			pVtx->y = pBacVtx->y;
@@ -1082,53 +1174,56 @@ void CPondMng::ReSetVtxBackup()
 void CPondMng::VtxBackupRelease()
 {
 	int iSize = m_SelVtxBakArray.size();
-	if(iSize==0) return;
+	if (iSize == 0)
+		return;
 
 	it_SelVtxBak SetVtx = m_SelVtxBakArray.begin();
-	for(int i=0;i<iSize;i++,SetVtx++)
+	for (int i = 0; i < iSize; i++, SetVtx++)
 	{
-		__Vector3* pVtx = *SetVtx;
-		if(pVtx) delete pVtx;
+		__Vector3 *pVtx = *SetVtx;
+		if (pVtx)
+			delete pVtx;
 	}
 	m_SelVtxBakArray.clear();
 }
 
 void CPondMng::InputDummyMovePos(__Vector3 vMovePos)
 {
-	if(vMovePos.x == 0.0f && vMovePos.y == 0.0f && vMovePos.z == 0.0f) return;
+	if (vMovePos.x == 0.0f && vMovePos.y == 0.0f && vMovePos.z == 0.0f)
+		return;
 
 	int iSize = m_pSelPonds.size();
 	it_PondMesh it = m_pSelPonds.begin();
-	CPondMesh* pRM;
+	CPondMesh *pRM;
 	BOOL bDrawBoxMove;
 
-	for(int i = 0; i < iSize; ++i, ++it)
+	for (int i = 0; i < iSize; ++i, ++it)
 	{
 		pRM = *it;
-		if(pRM)
+		if (pRM)
 		{
-			bDrawBoxMove = pRM->InputDummyMovingPos(vMovePos,m_bMovePond);
-			if(bDrawBoxMove==TRUE)
+			bDrawBoxMove = pRM->InputDummyMovingPos(vMovePos, m_bMovePond);
+			if (bDrawBoxMove == TRUE)
 				m_pDlgProperty->UpdateWaterLength(pRM);
 		}
 	}
-
-	if (m_pDlgProperty && (vMovePos.y!=0.0f || m_bMovePond==TRUE)) //	³ôÀÌ³ª ¿òÁ÷¿©¼­ Á¤º¸¸¦ °»½Å
+	if (m_pDlgProperty && (vMovePos.y != 0.0f || m_bMovePond == TRUE)) // update info by height or move
 	{
-		m_pDlgProperty->UpdateInfo();	
+		m_pDlgProperty->UpdateInfo();
 		MainInvalidate();
 	}
 }
 
 void CPondMng::StationPond()
 {
-	CPondMesh* pRM = NULL;
+	CPondMesh *pRM = NULL;
 	it_PondMesh it = m_pSelPonds.begin();
 	int iSize = m_pSelPonds.size();
-	for(int i = 0; i < iSize; i++, it++)
+	for (int i = 0; i < iSize; i++, it++)
 	{
 		pRM = *it;
-		if(pRM) pRM->MakePondPos();
+		if (pRM)
+			pRM->MakePondPos();
 	}
 
 	MainInvalidate();
@@ -1136,7 +1231,7 @@ void CPondMng::StationPond()
 
 void CPondMng::MovePond()
 {
-	SelectVtxByDragRect(NULL,FALSE,TRUE);	//	ÀÏ´Ü ÇöÀç ¼±ÅÃµÈ ¸ðµç ¿¬¸øÀÇ Á¡µé ÀüºÎ ¼±ÅÃ
+	SelectVtxByDragRect(NULL, FALSE, TRUE); // First select all points of all currently selected ponds
 	m_bMovePond = TRUE;
 	MainInvalidate();
 }

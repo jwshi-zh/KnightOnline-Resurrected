@@ -87,7 +87,7 @@ public:
 	static CN3UITooltip*	GetTooltipCtrl() {return s_pTooltipCtrl;}
 	DWORD			GetStyle()	{return m_dwStyle;}
 
-	void			SetUIType(eUI_TYPE eUIType) { m_eType = eUIType; }	// by ecli666 It&#39;s annoying to add functions to the tool.. ^^
+	void			SetUIType(eUI_TYPE eUIType) { m_eType = eUIType; }	// by ecli666 It's annoying to add functions to the tool.. ^^
 // Operations
 public:	
 	bool			IsIn(int x, int y) const;

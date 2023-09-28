@@ -108,32 +108,17 @@ void CFormViewProperty::OnInitialUpdate()
 	CSkyViewerDoc* pDoc = GetDocument();
 	m_SldTime.SetRange(0, 24 * 60);
 	
-//enum		eSKY_DAYCHANGE {	SDC_SKYCOLOR=0,		// 하늘색
-//								SDC_FOGCOLOR,		// 안개색
-//								SDC_STARCOUNT,		// 별 수
-//								SDC_MOONPHASE,		// 달 모양
-//								SDC_SUNCOLOR,		// 해 색
-//								SDC_GLOWCOLOR,		// 해의 glow색
-//								SDC_FLARECOLOR,		// 해의 flare색
-//								SDC_CLOUD1COLOR,	// 구름층 1의 색
-//								SDC_CLOUD2COLOR,	// 구름층 2의 색
-//								SDC_CLOUDTEX,		// 구름 텍스쳐 바꾸기
-//								NUM_SKYDAYCHANGE,
-//								
-//								SDC_UNKNOWN = 0xffffffff
-//};
-
 	m_LPProperty.ResetContent();
-	m_LPProperty.AddPropItem("이름", "", PIT_EDIT, "");
-	m_LPProperty.AddPropItem("종류", "", PIT_COMBO, "하늘색|안개색|별수|달모양|해의 색|해의 Glow 색|해의 Flare 색|구름층1의 색|구름층2의 색|구름텍스처 바꾸기|라이트0|라이트1|라이트2");
-	m_LPProperty.AddPropItem("인수1", "", PIT_EDIT, "");
-	m_LPProperty.AddPropItem("색1", "", PIT_COLOR, "");
-	m_LPProperty.AddPropItem("인수2", "", PIT_EDIT, "");
-	m_LPProperty.AddPropItem("색2", "", PIT_COLOR, "");
-	m_LPProperty.AddPropItem("시간", "", PIT_EDIT, "0시0분");
-	m_LPProperty.AddPropItem("지연시간", "", PIT_EDIT, "0초");
+	m_LPProperty.AddPropItem("name", "", PIT_EDIT, "");
+	m_LPProperty.AddPropItem("type", "", PIT_COMBO, "Sky blue|fog color|star number|moon shape|sun color|sun glow color|sun flare color|color of cloud layer 1|color of cloud layer 2|change cloud texture|light 0|light 1|light 2");
+	m_LPProperty.AddPropItem("Argument 1", "", PIT_EDIT, "");
+	m_LPProperty.AddPropItem("color 1", "", PIT_COLOR, "");
+	m_LPProperty.AddPropItem("Argument 2", "", PIT_EDIT, "");
+	m_LPProperty.AddPropItem("color 2", "", PIT_COLOR, "");
+	m_LPProperty.AddPropItem("hour", "", PIT_EDIT, "0:00");
+	m_LPProperty.AddPropItem("delay time", "", PIT_EDIT, "0 seconds");
 
-	// 시간을 가져와 세팅..
+	// Take your time and set up...
 	SYSTEMTIME Time;
 	::GetLocalTime(&Time);
 	pDoc->m_Sky.SetGameTime(Time.wYear, Time.wMonth, Time.wDay, Time.wHour, Time.wMinute);
@@ -155,19 +140,19 @@ BOOL CFormViewProperty::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 		if(NULL == pSDC) return FALSE;
 		CPropertyItem* pItem = (CPropertyItem*)lParam;
 
-		if(pItem->m_propName == "이름") pSDC->szName = pItem->m_curValue;
-		else if(pItem->m_propName == "시간")
+		if(pItem->m_propName == "name") pSDC->szName = pItem->m_curValue;
+		else if(pItem->m_propName == "hour")
 		{
 			int iHour = 0, iMin = 0;
-			sscanf(pItem->m_curValue, "%d시%d분", &iHour, &iMin);
+			sscanf(pItem->m_curValue, "%d hours %d minutes", &iHour, &iMin);
 			pSDC->dwWhen = CONVERT_SEC(iHour,iMin,0);
 		}
-		else if(pItem->m_propName == "종류")	pSDC->eSkyDayChange = (eSKY_DAYCHANGE)(pItem->m_crColor);
-		else if(pItem->m_propName == "인수1")	pSDC->dwParam1 = atoi(pItem->m_curValue);
-		else if(pItem->m_propName == "색1")		pSDC->dwParam1 = ::_RGB_To_D3DCOLOR(pItem->m_crColor, (DWORD)255);
-		else if(pItem->m_propName == "인수2")	pSDC->dwParam2 = atoi(pItem->m_curValue);
-		else if(pItem->m_propName == "색2")		pSDC->dwParam2 = ::_RGB_To_D3DCOLOR(pItem->m_crColor, (DWORD)255);
-		else if(pItem->m_propName == "지연시간") pSDC->fHowLong = (float)(atof(pItem->m_curValue));
+		else if(pItem->m_propName == "type")	pSDC->eSkyDayChange = (eSKY_DAYCHANGE)(pItem->m_crColor);
+		else if(pItem->m_propName == "Argument 1")	pSDC->dwParam1 = atoi(pItem->m_curValue);
+		else if(pItem->m_propName == "color 1")		pSDC->dwParam1 = ::_RGB_To_D3DCOLOR(pItem->m_crColor, (DWORD)255);
+		else if(pItem->m_propName == "Argument 2")	pSDC->dwParam2 = atoi(pItem->m_curValue);
+		else if(pItem->m_propName == "color 2")		pSDC->dwParam2 = ::_RGB_To_D3DCOLOR(pItem->m_crColor, (DWORD)255);
+		else if(pItem->m_propName == "delay time") pSDC->fHowLong = (float)(atof(pItem->m_curValue));
 
 		int iYear = 0, iMonth = 0, iDay = 0, iHour = 0, iMin = 0;
 		pDoc->m_Sky.GetGameTime(&iYear, &iMonth, &iDay, &iHour, &iMin);
@@ -194,7 +179,7 @@ void CFormViewProperty::UpdateTime()
 	CSkyViewerDoc* pDoc = GetDocument();
 	pDoc->m_Sky.GetGameTime(&iYear, &iMonth, &iDay, &iHour, &iMin);
 	
-	// 시간 업데이트..
+	// time update..
 	SetDlgItemInt(IDC_E_YEAR, iYear);
 	SetDlgItemInt(IDC_E_MONTH, iMonth);
 	SetDlgItemInt(IDC_E_DAY, iDay);
@@ -212,16 +197,16 @@ void CFormViewProperty::UpdateInfo()
 	int iIndex = m_ListDayChanges.GetCurSel();
 	__SKY_DAYCHANGE* pSDC = pDoc->m_Sky.DayChangeGet(iIndex);
 
-	CPropertyItem* pItem0 = m_LPProperty.GetPropItem("이름");
-	CPropertyItem* pItem1 = m_LPProperty.GetPropItem("시간");
-	CPropertyItem* pItem2 = m_LPProperty.GetPropItem("종류");
+	CPropertyItem* pItem0 = m_LPProperty.GetPropItem("name");
+	CPropertyItem* pItem1 = m_LPProperty.GetPropItem("hour");
+	CPropertyItem* pItem2 = m_LPProperty.GetPropItem("type");
 	
-	CPropertyItem* pItem3 = m_LPProperty.GetPropItem("인수1");
-	CPropertyItem* pItem4 = m_LPProperty.GetPropItem("색1");
-	CPropertyItem* pItem5 = m_LPProperty.GetPropItem("인수2");
-	CPropertyItem* pItem6 = m_LPProperty.GetPropItem("색2");
+	CPropertyItem* pItem3 = m_LPProperty.GetPropItem("Argument 1");
+	CPropertyItem* pItem4 = m_LPProperty.GetPropItem("color 1");
+	CPropertyItem* pItem5 = m_LPProperty.GetPropItem("Argument 2");
+	CPropertyItem* pItem6 = m_LPProperty.GetPropItem("색color 22");
 	
-	CPropertyItem* pItem7 = m_LPProperty.GetPropItem("지연시간");
+	CPropertyItem* pItem7 = m_LPProperty.GetPropItem("delay time");
 
 	if(NULL == pSDC)
 	{
@@ -229,7 +214,7 @@ void CFormViewProperty::UpdateInfo()
 		SetDlgItemText(IDC_E_NAME, "");
 
 		if(pItem0) pItem0->m_curValue = "";
-		if(pItem1) pItem1->m_curValue = "0시0분";
+		if(pItem1) pItem1->m_curValue = "0:00";
 		if(pItem2) pItem2->m_crColor = 0;
 		
 		if(pItem3) pItem3->m_curValue = "";
@@ -248,7 +233,7 @@ void CFormViewProperty::UpdateInfo()
 		if(pItem1)
 		{
 			int iHour = pSDC->dwWhen / (3600), iMin = (pSDC->dwWhen % (3600))/60;
-			pItem1->m_curValue.Format("%d시%d분", iHour, iMin);
+			pItem1->m_curValue.Format("%d hours %d minutes", iHour, iMin);
 		}
 		if(pItem2) pItem2->m_crColor = pSDC->eSkyDayChange;
 		
@@ -384,7 +369,7 @@ void CFormViewProperty::OnDblclkListCloudTextures()
 {
 	CString FileName;
 	DWORD dwFlags = OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT;
-	CFileDialog dlg(TRUE, "DXT", NULL, dwFlags, "Texture 로 쓸수 있는 그림 파일(*.DXT; *.BMP; *.TGA)|*.DXT; *.BMP; *.TGA||", NULL);
+	CFileDialog dlg(TRUE, "DXT", NULL, dwFlags, "Picture files that can be used as textures(*.DXT; *.BMP; *.TGA)|*.DXT; *.BMP; *.TGA||", NULL);
 	if(dlg.DoModal() == IDCANCEL) return;
 	
 	int iIndex = m_ListCloudTextures.GetCurSel();
@@ -405,7 +390,7 @@ void CFormViewProperty::OnDblclkListSunTextures()
 {
 	CString FileName;
 	DWORD dwFlags = OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT;
-	CFileDialog dlg(TRUE, "DXT", NULL, dwFlags, "Texture 로 쓸수 있는 그림 파일(*.DXT; *.BMP; *.TGA)|*.DXT; *.BMP; *.TGA||", NULL);
+	CFileDialog dlg(TRUE, "DXT", NULL, dwFlags, "Picture files that can be used as textures(*.DXT; *.BMP; *.TGA)|*.DXT; *.BMP; *.TGA||", NULL);
 	if(dlg.DoModal() == IDCANCEL) return;
 	
 	int iIndex = m_ListSunTextures.GetCurSel();
@@ -426,7 +411,7 @@ void CFormViewProperty::OnBBrowseMoonTexture()
 {
 	CString FileName;
 	DWORD dwFlags = OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT;
-	CFileDialog dlg(TRUE, "DXT", NULL, dwFlags, "Texture 로 쓸수 있는 그림 파일(*.DXT; *.BMP; *.TGA)|*.DXT; *.BMP; *.TGA||", NULL);
+	CFileDialog dlg(TRUE, "DXT", NULL, dwFlags, "Picture files that can be used as textures(*.DXT; *.BMP; *.TGA)|*.DXT; *.BMP; *.TGA||", NULL);
 	if(dlg.DoModal() == IDCANCEL) return;
 	
 	FileName = dlg.GetPathName();

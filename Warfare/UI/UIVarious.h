@@ -149,7 +149,7 @@ public:
 	CUIKnights();
 	virtual ~CUIKnights();
 
-	// don&#39;t write...
+	// don't write...
 	bool	NeedMemberListRequest() const { if(m_MemberList.empty()) return true; else return false; }
 	
 	void	ChangeUIByDuty(e_KnightsDuty eDuty);
@@ -251,7 +251,7 @@ protected:
 	CN3UIButton*	m_pBtn_Close;
 
 	bool		m_bOpenningNow; // is opening...
-	bool		m_bClosingNow;	// it&#39;s closing...
+	bool		m_bClosingNow;	// it's closing...
 	float		m_fMoveDelta; // Floating point is used to calculate the current position to make it open and close smoothly.
 
 public:

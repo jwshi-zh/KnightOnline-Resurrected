@@ -95,7 +95,7 @@ void CUIEView::OnDraw(CDC* pDC)
 	CUIEDoc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
 
-	if (UIEMODE_PREVIEW == m_eMode) return;	// previewÀÏ¶§´Â ±×³É ¸®ÅÏ
+	if (UIEMODE_PREVIEW == m_eMode) return;	// In preview, just return
 
 	int iUIC = pDoc->GetSelectedUICount();
 	for(int i = 0 ; i < iUIC; i++)
@@ -115,7 +115,7 @@ void CUIEView::OnDraw(CDC* pDC)
 		}
 
 		if (RT_NONE == m_eSelectedRectType)
-		{	// Rect ¼öÁ¤ÁßÀÌ ¾Æ´Ò¶§ °¢°¢ Rect Ç¥½Ã
+		{	// Each Rect is displayed when the Rect is not being edited.
 
 			// region
 			RECT rcRegion = pUI->GetRegion();
@@ -153,7 +153,7 @@ void CUIEView::OnDraw(CDC* pDC)
 		}
 	}
 	
-	if(RT_NONE != m_eSelectedRectType)// Rect ¼öÁ¤ÁßÀÏ¶§ °¢°¢ Rect Ç¥½Ã
+	if(RT_NONE != m_eSelectedRectType)// When Rect is being edited, each Rect is displayed
 	{
 		CPen SelPen(PS_DOT, 1, RGB(0,0,0));
 		CPen* pOldPen = pDC->SelectObject(&SelPen);
@@ -161,7 +161,7 @@ void CUIEView::OnDraw(CDC* pDC)
 		pDC->SelectObject(pOldPen);
 	}
 
-	if(m_bViewGrid) // ±×¸®µå º¸±â..
+	if(m_bViewGrid) // Grid view...
 	{
 		CRect rc;
 		CPen pen, penThick;
@@ -251,7 +251,7 @@ BOOL CUIEView::OnEraseBkgnd(CDC* pDC)
 
 	pEng->s_lpD3DDev->BeginScene();
 
-	//	±×¸®±â...
+	//	drawing...
 	switch(m_eMode)
 	{
 	case UIEMODE_PREVIEW:
@@ -290,14 +290,14 @@ void CUIEView::OnLButtonDown(UINT nFlags, CPoint point)
 	{
 		CN3UIBase* pSelectedUI = pDoc->GetSelectedUI();
 		if (RT_NONE != m_eSelectedRectType && pSelectedUI)
-		{	// ÁöÁ¤µÈ »ç°¢Çü º¯ÇüÀÏ¶§
+		{	// When the specified rectangular transformation
 			if (-1000 != m_rcSelectedRect.left) m_eDragType = CheckDragType(m_rcSelectedRect, point);
 			else m_eDragType = DRAGTYPE_NONE;
 		}
 
 		if (DRAGTYPE_NONE == m_eDragType)
-		{	// m_RootUIÀÇ ÀÚ½ÄÁß¿¡¼­ point¿¡ À§Ä¡ÇÑ ui ¼±ÅÃÇÏ±â
-			if(!(nFlags & MK_CONTROL)) pDoc->SetSelectedUI(NULL); // ÄÁÆ®·Ñ Å°¸¦ ´©¸£Áö ¾ÊÀ¸¸é ¸ÖÆ¼ ¼¿·ºÆ® ÇØÁ¦ÈÄ..
+		{	// Selecting ui located at point among children of m_RootUI
+			if(!(nFlags & MK_CONTROL)) pDoc->SetSelectedUI(NULL); // If you don't press the control key, after canceling multi-select...
 			
 			CN3UIBase* pRootUI = GetDocument()->GetRootUI();
 			CN3UIBase* pUISelected = NULL;
@@ -308,7 +308,7 @@ void CUIEView::OnLButtonDown(UINT nFlags, CPoint point)
 				if(pUISelected) break;
 			}
 
-			if(NULL == pUISelected && pRootUI->IsIn(point.x, point.y)) pUISelected = pRootUI; // ¾Ï°Íµµ ¸øÂïÀ¸¸é ·çÆ®UI¸¦ Âï¾îº»´Ù.
+			if(NULL == pUISelected && pRootUI->IsIn(point.x, point.y)) pUISelected = pRootUI; // If you can't take a picture of anything, try taking a picture of the root UI.
 			if(pUISelected) pDoc->SetSelectedUI(pUISelected);
 		}
 		else SetCapture();
@@ -405,7 +405,7 @@ BOOL CUIEView::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 	{
 		char* pszRsrcID = NULL;
 		eDRAGTYPE		eDT = m_eDragType;
-		if (DRAGTYPE_NONE == m_eDragType)	// µå·¹±× ÁßÀÌ ¾Æ´Ï¸é cursorÀÇ À§Ä¡¸¦ ¾ò¾î¼­ Å×½ºÆ®ÇÏ±â
+		if (DRAGTYPE_NONE == m_eDragType)	// If it is not being dragged, get the position of the cursor and test it
 		{
 			CPoint pt;
 			if (GetCursorPos(&pt))
@@ -444,7 +444,7 @@ BOOL CUIEView::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 	return CView::OnSetCursor(pWnd, nHitTest, message);
 }
 
-// mode ¹Ù²Ù±â
+// change mode
 void CUIEView::SetMode(eUIE_MODE eMode)
 {
 	m_eMode = eMode;
@@ -452,7 +452,7 @@ void CUIEView::SetMode(eUIE_MODE eMode)
 	Invalidate();
 }
 
-// ¹Ì¸®º¸±â render
+// preview render
 void CUIEView::RenderPreview()
 {
 	CUIEDoc* pDoc = GetDocument();
@@ -478,7 +478,7 @@ void CUIEView::RenderPreview()
 	if (TRUE != dwAlphaBlend) lpD3DDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	if (D3DBLEND_SRCALPHA != dwSrcBlend) lpD3DDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	if (D3DBLEND_INVSRCALPHA != dwDestBlend) lpD3DDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-	if (FALSE != dwFog) lpD3DDev->SetRenderState(D3DRS_FOGENABLE   , FALSE);	// 2dµµ fog¸¦ ¸Ô´Â´Ù ¤Ñ.¤Ñ;
+	if (FALSE != dwFog) lpD3DDev->SetRenderState(D3DRS_FOGENABLE   , FALSE);	// 2dë„ fogë¥¼ ë¨¹ëŠ”ë‹¤ ã…¡.ã…¡;
 	if (D3DTEXF_POINT != dwMagFilter ) lpD3DDev->SetTextureStageState(0, D3DTSS_MAGFILTER,   D3DTEXF_POINT);
 	if (D3DTEXF_POINT != dwMinFilter ) lpD3DDev->SetTextureStageState(0, D3DTSS_MINFILTER,   D3DTEXF_POINT);
 	if (D3DTEXF_NONE != dwMipFilter ) lpD3DDev->SetTextureStageState(0, D3DTSS_MIPFILTER,   D3DTEXF_NONE);
@@ -524,7 +524,7 @@ void CUIEView::RenderEditview()
 	if (TRUE != dwAlphaBlend) lpD3DDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	if (D3DBLEND_SRCALPHA != dwSrcBlend) lpD3DDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	if (D3DBLEND_INVSRCALPHA != dwDestBlend) lpD3DDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-	if (FALSE != dwFog) lpD3DDev->SetRenderState(D3DRS_FOGENABLE   , FALSE);	// 2dµµ fog¸¦ ¸Ô´Â´Ù ¤Ñ.¤Ñ;
+	if (FALSE != dwFog) lpD3DDev->SetRenderState(D3DRS_FOGENABLE   , FALSE);
 	if (D3DTEXF_POINT != dwMagFilter ) lpD3DDev->SetTextureStageState(0, D3DTSS_MAGFILTER,   D3DTEXF_POINT);
 	if (D3DTEXF_POINT != dwMinFilter ) lpD3DDev->SetTextureStageState(0, D3DTSS_MINFILTER,   D3DTEXF_POINT);
 	if (D3DTEXF_NONE != dwMipFilter ) lpD3DDev->SetTextureStageState(0, D3DTSS_MIPFILTER,   D3DTEXF_NONE);
@@ -537,7 +537,7 @@ void CUIEView::RenderEditview()
 	for(int i = 0; i < iUIC; i++)
 	{
 		CN3UIBase* pUI = pDoc->GetSelectedUI(i);
-		if (pUI) pUI->Render();	// ¼±ÅÃµÈ UIÇÑ¹ø ´õ ±×¸®±â(µÚ¿¡ °¡¸± ¼öµµ ÀÖÀ¸´Ï±î ÇÑ¹ø ´õ ±×¸°´Ù. button°°Àº °æ¿ì Æ¯È÷)
+		if (pUI) pUI->Render();	// Draw the selected UI once more (draw it once more because it can be hidden behind. Especially for buttons)
 	}
 
 	// restore
@@ -557,10 +557,10 @@ void CUIEView::SelectRectType(eRECTTYPE eRectType)
 	m_rcSelectedRect.SetRect(-1000,-1000,-1000,-1000);
 	CN3UIBase* pSelectedUI = GetDocument()->GetSelectedUI();
 
-	// ¼±ÅÃµÈ UI°¡ ¾øÀ¸¸é RT_NONEÀ¸·Î ¸¸µé°í ¸®ÅÏ
+	// If no UI is selected, make it RT_NONE and return
 	if (NULL == pSelectedUI){	m_eSelectedRectType = RT_NONE;	Invalidate(); return;}
 
-	// ¼±ÅÃµÈ UI¿¡¼­ RectType¿¡ ¸Â´Â »ç°¢Çü °¡Á®¿À±â
+	// Get a rectangle that fits the RectType in the selected UI
 	switch(m_eSelectedRectType)
 	{
 	case RT_NONE:
@@ -682,7 +682,7 @@ BOOL CUIEView::MoveSelectedRect(int dx, int dy)
 	return FALSE;
 }
 
-// selected rectÁ¤º¸¸¦ Åä´ë·Î UI Á¤º¸¸¦ °»½ÅÇÏ±â
+// Updating UI information based on selected rect information
 void CUIEView::UpdateUIInfo_SelectedRect()
 {
 	CUIEDoc* pDoc = this->GetDocument();
@@ -707,7 +707,7 @@ void CUIEView::UpdateUIInfo_SelectedRect()
 						CPoint ptOffset = ptMouse - m_ptOldLBPos;
 						pSelectedUI->MoveOffset(ptOffset.x, ptOffset.y);
 					}
-					else if(i == 0 && m_eDragType >= DRAGTYPE_LEFT && m_eDragType <= DRAGTYPE_RIGHTBOTTOM) // ¸¶Áö¸·¿¡ ¼±ÅÃÇÑ UI
+					else if(i == 0 && m_eDragType >= DRAGTYPE_LEFT && m_eDragType <= DRAGTYPE_RIGHTBOTTOM) // Last selected UI
 					{
 						pSelectedUI->SetRegion(m_rcSelectedRect);
 						pSelectedUI->SetSize(m_rcSelectedRect.Width(), m_rcSelectedRect.Height());
@@ -718,9 +718,9 @@ void CUIEView::UpdateUIInfo_SelectedRect()
 						pSelectedUI->SetSize(m_rcSelectedRect.Width(), m_rcSelectedRect.Height());
 					}
 
-					if(pSelectedUI->GetParent()) // ºÎ¸ð UI °¡ ÀÖÀ¸¸é..
+					if(pSelectedUI->GetParent()) // If you have a parent UI...
 					{
-						pSelectedUI->GetParent()->ResizeAutomaticalyByChild(); // ÀÚµ¿À¸·Î ¿µ¿ª ´Ù½Ã °è»ê..
+						pSelectedUI->GetParent()->ResizeAutomaticalyByChild(); // Automatically recalculate area..
 					}
 				}
 
@@ -817,7 +817,7 @@ BOOL CUIEView::PreTranslateMessage(MSG* pMsg)
 
 void CUIEView::OnViewGrid() 
 {
-	m_bViewGrid = !m_bViewGrid; // ±×¸®µå º¸±â..
+	m_bViewGrid = !m_bViewGrid; // Grid view...
 	this->InvalidateRect(NULL, FALSE);
 }
 

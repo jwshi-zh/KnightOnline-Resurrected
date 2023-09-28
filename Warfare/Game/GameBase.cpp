@@ -162,7 +162,7 @@ bool CGameBase::GetTextByKnightsDuty(e_KnightsDuty eDuty, std::string& szText)
 		case KNIGHTS_DUTY_KNIGHT:		::_LoadStringFromResource(IDS_KNIGHTS_DUTY_KNIGHT, szText); break; // General article
 		case KNIGHTS_DUTY_OFFICER:		::_LoadStringFromResource(IDS_KNIGHTS_DUTY_OFFICER, szText); break; // officer
 		case KNIGHTS_DUTY_VICECHIEF:	::_LoadStringFromResource(IDS_KNIGHTS_DUTY_VICECHIEF, szText); break; // vice-captain.
-		case KNIGHTS_DUTY_CHIEF:		::_LoadStringFromResource(IDS_KNIGHTS_DUTY_CHIEF, szText); break; // Knight Commander&#39;s position.
+		case KNIGHTS_DUTY_CHIEF:		::_LoadStringFromResource(IDS_KNIGHTS_DUTY_CHIEF, szText); break; // Knight Commander's position.
 		default: __ASSERT(0, "Invalid Knights Duty"); szText = "Unknown Duty"; return false;
 	}
 

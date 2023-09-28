@@ -12,7 +12,7 @@
 CGameProcNationSelect::CGameProcNationSelect()
 {
 	m_pUINationSelectDlg = nullptr;
-	s_pPlayer->m_InfoBase.eNation = NATION_NOTSELECTED; // You haven&#39;t selected a country yet.
+	s_pPlayer->m_InfoBase.eNation = NATION_NOTSELECTED; // You haven't selected a country yet.
 }
 
 CGameProcNationSelect::~CGameProcNationSelect()
@@ -43,7 +43,7 @@ void CGameProcNationSelect::Init()
 	m_pUINationSelectDlg->LoadFromFile(szTemp);
 	m_pUINationSelectDlg->m_pProcNationSelectRef = this; // Put a reference pointer...
 
-	s_pPlayer->m_InfoBase.eNation = NATION_NOTSELECTED; // You haven&#39;t selected a country yet.
+	s_pPlayer->m_InfoBase.eNation = NATION_NOTSELECTED; // You haven't selected a country yet.
 }
 
 void CGameProcNationSelect::Tick()
@@ -51,7 +51,7 @@ void CGameProcNationSelect::Tick()
 	CGameProcedure::Tick();	// keys, mouse input, etc.
 
 	if(NATION_KARUS == s_pPlayer->m_InfoBase.eNation || NATION_ELMORAD == s_pPlayer->m_InfoBase.eNation)
-		CGameProcedure::ProcActiveSet((CGameProcedure*)s_pProcCharacterSelect); // Once you&#39;ve chosen your country, go straight to character selection.
+		CGameProcedure::ProcActiveSet((CGameProcedure*)s_pProcCharacterSelect); // Once you've chosen your country, go straight to character selection.
 }
 
 void CGameProcNationSelect::Render()
@@ -93,7 +93,7 @@ bool CGameProcNationSelect::ProcessPacket(DataPack* pDataPack, int& iOffset)
 		{
 			const int iNation = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset); // Country - 0 Failure.. 1 - Carus 2 - Elmorad..
 
-			if( 0 == iNation ) 	s_pPlayer->m_InfoBase.eNation = NATION_NOTSELECTED; // You haven&#39;t selected a country yet.
+			if( 0 == iNation ) 	s_pPlayer->m_InfoBase.eNation = NATION_NOTSELECTED; // You haven't selected a country yet.
 			else if( 1 == iNation ) s_pPlayer->m_InfoBase.eNation = NATION_KARUS;
 			else if( 2 == iNation ) s_pPlayer->m_InfoBase.eNation = NATION_ELMORAD;
 		}

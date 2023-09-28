@@ -177,7 +177,7 @@ void CGameProcedure::StaticMemberInit(HINSTANCE hInstance, HWND hWndMain, HWND h
 	s_pFX = new CN3FXMgr();
 
 	const __TABLE_UI_RESRC* pTblUI = s_pTbl_UI->Find(NATION_ELMORAD); // The default is Elmorad UI.
-	__ASSERT(pTblUI, "기본 UI 가 없습니다.");
+	__ASSERT(pTblUI, "Failed to find default resource in Table.");
 
 	s_pUIMgr = new CUIManager(); // Default UIManager
 	s_pMsgBoxMgr = new CUIMessageBoxManager(); // MessageBox Manager
@@ -440,7 +440,7 @@ bool CGameProcedure::CaptureScreenAndSaveToFile(const std::string& szFN)
 	bool bResult = false;
 	LPDIRECT3DSURFACE8 lpDDSTmp = NULL;
 	LPDIRECT3DSURFACE8 lpDDSBack = NULL;
-	CN3Base::s_lpD3DDev-&gt;GetBackBuffer(0, D3DBACKBUFFER_TYPE_MONO, &amp;lpDDSBack);
+	CN3Base::s_lpD3DDev->GetBackBuffer(0, D3DBACKBUFFER_TYPE_MONO, &lpDDSBack);
 	if(lpDDSBack)
 	{
 		CN3Base::s_lpD3DDev->CreateImageSurface(iW, iH, D3DFMT_X8R8G8B8, &lpDDSTmp);
@@ -731,8 +731,8 @@ bool CGameProcedure::ProcessPacket(DataPack* pDataPack, int& iOffset)
 		{
 			// Reconnect to another zone server.
 			std::string szName, szIP;
-			// iLen = CAPISocket::Parse_GetShort(pDataPack-&gt;m_pData, iOffset); // server name
-			// CAPISocket::Parse_GetString(pDataPack-&gt;m_pData, iOffset, szName, iLen);
+			// iLen = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // server name
+			// CAPISocket::Parse_GetString(pDataPack->m_pData, iOffset, szName, iLen);
 			const int iLen = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // server IP
 			CAPISocket::Parse_GetString(pDataPack->m_pData, iOffset, szIP, iLen);
 			const DWORD dwPort = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
@@ -1031,11 +1031,11 @@ void CGameProcedure::LoadingUIChange(int iVictoryNation)
 	if(s_pUILoading) delete s_pUILoading; s_pUILoading = nullptr;		// Loading Bar
 
 	s_pUILoading = new CUILoading();
-	__ASSERT(s_pUILoading, "로딩화면 생성 실패");
+	__ASSERT(s_pUILoading, "Failed to create loading screen");
 	if(s_pUILoading == nullptr) return;
 
 	const __TABLE_UI_RESRC* pTblUI = s_pTbl_UI->Find(NATION_ELMORAD); // The default is Elmorad UI.
-	__ASSERT(pTblUI, "기본 UI 가 없습니다.");
+	__ASSERT(pTblUI, "No native UI.");
 	if(pTblUI == nullptr) return;
 
 	switch(iVictoryNation)

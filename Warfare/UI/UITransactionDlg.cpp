@@ -71,7 +71,7 @@ void CUITransactionDlg::Release()
 
 void CUITransactionDlg::Render()
 {
-	if (!m_bVisible) return;	// If not visible, don&#39;t render the children.
+	if (!m_bVisible) return;	// If not visible, don't render the children.
 
 	int i;
 
@@ -275,7 +275,7 @@ void CUITransactionDlg::EnterTransactionState()
 		pItem = CGameBase::s_pTbl_Items_Basic->GetIndexedData(i);
 		if (nullptr == pItem) // If there are no items...
 		{
-			__ASSERT(0, "아이템 포인터 테이블에 없음!!");
+			__ASSERT(0, "not in item pointer table!!");
 			CLogWriter::Write("CUITransactionDlg::EnterTransactionState - Invalid Item ID : %d, %d", iOrg, iExt);
 			continue;
 		}
@@ -289,7 +289,7 @@ void CUITransactionDlg::EnterTransactionState()
 		pItemExt = CGameBase::s_pTbl_Items_Exts[pItem->byExtIndex]->Find(iExt);
 		if (nullptr == pItemExt) // If there are no items...
 		{
-			__ASSERT(0, "아이템 포인터 테이블에 없음!!");
+			__ASSERT(0, "not in item pointer table!!");
 			CLogWriter::Write("CUITransactionDlg::EnterTransactionState - Invalid Item ID : %d, %d", iOrg, iExt);
 			continue;
 		}
@@ -755,7 +755,7 @@ void CUITransactionDlg::ReceiveItemDropByTradeSuccess()
 
 	if ((spItem->pItemBasic->byContable == UIITEM_TYPE_COUNTABLE) || (spItem->pItemBasic->byContable == UIITEM_TYPE_COUNTABLE_SMALL))
 	{
-		// If it&#39;s an item like a bow or potion...
+		// If it's an item like a bow or potion...
 		spItem->pUIIcon->SetVisible(true);
 	}
 }
@@ -773,14 +773,14 @@ bool CUITransactionDlg::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 	e_UIWND_DISTRICT eUIWnd = UIWND_DISTRICT_UNKNOWN;
 	if (!m_bVisible) return false;
 
-	// If it&#39;s not the icon I had...
+	// If it's not the icon I had...
 	if (CN3UIWndBase::m_sSelectedIconInfo.UIWndSelect.UIWnd != m_eUIWnd)
 		FAIL_RETURN
 		if ((CN3UIWndBase::m_sSelectedIconInfo.UIWndSelect.UIWndDistrict != UIWND_DISTRICT_TRADE_NPC) &&
 			(CN3UIWndBase::m_sSelectedIconInfo.UIWndSelect.UIWndDistrict != UIWND_DISTRICT_TRADE_MY))
 			FAIL_RETURN
 
-			// If it&#39;s an icon I had.. it checks if it&#39;s an npc area..
+			// If it's an icon I had.. it checks if it's an npc area..
 			int i, iDestiOrder = -1; bool bFound = false;
 	for (auto i = 0; i < MAX_ITEM_TRADE; i++)
 	{
@@ -845,7 +845,7 @@ bool CUITransactionDlg::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 			if ((CN3UIWndBase::m_sRecoveryJobInfo.pItemSource->pItemBasic->byContable == UIITEM_TYPE_COUNTABLE) ||
 				(CN3UIWndBase::m_sRecoveryJobInfo.pItemSource->pItemBasic->byContable == UIITEM_TYPE_COUNTABLE_SMALL))
 			{
-				// If it&#39;s an item like a bow or potion...
+				// If it's an item like a bow or potion...
 				// Find out if the icon is in your inventory.
 				bFound = false;
 
@@ -865,7 +865,7 @@ bool CUITransactionDlg::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 					}
 				}
 
-				// If you can&#39;t find it...
+				// If you can't find it...
 				if (!bFound)
 				{
 					if (m_pMyTradeInv[iDestiOrder])	// If there is an icon in that location...
@@ -881,7 +881,7 @@ bool CUITransactionDlg::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 							}
 						}
 
-						if (!bFound)	// If you can&#39;t find an empty slot...
+						if (!bFound)	// If you can't find an empty slot...
 						{
 							CN3UIWndBase::m_sRecoveryJobInfo.m_bWaitFromServer = false;
 							CN3UIWndBase::m_sRecoveryJobInfo.pItemSource = nullptr;
@@ -923,7 +923,7 @@ bool CUITransactionDlg::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 					FAIL_RETURN
 				}
 
-				// If it&#39;s a normal item...
+				// If it's a normal item...
 				if (m_pMyTradeInv[iDestiOrder])	// If there is an icon in that location...
 				{
 					// Find an empty inventory slot.
@@ -938,7 +938,7 @@ bool CUITransactionDlg::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 						}
 					}
 
-					if (!bFound)	// If you can&#39;t find an empty slot...
+					if (!bFound)	// If you can't find an empty slot...
 					{
 						CN3UIWndBase::m_sRecoveryJobInfo.m_bWaitFromServer = false;
 						CN3UIWndBase::m_sRecoveryJobInfo.pItemSource = nullptr;
@@ -1005,7 +1005,7 @@ bool CUITransactionDlg::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 			if ((CN3UIWndBase::m_sRecoveryJobInfo.pItemSource->pItemBasic->byContable == UIITEM_TYPE_COUNTABLE) ||
 				(CN3UIWndBase::m_sRecoveryJobInfo.pItemSource->pItemBasic->byContable == UIITEM_TYPE_COUNTABLE_SMALL))
 			{
-				// If it&#39;s an item like a bow or potion...
+				// If it's an item like a bow or potion...
 				CN3UIWndBase::m_sRecoveryJobInfo.m_bWaitFromServer = false;
 				CN3UIWndBase::m_pCountableItemEdit->Open(UIWND_TRANSACTION, CN3UIWndBase::m_sSelectedIconInfo.UIWndSelect.UIWndDistrict, false);
 			}
@@ -1121,7 +1121,7 @@ void CUITransactionDlg::ReceiveResultTradeFromServer(byte bResult, byte bType, i
 					// Also delete it from your inventory.
 					m_pMyTradeInv[CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceEnd.iOrder] = nullptr;
 
-					// Delete my manager&#39;s item from the list with iOrder.
+					// Delete my manager's item from the list with iOrder.
 					RemoveChild(spItem->pUIIcon);
 
 					// Delete Icon Resource...
@@ -1141,7 +1141,7 @@ void CUITransactionDlg::ReceiveResultTradeFromServer(byte bResult, byte bType, i
 				// Also delete it from your inventory.
 				m_pMyTradeInv[CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceEnd.iOrder] = nullptr;
 
-				// Delete my manager&#39;s item from the list with iOrder.
+				// Delete my manager's item from the list with iOrder.
 				RemoveChild(spItem->pUIIcon);
 
 				// Delete Icon Resource...
@@ -1188,7 +1188,7 @@ void CUITransactionDlg::ReceiveResultTradeFromServer(byte bResult, byte bType, i
 				}
 				else
 				{
-					// If you don&#39;t see the original icon...
+					// If you don't see the original icon...
 					m_pMyTradeInv[CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceStart.iOrder]->iCount = iGold;
 
 					// You can see the icon...
@@ -1218,7 +1218,7 @@ void CUITransactionDlg::ReceiveResultTradeFromServer(byte bResult, byte bType, i
 				// Erase my area too..
 				m_pMyTradeInv[CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceStart.iOrder] = nullptr;
 
-				// Delete my manager&#39;s item from the list with iOrder.
+				// Delete my manager's item from the list with iOrder.
 				RemoveChild(spItem->pUIIcon);
 
 				// Delete Icon Resource...

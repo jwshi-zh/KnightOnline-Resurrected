@@ -38,22 +38,22 @@ class CPortalVol : public CPvsBase
 	__VertexColor				m_pvVertex[8];
 	unsigned short				m_pIndex[36];
 
-// 로드에 필요한 중간 데이터..
+// Intermediate data required for loading..
 	std::list<int>				m_piIDList;
 //..
 
 	std::list<CPvsBase*>		m_pPvsList;
 
-//.. 컴파일 모드에서 필요한 거..
+//.. What you need in compile mode...
 	std::list<int>				m_pVisibleiIDList;
 
-//.. pvsMgr의 Tick에서 필요한 거..
+//.. What you need from pvsMgr's Tick...
 	e_ExtBool					m_eRenderType;
 
-//.. 컴파일 모드에서 Portal의 우선순위..	-1로 먼저 클리어 한다음.. 0 순위는 자기 자신..
+//.. Portal's priority in compile mode.. Clear first with -1.. 0 priority is yourself..
 	int							m_iPriority;
 
-//.. Shape 파일 이름..
+//.. Shape file name..
 	std::string						m_strShapeFile;
 	CN3Shape*					m_pShape;
 	__Matrix44						m_MtxShapeMove;	

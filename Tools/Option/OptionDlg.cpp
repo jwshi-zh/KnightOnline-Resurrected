@@ -66,7 +66,7 @@ COptionDlg::COptionDlg(CWnd* pParent /*=NULL*/)
 	// Note that LoadIcon does not require a subsequent DestroyIcon in Win32
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 
-	m_Option.InitDefault(); // 옵션 초기화
+	m_Option.InitDefault(); // Reset options
 }
 
 void COptionDlg::DoDataExchange(CDataExchange* pDX)
@@ -121,7 +121,7 @@ BOOL COptionDlg::OnInitDialog()
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 	
-	// 각종 컨트롤 초기화..
+	// Reset various controls.
 	m_SldViewDist.SetRange(256, 512);
 	m_SldEffectSoundDist.SetRange(20, 48);
 
@@ -134,7 +134,7 @@ BOOL COptionDlg::OnInitDialog()
 	iAdd = m_CB_ColorDepth.AddString("32 Bit");		m_CB_ColorDepth.SetItemData(iAdd, 32);
 
 
-	// 레지스트리에서 설치된 폴더를 읽어온다..
+	// Read the installed folder from the registry.
 	CString szProduct, szKey = "SOFTWARE\\";
 	szProduct.LoadString(IDS_PRODUCT);
 	szKey += szProduct;
@@ -146,30 +146,30 @@ BOOL COptionDlg::OnInitDialog()
 	DWORD dwType = REG_SZ; DWORD dwBytes = 0;
 	char szBuff[256] = "";
 
-	// 실행 파일 경로
+	// executable file path
 	dwType = REG_SZ; dwBytes = 256;
-	lStatus = RegQueryValueEx(hRegKey, "PATH", NULL, &dwType, (BYTE*)szBuff, &dwBytes); // 인스톨 경로
+	lStatus = RegQueryValueEx(hRegKey, "PATH", NULL, &dwType, (BYTE*)szBuff, &dwBytes); // installation path
 	if(ERROR_SUCCESS != lStatus) { CString szErr; szErr.LoadString(IDS_ERR_REGISTRY_READ_PATH); MessageBox(szErr); exit(-1); }
 	m_szInstalledPath = szBuff;
 
-	// 실행 파일 이름
+	// executable file name
 //	dwType = REG_SZ; dwBytes = 256;
-//	lStatus = RegQueryValueEx(hRegKey, "EXE", NULL, &dwType, (BYTE*)szBuff, &dwBytes); // 실행파일 이름
+//	lStatus = RegQueryValueEx(hRegKey, "EXE", NULL, &dwType, (BYTE*)szBuff, &dwBytes); // executable file name
 //	if(ERROR_SUCCESS != lStatus) { CString szErr; szErr.LoadString(IDS_ERR_REGISTRY_READ_EXE); MessageBox(szErr); exit(-1); }
 //	m_szExeName = szBuff;
 	m_szExeName = "Launcher.exe";
 
-	// Version 표시
+	// Display Version
 	DWORD dwVersion = 0;
 	dwType = REG_DWORD; dwBytes = 4;
-	lStatus = RegQueryValueEx(hRegKey, "VERSION", NULL, &dwType, (BYTE*)(&dwVersion), &dwBytes); // 버전
+	lStatus = RegQueryValueEx(hRegKey, "VERSION", NULL, &dwType, (BYTE*)(&dwVersion), &dwBytes); // version
 	if(ERROR_SUCCESS != lStatus) { CString szErr; szErr.LoadString(IDS_ERR_REGISTRY_READ_VERSION); MessageBox(szErr); exit(-1); }
 	SetDlgItemInt(IDC_E_VERSION, dwVersion);
 
 	RegCloseKey(hRegKey);
 	hRegKey = NULL;
 
-	// 세팅을 읽어온다..
+	// Read the settings...
 	this->SettingLoad(m_szInstalledPath + "\\Option.ini");
 	this->SettingUpdate();
 
@@ -234,8 +234,8 @@ void COptionDlg::OnOK()
 
 void COptionDlg::OnBApplyAndExecute() 
 {
-	CString szExeFN = m_szInstalledPath + "\\" + m_szExeName; // 실행 파일 이름 만들고..
-	ShellExecute(NULL, "open", szExeFN, "", m_szInstalledPath, SW_SHOWNORMAL); // 게임 실행..
+	CString szExeFN = m_szInstalledPath + "\\" + m_szExeName; // Create an executable file name.
+	ShellExecute(NULL, "open", szExeFN, "", m_szInstalledPath, SW_SHOWNORMAL); // running the game...
 
 	this->OnOK();
 }
@@ -399,9 +399,9 @@ void COptionDlg::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 void COptionDlg::OnBVersion() 
 {
 	CString szMsg; szMsg.LoadString(IDS_CONFIRM_WRITE_REGISRY);
-	if(IDNO == MessageBox(szMsg, "", MB_YESNO)) return; // 한번 물어본다..
+	if(IDNO == MessageBox(szMsg, "", MB_YESNO)) return; // I ask once...
 
-	// 레지스트리에서 설치된 폴더를 읽어온다..
+	// Read the installed folder from the registry.
 	CString szProduct, szKey = "SOFTWARE\\";
 	szProduct.LoadString(IDS_PRODUCT);
 	szKey += szProduct;
@@ -413,7 +413,7 @@ void COptionDlg::OnBVersion()
 	{
 		DWORD dwVersion = GetDlgItemInt(IDC_E_VERSION);
 		DWORD dwType = REG_DWORD, dwBytes = 4;
-		lStatus = RegSetValueEx(hRegKey, "VERSION", NULL, dwType, (BYTE*)(&dwVersion), 4); // 버전
+		lStatus = RegSetValueEx(hRegKey, "VERSION", NULL, dwType, (BYTE*)(&dwVersion), 4); // 踰꾩쟾
 		if(ERROR_SUCCESS != lStatus) { CString szErr; szErr.LoadString(IDS_ERR_REGISTRY_WRITE_VERSION); MessageBox(szErr); }
 
 		RegCloseKey(hRegKey);

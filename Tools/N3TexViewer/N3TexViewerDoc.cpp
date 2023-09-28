@@ -94,14 +94,14 @@ BOOL CN3TexViewerDoc::OnOpenDocument(LPCTSTR lpszPathName)
 	if (!CDocument::OnOpenDocument(lpszPathName))
 		return FALSE;
 
-	this->FindFiles(); // 파일을 찾고..
+	this->FindFiles(); // looking for a file...
 	
 	// TODO: Add your specialized creation code here
 	m_pTexAlpha->Release();
 	if(NULL == m_pTex->LoadFromFile(lpszPathName)) return FALSE;
 	
 	////////////////////////////////////////////////////////////////////////////////
-	// Alpha Texture 생성...
+	// Generate Alpha Texture...
 	m_pTexAlpha->Create(m_pTex->Width(), m_pTex->Height(), D3DFMT_A8R8G8B8, FALSE);
 	LPDIRECT3DSURFACE8 lpSurf, lpSurf2;
 	if(m_pTexAlpha->Get())
@@ -128,7 +128,7 @@ BOOL CN3TexViewerDoc::OnOpenDocument(LPCTSTR lpszPathName)
 		lpSurf->UnlockRect();
 		lpSurf->Release(); lpSurf = NULL;
 	}
-	// Alpha Texture 생성...
+	// Generate Alpha Texture...
 	////////////////////////////////////////////////////////////////////////////////
 
 	char szDrv[_MAX_DRIVE], szDir[_MAX_DIR], szFN[_MAX_FNAME], szExt[_MAX_EXT];
@@ -147,7 +147,7 @@ BOOL CN3TexViewerDoc::OnSaveDocument(LPCTSTR lpszPathName)
 	char szDrv[_MAX_DRIVE], szDir[_MAX_DIR], szFN[_MAX_FNAME], szExt[_MAX_EXT];
 	::_splitpath(lpszPathName, szDrv, szDir, szFN, szExt);
 
-	if(lstrcmpi(szExt, ".DXT") == 0) // 확장자가 DXT 면 그냥 저장..
+	if(lstrcmpi(szExt, ".DXT") == 0) // If the extension is DXT, just save it.
 	{
 		CDocument::OnSaveDocument(lpszPathName);
 
@@ -157,7 +157,7 @@ BOOL CN3TexViewerDoc::OnSaveDocument(LPCTSTR lpszPathName)
 	}
 	else 
 	{
-		MessageBox(::GetActiveWindow(), "확장자를 DXT 로 바꾸어야 합니다. Save As 로 저장해주세요.", "저장 실패", MB_OK);
+		MessageBox(::GetActiveWindow(), "You need to change the extension to DXT. Save with Save As.", "Failed to save", MB_OK);
 
 		return FALSE;
 	}

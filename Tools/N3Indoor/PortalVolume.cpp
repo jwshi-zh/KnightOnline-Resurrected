@@ -38,34 +38,34 @@ CPortalVolume::CPortalVolume()
 
 	unsigned short*		pIdx = m_pIndex;
 
-	// 아랫면.
+	// bottom side.
 	*pIdx++ = 0;  *pIdx++ = 1;  *pIdx++ = 3;
 	*pIdx++ = 2;  *pIdx++ = 3;  *pIdx++ = 1;
 
-	// 앞면..
+	// obverse..
 	*pIdx++ = 7;  *pIdx++ = 3;  *pIdx++ = 6;
 	*pIdx++ = 2;  *pIdx++ = 6;  *pIdx++ = 3;
 
-	// 왼쪽..
+	// left..
 	*pIdx++ = 4;  *pIdx++ = 0;  *pIdx++ = 7;
 	*pIdx++ = 3;  *pIdx++ = 7;  *pIdx++ = 0;
 
-	// 오른쪽..
+	// right..
 	*pIdx++ = 6;  *pIdx++ = 2;  *pIdx++ = 5;
 	*pIdx++ = 1;  *pIdx++ = 5;  *pIdx++ = 2;
 
-	// 뒷면..
+	// The back..
 	*pIdx++ = 5;  *pIdx++ = 1;  *pIdx++ = 4;
 	*pIdx++ = 0;  *pIdx++ = 4;  *pIdx++ = 1;
 
-	// 윗면..	
+	// top side..	
 	*pIdx++ = 4;  *pIdx++ = 7;  *pIdx++ = 5;
 	*pIdx++ = 6;  *pIdx++ = 5;  *pIdx++ = 7;
 
 	m_eState = STATE_NONE;
 
 	m_eRenderType = TYPE_UNKNOWN;
-	m_iPriority = -1;											//.. 컴파일 모드에서 Portal의 우선순위..	-1로 먼저 클리어 한다음.. 0 순위는 자기 자신..
+	m_iPriority = -1; // Portal's priority in compile mode.. Clear first with -1.. 0 priority is yourself..
 }
 
 CPortalVolume::~CPortalVolume()
@@ -560,7 +560,7 @@ void CPortalVolume::RenderCollisionEdit()
 		pSI->m_pShape->Tick(-1000);
 		pSI->m_pShape->m_bDontRender = false;
 
-		// 로딩할때 미리 계산해 놓은 월드 행렬 적용..
+		// Apply pre-calculated world matrix when loading..
 		__Matrix44 mtxBackup;
 		CN3Base::s_lpD3DDev->GetTransform(D3DTS_WORLD, &mtxBackup);
 		CN3Base::s_lpD3DDev->SetTransform(D3DTS_WORLD, &pSI->m_pShape->m_Matrix);
@@ -697,16 +697,16 @@ bool CPortalVolume::Load(HANDLE hFile, bool bGameData)
 {
 	CN3Transform::Load(hFile);
 
-	// 자신의 데이터 로드..
+	// Load your own data...
 	DWORD dwNum;
 	std::string strSrc;
 
-	// 링크된 갯수를 로드..
+	// Load the number of links..
 	int iLinkedCount = 0;
 
 	ReadFile(hFile, &iLinkedCount, sizeof(int), &dwNum, NULL);
 	
-	// 링크된 아이디 로드..
+	// Load Linked ID...
 	WVID wvid;
 	for( int i = 0; i < iLinkedCount; i++ )
 	{
@@ -717,7 +717,7 @@ bool CPortalVolume::Load(HANDLE hFile, bool bGameData)
 
 	CMainFrame* pFrm = (CMainFrame* )AfxGetMainWnd();
 
-	// 링크된 Shape 갯수 로드..
+	// Load the number of linked Shapes..
 	int iCount = 0; int iSize = 0;
 	ReadFile(hFile, &iCount, sizeof(int), &dwNum, NULL);
 	for (i = 0; i < iCount; i++)
@@ -725,11 +725,11 @@ bool CPortalVolume::Load(HANDLE hFile, bool bGameData)
 		ShapeInfo*	pSI = new ShapeInfo;
 		ReadFile(hFile, &pSI->m_iID, sizeof(int), &dwNum, NULL);
 		
-		// 문자열 길이..
+		// string length...
 		strSrc = CPVSManager::ReadDecryptString(hFile);
 		pSI->m_strShapeFile = strSrc;
 
-		// SourceList에서.. Shape의 Pointer를 연결한다..
+		// In SourceList.. Connect Pointer of Shape..
 		pSI->m_pShape = pFrm->m_pSceneSource->ShapeGetByFileName(strSrc);
 		ASSERT(pSI->m_pShape);
 
@@ -826,17 +826,13 @@ bool CPortalVolume::Save(HANDLE hFile, bool bGameData)
 	DWORD dwNum;
 	std::string strSrc;
 
-	// 자신의 아이디를 저장..
 	WriteFile(hFile, &m_iID, sizeof(int), &dwNum, NULL);
 
-	// 자신의 데이터 저장..
 	CN3Transform::Save(hFile);
 
-	// 링크된 갯수를 저장..
 	int iCount = m_VoltList.size();
 	WriteFile(hFile, &iCount, sizeof(int), &dwNum, NULL);
 
-	//링크된 아이디 저장..
 	WVOL wvol;
 	witer wit = m_VoltList.begin();
 	while (wit != m_VoltList.end())
@@ -846,7 +842,6 @@ bool CPortalVolume::Save(HANDLE hFile, bool bGameData)
 		WriteFile(hFile, &wvol.ePWT, sizeof(int), &dwNum, NULL);
 	}
 
-	// 링크된 Shape 갯수 저장..
 	iCount = m_plShapeInfoList.size();
 	WriteFile(hFile, &iCount, sizeof(int), &dwNum, NULL);
 
@@ -859,7 +854,6 @@ bool CPortalVolume::Save(HANDLE hFile, bool bGameData)
 
 		CPVSManager::WriteCryptographString(hFile, pSI->m_strShapeFile);
 
-		// Shape의 데이터 저장..
 		WriteFile(hFile, &pSI->m_iBelong, sizeof(int), &dwNum, NULL);	
 		WriteFile(hFile, &pSI->m_iEventID, sizeof(int), &dwNum, NULL);	
 		WriteFile(hFile, &pSI->m_iEventType, sizeof(int), &dwNum, NULL);	
@@ -884,7 +878,6 @@ void CPortalVolume::SaveGameData(HANDLE hFile)
 	int iCount = 0;
 	CPortalVolume* pVol = NULL;
 
-	// Visible Volume의 ID..
 	iCount = m_pVisiblePvsList.size();
 	WriteFile(hFile, &iCount, sizeof(int), &dwNum, NULL);
 
@@ -901,7 +894,6 @@ void CPortalVolume::SaveGameData(HANDLE hFile)
 	iCount = m_lpShapePartList.size(); 
 	WriteFile(hFile, &iCount, sizeof(int), &dwNum, NULL);
 
-	// Shape의 부분 정보..
 	ShapePart* pSP = NULL;
 	spiter spit = m_lpShapePartList.begin();
 	while( spit != m_lpShapePartList.end())
@@ -1318,7 +1310,7 @@ bool CPortalVolume::IntersectTriangle(const __Vector3& vOrig, const __Vector3& v
 
     // If determinant is near zero, ray lies in plane of triangle
     fDet = vEdge1.Dot(pVec);
-    if( fDet < 0.0001f )		// 거의 0에 가까우면 삼각형 평면과 지나가는 선이 평행하다.
+    if( fDet < 0.0001f )		// When it is close to 0, the triangular plane and the line passing through it are parallel.
         return false;
 
     // Calculate distance from vert0 to ray origin
@@ -1345,15 +1337,15 @@ bool CPortalVolume::IntersectTriangle(const __Vector3& vOrig, const __Vector3& v
     fU *= fInvDet;
     fV *= fInvDet;
 
-	// t가 클수록 멀리 직선과 평면과 만나는 점이 멀다.
-	// t*dir + orig 를 구하면 만나는 점을 구할 수 있다.
-	// u와 v의 의미는 무엇일까?
-	// 추측 : v0 (0,0), v1(1,0), v2(0,1) <괄호안은 (U, V)좌표> 이런식으로 어느 점에 가깝나 나타낸 것 같음
+	// The larger t is, the farther away the point where the straight line meets the plane.
+	// If you find t*dir + orig, you can find the intersection point.
+	// What does u and v mean?
+	// Guess: v0 (0,0), v1(1,0), v2(0,1) <(U, V) coordinates in parentheses> It seems to indicate which point it is close to in this way
 	//
 
-	if(pVCol) (*pVCol) = vOrig + (vDir * fT);	// 접점을 계산..
+	if(pVCol) (*pVCol) = vOrig + (vDir * fT);	// Calculate contact points..
 
-	// *t < 0 이면 뒤쪽...
+	// *If t < 0 then back...
 	if ( fT < 0.0f )
 		return false;
 

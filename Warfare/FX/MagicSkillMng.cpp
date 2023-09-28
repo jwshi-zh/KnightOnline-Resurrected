@@ -1076,8 +1076,8 @@ bool CMagicSkillMng::CheckValidCondition(int iTargetID, __TABLE_UPC_SKILL* pSkil
 //
 bool CMagicSkillMng::MsgSend_MagicProcess(int iTargetID, __TABLE_UPC_SKILL* pSkill)
 {
-	// if (m_fRecastTime &gt; 0.0f) return;//Recast time is not yet..^^
-	if(s_pPlayer->IsDead()) return false; // It&#39;s dead.. ^^
+	// if (m_fRecastTime > 0.0f) return;//Recast time is not yet..^^
+	if(s_pPlayer->IsDead()) return false; // It's dead.. ^^
 
 	// 
 	// Check if the condition to use the skill is met...
@@ -1097,7 +1097,7 @@ bool CMagicSkillMng::MsgSend_MagicProcess(int iTargetID, __TABLE_UPC_SKILL* pSki
 		
 	if(!pSkill) return false;
 	if(!CheckValidCondition(iTargetID, pSkill)) return false;
-	// TRACE("마법성공 state : %d time %.2f\n", s_pPlayer->State(), CN3Base::TimeGet());
+	// TRACE("magic success state : %d time %.2f\n", s_pPlayer->State(), CN3Base::TimeGet());
 	// End of the test to see if the conditions to use the skill are met...
 	// 
 	const __InfoPlayerBase* pInfoBase = &(s_pPlayer->m_InfoBase);
@@ -1438,7 +1438,7 @@ void CMagicSkillMng::StartSkillMagicAtTargetPacket(__TABLE_UPC_SKILL* pSkill, sh
 
 		// Changes the black color.
 		// D3DCOLOR crTrace = TraceColorGet(pSkill); // Depending on the type of skill, the color of the sword is determined.
-		// s_pPlayer-&gt;PlugTraceColorRemake(crTrace); // Apply black color..
+		// s_pPlayer->PlugTraceColorRemake(crTrace); // Apply black color..
 
 		s_pPlayer->RotateTo(pTarget);
 		s_pPlayer->m_iSkillStep = 1;
@@ -1567,7 +1567,7 @@ void CMagicSkillMng::StartSkillMagicAtTargetPacket(__TABLE_UPC_SKILL* pSkill, sh
 
 
 //
-// If I&#39;m casting, I need to process the casting, and also handle the flying effect..
+// If I'm casting, I need to process the casting, and also handle the flying effect..
 //
 void CMagicSkillMng::Tick()
 {
@@ -2122,7 +2122,7 @@ void CMagicSkillMng::MsgRecv_Effecting(DataPack* pDataPack, int& iOffset)
 	CGameProcedure::s_pFX->Stop(iSourceID, iSourceID, pSkill->iSelfFX1, -1, true);
 	CGameProcedure::s_pFX->Stop(iSourceID, iSourceID, pSkill->iSelfFX1, -2, true);
 
-	if(pSkill->dw1stTableType==1 || pSkill->dw2ndTableType==1)	// If you are type 1, it&#39;s just a skill.. There&#39;s also a combo.. You need to manage it a bit special..
+	if(pSkill->dw1stTableType==1 || pSkill->dw2ndTableType==1)	// If you are type 1, it's just a skill.. There's also a combo.. You need to manage it a bit special..
 	{
 		if(!EffectingType1(dwMagicID, iSourceID, iTargetID, Data)) return;
 	}
@@ -2191,7 +2191,7 @@ void CMagicSkillMng::MsgRecv_Fail(DataPack* pDataPack, int& iOffset)
 		if(iSourceID == s_pPlayer->IDNumber())
 		{
 			s_pPlayer->m_dwMagicID = 0xffffffff;
-			m_pGameProcMain->CommandSitDown(false, false); // If you&#39;re sitting down, raise me up.
+			m_pGameProcMain->CommandSitDown(false, false); // If you're sitting down, raise me up.
 
 			std::string buff;
 			::_LoadStringFromResource(IDS_MSG_FMT_TARGET_ATTACK_FAILED, buff);
@@ -2227,7 +2227,7 @@ void CMagicSkillMng::MsgRecv_Fail(DataPack* pDataPack, int& iOffset)
 		return;
 	}	
 
-	if(Data[3]==SKILLMAGIC_FAIL_CASTING)// It&#39;s a casting failure.
+	if(Data[3]==SKILLMAGIC_FAIL_CASTING)// It's a casting failure.
 	{
 		CGameProcedure::s_pFX->Stop(iSourceID, iSourceID, pSkill->iSelfFX1, -1, true);
 		CGameProcedure::s_pFX->Stop(iSourceID, iSourceID, pSkill->iSelfFX1, -2, true);
@@ -2345,7 +2345,7 @@ void CMagicSkillMng::MsgRecv_BuffType(DataPack* pDataPack, int& iOffset)
 	case BUFFTYPE_SPEED:
 		s_pPlayer->m_fMoveDelta /= m_fSpeed;
 		m_fSpeed = 1.0f;
-		// TRACE(&quot;Release sprint. MoveDelta = %f\n&quot;, s_pPlayer-&gt;m_fMoveDelta);
+		// TRACE("Release sprint. MoveDelta = %f\n", s_pPlayer->m_fMoveDelta);
 		break;
 	case BUFFTYPE_ABILITY:
 		pInfoExt->iStrength_Delta -= m_iStr;
@@ -2410,7 +2410,7 @@ void CMagicSkillMng::FlyingType2(__TABLE_UPC_SKILL* pSkill, int iSourceID, int i
 		auto vPlayerPos = pPlayer->Position();
 		CN3Base::s_SndMgr.PlayOnceAndRelease(ID_SOUND_SKILL_THROW_ARROW, &vPlayerPos);
 	}
-	else if(RightItem == (ITEM_CLASS_JAVELIN/10))// It&#39;s a javelin...pla
+	else if(RightItem == (ITEM_CLASS_JAVELIN/10))// It's a javelin...pla
 	{
 	}
 	
@@ -2531,7 +2531,7 @@ bool CMagicSkillMng::EffectingType1(DWORD dwMagicID, int iSourceID, int iTargetI
 					// Changes the black color.
 					// __TABLE_UPC_SKILL* pSkill = s_pTbl_Skill->Find(dwMagicID);
 					// D3DCOLOR crTrace = TraceColorGet(pSkill); // Depending on the type of skill, the color of the sword is determined.
-					// pPlayer-&gt;PlugTraceColorRemake(crTrace); // Apply black color..
+					// pPlayer->PlugTraceColorRemake(crTrace); // Apply black color..
 
 					pPlayer->RotateTo(pTarget);
 					pPlayer->m_iSkillStep = 1;
@@ -2553,7 +2553,7 @@ bool CMagicSkillMng::EffectingType1(DWORD dwMagicID, int iSourceID, int iTargetI
 	CPlayerBase* pTarget = m_pGameProcMain->CharacterGetByID(iTargetID, false);
 	if(pTarget)
 	{
-		if (iSourceID == s_pPlayer-&gt;IDNumber()) // When I use a skill...
+		if (iSourceID == s_pPlayer->IDNumber()) // When I use a skill...
 		{
 			__TABLE_UPC_SKILL_TYPE_1* pType1 = m_pTbl_Type_1->Find(dwMagicID);
 
@@ -2582,7 +2582,7 @@ bool CMagicSkillMng::EffectingType1(DWORD dwMagicID, int iSourceID, int iTargetI
 						CAPISocket::MP_AddShort(byBuff, iOffset, 0);
 						CAPISocket::MP_AddShort(byBuff, iOffset, 0);
 						
-						CGameProcedure::s_pSocket-&gt;Send(byBuff, iOffset); // send..
+						CGameProcedure::s_pSocket->Send(byBuff, iOffset); // send..
 						// m_iActionState[pData[0]-1] = -1;
 					}					
 				}
@@ -2601,10 +2601,10 @@ bool CMagicSkillMng::EffectingType1(DWORD dwMagicID, int iSourceID, int iTargetI
 					// Change the black color.
 					// __TABLE_UPC_SKILL* pSkill = s_pTbl_Skill->Find(dwMagicID);
 					// D3DCOLOR crTrace = TraceColorGet(pSkill); // Set the color of the sword according to the type of skill.
-					// pPlayer-&gt;PlugTraceColorRemake(crTrace); // Apply black color..
+					// pPlayer->PlugTraceColorRemake(crTrace); // Apply black color..
 
 					pPlayer->RotateTo(pTarget);
-					pPlayer-&gt;m_iSkillStep = 1;
+					pPlayer->m_iSkillStep = 1;
 
 					for(int i=0;i<pType1->iNumCombo;i++)
 					{
@@ -2874,13 +2874,13 @@ D3DCOLOR CMagicSkillMng::TraceColorGet(__TABLE_UPC_SKILL* pSkill) // Depending o
 	{
 		case 1: crTrace = 0xff808080; // ITEM_CLASS_DAGGER = 11 // dagger
 		case 2: crTrace = 0xff909090; // ITEM_CLASS_SWORD = 21, // onehandsword
-		// case : crTrace = ; // ITEM_CLASS_SWORD_2H = 22, // 3 : 양손검(twohandsword)
+		// case : crTrace = ; // ITEM_CLASS_SWORD_2H = 22, // 3 : (twohandsword)
 		case 3: crTrace = 0xff7070ff; // ITEM_CLASS_AXE = 31, // onehandaxe
-		// case : crTrace = ; // ITEM_CLASS_AXE_2H = 32, // 두손도끼(twohandaxe)
+		// case : crTrace = ; // ITEM_CLASS_AXE_2H = 32, // (twohandaxe)
 		case 4: crTrace = 0xffa07070; // ITEM_CLASS_MACE = 41, // Mace
 		// case: crTrace = ; // ITEM_CLASS_MACE_2H = 42, // Twohandmace
-		case 5: crTrace = 0xffff7070; // ITEM_CLASS_SPEAR = 51, // 창(spear)
-		// case : crTrace = ; // ITEM_CLASS_POLEARM = 52, // 한엔(polearm)
+		case 5: crTrace = 0xffff7070; // ITEM_CLASS_SPEAR = 51, // (spear)
+		// case : crTrace = ; // ITEM_CLASS_POLEARM = 52, // (polearm)
 		default: crTrace = 0xff4040ff;
 	}
 	
@@ -3017,7 +3017,7 @@ void CMagicSkillMng::StopCastingByRatio()
 			if(SuccessValue >= pSkill->iPercentSuccess) // Failure according to the probability shown in the skill table.
 			{
 				FailCast(pSkill);
-				// if( s_pPlayer-&gt;Action(PSA_BASIC, false, NULL, true); // Cancel casting, forcibly set as default action..
+				// if( s_pPlayer->Action(PSA_BASIC, false, NULL, true); // Cancel casting, forcibly set as default action..
 			}				
 		}
 	}

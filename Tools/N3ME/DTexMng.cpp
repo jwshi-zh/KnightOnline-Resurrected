@@ -360,7 +360,7 @@ void CDTexMng::SaveToFile(CString RealFileName)
 void CDTexMng::SaveGameTile()
 {
 	D3DFORMAT	Format;
-	int			Size = DTEX_SIZE / NUM_DTEXTILE;		//단위텍스쳐의 길이..
+	int			Size = DTEX_SIZE / NUM_DTEXTILE;		//The length of the unit texture..
 	D3DLOCKED_RECT d3dlr;
 
 	HANDLE hFile;

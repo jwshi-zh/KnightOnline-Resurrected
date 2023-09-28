@@ -14,31 +14,37 @@
 #include <afxtempl.h>
 #include "PondMesh.h"
 
-enum {PCM_NONE=0, PCM_SELECT=1, PCM_CREATE=2, PCM_SELECTING};
+enum
+{
+	PCM_NONE = 0,
+	PCM_SELECT = 1,
+	PCM_CREATE = 2,
+	PCM_SELECTING
+};
 
-//class CPondMesh;
+// class CPondMesh;
 class CMainFrame;
 class CDlgPondProperty;
 
 #include <list>
-typedef std::list<CPondMesh*>::iterator it_PondMesh;
-typedef std::list<__Vector3*>::iterator it_SelVtxBak;
+typedef std::list<CPondMesh *>::iterator it_PondMesh;
+typedef std::list<__Vector3 *>::iterator it_SelVtxBak;
 
-class CPondMng  : public CN3BaseFileAccess
+class CPondMng : public CN3BaseFileAccess
 {
 public:
-	CPondMng(CMainFrame* pMainFrm);
+	CPondMng(CMainFrame *pMainFrm);
 	virtual ~CPondMng();
 
 	struct __VertexPond
 	{
 	public:
-		float x,y,z;
-		float nx,ny,nz;
-		D3DCOLOR	color;
-		float u,v, u2,v2;
+		float x, y, z;
+		float nx, ny, nz;
+		D3DCOLOR color;
+		float u, v, u2, v2;
 
-		void Set(__VertexXyzT2& __Vtx,float snx, float sny, float snz,DWORD dwColor) 
+		void Set(__VertexXyzT2 &__Vtx, float snx, float sny, float snz, DWORD dwColor)
 		{
 			x = __Vtx.x, y = __Vtx.y, z = __Vtx.z;
 			u = __Vtx.tu, v = __Vtx.tv;
@@ -49,85 +55,86 @@ public:
 		}
 	};
 
-// Attributes
+	// Attributes
 public:
-	CPondMesh*	GetSelPond();
-	int			GetDrawPondNum() {return m_PondMeshes.size();}
-	it_PondMesh	GetDrawPond();
-	int GetPCursorMode() const {return m_PCursorMode;}
+	CPondMesh *GetSelPond();
+	int GetDrawPondNum() { return m_PondMeshes.size(); }
+	it_PondMesh GetDrawPond();
+	int GetPCursorMode() const { return m_PCursorMode; }
+
 protected:
-	std::list<CPondMesh*>			m_PondMeshes;				// Pond Mesh list
-	std::list<CPondMesh*>			m_pSelPonds;				// 선택된 PondMesh
-	CTypedPtrArray<CPtrArray, __VertexXyzT2*>	m_SelVtxArray;	// 선택된 점들
-	std::list<__Vector3*>			m_SelVtxBakArray;
-	CVtxPosDummy					m_VtxPosDummy;				// 점을 움직일수 있는 dummy object
-	BOOL							m_bEditMode;				// 연못물 편집모드인가?
-	BOOL							m_bChooseGroup;				// 연못물 그룹으로 편집하는가
-	BOOL							m_bChooseEditPond;			// 현재 쓰는 연못내에서만 편집할것인가
-	BOOL							m_bMovePond;				// 선택한 연못을 통째로 움직일 것인가
-	int								m_PCursorMode;				// 연못을 추가?하는 것인가 점을 선택하는 것인가?
+	std::list<CPondMesh *> m_PondMeshes;					  // Pond Mesh list
+	std::list<CPondMesh *> m_pSelPonds;						  // Selected PondMesh
+	CTypedPtrArray<CPtrArray, __VertexXyzT2 *> m_SelVtxArray; // selected points
+	std::list<__Vector3 *> m_SelVtxBakArray;
+	CVtxPosDummy m_VtxPosDummy; // dummy object that can move the point
+	BOOL m_bEditMode;			// Pond water editing mode?
+	BOOL m_bChooseGroup;		// edit to pond water group
+	BOOL m_bChooseEditPond;		// Whether to edit only within the current pond
+	BOOL m_bMovePond;			// Move the entire selected pond
+	int m_PCursorMode;			// Add a pond? Or pick a point?
 
-	CMainFrame*						m_pMainFrm;					// mainframe pointer
-	CDlgPondProperty*				m_pDlgProperty;				// property dialog
+	CMainFrame *m_pMainFrm;			  // mainframe pointer
+	CDlgPondProperty *m_pDlgProperty; // property dialog
 
-	RECT							m_rcSelDrag;				// 드래그 영역
-	__VertexXyzColor				m_CreateLine[5];			// 연못 처음 생성할때 보이는 선
+	RECT m_rcSelDrag;				  // drag area
+	__VertexXyzColor m_CreateLine[5]; // Lines visible when the pond is first created
 
-	__Vector3						m_vPondsCenter;				//	연못(들)의 중간점
+	__Vector3 m_vPondsCenter; // the midpoint of the pond(s)
 
-	BOOL							m_bShift;
+	BOOL m_bShift;
 
-// Operations
+	// Operations
 public:
-	void			Tick();
-	void			Render();
-	virtual void	Release();
-	virtual bool	Load(HANDLE hFile);
-	virtual bool	Save(HANDLE hFile);
+	void Tick();
+	void Render();
+	virtual void Release();
+	virtual bool Load(HANDLE hFile);
+	virtual bool Save(HANDLE hFile);
 
-	BOOL			MouseMsgFilter(LPMSG pMsg);								// Mouse 메세지 처리
-	void			MakeGameFiles(HANDLE hFile, float fSize);				// Game file로 저장
+	BOOL MouseMsgFilter(LPMSG pMsg);			   // Handle Mouse message
+	void MakeGameFiles(HANDLE hFile, float fSize); // save as game file
 
-	CPondMesh*		CreateNewPondMesh();									// 시작점과 끝난점(사각형)으로 새로운 연못을 추가한다.
-	
-	BOOL			SetPondID(CPondMesh* pPondMesh, int iPondID);			// 연못의 ID를 설정
-	void			SetEditMode(BOOL bEditMode);							// 연못 EditMode설정
-	CPondMesh*		GetPondMesh(int iPondID);								// PondMesh 얻기
+	CPondMesh *CreateNewPondMesh(); // Add a new pond with start and end points (rectangle).
 
-	void			MainInvalidate();	// 화면 강재로 다시 찍기
+	BOOL SetPondID(CPondMesh *pPondMesh, int iPondID); // set the ID of the pond
+	void SetEditMode(BOOL bEditMode);				   // set pond EditMode
+	CPondMesh *GetPondMesh(int iPondID);			   // get the PondMesh
 
-	//	CDlgPondProperty에서 쓰인 함수들
-	void			RemovePondMesh(int iPondID);							// 선택된 연못을 삭제한다.
-	void			GoPond(int iPondID);									// 선택된 연못으로 갑니다.
-	void			StationPond();											// 선택된 연못의 점들을 다시 배치
-	void			MovePond();												// 선택된 연못을 통째 옮기려 한다
+	void MainInvalidate(); // retake with screen force
 
-	BOOL			GetChooseGroup() {return m_bChooseGroup;}
-	BOOL			GetChooseEditPond() {return m_bChooseEditPond;}
-	void			ChooseGroupPond() {m_bChooseGroup^=1;}
-	void			ChooseEditPond() {m_bChooseEditPond^=1;}
+	// Functions used in CDlgPondProperty
+	void RemovePondMesh(int iPondID); // Delete the selected pond.
+	void GoPond(int iPondID);		  // Go to the selected pond.
+	void StationPond();				  // Reposition the points of the selected pond
+	void MovePond();				  // Attempt to move the entire selected pond
 
-	//	나중에 지울지도
-	void			ReCalcSelectedVertex();									// 지정된 스케일에 따라 다시 정렬
-	void			ReCalcUV();												// 선택된 연못의 UV좌표 다시 계산.
+	BOOL GetChooseGroup() { return m_bChooseGroup; }
+	BOOL GetChooseEditPond() { return m_bChooseEditPond; }
+	void ChooseGroupPond() { m_bChooseGroup ^= 1; }
+	void ChooseEditPond() { m_bChooseEditPond ^= 1; }
+
+	// may delete later
+	void ReCalcSelectedVertex(); // rearrange according to the specified scale
+	void ReCalcUV();			 // Recalculate the UV coordinates of the selected pond.
 protected:
-	void			SetSelPond(CPondMesh* pPondMesh,BOOL bChooseGroup = FALSE);					// PondMesh 선택하기
-	BOOL			SelectVtxByDragRect(RECT* pRect, BOOL bAdd,BOOL bSelectPond=FALSE);
-	void			ClearSelectRcAllPond();	// 모든 연못의 선택한 점들의 임시영역 초기화 하기
+	void SetSelPond(CPondMesh *pPondMesh, BOOL bChooseGroup = FALSE); // select PondMesh
+	BOOL SelectVtxByDragRect(RECT *pRect, BOOL bAdd, BOOL bSelectPond = FALSE);
+	void ClearSelectRcAllPond(); // Initialize the temporary area of the selected points of all ponds
 
-	void			SelPondRelease();
-	void			SelPondDelete(CPondMesh* pPondMesh);
-	void			SetSelPonds(CPondMesh* pPondMesh);
-	void			SetRotatePonds(float fMove);
+	void SelPondRelease();
+	void SelPondDelete(CPondMesh *pPondMesh);
+	void SetSelPonds(CPondMesh *pPondMesh);
+	void SetRotatePonds(float fMove);
 
-	void			SetVtxCenter();
+	void SetVtxCenter();
 
-	void			VtxBackupRelease();
-	void			SetVtxBackup();
-	void			ReSetVtxBackup();
+	void VtxBackupRelease();
+	void SetVtxBackup();
+	void ReSetVtxBackup();
 
-	void			ReSetDrawRect(__Vector3 vStrPos,__Vector3 vEndPos);	//	연못을 그리기위한 영역 재정리
-	void			InputDummyMovePos(__Vector3 vMovePos);	//	더미가 움직인 만큼 선택한 연못에 입력
+	void ReSetDrawRect(__Vector3 vStrPos, __Vector3 vEndPos); // rearrange the area to draw the pond
+	void InputDummyMovePos(__Vector3 vMovePos);				  // Input the selected pond as much as the dummy moves
 };
 
 #endif // !defined(AFX_PONDMNG_H__B71BF3BD_5F4F_4E5B_9F9F_B8BD45E2685B__INCLUDED_)

@@ -2687,7 +2687,7 @@ void CEbenezerDlg::SendAllUserInfo()
 		send_index = 0;
 		::ZeroMemory(send_buff, sizeof(send_buff));
 		SetByte(send_buff, AG_PARTY_INFO_ALL, send_index );
-		SetShort(send_buff, i, send_index );					// 파티 번호
+		SetShort(send_buff, i, send_index );					// party number
 		//if( i == pParty->wIndex )
 		for( int j=0; j<8; j++ ) {
 			SetShort(send_buff, pParty->uid[j], send_index );
@@ -2752,7 +2752,7 @@ void CEbenezerDlg::DeleteAllNpcList(int flag)
 	if(m_bServerCheckFlag == FALSE)	return;
 	if(m_bPointCheckFlag == TRUE)	{
 		m_bPointCheckFlag = FALSE;
-		TRACE("*** Point 참조 하면 안되여 *** \n");
+		TRACE("*** Point should not be referenced *** \n");
 		return;
 	}
 

@@ -36,7 +36,7 @@ protected:
 public:
 	void	SetTexture(LPCTSTR pszFileName);
 	BOOL	GetSelectedUVRect(struct __FLOAT_RECT* pFRect) const;
-	void	SetSelectedUVRect(const struct __FLOAT_RECT* pFRect);
+	void	SetSelectedUVRect(const struct __FLOAT_RECT* pFRect);	// Put the currently selected UV coordinates
 	CRect	GetSelectedRect() const;
 	void	SetImageTypes(int iCount, char** pszNames);
 	CRect	GetImageRect(int iIndex, __FLOAT_RECT* pUVRect = NULL);

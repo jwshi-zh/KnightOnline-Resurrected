@@ -108,6 +108,6 @@ void CDlgFormat::OnOK()
 	}
 	else
 	{
-		MessageBox("잘못된 포맷이거나 텍스처의 크기가 2의 승수가 아닙니다.");
+		MessageBox("Wrong format or texture size is not a power of 2.");
 	}
 }

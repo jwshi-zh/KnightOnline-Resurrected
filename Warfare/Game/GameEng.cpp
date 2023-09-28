@@ -257,7 +257,7 @@ void CGameEng::Tick(const D3DCOLOR* crDiffuses,			// Diffuse light color.. Write
 		CN3Light* pLight = *itLgt;
 		__ASSERT(pLight, "Light pointer is NULL!!!");
 		
-		if(0 == pLight-&gt;m_Data.nNumber) // default directional light
+		if(0 == pLight->m_Data.nNumber) // default directional light
 		{
 			// Align View Matrix angle and direction.
 			// __Vector3 vDir(0.0f,-1.5f,1.0f);
@@ -291,7 +291,7 @@ void CGameEng::Tick(const D3DCOLOR* crDiffuses,			// Diffuse light color.. Write
 		{
 			__Vector3 vPos = s_CameraData.vEye;
 			vPos.y += 16.0f;
-			pLight-&gt;PosSet(vPos); // let it go on top of the camera..
+			pLight->PosSet(vPos); // let it go on top of the camera..
 			
 			// Apply light color..
 			pLight->m_Data.Diffuse = ::_D3DCOLOR_To_D3DCOLORVALUE(crDiffuses[2]);
@@ -383,7 +383,7 @@ void CGameEng::Tick(const D3DCOLOR* crDiffuses,			// Diffuse light color.. Write
 	{
 		__Vector3 vPos = s_CameraData.vEye;
 		vPos.y += 16.0f;
-		m_pRefLightCam->PosSet(vPos); // Let&#39;s go over the camera.
+		m_pRefLightCam->PosSet(vPos); // Let's go over the camera.
 		
 		// Apply light color..
 		m_pRefLightCam->m_Data.Diffuse = ::_D3DCOLOR_To_D3DCOLORVALUE(crDiffuses[2]);

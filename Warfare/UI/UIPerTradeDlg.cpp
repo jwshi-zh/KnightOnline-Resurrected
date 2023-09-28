@@ -73,7 +73,7 @@ void CUIPerTradeDlg::Release()
 
 void CUIPerTradeDlg::Render()
 {
-	if (!m_bVisible) return;	// If not visible, don&#39;t render the children.
+	if (!m_bVisible) return;	// If not visible, don't render the children.
 	const POINT ptCur = CGameProcedure::s_pLocalInput->MouseGetPos();
 	m_pUITooltipDlg->DisplayTooltipsDisable();
 
@@ -425,7 +425,7 @@ void CUIPerTradeDlg::ItemCountOK()
 		// Delete it from your inventory.
 		m_pPerTradeInv[CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceStart.iOrder] = nullptr;
 
-		// Delete my manager&#39;s item from the list with iOrder.
+		// Delete my manager's item from the list with iOrder.
 		RemoveChild(spItem->pUIIcon);
 
 		// Delete Icon Resource...
@@ -463,7 +463,7 @@ void CUIPerTradeDlg::ItemCountCancel()
 				// Delete it from your inventory.
 				m_pPerTradeMy[i] = nullptr;
 
-				// Delete my manager&#39;s item from the list with iOrder.
+				// Delete my manager's item from the list with iOrder.
 				RemoveChild(spItem->pUIIcon);
 
 				// Delete Icon Resource...
@@ -512,13 +512,13 @@ bool CUIPerTradeDlg::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 	e_UIWND_DISTRICT eUIWnd = UIWND_DISTRICT_UNKNOWN;
 	if (!m_bVisible) return false;
 
-	// If it&#39;s not the icon I had...
+	// If it's not the icon I had...
 	if (CN3UIWndBase::m_sSelectedIconInfo.UIWndSelect.UIWnd != m_eUIWnd)
 		FAIL_RETURN
 	if (CN3UIWndBase::m_sSelectedIconInfo.UIWndSelect.UIWndDistrict != UIWND_DISTRICT_PER_TRADE_INV)
 		FAIL_RETURN
 
-	// If it&#39;s an icon I had... it checks if it&#39;s an npc area.
+	// If it's an icon I had... it checks if it's an npc area.
 	int i, iDestiOrder = -1; 
 	bool bFound = false;
 
@@ -549,7 +549,7 @@ bool CUIPerTradeDlg::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 	if( (CN3UIWndBase::m_sRecoveryJobInfo.pItemSource->pItemBasic->byContable == UIITEM_TYPE_COUNTABLE) || 
 		(CN3UIWndBase::m_sRecoveryJobInfo.pItemSource->pItemBasic->byContable == UIITEM_TYPE_COUNTABLE_SMALL) )
 	{
-		// If it&#39;s an item like a bow or potion...
+		// If it's an item like a bow or potion...
 		// Find out if there is an icon in the face down slot.
 		int i = 0;
 
@@ -566,7 +566,7 @@ bool CUIPerTradeDlg::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 			}
 		}
 
-		// If you can&#39;t find it...
+		// If you can't find it...
 		if ( !bFound )
 		{
 			// Go find an empty slot.
@@ -580,7 +580,7 @@ bool CUIPerTradeDlg::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 				}
 			}
 
-			if ( !bFound )	// If you can&#39;t find an empty slot...
+			if ( !bFound )	// If you can't find an empty slot...
 			{
 				CN3UIWndBase::m_sRecoveryJobInfo.m_bWaitFromServer  = false;
 				CN3UIWndBase::m_sRecoveryJobInfo.pItemSource		= nullptr;
@@ -619,7 +619,7 @@ bool CUIPerTradeDlg::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 			if ( pArea )
 			{
 				spItemNew->pUIIcon->SetRegion(pArea->GetRegion());
-				// can&#39;t move...
+				// can't move...
 				const RECT rect = { 0, 0, 0, 0 };
 				spItemNew->pUIIcon->SetMoveRect(rect);
 			}
@@ -629,7 +629,7 @@ bool CUIPerTradeDlg::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 
 		m_iBackupiOrder[i] = CN3UIWndBase::m_sSelectedIconInfo.UIWndSelect.iOrder;
 
-		// If it&#39;s an item like a bow or potion...
+		// If it's an item like a bow or potion...
 		CN3UIWndBase::m_sRecoveryJobInfo.m_bWaitFromServer			= false;
 		CN3UIWndBase::m_pCountableItemEdit->Open(UIWND_PER_TRADE, UIWND_DISTRICT_PER_TRADE_MY, false);
 		FAIL_RETURN
@@ -649,7 +649,7 @@ bool CUIPerTradeDlg::ReceiveIconDrop(__IconItemSkill* spItem, POINT ptCur)
 		if ( !bFound )	
 		{
 			CN3UIWndBase::m_sRecoveryJobInfo.m_bWaitFromServer			= false;
-			FAIL_RETURN	// I couldn&#39;t find it, so I failed...
+			FAIL_RETURN	// I couldn't find it, so I failed...
 		}
 
 		CN3UIWndBase::m_sRecoveryJobInfo.UIWndSourceEnd.iOrder				= i;
