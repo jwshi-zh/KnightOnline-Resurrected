@@ -346,6 +346,9 @@
     <ClInclude Include="StringIds.h">
       <Filter>Base</Filter>
     </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Warfare.rc">

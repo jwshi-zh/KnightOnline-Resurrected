@@ -8,6 +8,7 @@
 #include "UIMessageBox.h"
 #include "UIMessageBoxManager.h"
 #include "UIManager.h"
+#include "..\resource.h"
 
 #include "N3FXMgr.h"
 #include "PlayerMyself.h"

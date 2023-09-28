@@ -95,7 +95,7 @@ BOOL CDBProcess::LoadVersionList()
 		if( DisplayErrorMsg(hstmt) == -1 ) {
 			m_VersionDB.Close();
 			if( !m_VersionDB.IsOpen() ) {
-				ReConnectODBC( &m_VersionDB, m_pMain->m_ODBCName, m_pMain->m_ODBCLogin, m_pMain->m_ODBCPwd );
+				ReConnectODBC( &m_VersionDB, m_pMain->m_ODBCDatabase, m_pMain->m_ODBCLogin, m_pMain->m_ODBCPwd );
 				return FALSE;
 			}
 		}
@@ -164,7 +164,7 @@ int CDBProcess::AccountLogin(const char *id, const char *pwd)
 				if( DisplayErrorMsg(hstmt) == -1 ) {
 					m_VersionDB.Close();
 					if( !m_VersionDB.IsOpen() ) {
-						ReConnectODBC( &m_VersionDB, m_pMain->m_ODBCName, m_pMain->m_ODBCLogin, m_pMain->m_ODBCPwd );
+						ReConnectODBC( &m_VersionDB, m_pMain->m_ODBCDatabase, m_pMain->m_ODBCLogin, m_pMain->m_ODBCPwd );
 						return 2;
 					}
 				}
@@ -199,7 +199,7 @@ int CDBProcess::MgameLogin(const char *id, const char *pwd)
 				if( DisplayErrorMsg(hstmt) == -1 ) {
 					m_VersionDB.Close();
 					if( !m_VersionDB.IsOpen() ) {
-						ReConnectODBC( &m_VersionDB, m_pMain->m_ODBCName, m_pMain->m_ODBCLogin, m_pMain->m_ODBCPwd );
+						ReConnectODBC( &m_VersionDB, m_pMain->m_ODBCDatabase, m_pMain->m_ODBCLogin, m_pMain->m_ODBCPwd );
 						return 2;
 					}
 				}
@@ -285,7 +285,7 @@ BOOL CDBProcess::LoadUserCountList()
 		if( DisplayErrorMsg(hstmt) == -1 ) {
 			m_VersionDB.Close();
 			if( !m_VersionDB.IsOpen() ) {
-				ReConnectODBC( &m_VersionDB, m_pMain->m_ODBCName, m_pMain->m_ODBCLogin, m_pMain->m_ODBCPwd );
+				ReConnectODBC( &m_VersionDB, m_pMain->m_ODBCDatabase, m_pMain->m_ODBCLogin, m_pMain->m_ODBCPwd );
 				return FALSE;
 			}
 		}
@@ -346,7 +346,7 @@ BOOL CDBProcess::IsCurrentUser(const char *accountid, char* strServerIP, int &se
 		if( DisplayErrorMsg(hstmt) == -1 ) {
 			m_VersionDB.Close();
 			if( !m_VersionDB.IsOpen() ) {
-				ReConnectODBC( &m_VersionDB, m_pMain->m_ODBCName, m_pMain->m_ODBCLogin, m_pMain->m_ODBCPwd );
+				ReConnectODBC( &m_VersionDB, m_pMain->m_ODBCDatabase, m_pMain->m_ODBCLogin, m_pMain->m_ODBCPwd );
 				return FALSE;
 			}
 		}

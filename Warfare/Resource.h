@@ -11,13 +11,13 @@
 #define IDI_WARFARE                     107
 #define IDC_WARFARE                     109
 #define IDR_MAINFRAME                   128
-#define IDC_CURSOR1                     137
-#define IDC_CURSOR2                     138
-#define IDC_CURSOR3                     139
-#define IDC_CURSOR4                     140
-#define IDC_CURSOR5                     141
-#define IDC_CURSOR6                     142
-#define IDC_CURSOR7                     143
+#define IDC_CURSOR_ATTACK               137
+#define IDC_CURSOR_CLICK                138
+#define IDC_CURSOR_CLICK1               139
+#define IDC_CURSOR_NORMAL               140
+#define IDC_CURSOR_NORMAL1              141
+#define IDC_CURSOR_PRE_REPAIR           142
+#define IDC_CURSOR_NOW_REPAIR           143
 #define IDC_STATIC                      -1
 
 // Next default values for new objects

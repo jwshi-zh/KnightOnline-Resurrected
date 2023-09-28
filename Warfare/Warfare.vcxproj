@@ -140,6 +140,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -237,6 +238,7 @@
     <ClInclude Include="Procs\GameProcOption.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="StringIds.h" />
+    <ClInclude Include="targetver.h" />
     <ClInclude Include="UI\CountableItemEditDlg.h" />
     <ClInclude Include="UI\N3UIDBCLButton.h" />
     <ClInclude Include="UI\N3UIIcon.h" />

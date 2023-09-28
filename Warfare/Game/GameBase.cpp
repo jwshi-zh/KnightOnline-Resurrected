@@ -55,7 +55,7 @@ void CGameBase::StaticMemberInit()
 
 	std::string szFN;
 	szFN = "Data\\Zones.tbl";				s_pTbl_Zones->LoadFromFile(szFN.c_str());		// Table for Zone Information
-	szFN = "Data\\UIs" + szLangTail;		s_pTbl_UI->LoadFromFile(szFN.c_str());			// UI Resource File Table loading
+	szFN = "Data\\UIs.tbl";					s_pTbl_UI->LoadFromFile(szFN.c_str());			// UI Resource File Table loading
 	szFN = "Data\\UPC_DefaultLooks.tbl";	s_pTbl_UPC_Looks->LoadFromFile(szFN.c_str());	// NPC Resource Table loading, which is the basic appearance of players
 	szFN = "Data\\Item_Org" + szLangTail;	s_pTbl_Items_Basic->LoadFromFile(szFN.c_str());	// Item Resource Table loading
 
