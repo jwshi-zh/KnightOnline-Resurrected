@@ -49,29 +49,25 @@ void CGameBase::StaticMemberInit()
 	s_pTbl_QuestMenu		= new CN3TableBase<__TABLE_QUEST_MENU>;
 	s_pTbl_QuestTalk		= new CN3TableBase<__TABLE_QUEST_TALK>;
 
-	std::string szLangTail = ".tbl";
-	const int iLangID = ::GetUserDefaultLangID();
-	if(0x0404 == iLangID) szLangTail = "_TW.tbl"; // Taiwan Language
-
 	std::string szFN;
 	szFN = "Data\\Zones.tbl";				s_pTbl_Zones->LoadFromFile(szFN.c_str());		// Table for Zone Information
 	szFN = "Data\\UIs.tbl";					s_pTbl_UI->LoadFromFile(szFN.c_str());			// UI Resource File Table loading
 	szFN = "Data\\UPC_DefaultLooks.tbl";	s_pTbl_UPC_Looks->LoadFromFile(szFN.c_str());	// NPC Resource Table loading, which is the basic appearance of players
-	szFN = "Data\\Item_Org" + szLangTail;	s_pTbl_Items_Basic->LoadFromFile(szFN.c_str());	// Item Resource Table loading
+	szFN = "Data\\Item_Org.tbl";			s_pTbl_Items_Basic->LoadFromFile(szFN.c_str());	// Item Resource Table loading
 
-	szFN = "Data\\Quest_Menu" + szLangTail;	s_pTbl_QuestMenu->LoadFromFile(szFN.c_str());	// Quest related menu
-	szFN = "Data\\Quest_Talk" + szLangTail;	s_pTbl_QuestTalk->LoadFromFile(szFN.c_str());	// Quest-related passages
+	szFN = "Data\\Quest_Menu.tbl";			s_pTbl_QuestMenu->LoadFromFile(szFN.c_str());	// Quest related menu
+	szFN = "Data\\Quest_Talk.tbl";			s_pTbl_QuestTalk->LoadFromFile(szFN.c_str());	// Quest-related passages
 
 	for(auto i = 0; i < MAX_ITEM_EXTENSION; i++)
 	{
 		char szFNTmp[256] = "";
-		sprintf(szFNTmp, "Data\\Item_Ext_%d", i);
-		szFN = szFNTmp + szLangTail;
+		sprintf(szFNTmp, "Data\\Item_Ext_%d.tbl", i);
+		szFN = szFNTmp;
 		s_pTbl_Items_Exts[i]->LoadFromFile(szFN.c_str());
 	}
 
 	szFN = "Data\\NPC_Looks.tbl";					s_pTbl_NPC_Looks->LoadFromFile(szFN.c_str());		// NPC Resource Table loading
-	szFN = "Data\\skill_magic_main" + szLangTail;	s_pTbl_Skill->LoadFromFile(szFN.c_str());			// Table for skill information
+	szFN = "Data\\skill_magic_main.tbl";			s_pTbl_Skill->LoadFromFile(szFN.c_str());			// Table for skill information
 	szFN = "Data\\Exchange_Quest.tbl";				s_pTbl_Exchange_Quest->LoadFromFile(szFN.c_str());	// A table about exchange quests..
 	szFN = "Data\\fx.tbl";							s_pTbl_FXSource->LoadFromFile(szFN.c_str());
 
