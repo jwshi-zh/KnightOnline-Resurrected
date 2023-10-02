@@ -38,7 +38,10 @@ CN3Eng::CN3Eng()
 	}
 
 #ifdef _N3GAME
-	CLogWriter::Open("Log.txt");
+	char szLogPath[_MAX_PATH] = "";
+	lstrcpy(szLogPath, CN3Base::PathGet().c_str());
+	lstrcat(szLogPath, "Log.txt");
+	CLogWriter::Open(szLogPath);
 #endif
 }
 
