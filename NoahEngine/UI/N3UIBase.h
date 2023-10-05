@@ -86,6 +86,7 @@ public:
 	static CN3UIEdit*	GetFocusedEdit() {return s_pFocusedEdit;}
 	static CN3UITooltip*	GetTooltipCtrl() {return s_pTooltipCtrl;}
 	DWORD			GetStyle()	{return m_dwStyle;}
+	void			CenterInScreen();
 
 	void			SetUIType(eUI_TYPE eUIType) { m_eType = eUIType; }	// by ecli666 It's annoying to add functions to the tool.. ^^
 // Operations

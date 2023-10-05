@@ -176,6 +176,12 @@ BOOL CN3UIBase::MoveOffset(int iOffsetX, int iOffsetY)
 	return TRUE;
 }
 
+void CN3UIBase::CenterInScreen()
+{
+	RECT rc = GetRegion();
+	SetPos((CN3Base::s_CameraData.vp.Width - (rc.right - rc.left)) / 2, (CN3Base::s_CameraData.vp.Height - (rc.bottom - rc.top)) / 2);
+}
+
 // true if the point (x,y) is in the domain..
 bool CN3UIBase::IsIn(int x, int y) const
 {
