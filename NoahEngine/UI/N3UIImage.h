@@ -25,7 +25,7 @@ protected:
 
 	float					m_fAnimFrame;	// Number of images drawn per second
 	int						m_iAnimCount;	// The number of images to be animated (determined by the number of children when loading)
-	int						m_fCurAnimFrame;	// Animate frame index to be drawn currently (throw away the decimal and use it)
+	float					m_fCurAnimFrame;	// Animate frame index to be drawn currently (throw away the decimal and use it)
 	CN3UIImage**			m_pAnimImagesRef;	// Reference pointers to child images to be animated
 
 // Operations
