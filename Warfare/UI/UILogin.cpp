@@ -20,13 +20,13 @@ CUILogIn::CUILogIn()
 	m_pBtn_Option = nullptr;
 
 	m_pGroup_ServerList = nullptr;
+	m_pGroup_Notice1 = nullptr;
+	m_pGroup_Notice2 = nullptr;
+	m_pGroup_Notice3 = nullptr;
 	m_pGroup_LogIn = nullptr;
 	
 	m_pList_Server = nullptr;
 	
-	m_bOpenningNow = false; // Swipe from top to bottom...if you have to open it...
-	m_fMoveDelta = 0;
-
 	m_bLogIn = false;
 }
 
@@ -85,15 +85,48 @@ bool CUILogIn::Load(HANDLE hFile)
 {
 	if(CN3UIBase::Load(hFile)==false) return false;
 
-	m_pGroup_LogIn = GetChildByID("Group_LogIn");				__ASSERT(m_pGroup_LogIn, "NULL UI Component!!");
-	if(m_pGroup_LogIn)
-	{
-		m_pBtn_LogIn = (CN3UIButton*)m_pGroup_LogIn->GetChildByID("Btn_Login");		__ASSERT(m_pBtn_LogIn, "NULL UI Component!!");
-		m_pBtn_Cancel = (CN3UIButton*)m_pGroup_LogIn->GetChildByID("Btn_Cancel");	__ASSERT(m_pBtn_Cancel, "NULL UI Component!!");
-		m_pBtn_Option = (CN3UIButton*)m_pGroup_LogIn->GetChildByID("Btn_Option");	__ASSERT(m_pBtn_Option, "NULL UI Component!!");
+	m_pGroup_LogIn = GetChildByID("Group_LogIn"); __ASSERT(m_pGroup_LogIn, "NULL UI Component!!");
+	m_pGroup_Notice1 = GetChildByID("Group_Notice_1"); __ASSERT(m_pGroup_Notice1, "NULL UI Component!!");
+	m_pGroup_Notice2 = GetChildByID("Group_Notice_2"); __ASSERT(m_pGroup_Notice2, "NULL UI Component!!");
+	m_pGroup_Notice3 = GetChildByID("Group_Notice_3"); __ASSERT(m_pGroup_Notice3, "NULL UI Component!!");
+	m_pGroup_ServerList = GetChildByID("Group_ServerList_01"); __ASSERT(m_pGroup_ServerList, "NULL UI Component!!");
+
+	if (m_pGroup_LogIn) {
+		m_pGroup_LogIn->CenterInScreen();
+
+		m_pBtn_LogIn = (CN3UIButton*)m_pGroup_LogIn->GetChildByID("btn_ok");		__ASSERT(m_pBtn_LogIn, "NULL UI Component!!");
+		m_pBtn_Cancel = (CN3UIButton*)m_pGroup_LogIn->GetChildByID("btn_cancel");	__ASSERT(m_pBtn_Cancel, "NULL UI Component!!");
+		m_pBtn_Option = (CN3UIButton*)m_pGroup_LogIn->GetChildByID("btn_option");	__ASSERT(m_pBtn_Option, "NULL UI Component!!");
+		m_pBtn_Homepage = (CN3UIButton*)m_pGroup_LogIn->GetChildByID("btn_homepage");	__ASSERT(m_pBtn_Homepage, "NULL UI Component!!");
 
 		m_pEdit_id = (CN3UIEdit*)m_pGroup_LogIn->GetChildByID("Edit_ID");			__ASSERT(m_pEdit_id, "NULL UI Component!!");
 		m_pEdit_pw = (CN3UIEdit*)m_pGroup_LogIn->GetChildByID("Edit_PW");			__ASSERT(m_pEdit_pw, "NULL UI Component!!");
+	}
+
+	if (m_pGroup_Notice1) {
+		m_pGroup_Notice1->CenterInScreen();
+		m_pGroup_Notice1->SetVisible(false);
+	}
+
+	if (m_pGroup_Notice2) {
+		m_pGroup_Notice2->CenterInScreen();
+		m_pGroup_Notice2->SetVisible(false);
+	}
+
+	if (m_pGroup_Notice3) {
+		m_pGroup_Notice3->CenterInScreen();
+		m_pGroup_Notice3->SetVisible(false);
+	}
+
+	if (m_pGroup_ServerList) {
+		m_pGroup_ServerList->CenterInScreen();
+		m_pGroup_ServerList->SetVisible(false);
+	}
+
+	/*
+	m_pGroup_LogIn = GetChildByID("Group_LogIn");				__ASSERT(m_pGroup_LogIn, "NULL UI Component!!");
+	if(m_pGroup_LogIn)
+	{
 	}
 
 	m_pGroup_ServerList = GetChildByID("Group_ServerList");		__ASSERT(m_pGroup_ServerList, "NULL UI Component!!");
@@ -104,6 +137,7 @@ bool CUILogIn::Load(HANDLE hFile)
 
 		m_pGroup_ServerList->SetVisible(false);
 	}
+	*/
 
 	return true;
 }
@@ -201,47 +235,11 @@ void CUILogIn::ServerInfoUpdate()
 	}
 }
 
-void CUILogIn::Tick()
-{
-	CN3UIBase::Tick();
-
-	if(m_pGroup_ServerList)
-	{
-		if(m_bOpenningNow) // Swipe from top to bottom...if you have to open it...
-		{
-			POINT ptCur = m_pGroup_ServerList->GetPos();
-			const RECT rc = m_pGroup_ServerList->GetRegion();
-			const auto fHeight = (float)(rc.bottom - rc.top);
-
-			float fDelta = 5000.0f * CN3Base::s_fSecPerFrm;
-			fDelta *= (fHeight - m_fMoveDelta) / fHeight;
-			if(fDelta < 2.0f) fDelta = 2.0f;
-			m_fMoveDelta += fDelta;
-
-			const int iYLimit = 0;
-			ptCur.y = (int)(m_fMoveDelta - fHeight);
-			if(ptCur.y >= iYLimit) // It's all open!!
-			{
-				ptCur.y = iYLimit;
-				m_bOpenningNow = false;
-			}
-
-			m_pGroup_ServerList->SetPos(ptCur.x, ptCur.y);
-		}
-	}
-}
-
 void CUILogIn::OpenServerList()
 {
-	if(m_bOpenningNow || nullptr == m_pGroup_ServerList) return;
+	if(nullptr == m_pGroup_ServerList) return;
 
-	// It's open!!
 	m_pGroup_ServerList->SetVisible(true);
-	const RECT rc = m_pGroup_ServerList->GetRegion();
-	m_pGroup_ServerList->SetPos(0, -(rc.bottom - rc.top));
-	
-	m_fMoveDelta = 0;
-	m_bOpenningNow = true;
 }
 
 void CUILogIn::SetVisibleLogInUIs(bool bEnable)
@@ -258,13 +256,9 @@ bool CUILogIn::OnKeyPress(int iKey)
 		case DIK_TAB:
 			FocusCircular();
 			return true;
-		// case DIK_NUMPADENTER:
-		// case DIK_RETURN:
-			// CGameProcedure::s_pProcLogIn->MsgSend_AccountLogIn(LIC_KNIGHTONLINE);
-			// return true;
 		}
 	}
-	else if(!m_bOpenningNow && m_pGroup_ServerList && m_pGroup_ServerList->IsVisible())
+	else if(m_pGroup_ServerList && m_pGroup_ServerList->IsVisible())
 	{
 		switch(iKey)
 		{

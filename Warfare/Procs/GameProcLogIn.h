@@ -5,12 +5,7 @@
 class CGameProcLogIn : public CGameProcedure
 {
 public:
-	class CN3Chr*		m_pChr;
-	class CN3Texture*	m_pTexBkg;
 	class CUILogIn*		m_pUILogIn;
-
-	class CN3Camera*	m_pCamera;
-	class CN3Light*		m_pLights[3];
 
 	bool m_bLogIn; // Avoid duplicate logins..
 

@@ -34,26 +34,25 @@ protected:
 	CN3UIButton* m_pBtn_Connect;
 	CN3UIButton* m_pBtn_Cancel;
 	CN3UIButton* m_pBtn_Option;
+	CN3UIButton* m_pBtn_Homepage;
 
 	CN3UIBase*	m_pGroup_ServerList;
-	CN3UIBase*	m_pGroup_LogIn;
+	CN3UIBase* m_pGroup_LogIn;
+	CN3UIBase* m_pGroup_Notice1;
+	CN3UIBase* m_pGroup_Notice2;
+	CN3UIBase* m_pGroup_Notice3;
 
 	CN3UIList*	m_pList_Server;
 	
 	std::vector<__GameServerInfo> m_ListServerInfos;
 
-	bool	m_bOpenningNow; // Swipe from top to bottom...if you have to open it...
-	float 	m_fMoveDelta;
 	bool	m_bLogIn; // Avoid duplicate logins..
-
-
 
 public:
 	void SetRequestedLogIn(bool bLogIn) { m_bLogIn = bLogIn; }
 	bool OnKeyPress(int iKey);
 	void SetVisibleLogInUIs(bool bEnable); // Hide UIs required for account LogIn.
 	void OpenServerList();
-	void Tick();
 
 	void InitEditControls();
 	void FocusCircular();
