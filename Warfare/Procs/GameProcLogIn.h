@@ -14,6 +14,7 @@ public:
 	void	MsgRecv_AccountLogIn(int iCmd, DataPack* pDataPack, int& iOffset);
 	int		MsgRecv_VersionCheck(DataPack* pDataPack, int& iOffset); // virtual
 	int		MsgRecv_GameServerLogIn(DataPack* pDataPack, int& iOffset); // virtual - Returns the country code.
+	void	MsgRecv_NoticeList(DataPack* pDataPack, int& iOffset);
 
 
 	void Release();

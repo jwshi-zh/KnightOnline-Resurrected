@@ -42,15 +42,17 @@ bool CUILogIn::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 {
 	if(nullptr == pSender) return false;
 
-	// s_CameraData. vp; //look at the calling process
-	// DWORD mm = s_CameraData.vp.Height;
-	// DWORD ss = s_CameraData.vp.Width;
-
 	if (dwMsg == UIMSG_BUTTON_CLICK)
 	{
-		if (pSender == m_pBtn_LogIn && m_pEdit_id && m_pEdit_pw)
+		if (pSender == m_pBtn_Notice1Ok || pSender == m_pBtn_Notice2Ok || pSender == m_pBtn_Notice3Ok)
 		{
-			CGameProcedure::s_pProcLogIn->MsgSend_AccountLogIn(LIC_KNIGHTONLINE);
+			m_pGroup_ActiveNotice->SetVisible(false);
+
+			CGameProcedure::s_pProcLogIn->MsgSend_GameServerList();
+		}
+		else if (pSender == m_pBtn_LogIn && m_pEdit_id && m_pEdit_pw)
+		{
+			CGameProcedure::s_pProcLogIn->MsgSend_AccountLogIn();
 		}
 		else if(pSender == m_pBtn_Connect)
 		{
@@ -223,18 +225,21 @@ bool CUILogIn::ServerInfoGet(int iIndex, __GameServerInfo& GSI)
 	return true;
 }
 
-bool CUILogIn::ServerInfoGetCur(__GameServerInfo& GSI)
+void CUILogIn::HideLoginSubview()
 {
-	GSI.Init();
-	if(nullptr == m_pList_Server) return false;
-
-	const int iIndex = m_pList_Server->GetCurSel();
-	return this->ServerInfoGet(iIndex, GSI);
+	if (m_pGroup_LogIn) m_pGroup_LogIn->SetVisible(false);
 }
 
-void CUILogIn::ServerInfoUpdate()
+void CUILogIn::OpenNotice(uint8_t iNoticeCount, std::vector<std::string> vSzNotice)
 {
-	if(nullptr == m_pList_Server) return;
+	switch (iNoticeCount) {
+	case 1:
+		m_pGroup_ActiveNotice = m_pGroup_Notice1;
+	case 2:
+		m_pGroup_ActiveNotice = m_pGroup_Notice2;
+	case 3:
+		m_pGroup_ActiveNotice = m_pGroup_Notice3;
+	}
 
 	m_pList_Server->ResetContent();
 	if(!m_ListServerInfos.empty())
@@ -267,6 +272,18 @@ bool CUILogIn::OnKeyPress(int iKey)
 		{
 		case DIK_TAB:
 			FocusCircular();
+			return true;
+		}
+	}
+	else if (m_pGroup_ActiveNotice && m_pGroup_ActiveNotice->IsVisible()) {
+		switch (iKey)
+		{
+		case DIK_RETURN:
+		case DIK_NUMPADENTER:
+			m_pGroup_ActiveNotice->SetVisible(false);
+
+			CGameProcedure::s_pProcLogIn->MsgSend_GameServerList();
+			
 			return true;
 		}
 	}

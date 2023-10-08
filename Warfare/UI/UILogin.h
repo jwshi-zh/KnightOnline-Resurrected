@@ -56,6 +56,8 @@ public:
 	bool OnKeyPress(int iKey);
 	void SetVisibleLogInUIs(bool bEnable); // Hide UIs required for account LogIn.
 	void OpenServerList();
+	void HideLoginSubview();
+	void OpenNotice(uint8_t iNoticeCount, std::vector<std::string> vSzNotice);
 
 	void InitEditControls();
 	void FocusCircular();

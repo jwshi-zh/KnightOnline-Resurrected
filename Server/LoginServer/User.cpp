@@ -64,10 +64,24 @@ void CUser::Parsing(int len, char *pData)
 			SetString( buff, m_pMain->m_ServerList[i]->strServerIP, strlen(m_pMain->m_ServerList[i]->strServerIP), send_index );
 			SetShort( buff, strlen(m_pMain->m_ServerList[i]->strServerName), send_index );
 			SetString( buff, m_pMain->m_ServerList[i]->strServerName, strlen( m_pMain->m_ServerList[i]->strServerName ), send_index );			
-			SetShort( buff, m_pMain->m_ServerList[i]->sUserCount, send_index);
+			SetShort(buff, m_pMain->m_ServerList[i]->sUserCount, send_index);
+			SetShort(buff, 3000, send_index);
 		}
 		Send( buff, send_index );
 		break;
+	case LS_NOTICE:
+	{
+		SetByte(buff, LS_NOTICE, send_index);
+		auto noticeCount = 3;
+		SetByte(buff, noticeCount, send_index);
+		for (i = 0; i < noticeCount; i++) {
+			std::string notice{ "notice" + std::to_string(i) };
+			SetShort(buff, notice.size(), send_index);
+			SetString(buff, notice.data(), notice.size(), send_index);
+		}
+		Send(buff, send_index);
+		break;
+	}
 	case LS_DOWNLOADINFO_REQ:
 		client_version = GetShort( pData, index );
 		SendDownloadInfo( client_version );

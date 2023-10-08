@@ -6,6 +6,7 @@ const int SOCKET_PORT_LOGIN = 15100; // The port number to which the socket is a
 #define N3_ACCOUNT_LOGIN			0xf3
 #define N3_ACCOUNT_LOGIN_MGAME		0xf4	// !!! LOGIN_REQ !!! same as
 #define N3_GAMESERVER_GROUP_LIST	0xf5	// Recv - b1(ServerCount) loop( s1 (IP length), str1 (IP string), s1 (server name length), str1 (server name string), s1 (number of server connections) )
+#define N3_NOTICE_LIST				0xf6
 
 #define	N3_GAME_SERVER_LOGIN	0x01	// Game server 에 Log in..
 #define	N3_NEW_CHARACTER		0x02	// Creating a new character...

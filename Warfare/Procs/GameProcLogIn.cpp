@@ -317,6 +317,27 @@ int CGameProcLogIn::MsgRecv_GameServerLogIn(DataPack* pDataPack, int& iOffset) /
 	return iNation;
 }
 
+void CGameProcLogIn::MsgRecv_NoticeList(DataPack* pDataPack, int& iOffset)
+{
+	int noticeCount = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);
+
+	if (noticeCount > 0) {
+		std::vector<std::string> vSzNotice{};
+		vSzNotice.reserve(noticeCount);
+
+		for (auto i = 0; i < noticeCount; i++) {
+			std::string szNotice;
+			int iLen = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
+			CAPISocket::Parse_GetString(pDataPack->m_pData, iOffset, szNotice, iLen);
+			vSzNotice.push_back(szNotice);
+		}
+
+		m_pUILogIn->OpenNotice(noticeCount, vSzNotice);
+	}
+	else {
+		
+	}
+}
 
 bool CGameProcLogIn::ProcessPacket(DataPack* pDataPack, int& iOffset)
 {
@@ -337,6 +358,8 @@ bool CGameProcLogIn::ProcessPacket(DataPack* pDataPack, int& iOffset)
 		case N3_ACCOUNT_LOGIN_MGAME: // MGame account access successful..
 			this->MsgRecv_AccountLogIn(iCmd, pDataPack, iOffset);
 			return true;
+		case N3_NOTICE_LIST:
+			this->MsgRecv_NoticeList(pDataPack, iOffset);
 	}
 
 	return false;
