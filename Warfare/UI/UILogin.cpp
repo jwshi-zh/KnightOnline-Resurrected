@@ -5,6 +5,8 @@
 #include "N3UIEdit.h"
 #include "N3UIButton.h"
 #include "N3UIList.h"
+#include "N3UIString.h"
+#include "N3UIImage.h"
 #include "UIMessageBoxManager.h"
 
 #include <algorithm>
@@ -18,14 +20,15 @@ CUILogIn::CUILogIn()
 	m_pBtn_Connect = nullptr;
 	m_pBtn_Cancel = nullptr;
 	m_pBtn_Option = nullptr;
+	m_pBtn_Notice1Ok = nullptr;
+	m_pBtn_Notice2Ok = nullptr;
+	m_pBtn_Notice3Ok = nullptr;
 
 	m_pGroup_ServerList = nullptr;
 	m_pGroup_Notice1 = nullptr;
 	m_pGroup_Notice2 = nullptr;
 	m_pGroup_Notice3 = nullptr;
 	m_pGroup_LogIn = nullptr;
-	
-	m_pList_Server = nullptr;
 	
 	m_bLogIn = false;
 }
@@ -74,7 +77,7 @@ bool CUILogIn::ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg)
 		{
 			const CN3UIBase* pMsgBox = CGameProcedure::s_pMsgBoxMgr->GetFocusMsgBox();
 			if( !(pMsgBox && pMsgBox->IsVisible()) )
-				CGameProcedure::s_pProcLogIn->MsgSend_AccountLogIn(LIC_KNIGHTONLINE);
+				CGameProcedure::s_pProcLogIn->MsgSend_AccountLogIn();
 		}
 	}
 
@@ -106,38 +109,49 @@ bool CUILogIn::Load(HANDLE hFile)
 	if (m_pGroup_Notice1) {
 		m_pGroup_Notice1->CenterInScreen();
 		m_pGroup_Notice1->SetVisible(false);
+
+		m_pBtn_Notice1Ok = (CN3UIButton*)m_pGroup_Notice1->GetChildByID("btn_ok");		__ASSERT(m_pBtn_Notice1Ok, "NULL UI Component!!");
 	}
 
 	if (m_pGroup_Notice2) {
 		m_pGroup_Notice2->CenterInScreen();
 		m_pGroup_Notice2->SetVisible(false);
+
+		m_pBtn_Notice2Ok = (CN3UIButton*)m_pGroup_Notice2->GetChildByID("btn_ok");		__ASSERT(m_pBtn_Notice2Ok, "NULL UI Component!!");
 	}
 
 	if (m_pGroup_Notice3) {
 		m_pGroup_Notice3->CenterInScreen();
 		m_pGroup_Notice3->SetVisible(false);
+
+		m_pBtn_Notice3Ok = (CN3UIButton*)m_pGroup_Notice3->GetChildByID("btn_ok");		__ASSERT(m_pBtn_Notice3Ok, "NULL UI Component!!");
 	}
 
 	if (m_pGroup_ServerList) {
 		m_pGroup_ServerList->CenterInScreen();
 		m_pGroup_ServerList->SetVisible(false);
-	}
 
-	/*
-	m_pGroup_LogIn = GetChildByID("Group_LogIn");				__ASSERT(m_pGroup_LogIn, "NULL UI Component!!");
-	if(m_pGroup_LogIn)
-	{
-	}
+		for (auto i = 1; i <= 20; i++) {
+			m_arrServerList[i - 1].m_pImage_Arrow = (CN3UIImage*)m_pGroup_ServerList->GetChildByID("img_arrow" + std::to_string(i));
+			__ASSERT(m_arrServerList[i - 1].m_pImage_Arrow, "NULL UI Component!!");
+			if (m_arrServerList[i - 1].m_pImage_Arrow) m_arrServerList[i - 1].m_pImage_Arrow->SetVisible(false);
 
-	m_pGroup_ServerList = GetChildByID("Group_ServerList");		__ASSERT(m_pGroup_ServerList, "NULL UI Component!!");
-	if(m_pGroup_ServerList)
-	{
-		m_pList_Server = (CN3UIList*)(m_pGroup_ServerList->GetChildByID("List_Server"));	__ASSERT(m_pList_Server, "NULL UI Component!!");
-		m_pBtn_Connect = (CN3UIButton*)m_pGroup_ServerList->GetChildByID("Btn_Connect");	__ASSERT(m_pBtn_Connect, "NULL UI Component!!");
+			auto pGroupServerContainer = m_pGroup_ServerList->GetChildByID("server_" + std::to_string(i));
+			__ASSERT(pGroupServerContainer, "NULL UI Component!!");
 
-		m_pGroup_ServerList->SetVisible(false);
+			if (pGroupServerContainer) {
+				m_arrServerList[i - 1].m_pStr_ServerName = (CN3UIString*)pGroupServerContainer->GetChildByID("List_Server");
+				__ASSERT(m_arrServerList[i - 1].m_pStr_ServerName, "NULL UI Component!!");
+				if (m_arrServerList[i - 1].m_pStr_ServerName) m_arrServerList[i - 1].m_pStr_ServerName->SetVisible(false);
+
+				for (auto j = 1; j <= 12; j++) {
+					m_arrServerList[i - 1].m_vImage_Capacity[j - 1] = (CN3UIImage*)pGroupServerContainer->GetChildByID(std::to_string(j));
+					__ASSERT(m_arrServerList[i - 1].m_vImage_Capacity[j - 1], "NULL UI Component!!");
+					if (m_arrServerList[i - 1].m_vImage_Capacity[j - 1]) m_arrServerList[i - 1].m_vImage_Capacity[j - 1]->SetVisible(false);
+				}
+			}
+		}
 	}
-	*/
 
 	return true;
 }
@@ -161,10 +175,8 @@ void CUILogIn::AccountPWGet(std::string& szPW)
 void CUILogIn::ConnectButtonSetEnable(bool bEnable)
 {
 	const eUI_STATE eState1 = (bEnable ? UI_STATE_BUTTON_NORMAL : UI_STATE_BUTTON_DISABLE);
-	const eUI_STATE eState2 = (bEnable ? UI_STATE_LIST_ENABLE : UI_STATE_LIST_DISABLE);
 	
 	if(m_pBtn_Connect) m_pBtn_Connect->SetState(eState1);
-	if(m_pList_Server) m_pList_Server->SetState(eState2);
 }
 
 void CUILogIn::FocusToID()

@@ -1,8 +1,5 @@
 #pragma once
 
-enum e_Version { W95 = 1, W98, WME, WNT4, W2K };
-enum e_LogInClassification { LIC_KNIGHTONLINE = 0, LIC_MGAME = 1, LIC_DAUM = 2 };
-
 #include "GameDef.h"
 #include "GameBase.h"
 
@@ -73,7 +70,6 @@ public:
 	static HCURSOR	s_hCursorPreRepair;
 	static HCURSOR	s_hCursorNowRepair;
 
-	static e_LogInClassification	s_eLogInClassification; // Accessed services.. MGame, Daum, KnightOnLine ....
 	static std::string				s_szAccount; // account string..
 	static std::string				s_szPassWord; // account password..
 	static std::string				s_szServer; // servername string.

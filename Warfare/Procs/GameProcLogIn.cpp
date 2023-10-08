@@ -78,13 +78,7 @@ void CGameProcLogIn::Init()
 		if(iErr) this->ReportServerConnectionFailed("LogIn Server", iErr, true);
 		else
 		{
-			m_pUILogIn->FocusToID(); // Put the focus on the ID input window.
-			
-			// Game server list request..
-			int iOffset = 0;
-			BYTE byBuffs[4];
-			CAPISocket::MP_AddByte(byBuffs, iOffset, N3_GAMESERVER_GROUP_LIST);					// command.
-			s_pSocket->Send(byBuffs, iOffset);											// send
+			m_pUILogIn->FocusToID();
 		}
 	}
 	else
@@ -121,13 +115,11 @@ void CGameProcLogIn::Render()
 	s_pEng->Present(CN3Base::s_hWndBase);
 }
 
-bool CGameProcLogIn::MsgSend_AccountLogIn(e_LogInClassification eLIC)
+bool CGameProcLogIn::MsgSend_AccountLogIn()
 {
-	if(LIC_KNIGHTONLINE == eLIC) 
-	{
-		m_pUILogIn->AccountIDGet(s_szAccount); // Remember account...
-		m_pUILogIn->AccountPWGet(s_szPassWord); // Remember password...
-	}
+	m_pUILogIn->AccountIDGet(s_szAccount); // Remember account...
+	m_pUILogIn->AccountPWGet(s_szPassWord); // Remember password...
+
 	if(	s_szAccount.empty() || s_szPassWord.empty() || s_szAccount.size() >= 20 || s_szPassWord.size() >= 12) return false;
 
 	m_pUILogIn->SetVisibleLogInUIs(false); // Disable the UI until packets arrive...
@@ -137,12 +129,7 @@ bool CGameProcLogIn::MsgSend_AccountLogIn(e_LogInClassification eLIC)
 	BYTE byBuff[256];										// Packet buffer...
 	int iOffset=0;										// Offset of buffer..
 
-	BYTE byCmd = N3_ACCOUNT_LOGIN;
-	if(LIC_KNIGHTONLINE == eLIC) byCmd = N3_ACCOUNT_LOGIN;
-	else if(LIC_MGAME == eLIC) byCmd = N3_ACCOUNT_LOGIN_MGAME;
-	// else if(LIC_DAUM == eLIC) byCmd = N3_ACCOUNT_LOGIN_DAUM;
-
-	CAPISocket::MP_AddByte(byBuff, iOffset, byCmd);				// command.
+	CAPISocket::MP_AddByte(byBuff, iOffset, N3_ACCOUNT_LOGIN);				// command.
 	CAPISocket::MP_AddShort(byBuff, iOffset, s_szAccount.size());	// id length.
 	CAPISocket::MP_AddString(byBuff, iOffset, s_szAccount);		// real id.
 	CAPISocket::MP_AddShort(byBuff, iOffset, s_szPassWord.size());	// password length

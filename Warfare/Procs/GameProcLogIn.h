@@ -15,7 +15,6 @@ public:
 	int		MsgRecv_VersionCheck(DataPack* pDataPack, int& iOffset); // virtual
 	int		MsgRecv_GameServerLogIn(DataPack* pDataPack, int& iOffset); // virtual - Returns the country code.
 
-	bool	MsgSend_AccountLogIn(enum e_LogInClassification eLIC);
 
 	void Release();
 	void Init();

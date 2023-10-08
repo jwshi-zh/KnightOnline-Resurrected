@@ -35,6 +35,9 @@ protected:
 	CN3UIButton* m_pBtn_Cancel;
 	CN3UIButton* m_pBtn_Option;
 	CN3UIButton* m_pBtn_Homepage;
+	CN3UIButton* m_pBtn_Notice1Ok;
+	CN3UIButton* m_pBtn_Notice2Ok;
+	CN3UIButton* m_pBtn_Notice3Ok;
 
 	CN3UIBase*	m_pGroup_ServerList;
 	CN3UIBase* m_pGroup_LogIn;

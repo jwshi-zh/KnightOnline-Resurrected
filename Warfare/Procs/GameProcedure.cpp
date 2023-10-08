@@ -69,7 +69,6 @@ HCURSOR	CGameProcedure::s_hCursorAttack = nullptr;
 HCURSOR	CGameProcedure::s_hCursorPreRepair = nullptr;
 HCURSOR	CGameProcedure::s_hCursorNowRepair = nullptr;
 
-e_LogInClassification CGameProcedure::s_eLogInClassification; // Accessed services.. MGame, Daum, KnightOnLine ....
 std::string	CGameProcedure::s_szAccount = ""; // account string..
 std::string	CGameProcedure::s_szPassWord = ""; // account password..
 std::string	CGameProcedure::s_szServer = ""; // server string...
@@ -300,8 +299,12 @@ void CGameProcedure::Tick()
 	const POINT ptCur = s_pLocalInput->MouseGetPos();
 
 	const e_Nation eNation = s_pPlayer->m_InfoBase.eNation;
-	if(dwMouseFlags & MOUSE_LBCLICK) SetGameCursor(((NATION_ELMORAD == eNation) ? s_hCursorClick1 : s_hCursorClick));
-	else if(dwMouseFlags & MOUSE_LBCLICKED) SetGameCursor(((NATION_ELMORAD == eNation) ? s_hCursorNormal1 : s_hCursorNormal));
+	if (dwMouseFlags & MOUSE_LBCLICK) {
+		SetGameCursor(((NATION_ELMORAD == eNation) ? s_hCursorClick1 : s_hCursorClick));
+	}
+	else if (dwMouseFlags & MOUSE_LBCLICKED) {
+		SetGameCursor(((NATION_ELMORAD == eNation) ? s_hCursorNormal1 : s_hCursorNormal));
+	}
 	if(dwMouseFlags & MOUSE_RBCLICKED)
 	{
 		if(s_pPlayer->m_bAttackContinous && s_pProcActive == s_pProcMain) // If the main process is...

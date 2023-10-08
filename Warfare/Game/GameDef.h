@@ -1157,8 +1157,6 @@ enum e_Behavior {	BEHAVIOR_NOTHING = 0,
 
 					BEHAVIOR_PERSONAL_TRADE_FMT_WAIT,	// Private trade If I applied
 					BEHAVIOR_PERSONAL_TRADE_PERMIT,		// Personal trade If I have applied
-
-					BEHAVIOR_MGAME_LOGIN,
 					
 					BEHAVIOR_CLAN_JOIN,
 					BEHAVIOR_PARTY_BBS_REGISTER,		// Register on the party board

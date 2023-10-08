@@ -368,46 +368,9 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 		}
 	}
 
-	// Handling program arguments..
-	if(lpCmdLine && lstrlen(lpCmdLine) > 0 && lstrlen(lpCmdLine) < 64) // When something comes in...
-	{
-		char szService[64], szAccountTmp[64], szPWTmp[64];
-		sscanf(lpCmdLine, "%s %s %s", szService, szAccountTmp, szPWTmp);
-
-		if(0 == lstrcmpi(szService, "MGame")) // Log in to your Mgame account...
-			CGameProcedure::s_eLogInClassification = LIC_MGAME;
-		else if(0 == lstrcmpi(szService, "Daum")) // Log in to the following account...
-			CGameProcedure::s_eLogInClassification = LIC_DAUM;
-		else 
-			CGameProcedure::s_eLogInClassification = LIC_KNIGHTONLINE;
-		CGameProcedure::s_szAccount = szAccountTmp; // account
-		CGameProcedure::s_szPassWord = szPWTmp; // off duty.
-
-		if(0 == lstrcmpi(szService, "$#$%&^@!#$%#@^%&#%$&^운영팀전용게임")) // A game dedicated to the management team...
-			CGameProcedure::s_bWindowed = true;
-		else
-			CGameProcedure::s_bWindowed = false;
-	}
-
-	// 
-	// Create Static Member...
 	CGameProcedure::StaticMemberInit(hInstance, hWndMain, hWndSub);		// Destruction is done in WM_DESTROY.
 	CGameProcedure::ProcActiveSet((CGameProcedure*)CGameProcedure::s_pProcLogIn);	// Start with the login procedure..
 
-	// and its installation, called in InitInstance()
-	/*	switch ( CGameProcedure::s_eVersion )
-	{
-		case W95:
-		case W98:
-		case WME:
-			// ghookdata = SetWindowsHookEx(WH_KEYBOARD, OYBLowLevelKeyboardProc, AfxGetInstanceHandle(), 0);
-			break;
-		case WNT4:
-		case W2K:
-			// ghookdata = SetWindowsHookEx(WH_KEYBOARD_LL, OYBLowLevelKeyboardProc, AfxGetInstanceHandle(), 0);
-			break;
-	}
-*/
     BOOL bGotMsg = FALSE;
 
 #if _DEBUG
@@ -444,52 +407,36 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 				{
 					fTimePrev = fTime;
 
-					sprintf(szDebugs[0], "Terrain: normal (%d) tile (%d) || Object: number (%d) number of parts (%d) polygon(%d)",
+					sprintf(szDebugs[0], "Terrain: polygons(%d) tile polygons(%d) || Object: shapes(%d) shape parts(%d) shape polygons(%d)",
 						CN3Base::s_RenderInfo.nTerrain_Polygon,
 						CN3Base::s_RenderInfo.nTerrain_Tile_Polygon,
 						CN3Base::s_RenderInfo.nShape,
 						CN3Base::s_RenderInfo.nShape_Part,
 						CN3Base::s_RenderInfo.nShape_Polygon);
 					
-					sprintf(szDebugs[1], "Character: number (%d), number of parts (%d), polygon (%d), weapon (%d), inorganic polygon(%d)", 
+					sprintf(szDebugs[1], "Character: number(%d), parts(%d), polygons(%d), plugs(%d), plug polygons(%d)", 
 						CN3Base::s_RenderInfo.nChr,
 						CN3Base::s_RenderInfo.nChr_Part,
 						CN3Base::s_RenderInfo.nChr_Polygon,
 						CN3Base::s_RenderInfo.nChr_Plug,
 						CN3Base::s_RenderInfo.nChr_Plug_Polygon);
 
-					sprintf(szDebugs[2], "Camera : Lens(%.1f) NearPlane(%.1f) FarPlane(%.1f)",
+					sprintf(szDebugs[2], "Camera : FOV(%.1f) NearPlane(%.1f) FarPlane(%.1f)",
 						D3DXToDegree(CN3Base::s_CameraData.fFOV),
 						CN3Base::s_CameraData.fNP,
 						CN3Base::s_CameraData.fFP );
 
-					if(CGameProcedure::s_pProcMain && CGameBase::ACT_WORLD && CGameBase::ACT_WORLD->GetSkyRef())
-					{
-						int iYear = 0, iMonth = 0, iDay = 0, iH = 0, iM = 0;
+					int iYear = 0, iMonth = 0, iDay = 0, iH = 0, iM = 0;
+					if (CGameBase::ACT_WORLD && CGameBase::ACT_WORLD->GetSkyRef()) {
 						CGameBase::ACT_WORLD->GetSkyRef()->GetGameTime(&iYear, &iMonth, &iDay, &iH, &iM);
-						sprintf(szDebugs[3], "%.2f Frm/Sec, %d year %d month %d day %d hour %d minute", CN3Base::s_fFrmPerSec, iYear, iMonth, iDay, iH, iM);
 					}
-					else szDebugs[3][0] = NULL;
+					sprintf(szDebugs[3], "%.2f Frm/Sec, %d y %d m %d d %d h %d m", CN3Base::s_fFrmPerSec, iYear, iMonth, iDay, iH, iM);
 				}
 
 				for(int i = 0; i < 4; i++)
 					if(szDebugs[i])
 						TextOut(hDC, 0, i*18, szDebugs[i], lstrlen(szDebugs[i])); // Display rendering information on screen..
 #endif // #if _DEBUG
-
-
-				// #ifndef _DEBUG
-				// static HDC hDC = GetDC(hWndMain);
-				// static char szDebug[256] = "";
-				// static float fTimePrev = CN3Base::TimeGet();
-				// float fTime = CN3Base::TimeGet();
-				// if(fTime > fTimePrev + 0.5f)
-				// {
-					// sprintf(szDebug, "%f", CN3Base::s_fFrmPerSec);
-					// fTimePrev = fTime;
-				// }
-				// TextOut(hDC, 0, 0, szDebug, lstrlen(szDebug)); // Display rendering information on the screen..
-				// #endif
             }
 		}
     }
