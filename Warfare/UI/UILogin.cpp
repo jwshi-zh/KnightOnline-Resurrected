@@ -210,19 +210,23 @@ void CUILogIn::InitEditControls()
 	}
 }
 
-bool CUILogIn::ServerInfoAdd(const __GameServerInfo& GSI)
+bool CUILogIn::ServerInfoAdd(uint8_t iIndex, std::string szName, std::string szIP, uint16_t iConcurrentUserCount, uint16_t iConcurrentCapacity)
 {
-	m_ListServerInfos.push_back(GSI);
+	m_arrServerList[iIndex].m_szName = szName;
+	m_arrServerList[iIndex].m_szIP = szIP;
+	m_arrServerList[iIndex].m_iConcurrentUserCount = iConcurrentUserCount;
+	m_arrServerList[iIndex].m_iConcurrentUserCapacity = iConcurrentCapacity;
+	if (m_arrServerList[iIndex].m_pStr_ServerName) {
+		m_arrServerList[iIndex].m_pStr_ServerName->SetVisible(true);
+		m_arrServerList[iIndex].m_pStr_ServerName->SetString(szName);
+	}
 	return true;
 }
 
-bool CUILogIn::ServerInfoGet(int iIndex, __GameServerInfo& GSI)
+void CUILogIn::OpenServerList()
 {
-	if(nullptr == m_pList_Server) return false;
-	if(iIndex < 0 || iIndex >= m_ListServerInfos.size()) return false;
-
-	GSI = m_ListServerInfos[iIndex];
-	return true;
+	SelectServer(0);
+	if(m_pGroup_ServerList) m_pGroup_ServerList->SetVisible(true);
 }
 
 void CUILogIn::HideLoginSubview()
@@ -241,22 +245,23 @@ void CUILogIn::OpenNotice(uint8_t iNoticeCount, std::vector<std::string> vSzNoti
 		m_pGroup_ActiveNotice = m_pGroup_Notice3;
 	}
 
-	m_pList_Server->ResetContent();
-	if(!m_ListServerInfos.empty())
-	{
-		const int iSize = m_ListServerInfos.size();
-		for(int i = 0; i < iSize; i++)
-		{
-			m_pList_Server->AddString(m_ListServerInfos[i].szName);
-		}
+	for (auto i = 0; i < iNoticeCount; i++) {
+		auto pNoticeText = (CN3UIString*)m_pGroup_ActiveNotice->GetChildByID("text_notice_0" + std::to_string(i + 1));
+		pNoticeText->SetString(vSzNotice[i]);
 	}
+
+	m_pGroup_ActiveNotice->SetVisible(true);
 }
 
-void CUILogIn::OpenServerList()
+void CUILogIn::SelectServer(uint8_t idx)
 {
-	if(nullptr == m_pGroup_ServerList) return;
+	for (auto i = 0; i < 20; i++) {
+		m_arrServerList[i].m_pStr_ServerName->SetColor(D3DCOLOR_RGBA(255, 255, 255, 255));
+	}
 
-	m_pGroup_ServerList->SetVisible(true);
+	m_iSelectedServerIdx = idx;
+
+	m_arrServerList[m_iSelectedServerIdx].m_pStr_ServerName->SetColor(D3DCOLOR_RGBA(128, 255, 0, 255));
 }
 
 void CUILogIn::SetVisibleLogInUIs(bool bEnable)
@@ -292,25 +297,37 @@ bool CUILogIn::OnKeyPress(int iKey)
 		switch(iKey)
 		{
 		case DIK_UP:
-			{
-				if(nullptr == m_pList_Server) return false;
+		{
+			uint8_t iNewServerIdx{ 0 };
 
-				const int iIndex = m_pList_Server->GetCurSel();
-
-				if(iIndex > 0) m_pList_Server->SetCurSel(iIndex - 1);
-				int iCnt = m_pList_Server->GetCount();
+			if (m_iSelectedServerIdx == 0) {
+				for (uint8_t i = 19; i >= 0; i++) {
+					if (m_arrServerList[iNewServerIdx].m_szIP.size() > 0) {
+						iNewServerIdx = i;
+						break;
+					}
+				}
 			}
+			else {
+				iNewServerIdx = m_iSelectedServerIdx - 1;
+			}
+
+			SelectServer(iNewServerIdx);
+
 			return true;
+		}
 		case DIK_DOWN:
-			{
-				if(nullptr == m_pList_Server) return false;
+		{
+			auto iNewServerIdx = m_iSelectedServerIdx + 1;
 
-				const int iIndex = m_pList_Server->GetCurSel();
-				const int iCnt = m_pList_Server->GetCount();
-
-				if(iCnt - iIndex > 1) m_pList_Server->SetCurSel(iIndex + 1);
+			if (iNewServerIdx > 19 || m_arrServerList[iNewServerIdx].m_szIP.size() == 0) {
+				iNewServerIdx = 0;
 			}
+
+			SelectServer(iNewServerIdx);
+
 			return true;
+		}
 		case DIK_NUMPADENTER:
 		case DIK_RETURN:
 			ReceiveMessage(m_pBtn_Connect, UIMSG_BUTTON_CLICK);

@@ -140,22 +140,35 @@ bool CGameProcLogIn::MsgSend_AccountLogIn()
 	return true;
 }
 
+void CGameProcLogIn::MsgSend_GameServerList()
+{
+	BYTE byBuff[1];
+	int iOffset = 0;
+
+	CAPISocket::MP_AddByte(byBuff, iOffset, N3_GAMESERVER_GROUP_LIST);
+
+	s_pSocket->Send(byBuff, iOffset);
+}
+
 void CGameProcLogIn::MsgRecv_GameServerGroupList(DataPack* pDataPack, int& iOffset) const
 {
 	const int iServerCount = CAPISocket::Parse_GetByte(pDataPack->m_pData, iOffset);	// number of servers
 	for(int i = 0; i < iServerCount; i++)
 	{
-		__GameServerInfo GSI;
+		std::string szServerName, szServerIp;
+		uint16_t iConcurrentUserCount, iConcurrentCapacity;
+
 		int iLen = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
-		CAPISocket::Parse_GetString(pDataPack->m_pData, iOffset, GSI.szIP, iLen);
+		CAPISocket::Parse_GetString(pDataPack->m_pData, iOffset, szServerIp, iLen);
 		iLen = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset);
-		CAPISocket::Parse_GetString(pDataPack->m_pData, iOffset, GSI.szName, iLen);
-		GSI.iConcurrentUserCount = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // Current number of concurrent users..
+		CAPISocket::Parse_GetString(pDataPack->m_pData, iOffset, szServerName, iLen);
+		iConcurrentUserCount = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // Current number of concurrent users..
+		iConcurrentCapacity = CAPISocket::Parse_GetShort(pDataPack->m_pData, iOffset); // Current number of concurrent users..
 		
-		m_pUILogIn->ServerInfoAdd(GSI); // ServerList
+		m_pUILogIn->ServerInfoAdd(i, szServerName, szServerIp, iConcurrentUserCount, iConcurrentCapacity); // ServerList
 	}
 
-	m_pUILogIn->ServerInfoUpdate();
+	m_pUILogIn->OpenServerList();
 }
 
 void CGameProcLogIn::MsgRecv_AccountLogIn(int iCmd, DataPack* pDataPack, int& iOffset)
@@ -165,28 +178,24 @@ void CGameProcLogIn::MsgRecv_AccountLogIn(int iCmd, DataPack* pDataPack, int& iO
 	{
 		// Close all message boxes...
 		this->MessageBoxClose(-1);
-		m_pUILogIn->OpenServerList(); // Read server list...
+
+		m_pUILogIn->HideLoginSubview();
+
+		BYTE byBuff[4];
+		int iOffset = 0;
+
+		CAPISocket::MP_AddByte(byBuff, iOffset, N3_NOTICE_LIST);
+
+		s_pSocket->Send(byBuff, iOffset);								// send
 	}
 	else if(2 == iResult) // If you fail because you don't have an ID...
 	{
-		if(N3_ACCOUNT_LOGIN == iCmd)
-		{
-			std::string szMsg;
-			std::string szTmp;
-			::_LoadStringFromResource(IDS_NOACCOUNT_RETRY_MGAMEID, szMsg);
-			::_LoadStringFromResource(IDS_CONNECT_FAIL, szTmp);
+		std::string szMsg;
+		std::string szTmp;
+		::_LoadStringFromResource(IDS_NO_MGAME_ACCOUNT, szMsg);
+		::_LoadStringFromResource(IDS_CONNECT_FAIL, szTmp);
 
-			this->MessageBoxPost(szMsg, szTmp, MB_YESNO, BEHAVIOR_MGAME_LOGIN); // It asks if you want to connect with MGame ID.
-		}
-		else
-		{
-			std::string szMsg;
-			std::string szTmp;
-			::_LoadStringFromResource(IDS_NO_MGAME_ACCOUNT, szMsg);
-			::_LoadStringFromResource(IDS_CONNECT_FAIL, szTmp);
-
-			this->MessageBoxPost(szMsg, szTmp, MB_OK); // It asks if you want to connect with MGame ID.
-		}
+		this->MessageBoxPost(szMsg, szTmp, MB_OK);
 	}
 	else if(3 == iResult) // PassWord Failed
 	{
@@ -274,13 +283,13 @@ int CGameProcLogIn::MsgRecv_GameServerLogIn(DataPack* pDataPack, int& iOffset) /
 
 	if( 0xff == iNation )
 	{
-		__GameServerInfo GSI;
-		std::string szFmt; ::_LoadStringFromResource(IDS_FMT_GAME_SERVER_LOGIN_ERROR, szFmt);
-		m_pUILogIn->ServerInfoGetCur(GSI);
-		char szErr[256];
-		sprintf(szErr, szFmt.c_str(), GSI.szName.c_str(), iNation);
-		this->MessageBoxPost(szErr, "", MB_OK);
-		m_pUILogIn->ConnectButtonSetEnable(true); // failure
+		//__GameServerInfo GSI;
+		//std::string szFmt; ::_LoadStringFromResource(IDS_FMT_GAME_SERVER_LOGIN_ERROR, szFmt);
+		//m_pUILogIn->ServerInfoGetCur(GSI);
+		//char szErr[256];
+		//sprintf(szErr, szFmt.c_str(), GSI.szName.c_str(), iNation);
+		//this->MessageBoxPost(szErr, "", MB_OK);
+		//m_pUILogIn->ConnectButtonSetEnable(true); // failure
 	}
 	else
 	{
@@ -367,20 +376,20 @@ bool CGameProcLogIn::ProcessPacket(DataPack* pDataPack, int& iOffset)
 
 void CGameProcLogIn::ConnectToGameServer() // Connect to the game server of your choice
 {
-	__GameServerInfo GSI;
-	if(false == m_pUILogIn->ServerInfoGetCur(GSI)) return; // After choosing a server...
+	//__GameServerInfo GSI;
+	//if(false == m_pUILogIn->ServerInfoGetCur(GSI)) return; // After choosing a server...
 
-	s_bNeedReportConnectionClosed = false; // Should I report that the server is disconnected?
-	const int iErr = s_pSocket->Connect(s_hWndBase, GSI.szIP.c_str(), SOCKET_PORT_GAME); // game server socket connection
-	s_bNeedReportConnectionClosed = true; // Should I report that the connection to the server has been lost?
-	if(iErr)
-	{
-		this->ReportServerConnectionFailed(GSI.szName, iErr, false);
-		m_pUILogIn->ConnectButtonSetEnable(true);
-	}
-	else
-	{
-		s_szServer = GSI.szName;
-		this->MsgSend_VersionCheck();
-	}
+	//s_bNeedReportConnectionClosed = false; // Should I report that the server is disconnected?
+	//const int iErr = s_pSocket->Connect(s_hWndBase, GSI.szIP.c_str(), SOCKET_PORT_GAME); // game server socket connection
+	//s_bNeedReportConnectionClosed = true; // Should I report that the connection to the server has been lost?
+	//if(iErr)
+	//{
+	//	this->ReportServerConnectionFailed(GSI.szName, iErr, false);
+	//	m_pUILogIn->ConnectButtonSetEnable(true);
+	//}
+	//else
+	//{
+	//	s_szServer = GSI.szName;
+	//	this->MsgSend_VersionCheck();
+	//}
 }

@@ -16,6 +16,8 @@ public:
 	int		MsgRecv_GameServerLogIn(DataPack* pDataPack, int& iOffset); // virtual - Returns the country code.
 	void	MsgRecv_NoticeList(DataPack* pDataPack, int& iOffset);
 
+	bool	MsgSend_AccountLogIn();
+	void	MsgSend_GameServerList();
 
 	void Release();
 	void Init();
