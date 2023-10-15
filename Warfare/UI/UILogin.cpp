@@ -315,8 +315,8 @@ bool CUILogIn::OnKeyPress(int iKey)
 			uint8_t iNewServerIdx{ 0 };
 
 			if (m_iSelectedServerIdx == 0) {
-				for (uint8_t i = 19; i >= 0; i++) {
-					if (m_arrServerList[iNewServerIdx].m_szIP.size() > 0) {
+				for (uint8_t i = 19; i >= 0; i--) {
+					if (m_arrServerList[i].m_szIP.size() > 0) {
 						iNewServerIdx = i;
 						break;
 					}
