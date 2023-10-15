@@ -75,43 +75,43 @@ BOOL CDBProcess::LoadVersionList()
 	SQLHSTMT		hstmt = NULL;
 	SQLRETURN		retcode;
 	TCHAR			szSQL[1024];
-	
+
 	CString tempfilename, tempcompname;
 
 	memset(szSQL, 0x00, 1024);
 	wsprintf(szSQL, TEXT("select * from %s"), m_pMain->m_TableName);
-	
+
 	SQLSMALLINT	version = 0, historyversion = 0;
 	TCHAR strfilename[256], strcompname[256];
-	memset( strfilename, NULL, 256 );
-	memset( strcompname, NULL, 256 );
+	memset(strfilename, NULL, 256);
+	memset(strcompname, NULL, 256);
 	SQLINTEGER Indexind = SQL_NTS;
 
-	retcode = SQLAllocHandle( (SQLSMALLINT)SQL_HANDLE_STMT, m_VersionDB.m_hdbc, &hstmt );
-	if (retcode != SQL_SUCCESS)	return FALSE; 
+	retcode = SQLAllocHandle((SQLSMALLINT)SQL_HANDLE_STMT, m_VersionDB.m_hdbc, &hstmt);
+	if (retcode != SQL_SUCCESS)	return FALSE;
 
-	retcode = SQLExecDirect (hstmt, (unsigned char *)szSQL, 1024);	
-	if( retcode != SQL_SUCCESS && retcode != SQL_SUCCESS_WITH_INFO ) {
-		if( DisplayErrorMsg(hstmt) == -1 ) {
+	retcode = SQLExecDirect(hstmt, (unsigned char*)szSQL, 1024);
+	if (retcode != SQL_SUCCESS && retcode != SQL_SUCCESS_WITH_INFO) {
+		if (DisplayErrorMsg(hstmt) == -1) {
 			m_VersionDB.Close();
-			if( !m_VersionDB.IsOpen() ) {
-				ReConnectODBC( &m_VersionDB, m_pMain->m_ODBCDatabase, m_pMain->m_ODBCLogin, m_pMain->m_ODBCPwd );
+			if (!m_VersionDB.IsOpen()) {
+				ReConnectODBC(&m_VersionDB, m_pMain->m_ODBCDatabase, m_pMain->m_ODBCLogin, m_pMain->m_ODBCPwd);
 				return FALSE;
 			}
 		}
-		SQLFreeHandle((SQLSMALLINT)SQL_HANDLE_STMT,hstmt);
+		SQLFreeHandle((SQLSMALLINT)SQL_HANDLE_STMT, hstmt);
 		return FALSE;
 	}
-	while (retcode == SQL_SUCCESS|| retcode == SQL_SUCCESS_WITH_INFO) {
+	while (retcode == SQL_SUCCESS || retcode == SQL_SUCCESS_WITH_INFO) {
 		retcode = SQLFetch(hstmt);
-		if (retcode == SQL_SUCCESS || retcode == SQL_SUCCESS_WITH_INFO){
-			SQLGetData(hstmt,1 ,SQL_C_SSHORT  , &version,   0, &Indexind);
-			SQLGetData(hstmt,2 ,SQL_C_CHAR  ,strfilename, 256, &Indexind);
-			SQLGetData(hstmt,3 ,SQL_C_CHAR  ,strcompname, 256, &Indexind);
-			SQLGetData(hstmt,4 ,SQL_C_SSHORT  , &historyversion,   0, &Indexind);
+		if (retcode == SQL_SUCCESS || retcode == SQL_SUCCESS_WITH_INFO) {
+			SQLGetData(hstmt, 1, SQL_C_SSHORT, &version, 0, &Indexind);
+			SQLGetData(hstmt, 2, SQL_C_CHAR, strfilename, 256, &Indexind);
+			SQLGetData(hstmt, 3, SQL_C_CHAR, strcompname, 256, &Indexind);
+			SQLGetData(hstmt, 4, SQL_C_SSHORT, &historyversion, 0, &Indexind);
 
 			_VERSION_INFO* pInfo = new _VERSION_INFO;
-			
+
 			tempfilename = strfilename;	tempcompname = strcompname;
 			tempfilename.TrimRight(); tempcompname.TrimRight();
 
@@ -120,24 +120,80 @@ BOOL CDBProcess::LoadVersionList()
 			pInfo->strCompName = tempcompname;
 			pInfo->sHistoryVersion = historyversion;
 
-			if( !m_pMain->m_VersionList.PutData( pInfo->strFileName, pInfo ) ) {
-				TRACE("VersionInfo PutData Fail - %d\n", pInfo->strFileName );
+			if (!m_pMain->m_VersionList.PutData(pInfo->strFileName, pInfo)) {
+				TRACE("VersionInfo PutData Fail - %d\n", pInfo->strFileName);
 				delete pInfo;
 				pInfo = NULL;
 			}
 		}
 	}
-	SQLFreeHandle((SQLSMALLINT)SQL_HANDLE_STMT,hstmt);
+	SQLFreeHandle((SQLSMALLINT)SQL_HANDLE_STMT, hstmt);
 
 	m_pMain->m_nLastVersion = 0;
 
-	map<string,_VERSION_INFO*>::iterator	Iter1, Iter2;
+	map<string, _VERSION_INFO*>::iterator	Iter1, Iter2;
 	Iter1 = m_pMain->m_VersionList.m_UserTypeMap.begin();
 	Iter2 = m_pMain->m_VersionList.m_UserTypeMap.end();
-	for( ; Iter1 != Iter2; Iter1++ ) {
-		if( m_pMain->m_nLastVersion < ((*Iter1).second)->sVersion )
+	for (; Iter1 != Iter2; Iter1++) {
+		if (m_pMain->m_nLastVersion < ((*Iter1).second)->sVersion)
 			m_pMain->m_nLastVersion = ((*Iter1).second)->sVersion;
 	}
+
+	return TRUE;
+}
+
+BOOL CDBProcess::LoadNoticeList()
+{
+	for (uint8_t idx = 0; idx < 3; idx++) {
+		m_pMain->m_NoticeArray[idx].iNoticeID = 0;
+	}
+
+	SQLHSTMT		hstmt = NULL;
+	SQLRETURN		retcode;
+	TCHAR			szSQL[1024];
+
+	CString szTempNoticeName;
+
+	memset(szSQL, 0x00, 1024);
+	wsprintf(szSQL, TEXT("select * from NOTICE"));
+
+	SQLINTEGER iNoticeId = 0;
+	uint8_t iNoticeIdx = 0;
+	TCHAR szNotice[400];
+	memset(szNotice, NULL, 400);
+	SQLINTEGER Indexind = SQL_NTS;
+
+	retcode = SQLAllocHandle((SQLSMALLINT)SQL_HANDLE_STMT, m_VersionDB.m_hdbc, &hstmt);
+	if (retcode != SQL_SUCCESS)	return FALSE;
+
+	retcode = SQLExecDirect(hstmt, (unsigned char*)szSQL, 1024);
+	if (retcode != SQL_SUCCESS && retcode != SQL_SUCCESS_WITH_INFO) {
+		if (DisplayErrorMsg(hstmt) == -1) {
+			m_VersionDB.Close();
+			if (!m_VersionDB.IsOpen()) {
+				ReConnectODBC(&m_VersionDB, m_pMain->m_ODBCDatabase, m_pMain->m_ODBCLogin, m_pMain->m_ODBCPwd);
+				return FALSE;
+			}
+		}
+		SQLFreeHandle((SQLSMALLINT)SQL_HANDLE_STMT, hstmt);
+		return FALSE;
+	}
+	while ((retcode == SQL_SUCCESS || retcode == SQL_SUCCESS_WITH_INFO) && iNoticeId < 3) {
+		retcode = SQLFetch(hstmt);
+		if (retcode == SQL_SUCCESS || retcode == SQL_SUCCESS_WITH_INFO) {
+			SQLGetData(hstmt, 1, SQL_INTEGER, &iNoticeId, 0, &Indexind);
+			SQLGetData(hstmt, 2, SQL_C_CHAR, szNotice, 400, &Indexind);
+
+			szTempNoticeName = szNotice;
+			szTempNoticeName.TrimRight();
+
+			m_pMain->m_NoticeArray[iNoticeIdx].iNoticeID = iNoticeId;
+			m_pMain->m_NoticeArray[iNoticeIdx].szNotice = szTempNoticeName;
+
+			iNoticeIdx++;
+		}
+	}
+	SQLFreeHandle((SQLSMALLINT)SQL_HANDLE_STMT, hstmt);
 
 	return TRUE;
 }

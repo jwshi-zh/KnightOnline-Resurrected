@@ -236,13 +236,20 @@ void CUILogIn::HideLoginSubview()
 
 void CUILogIn::OpenNotice(uint8_t iNoticeCount, std::vector<std::string> vSzNotice)
 {
+	m_pGroup_Notice1->SetVisible(false);
+	m_pGroup_Notice2->SetVisible(false);
+	m_pGroup_Notice3->SetVisible(false);
+
 	switch (iNoticeCount) {
 	case 1:
 		m_pGroup_ActiveNotice = m_pGroup_Notice1;
+		break;
 	case 2:
 		m_pGroup_ActiveNotice = m_pGroup_Notice2;
+		break;
 	case 3:
 		m_pGroup_ActiveNotice = m_pGroup_Notice3;
+		break;
 	}
 
 	for (auto i = 0; i < iNoticeCount; i++) {

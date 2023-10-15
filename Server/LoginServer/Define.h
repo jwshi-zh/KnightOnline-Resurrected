@@ -74,6 +74,12 @@ struct _SERVER_INFO
 	};
 };
 
+struct _NOTICE_INFO
+{
+	uint32_t iNoticeID{ 0 };
+	std::string szNotice{ };
+};
+
 
 // Packet Define...
 

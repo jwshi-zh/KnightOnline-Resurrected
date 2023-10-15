@@ -14,6 +14,8 @@
 #include "STLMap.h"
 #include <vector>
 #include <string>
+#include <array>
+
 /////////////////////////////////////////////////////////////////////////////
 // CVersionManagerDlg dialog
 
@@ -44,6 +46,7 @@ public:
 
 	VersionInfoList		m_VersionList;
 	ServerInfoList		m_ServerList;
+	std::array<_NOTICE_INFO, 3> m_NoticeArray;
 	int		m_nServerCount;
 
 	CDBProcess	m_DBProcess;

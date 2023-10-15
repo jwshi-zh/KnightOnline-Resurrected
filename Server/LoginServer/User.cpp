@@ -71,14 +71,26 @@ void CUser::Parsing(int len, char *pData)
 		break;
 	case LS_NOTICE:
 	{
+		m_pMain->m_DBProcess.LoadNoticeList();
 		SetByte(buff, LS_NOTICE, send_index);
-		auto noticeCount = 3;
-		SetByte(buff, noticeCount, send_index);
-		for (i = 0; i < noticeCount; i++) {
-			std::string notice{ "notice" + std::to_string(i) };
-			SetShort(buff, notice.size(), send_index);
-			SetString(buff, notice.data(), notice.size(), send_index);
+
+		auto noticeCount = 0;
+		for (uint8_t idx = 0; idx < 3; idx++) {
+			if (m_pMain->m_NoticeArray[idx].iNoticeID != 0) {
+				noticeCount++;
+			}
+			else {
+				break;
+			}
 		}
+
+		SetByte(buff, noticeCount, send_index);
+
+		for (i = 0; i < noticeCount; i++) {
+			SetShort(buff, m_pMain->m_NoticeArray[i].szNotice.size(), send_index);
+			SetString(buff, m_pMain->m_NoticeArray[i].szNotice.data(), m_pMain->m_NoticeArray[i].szNotice.size(), send_index);
+		}
+
 		Send(buff, send_index);
 		break;
 	}

@@ -21,6 +21,7 @@ public:
 	int MgameLogin( const char* id, const char* pwd );
 	int AccountLogin( const char* id, const char* pwd );
 	BOOL LoadVersionList();
+	BOOL LoadNoticeList();
 	BOOL LoadUserCountList();
 
 	CDBProcess();
