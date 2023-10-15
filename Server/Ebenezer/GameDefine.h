@@ -371,7 +371,7 @@ struct _USER_DATA
 	BYTE	m_bDex;
 	BYTE	m_bIntel;
 	BYTE	m_bCha;
-	BYTE	m_bAuthority
+	BYTE	m_bAuthority;
 	BYTE	m_bPoints;
 	int		m_iGold;
 	short	m_sBind;
