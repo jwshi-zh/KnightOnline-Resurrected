@@ -1,24 +1,8 @@
-// User.cpp: implementation of the CUser class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
 #include "versionmanager.h"
 #include "versionmanagerdlg.h"
 #include "User.h"
-
-#pragma warning(disable : 4786)		// Visual C++ Only
 #include <set>
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 CUser::CUser()
 {
@@ -65,7 +49,7 @@ void CUser::Parsing(int len, char *pData)
 			SetShort( buff, strlen(m_pMain->m_ServerList[i]->strServerName), send_index );
 			SetString( buff, m_pMain->m_ServerList[i]->strServerName, strlen( m_pMain->m_ServerList[i]->strServerName ), send_index );			
 			SetShort(buff, m_pMain->m_ServerList[i]->sUserCount, send_index);
-			SetShort(buff, 3000, send_index);
+			SetShort(buff, m_pMain->m_ServerList[i]->sCapacity, send_index);
 		}
 		Send( buff, send_index );
 		break;

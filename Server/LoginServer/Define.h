@@ -67,10 +67,12 @@ struct _SERVER_INFO
 	char strServerIP[20];
 	char strServerName[20];
 	short	sUserCount;
+	short	sCapacity;
 	_SERVER_INFO() {
 		memset(strServerIP, 0x00, 20);
 		memset(strServerName, 0x00, 20);
 		sUserCount = 0;
+		sCapacity = 0;
 	};
 };
 
