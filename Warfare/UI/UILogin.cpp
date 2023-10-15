@@ -216,9 +216,16 @@ bool CUILogIn::ServerInfoAdd(uint8_t iIndex, std::string szName, std::string szI
 	m_arrServerList[iIndex].m_szIP = szIP;
 	m_arrServerList[iIndex].m_iConcurrentUserCount = iConcurrentUserCount;
 	m_arrServerList[iIndex].m_iConcurrentUserCapacity = iConcurrentCapacity;
+
+	auto visibleCapacityBarCount = max(ceilf((float)iConcurrentUserCount / (float)iConcurrentCapacity), 1);
+
 	if (m_arrServerList[iIndex].m_pStr_ServerName) {
 		m_arrServerList[iIndex].m_pStr_ServerName->SetVisible(true);
 		m_arrServerList[iIndex].m_pStr_ServerName->SetString(szName);
+
+		for (auto barIdx = 0; barIdx < 12; barIdx++) {
+			m_arrServerList[iIndex].m_vImage_Capacity[barIdx]->SetVisible(barIdx < visibleCapacityBarCount);
+		}
 	}
 	return true;
 }
