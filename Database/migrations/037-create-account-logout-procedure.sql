@@ -1,0 +1,14 @@
+CREATE OR ALTER PROCEDURE [dbo].[ACCOUNT_LOGOUT]
+@AccountID	varchar(21),
+@nRet		smallint	OUTPUT
+
+AS
+
+BEGIN TRAN
+
+	DELETE FROM CURRENTUSER WHERE strAccountID = @AccountID
+	
+COMMIT TRAN
+SET @nRet = 1
+
+
