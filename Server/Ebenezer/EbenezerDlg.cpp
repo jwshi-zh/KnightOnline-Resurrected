@@ -664,6 +664,20 @@ CUser* CEbenezerDlg::GetUserPtr(const char *userid, BYTE type )
 	return pUser;
 }
 
+uint32_t CEbenezerDlg::GetUserCount()
+{
+	uint32_t nUserCount = 0;
+
+	for (int i = 0; i < MAX_USER; i++) {
+		auto pUser = (CUser*)m_Iocport.m_SockArray[i];
+		if (pUser) {
+			nUserCount++;
+		}
+	}
+
+	return nUserCount;
+}
+
 void CEbenezerDlg::OnTimer(UINT nIDEvent) 
 {
 	// sungyong 2002.05.23

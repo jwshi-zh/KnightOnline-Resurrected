@@ -283,13 +283,13 @@ int CGameProcLogIn::MsgRecv_GameServerLogIn(DataPack* pDataPack, int& iOffset) /
 
 	if( 0xff == iNation )
 	{
-		//__GameServerInfo GSI;
-		//std::string szFmt; ::_LoadStringFromResource(IDS_FMT_GAME_SERVER_LOGIN_ERROR, szFmt);
-		//m_pUILogIn->ServerInfoGetCur(GSI);
-		//char szErr[256];
-		//sprintf(szErr, szFmt.c_str(), GSI.szName.c_str(), iNation);
-		//this->MessageBoxPost(szErr, "", MB_OK);
-		//m_pUILogIn->ConnectButtonSetEnable(true); // failure
+		this->MessageBoxPost("Cannot connect to server, please try again later.", "", MB_OK);
+		m_pUILogIn->ConnectButtonSetEnable(true); // failure
+	}
+	else if (0xfe == iNation)
+	{
+		this->MessageBoxPost("Server is full. Please try again later.", "", MB_OK);
+		m_pUILogIn->ConnectButtonSetEnable(true); // failure
 	}
 	else
 	{
@@ -344,7 +344,7 @@ void CGameProcLogIn::MsgRecv_NoticeList(DataPack* pDataPack, int& iOffset)
 		m_pUILogIn->OpenNotice(noticeCount, vSzNotice);
 	}
 	else {
-		
+		this->MsgSend_GameServerList();
 	}
 }
 
@@ -376,20 +376,19 @@ bool CGameProcLogIn::ProcessPacket(DataPack* pDataPack, int& iOffset)
 
 void CGameProcLogIn::ConnectToGameServer() // Connect to the game server of your choice
 {
-	//__GameServerInfo GSI;
-	//if(false == m_pUILogIn->ServerInfoGetCur(GSI)) return; // After choosing a server...
+	auto rServerInfo = m_pUILogIn->ServerInfoGetSelected();
 
-	//s_bNeedReportConnectionClosed = false; // Should I report that the server is disconnected?
-	//const int iErr = s_pSocket->Connect(s_hWndBase, GSI.szIP.c_str(), SOCKET_PORT_GAME); // game server socket connection
-	//s_bNeedReportConnectionClosed = true; // Should I report that the connection to the server has been lost?
-	//if(iErr)
-	//{
-	//	this->ReportServerConnectionFailed(GSI.szName, iErr, false);
-	//	m_pUILogIn->ConnectButtonSetEnable(true);
-	//}
-	//else
-	//{
-	//	s_szServer = GSI.szName;
-	//	this->MsgSend_VersionCheck();
-	//}
+	s_bNeedReportConnectionClosed = false; // Should I report that the server is disconnected?
+	const int iErr = s_pSocket->Connect(s_hWndBase, rServerInfo.m_szIP.c_str(), SOCKET_PORT_GAME); // game server socket connection
+	s_bNeedReportConnectionClosed = true; // Should I report that the connection to the server has been lost?
+	if(iErr)
+	{
+		this->ReportServerConnectionFailed(rServerInfo.m_szName.c_str(), iErr, false);
+		m_pUILogIn->ConnectButtonSetEnable(true);
+	}
+	else
+	{
+		s_szServer = rServerInfo.m_szName;
+		this->MsgSend_VersionCheck();
+	}
 }

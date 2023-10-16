@@ -121,7 +121,7 @@ public:
 	void SendAllUserInfo();
 	void SendCompressedData();
 	void DeleteAllNpcList(int flag = 0);
-	CNpc*  GetNpcPtr( int sid, int cur_zone );
+	CNpc* GetNpcPtr( int sid, int cur_zone );
 	// ~sungyong 2001.11.06
 	BOOL InitializeMMF();
 	void UserInOutForMe( CUser* pSendUser );	// 9 Regions All Users USERINOUT Packet Packaging Function
@@ -130,6 +130,7 @@ public:
 	void Send_All( char* pBuf, int len, CUser* pExceptUser = NULL, int nation=0 );	// pointer != NULL don`t send to that user pointer
 	void Send_AIServer( int zone, char* pBuf, int len );
 	static CUser* GetUserPtr( const char* userid, BYTE type );
+	uint32_t GetUserCount();
 	CEbenezerDlg(CWnd* pParent = NULL);	// standard constructor
 
 	static CIOCPort	m_Iocport;

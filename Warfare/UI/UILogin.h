@@ -61,9 +61,7 @@ public:
 	bool ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg); // Receives a message. Sender, msg
 
 	bool	ServerInfoAdd(uint8_t iIndex, std::string szName, std::string szIP, uint16_t iConcurrentUserCount, uint16_t iConcurrentCapacity);
-	//bool	ServerInfoGet(int iIndex, __ServerListItem& GSI);
-	//bool	ServerInfoGetCur(__ServerListItem& GSI);
-	//void	ServerInfoUpdate();
+	__ServerListItem& ServerInfoGetSelected();
 
 	void AccountIDGet(std::string& szID) const;
 	void AccountPWGet(std::string& szPW);

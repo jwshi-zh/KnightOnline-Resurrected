@@ -20,6 +20,7 @@ CUILogIn::CUILogIn()
 	m_pBtn_Connect = nullptr;
 	m_pBtn_Cancel = nullptr;
 	m_pBtn_Option = nullptr;
+	m_pBtn_Homepage = nullptr;
 	m_pBtn_Notice1Ok = nullptr;
 	m_pBtn_Notice2Ok = nullptr;
 	m_pBtn_Notice3Ok = nullptr;
@@ -228,6 +229,11 @@ bool CUILogIn::ServerInfoAdd(uint8_t iIndex, std::string szName, std::string szI
 		}
 	}
 	return true;
+}
+
+__ServerListItem& CUILogIn::ServerInfoGetSelected()
+{
+	return m_arrServerList[m_iSelectedServerIdx];
 }
 
 void CUILogIn::OpenServerList()
