@@ -5,8 +5,6 @@
 // set the _WIN32_WINNT macro to the platform you wish to support before including SDKDDKVer.h.
 #include <SDKDDKVer.h>
 
-#define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
-
 // Windows Header Files
 #include <windows.h>
 
@@ -16,10 +14,11 @@
 #include <memory.h>
 #include <tchar.h>
 
-#define _N3GAME
-
 #pragma comment(lib, "NoahEngine.lib")
 
 #include "../../NoahEngine/Base/pch.h"
 
 #include "../StringIds.h"
+
+#include <sqlcipher/sqlite3.h>
+#include <SQLiteCpp/SQLiteCpp.h>

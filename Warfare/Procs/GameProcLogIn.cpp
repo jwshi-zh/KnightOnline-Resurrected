@@ -15,6 +15,8 @@
 #include "N3SndObjStream.h"
 #include "N3SndMgr.h"
 
+#include <effolkronium/random.hpp>
+
 CGameProcLogIn::CGameProcLogIn()
 {
 	m_pUILogIn	= nullptr;
@@ -43,7 +45,19 @@ void CGameProcLogIn::Init()
 	m_pUILogIn = new CUILogIn();
 	m_pUILogIn->Init(s_pUIMgr);
 
-	const __TABLE_UI_RESRC* pTbl = s_pTbl_UI->GetIndexedData(0); // Because there are no national standards...
+	SQLite::Statement   query(*s_pSqliteDb, "SELECT value FROM key_value WHERE domain = \"account\" AND key = \"last_char_race\"");
+
+	uint8_t iLastCharacterRace;
+
+	if (query.executeStep()) {
+		auto szLastRace = query.getColumn(0).getString();
+		iLastCharacterRace = std::stoi(szLastRace);
+	}
+	else {
+		iLastCharacterRace = effolkronium::random_static::get(0, 1);
+	}
+
+	const __TABLE_UI_RESRC* pTbl = s_pTbl_UI->GetIndexedData(iLastCharacterRace); // Because there are no national standards...
 	if(pTbl) m_pUILogIn->LoadFromFile(pTbl->szLoginIntro);
 
 	RECT rc = m_pUILogIn->GetRegion();
