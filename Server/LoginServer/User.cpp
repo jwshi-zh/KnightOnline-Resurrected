@@ -1,24 +1,8 @@
-// User.cpp: implementation of the CUser class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
 #include "versionmanager.h"
 #include "versionmanagerdlg.h"
 #include "User.h"
-
-#pragma warning(disable : 4786)		// Visual C++ Only
 #include <set>
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 CUser::CUser()
 {
@@ -64,10 +48,36 @@ void CUser::Parsing(int len, char *pData)
 			SetString( buff, m_pMain->m_ServerList[i]->strServerIP, strlen(m_pMain->m_ServerList[i]->strServerIP), send_index );
 			SetShort( buff, strlen(m_pMain->m_ServerList[i]->strServerName), send_index );
 			SetString( buff, m_pMain->m_ServerList[i]->strServerName, strlen( m_pMain->m_ServerList[i]->strServerName ), send_index );			
-			SetShort( buff, m_pMain->m_ServerList[i]->sUserCount, send_index);
+			SetShort(buff, m_pMain->m_ServerList[i]->sUserCount, send_index);
+			SetShort(buff, m_pMain->m_ServerList[i]->sCapacity, send_index);
 		}
 		Send( buff, send_index );
 		break;
+	case LS_NOTICE:
+	{
+		m_pMain->m_DBProcess.LoadNoticeList();
+		SetByte(buff, LS_NOTICE, send_index);
+
+		auto noticeCount = 0;
+		for (uint8_t idx = 0; idx < 3; idx++) {
+			if (m_pMain->m_NoticeArray[idx].iNoticeID != 0) {
+				noticeCount++;
+			}
+			else {
+				break;
+			}
+		}
+
+		SetByte(buff, noticeCount, send_index);
+
+		for (i = 0; i < noticeCount; i++) {
+			SetShort(buff, m_pMain->m_NoticeArray[i].szNotice.size(), send_index);
+			SetString(buff, m_pMain->m_NoticeArray[i].szNotice.data(), m_pMain->m_NoticeArray[i].szNotice.size(), send_index);
+		}
+
+		Send(buff, send_index);
+		break;
+	}
 	case LS_DOWNLOADINFO_REQ:
 		client_version = GetShort( pData, index );
 		SendDownloadInfo( client_version );

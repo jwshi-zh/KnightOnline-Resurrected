@@ -3,25 +3,17 @@
 #include <string>
 #include "N3UIBase.h"
 
-struct __GameServerInfo
+struct __ServerListItem
 {
-	std::string szName;
-	std::string szIP;
-	int	iConcurrentUserCount;
+	std::string m_szName{};
+	std::string m_szIP{};
 
-	void Init() { szName = ""; szIP = ""; iConcurrentUserCount = 0; }
-	bool operator () (const __GameServerInfo& x, const __GameServerInfo& y) const 
-	{
-		return (x.iConcurrentUserCount >= y.iConcurrentUserCount);
-	}
+	uint16_t m_iConcurrentUserCount{};
+	uint16_t m_iConcurrentUserCapacity{};
 
-	__GameServerInfo() { this->Init(); };
-	__GameServerInfo(const std::string szName2, const std::string szIP2, int iConcurrentUserCount2)
-	{
-		szName = szName2;
-		szIP = szIP2;
-		iConcurrentUserCount = iConcurrentUserCount2;
-	}
+	CN3UIString* m_pStr_ServerName{ nullptr };
+	std::array<CN3UIImage*, 12> m_vImage_Capacity{ nullptr };
+	CN3UIImage* m_pImage_Arrow{ nullptr };
 };
 
 class CUILogIn : public CN3UIBase  
@@ -34,18 +26,23 @@ protected:
 	CN3UIButton* m_pBtn_Connect;
 	CN3UIButton* m_pBtn_Cancel;
 	CN3UIButton* m_pBtn_Option;
+	CN3UIButton* m_pBtn_Homepage;
+	CN3UIButton* m_pBtn_Notice1Ok;
+	CN3UIButton* m_pBtn_Notice2Ok;
+	CN3UIButton* m_pBtn_Notice3Ok;
 
 	CN3UIBase*	m_pGroup_ServerList;
-	CN3UIBase*	m_pGroup_LogIn;
+	CN3UIBase* m_pGroup_LogIn;
+	CN3UIBase* m_pGroup_Notice1;
+	CN3UIBase* m_pGroup_Notice2;
+	CN3UIBase* m_pGroup_Notice3;
 
-	CN3UIList*	m_pList_Server;
-	
-	std::vector<__GameServerInfo> m_ListServerInfos;
+	CN3UIBase* m_pGroup_ActiveNotice{ nullptr };
 
-	bool	m_bOpenningNow; // Swipe from top to bottom...if you have to open it...
-	float 	m_fMoveDelta;
-	bool	m_bLogIn; // Avoid duplicate logins..
+	bool	m_bLogIn;
+	uint8_t	m_iSelectedServerIdx{ 0 };
 
+	std::array<__ServerListItem, 20> m_arrServerList;
 
 
 public:
@@ -53,7 +50,9 @@ public:
 	bool OnKeyPress(int iKey);
 	void SetVisibleLogInUIs(bool bEnable); // Hide UIs required for account LogIn.
 	void OpenServerList();
-	void Tick();
+	void HideLoginSubview();
+	void OpenNotice(uint8_t iNoticeCount, std::vector<std::string> vSzNotice);
+	void SelectServer(uint8_t idx);
 
 	void InitEditControls();
 	void FocusCircular();
@@ -61,11 +60,8 @@ public:
 	bool Load(HANDLE hFile);
 	bool ReceiveMessage(CN3UIBase* pSender, DWORD dwMsg); // Receives a message. Sender, msg
 
-	int		ServerInfoCount() const { return m_ListServerInfos.size(); }
-	bool	ServerInfoAdd(const __GameServerInfo& GSI);
-	bool	ServerInfoGet(int iIndex, __GameServerInfo& GSI);
-	bool	ServerInfoGetCur(__GameServerInfo& GSI);
-	void	ServerInfoUpdate();
+	bool	ServerInfoAdd(uint8_t iIndex, std::string szName, std::string szIP, uint16_t iConcurrentUserCount, uint16_t iConcurrentCapacity);
+	__ServerListItem& ServerInfoGetSelected();
 
 	void AccountIDGet(std::string& szID) const;
 	void AccountPWGet(std::string& szPW);

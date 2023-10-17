@@ -23,6 +23,7 @@ CN3TableBase<__TABLE_QUEST_TALK>*		CGameBase::s_pTbl_QuestTalk		= nullptr;		// q
 CN3WorldManager*	CGameBase::s_pWorldMgr = nullptr;		// World manager...
 CPlayerOtherMgr*	CGameBase::s_pOPMgr = nullptr;				// Other Player Manager - Another user management class..
 CPlayerMySelf*		CGameBase::s_pPlayer = nullptr;			// user class...
+SQLite::Database* CGameBase::s_pSqliteDb = nullptr;
 	
 CGameBase::CGameBase()
 {
@@ -34,7 +35,9 @@ CGameBase::~CGameBase()
 
 void CGameBase::StaticMemberInit()
 {
-	// 
+	s_pSqliteDb = new SQLite::Database("Data\\kn_online.db", SQLite::OPEN_READWRITE);
+	s_pSqliteDb->key("test");
+
 	// Loading and Initializing the Resource Table...
 	s_pTbl_Zones			= new CN3TableBase<__TABLE_ZONE>;			// Table for Zone Information
 	s_pTbl_UI				= new CN3TableBase<__TABLE_UI_RESRC>;		// UI Resource File Table loading

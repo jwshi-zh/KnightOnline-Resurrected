@@ -488,18 +488,24 @@ void CUser::VersionCheck()
 void CUser::LoginProcess(char *pBuf )
 {
 	int index = 0, idlen = 0, send_index = 0, retvalue = 0;
+	uint8_t failResult = 0xFF;
 	int pwdlen = 0;
 
-	char accountid[MAX_ID_SIZE+1];
-	memset( accountid, NULL, MAX_ID_SIZE+1 );
+	char accountid[MAX_ID_SIZE + 1];
+	memset(accountid, NULL, MAX_ID_SIZE + 1);
 
-	char password[MAX_PW_SIZE+1];
-	memset( password, NULL, MAX_PW_SIZE+1 );
+	char password[MAX_PW_SIZE + 1];
+	memset(password, NULL, MAX_PW_SIZE + 1);
 
 	char send_buff[256];
-	memset( send_buff, NULL, 256);
+	memset(send_buff, NULL, 256);
 	CUser* pUser = NULL;
 	CTime t = CTime::GetCurrentTime();
+
+	if (m_pMain->GetUserCount() >= MAX_USER) {
+		failResult = 0xFE;
+		goto fail_return;
+	}
 
 	idlen = GetShort( pBuf, index );
 	if( idlen > MAX_ID_SIZE || idlen <= 0)
@@ -540,7 +546,7 @@ void CUser::LoginProcess(char *pBuf )
 fail_return:
 	send_index = 0;
 	SetByte( send_buff, WIZ_LOGIN, send_index );
-	SetByte( send_buff, 0xFF, send_index );
+	SetByte( send_buff, failResult, send_index );
 	Send( send_buff, send_index );
 }
 

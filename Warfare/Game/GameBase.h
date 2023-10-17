@@ -24,6 +24,8 @@ public:
 	static class CN3WorldManager*	s_pWorldMgr;								// World manager class..
 	static class CPlayerOtherMgr*		s_pOPMgr;									// Other Player Manager - Another user management class..
 	static class CPlayerMySelf*			s_pPlayer;			// user class...
+
+	static class SQLite::Database* s_pSqliteDb;
 	
 protected:
 	static void StaticMemberInit(); // Initialization of tables, basic terrain, objects, characters, etc.

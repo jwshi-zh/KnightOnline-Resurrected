@@ -133,16 +133,19 @@ BOOL CVersionManagerDlg::GetInfoFromIni()
 	//if( m_nServerCount <= 0 ) return FALSE;
 	
 	char ipkey[20]; memset( ipkey, 0x00, 20 );
-	char namekey[20]; memset( namekey, 0x00, 20 );
+	char namekey[20]; memset(namekey, 0x00, 20);
+	char capacityKey[20]; memset(capacityKey, 0x00, 20);
 	_SERVER_INFO* pInfo = NULL;
 	
 	m_ServerList.reserve(20);
 	for( int i=0; i<m_nServerCount; i++ ) {
 		pInfo = new _SERVER_INFO;
 		sprintf( ipkey, "SERVER_%02d", i );
-		sprintf( namekey, "NAME_%02d", i );
+		sprintf(namekey, "NAME_%02d", i);
+		sprintf(capacityKey, "CAPACITY_%02d", i);
 		GetPrivateProfileString( "SERVER_LIST", ipkey, "", pInfo->strServerIP, 32, inipath );
 		GetPrivateProfileString( "SERVER_LIST", namekey, "", pInfo->strServerName, 32, inipath );
+		pInfo->sCapacity = GetPrivateProfileInt("SERVER_LIST", capacityKey, 3000, inipath);
 		m_ServerList.push_back( pInfo );
 	}
 

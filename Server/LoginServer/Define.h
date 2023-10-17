@@ -67,11 +67,19 @@ struct _SERVER_INFO
 	char strServerIP[20];
 	char strServerName[20];
 	short	sUserCount;
+	short	sCapacity;
 	_SERVER_INFO() {
 		memset(strServerIP, 0x00, 20);
 		memset(strServerName, 0x00, 20);
 		sUserCount = 0;
+		sCapacity = 0;
 	};
+};
+
+struct _NOTICE_INFO
+{
+	uint32_t iNoticeID{ 0 };
+	std::string szNotice{ };
 };
 
 
@@ -82,6 +90,7 @@ struct _SERVER_INFO
 #define LS_LOGIN_REQ				0xF3
 #define LS_MGAME_LOGIN				0xF4
 #define LS_SERVERLIST				0xF5
+#define LS_NOTICE					0xF6
 
 //////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////

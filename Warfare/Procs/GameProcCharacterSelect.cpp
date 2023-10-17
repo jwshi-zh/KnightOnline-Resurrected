@@ -993,6 +993,21 @@ void CGameProcCharacterSelect::CharacterSelect()
 	{
 		if ( m_pChrs[iIndex] )
 		{
+			SQLite::Statement query(*s_pSqliteDb, "SELECT value FROM key_value WHERE domain = \"account\" AND key = \"last_char_race\"");
+
+			uint8_t iLastCharacterRace;
+
+			if (query.executeStep()) {
+				SQLite::Statement updateQuery(*s_pSqliteDb, "UPDATE key_value SET value = ? WHERE domain = \"account\" AND key = \"last_char_race\"");
+				updateQuery.bind(0, std::to_string(s_pPlayer->m_InfoBase.eNation));
+				updateQuery.exec();
+			}
+			else {
+				SQLite::Statement insertQuery(*s_pSqliteDb, "INSERT INTO key_value(domain, key, value) VALUES(\"account\", \"last_char_race\", ?)");
+				insertQuery.bind(0, std::to_string(s_pPlayer->m_InfoBase.eNation));
+				insertQuery.exec();
+			}
+
 			m_eCurProcess = PROCESS_SELECTED;
 			m_pChrs[iIndex]->AniCurSet(SELECT_ANIM_SELECTED, true, 0.6f);
 			m_pChrs[iIndex]->Tick();
